@@ -18,18 +18,18 @@ export async function getLearningDashboard(req, res) {
         learningHistoryResult
       ] = await Promise.all([
         db.all(
-          'SELECT subject, COUNT(*) as count FROM wrong_questions WHERE user_email = ? GROUP BY subject',
+          'SELECT subject_code, COUNT(*) as count FROM wrong_questions WHERE user_email = ? GROUP BY subject_code',
           [email]
         ),
         db.all('SELECT * FROM users WHERE email = ?', [email]),
         db.all(`
           SELECT 
-            DATE(timestamp) as date,
+            DATE(created_at) as date,
             COUNT(*) as practice_count,
             AVG(CASE WHEN is_correct = 1 THEN 1 ELSE 0 END) as accuracy
           FROM practice_records
           WHERE user_email = ?
-          GROUP BY DATE(timestamp)
+          GROUP BY DATE(created_at)
           ORDER BY date DESC
           LIMIT 7
         `, [email]),
@@ -60,12 +60,12 @@ export async function getLearningDashboard(req, res) {
         `, [email, email]),
         db.all(`
           SELECT 
-            strftime('%Y-%m', timestamp) as month,
+            strftime('%Y-%m', created_at) as month,
             COUNT(*) as total_practice,
             SUM(CASE WHEN is_correct = 1 THEN 1 ELSE 0 END) as correct_count
           FROM practice_records
           WHERE user_email = ?
-          GROUP BY strftime('%Y-%m', timestamp)
+          GROUP BY strftime('%Y-%m', created_at)
           ORDER BY month DESC
           LIMIT 6
         `, [email])
@@ -80,7 +80,7 @@ export async function getLearningDashboard(req, res) {
         : 0;
 
       const subjectDistribution = wrongQuestionsResult.map(r => ({
-        subject: r.subject,
+        subject: r.subject_code,
         count: r.count,
         percentage: totalWrongQuestions > 0 ? ((r.count / totalWrongQuestions) * 100).toFixed(1) : 0
       }));

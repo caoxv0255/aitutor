@@ -1,6 +1,6 @@
 import { getDb } from './db.js';
 import { successResponse, errorResponse } from './utils/response.js';
-import { resolveSubjectName } from './utils/subjectMap.js';
+import { resolveSubjectName, resolveSubjectKey } from './utils/subjectMap.js';
 
 export async function getClassAnalysis(req, res) {
   const db = await getDb();
@@ -8,18 +8,18 @@ export async function getClassAnalysis(req, res) {
 
   try {
     const subjects = await db.all(`
-      SELECT subject, COUNT(*) as count,
-             AVG(CAST(json_extract(data, '$.score') AS REAL)) as avg_score
+      SELECT subject_code, COUNT(*) as count,
+             AVG(score) as avg_score
       FROM reports
       WHERE user_email = ?
-      GROUP BY subject
+      GROUP BY subject_code
     `, [email]);
 
     const weakPoints = await db.all(`
-      SELECT subject, COUNT(*) as error_count
+      SELECT subject_code, COUNT(*) as error_count
       FROM wrong_questions
       WHERE user_email = ?
-      GROUP BY subject
+      GROUP BY subject_code
       ORDER BY error_count DESC
     `, [email]);
 
@@ -37,12 +37,14 @@ export async function getClassAnalysis(req, res) {
 
     const knowledgeDistribution = await db.all(`
       SELECT
-        json_extract(data, '$.subject') as subject,
-        json_extract(data, '$.knowledge_point') as knowledge_point,
+        wq.subject_code,
+        wq.knowledge_point_id,
+        kp.name as knowledge_point,
         COUNT(*) as frequency
-      FROM wrong_questions
-      WHERE user_email = ?
-      GROUP BY subject, knowledge_point
+      FROM wrong_questions wq
+      LEFT JOIN knowledge_points kp ON wq.knowledge_point_id = kp.id
+      WHERE wq.user_email = ?
+      GROUP BY wq.subject_code, wq.knowledge_point_id
       ORDER BY frequency DESC
       LIMIT 20
     `, [email]);
@@ -50,11 +52,11 @@ export async function getClassAnalysis(req, res) {
     const progressTrend = await db.all(`
       SELECT
         date(timestamp) as date,
-        subject,
+        subject_code,
         COUNT(*) as error_count
       FROM wrong_questions
       WHERE user_email = ? AND timestamp >= date('now', '-30 days')
-      GROUP BY date(timestamp), subject
+      GROUP BY date(timestamp), subject_code
       ORDER BY date ASC
     `, [email]);
 
@@ -71,9 +73,9 @@ export async function getClassAnalysis(req, res) {
     `, [email]);
 
     const subjectWarning = subjects.map(s => {
-      const weak = weakPoints.find(w => w.subject === s.subject);
+      const weak = weakPoints.find(w => w.subject_code === s.subject_code);
       return {
-        subject: s.subject,
+        subject: resolveSubjectName(s.subject_code),
         avgScore: s.avg_score ? Number(s.avg_score).toFixed(1) : null,
         errorCount: weak ? weak.error_count : 0,
         warning: weak && weak.error_count > 5 ? '偏科预警' : '正常'
@@ -84,9 +86,15 @@ export async function getClassAnalysis(req, res) {
       success: true,
       data: {
         subjects: subjectWarning,
-        weakPoints: knowledgeDistribution,
+        weakPoints: knowledgeDistribution.map(kp => ({
+          ...kp,
+          subject: resolveSubjectName(kp.subject_code)
+        })),
         recentActivity,
-        progressTrend,
+        progressTrend: progressTrend.map(pt => ({
+          ...pt,
+          subject: resolveSubjectName(pt.subject_code)
+        })),
         examHistory,
         summary: {
           totalSubjects: subjects.length,
@@ -116,13 +124,13 @@ export async function getTeacherDashboard(req, res) {
     const totalPapers = await db.all('SELECT COUNT(*) as count FROM exam_papers');
 
     const subjectStats = await db.all(`
-      SELECT subject, COUNT(*) as user_count
+      SELECT subject_code, COUNT(*) as user_count
       FROM (
-        SELECT DISTINCT user_email, json_extract(data, '$.subject') as subject
+        SELECT DISTINCT user_email, subject_code
         FROM wrong_questions
-        WHERE json_extract(data, '$.subject') IS NOT NULL
+        WHERE subject_code IS NOT NULL
       )
-      GROUP BY subject
+      GROUP BY subject_code
       ORDER BY user_count DESC
     `);
 

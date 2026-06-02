@@ -16,9 +16,6 @@ export async function getExamQuestions(req, res) {
     let query = `
       SELECT
         eq.*,
-        ep.province_code,
-        ep.year,
-        ep.subject,
         p.name as province_name
       FROM exam_questions eq
       JOIN exam_papers ep ON eq.paper_id = ep.id
@@ -40,7 +37,7 @@ export async function getExamQuestions(req, res) {
 
     if (knowledge_point) {
       params.push(knowledge_point);
-      conditions.push(`eq.knowledge_points LIKE ?`);
+      conditions.push(`eq.id IN (SELECT question_id FROM question_knowledge_points WHERE knowledge_point_id = ?)`);
     }
 
     if (conditions.length > 0) {
@@ -100,6 +97,7 @@ export async function createExamQuestion(req, res) {
       return res.status(404).json(errorResponse('试卷不存在'));
     }
 
+    const paper = paperResult[0];
     const optionsJson = options ? JSON.stringify(options) : null;
     const knowledgeJson = knowledge_points ? JSON.stringify(knowledge_points) : null;
     const tagsJson = ability_tags ? JSON.stringify(ability_tags) : null;
@@ -107,11 +105,12 @@ export async function createExamQuestion(req, res) {
     const stmt = await db.prepare(`
       INSERT INTO exam_questions (
         paper_id, question_number, question_type, stem, options,
-        answer, analysis, knowledge_points, difficulty, ability_tags, score
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        answer, analysis, knowledge_points, difficulty, ability_tags, score,
+        subject_code, province_code, year
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
-    await stmt.run([
+    const result = await stmt.run([
       paper_id,
       question_number,
       question_type,
@@ -122,8 +121,23 @@ export async function createExamQuestion(req, res) {
       knowledgeJson,
       difficulty || null,
       tagsJson,
-      score || null
+      score || null,
+      paper.subject,
+      paper.province_code,
+      paper.year
     ]);
+
+    if (knowledge_points && Array.isArray(knowledge_points)) {
+      for (const kp of knowledge_points) {
+        const kpId = typeof kp === 'string' ? kp : kp?.id;
+        if (kpId) {
+          await db.run(
+            'INSERT OR IGNORE INTO question_knowledge_points (question_id, knowledge_point_id) VALUES (?, ?)',
+            [result.lastID, kpId]
+          );
+        }
+      }
+    }
 
     const countResult = await db.all(
       'SELECT COUNT(*) as count FROM exam_questions WHERE paper_id = ?',
@@ -165,16 +179,19 @@ export async function batchCreateQuestions(req, res) {
       return res.status(404).json(errorResponse('试卷不存在'));
     }
 
+    const paper = paperResult[0];
+
     const created = [];
     const stmt = await db.prepare(`
       INSERT INTO exam_questions (
         paper_id, question_number, question_type, stem, options,
-        answer, analysis, knowledge_points, difficulty, ability_tags, score
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        answer, analysis, knowledge_points, difficulty, ability_tags, score,
+        subject_code, province_code, year
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     for (const q of questions) {
-      await stmt.run([
+      const result = await stmt.run([
         paper_id,
         q.question_number,
         q.question_type,
@@ -185,8 +202,24 @@ export async function batchCreateQuestions(req, res) {
         q.knowledge_points ? JSON.stringify(q.knowledge_points) : null,
         q.difficulty || null,
         q.ability_tags ? JSON.stringify(q.ability_tags) : null,
-        q.score || null
+        q.score || null,
+        paper.subject,
+        paper.province_code,
+        paper.year
       ]);
+
+      if (q.knowledge_points && Array.isArray(q.knowledge_points)) {
+        for (const kp of q.knowledge_points) {
+          const kpId = typeof kp === 'string' ? kp : kp?.id;
+          if (kpId) {
+            await db.run(
+              'INSERT OR IGNORE INTO question_knowledge_points (question_id, knowledge_point_id) VALUES (?, ?)',
+              [result.lastID, kpId]
+            );
+          }
+        }
+      }
+
       created.push(q.question_number);
     }
 
