@@ -10,6 +10,9 @@ database/*.sqlite3
 database/*.sqlite-shm
 database/*.sqlite-wal
 database/OLD/
+database/北京中考真题/
+database/高考真题/
+database/高中知识点归纳汇总/
 
 api/data/
 
