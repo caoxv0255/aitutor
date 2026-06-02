@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>政治命题趋势分析 - AI Tutor</title>
+<style>:root{--bg:#f8fafc;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#7c3aed;--soft:#f5f3ff;--bar:#c4b5fd;--bar2:#a78bfa;--green:#059669;--green-soft:#ecfdf5;--amber:#d97706;--amber-soft:#fffbeb;--blue:#2563eb;--blue-soft:#eff6ff}
+*{box-sizing:border-box}body{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:1280px;margin:0 auto;padding:24px}
+.hero,.section{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.04)}
+.hero{padding:28px}.section{padding:22px;margin-top:18px}
+h1,h2,h3{margin:0 0 12px}p,li{line-height:1.8}
+.meta{color:var(--muted)}.tag{display:inline-block;padding:4px 10px;background:var(--soft);color:var(--brand);border-radius:999px;margin:0 8px 8px 0;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.stat b{font-size:28px;color:var(--brand)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top}
+th{background:#f9fafb}
+.bar{height:10px;background:#ede9fe;border-radius:999px;overflow:hidden}.bar>span{display:block;height:100%;background:var(--bar)}
+.hbar{display:grid;gap:12px}
+.row{display:grid;grid-template-columns:130px 1fr 56px;gap:12px;align-items:center}
+.track{height:14px;background:#ede9fe;border-radius:999px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--bar),var(--bar2))}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.compare .box{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+.compare h3{font-size:18px}
+.small{font-size:13px;color:var(--muted)}
+.map,.mind{padding:16px;background:#fcfcff;border:1px dashed #d1d5db;border-radius:12px;overflow:auto}
+.tree ul{list-style:none;padding-left:22px;margin:6px 0;border-left:2px solid #e5e7eb}
+.tree li{margin:10px 0;position:relative}
+.tree li::before{content:"";position:absolute;left:-22px;top:12px;width:18px;border-top:2px solid #e5e7eb}
+.node{display:inline-block;background:#fff;border:1px solid #ddd6fe;border-radius:10px;padding:8px 12px}
+.kg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.kg .node{text-align:center;background:#f5f3ff}
+.arrow{text-align:center;color:var(--muted)}
+.verdict{background:linear-gradient(135deg,#f5f3ff,#f5f3ff22);border:2px solid #7c3aed33;border-radius:16px;padding:24px 28px;margin-top:18px}
+.verdict h2{color:var(--brand);font-size:22px;margin-bottom:12px}
+.verdict p{font-size:16px;line-height:2}
+.predict-card{border-radius:14px;padding:18px;margin-bottom:14px}
+.predict-high{background:var(--soft);border:1px solid #7c3aed33}
+.predict-mid{background:var(--amber-soft);border:1px solid #fde68a}
+.predict-low{background:var(--blue-soft);border:1px solid #bfdbfe}
+.predict-card h4{margin:0 0 8px;font-size:16px}
+.predict-card .prob{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:8px}
+.prob-high{background:#dc2626;color:#fff}
+.prob-mid{background:#d97706;color:#fff}
+.prob-low{background:#2563eb;color:#fff}
+.evidence{background:#f9fafb;border-left:3px solid var(--brand);padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+.risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.risk-box{border-radius:14px;padding:16px;text-align:center}
+.risk-safe{background:#ecfdf5;border:1px solid #a7f3d0}
+.risk-warn{background:#fffbeb;border:1px solid #fde68a}
+.risk-danger{background:#fef2f2;border:1px solid #fecaca}
+.risk-box .icon{font-size:32px;margin-bottom:6px}
+.risk-box h4{margin:0 0 6px;font-size:15px}
+.risk-box p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+.freq-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;margin-right:4px}
+.freq-h{background:#dc2626;color:#fff}.freq-m{background:#d97706;color:#fff}.freq-l{background:#6b7280;color:#fff}
+.kg-node{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;margin:4px;font-size:13px;border:1px solid var(--line);background:#fff}
+.kg-node.hot{border-color:#dc2626;background:#fef2f2}
+.kg-node.warm{border-color:#d97706;background:#fffbeb}
+.kg-node.cool{border-color:#6b7280;background:#f9fafb}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ====== 一句话结论 ====== -->
+<div class="verdict">
+  <h2>📌 一句话结论</h2>
+  <p><strong>2026年北京政治卷将深化现实议题+学科逻辑融合路线，基层治理、哲学案例绑定、结构化表达成为核心考查方向。</strong> 考生应重点训练"材料关键词→学科原理→规范表达"的三步能力链，而非死记硬背。</p>
+</div>
+
+<!-- ====== Hero ====== -->
+<div class="hero" style="margin-top:18px">
+  <h1>北京高考政治命题趋势详细分析报告</h1>
+  <p class="meta">依据：2020-2024 北京高考政治真题观察，重点分析 2022-2024｜特征：强现实议题、强学科术语、强逻辑表达</p>
+  <div>
+    <span class="tag">国家治理</span><span class="tag">法治与权利</span><span class="tag">哲学分析</span><span class="tag">逻辑推理</span><span class="tag">现实议题</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="small">3年最强趋势</div><b>现实议题化</b><div class="small">基层治理、生态、法治、国际合作高频</div></div>
+    <div class="stat"><div class="small">5年稳定核心</div><b>模块融合</b><div class="small">经济/政治/哲学/法律常交叉命题</div></div>
+    <div class="stat"><div class="small">区分度来源</div><b>主观表达</b><div class="small">术语准确与论证层次决定得分</div></div>
+    <div class="stat"><div class="small">备考抓手</div><b>材料落点</b><div class="small">每个观点都要能回扣材料</div></div>
+  </div>
+</div>
+
+<!-- ====== 一、核心判断 ====== -->
+<div class="section">
+  <h2>一、核心判断</h2>
+  <ul>
+    <li><strong>北京政治卷最鲜明的特点是：材料高度现实化，但作答必须高度学科化。</strong></li>
+    <li><strong>选择题越来越强调概念准确、逻辑规则、理论边界。</strong></li>
+    <li><strong>主观题更注重观点-材料-原理三者的精准连接。</strong></li>
+    <li><strong>近年政治卷的能力要求明显高于单纯记忆型训练。</strong></li>
+  </ul>
+</div>
+
+<!-- ====== 二、3 年趋势表 ====== -->
+<div class="section">
+  <h2>二、3 年趋势表（2022-2024）</h2>
+  <table>
+    <thead><tr><th>维度</th><th>2022</th><th>2023</th><th>2024</th><th>趋势结论</th></tr></thead>
+    <tbody>
+      <tr><td><strong>情境选材</strong></td><td>治理与发展</td><td>治理+文化+国际合作</td><td>基层减负、儿童友好、合同纠纷等</td><td>现实感持续增强</td></tr>
+      <tr><td><strong>哲学模块</strong></td><td>常规原理应用</td><td>联系现实判断</td><td>与生态、文化、治理深度结合</td><td>抽象原理现实化</td></tr>
+      <tr><td><strong>法律模块</strong></td><td>权利责任</td><td>民法场景化</td><td>邻里纠纷、合同责任更典型</td><td>案例型增强</td></tr>
+      <tr><td><strong>逻辑模块</strong></td><td>基础判断</td><td>推理规则</td><td>逻辑规则融入真实情境</td><td>形式逻辑存在感上升</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 三、5 年趋势表 ====== -->
+<div class="section">
+  <h2>三、5 年趋势表（2020-2024）</h2>
+  <table>
+    <thead><tr><th>模块</th><th>2020-2021</th><th>2022-2024</th><th>5年总趋势</th><th>趋势强度</th></tr></thead>
+    <tbody>
+      <tr><td><strong>国家与社会治理</strong></td><td>稳定高频</td><td>现实议题更密集</td><td>绝对主线</td><td><div class="bar"><span style="width:95%"></span></div></td></tr>
+      <tr><td><strong>哲学原理应用</strong></td><td>抽象原理考查</td><td>与具体案例强绑定</td><td>应用化明显</td><td><div class="bar"><span style="width:92%"></span></div></td></tr>
+      <tr><td><strong>法律与权利</strong></td><td>稳步上升</td><td>案例细节更强</td><td>实务化增强</td><td><div class="bar"><span style="width:80%"></span></div></td></tr>
+      <tr><td><strong>逻辑思维</strong></td><td>存在但不突出</td><td>明显强化</td><td>北京卷特色增强</td><td><div class="bar"><span style="width:78%"></span></div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 四、统计化展示 ====== -->
+<div class="section">
+  <h2>四、统计化展示</h2>
+  <table>
+    <thead><tr><th>模块</th><th>稳定性</th><th>区分度</th><th>优先级</th></tr></thead>
+    <tbody>
+      <tr><td><strong>国家治理/制度</strong></td><td>很高</td><td>高</td><td>★★★★★</td></tr>
+      <tr><td><strong>哲学与文化</strong></td><td>很高</td><td>高</td><td>★★★★★</td></tr>
+      <tr><td><strong>法律与权利</strong></td><td>中高</td><td>高</td><td>★★★★☆</td></tr>
+      <tr><td><strong>逻辑推理</strong></td><td>中高</td><td>中高</td><td>★★★★☆</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 五、命题特征解读 ====== -->
+<div class="section">
+  <h2>五、命题特征解读</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">📋</div>
+      <div style="font-weight:600;color:var(--brand)">现实议题密集</div>
+      <div class="small">基层治理、生态、法治、国际合作</div>
+    </div>
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">🔤</div>
+      <div style="font-weight:600;color:var(--brand)">术语要求严格</div>
+      <div class="small">学科语言精准度决定得分</div>
+    </div>
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">🧠</div>
+      <div style="font-weight:600;color:var(--brand)">逻辑要求提高</div>
+      <div class="small">判断、推理规则融入情境</div>
+    </div>
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">✍️</div>
+      <div style="font-weight:600;color:var(--brand)">主观题重组织</div>
+      <div class="small">观点-材料-原理精准连接</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 六、知识图谱 ====== -->
+<div class="section">
+  <h2>六、知识图谱</h2>
+  <div class="kg">
+    <div class="node">
+      <strong>现实材料</strong><br>
+      <span class="arrow">→ 转化 →</span><br>
+      治理/法治/生态/国际
+    </div>
+    <div class="node">
+      <strong>学科原理</strong><br>
+      <span class="arrow">→ 调用 →</span><br>
+      经济/政治/哲学/法律/逻辑
+    </div>
+    <div class="node">
+      <strong>规范表达</strong><br>
+      <span class="arrow">→ 落地 →</span><br>
+      观点句/分析句/材料句
+    </div>
+  </div>
+</div>
+
+<!-- ====== 核心知识点清单 ====== -->
+<div class="section">
+  <h2>📚 核心知识点清单</h2>
+  <p class="small" style="margin-bottom:14px">依据《高中政治知识总结归纳》PDF整理，按模块分类，★标注考查频率</p>
+
+  <h3>一、唯物论（物质观/意识观）</h3>
+  <table>
+    <thead><tr><th>知识点</th><th>原理内容</th><th>方法论</th><th>频率</th></tr></thead>
+    <tbody>
+      <tr><td>物质客观性</td><td>自然界、社会的存在及其发展是客观的</td><td>承认自然、社会的客观性为前提</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>意识能动性</td><td>意识能反作用于客观事物，不同意识起不同作用</td><td>树立正确意识，克服错误意识</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>主观能动性与客观规律</td><td>客观规律性与人的主观能动性辩证统一</td><td>一切从实际出发，实事求是</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>物质与意识关系</td><td>哲学基本问题：物质决定意识，意识反作用于物质</td><td>从实际出发，建设中国特色社会主义</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>二、认识论（实践/真理）</h3>
+  <table>
+    <thead><tr><th>知识点</th><th>原理内容</th><th>方法论</th><th>频率</th></tr></thead>
+    <tbody>
+      <tr><td>实践与认识辩证关系</td><td>实践是认识的来源/动力/目的/检验标准；认识反作用于实践</td><td>重视实践，掌握科学理论</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>感性认识与理性认识</td><td>理性认识依赖于感性认识，感性认识有待上升到理性认识</td><td>透过现象看本质</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>认识是无限发展的</td><td>认识随实践发展不断深化、扩展、前移</td><td>解放思想，与时俱进，培养创新精神</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>分析与综合相结合</td><td>分析是综合的基础，综合指导下深入分析</td><td>培养科学思维方法</td><td><span style="color:#d97706">★★★☆☆</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>三、辩证法（联系/发展/矛盾）</h3>
+  <table>
+    <thead><tr><th>知识点</th><th>原理内容</th><th>方法论</th><th>频率</th></tr></thead>
+    <tbody>
+      <tr><td>联系的普遍性与客观性</td><td>世界是普遍联系的统一整体，联系是客观的</td><td>坚持用联系的观点看问题</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>整体与部分关系</td><td>整体统率部分，关键部分对整体起决定作用</td><td>树立全局观念，搞好局部</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>事物是变化发展的</td><td>发展是新事物代替旧事物的过程</td><td>坚持用发展的眼光看问题</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>矛盾普遍性</td><td>矛盾无处不在、无时不有</td><td>承认矛盾，坚持两分法</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>矛盾特殊性</td><td>不同事物/阶段/侧面各有特点</td><td>具体问题具体分析</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>矛盾普遍性与特殊性</td><td>普遍性寓于特殊性之中，二者可相互转化</td><td>由特殊到普遍再到特殊的认识秩序</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>主次矛盾与矛盾主次方面</td><td>主要矛盾决定事物发展；矛盾主要方面决定事物性质</td><td>两点论与重点论统一</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>内因与外因</td><td>内因是根据，外因是条件，外因通过内因起作用</td><td>坚持内外因相结合</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>量变与质变</td><td>量变是质变的前提，质变是量变的必然结果</td><td>重视量的积累，坚持适度原则</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>前进性与曲折性</td><td>前途光明，道路曲折</td><td>坚定信心，准备走曲折的路</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>四、价值观与人生观</h3>
+  <table>
+    <thead><tr><th>知识点</th><th>核心内容</th><th>频率</th></tr></thead>
+    <tbody>
+      <tr><td>社会存在与社会意识</td><td>社会存在决定社会意识，社会意识具有能动反作用</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>价值观导向作用</td><td>价值观对认识和改造世界、人生选择有导向作用</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>人生价值</td><td>包括贡献与索取，真正价值在于对社会的奉献</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>个人与集体</td><td>辩证统一，发生矛盾时个人利益服从集体利益</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>人民群众是历史创造者</td><td>物质财富、精神财富的创造者，社会变革的决定力量</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>五、经济常识</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+    <span class="kg-node hot">商品与价值规律</span>
+    <span class="kg-node hot">社会主义市场经济</span>
+    <span class="kg-node hot">财政税收</span>
+    <span class="kg-node warm">企业与经营者</span>
+    <span class="kg-node warm">产业与劳动者</span>
+    <span class="kg-node warm">银行与储蓄</span>
+    <span class="kg-node cool">对外贸易</span>
+    <span class="kg-node cool">消费与消费者权益</span>
+  </div>
+
+  <h3>六、政治常识</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+    <span class="kg-node hot">国家制度（国体/政体）</span>
+    <span class="kg-node hot">人民代表大会制度</span>
+    <span class="kg-node hot">中国共产党领导</span>
+    <span class="kg-node warm">政党制度</span>
+    <span class="kg-node warm">民族区域自治</span>
+    <span class="kg-node warm">宗教政策</span>
+    <span class="kg-node cool">国际社会与外交</span>
+    <span class="kg-node cool">公民权利与义务</span>
+  </div>
+</div>
+
+<!-- ====== 真题↔知识点映射表 ====== -->
+<div class="section">
+  <h2>🔗 真题↔知识点映射表</h2>
+  <p class="small" style="margin-bottom:14px">2022-2024北京政治卷各模块考查的核心知识点映射</p>
+
+  <table>
+    <thead><tr><th>年份</th><th>哲学模块</th><th>政治/法治模块</th><th>经济模块</th><th>逻辑模块</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>2022</strong></td>
+        <td>常规原理应用<br>→ 联系/发展观<br>→ 唯物论基本原理</td>
+        <td>治理与发展<br>→ 政府职能<br>→ 公民权利义务</td>
+        <td>经济政策分析<br>→ 宏观调控<br>→ 消费与生产</td>
+        <td>基础判断<br>→ 概念辨析<br>→ 简单推理</td>
+      </tr>
+      <tr>
+        <td><strong>2023</strong></td>
+        <td>联系现实判断<br>→ 矛盾分析法<br>→ 实践与认识</td>
+        <td>治理+文化+国际合作<br>→ 民族政策<br>→ 文化传承</td>
+        <td>新发展理念<br>→ 供给侧改革<br>→ 经济全球化</td>
+        <td>推理规则<br>→ 三段论<br>→ 判断类型</td>
+      </tr>
+      <tr>
+        <td><strong>2024</strong></td>
+        <td>与生态/文化/治理深度结合<br>→ 具体问题具体分析<br>→ 价值观导向</td>
+        <td>基层减负、儿童友好、合同纠纷<br>→ 民法典应用<br>→ 社区治理</td>
+        <td>民生经济<br>→ 就业保障<br>→ 绿色发展</td>
+        <td>逻辑规则融入真实情境<br>→ 充分/必要条件<br>→ 复合判断推理</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>知识点考查频次统计</h3>
+  <table>
+    <thead><tr><th>知识点</th><th>2022</th><th>2023</th><th>2024</th><th>累计</th></tr></thead>
+    <tbody>
+      <tr><td>联系的普遍性/客观性</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考</span></td></tr>
+      <tr><td>矛盾分析法</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考</span></td></tr>
+      <tr><td>实践与认识</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考</span></td></tr>
+      <tr><td>政府职能与责任</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考</span></td></tr>
+      <tr><td>价值观/人生价值</td><td>—</td><td>✓</td><td>✓</td><td><span style="color:#d97706">2/3 高频</span></td></tr>
+      <tr><td>量变与质变</td><td>✓</td><td>—</td><td>✓</td><td><span style="color:#d97706">2/3 高频</span></td></tr>
+      <tr><td>逻辑推理规则</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考（上升）</span></td></tr>
+      <tr><td>民法典案例</td><td>—</td><td>✓</td><td>✓</td><td><span style="color:#d97706">2/3 上升中</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 知识点盲区预警 ====== -->
+<div class="section">
+  <h2>⚠️ 知识点盲区预警</h2>
+  <p class="small" style="margin-bottom:14px">以下知识点在2022-2024北京政治卷中未直接或较少考查，但属于课标必考范围，2026年有出现可能</p>
+
+  <div class="risk-grid">
+    <div class="risk-box risk-danger">
+      <div class="icon">🔴</div>
+      <h4>高风险盲区（建议优先准备）</h4>
+      <p><strong>辩证否定观与创新意识</strong>：辩证否定是事物自身的否定，是联系和发展的环节，实质是"扬弃"。近年未直接命题但属辩证法核心考点。<br><br><strong>国际社会与外交政策</strong>：主权国家权利义务、联合国作用、我国独立自主和平外交政策，2024年未涉及。<br><br><strong>唯物辩证法与形而上学对立</strong>：是否承认矛盾是根本分歧，需掌握联系/发展/全面 vs. 孤立/静止/片面。</p>
+    </div>
+    <div class="risk-box risk-warn">
+      <div class="icon">🟡</div>
+      <h4>中风险盲区（建议了解）</h4>
+      <p><strong>银行与储蓄</strong>：银行职能、存款储蓄作用、债券与商业保险的区别，经济常识中较少涉及。<br><br><strong>宗教政策</strong>：宗教信仰自由的含义、依法管理宗教事务、引导宗教与社会主义社会相适应。<br><br><strong>感性认识与理性认识</strong>：现象与本质的区别与联系，认识的根本任务是透过现象抓住本质。</p>
+    </div>
+    <div class="risk-box risk-safe">
+      <div class="icon">🟢</div>
+      <h4>低风险盲区（基础掌握即可）</h4>
+      <p><strong>商品基本属性</strong>：使用价值与价值的关系，社会必要劳动时间决定价值量。<br><br><strong>政党制度类型</strong>：一党制、两党制、多党制的区别与特点。<br><br><strong>理想与现实</strong>：理想源于现实、高于现实、可以转化为现实。</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px">2026年新增考查方向预测</h3>
+  <div class="predict-card predict-mid">
+    <span class="prob prob-mid">中概率</span>
+    <h4>新质生产力与高质量发展</h4>
+    <p>经济/政治模块可能以新质生产力为背景，考查创新驱动发展战略、科技自立自强等知识点，结合唯物论"一切从实际出发"或辩证法"发展观"命题。</p>
+    <div class="evidence">📌 建议：关注新质生产力的内涵（创新驱动、绿色发展、数字经济），准备与经济学和哲学的交叉分析。</div>
+  </div>
+  <div class="predict-card predict-mid">
+    <span class="prob prob-mid">中概率</span>
+    <h4>全过程人民民主</h4>
+    <p>政治常识中"人民当家作主"的深化考查方向，可能以基层民主实践为情境，结合人大制度、政党制度等知识点命题。</p>
+    <div class="evidence">📌 建议：理解全过程人民民主的制度保障（人大制度、基层群众自治、协商民主），准备制度优势的分析框架。</div>
+  </div>
+</div>
+
+<!-- ====== 七、2026命题预测 ====== -->
+<div class="section" style="border:2px solid var(--brand);border-radius:16px">
+  <h2>🎯 七、2026年命题预测</h2>
+  <p class="small" style="margin-bottom:16px">预测依据：近5年真题出现规律 + 各模块考查周期 + 新高考改革方向</p>
+
+  <div class="predict-card predict-high">
+    <h4>高概率考点（>80% 可能考到）</h4>
+    <span class="prob prob-high">概率 85-95%</span>
+    <ul>
+      <li><strong>基层治理与社区治理情境</strong>
+        <div class="evidence">依据：2022-2024连续3年涉及治理议题，2024年基层减负直接考查，属于"上升通道中的稳定考点"。预计2026年将继续以真实治理场景命题。</div>
+      </li>
+      <li><strong>哲学案例绑定式命题</strong>
+        <div class="evidence">依据：哲学模块从抽象原理考查转向与生态、文化、治理深度结合，2026年大概率延续"原理+现实案例"的考查模式。</div>
+      </li>
+      <li><strong>主观题结构化表达</strong>
+        <div class="evidence">依据：近年主观题持续强调观点-材料-原理的精准连接，术语准确与论证层次决定得分。2026年将继续强化结构化表达要求。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="predict-card predict-mid">
+    <h4>中概率考点（50-80%）</h4>
+    <span class="prob prob-mid">概率 55-75%</span>
+    <ul>
+      <li><strong>民法典新条文应用</strong>
+        <div class="evidence">依据：法律模块从权利责任到民法场景化再到邻里纠纷、合同责任，案例化趋势明显。民法典实施后的新条文可能成为命题素材。</div>
+      </li>
+      <li><strong>逻辑推理深度提升</strong>
+        <div class="evidence">依据：逻辑模块从基础判断到推理规则再到逻辑规则融入真实情境，形式逻辑存在感持续上升。2026年可能进一步提升推理深度。</div>
+      </li>
+      <li><strong>新质生产力相关议题</strong>
+        <div class="evidence">依据：经济/政治模块常以时政热点为背景，新质生产力作为近年重要政策方向，可能以治理或经济发展情境出现。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="predict-card predict-low">
+    <h4>黑马考点（<50%，但值得准备）</h4>
+    <span class="prob prob-low">概率 25-45%</span>
+    <ul>
+      <li><strong>AI伦理与科技治理</strong>
+        <div class="evidence">依据：北京卷现实议题化趋势明显，AI伦理是新兴社会议题，可能以哲学或法治视角切入。</div>
+      </li>
+      <li><strong>跨模块综合大题</strong>
+        <div class="evidence">依据：模块融合是5年稳定趋势，但目前以两模块交叉为主。2026年可能出现三模块以上的深度综合题。</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====== 八、风险评估 ====== -->
+<div class="section">
+  <h2>⚠️ 八、风险评估：各模块得分稳定性</h2>
+  <div class="risk-grid">
+    <div class="risk-box risk-safe">
+      <div class="icon">🟢</div>
+      <h4>稳拿分模块</h4>
+      <p><strong>政治生活基础</strong>：国家制度、政府职能等基础知识稳定，背诵到位即可拿分。<br><strong>哲学基本原理</strong>：唯物论、辩证法等核心原理5年稳定，理解透彻即可应对。</p>
+    </div>
+    <div class="risk-box risk-warn">
+      <div class="icon">🟡</div>
+      <h4>变数中等模块</h4>
+      <p><strong>法律模块</strong>：民法典新条文、案例化趋势可能导致题型微调，需关注新司法解释。<br><strong>时政热点</strong>：每年时政背景不同，需要灵活应变，不能死记硬背。</p>
+    </div>
+    <div class="risk-box risk-danger">
+      <div class="icon">🔴</div>
+      <h4>高风险模块</h4>
+      <p><strong>逻辑推理</strong>：形式逻辑规则融入真实情境，推理深度可能继续提升。<br><strong>跨模块综合</strong>：多模块交叉命题对知识整合能力要求极高。<br><strong>术语转化</strong>：材料语言到学科语言的转化是最大失分点。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 九、思维导图 ====== -->
+<div class="section">
+  <h2>🧠 九、思维导图</h2>
+  <div class="mind">
+    <div style="font-size:14px;line-height:2.2">
+      <strong style="font-size:16px">北京政治卷</strong><br>
+      &emsp;├─ <strong>现实议题</strong>：基层治理、生态文明、国际合作<br>
+      &emsp;├─ <strong>学科模块</strong>：哲学、法治、制度<br>
+      &emsp;└─ <strong>作答能力</strong>：术语准确、逻辑清楚、材料回扣
+    </div>
+  </div>
+</div>
+
+<!-- ====== 十、备考建议 ====== -->
+<div class="section">
+  <h2>📝 十、备考建议</h2>
+  <table>
+    <thead><tr><th>薄弱点</th><th>典型表现</th><th>训练方案</th></tr></thead>
+    <tbody>
+      <tr><td><strong>术语不准</strong></td><td>意思对但分不高</td><td>按教材原话与高频表达整理答题词库</td></tr>
+      <tr><td><strong>材料与原理脱节</strong></td><td>只背知识不贴材料</td><td>每道题都练材料中的关键词对应哪个原理</td></tr>
+      <tr><td><strong>逻辑模块薄弱</strong></td><td>判断题容易混</td><td>专项训练概念外延、推理规则、判断类型</td></tr>
+      <tr><td><strong>主观题空泛</strong></td><td>口号多、论证弱</td><td>固定观点-原理-材料-结论结构</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

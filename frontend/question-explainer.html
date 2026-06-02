@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI题目讲解 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.explainer-wrap{max-width:900px;margin:0 auto;padding:40px 24px 60px}
+.explainer-header{margin-bottom:32px;text-align:center}
+.explainer-header h1{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+.explainer-header p{font-size:.9rem;color:var(--text-muted)}
+.input-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+.input-row{display:flex;gap:12px;flex-wrap:wrap}
+.input-row select,.input-row input{flex:1;min-width:150px;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.95rem;background:var(--bg);color:var(--text)}
+.input-row textarea{flex:1 1 100%;min-height:120px;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.95rem;background:var(--bg);color:var(--text);resize:vertical;margin-bottom:16px}
+.input-row textarea:focus,.input-row select:focus,.input-row input:focus{outline:none;border-color:var(--accent)}
+.explain-btn{width:100%;padding:14px 28px;border-radius:var(--radius-pill);background:var(--accent);color:#fff;border:none;font-size:1rem;font-weight:700;cursor:pointer;transition:var(--transition)}
+.explain-btn:hover{box-shadow:0 8px 32px rgba(215,25,32,.3)}
+.explain-btn:disabled{opacity:.6;cursor:not-allowed}
+.result-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px;display:none}
+.result-section.active{display:block}
+.result-question{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;margin-bottom:24px}
+.result-question h3{font-size:1.1rem;font-weight:700;margin-bottom:12px;color:var(--accent)}
+.result-question p{font-size:1rem;line-height:1.8}
+.result-section h2{font-size:1.3rem;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.explanation-content{line-height:1.9;margin-bottom:24px}
+.explanation-content h3{font-size:1.1rem;margin:20px 0 12px}
+.explanation-content p{margin-bottom:12px}
+.keypoints{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.keypoint-tag{padding:6px 14px;background:var(--accent-soft);color:var(--accent);border-radius:999px;font-size:.85rem;font-weight:600}
+.variant-section{margin-bottom:24px}
+.variant-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-bottom:12px}
+.variant-label{font-size:.8rem;font-weight:700;color:var(--text-muted);margin-bottom:8px}
+.variant-question{font-size:.95rem;line-height:1.7;margin-bottom:10px}
+.variant-answer{font-size:.9rem;color:var(--text-muted)}
+.variant-answer strong{color:var(--accent)}
+.next-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:var(--radius-pill);background:var(--accent);color:#fff;border:none;font-size:.95rem;font-weight:600;cursor:pointer;transition:var(--transition)}
+.next-btn:hover{box-shadow:0 6px 24px rgba(215,25,32,.3)}
+.loading-state{text-align:center;padding:60px 24px}
+.loading-spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-state{text-align:center;padding:40px 24px;color:#ef4444}
+.error-state .error-icon{font-size:3rem;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<div class="explainer-wrap">
+  <div class="explainer-header">
+    <h1>问AI</h1>
+    <p>输入任意题目，获取AI深度讲解与变式题</p>
+  </div>
+
+  <div class="input-section">
+    <div class="input-row">
+      <select id="subjectSelect">
+        <option value="math">数学</option>
+        <option value="physics">物理</option>
+        <option value="chemistry">化学</option>
+        <option value="chinese">语文</option>
+        <option value="english">英语</option>
+        <option value="politics">政治</option>
+      </select>
+      <input type="text" id="knowledgePoint" placeholder="知识点（可选）">
+    </div>
+    <div class="input-row">
+      <textarea id="questionInput" placeholder="请输入题目内容...&#10;&#10;例如：已知函数f(x)=x³-3x，求f'(1)的值"></textarea>
+    </div>
+    <button class="explain-btn" id="explainBtn" onclick="explainQuestion()">🔍 获取AI讲解</button>
+  </div>
+
+  <div class="loading-state" id="loadingState" style="display:none">
+    <div class="loading-spinner"></div>
+    <p>AI正在分析题目，请稍候...</p>
+  </div>
+
+  <div class="error-state" id="errorState" style="display:none">
+    <div class="error-icon">⚠️</div>
+    <p id="errorMessage">出错了，请重试</p>
+  </div>
+
+  <div class="result-section" id="resultSection">
+    <div class="result-question" id="originalQuestion">
+      <h3>📝 原始题目</h3>
+      <p id="displayQuestion"></p>
+    </div>
+
+    <h2>📖 详细讲解</h2>
+    <div class="explanation-content" id="explanationContent"></div>
+
+    <h2>💡 关键知识点</h2>
+    <div class="keypoints" id="keyPoints"></div>
+
+    <div class="variant-section" id="variantSection">
+      <h2>🔄 变式题（同一知识点，不同考法）</h2>
+      <div id="variantProblems"></div>
+    </div>
+
+    <div class="variant-section" id="similarSection">
+      <h2>📚 同类题（相似解题思路）</h2>
+      <div id="similarProblems"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px">
+      <button class="next-btn" onclick="generateNext()">下一题 →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const token = localStorage.getItem('token');
+  if (!token) { location.href = 'login.html'; return; }
+
+  // Check for URL params
+  const params = new URLSearchParams(location.search);
+  if (params.get('question')) {
+    document.getElementById('questionInput').value = decodeURIComponent(params.get('question'));
+  }
+  if (params.get('subject')) {
+    document.getElementById('subjectSelect').value = params.get('subject');
+  }
+  if (params.get('knowledgePoint')) {
+    document.getElementById('knowledgePoint').value = decodeURIComponent(params.get('knowledgePoint'));
+  }
+})();
+
+async function explainQuestion() {
+  const question = document.getElementById('questionInput').value.trim();
+  const subject = document.getElementById('subjectSelect').value;
+  const knowledgePoint = document.getElementById('knowledgePoint').value.trim();
+
+  if (!question) {
+    alert('请输入题目内容');
+    return;
+  }
+
+  const btn = document.getElementById('explainBtn');
+  const loading = document.getElementById('loadingState');
+  const error = document.getElementById('errorState');
+  const result = document.getElementById('resultSection');
+
+  btn.disabled = true;
+  loading.style.display = 'block';
+  error.style.display = 'none';
+  result.classList.remove('active');
+
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch('/api/explain-question', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ question, subject, knowledgePoint })
+    });
+
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      location.href = 'login.html';
+      return;
+    }
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || '请求失败');
+    }
+
+    const data = await res.json();
+    renderResult(data);
+
+  } catch (err) {
+    loading.style.display = 'none';
+    error.style.display = 'block';
+    document.getElementById('errorMessage').textContent = err.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderResult(data) {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('resultSection').classList.add('active');
+
+  // Original question
+  document.getElementById('displayQuestion').textContent = data.question;
+
+  // Explanation
+  document.getElementById('explanationContent').innerHTML = formatExplanation(data.explanation);
+
+  // Key points
+  const keyPointsEl = document.getElementById('keyPoints');
+  keyPointsEl.innerHTML = '';
+  if (data.keyPoints && data.keyPoints.length > 0) {
+    data.keyPoints.forEach(kp => {
+      const tag = document.createElement('span');
+      tag.className = 'keypoint-tag';
+      tag.textContent = kp;
+      keyPointsEl.appendChild(tag);
+    });
+  }
+
+  // Variant problems
+  const variantEl = document.getElementById('variantProblems');
+  const variantSection = document.getElementById('variantSection');
+  variantEl.innerHTML = '';
+  if (data.variantProblems && data.variantProblems.length > 0) {
+    variantSection.style.display = 'block';
+    data.variantProblems.forEach((vp, i) => {
+      variantEl.innerHTML += '<div class="variant-item">' +
+        '<div class="variant-label">变式题' + (i + 1) + '</div>' +
+        '<div class="variant-question">' + vp.question + '</div>' +
+        '<div class="variant-answer"><strong>答案：</strong>' + vp.answer + '</div>' +
+      '</div>';
+    });
+  } else {
+    variantSection.style.display = 'none';
+  }
+
+  // Similar problems
+  const similarEl = document.getElementById('similarProblems');
+  const similarSection = document.getElementById('similarSection');
+  similarEl.innerHTML = '';
+  if (data.similarProblems && data.similarProblems.length > 0) {
+    similarSection.style.display = 'block';
+    data.similarProblems.forEach((sp, i) => {
+      similarEl.innerHTML += '<div class="variant-item">' +
+        '<div class="variant-label">同类题' + (i + 1) + '</div>' +
+        '<div class="variant-question">' + sp.question + '</div>' +
+        '<div class="variant-answer"><strong>答案：</strong>' + sp.answer + '</div>' +
+      '</div>';
+    });
+  } else {
+    similarSection.style.display = 'none';
+  }
+}
+
+function formatExplanation(text) {
+  if (!text) return '';
+  // Split by double newlines to create paragraphs
+  return text.split('\n\n').map(p => {
+    if (!p.trim()) return '';
+    return '<p>' + p.replace(/\n/g, '<br>') + '</p>';
+  }).join('');
+}
+
+function generateNext() {
+  // Generate next variation by calling API again
+  explainQuestion();
+}
+
+// Handle Enter key in textarea to submit with Ctrl+Enter
+document.getElementById('questionInput').addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.key === 'Enter') {
+    explainQuestion();
+  }
+});
+</script>
+
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

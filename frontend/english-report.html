@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>英语命题趋势分析 - AI Tutor</title>
+<style>
+:root{--bg:#f8fafc;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#047857;--soft:#ecfdf5;--bar:#6ee7b7;--bar2:#34d399;--green:#059669;--green-soft:#ecfdf5;--amber:#d97706;--amber-soft:#fffbeb;--blue:#2563eb;--blue-soft:#eff6ff}
+*{box-sizing:border-box}body{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:1280px;margin:0 auto;padding:24px}
+.hero,.section{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.04)}
+.hero{padding:28px}.section{padding:22px;margin-top:18px}
+h1,h2,h3{margin:0 0 12px}p,li{line-height:1.8}
+.meta{color:var(--muted)}.tag{display:inline-block;padding:4px 10px;background:var(--soft);color:var(--brand);border-radius:999px;margin:0 8px 8px 0;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.stat b{font-size:28px;color:var(--brand)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top}
+th{background:#f9fafb}
+.bar{height:10px;background:#d1fae5;border-radius:999px;overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--bar)}
+.hbar{display:grid;gap:12px}
+.row{display:grid;grid-template-columns:130px 1fr 56px;gap:12px;align-items:center}
+.track{height:14px;background:#d1fae5;border-radius:999px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--bar),var(--bar2))}
+.radar{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.radar .r{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+.radar .score{font-size:26px;color:var(--brand);font-weight:700}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.compare .box{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+.compare h3{font-size:18px}
+.small{font-size:13px;color:var(--muted)}
+
+/* Verdict & Prediction */
+.verdict{background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:2px solid #a7f3d0;border-radius:16px;padding:24px 28px;margin-top:18px}
+.verdict h2{color:var(--brand);font-size:22px;margin-bottom:12px}
+.verdict p{font-size:16px;line-height:2}
+.predict-card{border-radius:14px;padding:18px;margin-bottom:14px}
+.predict-high{background:var(--soft);border:1px solid #a7f3d0}
+.predict-mid{background:var(--amber-soft);border:1px solid #fde68a}
+.predict-low{background:var(--blue-soft);border:1px solid #bfdbfe}
+.predict-card h4{margin:0 0 8px;font-size:16px}
+.predict-card .prob{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:8px}
+.prob-high{background:#059669;color:#fff}
+.prob-mid{background:#d97706;color:#fff}
+.prob-low{background:#2563eb;color:#fff}
+.evidence{background:#f9fafb;border-left:3px solid var(--brand);padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+.risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.risk-box{border-radius:14px;padding:16px;text-align:center}
+.risk-safe{background:#ecfdf5;border:1px solid #a7f3d0}
+.risk-warn{background:#fffbeb;border:1px solid #fde68a}
+.risk-danger{background:#fef2f2;border:1px solid #fecaca}
+.risk-box .icon{font-size:32px;margin-bottom:6px}
+.risk-box h4{margin:0 0 6px;font-size:15px}
+.risk-box p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+.kg-node{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;margin:4px;font-size:13px;border:1px solid var(--line);background:#fff}
+.kg-node.hot{border-color:#dc2626;background:#fef2f2}
+.kg-node.warm{border-color:#d97706;background:#fffbeb}
+.kg-node.cool{border-color:#6b7280;background:#f9fafb}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ====== 一句话结论 ====== -->
+<div class="verdict">
+  <h2>📌 一句话结论</h2>
+  <p><strong>2026年北京英语卷将延续"真实语篇+真实任务"路线，阅读理解更强调语篇结构与态度推断，写作任务的交际得体性继续加码，完形填空整体语篇化趋势不可逆。写作<strong style="color:#d97706">可能</strong>首次出现读后续写或概要写作新题型。</strong> 考生应重点训练"语篇整体理解→逻辑定位→结构化表达"的能力链，而非逐词翻译式阅读。</p>
+  <div class="evidence" style="margin-top:12px">
+    <strong>📊 预测概率说明：</strong>
+    <ul style="margin:8px 0 0 0;padding-left:20px">
+      <li><span style="color:#059669;font-weight:600">高概率(80%+)</span>：语篇化阅读、任务型写作</li>
+      <li><span style="color:#d97706;font-weight:600">中概率(50-80%)</span>：读后续写新题型</li>
+      <li><span style="color:#2563eb;font-weight:600">持续稳定</span>：完形填空、语法填空</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====== Hero ====== -->
+<div class="hero" style="margin-top:18px">
+  <h1>北京高考英语命题趋势详细分析报告</h1>
+  <p class="meta">依据：2020-2024 北京卷英语真题观察｜重点分析 2022-2024｜新增：模块占比图、雷达图式展示、稳定/上升/新情境考点对照</p>
+  <div>
+    <span class="tag">真实语篇</span><span class="tag">任务写作</span><span class="tag">语篇逻辑</span><span class="tag">情境表达</span><span class="tag">综合应用</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="small">3年最强趋势</div><b>语篇化</b><div class="small">完形、阅读更强调整体理解</div></div>
+    <div class="stat"><div class="small">5年稳定核心</div><b>阅读主导</b><div class="small">阅读与写作始终是能力核心</div></div>
+    <div class="stat"><div class="small">区分度来源</div><b>写作任务</b><div class="small">完成任务比堆词更关键</div></div>
+    <div class="stat"><div class="small">备考抓手</div><b>依据句</b><div class="small">所有推断都要能定位文本依据</div></div>
+  </div>
+</div>
+
+<!-- ====== 一、核心判断 ====== -->
+<div class="section">
+  <h2>一、核心判断</h2>
+  <ul>
+    <li><strong>北京英语卷核心趋势是真实语篇+真实任务+真实表达。</strong></li>
+    <li><strong>近三年阅读理解和完形更看整体逻辑而不是孤立词汇。</strong></li>
+    <li><strong>写作越来越接近真实交际，信息完整、结构清楚、语境得体更重要。</strong></li>
+    <li><strong>五年看，阅读长期主导，写作区分度持续升高。</strong></li>
+  </ul>
+</div>
+
+<!-- ====== 核心知识点清单 ====== -->
+<div class="section">
+  <h2>📚 核心知识点清单</h2>
+  <p class="small" style="margin-bottom:14px">依据《高中英语知识归纳总结》PDF整理，按模块分类，★标注考查频率</p>
+
+  <h3>一、核心词汇（按话题分类）</h3>
+  <table>
+    <thead><tr><th>话题模块</th><th>高频词汇</th><th>频率</th></tr></thead>
+    <tbody>
+      <tr><td>人际关系与情感</td><td>upset, concern, ignore, settle, suffer, persuade, insist, determine</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>旅行与交通</td><td>prefer, view, transport, journey, destination, attitude, schedule</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>自然灾害与救援</td><td>burst, rescue, judge, ruin, bury, destroy, damage, suffer, event</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>语言与文化</td><td>command, request, recognize, direction, standard, native, accent</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>日常活动与习惯</td><td>add, get, set, come, join, play, care, change, give</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>二、重点句型（语法核心）</h3>
+  <table>
+    <thead><tr><th>句型类别</th><th>典型结构</th><th>真题出现频率</th></tr></thead>
+    <tbody>
+      <tr><td>强调句型</td><td>It is/was + 被强调成分 + that/who + 其余</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>not...until 结构</td><td>It was not until...that... / Not until...did...</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>省略状语从句</td><td>while/when/if + doing/done（主语一致省略）</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>定语从句</td><td>as/which/where/whose 引导限制性与非限制性定从</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>名词性从句</td><td>what引导主语/宾语从句; that引导同位语从句</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>虚拟语气</td><td>command/request/suggest/insist + (should) do</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>让步状语从句</td><td>no matter how/what/who = however/whatever/whoever</td><td><span style="color:#d97706">★★★☆☆</span></td></tr>
+      <tr><td>too...to / so...that</td><td>too + adj. + to do; so + adj. + that从句</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>三、重点短语搭配</h3>
+  <table>
+    <thead><tr><th>短语</th><th>含义与用法</th><th>频率</th></tr></thead>
+    <tbody>
+      <tr><td>go through</td><td>经历；经受；检查；浏览；用完</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>get down to</td><td>开始认真做某事（to为介词）</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>give in</td><td>屈服，让步，投降；上交</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>change one's mind</td><td>改变主意 / make up one's mind 下定决心</td><td><span style="color:#d97706">★★★☆☆</span></td></tr>
+      <tr><td>care about / care for</td><td>关心/在乎 vs. 喜爱/照顾</td><td><span style="color:#d97706">★★★★☆</span></td></tr>
+      <tr><td>on purpose</td><td>故意 / for the purpose of 为了…</td><td><span style="color:#d97706">★★★☆☆</span></td></tr>
+      <tr><td>come up / come up with</td><td>走近；提出 / 想出</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>because of / due to / owing to</td><td>原因表达：介词短语 vs. 连词 because/as/since/for</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+      <tr><td>instead of / in place of</td><td>代替，而不是（后接名词/代词/动名词）</td><td><span style="color:#d97706">★★★☆☆</span></td></tr>
+      <tr><td>prefer to do / prefer doing</td><td>宁愿做某事 / prefer A to B 宁愿A而不愿B</td><td><span style="color:#dc2626">★★★★★</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>四、阅读话题分类</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+    <span class="kg-node hot">科技与生活</span>
+    <span class="kg-node hot">校园活动与成长</span>
+    <span class="kg-node hot">自然环境与灾害</span>
+    <span class="kg-node warm">跨文化交流</span>
+    <span class="kg-node warm">健康与心理</span>
+    <span class="kg-node warm">历史与人物</span>
+    <span class="kg-node cool">社会热点</span>
+    <span class="kg-node cool">艺术与文学</span>
+  </div>
+
+  <h3>五、写作模板与框架</h3>
+  <table>
+    <thead><tr><th>写作类型</th><th>核心要求</th><th>2022-2024趋势</th></tr></thead>
+    <tbody>
+      <tr><td>应用文（书信/通知）</td><td>信息完整、格式规范、语境得体</td><td>★★★★★ 必考，向任务型转型</td></tr>
+      <tr><td>读后续写</td><td>情节连贯、人物一致、情感呼应</td><td>★★★☆☆ 全国卷已有，北京卷可能引入</td></tr>
+      <tr><td>概要写作</td><td>核心信息提取、语言精炼、逻辑连贯</td><td>★★☆☆☆ 新题型可能方向</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 真题↔知识点映射表 ====== -->
+<div class="section">
+  <h2>🔗 真题↔知识点映射表</h2>
+  <p class="small" style="margin-bottom:14px">2022-2024北京英语卷各题型考查的核心知识点映射</p>
+
+  <table>
+    <thead><tr><th>年份</th><th>完形填空</th><th>阅读理解</th><th>写作</th><th>语言知识</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>2022</strong></td>
+        <td>成长叙事类语篇<br>→ 词汇辨析（情感词）<br>→ 语篇逻辑理解</td>
+        <td>信息提取为主<br>→ 细节定位<br>→ 词义猜测</td>
+        <td>任务完成型写作<br>→ 应用文格式<br>→ 信息完整性</td>
+        <td>语篇嵌入式语法<br>→ 定从/名从<br>→ 时态语态</td>
+      </tr>
+      <tr>
+        <td><strong>2023</strong></td>
+        <td>生活体验类语篇<br>→ 动词短语辨析<br>→ 情感态度理解</td>
+        <td>主旨+推断题增多<br>→ 段落主旨<br>→ 作者态度推断</td>
+        <td>情境表达型写作<br>→ 交际得体性<br>→ 语境适应</td>
+        <td>语篇逻辑衔接<br>→ 连词/代词指代<br>→ 省略结构</td>
+      </tr>
+      <tr>
+        <td><strong>2024</strong></td>
+        <td>校园 audition 叙事<br>→ 语境依赖加深<br>→ 心理描写词汇</td>
+        <td>态度与结构更突出<br>→ 全文态度判断<br>→ 语篇结构分析</td>
+        <td>交际得体性增强<br>→ 对象/目的/场景<br>→ 语言选择能力</td>
+        <td>综合语篇考查<br>→ 强调句+省略<br>→ 虚拟语气嵌入</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>知识点考查频次统计</h3>
+  <table>
+    <thead><tr><th>知识点</th><th>2022</th><th>2023</th><th>2024</th><th>累计</th></tr></thead>
+    <tbody>
+      <tr><td>语篇整体理解</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考</span></td></tr>
+      <tr><td>定语从句/名词性从句</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考</span></td></tr>
+      <tr><td>强调句型</td><td>✓</td><td>—</td><td>✓</td><td><span style="color:#d97706">2/3 高频</span></td></tr>
+      <tr><td>非谓语动词（省略）</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考</span></td></tr>
+      <tr><td>动词短语辨析</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考</span></td></tr>
+      <tr><td>虚拟语气</td><td>—</td><td>✓</td><td>✓</td><td><span style="color:#d97706">2/3 高频</span></td></tr>
+      <tr><td>交际得体性</td><td>✓</td><td>✓</td><td>✓</td><td><span style="color:#dc2626">3/3 必考</span></td></tr>
+      <tr><td>人物态度推断</td><td>—</td><td>✓</td><td>✓</td><td><span style="color:#d97706">2/3 上升中</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 知识点盲区预警 ====== -->
+<div class="section">
+  <h2>⚠️ 知识点盲区预警</h2>
+  <p class="small" style="margin-bottom:14px">以下知识点在2022-2024北京英语卷中未直接考查，但属于课标必考范围，2026年有出现可能</p>
+
+  <div class="risk-grid">
+    <div class="risk-box risk-danger">
+      <div class="icon">🔴</div>
+      <h4>高风险盲区（建议优先准备）</h4>
+      <p><strong>倒装句</strong>：完全倒装与部分倒装，尤其是否定词置首引起的倒装（Not only...but also, Hardly...when, No sooner...than）<br><br><strong>主谓一致特殊规则</strong>：more than one/a number of/the number of 等考点<br><br><strong>读后续写</strong>：全国卷已推行多年，北京卷引入概率30-40%</p>
+    </div>
+    <div class="risk-box risk-warn">
+      <div class="icon">🟡</div>
+      <h4>中风险盲区（建议了解）</h4>
+      <p><strong>冠词与名词搭配</strong>：a/an/the 的特殊用法（如 such...that vs. such...as）<br><br><strong>介词搭配辨析</strong>：because of vs. due to vs. owing to vs. thanks to 的语法位置差异<br><br><strong>情态动词完成式</strong>：should have done / must have done / might have done</p>
+    </div>
+    <div class="risk-box risk-safe">
+      <div class="icon">🟢</div>
+      <h4>低风险盲区（基础掌握即可）</h4>
+      <p><strong>构词法</strong>：前缀un-/dis-/re-、后缀-tion/-ment/-ness 等<br><br><strong>同义词辨析</strong>：ignore/neglect/overlook 等细微差别<br><br><strong>标点符号</strong>：分号、冒号在语篇中的衔接功能</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:18px">2026年新增考查方向预测</h3>
+  <div class="predict-card predict-mid">
+    <span class="prob prob-mid">中概率</span>
+    <h4>概要写作（Summary Writing）</h4>
+    <p>考查阅读理解与书面表达的综合能力，要求从长文中提取核心信息并精炼表达。北京卷写作向"交际真实性"转型的方向与此吻合。</p>
+    <div class="evidence">📌 建议：训练"阅读→提炼→转述"的三步能力，重点练习100词以内的信息压缩。</div>
+  </div>
+</div>
+
+<!-- ====== 2026 预测 ====== -->
+<div class="section">
+  <h2>2026 命题预测</h2>
+
+  <div class="predict-card predict-high">
+    <span class="prob prob-high">高概率</span>
+    <h4>阅读理解继续加强语篇结构与态度推断</h4>
+    <p>近三年阅读从信息提取转向主旨+推断+态度分析，2024年态度与结构题占比已达历史最高。2026年该趋势将延续。</p>
+    <div class="evidence">📌 依据：2022→2023→2024，阅读理解从"信息提取"到"主旨+推断"再到"态度与结构更突出"，连年升级。</div>
+  </div>
+
+  <div class="predict-card predict-high">
+    <span class="prob prob-high">高概率</span>
+    <h4>写作交际真实性持续增强，任务型写作分值可能提升</h4>
+    <p>应用文写作向真实交际任务转型，评分更看重"完成任务"而非模板堆砌。2026年可能进一步加大任务型写作比重。</p>
+    <div class="evidence">📌 依据：2022"任务完成"→2023"情境表达"→2024"交际得体更明显"，写作考查重心逐年向真实交际偏移。</div>
+  </div>
+
+  <div class="predict-card predict-high">
+    <span class="prob prob-high">高概率</span>
+    <h4>完形填空语篇化趋势不可逆</h4>
+    <p>完形从孤立词汇考查转向整体语篇逻辑理解，"先通读故事线再回填"成为解题必备能力。</p>
+    <div class="evidence">📌 依据：2022"成长叙事"→2023"生活体验"→2024"校园audition"，叙事真实性和语篇依赖逐年增强。</div>
+  </div>
+
+  <div class="predict-card predict-mid">
+    <span class="prob prob-mid">中概率</span>
+    <h4>写作可能首次出现读后续写或概要写作新题型</h4>
+    <p>全国卷已有读后续写先例，北京卷写作"交际真实性增强"的方向与之吻合，2026年有引入新题型的可能。</p>
+    <div class="evidence">📌 依据：北京写作从应用文→情境写作→交际任务，考查维度在拓展；全国卷读后续写已推行多年。</div>
+  </div>
+
+  <div class="predict-card predict-mid">
+    <span class="prob prob-mid">中概率</span>
+    <h4>听力可能增加真实场景语料</h4>
+    <p>随整体"真实语篇"趋势，听力材料可能从标准朗读向真实场景对话过渡，语速和干扰项复杂度可能微调。</p>
+    <div class="evidence">📌 依据：各模块"真实化"趋势明显，听力作为输入模块也面临场景真实化压力。</div>
+  </div>
+
+  <div class="predict-card predict-low">
+    <span class="prob prob-low">低概率</span>
+    <h4>语言知识（语法填空/单项）单独成大题</h4>
+    <p>目前语言知识持续嵌入语篇考查，单独设大题的可能性较低，但不排除微调题型。</p>
+    <div class="evidence">📌 依据：5年趋势明确"不单靠语法技巧"，语言知识嵌入语篇是主方向。</div>
+  </div>
+</div>
+
+<!-- ====== 风险评估 ====== -->
+<div class="section">
+  <h2>风险评估</h2>
+  <div class="risk-grid">
+    <div class="risk-box risk-safe">
+      <div class="icon">🟢</div>
+      <h4>低风险 — 阅读与写作核心稳定</h4>
+      <p>阅读主导、写作高区分度的格局5年未变，2026年几乎确定延续。备考方向明确，按部就班即可。</p>
+    </div>
+    <div class="risk-box risk-warn">
+      <div class="icon">🟡</div>
+      <h4>中风险 — 写作新题型可能性</h4>
+      <p>读后续写或概要写作首次出现的概率约30-40%。一旦出现，未准备的考生将明显吃亏。建议提前练习。</p>
+    </div>
+    <div class="risk-box risk-danger">
+      <div class="icon">🔴</div>
+      <h4>高风险 — 语篇理解能力不足</h4>
+      <p>逐词翻译式阅读习惯的考生，在完形和阅读双重语篇化趋势下，失分风险最大。这是最需要优先突破的问题。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 二、3 年趋势表 ====== -->
+<div class="section">
+  <h2>二、3 年趋势表（2022-2024）</h2>
+  <table>
+    <thead><tr><th>维度</th><th>2022</th><th>2023</th><th>2024</th><th>趋势结论</th></tr></thead>
+    <tbody>
+      <tr><td>完形填空</td><td>成长叙事</td><td>生活体验</td><td>校园 audition</td><td>真实叙事增强</td></tr>
+      <tr><td>阅读理解</td><td>信息提取</td><td>主旨+推断</td><td>态度与结构更突出</td><td>语篇理解要求提升</td></tr>
+      <tr><td>写作</td><td>任务完成</td><td>情境表达</td><td>交际得体更明显</td><td>任务型表达增强</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 三、5 年趋势表 ====== -->
+<div class="section">
+  <h2>三、5 年趋势表（2020-2024）</h2>
+  <table>
+    <thead><tr><th>模块</th><th>2020-2021</th><th>2022-2024</th><th>5年总趋势</th><th>强度</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>阅读理解</td><td>稳定核心</td><td>推断和结构要求更高</td><td>绝对主导</td>
+        <td><div class="bar"><span style="width:95%"></span></div></td>
+      </tr>
+      <tr>
+        <td>完形</td><td>上下文依赖明显</td><td>整体语篇化更强</td><td>弱化孤立技巧</td>
+        <td><div class="bar"><span style="width:84%"></span></div></td>
+      </tr>
+      <tr>
+        <td>写作</td><td>任务明确</td><td>交际真实性增强</td><td>输出要求上升</td>
+        <td><div class="bar"><span style="width:88%"></span></div></td>
+      </tr>
+      <tr>
+        <td>语言知识</td><td>嵌入语篇</td><td>继续嵌入语篇</td><td>不单靠语法技巧</td>
+        <td><div class="bar"><span style="width:72%"></span></div></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 四、模块占比展示 ====== -->
+<div class="section">
+  <h2>四、模块占比展示</h2>
+  <div class="hbar">
+    <div class="row"><span>阅读理解</span><div class="track"><div class="fill" style="width:95%"></div></div><span><b>95</b></span></div>
+    <div class="row"><span>写作</span><div class="track"><div class="fill" style="width:88%"></div></div><span><b>88</b></span></div>
+    <div class="row"><span>完形</span><div class="track"><div class="fill" style="width:84%"></div></div><span><b>84</b></span></div>
+    <div class="row"><span>语言知识</span><div class="track"><div class="fill" style="width:72%"></div></div><span><b>72</b></span></div>
+  </div>
+</div>
+
+<!-- ====== 五、趋势雷达图式展示 ====== -->
+<div class="section">
+  <h2>五、趋势雷达图式展示</h2>
+  <div class="radar">
+    <div class="r"><div class="small">语篇逻辑</div><div class="score">92</div></div>
+    <div class="r"><div class="small">真实情境</div><div class="score">89</div></div>
+    <div class="r"><div class="small">输出要求</div><div class="score">87</div></div>
+    <div class="r"><div class="small">记忆依赖</div><div class="score">54</div></div>
+    <div class="r"><div class="small">区分度</div><div class="score">88</div></div>
+  </div>
+</div>
+
+<!-- ====== 六、稳定/上升/新情境考点对照表 ====== -->
+<div class="section">
+  <h2>六、稳定/上升/新情境考点对照表</h2>
+  <div class="compare">
+    <div class="box">
+      <h3 style="color:#059669">✅ 稳定考点</h3>
+      <ul>
+        <li>阅读主旨与细节</li>
+        <li>应用文写作</li>
+        <li>语篇衔接</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3 style="color:#d97706">📈 上升考点</h3>
+      <ul>
+        <li>人物态度推断</li>
+        <li>语篇结构理解</li>
+        <li>任务写作得体性</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3 style="color:#2563eb">🆕 新情境考点</h3>
+      <ul>
+        <li>校园活动与成长体验</li>
+        <li>真实交际任务</li>
+        <li>跨文化生活语境</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 七、知识图谱 ====== -->
+<div class="section">
+  <h2>七、知识图谱</h2>
+  <p style="font-size:16px;font-weight:600;margin-bottom:12px">输入能力 → 加工能力 → 输出能力</p>
+  <div style="display:flex;flex-wrap:wrap;gap:4px">
+    <span class="kg-node hot">词汇识别</span>
+    <span class="kg-node hot">语篇阅读</span>
+    <span class="kg-node hot">信息捕捉</span>
+    <span class="kg-node warm">逻辑判断</span>
+    <span class="kg-node warm">态度推断</span>
+    <span class="kg-node warm">结构理解</span>
+    <span class="kg-node cool">任务写作</span>
+    <span class="kg-node cool">表达得体</span>
+    <span class="kg-node cool">连贯组织</span>
+  </div>
+</div>
+
+<!-- ====== 八、思维导图 ====== -->
+<div class="section">
+  <h2>八、思维导图</h2>
+  <div class="grid">
+    <div style="background:#f0fdf4;border-radius:12px;padding:16px;border:1px solid #a7f3d0">
+      <h3 style="color:#047857">📖 北京英语卷</h3>
+      <ul>
+        <li><strong>阅读：</strong>主旨、细节、推断</li>
+        <li><strong>完形：</strong>语境、情绪线、逻辑线</li>
+        <li><strong>写作：</strong>信息完整、结构清晰、语境得体</li>
+      </ul>
+    </div>
+    <div style="background:#f0fdf4;border-radius:12px;padding:16px;border:1px solid #a7f3d0">
+      <h3 style="color:#047857">🔑 备考关键</h3>
+      <ul>
+        <li>所有推断必须有文本依据</li>
+        <li>完形先通读故事线再回填</li>
+        <li>写作按对象、目的、场景调整</li>
+        <li>阅读练段落中心句和句群关系</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 九、备考建议 ====== -->
+<div class="section">
+  <h2>九、备考建议</h2>
+  <table>
+    <thead><tr><th>问题</th><th>表现</th><th>建议</th></tr></thead>
+    <tbody>
+      <tr><td>逐词翻译式阅读</td><td>单词都认识但整体不懂</td><td>练段落中心句和句群关系</td></tr>
+      <tr><td>完形只盯空</td><td>忽略故事主线</td><td>先通读故事线，再回填空格</td></tr>
+      <tr><td>写作模板重</td><td>不贴任务</td><td>按对象、目的、场景重写表达</td></tr>
+      <tr><td>推断凭感觉</td><td>答案不稳定</td><td>每题必须标出依据句</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- .wrap -->
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

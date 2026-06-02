@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>预测依据 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page-wrap" style="grid-template-columns:1fr">
+  <div class="page-main" style="max-width:860px;margin:0 auto">
+
+    <div class="report-header">
+      <h1>预测依据与方法</h1>
+      <div class="meta">本系统分析方法的完整说明 &middot; 透明、可验证、可追溯</div>
+    </div>
+
+    <div class="report-section">
+      <h2>一、数据来源</h2>
+      <table>
+        <tr><th>来源类型</th><th>具体内容</th><th>覆盖范围</th></tr>
+        <tr><td><b>历年真题</b></td><td>2008-2025年北京高考全科真题（含原卷版与解析版）</td><td>语文、数学、英语、政治、化学、物理，共17年</td></tr>
+        <tr><td><b>官方政策</b></td><td>北京教育考试院历年《普通高等学校招生工作规定》</td><td>考试科目、分值结构、志愿规则、录取政策</td></tr>
+        <tr><td><b>课程标准</b></td><td>《普通高中课程标准（2017年版2020年修订）》</td><td>各科核心素养、学业质量标准、内容要求</td></tr>
+        <tr><td><b>教材知识点</b></td><td>人教版/北师大版高中全套教材知识点归纳</td><td>六科完整知识体系</td></tr>
+        <tr><td><b>公开数据</b></td><td>教育部考试中心发布的试题分析报告、各省教研文章</td><td>命题趋势、难度分析</td></tr>
+      </table>
+    </div>
+
+    <div class="report-section">
+      <h2>二、分析维度</h2>
+      <p>本系统对历年真题进行六个维度的结构化分析：</p>
+      <table>
+        <tr><th>分析维度</th><th>方法</th><th>输出</th></tr>
+        <tr><td><b>题型结构</b></td><td>统计各题型（选择/填空/解答/阅读/写作）的分值占比变化</td><td>题型权重变化趋势图</td></tr>
+        <tr><td><b>知识点频次</b></td><td>将每道真题映射到知识点清单，统计出现频次</td><td>高频考点排名、冷门考点预警</td></tr>
+        <tr><td><b>能力层次</b></td><td>按布鲁姆认知层次分类（记忆/理解/应用/分析/评价/创造）</td><td>能力要求变化趋势</td></tr>
+        <tr><td><b>难度分布</b></td><td>基于题目结构、运算量、思维步骤估算难度系数</td><td>各年难度对比</td></tr>
+        <tr><td><b>热点主题</b></td><td>提取题目背景材料中的主题关键词</td><td>命题热点轮换规律</td></tr>
+        <tr><td><b>政策关联</b></td><td>对比新课标要求与真题覆盖的差异</td><td>新增考点预警、删减考点确认</td></tr>
+      </table>
+    </div>
+
+    <div class="report-section">
+      <h2>三、预测生成逻辑</h2>
+      <p>预测卷的生成遵循以下流程：</p>
+      <p><b>Step 1 &mdash; 确定命题方向</b><br>
+      基于六维分析，识别 2026 年最可能出现的命题方向。例如：信息类文本阅读权重上升（语文）、情境化应用题比例增大（数学）、读后续写<strong>可能</strong>成为新题型（英语）。</p>
+      <p><b>Step 2 &mdash; 选取知识点</b><br>
+      从高频考点和上升考点中选取覆盖范围，确保每套预测卷覆盖该科 80% 以上的核心知识点。</p>
+      <p><b>Step 3 &mdash; 对标真题难度</b><br>
+      参照 2024、2025 年北京真题的难度分布，控制预测卷的易/中/难比例（大致 3:5:2）。</p>
+      <p><b>Step 4 &mdash; 编制题目</b><br>
+      参照真题的设问方式和选项风格，结合预测方向编制原创题目。每题附答案、解析、知识点标注。</p>
+      <p><b>Step 5 &mdash; 交叉检验</b><br>
+      核对每题的答案与解析是否一致，知识点标注是否准确，公式渲染是否正确。</p>
+    </div>
+
+    <div class="report-section">
+      <h2>四、预测边界与局限</h2>
+      <p style="color:#d71920;font-weight:700">本系统的预测基于数据分析和趋势外推，存在以下已知局限：</p>
+      <ul>
+        <li><b>不等于官方命题</b> &mdash; 预测卷仅用于复习训练，不代表北京市教育考试院的命题方向或内容。</li>
+        <li><b>无法预测具体题目</b> &mdash; 本系统预测的是题型、知识点和能力要求的分布趋势，而非具体题目。</li>
+        <li><b>存在黑天鹅风险</b> &mdash; 重大政策变化（如高考改革）、突发事件可能使历史趋势失效。</li>
+        <li><b>分析基于公开数据</b> &mdash; 未获取任何内部资料或保密信息。</li>
+      </ul>
+    </div>
+
+    <div class="report-section">
+      <h2>五、更新机制</h2>
+      <table>
+        <tr><th>触发条件</th><th>更新内容</th><th>更新周期</th></tr>
+        <tr><td>政策变化</td><td>政策解读页、受影响科目的预测卷</td><td>实时</td></tr>
+        <tr><td>新真题发布</td><td>趋势报告、预测方向校准</td><td>高考结束后1个月内</td></tr>
+        <tr><td>用户反馈</td><td>题目修正、解析优化</td><td>持续</td></tr>
+        <tr><td>定期审查</td><td>全站内容准确性检查</td><td>每季度</td></tr>
+      </table>
+    </div>
+
+    <div class="report-section" style="background:var(--accent-soft);border-color:#d7192044">
+      <h2>六、权威来源链接</h2>
+      <ul>
+        <li><a href="https://www.bjeea.cn" target="_blank">北京教育考试院</a> &mdash; 官方考试政策与通知</li>
+        <li><a href="https://www.bjeea.cn/html/gkgz/tzgg/2026/0505/88114.html" target="_blank">《北京市2026年普通高等学校招生工作规定》</a></li>
+        <li><a href="http://www.moe.gov.cn" target="_blank">教育部</a> &mdash; 课程标准与高考改革政策</li>
+        <li><a href="2026-policy.html">本系统政策解读页</a> &mdash; 基于官方文件的解读整理</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

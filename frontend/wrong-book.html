@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我的错题本 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.wb-wrap{max-width:1000px;margin:0 auto;padding:40px 24px 60px}
+.wb-header{margin-bottom:24px}
+.wb-header h1{font-size:1.8rem;font-weight:700;margin-bottom:4px}
+.wb-header p{font-size:.9rem;color:var(--text-muted)}
+.wb-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.wb-filter{padding:6px 16px;border-radius:var(--radius-pill);border:1px solid var(--border);background:transparent;color:var(--text-muted);font-size:.82rem;font-weight:600;cursor:pointer;transition:var(--transition);font-family:var(--font)}
+.wb-filter:hover,.wb-filter.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.wb-empty{text-align:center;padding:60px 24px;color:var(--text-muted)}
+.wb-empty .icon{font-size:3rem;margin-bottom:16px;opacity:.5}
+.wb-empty p{font-size:.95rem;margin-bottom:16px}
+.wb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.wb-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:var(--transition)}
+.wb-card:hover{border-color:var(--accent)}
+.wb-card-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:12px}
+.wb-card-subject{padding:3px 10px;border-radius:var(--radius-pill);font-size:.7rem;font-weight:700;text-transform:uppercase}
+.wb-card-time{font-size:.75rem;color:var(--text-dim)}
+.wb-card-body{font-size:.88rem;color:var(--text);line-height:1.6;margin-bottom:12px;max-height:120px;overflow:hidden}
+.wb-card-img{width:100%;border-radius:var(--radius-sm);margin-bottom:12px;max-height:200px;object-fit:contain;background:var(--bg)}
+.wb-card-actions{display:flex;gap:8px}
+.wb-card-actions .btn{font-size:.75rem;padding:5px 12px}
+.wb-card-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.wb-card-meta span{font-size:.7rem;color:var(--text-dim);background:var(--bg);padding:2px 8px;border-radius:var(--radius-pill)}
+@media(max-width:768px){.wb-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="wb-wrap">
+  <div class="wb-header">
+    <h1>我的错题本</h1>
+    <p>查看通过手机拍照上传的错题记录</p>
+  </div>
+
+  <div class="wb-filters" id="filters">
+    <button class="wb-filter active" data-subject="all">全部</button>
+    <button class="wb-filter" data-subject="math">数学</button>
+    <button class="wb-filter" data-subject="chinese">语文</button>
+    <button class="wb-filter" data-subject="english">英语</button>
+    <button class="wb-filter" data-subject="physics">物理</button>
+    <button class="wb-filter" data-subject="chemistry">化学</button>
+    <button class="wb-filter" data-subject="politics">政治</button>
+  </div>
+
+  <div id="content">
+    <div class="wb-empty">
+      <div class="icon">&#128210;</div>
+      <p>加载中...</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const TOKEN = localStorage.getItem('token');
+if (!TOKEN) { location.href = 'login.html'; }
+
+const SUBJECT_NAMES = {math:'数学',chinese:'语文',english:'英语',physics:'物理',chemistry:'化学',politics:'政治',biology:'生物',history:'历史',geography:'地理'};
+const SUBJECT_COLORS = {math:'#d71920',chinese:'#2563eb',english:'#059669',physics:'#ea580c',chemistry:'#0f766e',politics:'#7c3aed'};
+
+let allQuestions = [];
+let currentFilter = 'all';
+
+async function loadQuestions() {
+  try {
+    const res = await fetch('/api/questions', { headers: { 'Authorization': 'Bearer ' + TOKEN } });
+    if (!res.ok) throw new Error('Failed');
+    allQuestions = await res.json();
+    if (!Array.isArray(allQuestions)) allQuestions = [];
+    renderQuestions();
+  } catch(e) {
+    document.getElementById('content').innerHTML = '<div class="wb-empty"><div class="icon">&#9888;</div><p>加载失败，请刷新重试</p></div>';
+  }
+}
+
+function renderQuestions() {
+  const filtered = currentFilter === 'all' ? allQuestions : allQuestions.filter(q => (q.subject || '').toLowerCase() === currentFilter);
+
+  if (filtered.length === 0) {
+    document.getElementById('content').innerHTML = '<div class="wb-empty"><div class="icon">&#128210;</div><p>' + (allQuestions.length === 0 ? '暂无错题记录' : '该学科暂无错题') + '</p><a href="index.html" class="btn primary">返回首页</a></div>';
+    return;
+  }
+
+  const html = '<div class="wb-grid">' + filtered.map(q => {
+    const subject = (q.subject || 'unknown').toLowerCase();
+    const name = SUBJECT_NAMES[subject] || subject;
+    const color = SUBJECT_COLORS[subject] || '#666';
+    const time = q.timestamp ? new Date(q.timestamp).toLocaleDateString('zh-CN') : '';
+    const content = q.content || q.question || q.image_url || '拍照上传的错题';
+    const hasImage = q.image_url || q.image;
+
+    return '<div class="wb-card">'
+      + '<div class="wb-card-header">'
+      +   '<span class="wb-card-subject" style="background:' + color + '22;color:' + color + '">' + name + '</span>'
+      +   '<span class="wb-card-time">' + time + '</span>'
+      + '</div>'
+      + (hasImage ? '<img class="wb-card-img" src="' + (q.image_url || q.image) + '" alt="错题图片" loading="lazy">' : '')
+      + '<div class="wb-card-body">' + escapeHtml(String(content).slice(0, 200)) + '</div>'
+      + '<div class="wb-card-actions">'
+      +   '<a href="question-explainer.html?question=' + encodeURIComponent(content.slice(0, 500)) + '&subject=' + subject + '" class="btn primary">AI讲解</a>'
+      +   '<button class="btn ghost" onclick="deleteQuestion(' + q._id + ')">删除</button>'
+      + '</div>'
+      + '</div>';
+  }).join('') + '</div>';
+
+  document.getElementById('content').innerHTML = html;
+}
+
+function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function deleteQuestion(id) {
+  if (!confirm('确定删除这道错题？')) return;
+  try {
+    await fetch('/api/questions', {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + TOKEN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id })
+    });
+    allQuestions = allQuestions.filter(q => String(q._id) !== String(id));
+    renderQuestions();
+  } catch(e) { alert('删除失败'); }
+}
+
+// Filter buttons
+document.getElementById('filters').addEventListener('click', function(e) {
+  if (e.target.classList.contains('wb-filter')) {
+    document.querySelectorAll('.wb-filter').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    currentFilter = e.target.dataset.subject;
+    renderQuestions();
+  }
+});
+
+loadQuestions();
+</script>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

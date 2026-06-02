@@ -1,0 +1,186 @@
+[
+  {
+    "code": "beijing",
+    "name": "北京",
+    "exam_type": "gaokao",
+    "paper_type": "independent",
+    "region": "north",
+    "description": "自主命题，重视情境理解、开放表达，综合建模，题目文字阅读量较大"
+  },
+  {
+    "code": "shanghai",
+    "name": "上海",
+    "exam_type": "gaokao",
+    "paper_type": "independent",
+    "region": "east",
+    "description": "自主命题，注重创新思维和综合应用能力"
+  },
+  {
+    "code": "tianjin",
+    "name": "天津",
+    "exam_type": "gaokao",
+    "paper_type": "independent",
+    "region": "north",
+    "description": "自主命题，题型稳定，注重基础知识和能力考查"
+  },
+  {
+    "code": "shandong",
+    "name": "山东",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "east",
+    "description": "使用新高考I卷，重视基础题稳定性和中档题综合迁移"
+  },
+  {
+    "code": "guangdong",
+    "name": "广东",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "south",
+    "description": "使用新高考I卷，题型结构稳定，强调综合应用与新情境"
+  },
+  {
+    "code": "zhejiang",
+    "name": "浙江",
+    "exam_type": "gaokao",
+    "paper_type": "independent",
+    "region": "east",
+    "description": "自主命题特色强，重视思维灵活性和能力综合"
+  },
+  {
+    "code": "jiangsu",
+    "name": "江苏",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "east",
+    "description": "使用新高考I卷，注重数学和物理的深度考查"
+  },
+  {
+    "code": "henan",
+    "name": "河南",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "central",
+    "description": "使用全国甲卷，题型规范，注重基础知识和综合应用"
+  },
+  {
+    "code": "sichuan",
+    "name": "四川",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "west",
+    "description": "使用全国甲卷，重视基础知识和运算能力"
+  },
+  {
+    "code": "hebei",
+    "name": "河北",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "north",
+    "description": "使用新高考I卷，注重综合应用和创新思维"
+  },
+  {
+    "code": "hubei",
+    "name": "湖北",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "central",
+    "description": "使用新高考I卷，重视理科综合能力"
+  },
+  {
+    "code": "hunan",
+    "name": "湖南",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "central",
+    "description": "使用新高考I卷，注重基础知识和能力并重"
+  },
+  {
+    "code": "fujian",
+    "name": "福建",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "east",
+    "description": "使用新高考I卷，题型稳定，注重综合应用"
+  },
+  {
+    "code": "anhui",
+    "name": "安徽",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "east",
+    "description": "使用新高考I卷，重视基础知识和运算能力"
+  },
+  {
+    "code": "liaoning",
+    "name": "辽宁",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "northeast",
+    "description": "使用新高考I卷，注重综合应用能力"
+  },
+  {
+    "code": "chongqing",
+    "name": "重庆",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "west",
+    "description": "使用新高考I卷，重视基础知识和创新思维"
+  },
+  {
+    "code": "national_i",
+    "name": "全国新高考I卷",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_i",
+    "region": "national",
+    "description": "多省使用，注重综合应用和创新思维"
+  },
+  {
+    "code": "national_ii",
+    "name": "全国新高考II卷",
+    "exam_type": "gaokao",
+    "paper_type": "new_gaokao_ii",
+    "region": "national",
+    "description": "多省使用，题型规范，注重基础知识"
+  },
+  {
+    "code": "national_a",
+    "name": "全国甲卷",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "national",
+    "description": "传统高考省份使用，题型稳定，难度适中"
+  },
+  {
+    "code": "national_b",
+    "name": "全国乙卷",
+    "exam_type": "gaokao",
+    "paper_type": "national_b",
+    "region": "national",
+    "description": "传统高考省份使用，注重基础知识和综合应用"
+  },
+  {
+    "code": "beijing_zhongkao",
+    "name": "北京中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "north",
+    "description": "北京自主命题，注重基础知识和综合应用"
+  },
+  {
+    "code": "shanghai_zhongkao",
+    "name": "上海中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "east",
+    "description": "上海自主命题，注重创新思维"
+  },
+  {
+    "code": "guangzhou_zhongkao",
+    "name": "广州中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "south",
+    "description": "广州自主命题，题型稳定"
+  }
+]

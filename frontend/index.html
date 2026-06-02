@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Tutor 高考/中考错题诊断与预测学习平台</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.methodology-card{max-width:1100px;margin:0 auto 48px;padding:0 24px}
+.methodology-card a{display:flex;align-items:center;gap:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;transition:var(--transition)}
+.methodology-card a:hover{border-color:#6ea8fe;transform:translateY(-2px)}
+.methodology-card .mc-icon{font-size:2rem;flex-shrink:0}
+.methodology-card .mc-text h3{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+.methodology-card .mc-text p{font-size:.82rem;color:var(--text-muted);line-height:1.5}
+.trend-carousel{display:flex;gap:16px;overflow-x:auto;padding:8px 0 20px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.trend-carousel::-webkit-scrollbar{height:4px}
+.trend-carousel::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+.trend-card{flex:0 0 320px;scroll-snap-align:start;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:var(--transition)}
+.trend-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.trend-card .trend-subj{font-size:.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.trend-card .trend-title{font-size:1rem;font-weight:700;margin-bottom:6px}
+.trend-card .trend-desc{font-size:.82rem;color:var(--text-muted);line-height:1.5}
+.policy-banner{max-width:1100px;margin:0 auto 48px;padding:0 24px}
+.policy-banner a{display:block;background:linear-gradient(135deg,var(--accent) 0%,#8b1015 100%);border-radius:var(--radius);padding:28px 32px;text-decoration:none;color:#fff;transition:var(--transition)}
+.policy-banner a:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(215,25,32,.3)}
+.policy-banner h3{font-size:1.3rem;font-weight:700;margin-bottom:6px}
+.policy-banner p{font-size:.9rem;opacity:.85}
+
+/* 省份选择器样式 */
+.province-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);max-width:1100px;margin:0 auto 48px;padding:32px 24px}
+.province-section h2{text-align:center;margin-bottom:24px;font-size:1.3rem}
+.province-tabs{display:flex;justify-content:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.province-tabs button{padding:8px 20px;border-radius:var(--radius-pill);border:1px solid var(--border);background:var(--bg-secondary);color:var(--text);font-size:.88rem;cursor:pointer;transition:var(--transition);font-family:var(--font)}
+.province-tabs button:hover{border-color:var(--accent)}
+.province-tabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.province-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+.province-item{display:flex;flex-direction:column;align-items:center;padding:16px 12px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--text);transition:var(--transition);cursor:pointer}
+.province-item:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 4px 16px rgba(215,25,32,.1)}
+.province-item .province-icon{font-size:1.8rem;margin-bottom:8px}
+.province-item .province-name{font-size:.88rem;font-weight:700}
+.province-item .province-type{font-size:.72rem;color:var(--text-muted);margin-top:4px}
+.province-loading{text-align:center;padding:24px;color:var(--text-muted)}
+
+/* 新增：专业驾驶舱样式 */
+.hero-new{max-width:1200px;margin:0 auto;padding:60px 24px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hero-content h1{font-size:3rem;line-height:1.1;margin:0 0 20px;font-weight:950;letter-spacing:-.03em}
+.hero-content .subtitle{font-size:1.1rem;color:var(--text-muted);line-height:1.7;margin-bottom:28px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero-preview{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;position:relative}
+.preview-badge{position:absolute;top:-10px;left:20px;background:var(--accent);color:#fff;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.preview-chart{height:200px;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:16px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.radar-mock{width:160px;height:160px;border:2px solid var(--border);border-radius:50%;position:relative}
+.radar-mock::before,.radar-mock::after{content:'';position:absolute;border:1px solid var(--border);border-radius:50%}
+.radar-mock::before{width:100px;height:100px;top:30px;left:30px}
+.radar-mock::after{width:60px;height:60px;top:50px;left:50px}
+.radar-point{position:absolute;width:8px;height:8px;background:var(--accent);border-radius:50%}
+.preview-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.preview-stat{background:var(--bg);border-radius:var(--radius-sm);padding:12px;text-align:center}
+.preview-stat .num{font-size:24px;font-weight:950;color:var(--accent)}
+.preview-stat .label{font-size:12px;color:var(--text-muted);margin-top:4px}
+
+/* 可信证据卡片 */
+.evidence-section{max-width:1200px;margin:0 auto;padding:0 24px 48px}
+.evidence-section h2{text-align:center;margin-bottom:32px;font-size:1.8rem}
+.evidence-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.evidence-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;transition:var(--transition)}
+.evidence-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.evidence-card .icon{font-size:2.5rem;margin-bottom:16px}
+.evidence-card h3{font-size:1rem;margin-bottom:8px}
+.evidence-card p{font-size:.85rem;color:var(--text-muted);line-height:1.5}
+
+/* 样例报告入口 */
+.sample-section{max-width:1200px;margin:0 auto;padding:0 24px 48px}
+.sample-section h2{text-align:center;margin-bottom:32px;font-size:1.8rem}
+.sample-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sample-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:var(--transition);text-decoration:none;color:var(--text);display:block}
+.sample-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.sample-card .badge{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:12px}
+.sample-card h3{font-size:1.1rem;margin-bottom:8px}
+.sample-card p{font-size:.85rem;color:var(--text-muted);line-height:1.5;margin-bottom:16px}
+.sample-card .features{display:flex;flex-wrap:wrap;gap:6px}
+.sample-card .feature{font-size:12px;color:var(--text-muted);background:var(--bg);padding:4px 8px;border-radius:4px}
+
+/* 预测声明 */
+.disclaimer-section{max-width:1100px;margin:0 auto 48px;padding:0 24px}
+.disclaimer-box{background:linear-gradient(135deg,var(--bg-card),var(--bg));border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;text-align:center}
+.disclaimer-box h3{font-size:1.2rem;margin-bottom:12px;color:var(--accent)}
+.disclaimer-box p{color:var(--text-muted);line-height:1.7;margin:0}
+
+@media (max-width:900px){
+.hero-new{grid-template-columns:1fr}
+.hero-preview{display:none}
+.evidence-grid{grid-template-columns:repeat(2,1fr)}
+.sample-grid{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+.evidence-grid{grid-template-columns:1fr}
+.hero-content h1{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- 第一屏：价值主张 + 样例预览 -->
+<section class="hero-new">
+  <div class="hero-content">
+    <h1>用历年真题和错题数据<br>生成你的 2026 备考路线图</h1>
+    <p class="subtitle">AI Tutor 基于全国各省 17+ 年真题、官方政策、知识点图谱和学生错题数据，生成可追溯的趋势报告、预测训练卷和个性化提分路径。</p>
+    <div class="hero-cta">
+      <a href="sample-report-student.html" class="btn primary" style="font-size:1rem;padding:14px 28px">&#128203; 查看样例报告</a>
+      <a href="math-exam.html" class="btn ghost" style="font-size:1rem;padding:14px 28px">&#128221; 体验预测卷</a>
+      <a href="login.html" class="btn ghost" style="font-size:1rem;padding:14px 28px">&#128100; 登录体验</a>
+    </div>
+  </div>
+  <div class="hero-preview">
+    <span class="preview-badge">&#127891; 样例预览</span>
+    <div class="preview-chart">
+      <div class="radar-mock">
+        <div class="radar-point" style="top:20px;left:70px"></div>
+        <div class="radar-point" style="top:60px;left:120px"></div>
+        <div class="radar-point" style="top:100px;left:80px"></div>
+        <div class="radar-point" style="top:80px;left:40px"></div>
+        <div class="radar-point" style="top:40px;left:30px"></div>
+      </div>
+    </div>
+    <div class="preview-stats">
+      <div class="preview-stat">
+        <div class="num">78</div>
+        <div class="label">综合得分</div>
+      </div>
+      <div class="preview-stat">
+        <div class="num">12</div>
+        <div class="label">薄弱点</div>
+      </div>
+      <div class="preview-stat">
+        <div class="num">+5</div>
+        <div class="label">本周提升</div>
+      </div>
+      <div class="preview-stat">
+        <div class="num">92%</div>
+        <div class="label">考点覆盖</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 第二屏：为什么可信 -->
+<section class="evidence-section">
+  <h2>为什么可信</h2>
+  <div class="evidence-grid">
+    <div class="evidence-card">
+      <div class="icon">&#128203;</div>
+      <h3>官方政策来源</h3>
+      <p>引用北京教育考试院官方文件，政策解读有据可查</p>
+    </div>
+    <div class="evidence-card">
+      <div class="icon">&#128218;</div>
+      <h3>历年真题库</h3>
+      <p>覆盖 2008-2025 年 17+ 年真题，六科完整数据</p>
+    </div>
+    <div class="evidence-card">
+      <div class="icon">&#127759;</div>
+      <h3>知识点映射</h3>
+      <p>1000+ 核心知识点，每道题可追溯知识点标签</p>
+    </div>
+    <div class="evidence-card">
+      <div class="icon">&#128269;</div>
+      <h3>预测边界</h3>
+      <p>公开预测方法、数据来源和局限说明，不承诺押题</p>
+    </div>
+  </div>
+</section>
+
+<!-- 第三屏：样例报告 -->
+<section class="sample-section">
+  <h2>查看样例报告</h2>
+  <div class="sample-grid">
+    <a href="sample-report-student.html" class="sample-card">
+      <span class="badge">学生版</span>
+      <h3>个性化诊断报告</h3>
+      <p>能力雷达图、薄弱知识点热力图、推荐训练路径，让学生清楚知道"我哪里弱、怎么练"</p>
+      <div class="features">
+        <span class="feature">能力雷达图</span>
+        <span class="feature">薄弱点分析</span>
+        <span class="feature">学习路径</span>
+      </div>
+    </a>
+    <a href="sample-report-parent.html" class="sample-card">
+      <span class="badge">家长版</span>
+      <h3>学习周报</h3>
+      <p>进步曲线、每日任务完成情况、薄弱点汇总，让家长了解"孩子每天练什么、进步了多少"</p>
+      <div class="features">
+        <span class="feature">进步曲线</span>
+        <span class="feature">任务进度</span>
+        <span class="feature">改进建议</span>
+      </div>
+    </a>
+    <a href="sample-report-teacher.html" class="sample-card">
+      <span class="badge">教师版</span>
+      <h3>班级学情分析</h3>
+      <p>班级共性错因、知识点掌握率、需关注学生名单，让老师掌握"班级薄弱点、谁需要帮助"</p>
+      <div class="features">
+        <span class="feature">共性错因</span>
+        <span class="feature">知识点覆盖</span>
+        <span class="feature">学生分层</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- 第四屏：预测声明 -->
+<section class="disclaimer-section">
+  <div class="disclaimer-box">
+    <h3>&#128161; 预测卷不是押题，而是训练</h3>
+    <p>我们不承诺押中原题；我们预测的是<strong>题型结构、知识点分布、能力要求和训练优先级</strong>。每套预测卷均可追溯其命题依据，包括数据来源、分析方法和预测边界。</p>
+  </div>
+</section>
+
+<!-- 原有内容保留 -->
+<div class="stats-bar">
+  <div class="stat-card"><div class="num">9</div><div class="label">覆盖学科</div></div>
+  <div class="stat-card"><div class="num">20+</div><div class="label">覆盖省份</div></div>
+  <div class="stat-card"><div class="num">1000+</div><div class="label">核心知识点</div></div>
+  <div class="stat-card"><div class="num">17+</div><div class="label">真题年份</div></div>
+</div>
+
+<!-- 省份选择器 -->
+<div class="province-section" id="province-selector">
+  <h2>选择你的考试地区</h2>
+  <div class="province-tabs">
+    <button class="active" data-level="gaokao" onclick="switchLevel('gaokao')">高考</button>
+    <button data-level="zhongkao" onclick="switchLevel('zhongkao')">中考</button>
+  </div>
+  <div class="province-loading" id="province-loading">加载省份数据中...</div>
+  <div class="province-grid" id="province-grid" style="display:none"></div>
+</div>
+
+<div class="subjects-section">
+  <h2>核心功能</h2>
+  <div class="subject-grid">
+    <div class="subject-card">
+      <div class="icon">&#128202;</div>
+      <h3>分省高考趋势分析</h3>
+      <div class="desc">覆盖全国20+省份历年真题，分省命题趋势深度分析</div>
+      <div class="btn-group">
+        <a href="#province-selector" class="btn primary">选择省份</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#128221;</div>
+      <h3>分省预测卷生成</h3>
+      <div class="desc">按省份、学科生成个性化模拟预测练习卷</div>
+      <div class="btn-group">
+        <a href="math-exam.html" class="btn primary">开始做卷</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#128247;</div>
+      <h3>错题拍照识别</h3>
+      <div class="desc">手机拍照上传错题，AI自动识别知识点和错误原因</div>
+      <div class="btn-group">
+        <a href="login.html" class="btn primary">立即体验</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#128203;</div>
+      <h3>本省同类题推荐</h3>
+      <div class="desc">结合所在省份历年真题，推荐同类强化训练题</div>
+      <div class="btn-group">
+        <a href="dashboard.html" class="btn primary">个人中心</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#127919;</div>
+      <h3>薄弱点精准分析</h3>
+      <div class="desc">错题归因、知识点图谱、能力画像全方位诊断</div>
+      <div class="btn-group">
+        <a href="my-weak-points.html" class="btn primary">查看薄弱点</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#128218;</div>
+      <h3>学习路径规划</h3>
+      <div class="desc">分阶段学习计划、每日目标、同类题强化训练</div>
+      <div class="btn-group">
+        <a href="learning-path.html" class="btn primary">查看路径</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="subjects-section">
+  <h2>高考预测模拟卷</h2>
+  <div class="subject-grid">
+    <div class="subject-card">
+      <div class="icon">&#128214;</div>
+      <h3>语文</h3>
+      <div class="desc">现代文阅读 &middot; 文言文 &middot; 默写 &middot; 语用 &middot; 写作</div>
+      <div class="tag-row"><span class="tag red">150分</span><span class="tag blue">150分钟</span></div>
+      <div class="btn-group">
+        <a href="chinese-exam.html" class="btn primary">做预测卷</a>
+        <a href="chinese-report.html" class="btn ghost">分析报告</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#128290;</div>
+      <h3>数学</h3>
+      <div class="desc">选择 &middot; 多选 &middot; 填空 &middot; 解答 &middot; 压轴</div>
+      <div class="tag-row"><span class="tag red">150分</span><span class="tag blue">120分钟</span></div>
+      <div class="btn-group">
+        <a href="math-exam.html" class="btn primary">做预测卷</a>
+        <a href="math-report.html" class="btn ghost">分析报告</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#127758;</div>
+      <h3>英语</h3>
+      <div class="desc">听力 &middot; 阅读 &middot; 完形 &middot; 语法 &middot; 写作</div>
+      <div class="tag-row"><span class="tag red">150分</span><span class="tag blue">120分钟</span></div>
+      <div class="btn-group">
+        <a href="english-exam.html" class="btn primary">做预测卷</a>
+        <a href="english-report.html" class="btn ghost">分析报告</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#9878;&#65039;</div>
+      <h3>政治</h3>
+      <div class="desc">经济 &middot; 政治 &middot; 哲学 &middot; 文化</div>
+      <div class="tag-row"><span class="tag red">100分</span><span class="tag blue">90分钟</span></div>
+      <div class="btn-group">
+        <a href="politics-exam.html" class="btn primary">做预测卷</a>
+        <a href="politics-report.html" class="btn ghost">分析报告</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#9879;&#65039;</div>
+      <h3>化学</h3>
+      <div class="desc">有机 &middot; 无机 &middot; 反应原理 &middot; 实验</div>
+      <div class="tag-row"><span class="tag red">100分</span><span class="tag blue">90分钟</span></div>
+      <div class="btn-group">
+        <a href="chemistry-exam.html" class="btn primary">做预测卷</a>
+        <a href="chemistry-report.html" class="btn ghost">分析报告</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#9889;</div>
+      <h3>物理</h3>
+      <div class="desc">力学 &middot; 电磁学 &middot; 热学 &middot; 光学 &middot; 实验</div>
+      <div class="tag-row"><span class="tag red">100分</span><span class="tag blue">90分钟</span></div>
+      <div class="btn-group">
+        <a href="physics-exam.html" class="btn primary">做预测卷</a>
+        <a href="physics-report.html" class="btn ghost">分析报告</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="subjects-section">
+  <h2>2026命题趋势预测</h2>
+  <div class="trend-carousel">
+    <div class="trend-card">
+      <div class="trend-subj">语文</div>
+      <div class="trend-title">信息类文本阅读权重持续上升</div>
+      <div class="trend-desc">近三年信息类文本阅读从19分升至22分，跨学科材料（科技+人文）成主流命题趋势。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj">数学</div>
+      <div class="trend-title">情境化应用题比例增大</div>
+      <div class="trend-desc">新课标导向下，数学建模、数据分析类应用题占比提升，纯技巧题减少。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj">英语</div>
+      <div class="trend-title">读后续写高概率成为新题型</div>
+      <div class="trend-desc">北京卷可能引入读后续写，考查学生综合语言运用能力，建议关注叙事逻辑与衔接训练。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj">政治</div>
+      <div class="trend-title">时政热点深度融合学科知识</div>
+      <div class="trend-desc">新质生产力、数字经济、乡村振兴等热点频繁入题，需建立"热点-知识点"映射。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj">化学</div>
+      <div class="trend-title">工业流程题难度提升</div>
+      <div class="trend-desc">工业流程题趋向复杂化，涉及多步反应计算和条件分析，需强化系统思维。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj">物理</div>
+      <div class="trend-title">实验探究题分值增大</div>
+      <div class="trend-desc">实验设计与探究类题目从12分增至18分，考查创新实验思维和数据处理能力。</div>
+    </div>
+  </div>
+</div>
+
+<div class="methodology-card">
+  <a href="methodology.html">
+    <div class="mc-icon">&#128269;</div>
+    <div class="mc-text">
+      <h3>透明的预测方法</h3>
+      <p>我们公开了全部数据来源（17年真题、官方政策、课程标准）、分析维度（题型结构/知识点频次/能力层次/难度/热点/政策关联）和预测生成逻辑。每套预测卷均可追溯其命题依据。</p>
+    </div>
+  </a>
+</div>
+
+<div class="policy-banner">
+  <a href="2026-policy.html">
+    <h3>&#128203; 2026年北京高考最新政策解读</h3>
+    <p>考试科目 &middot; 时间安排 &middot; 志愿填报 &middot; 加分政策 &middot; 官方文件全文</p>
+  </a>
+</div>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+<script>
+// 省份选择器逻辑
+let currentLevel = 'gaokao';
+
+async function loadProvinces(level) {
+  const loading = document.getElementById('province-loading');
+  const grid = document.getElementById('province-grid');
+  loading.style.display = 'block';
+  grid.style.display = 'none';
+
+  try {
+    const res = await fetch(`/api/provinces?exam_level=${level}`);
+    const { data } = await res.json();
+
+    const regionMap = {
+      north: '华北', south: '华南', east: '华东', west: '西南',
+      central: '华中', northeast: '东北', national: '全国'
+    };
+
+    grid.innerHTML = data.map(p => `
+      <a href="province.html?code=${p.code}" class="province-item">
+        <span class="province-icon">&#127961;</span>
+        <span class="province-name">${p.name}</span>
+        <span class="province-type">${regionMap[p.region] || p.region}</span>
+      </a>
+    `).join('');
+
+    loading.style.display = 'none';
+    grid.style.display = 'grid';
+  } catch (err) {
+    loading.textContent = '加载失败，请刷新重试';
+    console.error('加载省份失败:', err);
+  }
+}
+
+function switchLevel(level) {
+  currentLevel = level;
+  document.querySelectorAll('.province-tabs button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.level === level);
+  });
+  loadProvinces(level);
+}
+
+// 页面加载时自动加载高考省份
+loadProvinces('gaokao');
+</script>
+</body>
+</html>

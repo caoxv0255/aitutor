@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>省份高考详情 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+.province-header{background:linear-gradient(135deg,var(--accent) 0%,#8b1015 100%);border-radius:var(--radius);padding:32px;margin:24px auto;max-width:1100px;color:#fff}
+.province-header h1{font-size:1.8rem;margin-bottom:8px}
+.province-header .meta{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem;opacity:.9}
+.province-header .meta span{display:flex;align-items:center;gap:6px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:24px auto;max-width:1100px;padding:0 24px}
+.stat-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.stat-box .num{font-size:1.8rem;font-weight:800;color:var(--accent)}
+.stat-box .label{font-size:.82rem;color:var(--text-muted);margin-top:4px}
+.trend-section{max-width:1100px;margin:32px auto;padding:0 24px}
+.trend-section h2{font-size:1.2rem;font-weight:700;margin-bottom:16px}
+.knowledge-table{width:100%;border-collapse:collapse;background:var(--bg-card);border-radius:var(--radius);overflow:hidden}
+.knowledge-table th,.knowledge-table td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);font-size:.88rem}
+.knowledge-table th{background:var(--bg-secondary);font-weight:700;color:var(--text-muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.knowledge-table tr:hover{background:var(--bg-hover)}
+.knowledge-table .freq{font-weight:700;color:var(--accent)}
+.knowledge-table .diff{display:inline-flex;align-items:center;gap:4px}
+.diff-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.diff-1{background:#4caf50}.diff-2{background:#8bc34a}.diff-3{background:#ffc107}.diff-4{background:#ff9800}.diff-5{background:#f44336}
+.papers-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:16px 0}
+.paper-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:var(--transition)}
+.paper-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.paper-card .year{font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:6px}
+.paper-card .title{font-size:.95rem;font-weight:700;margin-bottom:8px}
+.paper-card .info{font-size:.82rem;color:var(--text-muted)}
+.paper-card .btn-group{margin-top:12px}
+.action-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px auto;max-width:1100px;padding:0 24px}
+.action-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;color:inherit;transition:var(--transition)}
+.action-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.action-card .icon{font-size:1.5rem;margin-bottom:8px}
+.action-card h3{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.action-card p{font-size:.82rem;color:var(--text-muted)}
+.loading{text-align:center;padding:48px;color:var(--text-muted)}
+.error-msg{text-align:center;padding:48px;color:#f44336}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:.88rem;margin:16px 0}
+.back-link:hover{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 24px">
+  <a href="index.html" class="back-link">&#8592; 返回首页</a>
+</div>
+
+<div id="province-header" class="province-header" style="display:none">
+  <h1 id="province-name"></h1>
+  <div class="meta">
+    <span id="province-exam-type"></span>
+    <span id="province-paper-type"></span>
+    <span id="province-region"></span>
+  </div>
+</div>
+
+<div id="loading" class="loading">加载中...</div>
+<div id="error" class="error-msg" style="display:none"></div>
+
+<div id="stats-container" style="display:none">
+  <div class="stats-grid" id="stats-grid"></div>
+
+  <div class="trend-section">
+    <h2>命题特色</h2>
+    <div id="province-desc" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px"></div>
+  </div>
+
+  <div class="trend-section" id="knowledge-section">
+    <h2>知识点考查频次（近5年）</h2>
+    <div id="knowledge-chart" style="display:flex;gap:8px;align-items:flex-end;height:200px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;overflow-x:auto"></div>
+    <table class="knowledge-table" id="knowledge-table">
+      <thead>
+        <tr>
+          <th>知识点</th>
+          <th>出现次数</th>
+          <th>平均难度</th>
+          <th>总分值</th>
+        </tr>
+      </thead>
+      <tbody id="knowledge-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="trend-section" id="type-section">
+    <h2>题型分布</h2>
+    <div id="type-chart" style="display:flex;gap:8px;align-items:flex-end;height:180px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;overflow-x:auto"></div>
+    <table class="knowledge-table" id="type-table">
+      <thead>
+        <tr>
+          <th>题型</th>
+          <th>数量</th>
+          <th>平均难度</th>
+          <th>平均分值</th>
+        </tr>
+      </thead>
+      <tbody id="type-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="trend-section" id="difficulty-section">
+    <h2>难度分布</h2>
+    <div id="difficulty-chart" style="display:flex;gap:8px;align-items:flex-end;height:180px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;overflow-x:auto"></div>
+    <table class="knowledge-table" id="difficulty-table">
+      <thead>
+        <tr>
+          <th>难度等级</th>
+          <th>题目数量</th>
+          <th>平均分值</th>
+        </tr>
+      </thead>
+      <tbody id="difficulty-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="trend-section" id="top-knowledge-section">
+    <h2>高频知识点 TOP10</h2>
+    <div id="top-knowledge-chart" style="display:flex;gap:8px;align-items:flex-end;height:200px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;overflow-x:auto"></div>
+    <table class="knowledge-table" id="top-knowledge-table">
+      <thead>
+        <tr>
+          <th>排名</th>
+          <th>知识点</th>
+          <th>出现次数</th>
+          <th>平均难度</th>
+        </tr>
+      </thead>
+      <tbody id="top-knowledge-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="trend-section">
+    <h2>趋势摘要</h2>
+    <div id="trend-summary" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px"></div>
+  </div>
+
+  <div class="trend-section">
+    <h2>试卷列表</h2>
+    <div class="papers-list" id="papers-list"></div>
+  </div>
+
+  <div class="trend-section">
+    <h2>相关功能</h2>
+    <div class="action-grid">
+      <a href="personalized-paper.html" class="action-card">
+        <div class="icon">&#128221;</div>
+        <h3>生成本省预测卷</h3>
+        <p>基于你的错题和本省真题数据，生成个性化预测卷</p>
+      </a>
+      <a href="my-weak-points.html" class="action-card">
+        <div class="icon">&#127919;</div>
+        <h3>本省薄弱点分析</h3>
+        <p>结合本省历年真题，分析你的薄弱知识点</p>
+      </a>
+      <a href="learning-path.html" class="action-card">
+        <div class="icon">&#128218;</div>
+        <h3>本省学习路径</h3>
+        <p>针对本省考试特点，规划个性化学习计划</p>
+      </a>
+      <a href="wrong-book.html" class="action-card">
+        <div class="icon">&#128214;</div>
+        <h3>查看错题本</h3>
+        <p>管理你的错题，查看本省同类题推荐</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+<script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var code = params.get('code');
+
+  if (!code) {
+    showError('请先选择省份');
+    return;
+  }
+
+  fetch('/api/provinces/' + code)
+    .then(function(res) {
+      if (!res.ok) throw new Error('省份不存在');
+      return res.json();
+    })
+    .then(function(result) {
+      var province = result.data;
+
+      document.getElementById('province-header').style.display = 'block';
+      document.getElementById('province-name').textContent = province.name;
+      document.getElementById('province-exam-type').innerHTML = province.exam_type === 'gaokao' ? '&#127891; 高考' : '&#128214; 中考';
+      document.getElementById('province-paper-type').textContent = getPaperTypeName(province.paper_type);
+      document.getElementById('province-region').textContent = getRegionName(province.region);
+      document.title = province.name + '高考详情 - AI Tutor';
+
+      var stats = province.stats || {};
+      document.getElementById('stats-grid').innerHTML =
+        '<div class="stat-box"><div class="num">' + (stats.year_count || 0) + '</div><div class="label">覆盖年份</div></div>' +
+        '<div class="stat-box"><div class="num">' + (stats.subject_count || 0) + '</div><div class="label">覆盖学科</div></div>' +
+        '<div class="stat-box"><div class="num">' + (stats.paper_count || 0) + '</div><div class="label">试卷数量</div></div>' +
+        '<div class="stat-box"><div class="num">' + (stats.min_year || '-') + '~' + (stats.max_year || '-') + '</div><div class="label">年份范围</div></div>';
+
+      document.getElementById('province-desc').innerHTML = '<p>' + (province.description || '暂无描述') + '</p>';
+
+      loadTrends(code);
+      loadPapers(code);
+
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('stats-container').style.display = 'block';
+    })
+    .catch(function(err) {
+      showError(err.message || '加载失败');
+    });
+
+  function loadTrends(provinceCode) {
+    fetch('/api/province-trends/' + provinceCode + '?years=5')
+      .then(function(res) {
+        if (!res.ok) throw new Error('趋势数据加载失败');
+        return res.json();
+      })
+      .then(function(result) {
+        var data = result.data;
+        if (!data) {
+          hideTrendSections();
+          return;
+        }
+        if (data.knowledge_points && Object.keys(data.knowledge_points).length > 0) {
+          renderKnowledgeChart(data.knowledge_points);
+          renderKnowledgeTable(data.knowledge_points);
+        } else {
+          document.getElementById('knowledge-section').style.display = 'none';
+        }
+        if (data.question_types && data.question_types.length > 0) {
+          renderTypeChart(data.question_types);
+          renderTypeTable(data.question_types);
+        } else {
+          document.getElementById('type-section').style.display = 'none';
+        }
+        if (data.difficulty_distribution && data.difficulty_distribution.length > 0) {
+          renderDifficultyChart(data.difficulty_distribution);
+          renderDifficultyTable(data.difficulty_distribution);
+        } else {
+          document.getElementById('difficulty-section').style.display = 'none';
+        }
+        if (data.top_knowledge_points && data.top_knowledge_points.length > 0) {
+          renderTopKnowledgeChart(data.top_knowledge_points);
+          renderTopKnowledgeTable(data.top_knowledge_points);
+        } else {
+          document.getElementById('top-knowledge-section').style.display = 'none';
+        }
+        if (data.summary) {
+          renderTrendSummary(data.summary);
+        } else {
+          document.getElementById('trend-summary').innerHTML = '<p style="color:var(--text-muted)">暂无趋势分析数据</p>';
+        }
+      })
+      .catch(function() {
+        hideTrendSections();
+        document.getElementById('trend-summary').innerHTML = '<p style="color:var(--text-muted)">暂无趋势分析数据</p>';
+      });
+  }
+
+  function hideTrendSections() {
+    document.getElementById('knowledge-section').style.display = 'none';
+    document.getElementById('type-section').style.display = 'none';
+    document.getElementById('difficulty-section').style.display = 'none';
+    document.getElementById('top-knowledge-section').style.display = 'none';
+  }
+
+  function loadPapers(provinceCode) {
+    fetch('/api/exam-papers?province=' + provinceCode + '&limit=50')
+      .then(function(res) { return res.json(); })
+      .then(function(papersData) {
+        var papers = papersData.data || [];
+        var papersList = document.getElementById('papers-list');
+        if (papers.length > 0) {
+          papersList.innerHTML = papers.map(function(p) {
+            return '<div class="paper-card">' +
+              '<div class="year">' + p.year + '年</div>' +
+              '<div class="title">' + getSubjectName(p.subject) + '试卷</div>' +
+              '<div class="info">' + (p.question_count || '-') + ' 题 · ' + (p.total_score || '-') + ' 分' + (p.difficulty_avg ? ' · 难度' + Number(p.difficulty_avg).toFixed(1) : '') + '</div>' +
+              '<div class="btn-group">' +
+              '<a href="exam-view.html?id=' + p.id + '" class="btn primary" style="font-size:.82rem;padding:8px 16px">查看试卷</a>' +
+              '</div></div>';
+          }).join('');
+        } else {
+          papersList.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:24px">暂无试卷数据</div>';
+        }
+      })
+      .catch(function() {
+        document.getElementById('papers-list').innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:24px">试卷加载失败</div>';
+      });
+  }
+
+  function renderKnowledgeChart(knowledgeData) {
+    var container = document.getElementById('knowledge-chart');
+    var canvas = document.createElement('canvas');
+    canvas.id = 'knowledgeCanvas';
+    container.innerHTML = '';
+    container.appendChild(canvas);
+    var years = Object.keys(knowledgeData).sort();
+    var allKP = [];
+    years.forEach(function(y) { knowledgeData[y].forEach(function(kp) { if (allKP.indexOf(kp.knowledge_point_name) === -1) allKP.push(kp.knowledge_point_name); }); });
+    allKP = allKP.slice(0, 8);
+    var colors = ['#d71920', '#ff6b6b', '#ffa502', '#2ed573', '#1e90ff', '#a55eea', '#ff6348', '#3ae374'];
+    var datasets = allKP.map(function(kp, i) {
+      return {
+        label: kp,
+        data: years.map(function(y) { var found = knowledgeData[y].find(function(k) { return k.knowledge_point_name === kp; }); return found ? parseInt(found.frequency) : 0; }),
+        borderColor: colors[i % colors.length],
+        backgroundColor: colors[i % colors.length] + '33',
+        tension: 0.3,
+        fill: false
+      };
+    });
+    new Chart(canvas, { type: 'line', data: { labels: years, datasets: datasets }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }, scales: { y: { beginAtZero: true, title: { display: true, text: '出现次数' } } } } });
+  }
+
+  function renderKnowledgeTable(knowledgeData) {
+    var tbody = document.getElementById('knowledge-tbody');
+    var allKP = [];
+    Object.values(knowledgeData).forEach(function(yearData) {
+      yearData.forEach(function(kp) {
+        var existing = allKP.find(function(k) { return k.knowledge_point_name === kp.knowledge_point_name; });
+        if (existing) { existing.frequency += parseInt(kp.frequency || 0); existing.total_score += parseInt(kp.total_score || 0); }
+        else { allKP.push({ knowledge_point_name: kp.knowledge_point_name, frequency: parseInt(kp.frequency || 0), avg_difficulty: kp.avg_difficulty, total_score: parseInt(kp.total_score || 0) }); }
+      });
+    });
+    allKP.sort(function(a, b) { return b.frequency - a.frequency; });
+    if (allKP.length > 0) {
+      tbody.innerHTML = allKP.slice(0, 20).map(function(kp) {
+        return '<tr><td>' + (kp.knowledge_point_name || '-') + '</td><td class="freq">' + kp.frequency + ' 次</td><td><span class="diff"><span class="diff-dot diff-' + Math.round(kp.avg_difficulty || 3) + '"></span>' + Number(kp.avg_difficulty || 0).toFixed(1) + '</span></td><td>' + kp.total_score + ' 分</td></tr>';
+      }).join('');
+    } else {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">暂无数据</td></tr>';
+    }
+  }
+
+  function renderTypeChart(typeData) {
+    var container = document.getElementById('type-chart');
+    var canvas = document.createElement('canvas');
+    canvas.id = 'typeCanvas';
+    container.innerHTML = '';
+    container.appendChild(canvas);
+    var typeNames = { choice: '单选题', multi_choice: '多选题', fill: '填空题', solve: '解答题', reading: '阅读理解', writing: '写作' };
+    new Chart(canvas, { type: 'doughnut', data: { labels: typeData.map(function(t) { return typeNames[t.question_type] || t.question_type; }), datasets: [{ data: typeData.map(function(t) { return parseInt(t.count); }), backgroundColor: ['#d71920', '#ff6b6b', '#ffa502', '#2ed573', '#1e90ff', '#a55eea'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
+  }
+
+  function renderTypeTable(typeData) {
+    var tbody = document.getElementById('type-tbody');
+    var typeNames = { choice: '单选题', multi_choice: '多选题', fill: '填空题', solve: '解答题', reading: '阅读理解', writing: '写作' };
+    tbody.innerHTML = typeData.map(function(t) {
+      return '<tr><td>' + (typeNames[t.question_type] || t.question_type) + '</td><td class="freq">' + t.count + ' 道</td><td><span class="diff"><span class="diff-dot diff-' + Math.round(t.avg_difficulty || 3) + '"></span>' + Number(t.avg_difficulty || 0).toFixed(1) + '</span></td><td>' + Number(t.avg_score || 0).toFixed(1) + ' 分</td></tr>';
+    }).join('');
+  }
+
+  function renderDifficultyChart(diffData) {
+    var container = document.getElementById('difficulty-chart');
+    var canvas = document.createElement('canvas');
+    canvas.id = 'difficultyCanvas';
+    container.innerHTML = '';
+    container.appendChild(canvas);
+    var diffNames = { 1: '简单', 2: '较易', 3: '中等', 4: '较难', 5: '困难' };
+    var colors = ['#4caf50', '#8bc34a', '#ffc107', '#ff9800', '#f44336'];
+    new Chart(canvas, { type: 'bar', data: { labels: diffData.map(function(d) { return diffNames[d.difficulty] || '难度' + d.difficulty; }), datasets: [{ label: '题目数量', data: diffData.map(function(d) { return parseInt(d.count); }), backgroundColor: colors }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, title: { display: true, text: '题目数量' } } } } });
+  }
+
+  function renderDifficultyTable(diffData) {
+    var tbody = document.getElementById('difficulty-tbody');
+    var diffNames = { 1: '简单', 2: '较易', 3: '中等', 4: '较难', 5: '困难' };
+    tbody.innerHTML = diffData.map(function(d) {
+      return '<tr><td><span class="diff"><span class="diff-dot diff-' + d.difficulty + '"></span>' + (diffNames[d.difficulty] || '难度' + d.difficulty) + '</span></td><td class="freq">' + d.count + ' 道</td><td>' + Number(d.avg_score || 0).toFixed(1) + ' 分</td></tr>';
+    }).join('');
+  }
+
+  function renderTopKnowledgeChart(topData) {
+    var container = document.getElementById('top-knowledge-chart');
+    var canvas = document.createElement('canvas');
+    canvas.id = 'topKnowledgeCanvas';
+    container.innerHTML = '';
+    container.appendChild(canvas);
+    new Chart(canvas, { type: 'bar', data: { labels: topData.map(function(k) { return k.knowledge_point_name || '-'; }), datasets: [{ label: '出现次数', data: topData.map(function(k) { return parseInt(k.total_frequency); }), backgroundColor: '#d71920' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: '出现次数' } } } } });
+  }
+
+  function renderTopKnowledgeTable(topData) {
+    var tbody = document.getElementById('top-knowledge-tbody');
+    tbody.innerHTML = topData.map(function(k, i) {
+      return '<tr><td>' + (i + 1) + '</td><td>' + (k.knowledge_point_name || '-') + '</td><td class="freq">' + k.total_frequency + ' 次</td><td><span class="diff"><span class="diff-dot diff-' + Math.round(k.avg_difficulty || 3) + '"></span>' + Number(k.avg_difficulty || 0).toFixed(1) + '</span></td></tr>';
+    }).join('');
+  }
+
+  function renderTrendSummary(summary) {
+    var container = document.getElementById('trend-summary');
+    var html = '<h3 style="margin-bottom:12px">' + summary.title + '</h3>';
+    if (summary.highlights && summary.highlights.length > 0) {
+      html += '<div style="margin-bottom:12px"><strong>要点：</strong><ul style="margin:8px 0;padding-left:20px">';
+      summary.highlights.forEach(function(h) { html += '<li>' + h + '</li>'; });
+      html += '</ul></div>';
+    }
+    if (summary.recommendations && summary.recommendations.length > 0) {
+      html += '<div><strong>建议：</strong><ul style="margin:8px 0;padding-left:20px">';
+      summary.recommendations.forEach(function(r) { html += '<li>' + r + '</li>'; });
+      html += '</ul></div>';
+    }
+    container.innerHTML = html;
+  }
+
+  function showError(msg) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error').textContent = msg;
+    document.getElementById('error').style.display = 'block';
+  }
+})();
+
+function getPaperTypeName(type) {
+  var map = { independent: '自主命题', new_gaokao_i: '新高考I卷', new_gaokao_ii: '新高考II卷', national_a: '全国甲卷', national_b: '全国乙卷' };
+  return map[type] || type;
+}
+
+function getRegionName(region) {
+  var map = { north: '华北', south: '华南', east: '华东', west: '西南', central: '华中', northeast: '东北', national: '全国' };
+  return map[region] || region;
+}
+
+function getSubjectName(subject) {
+  var map = { math: '数学', chinese: '语文', english: '英语', physics: '物理', chemistry: '化学', biology: '生物', politics: '政治', history: '历史', geography: '地理' };
+  return map[subject] || subject;
+}

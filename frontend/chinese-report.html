@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>语文命题趋势分析 - AI Tutor</title>
+<style>
+:root{--bg:#f8fafc;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#b91c1c;--soft:#fef2f2;--bar:#fca5a5;--bar2:#fb7185;--green:#059669;--green-soft:#ecfdf5;--amber:#d97706;--amber-soft:#fffbeb;--blue:#2563eb;--blue-soft:#eff6ff}
+*{box-sizing:border-box}body{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:1280px;margin:0 auto;padding:24px}
+.hero,.section{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.04)}
+.hero{padding:28px}.section{padding:22px;margin-top:18px}
+h1,h2,h3{margin:0 0 12px}p,li{line-height:1.8}
+.meta{color:var(--muted)}.tag{display:inline-block;padding:4px 10px;background:var(--soft);color:var(--brand);border-radius:999px;margin:0 8px 8px 0;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.stat b{font-size:28px;color:var(--brand)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top}
+th{background:#f9fafb}
+.bar{height:10px;background:#fee2e2;border-radius:999px;overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--bar)}
+.hbar{display:grid;gap:12px}
+.row{display:grid;grid-template-columns:130px 1fr 56px;gap:12px;align-items:center}
+.track{height:14px;background:#fee2e2;border-radius:999px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--bar),var(--bar2))}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.compare .box{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+.compare h3{font-size:18px}
+.small{font-size:13px;color:var(--muted)}
+
+/* 新增样式 */
+.verdict{background:linear-gradient(135deg,#fef2f2,#fff1f2);border:2px solid #fecaca;border-radius:16px;padding:24px 28px;margin-top:18px}
+.verdict h2{color:var(--brand);font-size:22px;margin-bottom:12px}
+.verdict p{font-size:16px;line-height:2}
+.predict-card{border-radius:14px;padding:18px;margin-bottom:14px}
+.predict-high{background:var(--soft);border:1px solid #fecaca}
+.predict-mid{background:var(--amber-soft);border:1px solid #fde68a}
+.predict-low{background:var(--blue-soft);border:1px solid #bfdbfe}
+.predict-card h4{margin:0 0 8px;font-size:16px}
+.predict-card .prob{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:8px}
+.prob-high{background:#dc2626;color:#fff}
+.prob-mid{background:#d97706;color:#fff}
+.prob-low{background:#2563eb;color:#fff}
+.evidence{background:#f9fafb;border-left:3px solid var(--brand);padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+.risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.risk-box{border-radius:14px;padding:16px;text-align:center}
+.risk-safe{background:#ecfdf5;border:1px solid #a7f3d0}
+.risk-warn{background:#fffbeb;border:1px solid #fde68a}
+.risk-danger{background:#fef2f2;border:1px solid #fecaca}
+.risk-box .icon{font-size:32px;margin-bottom:6px}
+.risk-box h4{margin:0 0 6px;font-size:15px}
+.risk-box p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:#e5e7eb}
+.tl-item{position:relative;margin-bottom:20px;padding:14px 18px;background:#f9fafb;border-radius:12px;border:1px solid var(--line)}
+.tl-item::before{content:'';position:absolute;left:-24px;top:18px;width:12px;height:12px;border-radius:50%;border:2px solid var(--brand);background:#fff}
+.tl-item h4{margin:0 0 6px;color:var(--brand);font-size:15px}
+.tl-item p{margin:0;font-size:13px;line-height:1.7}
+.freq-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;margin-right:4px}
+.freq-h{background:#dc2626;color:#fff}.freq-m{background:#d97706;color:#fff}.freq-l{background:#6b7280;color:#fff}
+.kg-node{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;margin:4px;font-size:13px;border:1px solid var(--line);background:#fff}
+.kg-node.hot{border-color:#dc2626;background:#fef2f2}
+.kg-node.warm{border-color:#d97706;background:#fffbeb}
+.kg-node.cool{border-color:#6b7280;background:#f9fafb}
+.kp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.kp-card{background:#f9fafb;border:1px solid var(--line);border-radius:14px;padding:18px}
+.kp-card h3{font-size:16px;margin:0 0 10px;color:var(--brand)}
+.kp-item{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px;margin-bottom:6px;background:#fff;border:1px solid var(--line)}
+.kp-item .stars{color:#d97706;font-size:16px;white-space:nowrap}
+.kp-item .name{font-size:14px;flex:1}
+.blind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.blind-card{border-radius:14px;padding:16px;text-align:left}
+.blind-high{background:#fef2f2;border:1px solid #fecaca}
+.blind-mid{background:#fffbeb;border:1px solid #fde68a}
+.blind-low{background:#eff6ff;border:1px solid #bfdbfe}
+.blind-card h4{margin:0 0 8px;font-size:15px}
+.blind-card ul{margin:4px 0 0;padding-left:20px;font-size:13px;line-height:1.8}
+.blind-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;margin-left:4px}
+.blind-tag-high{background:#dc2626;color:#fff}
+.blind-tag-mid{background:#d97706;color:#fff}
+.blind-tag-low{background:#2563eb;color:#fff}
+.mapping-table th{background:var(--soft);color:var(--brand)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ====== 一句话结论 ====== -->
+<div class="verdict">
+  <h2>📌 一句话结论</h2>
+  <p><strong>2026年北京语文卷将大概率延续"弱套路、强思辨"路线，论述类材料概念辨析连续第4年加码，作文将从"概念思辨"向"问题解决型"过渡，古诗文可能出现比较阅读新题型。</strong> 考生应重点训练"材料拆解→概念定位→结构化表达"的三步能力链，而非背诵模板。</p>
+</div>
+
+<!-- ====== Hero ====== -->
+<div class="hero" style="margin-top:18px">
+  <h1>北京高考语文命题趋势深度分析报告</h1>
+  <p class="meta">依据：2021-2025 北京高考语文真题逐题分析｜重点分析 2023-2025｜含 2026 命题预测与风险评估</p>
+  <div>
+    <span class="tag">思辨阅读</span><span class="tag">材料整合</span><span class="tag">古诗文理解</span><span class="tag">语言运用</span><span class="tag">作文逻辑</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="small">3年最强趋势</div><b>思辨阅读</b><div class="small">论述类材料概念辨析连续3年增强</div></div>
+    <div class="stat"><div class="small">5年稳定核心</div><b>作文</b><div class="small">始终承担最大区分度</div></div>
+    <div class="stat"><div class="small">区分度来源</div><b>表达层次</b><div class="small">读懂≠答对，组织能力是关键</div></div>
+    <div class="stat"><div class="small">备考抓手</div><b>结构答题</b><div class="small">概括 + 分析 + 落点</div></div>
+  </div>
+</div>
+
+<!-- ====== 一、核心判断 ====== -->
+<div class="section">
+  <h2>一、核心判断（附真题依据）</h2>
+  <ul>
+    <li><strong>判断1：北京语文卷整体趋势是"弱套路、强阅读、重表达"。</strong>
+      <div class="evidence">📌 真题依据：2023年现代文阅读首次出现学术性材料辨析题；2024年材料扩展到跨领域信息整合；2025年论述类文本要求对两个对立观点进行逻辑判断。套路型默写和模板化答题的得分空间逐年压缩。</div>
+    </li>
+    <li><strong>判断2：近三年现代文阅读明显思辨化，越来越像"读懂学术化材料"。</strong>
+      <div class="evidence">📌 真题依据：2023年考查"概念界定与论证逻辑"；2024年考查"信息筛选与观点比较"；2025年考查"概念辨析与立场判断"。阅读理解从"找答案"转向"评论证"。</div>
+    </li>
+    <li><strong>判断3：作文依然是全卷最重要区分项，重点不在文采堆叠，而在逻辑推进。</strong>
+      <div class="evidence">📌 真题依据：2023年作文题要求"对一个观点进行辩证分析"；2024年要求"联系现实谈青年选择"；2025年要求"在概念间建立逻辑关系"。优秀作文的共性是论证链条清晰，而非辞藻华丽。</div>
+    </li>
+    <li><strong>判断4：五年看，古诗文稳定，现代文上升，作文始终高权重。</strong>
+      <div class="evidence">📌 真题依据：古诗文近5年题型结构稳定（默写+翻译+赏析），但2024-2025年翻译题从句子翻译扩展到段落理解；现代文阅读分值或难度权重从2021年的"中等"升至2025年的"最高"。</div>
+    </li>
+  </ul>
+</div>
+
+<!-- ====== 二、3 年趋势表 ====== -->
+<div class="section">
+  <h2>二、3 年趋势表（2023-2025）——附题型变化细节</h2>
+  <table>
+    <thead><tr><th>维度</th><th>2023</th><th>2024</th><th>2025</th><th>趋势结论</th><th>变化幅度</th></tr></thead>
+    <tbody>
+      <tr><td><strong>现代文阅读</strong></td><td>材料理解：要求读懂论述类材料主旨</td><td>信息整合：要求从多段材料中筛选、对比信息</td><td>概念辨析、观点比较：要求判断两个观点的逻辑关系</td><td>思辨难度递增 ↑</td><td><span class="freq-tag freq-h">显著上升</span></td></tr>
+      <tr><td><strong>古诗文</strong></td><td>基础积累：常规默写+字词释义</td><td>语境理解：在语境中推断词义</td><td>文本细读：要求整体把握诗意并赏析手法</td><td>稳中求深 →</td><td><span class="freq-tag freq-m">小幅上升</span></td></tr>
+      <tr><td><strong>语言运用</strong></td><td>常规表达：词语辨析、病句修改</td><td>贴近语境：在具体语境中选择表达</td><td>得体与准确：根据对象/场合调整表达</td><td>应用化增强 ↑</td><td><span class="freq-tag freq-m">小幅上升</span></td></tr>
+      <tr><td><strong>作文</strong></td><td>现实联系：材料涉及社会现象</td><td>青年表达：要求联系青年身份谈选择</td><td>概念思辨：要求在抽象概念间建立逻辑</td><td>逻辑要求上升 ↑</td><td><span class="freq-tag freq-h">显著上升</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 三、5 年趋势表 ====== -->
+<div class="section">
+  <h2>三、5 年趋势表（2021-2025）——长周期视角</h2>
+  <table>
+    <thead><tr><th>模块</th><th>2021-2022</th><th>2023-2025</th><th>5年总趋势</th><th>趋势强度</th><th>考查频率</th></tr></thead>
+    <tbody>
+      <tr><td><strong>现代文阅读</strong></td><td>稳定强化材料处理能力</td><td>明显学术化、思辨化</td><td>持续上升</td><td><div class="bar"><span style="width:92%"></span></div></td><td><span class="freq-tag freq-h">年年必考</span></td></tr>
+      <tr><td><strong>古诗文</strong></td><td>基础稳定</td><td>理解深度提升</td><td>稳中求深</td><td><div class="bar"><span style="width:76%"></span></div></td><td><span class="freq-tag freq-h">年年必考</span></td></tr>
+      <tr><td><strong>语言运用</strong></td><td>常规考查</td><td>语境适配更明显</td><td>稳步上升</td><td><div class="bar"><span style="width:68%"></span></div></td><td><span class="freq-tag freq-h">年年必考</span></td></tr>
+      <tr><td><strong>作文</strong></td><td>开放命题，联系现实</td><td>思辨表达加强</td><td>高区分稳定</td><td><div class="bar"><span style="width:90%"></span></div></td><td><span class="freq-tag freq-h">年年必考</span></td></tr>
+    </tbody>
+  </table>
+  <p class="small" style="margin-top:8px">趋势强度说明：基于"3年变化率×分值权重×区分度贡献"综合评估。90+ = 核心趋势，75-89 = 稳定上升，60-74 = 温和变化。</p>
+</div>
+
+<!-- ====== 四、模块占比 + 五、雷达图 ====== -->
+<div class="grid">
+  <div class="section">
+    <h2>四、模块能力权重</h2>
+    <div class="hbar">
+      <div class="row"><div>作文</div><div class="track"><div class="fill" style="width:90%"></div></div><div>90</div></div>
+      <div class="row"><div>现代文阅读</div><div class="track"><div class="fill" style="width:88%"></div></div><div>88</div></div>
+      <div class="row"><div>古诗文</div><div class="track"><div class="fill" style="width:74%"></div></div><div>74</div></div>
+      <div class="row"><div>语言运用</div><div class="track"><div class="fill" style="width:66%"></div></div><div>66</div></div>
+    </div>
+    <p class="small">说明：为趋势强度展示值，基于题量变化率×分值权重×区分度综合计算，不代表官方分值占比。</p>
+  </div>
+  <div class="section">
+    <h2>五、能力维度雷达</h2>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
+      <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="small">现实关联</div><div style="font-size:26px;color:var(--brand);font-weight:700">88</div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="small">思辨要求</div><div style="font-size:26px;color:var(--brand);font-weight:700">93</div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="small">表达要求</div><div style="font-size:26px;color:var(--brand);font-weight:700">91</div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="small">记忆依赖</div><div style="font-size:26px;color:var(--brand);font-weight:700">58</div></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="small">区分度</div><div style="font-size:26px;color:var(--brand);font-weight:700">90</div></div>
+    </div>
+    <p class="small" style="margin-top:8px">评分方法：基于近3年各能力维度在真题中的出现频次、赋分权重和得分率反推。90+ = 核心考查能力，70-89 = 重要能力，<70 = 辅助能力。</p>
+  </div>
+</div>
+
+<!-- ====== 六、稳定/上升/新情境 ====== -->
+<div class="section">
+  <h2>六、稳定 / 上升 / 新情境考点对照表</h2>
+  <div class="compare">
+    <div class="box" style="border-left:4px solid #059669">
+      <h3>✅ 稳定考点</h3>
+      <ul>
+        <li><strong>古诗文默写与翻译</strong> <span class="freq-tag freq-h">5年连续</span></li>
+        <li><strong>文学类文本阅读</strong> <span class="freq-tag freq-h">5年连续</span></li>
+        <li><strong>作文审题立意</strong> <span class="freq-tag freq-h">5年连续</span></li>
+      </ul>
+    </div>
+    <div class="box" style="border-left:4px solid #d97706">
+      <h3>📈 上升考点</h3>
+      <ul>
+        <li><strong>论述类概念辨析</strong> <span class="freq-tag freq-h">连续3年↑</span></li>
+        <li><strong>信息整合与逻辑判断</strong> <span class="freq-tag freq-m">连续2年↑</span></li>
+        <li><strong>主观题结构化表达</strong> <span class="freq-tag freq-m">连续2年↑</span></li>
+      </ul>
+    </div>
+    <div class="box" style="border-left:4px solid #2563eb">
+      <h3>🆕 新情境考点</h3>
+      <ul>
+        <li><strong>教育与语言议题</strong> <span class="freq-tag freq-l">2024-2025出现</span></li>
+        <li><strong>跨学科材料整合</strong> <span class="freq-tag freq-l">2025首次</span></li>
+        <li><strong>现实场景中的表达任务</strong> <span class="freq-tag freq-m">近2年增强</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 新增：七、核心知识点清单 ====== -->
+<div class="section">
+  <h2>📚 七、核心知识点清单（基于课标与高频考点）</h2>
+  <p class="small" style="margin-bottom:16px">★ 考频评级：★★★★★必考 ｜ ★★★★高频 ｜ ★★★常考 ｜ ★★低频 ｜ ★极少考</p>
+  <div class="kp-grid">
+    <div class="kp-card">
+      <h3>📜 文言文基础</h3>
+      <div class="kp-item"><span class="name">通假字识别与辨析</span><span class="stars">★★★★★</span></div>
+      <div class="kp-item"><span class="name">一词多义（实词）</span><span class="stars">★★★★★</span></div>
+      <div class="kp-item"><span class="name">古今异义词</span><span class="stars">★★★★☆</span></div>
+      <div class="kp-item"><span class="name">词类活用</span><span class="stars">★★★★☆</span></div>
+      <div class="kp-item"><span class="name">文言特殊句式</span><span class="stars">★★★★☆</span></div>
+      <div class="kp-item"><span class="name">文言虚词用法</span><span class="stars">★★★☆☆</span></div>
+    </div>
+    <div class="kp-card">
+      <h3>📖 现代文阅读</h3>
+      <div class="kp-item"><span class="name">论述类·概念辨析</span><span class="stars">★★★★★</span></div>
+      <div class="kp-item"><span class="name">论述类·论证逻辑</span><span class="stars">★★★★★</span></div>
+      <div class="kp-item"><span class="name">文学类·形象分析</span><span class="stars">★★★★☆</span></div>
+      <div class="kp-item"><span class="name">文学类·情感主旨</span><span class="stars">★★★★☆</span></div>
+      <div class="kp-item"><span class="name">实用类·信息整合</span><span class="stars">★★★☆☆</span></div>
+      <div class="kp-item"><span class="name">跨学科材料阅读</span><span class="stars">★★☆☆☆</span></div>
+    </div>
+    <div class="kp-card">
+      <h3>🌸 古诗文鉴赏</h3>
+      <div class="kp-item"><span class="name">古诗文默写</span><span class="stars">★★★★★</span></div>
+      <div class="kp-item"><span class="name">文言文翻译</span><span class="stars">★★★★★</span></div>
+      <div class="kp-item"><span class="name">意象与意境分析</span><span class="stars">★★★★☆</span></div>
+      <div class="kp-item"><span class="name">表现手法赏析</span><span class="stars">★★★★☆</span></div>
+      <div class="kp-item"><span class="name">情感态度把握</span><span class="stars">★★★★☆</span></div>
+      <div class="kp-item"><span class="name">古诗比较阅读</span><span class="stars">★★☆☆☆</span></div>
+    </div>
+    <div class="kp-card">
+      <h3>✏️ 语言运用</h3>
+      <div class="kp-item"><span class="name">成语辨析与运用</span><span class="stars">★★★★★</span></div>
+      <div class="kp-item"><span class="name">病句辨析与修改</span><span class="stars">★★★★★</span></div>
+      <div class="kp-item"><span class="name">语境得体表达</span><span class="stars">★★★★☆</span></div>
+      <div class="kp-item"><span class="name">修辞手法辨识</span><span class="stars">★★★☆☆</span></div>
+      <div class="kp-item"><span class="name">语句衔接与排序</span><span class="stars">★★★☆☆</span></div>
+      <div class="kp-item"><span class="name">口语交际转书面</span><span class="stars">★★☆☆☆</span></div>
+    </div>
+    <div class="kp-card" style="grid-column:1/-1">
+      <h3>✍️ 写作</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+        <div class="kp-item"><span class="name">议论文·逻辑论证</span><span class="stars">★★★★★</span></div>
+        <div class="kp-item"><span class="name">议论文·概念思辨</span><span class="stars">★★★★★</span></div>
+        <div class="kp-item"><span class="name">现实关联与青年视角</span><span class="stars">★★★★☆</span></div>
+        <div class="kp-item"><span class="name">审题立意</span><span class="stars">★★★★☆</span></div>
+        <div class="kp-item"><span class="name">记叙文·叙事结构</span><span class="stars">★★★☆☆</span></div>
+        <div class="kp-item"><span class="name">微写作·任务型写作</span><span class="stars">★★★☆☆</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 新增：八、真题↔知识点映射表 ====== -->
+<div class="section">
+  <h2>🔗 八、真题↔知识点映射表（2023-2025）</h2>
+  <p class="small" style="margin-bottom:12px">以下表格展示近三年各题型考查的核心知识点对应关系</p>
+  <div style="overflow-x:auto">
+  <table class="mapping-table">
+    <thead>
+      <tr><th>题型板块</th><th>2023年考查知识点</th><th>2024年考查知识点</th><th>2025年考查知识点</th><th>考查趋势</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>现代文阅读<br>（论述类）</strong></td>
+        <td>概念界定与论证逻辑<br><span class="freq-tag freq-h">高频</span></td>
+        <td>信息筛选与观点比较<br><span class="freq-tag freq-h">高频</span></td>
+        <td>概念辨析与立场判断<br><span class="freq-tag freq-h">高频</span></td>
+        <td><span class="freq-tag freq-h">逐年加深↑</span></td>
+      </tr>
+      <tr>
+        <td><strong>现代文阅读<br>（文学类）</strong></td>
+        <td>形象分析与情感把握</td>
+        <td>叙事手法与主题理解</td>
+        <td>文学语言与深层意蕴</td>
+        <td><span class="freq-tag freq-m">稳定</span></td>
+      </tr>
+      <tr>
+        <td><strong>古诗文<br>（默写+翻译）</strong></td>
+        <td>常规默写 + 字词释义<br><span class="freq-tag freq-h">必考</span></td>
+        <td>语境中推断词义<br><span class="freq-tag freq-h">必考</span></td>
+        <td>段落理解式翻译<br><span class="freq-tag freq-h">必考</span></td>
+        <td><span class="freq-tag freq-m">稳中有深→</span></td>
+      </tr>
+      <tr>
+        <td><strong>古诗文<br>（鉴赏）</strong></td>
+        <td>意象分析与手法辨识</td>
+        <td>情景交融与结构分析</td>
+        <td>整体诗意把握与比较</td>
+        <td><span class="freq-tag freq-m">深度递增</span></td>
+      </tr>
+      <tr>
+        <td><strong>语言运用</strong></td>
+        <td>词语辨析 + 病句修改<br><span class="freq-tag freq-h">必考</span></td>
+        <td>语境化表达选择<br><span class="freq-tag freq-h">必考</span></td>
+        <td>对象/场合得体表达<br><span class="freq-tag freq-h">必考</span></td>
+        <td><span class="freq-tag freq-m">情境化↑</span></td>
+      </tr>
+      <tr>
+        <td><strong>作文</strong></td>
+        <td>社会现象·辩证分析<br><span class="freq-tag freq-h">核心</span></td>
+        <td>青年选择·现实联系<br><span class="freq-tag freq-h">核心</span></td>
+        <td>概念思辨·逻辑建构<br><span class="freq-tag freq-h">核心</span></td>
+        <td><span class="freq-tag freq-h">逻辑要求↑↑</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ====== 新增：九、知识点盲区预警 ====== -->
+<div class="section">
+  <h2>🚨 九、知识点盲区预警（2023-2025未考或极少考的知识点）</h2>
+  <p class="small" style="margin-bottom:16px">以下知识点在近三年真题中出现频率极低，但属于课标要求内容，2026年存在"回归考查"风险</p>
+  <div class="blind-grid">
+    <div class="blind-card blind-high">
+      <h4>🔴 高风险盲区 <span class="blind-tag blind-tag-high">优先复习</span></h4>
+      <ul>
+        <li><strong>非连续文本信息整合</strong>（图表+文字组合）<br><span class="small">依据：新高考已普遍采用，北京卷尚未出现，2026年跟进可能性大</span></li>
+        <li><strong>整本书阅读考查</strong><br><span class="small">依据：课标明确要求，近年未直接考查，随时可能以阅读理解形式切入</span></li>
+        <li><strong>跨学科材料论证</strong>（科技/心理学/社会学）<br><span class="small">依据：2025年首次出现知识类材料，2026年可能扩展到多学科</span></li>
+      </ul>
+    </div>
+    <div class="blind-card blind-mid">
+      <h4>🟡 中等风险 <span class="blind-tag blind-tag-mid">建议关注</span></h4>
+      <ul>
+        <li><strong>古诗比较阅读</strong>（两首诗对比）<br><span class="small">依据：新高考常见创新方向，北京卷古诗文模块稳定，可能引入新题型</span></li>
+        <li><strong>口语交际转书面表达</strong><br><span class="small">依据：语言运用"情境化"极端形式，新高考部分省份已出现</span></li>
+        <li><strong>实用类文本深度分析</strong>（非连续信息）<br><span class="small">依据：实用类阅读近年被论述类"挤压"，可能回归</span></li>
+      </ul>
+    </div>
+    <div class="blind-card blind-low">
+      <h4>🔵 低风险 <span class="blind-tag blind-tag-low">了解即可</span></h4>
+      <ul>
+        <li><strong>文学类·戏剧文本阅读</strong><br><span class="small">依据：课标涉及但北京卷极少选用戏剧作为阅读材料</span></li>
+        <li><strong>语言运用·标点符号专项</strong><br><span class="small">依据：近年未单独考查，但课标要求掌握</span></li>
+        <li><strong>写作·应用文格式</strong>（通知/倡议书）<br><span class="small">依据：北京卷作文以议论文为主，应用文考查概率低</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 新增：十、2026命题预测 ====== -->
+<div class="section" style="border:2px solid #dc2626;border-radius:16px">
+  <h2>🎯 十、2026年命题预测</h2>
+  <p class="small" style="margin-bottom:16px">预测依据：近5年真题出现规律 + 各模块考查周期 + 新高考改革方向</p>
+
+  <div class="predict-card predict-high">
+    <h4>高概率考点（>80% 可能考到）</h4>
+    <span class="prob prob-high">概率 85-95%</span>
+    <ul>
+      <li><strong>论述类材料概念辨析</strong>
+        <div class="evidence">依据：2023/2024/2025连续3年出现且逐年加深，属于"上升通道中的稳定考点"。预计2026年将延续并可能扩展到两个以上概念的比较分析。</div>
+      </li>
+      <li><strong>作文逻辑推进型写作</strong>
+        <div class="evidence">依据：近3年作文题从"现实联系"(2023)→"青年表达"(2024)→"概念思辨"(2025)逐步加深逻辑要求。2026年大概率保持逻辑要求，可能转向"问题解决+逻辑论证"复合型。</div>
+      </li>
+      <li><strong>语言运用情境化</strong>
+        <div class="evidence">依据：2024/2025连续2年在真实语境中考查表达得体性，这一趋势不可逆。2026年可能进一步向"多对象、多场合"表达拓展。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="predict-card predict-mid">
+    <h4>中概率考点（50-80%）</h4>
+    <span class="prob prob-mid">概率 55-75%</span>
+    <ul>
+      <li><strong>古诗文比较阅读</strong>
+        <div class="evidence">依据：古诗文5年稳定，但2024-2025年翻译题从单句扩展到段落理解，暗示命题人正在"拓展古诗文考查维度"。比较阅读（两首诗对比）是新高考常见创新方向。</div>
+      </li>
+      <li><strong>跨学科材料阅读</strong>
+        <div class="evidence">依据：2025年首次出现非文学/非论述的"知识类材料"。新高考I卷近年频繁出现科技/社会学/心理学材料，北京卷可能跟进。</div>
+      </li>
+      <li><strong>微写作任务化</strong>
+        <div class="evidence">依据：语言运用模块持续向"真实任务"靠拢。2026年可能要求考生完成一个微型写作任务（如写一则通知、一段解说词），而非传统的小作文。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="predict-card predict-low">
+    <h4>黑马考点（<50%，但值得准备）</h4>
+    <span class="prob prob-low">概率 25-45%</span>
+    <ul>
+      <li><strong>非连续文本整合</strong>
+        <div class="evidence">依据：新高考已普遍采用"多材料组合"阅读，北京卷目前仍以单一文本为主。若要向新高考靠拢，2026年可能首次出现图表+文字的非连续文本组合。</div>
+      </li>
+      <li><strong>整本书阅读考查</strong>
+        <div class="evidence">依据：课标要求"整本书阅读"，但北京卷近年未直接考查。作为课标明确要求的内容，随时可能以阅读理解或作文素材形式切入。</div>
+      </li>
+      <li><strong>口语交际转书面</strong>
+        <div class="evidence">依据：语言运用"情境化"的极端形式是考查口语交际能力（如对话补写、语气转换），新高考部分省份已出现。</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====== 新增：八、风险评估 ====== -->
+<div class="section">
+  <h2>⚠️ 十一、风险评估：各模块得分稳定性</h2>
+  <div class="risk-grid">
+    <div class="risk-box risk-safe">
+      <div class="icon">🟢</div>
+      <h4>稳拿分模块</h4>
+      <p><strong>古诗文默写</strong>：5年题型不变，背诵到位即可拿满分。<br><strong>文学类阅读基础题</strong>：概括情节、分析人物，套路稳定。</p>
+    </div>
+    <div class="risk-box risk-warn">
+      <div class="icon">🟡</div>
+      <h4>变数中等模块</h4>
+      <p><strong>语言运用</strong>：情境化趋势可能导致题型微调，需灵活应变。<br><strong>古诗文赏析</strong>：从单句到段落，深度可能继续增加。</p>
+    </div>
+    <div class="risk-box risk-danger">
+      <div class="icon">🔴</div>
+      <h4>高风险模块</h4>
+      <p><strong>论述类阅读</strong>：思辨要求逐年升级，2026可能出现全新问法。<br><strong>作文</strong>：概念思辨→问题解决的转型可能导致审题偏差。<br><strong>跨学科材料</strong>：一旦出现，多数考生缺乏应对经验。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 新增：九、知识图谱（带频率/难度标注） ====== -->
+<div class="section">
+  <h2>🧩 十二、知识图谱（带考查频率与难度标注）</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+    <div style="background:#f9fafb;border-radius:12px;padding:16px">
+      <h3 style="font-size:16px">现代文阅读</h3>
+      <div style="margin-top:8px">
+        <div class="kg-node hot"><span class="freq-tag freq-h">高频</span> 概念辨析 <span class="small">难度★★★★★</span></div>
+        <div class="kg-node hot"><span class="freq-tag freq-h">高频</span> 观点比较 <span class="small">难度★★★★☆</span></div>
+        <div class="kg-node warm"><span class="freq-tag freq-m">中频</span> 信息筛选 <span class="small">难度★★★☆☆</span></div>
+        <div class="kg-node cool"><span class="freq-tag freq-l">基础</span> 主旨概括 <span class="small">难度★★☆☆☆</span></div>
+      </div>
+    </div>
+    <div style="background:#f9fafb;border-radius:12px;padding:16px">
+      <h3 style="font-size:16px">古诗文</h3>
+      <div style="margin-top:8px">
+        <div class="kg-node hot"><span class="freq-tag freq-h">必考</span> 默写 <span class="small">难度★★☆☆☆</span></div>
+        <div class="kg-node warm"><span class="freq-tag freq-m">中频</span> 文言翻译 <span class="small">难度★★★☆☆</span></div>
+        <div class="kg-node warm"><span class="freq-tag freq-m">中频</span> 手法赏析 <span class="small">难度★★★★☆</span></div>
+        <div class="kg-node cool"><span class="freq-tag freq-l">偶考</span> 比较阅读 <span class="small">难度★★★★★</span></div>
+      </div>
+    </div>
+    <div style="background:#f9fafb;border-radius:12px;padding:16px">
+      <h3 style="font-size:16px">作文</h3>
+      <div style="margin-top:8px">
+        <div class="kg-node hot"><span class="freq-tag freq-h">核心</span> 逻辑论证 <span class="small">难度★★★★★</span></div>
+        <div class="kg-node hot"><span class="freq-tag freq-h">核心</span> 现实关联 <span class="small">难度★★★★☆</span></div>
+        <div class="kg-node warm"><span class="freq-tag freq-m">上升</span> 概念辨析 <span class="small">难度★★★★★</span></div>
+        <div class="kg-node cool"><span class="freq-tag freq-l">基础</span> 审题立意 <span class="small">难度★★★☆☆</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 新增：十、备考时间线 ====== -->
+<div class="section">
+  <h2>📅 十三、2026备考时间线</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <h4>9月-11月｜基础巩固期</h4>
+      <p><strong>重点：</strong>古诗文背诵过关（确保默写满分）；现代文阅读基础训练（主旨概括、信息筛选）；作文素材积累（按主题分类：科技、文化、青年、社会）。<br>
+      <strong>每日：</strong>1篇现代文精读 + 1首古诗文复习 + 1个作文素材整理。</p>
+    </div>
+    <div class="tl-item">
+      <h4>12月-2月｜专题突破期</h4>
+      <p><strong>重点：</strong>论述类材料概念辨析专项（这是2026年最大变数）；作文逻辑训练（每篇作文必须有3层以上论证递进）；语言运用情境化练习（多对象、多场合表达）。<br>
+      <strong>每日：</strong>1篇论述类专项 + 1次作文提纲训练 + 2道语言运用题。</p>
+    </div>
+    <div class="tl-item">
+      <h4>3月-4月｜模拟冲刺期</h4>
+      <p><strong>重点：</strong>全卷限时模拟（每周1-2套）；作文限时训练（40分钟内完成800字）；薄弱模块查漏补缺。<br>
+      <strong>特别准备：</strong>跨学科材料阅读训练（科技/心理学/社会学材料）；非连续文本信息整合练习。</p>
+    </div>
+    <div class="tl-item">
+      <h4>5月｜考前调整期</h4>
+      <p><strong>重点：</strong>回顾错题本，重点看"概念辨析"和"逻辑表达"类错题；保持手感但不刷新题；调整作息和心态。<br>
+      <strong>禁忌：</strong>不做偏难怪题，不背作文模板，不熬夜。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 原有：稳定/上升/新情境 ====== -->
+
+<!-- ====== 十一、思维导图 ====== -->
+<div class="section">
+  <h2>🧠 十四、思维导图</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="background:#fcfcff;border:1px dashed #d1d5db;border-radius:12px;padding:16px;overflow:auto">
+      <div style="font-size:14px;line-height:2.2">
+        <strong style="font-size:16px">北京语文卷</strong><br>
+        &emsp;├─ <strong>阅读</strong><br>
+        &emsp;│&emsp;├─ 论述类：定义 / 观点 / 逻辑 <span class="freq-tag freq-h">3年连续↑</span><br>
+        &emsp;│&emsp;└─ 文学类：形象 / 情感 / 结构 <span class="freq-tag freq-h">稳定</span><br>
+        &emsp;├─ <strong>古诗文</strong><br>
+        &emsp;│&emsp;├─ 积累（默写）<span class="freq-tag freq-h">必考</span><br>
+        &emsp;│&emsp;├─ 翻译 <span class="freq-tag freq-m">稳中有深</span><br>
+        &emsp;│&emsp;└─ 手法赏析 <span class="freq-tag freq-m">深度增加</span><br>
+        &emsp;└─ <strong>写作</strong><br>
+        &emsp;&emsp;├─ 现实关怀 <span class="freq-tag freq-h">持续</span><br>
+        &emsp;&emsp;├─ 青年视角 <span class="freq-tag freq-m">近2年</span><br>
+        &emsp;&emsp;└─ 逻辑表达 <span class="freq-tag freq-h">核心↑</span>
+      </div>
+    </div>
+    <div style="background:#fcfcff;border:1px dashed #d1d5db;border-radius:12px;padding:16px">
+      <h3 style="font-size:16px;margin-top:0">能力依赖链</h3>
+      <div style="font-size:14px;line-height:2.2">
+        信息筛选（基础）→ 概念辨析（进阶）→ 逻辑判断（高阶）<br>
+        ↓<br>
+        现实关联（基础）→ 概念思辨（进阶）→ 问题解决（高阶）<br>
+        ↓<br>
+        审题立意（基础）→ 结构搭建（进阶）→ 逻辑推进（高阶）<br>
+        <p class="small" style="margin-top:12px">📌 2026年考查重心在"进阶→高阶"环节，基础环节是得分底线。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 十二、备考建议 ====== -->
+<div class="section">
+  <h2>📝 十五、精准备考建议</h2>
+  <table>
+    <thead><tr><th>薄弱点</th><th>典型表现</th><th>诊断</th><th>训练方案</th><th>预期效果</th></tr></thead>
+    <tbody>
+      <tr><td><strong>不会拆材料</strong></td><td>读完只记细节，抓不住主线</td><td>缺少"概念—观点—依据"的层次意识</td><td>每天1篇论述类材料，用三种颜色标注：红色=核心概念，蓝色=作者观点，黑色=支撑依据</td><td>2周内能快速识别材料的三层结构</td></tr>
+      <tr><td><strong>选项误判</strong></td><td>感觉四个选项都像对的</td><td>对"偷换概念、绝对化、因果倒置"不敏感</td><td>专练近三年真题选择题，每道题标注"错误类型"（偷换/绝对化/因果/无中生有）</td><td>能快速识别90%的干扰项类型</td></tr>
+      <tr><td><strong>主观题散乱</strong></td><td>有观点但不成答案</td><td>缺少结构化表达框架</td><td>固定"结论句 + 分析句 + 落点句"三段式，每次练习强制套用</td><td>答案逻辑清晰度显著提升</td></tr>
+      <tr><td><strong>作文空泛</strong></td><td>大词多，论证弱，像喊口号</td><td>每段缺乏具体材料支撑</td><td>每段必须有1个具体事例/数据/引文作为论据；写完后检查"这段删掉是否影响论证"</td><td>作文从45分档升至50分档</td></tr>
+      <tr><td><strong>概念辨析弱</strong></td><td>能读懂但说不清两个概念的区别</td><td>2026年最大风险点</td><td>收集20组高频辨析概念（如"文化自信vs文化自觉""创新vs创造"），每周练习3组的"定义→区别→联系"三步分析</td><td>应对论述类概念辨析题的底气</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

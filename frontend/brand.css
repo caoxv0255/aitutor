@@ -1,0 +1,11 @@
+/* brand.css — AI Tutor 跨端品牌一致性变量 */
+:root {
+  --brand-primary: #d71920;
+  --brand-primary-rgb: 215, 25, 32;
+  --brand-blue: #2563eb;
+  --brand-blue-rgb: 37, 99, 235;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+}

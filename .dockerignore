@@ -1,0 +1,16 @@
+node_modules/
+coverage/
+dist/
+.git/
+.github/
+.env
+*.log
+database/*.db
+database/*.sqlite
+.claude/
+vitest.config.js
+eslint.config.js
+.prettierrc
+.prettierignore
+docker-compose.yml
+Dockerfile

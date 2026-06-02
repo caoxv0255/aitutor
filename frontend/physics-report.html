@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>物理命题趋势分析 - AI Tutor</title>
+<style>:root{--bg:#f8fafc;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#ea580c;--soft:#fff7ed;--bar:#fdba74;--bar2:#fb923c;--green:#059669;--green-soft:#ecfdf5;--amber:#d97706;--amber-soft:#fffbeb;--blue:#2563eb;--blue-soft:#eff6ff}
+*{box-sizing:border-box}body{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:1280px;margin:0 auto;padding:24px}
+.hero,.section{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.04)}
+.hero{padding:28px}.section{padding:22px;margin-top:18px}
+h1,h2,h3{margin:0 0 12px}p,li{line-height:1.8}
+.meta{color:var(--muted)}.tag{display:inline-block;padding:4px 10px;background:var(--soft);color:var(--brand);border-radius:999px;margin:0 8px 8px 0;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.stat b{font-size:28px;color:var(--brand)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top}
+th{background:#f9fafb}
+.bar{height:10px;background:#ffedd5;border-radius:999px;overflow:hidden}.bar>span{display:block;height:100%;background:var(--bar)}
+.hbar{display:grid;gap:12px}
+.row{display:grid;grid-template-columns:130px 1fr 56px;gap:12px;align-items:center}
+.track{height:14px;background:#ffedd5;border-radius:999px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--bar),var(--bar2))}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.compare .box{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+.compare h3{font-size:18px}
+.small{font-size:13px;color:var(--muted)}
+.map,.mind{padding:16px;background:#fcfcff;border:1px dashed #d1d5db;border-radius:12px;overflow:auto}
+.tree ul{list-style:none;padding-left:22px;margin:6px 0;border-left:2px solid #e5e7eb}
+.tree li{margin:10px 0;position:relative}
+.tree li::before{content:"";position:absolute;left:-22px;top:12px;width:18px;border-top:2px solid #e5e7eb}
+.node{display:inline-block;background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:8px 12px}
+.kg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.kg .node{text-align:center;background:#fff7ed}
+.arrow{text-align:center;color:var(--muted)}
+.verdict{background:linear-gradient(135deg,#fff7ed,#fff7ed22);border:2px solid #ea580c33;border-radius:16px;padding:24px 28px;margin-top:18px}
+.verdict h2{color:var(--brand);font-size:22px;margin-bottom:12px}
+.verdict p{font-size:16px;line-height:2}
+.predict-card{border-radius:14px;padding:18px;margin-bottom:14px}
+.predict-high{background:var(--soft);border:1px solid #ea580c33}
+.predict-mid{background:var(--amber-soft);border:1px solid #fde68a}
+.predict-low{background:var(--blue-soft);border:1px solid #bfdbfe}
+.predict-card h4{margin:0 0 8px;font-size:16px}
+.predict-card .prob{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:8px}
+.prob-high{background:#dc2626;color:#fff}
+.prob-mid{background:#d97706;color:#fff}
+.prob-low{background:#2563eb;color:#fff}
+.evidence{background:#f9fafb;border-left:3px solid var(--brand);padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+.risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.risk-box{border-radius:14px;padding:16px;text-align:center}
+.risk-safe{background:#ecfdf5;border:1px solid #a7f3d0}
+.risk-warn{background:#fffbeb;border:1px solid #fde68a}
+.risk-danger{background:#fef2f2;border:1px solid #fecaca}
+.risk-box .icon{font-size:32px;margin-bottom:6px}
+.risk-box h4{margin:0 0 6px;font-size:15px}
+.risk-box p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+.freq-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;margin-right:4px}
+.freq-h{background:#dc2626;color:#fff}.freq-m{background:#d97706;color:#fff}.freq-l{background:#6b7280;color:#fff}
+.kg-node{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;margin:4px;font-size:13px;border:1px solid var(--line);background:#fff}
+.kg-node.hot{border-color:#dc2626;background:#fef2f2}
+.kg-node.warm{border-color:#d97706;background:#fffbeb}
+.kg-node.cool{border-color:#6b7280;background:#f9fafb}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ====== 一句话结论 ====== -->
+<div class="verdict">
+  <h2>📌 一句话结论</h2>
+  <p><strong>2026年北京物理卷将延续科技情境+基础规律+模型建构路线，力学综合多过程、电磁感应综合、实验原理与故障分析成为核心考查方向。</strong> 考生应重点训练"剥离背景→建立模型→规律联立"的三步解题链，而非死记公式。</p>
+</div>
+
+<!-- ====== Hero ====== -->
+<div class="hero" style="margin-top:18px">
+  <h1>北京高考物理命题趋势详细分析报告</h1>
+  <p class="meta">依据：2021-2025 北京高考物理真题观察，重点分析 2023-2025｜特征：科技情境、基础规律应用、实验素养、模型建构</p>
+  <div>
+    <span class="tag">科技情境</span><span class="tag">实验素养</span><span class="tag">模型建构</span><span class="tag">图像分析</span><span class="tag">规律应用</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="small">3年最强趋势</div><b>科技背景</b><div class="small">航天、装置、能源、现代科学素材明显增加</div></div>
+    <div class="stat"><div class="small">5年稳定核心</div><b>基础规律</b><div class="small">力学、电磁、波动、热学主干稳定</div></div>
+    <div class="stat"><div class="small">区分度来源</div><b>实验+综合</b><div class="small">实验理解与多规律联立是关键</div></div>
+    <div class="stat"><div class="small">备考抓手</div><b>物理建模</b><div class="small">从文字/图像迅速提取模型</div></div>
+  </div>
+</div>
+
+<!-- ====== 一、核心判断 ====== -->
+<div class="section">
+  <h2>一、核心判断</h2>
+  <ul>
+    <li><strong>北京物理卷近年非常明显地在做真实物理问题化。</strong></li>
+    <li><strong>试题不靠偏怪取胜，而是用熟悉规律考陌生情境。</strong></li>
+    <li><strong>实验题地位持续重要，且越来越重原理、读数、误差与装置功能的综合判断。</strong></li>
+    <li><strong>高分关键在于：建模速度、图像理解、规律联立和规范表达。</strong></li>
+  </ul>
+</div>
+
+<!-- ====== 二、3 年趋势表 ====== -->
+<div class="section">
+  <h2>二、3 年趋势表（2023-2025）</h2>
+  <table>
+    <thead><tr><th>维度</th><th>2023</th><th>2024</th><th>2025</th><th>趋势结论</th></tr></thead>
+    <tbody>
+      <tr><td><strong>情境背景</strong></td><td>生活+科技</td><td>航天与工程增强</td><td>嫦娥、反物质、实验舱等更突出</td><td>科技感持续增强</td></tr>
+      <tr><td><strong>基础规律</strong></td><td>主干稳定</td><td>主干稳定</td><td>主干稳定</td><td>本质规律不变</td></tr>
+      <tr><td><strong>实验题</strong></td><td>仪器与操作</td><td>实验原理</td><td>读数、故障、数据处理并重</td><td>实验素养要求上升</td></tr>
+      <tr><td><strong>综合题</strong></td><td>模型分析</td><td>图像判断</td><td>多规律联立更明显</td><td>综合深度提升</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 三、5 年趋势表 ====== -->
+<div class="section">
+  <h2>三、5 年趋势表（2021-2025）</h2>
+  <table>
+    <thead><tr><th>模块</th><th>2021-2022</th><th>2023-2025</th><th>5年总趋势</th><th>趋势强度</th></tr></thead>
+    <tbody>
+      <tr><td><strong>力学</strong></td><td>稳定高频</td><td>与真实情境结合更紧</td><td>绝对主干</td><td><div class="bar"><span style="width:95%"></span></div></td></tr>
+      <tr><td><strong>电磁学</strong></td><td>稳定主线</td><td>电磁感应、交流、电路综合增强</td><td>高区分模块</td><td><div class="bar"><span style="width:93%"></span></div></td></tr>
+      <tr><td><strong>实验</strong></td><td>常规操作</td><td>原理与故障判断强化</td><td>持续升温</td><td><div class="bar"><span style="width:90%"></span></div></td></tr>
+      <tr><td><strong>现代物理/选修味</strong></td><td>点状分布</td><td>背景新颖度上升</td><td>素材现代化</td><td><div class="bar"><span style="width:78%"></span></div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 四、统计化展示 ====== -->
+<div class="section">
+  <h2>四、统计化展示</h2>
+  <table>
+    <thead><tr><th>模块</th><th>稳定性</th><th>区分度</th><th>优先级</th></tr></thead>
+    <tbody>
+      <tr><td><strong>力学</strong></td><td>很高</td><td>高</td><td>★★★★★</td></tr>
+      <tr><td><strong>电磁学</strong></td><td>很高</td><td>很高</td><td>★★★★★</td></tr>
+      <tr><td><strong>实验</strong></td><td>高</td><td>很高</td><td>★★★★★</td></tr>
+      <tr><td><strong>波动/光学/热学</strong></td><td>中高</td><td>中高</td><td>★★★★☆</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 五、命题特征解读 ====== -->
+<div class="section">
+  <h2>五、命题特征解读</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">🚀</div>
+      <div style="font-weight:600;color:var(--brand)">情境真</div>
+      <div class="small">航天、装置、能源等真实科技背景</div>
+    </div>
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">📐</div>
+      <div style="font-weight:600;color:var(--brand)">模型强</div>
+      <div class="small">从文字/图像迅速提取物理模型</div>
+    </div>
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">🔬</div>
+      <div style="font-weight:600;color:var(--brand)">实验细</div>
+      <div class="small">原理、读数、误差、装置功能综合判断</div>
+    </div>
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">📏</div>
+      <div style="font-weight:600;color:var(--brand)">规律稳</div>
+      <div class="small">力学、电磁、波动、热学主干不变</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 六、知识图谱 ====== -->
+<div class="section">
+  <h2>六、知识图谱</h2>
+  <div class="kg">
+    <div class="node">
+      <strong>真实情境</strong><br>
+      <span class="arrow">→ 抽象 →</span><br>
+      生活/工程/航天/实验
+    </div>
+    <div class="node">
+      <strong>物理模型</strong><br>
+      <span class="arrow">→ 建立 →</span><br>
+      受力/能量/电路/波/图像
+    </div>
+    <div class="node">
+      <strong>规律计算</strong><br>
+      <span class="arrow">→ 推导 →</span><br>
+      牛顿定律/守恒/电磁规律/热学
+    </div>
+  </div>
+</div>
+
+<!-- ====== 七（附加A）、核心知识点清单 ====== -->
+<div class="section">
+  <h2>📘 七（附加A）、核心知识点清单（基于课标总结）</h2>
+  <p class="small" style="margin-bottom:14px">依据《高中物理知识总结归纳》PDF，按模块整理核心知识点，星标表示考频（★★★★★=必考 ★★★★=高频 ★★★=常考 ★★=低频 ★=极低频）</p>
+  <table>
+    <thead><tr><th>模块</th><th>核心知识点</th><th>考频</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4"><strong>运动学</strong></td>
+        <td>匀变速直线运动公式与推论（v-t/位移/中间时刻速度）</td><td>★★★★★</td><td>每年必考，打点纸带处理</td></tr>
+      <tr><td>自由落体与竖直上抛运动</td><td>★★★★</td><td>常与牛顿定律结合</td></tr>
+      <tr><td>平抛运动分解与规律</td><td>★★★★★</td><td>高考核心题型，速度/位移反向延长线</td></tr>
+      <tr><td>匀速圆周运动（线速度/角速度/向心力/向心加速度）</td><td>★★★★★</td><td>必考，万有引力/电磁场载体</td></tr>
+      <tr><td rowspan="4"><strong>力学</strong></td>
+        <td>牛顿三大定律（尤其第二定律F=ma矢量性/瞬时性）</td><td>★★★★★</td><td>每年必考，受力分析核心</td></tr>
+      <tr><td>万有引力定律与天体运动（卫星/行星运动）</td><td>★★★★★</td><td>航天情境高频，周期/轨道计算</td></tr>
+      <tr><td>功和能（动能定理/机械能守恒/功能关系）</td><td>★★★★★</td><td>综合题核心，能量守恒必考</td></tr>
+      <tr><td>动量定理与动量守恒定律</td><td>★★★★★</td><td>碰撞/爆炸/反冲，与能量联立</td></tr>
+      <tr><td rowspan="4"><strong>电磁学</strong></td>
+        <td>电场（库仑力/电场强度/电势/电势能/电场线）</td><td>★★★★★</td><td>选择题+综合题均涉及</td></tr>
+      <tr><td>磁场（安培力/洛伦兹力/左手定则/带电粒子圆周运动）</td><td>★★★★★</td><td>粒子偏转、质谱仪/速度选择器</td></tr>
+      <tr><td>电磁感应（法拉第定律/楞次定律/自感）</td><td>★★★★★</td><td>高区分度综合题，导轨模型</td></tr>
+      <tr><td>电路（欧姆定律/闭合电路/电功率/电表改装）</td><td>★★★★</td><td>实验题与选择题常考</td></tr>
+      <tr><td rowspan="2"><strong>热学</strong></td>
+        <td>分子动理论（分子力/分子势能/内能）</td><td>★★★</td><td>选择题偶考</td></tr>
+      <tr><td>气体定律（等温/等压/等容变化/理想气体状态方程）</td><td>★★★</td><td>图像题常涉及</td></tr>
+      <tr><td rowspan="2"><strong>光学</strong></td>
+        <td>光的折射/全反射/折射率计算</td><td>★★★</td><td>选择题+实验题偶考</td></tr>
+      <tr><td>光的干涉/衍射/偏振</td><td>★★</td><td>概念理解为主</td></tr>
+      <tr><td rowspan="2"><strong>原子物理</strong></td>
+        <td>原子结构（玻尔模型/能级跃迁/光子能量）</td><td>★★★</td><td>选择题必出1题</td></tr>
+      <tr><td>核反应（衰变/裂变/聚变/质能方程/半衰期）</td><td>★★★</td><td>动量守恒+核反应结合</td></tr>
+      <tr><td rowspan="3"><strong>实验专题</strong><br>（15个必做实验）</td>
+        <td>探究匀变速直线运动（打点纸带处理）</td><td>★★★★★</td><td>每年必考，逐差法求a</td></tr>
+      <tr><td>验证牛顿第二定律/动能定理/动量守恒</td><td>★★★★</td><td>实验设计+数据处理</td></tr>
+      <tr><td>测定电源电动势和内阻/伏安法测电阻</td><td>★★★★</td><td>电路设计+误差分析</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 七（附加B）、真题↔知识点映射表 ====== -->
+<div class="section">
+  <h2>🔗 七（附加B）、真题↔知识点映射表（2023-2025）</h2>
+  <p class="small" style="margin-bottom:14px">将近年真题考点映射到具体知识点模块，帮助精准定位复习重点</p>
+  <table>
+    <thead><tr><th>题号</th><th>考点方向</th><th>对应知识点</th><th>难度</th></tr></thead>
+    <tbody>
+      <tr><td><strong>2025 选择1-6</strong></td><td>力学基础/运动学/电磁学概念</td><td>受力分析、匀变速运动、电场/磁场概念</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2025 选择7-10</strong></td><td>万有引力/电磁感应/原子物理</td><td>卫星运动、楞次定律、能级跃迁</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2025 实验题</strong></td><td>读数/故障分析/数据处理</td><td>仪器读数、电路故障、纸带处理</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2025 计算题15</strong></td><td>力学综合多过程</td><td>牛顿定律+动能定理+运动学联立</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2025 计算题16</strong></td><td>电磁感应综合</td><td>法拉第定律+电路+受力分析+能量</td><td><span class="freq-tag freq-h">很难</span></td></tr>
+      <tr><td><strong>2025 计算题17</strong></td><td>动量+能量联立（碰撞/爆炸）</td><td>动量守恒+能量守恒+运动过程分析</td><td><span class="freq-tag freq-h">很难</span></td></tr>
+      <tr><td><strong>2024 选择1-6</strong></td><td>力学/运动学/能量</td><td>受力分析、平抛运动、功能关系</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2024 选择7-10</strong></td><td>电磁学/原子物理/热学</td><td>电场力做功、磁场偏转、分子动理论</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2024 实验题</strong></td><td>实验原理/操作规范</td><td>电表改装、滑动变阻器、误差分析</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2024 计算题15</strong></td><td>力学综合+图像</td><td>受力分析+v-t图+F-x图综合</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2024 计算题16</strong></td><td>电磁感应+图像</td><td>法拉第定律+安培力+能量+图像</td><td><span class="freq-tag freq-h">很难</span></td></tr>
+      <tr><td><strong>2024 计算题17</strong></td><td>动量+能量综合</td><td>碰撞模型+能量守恒+运动过程</td><td><span class="freq-tag freq-h">很难</span></td></tr>
+      <tr><td><strong>2023 选择1-6</strong></td><td>力学基础/运动学/光学</td><td>牛顿定律、匀变速运动、折射定律</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2023 选择7-10</strong></td><td>电磁学/万有引力/原子物理</td><td>电场强度、卫星运动、核反应方程</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2023 实验题</strong></td><td>仪器识别/基本操作</td><td>游标卡尺/螺旋测微器读数、接线</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2023 计算题15</strong></td><td>力学综合</td><td>牛顿定律+运动学公式联立</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2023 计算题16</strong></td><td>电磁感应基础</td><td>法拉第定律+楞次判断+电路</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2023 计算题17</strong></td><td>动量+能量（碰撞）</td><td>动量守恒+机械能守恒</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 七（附加C）、知识点盲区预警 ====== -->
+<div class="section">
+  <h2>🚨 七（附加C）、知识点盲区预警（课标有但近年未考）</h2>
+  <p class="small" style="margin-bottom:14px">以下知识点在课标/教材中明确要求，但2023-2025真题中未直接或较少涉及，需特别注意</p>
+  <div class="risk-grid">
+    <div class="risk-box risk-danger">
+      <div class="icon">🔴</div>
+      <h4>高风险盲区（可能突然出现）</h4>
+      <p><strong>带电粒子在组合场/复合场中运动</strong>：电场+磁场+重力的综合分析题近年未直接考查大题，但仍是课标重点。<br>
+      <strong>交流电与变压器</strong>：近年选择题偶考，但综合题涉及较少，可能以科技情境出现。<br>
+      <strong>动量定理应用（变力冲量）</strong>：冲量-动量图/微元法求解近年考频降低。</p>
+    </div>
+    <div class="risk-box risk-warn">
+      <div class="icon">🟡</div>
+      <h4>中风险盲区（需关注变式）</h4>
+      <p><strong>简谐运动与波动</strong>：弹簧振子/单摆/波的叠加与干涉，选择题偶考但大题未涉及。<br>
+      <strong>热学综合（气体实验定律+热力学第一定律）</strong>：P-V图像分析可能回归。<br>
+      <strong>光电效应与波粒二象性</strong>：近年选择题出现频次降低。</p>
+    </div>
+    <div class="risk-box risk-safe">
+      <div class="icon">🟢</div>
+      <h4>低风险但仍需了解</h4>
+      <p><strong>全反射与光纤通信</strong>：选择题偶考，折射率计算。<br>
+      <strong>分子动理论定量分析</strong>：阿伏加德罗常数估算分子大小/间距。<br>
+      <strong>地磁场与磁偏角</strong>：情境化背景知识。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 七、2026命题预测 ====== -->
+<div class="section" style="border:2px solid var(--brand);border-radius:16px">
+  <h2>🎯 七、2026年命题预测</h2>
+  <p class="small" style="margin-bottom:16px">预测依据：近5年真题出现规律 + 各模块考查周期 + 新高考改革方向</p>
+
+  <div class="predict-card predict-high">
+    <h4>高概率考点（>80% 可能考到）</h4>
+    <span class="prob prob-high">概率 85-95%</span>
+    <ul>
+      <li><strong>力学综合多过程</strong>
+        <div class="evidence">依据：力学5年绝对主干，2023-2025年与真实情境结合更紧。预计2026年将继续以多过程力学综合题作为区分度核心来源，可能涉及动量+能量联立。</div>
+      </li>
+      <li><strong>电磁感应综合</strong>
+        <div class="evidence">依据：电磁学模块电磁感应、交流、电路综合持续增强，2025年多规律联立更明显。电磁感应综合是北京卷高区分度的传统题型。</div>
+      </li>
+      <li><strong>实验原理与故障分析</strong>
+        <div class="evidence">依据：实验模块从常规操作转向原理与故障判断强化，2025年读数、故障、数据处理并重。实验素养要求持续上升，是区分度最高模块之一。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="predict-card predict-mid">
+    <h4>中概率考点（50-80%）</h4>
+    <span class="prob prob-mid">概率 55-75%</span>
+    <ul>
+      <li><strong>图像信息提取</strong>
+        <div class="evidence">依据：综合题从模型分析到图像判断再到多规律联立，图像分析能力要求持续上升。2026年可能出现需要从v-t图、F-x图等提取信息的综合题。</div>
+      </li>
+      <li><strong>能量+动量守恒联立</strong>
+        <div class="evidence">依据：力学综合深度提升，能量守恒与动量守恒的联合应用是高难度综合题的常见形式，2026年可能以碰撞、爆炸等情境出现。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="predict-card predict-low">
+    <h4>黑马考点（<50%，但值得准备）</h4>
+    <span class="prob prob-low">概率 25-45%</span>
+    <ul>
+      <li><strong>量子反物质情境</strong>
+        <div class="evidence">依据：科技背景新颖度持续上升，2025年已出现嫦娥、反物质等素材。量子物理、反物质等前沿科技可能成为新情境载体。</div>
+      </li>
+      <li><strong>开放性实验设计</strong>
+        <div class="evidence">依据：新课标倡导探究性学习，开放性实验设计（给定目的，自选器材和方案）是可能的创新方向。</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====== 八、风险评估 ====== -->
+<div class="section">
+  <h2>⚠️ 八、风险评估：各模块得分稳定性</h2>
+  <div class="risk-grid">
+    <div class="risk-box risk-safe">
+      <div class="icon">🟢</div>
+      <h4>稳拿分模块</h4>
+      <p><strong>选择题基础</strong>：力学、电磁学基础概念选择题5年稳定，掌握即可拿分。<br><strong>实验基础操作</strong>：仪器识别、读数规范等基础实验知识稳定。</p>
+    </div>
+    <div class="risk-box risk-warn">
+      <div class="icon">🟡</div>
+      <h4>变数中等模块</h4>
+      <p><strong>电磁感应综合</strong>：综合深度可能继续提升，需要多规律联立能力。<br><strong>图像分析</strong>：图像类型多样，信息提取能力需要专项训练。</p>
+    </div>
+    <div class="risk-box risk-danger">
+      <div class="icon">🔴</div>
+      <h4>高风险模块</h4>
+      <p><strong>力学多过程</strong>：多过程联立对建模速度和过程分析能力要求极高。<br><strong>实验原理深度</strong>：从"会操作"到"会原理"的跨越是最大难点。<br><strong>科技情境建模</strong>：陌生情境中的物理模型提取是区分度核心。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 九、思维导图 ====== -->
+<div class="section">
+  <h2>🧠 九、思维导图</h2>
+  <div class="mind">
+    <div style="font-size:14px;line-height:2.2">
+      <strong style="font-size:16px">北京物理卷</strong><br>
+      &emsp;├─ <strong>主干模块</strong>：力学、电磁学、波光热<br>
+      &emsp;├─ <strong>能力要求</strong>：建模、图像分析、实验判断<br>
+      &emsp;└─ <strong>命题风格</strong>：科技情境、基础规律、综合推理
+    </div>
+  </div>
+</div>
+
+<!-- ====== 十、备考建议 ====== -->
+<div class="section">
+  <h2>📝 十、备考建议</h2>
+  <table>
+    <thead><tr><th>薄弱点</th><th>典型表现</th><th>训练方案</th></tr></thead>
+    <tbody>
+      <tr><td><strong>情境题发怵</strong></td><td>背景新就不会</td><td>先剥离背景，再抽物理模型</td></tr>
+      <tr><td><strong>实验题失分</strong></td><td>只会背结论</td><td>重做仪器原理、操作顺序、故障题</td></tr>
+      <tr><td><strong>图像题混乱</strong></td><td>看图不会说物理意义</td><td>训练轴、斜率、面积、拐点四步法</td></tr>
+      <tr><td><strong>综合题断链</strong></td><td>规律会但联不起来</td><td>专题练多规律联立与过程表达</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

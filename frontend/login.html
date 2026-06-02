@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>登录 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.auth-wrap{max-width:420px;margin:60px auto;padding:0 24px}
+.auth-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:40px}
+.auth-card h1{font-size:1.5rem;text-align:center;margin-bottom:12px}
+.auth-subtitle{text-align:center;color:var(--text-muted);font-size:.9rem;margin-bottom:32px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:.85rem;color:var(--text-muted);margin-bottom:8px}
+.form-group input,.form-group select{width:100%;padding:12px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:1rem}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--accent)}
+.form-group select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a0a0b0' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.form-group select option{background:var(--bg-card);color:var(--text)}
+.btn-full{width:100%;padding:14px;border-radius:var(--radius-pill);font-size:1rem;margin-top:12px}
+.error-msg{color:var(--accent);font-size:.85rem;margin-bottom:16px;display:none;text-align:center}
+.auth-footer{text-align:center;margin-top:24px;font-size:.9rem;color:var(--text-muted)}
+.auth-footer a{color:var(--accent)}
+.auth-divider{text-align:center;margin:20px 0;color:var(--text-dim);font-size:.85rem;position:relative}
+.auth-divider::before,.auth-divider::after{content:'';position:absolute;top:50%;width:calc(50% - 20px);height:1px;background:var(--border)}
+.auth-divider::before{left:0}
+.auth-divider::after{right:0}
+.btn-guest{width:100%;padding:14px;border-radius:var(--radius-pill);font-size:.95rem;margin-top:4px;background:transparent;border:1px solid var(--border);color:var(--text-muted);cursor:pointer;transition:var(--transition);font-family:var(--font);font-weight:600}
+.btn-guest:hover{border-color:var(--accent);color:#fff}
+
+/* 新增样式 */
+.sample-reports{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:24px}
+.sample-reports h3{font-size:1rem;margin:0 0 16px;color:var(--text);display:flex;align-items:center;gap:8px}
+.sample-reports h3::before{content:'&#127891;'}
+.sample-list{display:grid;gap:12px}
+.sample-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:var(--transition)}
+.sample-item:hover{border-color:var(--accent)}
+.sample-item .icon{width:40px;height:40px;border-radius:var(--radius-sm);background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:20px}
+.sample-item .info{flex:1}
+.sample-item .title{font-weight:600;font-size:.9rem;margin-bottom:2px}
+.sample-item .desc{font-size:.8rem;color:var(--text-muted)}
+.sample-item .arrow{color:var(--text-muted)}
+
+.benefits-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+.benefit-item{display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm)}
+.benefit-item .icon{font-size:20px}
+.benefit-item .text{font-size:.85rem}
+
+.role-tabs{display:flex;gap:8px;margin-bottom:20px}
+.role-tab{flex:1;padding:12px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);border-radius:var(--radius-sm);cursor:pointer;transition:var(--transition);font-family:var(--font);font-size:.9rem}
+.role-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.role-content{display:none}
+.role-content.active{display:block}
+</style>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <!-- 登录价值说明 -->
+  <div class="benefits-grid">
+    <div class="benefit-item">
+      <span class="icon">&#128202;</span>
+      <span class="text">个性化诊断报告</span>
+    </div>
+    <div class="benefit-item">
+      <span class="icon">&#128203;</span>
+      <span class="text">错题本自动整理</span>
+    </div>
+    <div class="benefit-item">
+      <span class="icon">&#128640;</span>
+      <span class="text">智能学习路径</span>
+    </div>
+    <div class="benefit-item">
+      <span class="icon">&#128200;</span>
+      <span class="text">进步曲线追踪</span>
+    </div>
+  </div>
+
+  <!-- 样例报告入口 -->
+  <div class="sample-reports">
+    <h3>先体验样例报告</h3>
+    <div class="sample-list">
+      <a href="sample-report-student.html" class="sample-item">
+        <div class="icon">&#128100;</div>
+        <div class="info">
+          <div class="title">学生诊断报告样例</div>
+          <div class="desc">能力雷达图 · 薄弱点分析 · 学习路径</div>
+        </div>
+        <span class="arrow">&#8594;</span>
+      </a>
+      <a href="sample-report-parent.html" class="sample-item">
+        <div class="icon">&#128106;</div>
+        <div class="info">
+          <div class="title">家长周报样例</div>
+          <div class="desc">学习趋势 · 任务进度 · 改进建议</div>
+        </div>
+        <span class="arrow">&#8594;</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="auth-card">
+    <h1>登录账号</h1>
+    <p class="auth-subtitle">登录后可保存学习进度，获取个性化推荐</p>
+    <div class="error-msg" id="error"></div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label>邮箱</label>
+        <input type="email" name="email" required placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>密码</label>
+        <input type="password" name="password" required placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn primary btn-full" id="submitBtn">登录</button>
+    </form>
+    <div class="auth-divider">或者</div>
+    <button class="btn-guest" id="guestBtn">游客模式体验（无需注册）</button>
+    <div class="auth-footer">
+      还没有账号？<a href="register.html">立即注册</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE = '';
+const loginForm = document.getElementById('loginForm');
+const errorEl = document.getElementById('error');
+const submitBtn = document.getElementById('submitBtn');
+const guestBtn = document.getElementById('guestBtn');
+
+// Redirect if already logged in
+if (localStorage.getItem('token')) {
+  location.href = 'dashboard.html';
+}
+
+function showError(msg) {
+  errorEl.textContent = msg;
+  errorEl.style.display = 'block';
+}
+
+function setLoading(btn, loading) {
+  if (loading) {
+    btn.disabled = true;
+    btn.dataset.origText = btn.textContent;
+    btn.textContent = '处理中...';
+  } else {
+    btn.disabled = false;
+    btn.textContent = btn.dataset.origText || btn.textContent;
+  }
+}
+
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  errorEl.style.display = 'none';
+  setLoading(submitBtn, true);
+  try {
+    const res = await fetch(API_BASE + '/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: fd.get('email'),
+        password: fd.get('password')
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || '登录失败');
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    location.href = 'dashboard.html';
+  } catch (err) {
+    showError(err.message);
+    setLoading(submitBtn, false);
+  }
+});
+
+guestBtn.addEventListener('click', async () => {
+  errorEl.style.display = 'none';
+  setLoading(guestBtn, true);
+  try {
+    const res = await fetch(API_BASE + '/api/guest-login', { method: 'POST' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || '游客登录失败');
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    location.href = 'dashboard.html';
+  } catch (err) {
+    showError(err.message);
+    setLoading(guestBtn, false);
+  }
+});
+</script>
+
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

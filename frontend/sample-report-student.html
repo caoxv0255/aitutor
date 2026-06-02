@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学生报告样例 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/vendor/katex.min.css">
+<script defer src="/vendor/katex.min.js"></script>
+<script defer src="/vendor/auto-render.min.js"></script>
+<style>
+:root{--bg:#0b0b0d;--card:#1a1a22;--card-hover:#22222e;--accent:#d71920;--text:#f0f0f0;--text-muted:#a0a0b0;--border:#2a2a35;--radius:14px;--green:#059669;--amber:#d97706;--blue:#2563eb}
+.sample-badge{display:inline-block;background:var(--accent);color:#fff;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:16px}
+.report-container{max-width:1200px;margin:0 auto;padding:24px}
+.report-header{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+.report-header h1{font-size:32px;margin:0 0 12px}
+.student-info{display:flex;gap:24px;flex-wrap:wrap;margin-top:16px}
+.info-item{display:flex;flex-direction:column;gap:4px}
+.info-item .label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+.info-item .value{font-size:16px;font-weight:700}
+.score-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.score-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;transition:.25s ease}
+.score-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.score-card .number{font-size:48px;font-weight:950;color:var(--accent);line-height:1}
+.score-card .label{font-size:14px;color:var(--text-muted);margin-top:8px}
+.score-card .change{font-size:13px;margin-top:4px}
+.score-card .change.up{color:var(--green)}
+.score-card .change.down{color:var(--accent)}
+.section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+.section h2{font-size:20px;margin:0 0 20px;display:flex;align-items:center;gap:12px}
+.section h2 .icon{font-size:24px}
+.radar-container{position:relative;height:300px;background:var(--bg);border-radius:var(--radius);padding:20px}
+.heatmap-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.heatmap-cell{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:.2s}
+.heatmap-cell:hover{transform:scale(1.1);z-index:10}
+.heatmap-cell .kp-name{font-size:11px;margin-bottom:4px;text-align:center;line-height:1.2}
+.heatmap-cell .kp-freq{font-weight:700;font-size:14px}
+.heatmap-cell.hot{background:#dc2626;color:#fff}
+.heatmap-cell.warm{background:#d97706;color:#fff}
+.heatmap-cell.normal{background:#2563eb;color:#fff}
+.heatmap-cell.cool{background:#6b7280;color:#fff}
+.weak-list{display:grid;gap:12px}
+.weak-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:16px}
+.weak-item .rank{width:32px;height:32px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.weak-item .content{flex:1}
+.weak-item .kp-name{font-weight:700;margin-bottom:4px}
+.weak-item .kp-desc{font-size:13px;color:var(--text-muted)}
+.weak-item .score{font-size:24px;font-weight:950;color:var(--accent)}
+.path-timeline{position:relative;padding-left:32px}
+.path-timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:var(--border)}
+.path-item{position:relative;margin-bottom:20px;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+.path-item::before{content:'';position:absolute;left:-26px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--card)}
+.path-item.completed::before{background:var(--green)}
+.path-item .week{font-size:12px;color:var(--text-muted);margin-bottom:4px}
+.path-item .title{font-weight:700;margin-bottom:8px}
+.path-item .tasks{font-size:13px;color:var(--text-muted)}
+.chart-bar{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.chart-bar .label{width:100px;font-size:13px}
+.chart-bar .bar{flex:1;height:24px;background:var(--bg);border-radius:12px;overflow:hidden}
+.chart-bar .fill{height:100%;border-radius:12px;transition:width 1s ease}
+.chart-bar .value{width:50px;text-align:right;font-size:13px;font-weight:700}
+.cta-section{text-align:center;padding:40px;background:linear-gradient(135deg,var(--accent) 0%,#8b1015 100%);border-radius:var(--radius);margin-top:32px}
+.cta-section h2{color:#fff;margin-bottom:16px}
+.cta-section p{color:rgba(255,255,255,.85);margin-bottom:24px}
+.back-link{display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;color:var(--text-muted);text-decoration:none}
+.back-link:hover{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">&#8592; 返回首页</a>
+
+<div class="report-container">
+  <span class="sample-badge">&#127891; 样例报告 - 学生版</span>
+
+  <div class="report-header">
+    <h1>我的学习诊断报告</h1>
+    <p style="color:var(--text-muted);margin:0">基于错题数据与知识点图谱的个性化分析</p>
+    <div class="student-info">
+      <div class="info-item">
+        <span class="label">学生</span>
+        <span class="value">张同学（样例）</span>
+      </div>
+      <div class="info-item">
+        <span class="label">年级</span>
+        <span class="value">高三</span>
+      </div>
+      <div class="info-item">
+        <span class="label">目标地区</span>
+        <span class="value">北京</span>
+      </div>
+      <div class="info-item">
+        <span class="label">报告日期</span>
+        <span class="value">2026-05-22</span>
+      </div>
+      <div class="info-item">
+        <span class="label">数据范围</span>
+        <span class="value">近30天 / 47道错题</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="score-cards">
+    <div class="score-card">
+      <div class="number">78</div>
+      <div class="label">数学综合得分</div>
+      <div class="change up">&#8593; +5分（较上周）</div>
+    </div>
+    <div class="score-card">
+      <div class="number">12</div>
+      <div class="label">薄弱知识点</div>
+      <div class="change">待强化</div>
+    </div>
+    <div class="score-card">
+      <div class="number">8</div>
+      <div class="label">连续学习天数</div>
+      <div class="change up">保持中</div>
+    </div>
+    <div class="score-card">
+      <div class="number">23</div>
+      <div class="label">已掌握考点</div>
+      <div class="change up">&#8593; +3个</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#127775;</span> 能力雷达图</h2>
+    <div class="radar-container">
+      <canvas id="radarChart" width="400" height="260"></canvas>
+    </div>
+    <div style="display:flex;justify-content:center;gap:24px;margin-top:16px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:12px;height:12px;background:#d71920;border-radius:2px"></span> 当前水平</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:12px;height:12px;background:#2563eb;border-radius:2px;opacity:.5"></span> 目标水平</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128293;</span> 知识点掌握热力图</h2>
+    <p style="color:var(--text-muted);font-size:14px;margin-bottom:16px">颜色越红表示该知识点错题越多，需要优先强化</p>
+    <div class="heatmap-grid">
+      <div class="heatmap-cell hot"><span class="kp-name">函数与导数</span><span class="kp-freq">8错</span></div>
+      <div class="heatmap-cell hot"><span class="kp-name">解析几何</span><span class="kp-freq">6错</span></div>
+      <div class="heatmap-cell warm"><span class="kp-name">三角函数</span><span class="kp-freq">4错</span></div>
+      <div class="heatmap-cell warm"><span class="kp-name">数列</span><span class="kp-freq">3错</span></div>
+      <div class="heatmap-cell normal"><span class="kp-name">概率统计</span><span class="kp-freq">2错</span></div>
+      <div class="heatmap-cell normal"><span class="kp-name">立体几何</span><span class="kp-freq">2错</span></div>
+      <div class="heatmap-cell cool"><span class="kp-name">集合</span><span class="kp-freq">1错</span></div>
+      <div class="heatmap-cell cool"><span class="kp-name">复数</span><span class="kp-freq">0错</span></div>
+      <div class="heatmap-cell cool"><span class="kp-name">向量</span><span class="kp-freq">1错</span></div>
+      <div class="heatmap-cell cool"><span class="kp-name">不等式</span><span class="kp-freq">0错</span></div>
+      <div class="heatmap-cell normal"><span class="kp-name">排列组合</span><span class="kp-freq">2错</span></div>
+      <div class="heatmap-cell warm"><span class="kp-name">导数应用</span><span class="kp-freq">5错</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128295;</span> 薄弱点排行榜 TOP 5</h2>
+    <div class="weak-list">
+      <div class="weak-item">
+        <div class="rank">1</div>
+        <div class="content">
+          <div class="kp-name">导数与函数极值</div>
+          <div class="kp-desc">近30天做错5题，主要错因：极值点判断条件不清晰</div>
+        </div>
+        <div class="score">35%</div>
+      </div>
+      <div class="weak-item">
+        <div class="rank">2</div>
+        <div class="content">
+          <div class="kp-name">椭圆与双曲线综合</div>
+          <div class="kp-desc">近30天做错4题，主要错因：离心率计算错误</div>
+        </div>
+        <div class="score">42%</div>
+      </div>
+      <div class="weak-item">
+        <div class="rank">3</div>
+        <div class="content">
+          <div class="kp-name">三角函数图像变换</div>
+          <div class="kp-desc">近30天做错3题，主要错因：相位变换方向混淆</div>
+        </div>
+        <div class="score">48%</div>
+      </div>
+      <div class="weak-item">
+        <div class="rank">4</div>
+        <div class="content">
+          <div class="kp-name">数列递推公式</div>
+          <div class="kp-desc">近30天做错3题，主要错因：递推关系转化不熟练</div>
+        </div>
+        <div class="score">52%</div>
+      </div>
+      <div class="weak-item">
+        <div class="rank">5</div>
+        <div class="content">
+          <div class="kp-name">空间向量法</div>
+          <div class="kp-desc">近30天做错2题，主要错因：法向量计算错误</div>
+        </div>
+        <div class="score">58%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128640;</span> 个性化学习路径</h2>
+    <div class="path-timeline">
+      <div class="path-item completed">
+        <div class="week">第1周（已完成）</div>
+        <div class="title">函数基础巩固</div>
+        <div class="tasks">完成15道函数单调性练习题 &#10003; | 错题回顾 &#10003;</div>
+      </div>
+      <div class="path-item completed">
+        <div class="week">第2周（已完成）</div>
+        <div class="title">导数核心突破</div>
+        <div class="tasks">完成20道导数应用题 &#10003; | 专题测试 68分 &#10003;</div>
+      </div>
+      <div class="path-item">
+        <div class="week">第3周（进行中）</div>
+        <div class="title">解析几何强化</div>
+        <div class="tasks">椭圆/双曲线综合训练 | 目标：掌握离心率计算技巧</div>
+      </div>
+      <div class="path-item">
+        <div class="week">第4周（待开始）</div>
+        <div class="title">数列与三角综合</div>
+        <div class="tasks">递推公式专项 | 图像变换突破</div>
+      </div>
+      <div class="path-item">
+        <div class="week">第5周（待开始）</div>
+        <div class="title">模拟预测卷实战</div>
+        <div class="tasks">完整预测卷限时训练 | 查漏补缺</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128200;</span> 近7日学习统计</h2>
+    <div class="chart-bar">
+      <span class="label">5-16</span>
+      <div class="bar"><div class="fill" style="width:60%;background:var(--green)"></div></div>
+      <span class="value">45分钟</span>
+    </div>
+    <div class="chart-bar">
+      <span class="label">5-17</span>
+      <div class="bar"><div class="fill" style="width:80%;background:var(--green)"></div></div>
+      <span class="value">60分钟</span>
+    </div>
+    <div class="chart-bar">
+      <span class="label">5-18</span>
+      <div class="bar"><div class="fill" style="width:100%;background:var(--accent)"></div></div>
+      <span class="value">75分钟</span>
+    </div>
+    <div class="chart-bar">
+      <span class="label">5-19</span>
+      <div class="bar"><div class="fill" style="width:40%;background:var(--amber)"></div></div>
+      <span class="value">30分钟</span>
+    </div>
+    <div class="chart-bar">
+      <span class="label">5-20</span>
+      <div class="bar"><div class="fill" style="width:90%;background:var(--green)"></div></div>
+      <span class="value">68分钟</span>
+    </div>
+    <div class="chart-bar">
+      <span class="label">5-21</span>
+      <div class="bar"><div class="fill" style="width:75%;background:var(--green)"></div></div>
+      <span class="value">56分钟</span>
+    </div>
+    <div class="chart-bar">
+      <span class="label">5-22</span>
+      <div class="bar"><div class="fill" style="width:50%;background:var(--amber)"></div></div>
+      <span class="value">38分钟</span>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>获取你的专属诊断报告</h2>
+    <p>上传错题，AI 将为你生成个性化的知识点分析与学习路径规划</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="login.html" class="btn" style="background:#fff;color:var(--accent);font-weight:700;padding:14px 28px">立即登录体验</a>
+      <a href="app" class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.5);padding:14px 28px">游客模式体验</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// 绘制雷达图
+const canvas = document.getElementById('radarChart');
+const ctx = canvas.getContext('2d');
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const radius = 90;
+
+// 数据：当前水平 vs 目标水平
+const labels = ['函数', '几何', '代数', '概率', '应用', '创新'];
+const currentData = [0.6, 0.5, 0.7, 0.8, 0.55, 0.4];
+const targetData = [0.85, 0.8, 0.85, 0.85, 0.8, 0.7];
+
+function drawRadar() {
+  const angleStep = (Math.PI * 2) / labels.length;
+
+  // 绘制背景网格
+  for (let i = 1; i <= 5; i++) {
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    for (let j = 0; j <= labels.length; j++) {
+      const angle = j * angleStep - Math.PI / 2;
+      const r = (radius / 5) * i;
+      const x = centerX + r * Math.cos(angle);
+      const y = centerY + r * Math.sin(angle);
+      if (j === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+
+  // 绘制轴线
+  for (let i = 0; i < labels.length; i++) {
+    const angle = i * angleStep - Math.PI / 2;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.moveTo(centerX, centerY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+    // 标签
+    const labelX = centerX + (radius + 20) * Math.cos(angle);
+    const labelY = centerY + (radius + 20) * Math.sin(angle);
+    ctx.fillStyle = '#a0a0b0';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(labels[i], labelX, labelY);
+  }
+
+  // 绘制目标区域
+  ctx.beginPath();
+  ctx.fillStyle = 'rgba(37, 99, 235, 0.2)';
+  for (let i = 0; i <= labels.length; i++) {
+    const angle = i * angleStep - Math.PI / 2;
+    const r = radius * targetData[i % labels.length];
+    const x = centerX + r * Math.cos(angle);
+    const y = centerY + r * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.fill();
+
+  // 绘制当前水平区域
+  ctx.beginPath();
+  ctx.fillStyle = 'rgba(215, 25, 32, 0.3)';
+  ctx.strokeStyle = '#d71920';
+  ctx.lineWidth = 2;
+  for (let i = 0; i <= labels.length; i++) {
+    const angle = i * angleStep - Math.PI / 2;
+    const r = radius * currentData[i % labels.length];
+    const x = centerX + r * Math.cos(angle);
+    const y = centerY + r * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.fill();
+  ctx.stroke();
+
+  // 绘制数据点
+  for (let i = 0; i < labels.length; i++) {
+    const angle = i * angleStep - Math.PI / 2;
+    const r = radius * currentData[i];
+    const x = centerX + r * Math.cos(angle);
+    const y = centerY + r * Math.sin(angle);
+    ctx.beginPath();
+    ctx.fillStyle = '#d71920';
+    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+drawRadar();
+</script>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

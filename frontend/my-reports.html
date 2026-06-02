@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我的报告 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.reports-wrap{max-width:900px;margin:0 auto;padding:40px 24px 60px}
+.reports-header{margin-bottom:32px}
+.reports-header h1{font-size:1.8rem;font-weight:700;margin-bottom:4px}
+.reports-header p{font-size:.9rem;color:var(--text-muted)}
+.reports-list{display:flex;flex-direction:column;gap:12px}
+.report-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;transition:var(--transition);display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text)}
+.report-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 20px rgba(215,25,32,.1)}
+.report-card .rc-left{display:flex;align-items:center;gap:16px;min-width:0}
+.report-card .rc-icon{font-size:1.6rem;flex-shrink:0}
+.report-card .rc-info{min-width:0}
+.report-card .rc-subject{font-size:1rem;font-weight:700;margin-bottom:2px}
+.report-card .rc-meta{font-size:.8rem;color:var(--text-muted)}
+.report-card .rc-score{font-size:1.4rem;font-weight:800;color:var(--accent);flex-shrink:0}
+.report-card .rc-score.none{color:var(--text-dim);font-size:.8rem;font-weight:400}
+.empty-state{text-align:center;padding:60px 24px;color:var(--text-muted)}
+.empty-state .empty-icon{font-size:3rem;margin-bottom:16px}
+.empty-state p{font-size:.9rem;line-height:1.6}
+.loading-state{text-align:center;padding:60px 24px;color:var(--text-muted)}
+.error-state{text-align:center;padding:40px 24px;color:var(--accent);font-size:.9rem}
+</style>
+</head>
+<body>
+
+<div class="reports-wrap">
+  <div class="reports-header">
+    <h1>我的报告</h1>
+    <p>所有学科分析报告与成绩记录</p>
+  </div>
+
+  <div id="reportsContainer">
+    <div class="loading-state" id="loadingState">加载中...</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const token = localStorage.getItem('token');
+  if (!token) { location.href = 'login.html'; return; }
+
+  const container = document.getElementById('reportsContainer');
+  const API_BASE = '';
+
+  const subjectIcons = {
+    '语文': '\uD83D\uDCD6',
+    '数学': '\uD83D\uDEE0\uFE0F',
+    '英语': '\uD83C\uDF0D',
+    '政治': '\u2698\uFE0F',
+    '化学': '\u2699\uFE0F',
+    '物理': '\u26A1',
+    'default': '\uD83D\uDCCA'
+  };
+
+  const subjectReportPages = {
+    '语文': 'chinese-report.html',
+    '数学': 'math-report.html',
+    '英语': 'english-report.html',
+    '政治': 'politics-report.html',
+    '化学': 'chemistry-report.html',
+    '物理': 'physics-report.html'
+  };
+
+  async function fetchReports() {
+    try {
+      const res = await fetch(API_BASE + '/api/reports', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        location.href = 'login.html';
+        return;
+      }
+      if (!res.ok) throw new Error('获取报告失败');
+      const data = await res.json();
+      renderReports(data);
+    } catch (err) {
+      container.innerHTML = '<div class="error-state">' + err.message + '</div>';
+    }
+  }
+
+  function renderReports(data) {
+    const reports = data.reports || data || [];
+    if (!Array.isArray(reports) || reports.length === 0) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-icon">\uD83D\uDCCB</div><p>暂无报告记录<br>完成预测卷后将自动生成分析报告</p></div>';
+      return;
+    }
+
+    container.innerHTML = '<div class="reports-list">' + reports.map(function(r) {
+      const subject = r.subject || '未知';
+      const icon = subjectIcons[subject] || subjectIcons['default'];
+      const date = r.created_at ? new Date(r.created_at).toLocaleDateString('zh-CN') : (r.date || '');
+      const score = r.score;
+      const reportPage = subjectReportPages[subject] || 'index.html';
+      return '<a href="' + reportPage + '" class="report-card">' +
+        '<div class="rc-left">' +
+          '<span class="rc-icon">' + icon + '</span>' +
+          '<div class="rc-info">' +
+            '<div class="rc-subject">' + subject + '</div>' +
+            '<div class="rc-meta">' + date + (r.term ? ' · ' + r.term : '') + '</div>' +
+          '</div>' +
+        '</div>' +
+        (score != null
+          ? '<div class="rc-score">' + (typeof score === 'number' ? score + '分' : score) + '</div>'
+          : '<div class="rc-score none">无成绩</div>') +
+      '</a>';
+    }).join('') + '</div>';
+  }
+
+  fetchReports();
+})();
+</script>
+
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

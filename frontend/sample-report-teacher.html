@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>班级报告样例 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+:root{--bg:#0b0b0d;--card:#1a1a22;--card-hover:#22222e;--accent:#d71920;--text:#f0f0f0;--text-muted:#a0a0b0;--border:#2a2a35;--radius:14px;--green:#059669;--amber:#d97706;--blue:#2563eb;--purple:#7c3aed}
+.sample-badge{display:inline-block;background:var(--accent);color:#fff;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:16px}
+.report-container{max-width:1400px;margin:0 auto;padding:24px}
+.report-header{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px}
+.report-header h1{font-size:32px;margin:0 0 12px}
+.class-info{display:flex;gap:24px;flex-wrap:wrap;margin-top:16px}
+.info-item{display:flex;flex-direction:column;gap:4px}
+.info-item .label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+.info-item .value{font-size:16px;font-weight:700}
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.overview-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.overview-card .number{font-size:42px;font-weight:950;line-height:1}
+.overview-card .number.excellent{color:var(--green)}
+.overview-card .number.warning{color:var(--amber)}
+.overview-card .number.danger{color:var(--accent)}
+.overview-card .label{font-size:14px;color:var(--text-muted);margin-top:8px}
+.overview-card .trend{font-size:13px;margin-top:4px}
+.section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+.section h2{font-size:20px;margin:0 0 20px;display:flex;align-items:center;gap:12px}
+.section h2 .icon{font-size:24px}
+.distribution-chart{height:200px;display:flex;align-items:flex-end;gap:16px;padding:20px;background:var(--bg);border-radius:var(--radius)}
+.score-range{flex:1;text-align:center}
+.score-range .bar{width:100%;border-radius:8px 8px 0 0;transition:height 1s ease;position:relative}
+.score-range .bar::after{content:attr(data-count);position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700}
+.score-range .bar.excellent{background:var(--green)}
+.score-range .bar.good{background:var(--blue)}
+.score-range .bar.pass{background:var(--amber)}
+.score-range .bar.fail{background:var(--accent)}
+.score-range .label{font-size:12px;color:var(--text-muted);margin-top:8px}
+.kp-table{width:100%;border-collapse:collapse}
+.kp-table th,.kp-table td{padding:12px;border-bottom:1px solid var(--border);text-align:left;font-size:14px}
+.kp-table th{background:var(--bg);font-weight:600;color:var(--text-muted);font-size:13px}
+.kp-table td .bar{height:8px;border-radius:4px;background:var(--accent);margin-top:6px}
+.kp-table td .rate{font-weight:700}
+.kp-table td .rate.high{color:var(--green)}
+.kp-table td .rate.mid{color:var(--amber)}
+.kp-table td .rate.low{color:var(--accent)}
+.error-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.error-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.error-card h4{margin:0 0 12px;font-size:16px;display:flex;align-items:center;gap:8px}
+.error-card h4 .count{background:var(--accent);color:#fff;padding:2px 8px;border-radius:999px;font-size:12px}
+.error-card ul{margin:0;padding-left:20px;font-size:14px;line-height:1.8}
+.error-card li{margin-bottom:8px}
+.student-list{display:grid;gap:12px}
+.student-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:16px}
+.student-item .rank{width:32px;height:32px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.student-item .rank.top{background:var(--green);color:#fff}
+.student-item .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#8b1015);display:flex;align-items:center;justify-content:center;font-size:20px}
+.student-item .info{flex:1}
+.student-item .name{font-weight:700;margin-bottom:4px}
+.student-item .meta{font-size:13px;color:var(--text-muted)}
+.student-item .score{font-size:24px;font-weight:950}
+.student-item .score.excellent{color:var(--green)}
+.student-item .score.warning{color:var(--amber)}
+.student-item .trend{font-size:12px;color:var(--text-muted)}
+.compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.compare-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.compare-card .title{font-size:14px;color:var(--text-muted);margin-bottom:12px}
+.compare-card .big-number{font-size:36px;font-weight:950;margin-bottom:4px}
+.compare-card .big-number.up{color:var(--green)}
+.compare-card .big-number.down{color:var(--accent)}
+.compare-card .desc{font-size:13px;color:var(--text-muted)}
+.recommend-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.recommend-box h4{margin:0 0 12px;font-size:16px;color:var(--accent)}
+.recommend-box ul{margin:0;padding-left:20px;font-size:14px;line-height:1.8}
+.recommend-box li{margin-bottom:8px}
+.cta-section{text-align:center;padding:40px;background:linear-gradient(135deg,var(--accent) 0%,#8b1015 100%);border-radius:var(--radius);margin-top:32px}
+.cta-section h2{color:#fff;margin-bottom:16px}
+.cta-section p{color:rgba(255,255,255,.85);margin-bottom:24px}
+.back-link{display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;color:var(--text-muted);text-decoration:none}
+.back-link:hover{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">&#8592; 返回首页</a>
+
+<div class="report-container">
+  <span class="sample-badge">&#127891; 样例报告 - 教师版</span>
+
+  <div class="report-header">
+    <h1>班级学情分析报告</h1>
+    <p style="color:var(--text-muted);margin:0">基于错题数据的班级共性错因分析与教学建议</p>
+    <div class="class-info">
+      <div class="info-item">
+        <span class="label">班级</span>
+        <span class="value">高三（1）班（样例）</span>
+      </div>
+      <div class="info-item">
+        <span class="label">学生数</span>
+        <span class="value">45人</span>
+      </div>
+      <div class="info-item">
+        <span class="label">分析科目</span>
+        <span class="value">数学</span>
+      </div>
+      <div class="info-item">
+        <span class="label">数据范围</span>
+        <span class="value">近30天 / 847道错题</span>
+      </div>
+      <div class="info-item">
+        <span class="label">报告日期</span>
+        <span class="value">2026-05-22</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-card">
+      <div class="number excellent">82.3</div>
+      <div class="label">班级平均分</div>
+      <div class="trend" style="color:var(--green)">&#8593; 较上月 +2.1分</div>
+    </div>
+    <div class="overview-card">
+      <div class="number">92%</div>
+      <div class="label">知识点覆盖率</div>
+      <div class="trend" style="color:var(--text-muted)">核心考点基本覆盖</div>
+    </div>
+    <div class="overview-card">
+      <div class="number warning">12</div>
+      <div class="label">共性薄弱点</div>
+      <div class="trend" style="color:var(--amber)">需重点突破</div>
+    </div>
+    <div class="overview-card">
+      <div class="number danger">28%</div>
+      <div class="label">计算错误率</div>
+      <div class="trend" style="color:var(--accent)">高于平均水平</div>
+    </div>
+    <div class="overview-card">
+      <div class="number">18</div>
+      <div class="label">需关注学生</div>
+      <div class="trend" style="color:var(--text-muted)">建议一对一辅导</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128200;</span> 成绩分布</h2>
+    <div class="distribution-chart">
+      <div class="score-range">
+        <div class="bar excellent" style="height:120px" data-count="8人"></div>
+        <div class="label">优秀<br>90-100</div>
+      </div>
+      <div class="score-range">
+        <div class="bar good" style="height:150px" data-count="15人"></div>
+        <div class="label">良好<br>80-89</div>
+      </div>
+      <div class="score-range">
+        <div class="bar pass" style="height:100px" data-count="14人"></div>
+        <div class="label">及格<br>60-79</div>
+      </div>
+      <div class="score-range">
+        <div class="bar fail" style="height:40px" data-count="8人"></div>
+        <div class="label">不及格<br>&lt;60</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:24px;margin-top:20px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:12px;height:12px;background:var(--green);border-radius:2px"></span> 优秀（18%）</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:12px;height:12px;background:var(--blue);border-radius:2px"></span> 良好（33%）</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:12px;height:12px;background:var(--amber);border-radius:2px"></span> 及格（31%）</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px"><span style="width:12px;height:12px;background:var(--accent);border-radius:2px"></span> 不及格（18%）</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128293;</span> 班级薄弱知识点 TOP 10</h2>
+    <table class="kp-table">
+      <thead>
+        <tr>
+          <th>排名</th>
+          <th>知识点</th>
+          <th>班级掌握率</th>
+          <th>错题分布</th>
+          <th>涉及学生</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>导数与函数极值<br><small style="color:var(--text-muted)">导数应用、极值点判定</small></td>
+          <td><span class="rate low">42%</span><div class="bar" style="width:42%"></div></td>
+          <td>127道</td>
+          <td>38人</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>解析几何综合<br><small style="color:var(--text-muted)">椭圆、双曲线、抛物线</small></td>
+          <td><span class="rate low">48%</span><div class="bar" style="width:48%"></div></td>
+          <td>98道</td>
+          <td>35人</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>数列求和<br><small style="color:var(--text-muted)">错位相减法、裂项相消</small></td>
+          <td><span class="rate mid">55%</span><div class="bar" style="width:55%"></div></td>
+          <td>86道</td>
+          <td>32人</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>空间向量法<br><small style="color:var(--text-muted)">法向量、二面角</small></td>
+          <td><span class="rate mid">58%</span><div class="bar" style="width:58%"></div></td>
+          <td>72道</td>
+          <td>28人</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>三角函数图像<br><small style="color:var(--text-muted)">周期、相位、振幅</small></td>
+          <td><span class="rate mid">62%</span><div class="bar" style="width:62%"></div></td>
+          <td>65道</td>
+          <td>26人</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>概率统计<br><small style="color:var(--text-muted)">分布列、期望方差</small></td>
+          <td><span class="rate mid">65%</span><div class="bar" style="width:65%"></div></td>
+          <td>58道</td>
+          <td>24人</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>函数零点<br><small style="color:var(--text-muted)">零点存在性、个数判断</small></td>
+          <td><span class="rate high">68%</span><div class="bar" style="width:68%;background:var(--amber)"></div></td>
+          <td>52道</td>
+          <td>22人</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>圆锥曲线离心率<br><small style="color:var(--text-muted)">椭圆、双曲线离心率计算</small></td>
+          <td><span class="rate high">70%</span><div class="bar" style="width:70%;background:var(--amber)"></div></td>
+          <td>48道</td>
+          <td>20人</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>不等式恒成立<br><small style="color:var(--text-muted)">参数范围、最值问题</small></td>
+          <td><span class="rate high">72%</span><div class="bar" style="width:72%;background:var(--amber)"></div></td>
+          <td>45道</td>
+          <td>18人</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>复数运算<br><small style="color:var(--text-muted)">复数四则运算、模</small></td>
+          <td><span class="rate high">78%</span><div class="bar" style="width:78%;background:var(--green)"></div></td>
+          <td>38道</td>
+          <td>15人</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128295;</span> 共性错因分析</h2>
+    <div class="error-grid">
+      <div class="error-card">
+        <h4>概念理解错误 <span class="count">32%</span></h4>
+        <ul>
+          <li>导数极值点与导数为零的关系理解不清</li>
+          <li>椭圆、双曲线定义理解不到位</li>
+          <li>空间线面关系判定定理混淆</li>
+          <li>数列通项与求和公式记混</li>
+        </ul>
+      </div>
+      <div class="error-card">
+        <h4>计算错误 <span class="count">28%</span></h4>
+        <ul>
+          <li>导数求导公式应用错误</li>
+          <li>解析几何代数运算错误率高</li>
+          <li>向量坐标计算符号错误</li>
+          <li>三角函数特殊角值记错</li>
+        </ul>
+      </div>
+      <div class="error-card">
+        <h4>审题错误 <span class="count">18%</span></h4>
+        <ul>
+          <li>忽视题目条件限制</li>
+          <li>误解"恒成立"与"能成立"</li>
+          <li>漏看定义域限制条件</li>
+          <li>未注意单位换算</li>
+        </ul>
+      </div>
+      <div class="error-card">
+        <h4>方法选择错误 <span class="count">15%</span></h4>
+        <ul>
+          <li>该用向量法却用几何法</li>
+          <li>求最值时不善用导数</li>
+          <li>数列求和方法选择不当</li>
+          <li>分类讨论不完整</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128101;</span> 需关注学生名单</h2>
+    <div class="student-list">
+      <div class="student-item">
+        <div class="rank">1</div>
+        <div class="avatar">&#128100;</div>
+        <div class="info">
+          <div class="name">李同学</div>
+          <div class="meta">导数薄弱 | 计算错误率高</div>
+        </div>
+        <div class="score danger">58</div>
+        <div class="trend">&#8595; -5分</div>
+      </div>
+      <div class="student-item">
+        <div class="rank">2</div>
+        <div class="avatar">&#128100;</div>
+        <div class="info">
+          <div class="name">王同学</div>
+          <div class="meta">解析几何薄弱 | 概念不清</div>
+        </div>
+        <div class="score danger">62</div>
+        <div class="trend">&#8595; -3分</div>
+      </div>
+      <div class="student-item">
+        <div class="rank">3</div>
+        <div class="avatar">&#128100;</div>
+        <div class="info">
+          <div class="name">赵同学</div>
+          <div class="meta">数列薄弱 | 方法不熟练</div>
+        </div>
+        <div class="score warning">68</div>
+        <div class="trend">&#8596; 持平</div>
+      </div>
+      <div class="student-item">
+        <div class="rank">4</div>
+        <div class="avatar">&#128100;</div>
+        <div class="info">
+          <div class="name">刘同学</div>
+          <div class="meta">立体几何薄弱 | 空间想象不足</div>
+        </div>
+        <div class="score warning">71</div>
+        <div class="trend">&#8593; +2分</div>
+      </div>
+      <div class="student-item">
+        <div class="rank">5</div>
+        <div class="avatar">&#128100;</div>
+        <div class="info">
+          <div class="name">陈同学</div>
+          <div class="meta">概率统计薄弱 | 审题错误多</div>
+        </div>
+        <div class="score warning">73</div>
+        <div class="trend">&#8593; +1分</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128200;</span> 与年级对比</h2>
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="title">班级平均分</div>
+        <div class="big-number">82.3</div>
+        <div class="desc">年级平均：80.1</div>
+      </div>
+      <div class="compare-card">
+        <div class="title">优秀率</div>
+        <div class="big-number up">18%</div>
+        <div class="desc">年级平均：15%</div>
+      </div>
+      <div class="compare-card">
+        <div class="title">不及格率</div>
+        <div class="big-number down">18%</div>
+        <div class="desc">年级平均：16%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128161;</span> 教学建议</h2>
+    <div class="recommend-box">
+      <h4>&#128077; 重点突破建议</h4>
+      <ul>
+        <li><strong>导数专题</strong>：班级42%掌握率过低，建议安排2课时专项复习，重点突破极值点判定与最值问题</li>
+        <li><strong>解析几何</strong>：离心率计算错误率高，建议强化a,b,c关系训练，总结常见计算技巧</li>
+        <li><strong>计算能力</strong>：28%的错误来自计算失误，建议每周安排一次计算限时训练</li>
+      </ul>
+    </div>
+    <div class="recommend-box">
+      <h4>&#128295; 个性化辅导</h4>
+      <ul>
+        <li><strong>李同学、王同学</strong>：建议一对一辅导导数与解析几何基础</li>
+        <li><strong>赵同学、刘同学、陈同学</strong>：可安排小组互助学习，重点突破各自薄弱点</li>
+        <li><strong>优秀学生</strong>：推荐参加培优班，挑战压轴题</li>
+      </ul>
+    </div>
+    <div class="recommend-box">
+      <h4>&#128218; 下一步教学计划</h4>
+      <ul>
+        <li>下周重点：导数综合应用专题（3课时）</li>
+        <li>配套练习：预测卷导数专题（建议全班完成）</li>
+        <li>错题回顾：组织班级错题分享会</li>
+        <li>家校联系：向重点关注学生家长发送学习建议</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>获取您班级的完整学情分析</h2>
+    <p>登录教师账号，查看班级详细数据、生成个性化教学方案</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="login.html" class="btn" style="background:#fff;color:var(--accent);font-weight:700;padding:14px 28px">教师登录</a>
+      <a href="sample-report-student.html" class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.5);padding:14px 28px">查看学生版报告</a>
+      <a href="sample-report-parent.html" class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.5);padding:14px 28px">查看家长版报告</a>
+    </div>
+  </div>
+</div>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

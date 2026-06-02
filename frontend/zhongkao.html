@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>中考备考专区 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.policy-banner{max-width:1100px;margin:0 auto 48px;padding:0 24px}
+.policy-banner a{display:block;background:linear-gradient(135deg,#2563eb 0%,#1e40af 100%);border-radius:var(--radius);padding:28px 32px;text-decoration:none;color:#fff;transition:var(--transition)}
+.policy-banner a:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(37,99,235,.3)}
+.policy-banner h3{font-size:1.3rem;font-weight:700;margin-bottom:6px}
+.policy-banner p{font-size:.9rem;opacity:.85}
+</style>
+</head>
+<body>
+
+<section class="hero" style="padding-bottom:40px">
+  <div style="display:inline-block;background:rgba(37,99,235,.15);color:#2563eb;padding:6px 16px;border-radius:999px;font-size:13px;font-weight:700;margin-bottom:16px">&#127891; 家长可读的学习诊断报告</div>
+  <h1 style="background:linear-gradient(135deg,#fff 0%,#2563eb 100%);-webkit-background-clip:text;background-clip:text">北京中考 AI 备考专区</h1>
+  <p class="subtitle">九科全覆盖 · 错题诊断 · 个性化提分方案<br>基于北京中考历年真题，让孩子清楚"哪里弱、怎么练、能否提分"</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">
+    <a href="sample-report-student.html" class="btn primary" style="font-size:1rem;padding:14px 28px">&#128203; 查看样例报告</a>
+    <a href="login.html" class="btn ghost" style="font-size:1rem;padding:14px 28px">&#128100; 登录开始练习</a>
+  </div>
+</section>
+
+<!-- 家长关心的三个问题 -->
+<div style="max-width:1100px;margin:0 auto 48px;padding:0 24px">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">&#10067;</div>
+      <h3 style="font-size:1.1rem;margin-bottom:8px">孩子到底弱在哪里？</h3>
+      <p style="font-size:.85rem;color:var(--text-muted);line-height:1.6">基于错题数据分析，精准定位薄弱知识点，生成能力雷达图</p>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">&#128221;</div>
+      <h3 style="font-size:1.1rem;margin-bottom:8px">每天应该练什么？</h3>
+      <p style="font-size:.85rem;color:var(--text-muted);line-height:1.6">个性化学习路径规划，每日推荐同类强化训练题</p>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px">&#128200;</div>
+      <h3 style="font-size:1.1rem;margin-bottom:8px">一周后能看到什么变化？</h3>
+      <p style="font-size:.85rem;color:var(--text-muted);line-height:1.6">每周生成学习周报，追踪进步曲线，量化学习效果</p>
+    </div>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-card"><div class="num">9</div><div class="label">覆盖学科</div></div>
+  <div class="stat-card"><div class="num">17</div><div class="label">真题年份</div></div>
+  <div class="stat-card"><div class="num">500+</div><div class="label">核心知识点</div></div>
+  <div class="stat-card"><div class="num">3</div><div class="label">模拟预测卷</div></div>
+</div>
+
+<div class="subjects-section">
+  <h2>中考核心功能</h2>
+  <div class="subject-grid">
+    <div class="subject-card">
+      <div class="icon">&#128247;</div>
+      <h3>错题拍照识别</h3>
+      <div class="desc">手机拍照上传错题，AI自动识别知识点和错误原因</div>
+      <div class="btn-group">
+        <a href="login.html" class="btn primary">立即体验</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#128203;</div>
+      <h3>个性化学习报告</h3>
+      <div class="desc">基于错题数据生成专属诊断报告与强化学习方案</div>
+      <div class="btn-group">
+        <a href="dashboard.html" class="btn primary">个人中心</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#127919;</div>
+      <h3>薄弱点精准分析</h3>
+      <div class="desc">错题归因、知识点图谱、能力画像全方位诊断</div>
+      <div class="btn-group">
+        <a href="my-weak-points.html" class="btn primary">查看薄弱点</a>
+      </div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#128218;</div>
+      <h3>学习路径规划</h3>
+      <div class="desc">分阶段学习计划、每日目标、同类题强化训练</div>
+      <div class="btn-group">
+        <a href="learning-path.html" class="btn primary">查看路径</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="subjects-section">
+  <h2>九科备考地图</h2>
+  <p style="text-align:center;color:var(--text-muted);margin-bottom:24px">高频考点 · 易错点 · 训练建议 · 预测卷入口</p>
+  <div class="subject-grid">
+    <div class="subject-card">
+      <div class="icon">&#128214;</div>
+      <h3>语文</h3>
+      <div class="desc">基础积累 &middot; 古诗文 &middot; 现代文阅读 &middot; 写作 &middot; 名著阅读</div>
+      <div class="tag-row"><span class="tag blue">120分</span><span class="tag green">150分钟</span></div>
+      <div class="btn-group"><a href="login.html" class="btn primary">开始练习</a></div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#128290;</div>
+      <h3>数学</h3>
+      <div class="desc">实数运算 &middot; 方程不等式 &middot; 函数 &middot; 几何图形 &middot; 统计概率</div>
+      <div class="tag-row"><span class="tag blue">100分</span><span class="tag green">120分钟</span></div>
+      <div class="btn-group"><a href="login.html" class="btn primary">开始练习</a></div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#127758;</div>
+      <h3>英语</h3>
+      <div class="desc">听力理解 &middot; 单项选择 &middot; 完形填空 &middot; 阅读理解 &middot; 写作</div>
+      <div class="tag-row"><span class="tag blue">100分</span><span class="tag green">120分钟</span></div>
+      <div class="btn-group"><a href="login.html" class="btn primary">开始练习</a></div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#9889;</div>
+      <h3>物理</h3>
+      <div class="desc">力学 &middot; 电学 &middot; 声光热 &middot; 实验探究 &middot; 能量与能源</div>
+      <div class="tag-row"><span class="tag blue">80分</span><span class="tag green">120分钟</span></div>
+      <div class="btn-group"><a href="login.html" class="btn primary">开始练习</a></div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#9879;&#65039;</div>
+      <h3>化学</h3>
+      <div class="desc">物质构成 &middot; 化学方程式 &middot; 金属酸碱盐 &middot; 溶液 &middot; 实验</div>
+      <div class="tag-row"><span class="tag blue">80分</span><span class="tag green">100分钟</span></div>
+      <div class="btn-group"><a href="login.html" class="btn primary">开始练习</a></div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#129516;</div>
+      <h3>生物</h3>
+      <div class="desc">细胞与生物体 &middot; 植物 &middot; 人体 &middot; 遗传进化 &middot; 生态系统</div>
+      <div class="tag-row"><span class="tag blue">70分</span><span class="tag green">60分钟</span></div>
+      <div class="btn-group"><a href="login.html" class="btn primary">开始练习</a></div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#128218;</div>
+      <h3>历史</h3>
+      <div class="desc">中国古代史 &middot; 中国近代史 &middot; 世界史 &middot; 综合分析</div>
+      <div class="tag-row"><span class="tag blue">80分</span><span class="tag green">60分钟</span></div>
+      <div class="btn-group"><a href="login.html" class="btn primary">开始练习</a></div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#127759;</div>
+      <h3>地理</h3>
+      <div class="desc">地球与地图 &middot; 世界地理 &middot; 中国地理 &middot; 北京地理</div>
+      <div class="tag-row"><span class="tag blue">70分</span><span class="tag green">60分钟</span></div>
+      <div class="btn-group"><a href="login.html" class="btn primary">开始练习</a></div>
+    </div>
+    <div class="subject-card">
+      <div class="icon">&#9878;&#65039;</div>
+      <h3>道德与法治</h3>
+      <div class="desc">成长心理 &middot; 法律道德 &middot; 国情国策 &middot; 核心价值观</div>
+      <div class="tag-row"><span class="tag blue">80分</span><span class="tag green">60分钟</span></div>
+      <div class="btn-group"><a href="login.html" class="btn primary">开始练习</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="subjects-section">
+  <h2>2026中考趋势预测</h2>
+  <div class="trend-carousel">
+    <div class="trend-card">
+      <div class="trend-subj" style="color:#2563eb">数学</div>
+      <div class="trend-title">应用题情境化<strong style="color:#d97706">可能</strong>增强</div>
+      <div class="trend-desc">中考数学应用题越来越多融入生活场景，考查数学建模与实际问题解决能力。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj" style="color:#2563eb">物理</div>
+      <div class="trend-title">实验探究题比重<strong style="color:#dc2626">高概率</strong>上升</div>
+      <div class="trend-desc">近年物理中考实验题从20%增至30%，强调动手操作与科学探究思维。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj" style="color:#2563eb">英语</div>
+      <div class="trend-title">阅读理解难度<strong style="color:#d97706">可能</strong>提升</div>
+      <div class="trend-desc">语篇长度增加，推断题和主旨题比重上升，词汇量要求持续提高。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj" style="color:#2563eb">化学</div>
+      <div class="trend-title">跨学科融合命题<strong style="color:#d97706">可能</strong>增多</div>
+      <div class="trend-desc">化学与物理、生物的交叉知识点增多，工业流程题更加贴近实际生产。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj" style="color:#2563eb">语文</div>
+      <div class="trend-title">名著阅读考查<strong style="color:#d97706">可能</strong>加深</div>
+      <div class="trend-desc">从情节记忆向深度理解转变，需要分析人物形象、写作手法和思想内涵。</div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-subj" style="color:#2563eb">生物</div>
+      <div class="trend-title">生态与环保主题<strong style="color:#dc2626">高概率</strong>升温</div>
+      <div class="trend-desc">碳中和、生物多样性等热点频繁入题，生态系统的考查力度持续加大。</div>
+    </div>
+  </div>
+</div>
+
+<div class="policy-banner">
+  <a href="zhongkao-policy.html">
+    <h3>&#128203; 2026年北京中考政策解读</h3>
+    <p>考试科目 &middot; 分值设置 &middot; 志愿填报 &middot; 录取规则 &middot; 加分政策</p>
+  </a>
+</div>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

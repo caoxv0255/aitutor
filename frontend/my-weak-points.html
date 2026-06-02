@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我的薄弱点 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.weak-wrap{max-width:900px;margin:0 auto;padding:40px 24px 60px}
+.weak-header{margin-bottom:32px}
+.weak-header h1{font-size:1.8rem;font-weight:700;margin-bottom:4px}
+.weak-header p{font-size:.9rem;color:var(--text-muted)}
+.weak-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px}
+.summary-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;text-align:center}
+.summary-card .num{font-size:2rem;font-weight:800;color:var(--accent);margin-bottom:4px}
+.summary-card .label{font-size:.85rem;color:var(--text-muted)}
+.weak-list{display:flex;flex-direction:column;gap:12px}
+.weak-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;transition:var(--transition)}
+.weak-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 20px rgba(215,25,32,.1)}
+.weak-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.weak-card-name{font-size:1.1rem;font-weight:700}
+.weak-card-count{background:var(--accent);color:#fff;padding:4px 12px;border-radius:999px;font-size:.8rem;font-weight:700}
+.weak-card-meta{display:flex;gap:16px;margin-bottom:12px;font-size:.8rem;color:var(--text-muted)}
+.weak-card-subtopics{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.weak-card-subtopics span{background:var(--bg);border:1px solid var(--border);padding:4px 10px;border-radius:8px;font-size:.75rem}
+.weak-card-subtopics span.diff-5{border-color:#ef4444;background:#fef2f2;color:#ef4444}
+.weak-card-subtopics span.diff-4{border-color:#f97316;background:#fff7ed;color:#f97316}
+.weak-card-subtopics span.diff-3{border-color:#eab308;background:#fefce8;color:#ca8a04}
+.weak-card-samples{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.weak-card-samples h4{font-size:.8rem;color:var(--text-muted);margin-bottom:8px}
+.sample-item{font-size:.85rem;padding:6px 0;color:var(--text);border-bottom:1px solid var(--border)}
+.sample-item:last-child{border-bottom:none}
+.generate-bar{text-align:center;margin-top:36px}
+.generate-btn{background:var(--accent);color:#fff;border:none;padding:14px 32px;border-radius:var(--radius-pill);font-size:1rem;font-weight:700;cursor:pointer;transition:var(--transition);font-family:var(--font)}
+.generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(215,25,32,.3)}
+.generate-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.subject-select{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+.subject-btn{padding:8px 16px;border:1px solid var(--border);background:var(--bg-card);border-radius:var(--radius-pill);font-size:.85rem;color:var(--text-muted);cursor:pointer;transition:var(--transition)}
+.subject-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.subject-btn:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+.empty-state{text-align:center;padding:60px 24px;color:var(--text-muted)}
+.empty-state .empty-icon{font-size:3rem;margin-bottom:16px}
+.loading-state{text-align:center;padding:60px 24px;color:var(--text-muted)}
+.error-state{text-align:center;padding:40px 24px;color:var(--accent);font-size:.9rem}
+</style>
+</head>
+<body>
+
+<div class="weak-wrap">
+  <div class="weak-header">
+    <h1>我的薄弱点分析</h1>
+    <p>基于错题记录，分析各知识点的薄弱程度，精准定位提升方向</p>
+  </div>
+
+  <div id="loadingState" class="loading-state">正在分析您的错题数据...</div>
+  <div id="errorState" class="error-state" style="display:none"></div>
+  <div id="mainContent" style="display:none">
+    <div class="weak-summary" id="summaryCards"></div>
+
+    <div class="weak-list" id="weakList"></div>
+
+    <div class="generate-bar">
+      <p style="margin-bottom:16px;color:var(--text-muted);font-size:.9rem">选择学科，基于薄弱点生成个性化预测卷</p>
+      <div class="subject-select" id="subjectSelect">
+        <button class="subject-btn active" data-subject="math">数学</button>
+        <button class="subject-btn" data-subject="chinese">语文</button>
+        <button class="subject-btn" data-subject="english">英语</button>
+        <button class="subject-btn" data-subject="physics">物理</button>
+        <button class="subject-btn" data-subject="chemistry">化学</button>
+        <button class="subject-btn" data-subject="politics">政治</button>
+      </div>
+      <button class="generate-btn" id="generateBtn">🧬 生成个性化预测卷</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const token = localStorage.getItem('token');
+  if (!token) { location.href = 'login.html'; return; }
+
+  const mainContent = document.getElementById('mainContent');
+  const loadingState = document.getElementById('loadingState');
+  const errorState = document.getElementById('errorState');
+  let selectedSubject = 'math';
+
+  const subjectNames = {
+    math: '数学', chinese: '语文', english: '英语',
+    physics: '物理', chemistry: '化学', politics: '政治'
+  };
+
+  // Subject buttons
+  document.getElementById('subjectSelect').addEventListener('click', function(e) {
+    if (e.target.classList.contains('subject-btn')) {
+      document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      selectedSubject = e.target.dataset.subject;
+      renderWeakPoints(allWeakPoints);
+    }
+  });
+
+  let allWeakPoints = [];
+
+  async function fetchWeakPoints() {
+    try {
+      const res = await fetch('/api/weak-points', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        location.href = 'login.html';
+        return;
+      }
+      if (!res.ok) throw new Error('获取薄弱点数据失败');
+      const data = await res.json();
+      allWeakPoints = data.weak_points || [];
+      loadingState.style.display = 'none';
+      mainContent.style.display = 'block';
+      renderWeakPoints(allWeakPoints);
+    } catch (err) {
+      loadingState.style.display = 'none';
+      errorState.style.display = 'block';
+      errorState.textContent = err.message;
+    }
+  }
+
+  function renderWeakPoints(points) {
+    const filtered = points.filter(p => p.subject === selectedSubject);
+    const totalWrong = filtered.reduce((sum, p) => sum + p.error_count, 0);
+    const topKP = filtered.length > 0 ? filtered[0] : null;
+
+    // Summary cards
+    document.getElementById('summaryCards').innerHTML = `
+      <div class="summary-card">
+        <div class="num">${filtered.length}</div>
+        <div class="label">薄弱知识点数</div>
+      </div>
+      <div class="summary-card">
+        <div class="num">${totalWrong}</div>
+        <div class="label">关联错题数</div>
+      </div>
+      <div class="summary-card">
+        <div class="num">${topKP ? topKP.name : '无'}</div>
+        <div class="label">最薄弱知识点</div>
+      </div>
+    `;
+
+    const list = document.getElementById('weakList');
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div><p>该学科暂无薄弱点记录<br>做更多练习后将自动分析</p></div>';
+      return;
+    }
+
+    list.innerHTML = filtered.map(function(wp) {
+      const subtopics = (wp.subtopics || []).map(s => {
+        const cls = wp.difficulty >= 5 ? 'diff-5' : (wp.difficulty >= 4 ? 'diff-4' : 'diff-3');
+        return '<span class="' + cls + '">' + s + '</span>';
+      }).join('');
+
+      const samples = (wp.sample_questions || []).map(sq =>
+        '<div class="sample-item">📝 ' + (sq.content || '').substring(0, 60) + '...</div>'
+      ).join('');
+
+      return '<div class="weak-card">' +
+        '<div class="weak-card-header">' +
+          '<div class="weak-card-name">' + wp.name + '</div>' +
+          '<div class="weak-card-count">错 ' + wp.error_count + ' 次</div>' +
+        '</div>' +
+        '<div class="weak-card-meta">' +
+          '<span>难度等级: ' + wp.difficulty + '/5</span>' +
+          '<span>考试频率: ' + (wp.frequency || 'medium') + '</span>' +
+        '</div>' +
+        (wp.description ? '<div style="font-size:.85rem;color:var(--text-muted);margin-bottom:10px">' + wp.description + '</div>' : '') +
+        '<div class="weak-card-subtopics">' + subtopics + '</div>' +
+        (samples ? '<div class="weak-card-samples"><h4>关联错题</h4>' + samples + '</div>' : '') +
+      '</div>';
+    }).join('');
+  }
+
+  // Generate paper button
+  document.getElementById('generateBtn').addEventListener('click', async function() {
+    const btn = this;
+    btn.disabled = true;
+    btn.textContent = '⏳ 正在生成...';
+
+    try {
+      const res = await fetch('/api/generate-paper', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ subject: selectedSubject })
+      });
+      if (!res.ok) throw new Error('生成失败');
+      const paper = await res.json();
+      // Store paper in sessionStorage for the paper page
+      sessionStorage.setItem('generatedPaper', JSON.stringify(paper));
+      location.href = 'personalized-paper.html?from=generate';
+    } catch (err) {
+      alert('生成失败: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '🧬 生成个性化预测卷';
+    }
+  });
+
+  fetchWeakPoints();
+})();
+</script>
+
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

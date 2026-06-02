@@ -1,0 +1,18 @@
+[Unit]
+Description=AI Tutor GraphRAG Service
+After=network.target postgresql.service
+
+[Service]
+WorkingDirectory=/home/flaskappuser/Desktop/NewDisk_2T/new_fastapi.git/aitutor
+ExecStart=/home/flaskappuser/Desktop/NewDisk_2T/new_fastapi.git/aitutor/.venv/bin/uvicorn graphrag_service.main:app --host 127.0.0.1 --port 8100
+Restart=always
+RestartSec=5
+User=flaskappuser
+EnvironmentFile=/home/flaskappuser/Desktop/NewDisk_2T/new_fastapi.git/aitutor/.env
+
+# 资源限制
+MemoryMax=4G
+CPUQuota=200%
+
+[Install]
+WantedBy=multi-user.target

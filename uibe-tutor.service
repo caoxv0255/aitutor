@@ -1,0 +1,18 @@
+[Unit]
+Description=UIBE AI Tutor Service (拍照搜题)
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=flaskappuser
+WorkingDirectory=/home/flaskappuser/Desktop/NewDisk_2T/new_fastapi.git/aitutor
+EnvironmentFile=-/home/flaskappuser/Desktop/NewDisk_2T/new_fastapi.git/aitutor/.env
+Environment=PORT=3002
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/home/flaskappuser/Desktop/NewDisk_2T/new_fastapi.git/logs/aitutor.log
+StandardError=append:/home/flaskappuser/Desktop/NewDisk_2T/new_fastapi.git/logs/aitutor_error.log
+
+[Install]
+WantedBy=multi-user.target

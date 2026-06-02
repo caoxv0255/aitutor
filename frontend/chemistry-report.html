@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>化学命题趋势分析 - AI Tutor</title>
+<style>:root{--bg:#f8fafc;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#0f766e;--soft:#ecfeff;--bar:#67e8f9;--bar2:#22d3ee;--green:#059669;--green-soft:#ecfdf5;--amber:#d97706;--amber-soft:#fffbeb;--blue:#2563eb;--blue-soft:#eff6ff}
+*{box-sizing:border-box}body{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:1280px;margin:0 auto;padding:24px}
+.hero,.section{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.04)}
+.hero{padding:28px}.section{padding:22px;margin-top:18px}
+h1,h2,h3{margin:0 0 12px}p,li{line-height:1.8}
+.meta{color:var(--muted)}.tag{display:inline-block;padding:4px 10px;background:var(--soft);color:var(--brand);border-radius:999px;margin:0 8px 8px 0;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.stat b{font-size:28px;color:var(--brand)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top}
+th{background:#f9fafb}
+.bar{height:10px;background:#cffafe;border-radius:999px;overflow:hidden}.bar>span{display:block;height:100%;background:var(--bar)}
+.hbar{display:grid;gap:12px}
+.row{display:grid;grid-template-columns:130px 1fr 56px;gap:12px;align-items:center}
+.track{height:14px;background:#cffafe;border-radius:999px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--bar),var(--bar2))}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.compare .box{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+.compare h3{font-size:18px}
+.small{font-size:13px;color:var(--muted)}
+.map,.mind{padding:16px;background:#fcfcff;border:1px dashed #d1d5db;border-radius:12px;overflow:auto}
+.tree ul{list-style:none;padding-left:22px;margin:6px 0;border-left:2px solid #e5e7eb}
+.tree li{margin:10px 0;position:relative}
+.tree li::before{content:"";position:absolute;left:-22px;top:12px;width:18px;border-top:2px solid #e5e7eb}
+.node{display:inline-block;background:#fff;border:1px solid #99f6e4;border-radius:10px;padding:8px 12px}
+.kg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.kg .node{text-align:center;background:#ecfeff}
+.arrow{text-align:center;color:var(--muted)}
+.verdict{background:linear-gradient(135deg,#ecfeff,#ecfeff22);border:2px solid #0f766e33;border-radius:16px;padding:24px 28px;margin-top:18px}
+.verdict h2{color:var(--brand);font-size:22px;margin-bottom:12px}
+.verdict p{font-size:16px;line-height:2}
+.predict-card{border-radius:14px;padding:18px;margin-bottom:14px}
+.predict-high{background:var(--soft);border:1px solid #0f766e33}
+.predict-mid{background:var(--amber-soft);border:1px solid #fde68a}
+.predict-low{background:var(--blue-soft);border:1px solid #bfdbfe}
+.predict-card h4{margin:0 0 8px;font-size:16px}
+.predict-card .prob{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:8px}
+.prob-high{background:#dc2626;color:#fff}
+.prob-mid{background:#d97706;color:#fff}
+.prob-low{background:#2563eb;color:#fff}
+.evidence{background:#f9fafb;border-left:3px solid var(--brand);padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
+.risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.risk-box{border-radius:14px;padding:16px;text-align:center}
+.risk-safe{background:#ecfdf5;border:1px solid #a7f3d0}
+.risk-warn{background:#fffbeb;border:1px solid #fde68a}
+.risk-danger{background:#fef2f2;border:1px solid #fecaca}
+.risk-box .icon{font-size:32px;margin-bottom:6px}
+.risk-box h4{margin:0 0 6px;font-size:15px}
+.risk-box p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+.freq-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;margin-right:4px}
+.freq-h{background:#dc2626;color:#fff}.freq-m{background:#d97706;color:#fff}.freq-l{background:#6b7280;color:#fff}
+.kg-node{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:10px;margin:4px;font-size:13px;border:1px solid var(--line);background:#fff}
+.kg-node.hot{border-color:#dc2626;background:#fef2f2}
+.kg-node.warm{border-color:#d97706;background:#fffbeb}
+.kg-node.cool{border-color:#6b7280;background:#f9fafb}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ====== 一句话结论 ====== -->
+<div class="verdict">
+  <h2>📌 一句话结论</h2>
+  <p><strong>2026年北京化学卷将延续真实情境+证据推理路线，实验设计与现象推理、化学原理图像分析、结构性质关系应用成为核心考查方向。</strong> 考生应重点训练"现象→微观→结论"的证据链思维，而非孤立记忆知识点。</p>
+</div>
+
+<!-- ====== Hero ====== -->
+<div class="hero" style="margin-top:18px">
+  <h1>北京高考化学命题趋势详细分析报告</h1>
+  <p class="meta">依据：2021-2025 北京高考化学真题观察，重点分析 2023-2025｜特征：真实情境、实验推理、结构性质关系、综合整合</p>
+  <div>
+    <span class="tag">实验设计</span><span class="tag">证据推理</span><span class="tag">结构与性质</span><span class="tag">有机综合</span><span class="tag">工业与科技情境</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="small">3年最强趋势</div><b>真实情境</b><div class="small">月壤、催化、材料、能源等背景高频</div></div>
+    <div class="stat"><div class="small">5年稳定核心</div><b>实验题</b><div class="small">装置、现象、操作、推理持续高频</div></div>
+    <div class="stat"><div class="small">区分度来源</div><b>综合整合</b><div class="small">跨无机/有机/结构/原理整合能力</div></div>
+    <div class="stat"><div class="small">备考抓手</div><b>证据链</b><div class="small">现象→结构/性质→结论</div></div>
+  </div>
+</div>
+
+<!-- ====== 一、核心判断 ====== -->
+<div class="section">
+  <h2>一、核心判断</h2>
+  <ul>
+    <li><strong>北京化学卷近年已非常明显地从知识点分块走向真实问题求解。</strong></li>
+    <li><strong>实验设计与现象解释持续是高频核心，且越来越强调证据链而非结论记忆。</strong></li>
+    <li><strong>有机、无机、结构、平衡、电化学等模块交叉融合度上升。</strong></li>
+    <li><strong>高分关键在于：能否根据材料与数据进行规范推理。</strong></li>
+  </ul>
+</div>
+
+<!-- ====== 二、3 年趋势表 ====== -->
+<div class="section">
+  <h2>二、3 年趋势表（2023-2025）</h2>
+  <table>
+    <thead><tr><th>维度</th><th>2023</th><th>2024</th><th>2025</th><th>趋势结论</th></tr></thead>
+    <tbody>
+      <tr><td><strong>情境背景</strong></td><td>工业/生产</td><td>材料/环境</td><td>月壤、催化、高分子、电池</td><td>科技现实化增强</td></tr>
+      <tr><td><strong>实验题</strong></td><td>装置与现象</td><td>变量与操作</td><td>操作+原理+推断并重</td><td>实验素养持续上升</td></tr>
+      <tr><td><strong>有机题</strong></td><td>官能团与反应</td><td>路线综合</td><td>结构、反应类型与可降解材料结合</td><td>综合度提升</td></tr>
+      <tr><td><strong>化学原理</strong></td><td>常规计算/判断</td><td>图像数据化</td><td>图像、平衡、溶解、电化学整合</td><td>证据推理更强</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 三、5 年趋势表 ====== -->
+<div class="section">
+  <h2>三、5 年趋势表（2021-2025）</h2>
+  <table>
+    <thead><tr><th>模块</th><th>2021-2022</th><th>2023-2025</th><th>5年总趋势</th><th>趋势强度</th></tr></thead>
+    <tbody>
+      <tr><td><strong>实验探究</strong></td><td>稳定高频</td><td>解释与推理更深入</td><td>绝对核心</td><td><div class="bar"><span style="width:95%"></span></div></td></tr>
+      <tr><td><strong>结构与性质</strong></td><td>基础结合应用</td><td>与材料、分子模型结合更强</td><td>现实化增强</td><td><div class="bar"><span style="width:82%"></span></div></td></tr>
+      <tr><td><strong>有机综合</strong></td><td>路线题稳定</td><td>高分子和新材料背景上升</td><td>综合性增强</td><td><div class="bar"><span style="width:80%"></span></div></td></tr>
+      <tr><td><strong>电化学/平衡</strong></td><td>常考</td><td>图像与数据化更明显</td><td>原理应用深化</td><td><div class="bar"><span style="width:78%"></span></div></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 四、统计化展示 ====== -->
+<div class="section">
+  <h2>四、统计化展示</h2>
+  <table>
+    <thead><tr><th>模块</th><th>稳定性</th><th>区分度</th><th>优先级</th></tr></thead>
+    <tbody>
+      <tr><td><strong>实验探究</strong></td><td>很高</td><td>很高</td><td>★★★★★</td></tr>
+      <tr><td><strong>化学原理</strong></td><td>很高</td><td>高</td><td>★★★★★</td></tr>
+      <tr><td><strong>结构性质</strong></td><td>高</td><td>中高</td><td>★★★★☆</td></tr>
+      <tr><td><strong>有机综合</strong></td><td>高</td><td>高</td><td>★★★★☆</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 五、命题特征解读 ====== -->
+<div class="section">
+  <h2>五、命题特征解读</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">🔬</div>
+      <div style="font-weight:600;color:var(--brand)">真实问题导向</div>
+      <div class="small">月壤、催化、材料、能源等背景</div>
+    </div>
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">⚗️</div>
+      <div style="font-weight:600;color:var(--brand)">实验权重高</div>
+      <div class="small">装置、现象、操作、推理持续高频</div>
+    </div>
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">🔗</div>
+      <div style="font-weight:600;color:var(--brand)">跨模块明显</div>
+      <div class="small">无机/有机/结构/原理交叉融合</div>
+    </div>
+    <div style="background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">📊</div>
+      <div style="font-weight:600;color:var(--brand)">图表推理化</div>
+      <div class="small">图像、数据、曲线分析能力要求上升</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 六、知识图谱 ====== -->
+<div class="section">
+  <h2>六、知识图谱</h2>
+  <div class="kg">
+    <div class="node">
+      <strong>实验现象</strong><br>
+      <span class="arrow">→ 推出 →</span><br>
+      颜色/沉淀/气体/图像
+    </div>
+    <div class="node">
+      <strong>微观结构</strong><br>
+      <span class="arrow">→ 解释 →</span><br>
+      键/构型/配位/官能团
+    </div>
+    <div class="node">
+      <strong>反应规律</strong><br>
+      <span class="arrow">→ 应用 →</span><br>
+      氧化还原/平衡/电化学/有机反应
+    </div>
+  </div>
+</div>
+
+<!-- ====== 七（附加A）、核心知识点清单 ====== -->
+<div class="section">
+  <h2>📘 七（附加A）、核心知识点清单（基于课标总结）</h2>
+  <p class="small" style="margin-bottom:14px">依据《高考化学知识归纳总结》PDF，按模块整理核心知识点，星标表示考频（★★★★★=必考 ★★★★=高频 ★★★=常考 ★★=低频 ★=极低频）</p>
+  <table>
+    <thead><tr><th>模块</th><th>核心知识点</th><th>考频</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4"><strong>物质分类<br>与化学用语</strong></td>
+        <td>物质分类（混合物/纯净物/单质/化合物/氧化物/酸/碱/盐）</td><td>★★★★</td><td>基础必考，常在选择题出现</td></tr>
+      <tr><td>化学用语（电子式/结构式/化学式/离子方程式）</td><td>★★★★★</td><td>每年必考，电子式书写是高频考点</td></tr>
+      <tr><td>物质的量（摩尔/摩尔质量/气体摩尔体积/物质的量浓度）</td><td>★★★★</td><td>计算题基础</td></tr>
+      <tr><td>阿伏加德罗常数与推论</td><td>★★★★</td><td>选择题高频，注意陷阱判断</td></tr>
+      <tr><td rowspan="3"><strong>氧化还原<br>反应</strong></td>
+        <td>氧化还原反应基本概念（氧化剂/还原剂/氧化产物/还原产物）</td><td>★★★★★</td><td>必考，与元素化合物结合</td></tr>
+      <tr><td>氧化性/还原性强弱比较</td><td>★★★★</td><td>周期律结合考查</td></tr>
+      <tr><td>氧化还原反应配平与电子守恒</td><td>★★★★</td><td>综合题中常用</td></tr>
+      <tr><td rowspan="3"><strong>离子反应</strong></td>
+        <td>离子方程式书写（写/拆/删/查）</td><td>★★★★★</td><td>每年必考，注意拆分规则</td></tr>
+      <tr><td>离子共存问题</td><td>★★★★</td><td>选择题高频，注意附加条件</td></tr>
+      <tr><td>离子检验（Cl⁻/SO₄²⁻/CO₃²⁻/NH₄⁺等）</td><td>★★★</td><td>实验题常涉及</td></tr>
+      <tr><td rowspan="3"><strong>化学反应<br>与能量</strong></td>
+        <td>热化学方程式书写与ΔH判断</td><td>★★★★</td><td>注意状态标注和符号</td></tr>
+      <tr><td>盖斯定律与反应热计算</td><td>★★★★</td><td>综合题常考</td></tr>
+      <tr><td>燃烧热/中和热概念辨析</td><td>★★★</td><td>选择题常见</td></tr>
+      <tr><td rowspan="3"><strong>化学平衡<br>与速率</strong></td>
+        <td>化学平衡常数与平衡移动</td><td>★★★★★</td><td>必考，图像分析是关键</td></tr>
+      <tr><td>反应速率影响因素与计算</td><td>★★★★</td><td>常与实验结合</td></tr>
+      <tr><td>等效平衡与转化率</td><td>★★★</td><td>高区分度考点</td></tr>
+      <tr><td rowspan="4"><strong>元素化合物</strong><br>（Na/Fe/Al/Cl/S/N）</td>
+        <td>钠及其化合物（Na₂O₂/NaOH/Na₂CO₃/NaHCO₃）</td><td>★★★★★</td><td>必考，与水/CO₂反应</td></tr>
+      <tr><td>铁及其化合物（Fe/Fe²⁺/Fe³⁺转化与检验）</td><td>★★★★★</td><td>颜色反应/SCN检验高频</td></tr>
+      <tr><td>铝及其化合物（两性/Al(OH)₃溶解平衡）</td><td>★★★★</td><td>图像题常涉及</td></tr>
+      <tr><td>硫/氮及其化合物（SO₂/浓H₂SO₄/HNO₃/NO/NO₂）</td><td>★★★★★</td><td>工业流程题核心</td></tr>
+      <tr><td rowspan="3"><strong>有机化学</strong></td>
+        <td>官能团识别与性质推断</td><td>★★★★</td><td>选择/大题均涉及</td></tr>
+      <tr><td>有机合成路线设计（取代/加成/消去/酯化）</td><td>★★★★</td><td>大题必考</td></tr>
+      <tr><td>同分异构体书写</td><td>★★★★</td><td>高区分度，注意限定条件</td></tr>
+      <tr><td rowspan="3"><strong>实验基础</strong></td>
+        <td>基本操作（过滤/蒸馏/萃取/蒸发结晶/焰色反应）</td><td>★★★★★</td><td>每年必考，操作规范</td></tr>
+      <tr><td>气体制备与收集（Cl₂/O₂/CO₂/NH₃）</td><td>★★★★</td><td>装置选择与尾气处理</td></tr>
+      <tr><td>物质检验与鉴别（Fe³⁺/Fe²⁺/SO₄²⁻/Cl⁻/CO₃²⁻）</td><td>★★★★</td><td>试剂选择与现象描述</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 七（附加B）、真题↔知识点映射表 ====== -->
+<div class="section">
+  <h2>🔗 七（附加B）、真题↔知识点映射表（2023-2025）</h2>
+  <p class="small" style="margin-bottom:14px">将近年真题考点映射到具体知识点模块，帮助精准定位复习重点</p>
+  <table>
+    <thead><tr><th>题号</th><th>考点方向</th><th>对应知识点</th><th>难度</th></tr></thead>
+    <tbody>
+      <tr><td><strong>2025 选择1-8</strong></td><td>物质分类/化学用语/阿伏加德罗常数</td><td>物质分类、化学用语、摩尔计算</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2025 选择9-12</strong></td><td>氧化还原/离子反应/元素化合物</td><td>氧化还原概念、离子方程式、Na/Fe/Al性质</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2025 实验题</strong></td><td>实验设计+现象推理+操作规范</td><td>基本操作、气体制备、物质检验</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2025 原理题</strong></td><td>化学平衡/电化学/图像数据</td><td>平衡常数、平衡移动、电极反应</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2025 有机题</strong></td><td>结构-性质-反应类型-可降解材料</td><td>官能团、反应类型、有机合成</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2024 选择1-8</strong></td><td>化学用语/物质分类/周期律</td><td>电子式、元素周期律、金属性/非金属性</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2024 选择9-12</strong></td><td>氧化还原/离子反应/元素化合物</td><td>氧化还原配平、离子共存、S/N化合物</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2024 实验题</strong></td><td>变量控制/操作顺序/现象解释</td><td>实验变量、操作规范、现象推理</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2024 原理题</strong></td><td>图像分析/平衡/电化学</td><td>平衡图像、电极判断、盖斯定律</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2024 有机题</strong></td><td>合成路线综合</td><td>有机反应类型、路线设计</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2023 选择1-8</strong></td><td>化学用语/阿伏加德罗常数/工业情境</td><td>化学用语、摩尔计算、工业流程</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2023 选择9-12</strong></td><td>离子反应/氧化还原/元素化合物</td><td>离子方程式、氧化还原、Cl/Na化合物</td><td><span class="freq-tag freq-h">较难</span></td></tr>
+      <tr><td><strong>2023 实验题</strong></td><td>装置与现象/操作判断</td><td>实验装置、操作规范、现象解释</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2023 原理题</strong></td><td>常规计算/判断/化学平衡</td><td>平衡计算、反应热、速率</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+      <tr><td><strong>2023 有机题</strong></td><td>官能团与反应类型</td><td>官能团识别、反应类型判断</td><td><span class="freq-tag freq-m">中等</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====== 七（附加C）、知识点盲区预警 ====== -->
+<div class="section">
+  <h2>🚨 七（附加C）、知识点盲区预警（课标有但近年未考）</h2>
+  <p class="small" style="margin-bottom:14px">以下知识点在课标/教材中明确要求，但2023-2025真题中未直接或较少涉及，需特别注意</p>
+  <div class="risk-grid">
+    <div class="risk-box risk-danger">
+      <div class="icon">🔴</div>
+      <h4>高风险盲区（可能突然出现）</h4>
+      <p><strong>电化学综合（原电池+电解池）</strong>：近年图像化趋势明显，但原电池/电解池的电极反应书写、电子转移计算直接考查频率降低。<br>
+      <strong>盐类水解应用</strong>：课标要求掌握，但近三年直接出题较少，可能以工业流程背景出现。<br>
+      <strong>物质结构与性质（选修内容）</strong>：晶体类型比较、杂化轨道、分子极性判断，近年考频偏低。</p>
+    </div>
+    <div class="risk-box risk-warn">
+      <div class="icon">🟡</div>
+      <h4>中风险盲区（需关注变式）</h4>
+      <p><strong>金属冶炼与工业流程</strong>：钢铁冶炼、铝热反应等工业流程背景题可能回归。<br>
+      <strong>环境保护与绿色化学</strong>：碳中和、酸雨治理等情境化命题方向。<br>
+      <strong>配合物与络合反应</strong>：Fe³⁺与SCN⁻显色反应原理、铜氨络离子等。</p>
+    </div>
+    <div class="risk-box risk-safe">
+      <div class="icon">🟢</div>
+      <h4>低风险但仍需了解</h4>
+      <p><strong>胶体性质</strong>：丁达尔效应、胶体净化（渗析）偶尔出现在选择题。<br>
+      <strong>化学史与前沿科技</strong>：诺奖成果、新材料背景情境。<br>
+      <strong>定量实验（中和滴定/配制溶液）</strong>：操作细节偶考。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 七、2026命题预测 ====== -->
+<div class="section" style="border:2px solid var(--brand);border-radius:16px">
+  <h2>🎯 七、2026年命题预测</h2>
+  <p class="small" style="margin-bottom:16px">预测依据：近5年真题出现规律 + 各模块考查周期 + 新高考改革方向</p>
+
+  <div class="predict-card predict-high">
+    <h4>高概率考点（>80% 可能考到）</h4>
+    <span class="prob prob-high">概率 85-95%</span>
+    <ul>
+      <li><strong>实验设计与现象推理</strong>
+        <div class="evidence">依据：实验探究5年绝对核心，2023-2025年解释与推理持续深入。预计2026年将继续以真实实验情境考查装置、操作、现象解释的综合能力。</div>
+      </li>
+      <li><strong>化学原理图像分析</strong>
+        <div class="evidence">依据：化学原理模块从常规计算转向图像数据化，2025年图像、平衡、溶解、电化学整合趋势明显。图像分析已成为区分度核心来源。</div>
+      </li>
+      <li><strong>结构性质关系应用</strong>
+        <div class="evidence">依据：结构与性质模块从基础结合应用转向与材料、分子模型结合，现实化增强趋势不可逆。2026年可能以新材料为背景考查结构-性质关系。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="predict-card predict-mid">
+    <h4>中概率考点（50-80%）</h4>
+    <span class="prob prob-mid">概率 55-75%</span>
+    <ul>
+      <li><strong>有机合成路线新材料背景</strong>
+        <div class="evidence">依据：有机综合模块高分子和新材料背景持续上升，2025年已出现可降解材料。2026年可能以绿色化学或新能源材料为背景设计有机合成路线题。</div>
+      </li>
+      <li><strong>电化学新型电池</strong>
+        <div class="evidence">依据：电化学/平衡模块图像与数据化趋势明显，新型电池（固态电池、钠离子电池等）是近年科技热点，可能成为命题素材。</div>
+      </li>
+      <li><strong>跨模块综合</strong>
+        <div class="evidence">依据：有机、无机、结构、平衡、电化学交叉融合度持续上升。2026年可能出现需要同时调用多个模块知识的综合大题。</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="predict-card predict-low">
+    <h4>黑马考点（<50%，但值得准备）</h4>
+    <span class="prob prob-low">概率 25-45%</span>
+    <ul>
+      <li><strong>绿色化学与碳中和</strong>
+        <div class="evidence">依据：真实情境化趋势明显，碳中和是国家重大战略方向，可能以工业流程或催化反应情境出现。</div>
+      </li>
+      <li><strong>实验数字化</strong>
+        <div class="evidence">依据：实验素养要求持续上升，数字化实验（传感器数据、实时监测）是新课标倡导方向，可能以实验数据分析形式考查。</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====== 八、风险评估 ====== -->
+<div class="section">
+  <h2>⚠️ 八、风险评估：各模块得分稳定性</h2>
+  <div class="risk-grid">
+    <div class="risk-box risk-safe">
+      <div class="icon">🟢</div>
+      <h4>稳拿分模块</h4>
+      <p><strong>基础实验操作</strong>：仪器识别、基本操作规范5年稳定，掌握即可拿分。<br><strong>元素周期律</strong>：周期表规律、元素性质递变等基础知识点稳定。</p>
+    </div>
+    <div class="risk-box risk-warn">
+      <div class="icon">🟡</div>
+      <h4>变数中等模块</h4>
+      <p><strong>有机合成</strong>：路线设计灵活度增加，新材料背景可能带来陌生情境。<br><strong>电化学</strong>：新型电池不断涌现，需要关注最新科技进展。</p>
+    </div>
+    <div class="risk-box risk-danger">
+      <div class="icon">🔴</div>
+      <h4>高风险模块</h4>
+      <p><strong>实验设计推理</strong>：从"会现象"到"会解释"的跨越是最大难点。<br><strong>跨模块综合</strong>：多模块知识整合对思维能力要求极高。<br><strong>新情境化学</strong>：真实科技情境中的化学问题求解是区分度核心。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 九、思维导图 ====== -->
+<div class="section">
+  <h2>🧠 九、思维导图</h2>
+  <div class="mind">
+    <div style="font-size:14px;line-height:2.2">
+      <strong style="font-size:16px">北京化学卷</strong><br>
+      &emsp;├─ <strong>实验</strong>：装置、操作、现象推理<br>
+      &emsp;├─ <strong>原理</strong>：平衡、电化学、溶解度<br>
+      &emsp;└─ <strong>综合</strong>：有机路线、材料情境、结构性质
+    </div>
+  </div>
+</div>
+
+<!-- ====== 十、备考建议 ====== -->
+<div class="section">
+  <h2>📝 十、备考建议</h2>
+  <table>
+    <thead><tr><th>薄弱点</th><th>典型表现</th><th>训练方案</th></tr></thead>
+    <tbody>
+      <tr><td><strong>实验题失分</strong></td><td>会现象但不会解释</td><td>按现象-微观-结论固定训练</td></tr>
+      <tr><td><strong>知识点割裂</strong></td><td>模块会但综合不会</td><td>专题练跨模块整合题</td></tr>
+      <tr><td><strong>图像题怕读</strong></td><td>信息多就乱</td><td>先看坐标、变量、变化方向，再结论</td></tr>
+      <tr><td><strong>有机题靠背</strong></td><td>路线一变就不会</td><td>抓官能团、反应类型、结构转化链</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+</body>
+</html>

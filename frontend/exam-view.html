@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>试卷详情 - AI Tutor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.paper-header{background:linear-gradient(135deg,var(--accent) 0%,#8b1015 100%);border-radius:var(--radius);padding:32px;margin:24px auto;max-width:1100px;color:#fff}
+.paper-header h1{font-size:1.5rem;margin-bottom:12px}
+.paper-header .meta{display:flex;gap:16px;flex-wrap:wrap;font-size:.88rem;opacity:.9}
+.paper-header .meta span{display:flex;align-items:center;gap:6px}
+.stats-bar{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto 24px;padding:0 24px}
+.stats-bar .stats{display:flex;gap:24px}
+.stats-bar .stat{text-align:center}
+.stats-bar .stat .num{font-size:1.2rem;font-weight:800;color:var(--accent)}
+.stats-bar .stat .label{font-size:.78rem;color:var(--text-muted)}
+.paper-content{max-width:1100px;margin:0 auto;padding:0 24px 48px}
+.questions-list{display:flex;flex-direction:column;gap:16px}
+.question-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.question-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:var(--bg-secondary);border-bottom:1px solid var(--border)}
+.question-num{font-weight:700;color:var(--accent)}
+.question-meta{display:flex;gap:12px;font-size:.82rem;color:var(--text-muted)}
+.question-type{padding:4px 12px;background:var(--accent);color:#fff;border-radius:20px;font-size:.78rem}
+.question-body{padding:20px}
+.question-stem{margin-bottom:16px;line-height:1.7;font-size:.95rem}
+.question-options{display:flex;flex-direction:column;gap:10px}
+.option-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius);cursor:pointer;transition:var(--transition)}
+.option-item:hover{background:var(--bg-hover)}
+.option-item.selected{background:rgba(215,25,32,0.1);border:1px solid var(--accent)}
+.option-item .opt-label{font-weight:700;min-width:24px;color:var(--accent)}
+.question-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;gap:12px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg-secondary);border-radius:20px;font-size:.78rem;color:var(--text-muted)}
+.tag.difficulty-1{background:rgba(76,175,80,0.15);color:#4caf50}
+.tag.difficulty-2{background:rgba(139,195,74,0.15);color:#8bc34a}
+.tag.difficulty-3{background:rgba(255,193,7,0.15);color:#ffc107}
+.tag.difficulty-4{background:rgba(255,152,0,0.15);color:#ff9800}
+.tag.difficulty-5{background:rgba(244,67,54,0.15);color:#f44336}
+.answer-section{margin-top:16px;padding-top:16px;border-top:1px dashed var(--border)}
+.answer-toggle{cursor:pointer;color:var(--accent);font-size:.88rem;display:flex;align-items:center;gap:6px}
+.answer-content{display:none;margin-top:12px;padding:12px;background:rgba(76,175,80,0.1);border-radius:var(--radius);border-left:3px solid #4caf50}
+.answer-content.show{display:block}
+.analysis-content{display:none;margin-top:12px;padding:12px;background:var(--bg-secondary);border-radius:var(--radius)}
+.analysis-content.show{display:block}
+.loading{text-align:center;padding:48px;color:var(--text-muted)}
+.error-msg{text-align:center;padding:48px;color:#f44336}
+.empty-state{text-align:center;padding:48px;color:var(--text-muted)}
+.empty-state .icon{font-size:3rem;margin-bottom:16px}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:.88rem;margin:16px 0}
+.back-link:hover{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 24px">
+  <a href="javascript:history.back()" class="back-link">&#8592; 返回上一页</a>
+</div>
+
+<div id="paper-header" class="paper-header" style="display:none">
+  <h1 id="paper-title"></h1>
+  <div class="meta">
+    <span id="paper-province"></span>
+    <span id="paper-year"></span>
+    <span id="paper-subject"></span>
+    <span id="paper-level"></span>
+  </div>
+</div>
+
+<div id="stats-bar" class="stats-bar" style="display:none">
+  <div class="stats">
+    <div class="stat"><div class="num" id="total-questions">-</div><div class="label">总题数</div></div>
+    <div class="stat"><div class="num" id="total-score">-</div><div class="label">总分</div></div>
+    <div class="stat"><div class="num" id="avg-difficulty">-</div><div class="label">平均难度</div></div>
+  </div>
+  <div class="actions" style="display:flex;gap:12px">
+    <button class="btn secondary" onclick="toggleAllAnswers()" id="toggle-answer-btn">显示答案</button>
+    <button class="btn secondary" onclick="toggleAllAnalysis()" id="toggle-analysis-btn">显示解析</button>
+  </div>
+</div>
+
+<div id="loading" class="loading">加载中...</div>
+<div id="error" class="error-msg" style="display:none"></div>
+<div id="empty" class="empty-state" style="display:none">
+  <div class="icon">&#128214;</div>
+  <h3>暂无题目数据</h3>
+  <p>该试卷暂时没有题目记录</p>
+</div>
+
+<div id="paper-content" class="paper-content" style="display:none">
+  <div class="questions-list" id="questions-list"></div>
+</div>
+
+<script src="qr.js"></script>
+<script src="components.js"></script>
+<script src="theme-utils.js"></script>
+<script>
+let showAllAnswers = false;
+let showAllAnalysis = false;
+let currentPaper = null;
+
+(async function() {
+  const params = new URLSearchParams(window.location.search);
+  const paperId = params.get('id');
+
+  if (!paperId) {
+    showError('缺少试卷ID参数');
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/exam-questions/${paperId}`);
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || '加载失败');
+    }
+
+    const result = await res.json();
+    currentPaper = result.paper;
+    const questions = result.data || [];
+
+    document.title = `${getSubjectName(currentPaper?.subject)} ${currentPaper?.year}年真题 - AI Tutor`;
+
+    document.getElementById('paper-header').style.display = 'block';
+    document.getElementById('paper-title').textContent = `${getSubjectName(currentPaper?.subject)} ${currentPaper?.year}年高考真题`;
+    document.getElementById('paper-province').innerHTML = '&#128205; ' + (currentPaper?.province_name || '全国');
+    document.getElementById('paper-year').innerHTML = '&#128197; ' + (currentPaper?.year || '-') + '年';
+    document.getElementById('paper-subject').innerHTML = '&#128218; ' + getSubjectName(currentPaper?.subject);
+    document.getElementById('paper-level').innerHTML = '&#127891; ' + getExamLevelName(currentPaper?.exam_level);
+
+    document.getElementById('stats-bar').style.display = 'flex';
+    document.getElementById('total-questions').textContent = questions.length || currentPaper?.question_count || 0;
+    document.getElementById('total-score').textContent = currentPaper?.total_score || '-';
+    document.getElementById('avg-difficulty').textContent = currentPaper?.difficulty_avg ? Number(currentPaper.difficulty_avg).toFixed(1) : '-';
+
+    if (questions.length === 0) {
+      document.getElementById('empty').style.display = 'block';
+      document.getElementById('stats-bar').style.display = 'none';
+    } else {
+      renderQuestions(questions);
+      document.getElementById('paper-content').style.display = 'block';
+    }
+
+    document.getElementById('loading').style.display = 'none';
+
+  } catch (err) {
+    showError(err.message || '加载失败');
+  }
+})();
+
+function renderQuestions(questions) {
+  const container = document.getElementById('questions-list');
+  container.innerHTML = questions.map(q => {
+    const options = parseOptions(q.options);
+    const difficultyClass = `difficulty-${q.difficulty || 3}`;
+
+    return `
+      <div class="question-card" data-id="${q.id}">
+        <div class="question-header">
+          <span class="question-num">第${q.question_number}题</span>
+          <div class="question-meta">
+            <span class="question-type">${getQuestionTypeName(q.question_type)}</span>
+            <span class="tag ${difficultyClass}">难度 ${q.difficulty || '-'}</span>
+            ${q.score ? `<span class="tag">${q.score}分</span>` : ''}
+          </div>
+        </div>
+        <div class="question-body">
+          <div class="question-stem">${q.stem}</div>
+          ${options.length > 0 ? `
+            <div class="question-options">
+              ${options.map((opt, i) => `
+                <div class="option-item" data-value="${opt.label}">
+                  <span class="opt-label">${opt.label}.</span>
+                  <span class="opt-text">${opt.text}</span>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+          <div class="answer-section">
+            <div class="answer-toggle" onclick="toggleAnswer(${q.id})">
+              <span>&#9660;</span> 查看答案
+            </div>
+            <div class="answer-content" id="answer-${q.id}">
+              <strong>正确答案：</strong>${q.answer || '暂无'}
+            </div>
+          </div>
+          ${q.analysis ? `
+            <div class="answer-section">
+              <div class="answer-toggle" onclick="toggleAnalysis(${q.id})">
+                <span>&#9660;</span> 查看解析
+              </div>
+              <div class="analysis-content" id="analysis-${q.id}">
+                ${q.analysis}
+              </div>
+            </div>
+          ` : ''}
+        </div>
+        ${q.knowledge_points ? `
+          <div class="question-footer">
+            ${parseKnowledgePoints(q.knowledge_points).map(kp => `
+              <span class="tag">&#127808; ${kp}</span>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleAnswer(qId) {
+  const el = document.getElementById(`answer-${qId}`);
+  el.classList.toggle('show');
+  const toggle = el.previousElementSibling;
+  toggle.querySelector('span').textContent = el.classList.contains('show') ? '▲' : '▼';
+}
+
+function toggleAnalysis(qId) {
+  const el = document.getElementById(`analysis-${qId}`);
+  el.classList.toggle('show');
+  const toggle = el.previousElementSibling;
+  toggle.querySelector('span').textContent = el.classList.contains('show') ? '▲' : '▼';
+}
+
+function toggleAllAnswers() {
+  showAllAnswers = !showAllAnswers;
+  document.querySelectorAll('.answer-content').forEach(el => {
+    if (showAllAnswers) {
+      el.classList.add('show');
+    } else {
+      el.classList.remove('show');
+    }
+  });
+  document.querySelectorAll('.answer-toggle').forEach(toggle => {
+    const span = toggle.querySelector('span');
+    if (span) {
+      span.textContent = showAllAnswers ? '▲' : '▼';
+    }
+  });
+  document.getElementById('toggle-answer-btn').textContent = showAllAnswers ? '隐藏答案' : '显示答案';
+}
+
+function toggleAllAnalysis() {
+  showAllAnalysis = !showAllAnalysis;
+  document.querySelectorAll('.analysis-content').forEach(el => {
+    if (showAllAnalysis) {
+      el.classList.add('show');
+    } else {
+      el.classList.remove('show');
+    }
+  });
+  document.querySelectorAll('.answer-toggle').forEach(toggle => {
+    const span = toggle.querySelector('span');
+    if (span) {
+      span.textContent = showAllAnalysis ? '▲' : '▼';
+    }
+  });
+  document.getElementById('toggle-analysis-btn').textContent = showAllAnalysis ? '隐藏解析' : '显示解析';
+}
+
+function parseOptions(optionsJson) {
+  if (!optionsJson) return [];
+  try {
+    if (typeof optionsJson === 'string') {
+      const parsed = JSON.parse(optionsJson);
+      return Array.isArray(parsed) ? parsed : [];
+    }
+    return Array.isArray(optionsJson) ? optionsJson : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function parseKnowledgePoints(kpJson) {
+  if (!kpJson) return [];
+  try {
+    if (typeof kpJson === 'string') {
+      const parsed = JSON.parse(kpJson);
+      return Array.isArray(parsed) ? parsed : [];
+    }
+    return Array.isArray(kpJson) ? kpJson : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function getSubjectName(subject) {
+  const map = {
+    math: '数学', chinese: '语文', english: '英语',
+    physics: '物理', chemistry: '化学', biology: '生物',
+    politics: '政治', history: '历史', geography: '地理'
+  };
+  return map[subject] || subject || '-';
+}
+
+function getQuestionTypeName(type) {
+  const map = {
+    choice: '单选题', multi_choice: '多选题', fill: '填空题',
+    solve: '解答题', reading: '阅读理解', writing: '写作',
+    listening: '听力', speaking: '口语', composite: '综合题'
+  };
+  return map[type] || type || '-';
+}
+
+function getExamLevelName(level) {
+  const map = {
+    gaokao_wen: '文科高考', gaokao_li: '理科高考',
+    new_gaokao: '新高考', zhongkao: '中考'
+  };
+  return map[level] || level || '-';
+}
+
+function showError(msg) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('error').textContent = msg;
+  document.getElementById('error').style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.option-item').forEach(item => {
+    item.addEventListener('click', function() {
+      document.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+});
+</script>
+</body>
+</html>

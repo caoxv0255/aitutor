@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "obsidian": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "obsidian-mcp-server@latest"],
+      "env": {
+        "MCP_TRANSPORT_TYPE": "stdio",
+        "MCP_LOG_LEVEL": "info",
+        "OBSIDIAN_API_KEY": "e59da59ec99165d2f02b550d3e8f7825f6ad85570d0a7fb9022d8011eee79836"
+      }
+    }
+  }
+}
