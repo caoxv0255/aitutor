@@ -12,13 +12,26 @@ export async function getDb() {
 
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    max: 20,
+    max: parseInt(process.env.PG_POOL_MAX) || 20,
+    min: 2,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 5000,
+    connectionTimeoutMillis: 8000,
+    statement_timeout: 30000, // 防止慢查询拖死连接（30s 上限）
+    application_name: 'aitutor-api', // pg_stat_activity 监控标识
+    keepAlive: true, // TCP keepalive 防止连接被防火墙断开
+    keepAliveInitialDelayMillis: 10000,
   });
 
   pool.on('error', (err) => {
     console.error('PostgreSQL 连接池错误:', err.message);
+  });
+
+  pool.on('acquire', () => {
+    if (pool.waitingCount > 5) {
+      console.warn(
+        `[Pool] 连接等待队列过长: total=${pool.totalCount}, idle=${pool.idleCount}, waiting=${pool.waitingCount}`
+      );
+    }
   });
 
   // 验证连接
@@ -36,6 +49,9 @@ export async function getDb() {
 }
 
 async function initTables(pool) {
+  // 启用 pgvector 扩展（方案B：向量检索基座）
+  await pool.query('CREATE EXTENSION IF NOT EXISTS vector');
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
@@ -302,6 +318,59 @@ async function initTables(pool) {
       token_total INTEGER DEFAULT 0,
       created_at TIMESTAMPTZ DEFAULT NOW()
     );
+
+    -- 方案B：微观向量检索表（题库语义索引）
+    -- knowledge_point_id 为逻辑外键，关联方案A Apache AGE 中的 KnowledgePoint.id
+    CREATE TABLE IF NOT EXISTS rag_questions (
+      id SERIAL PRIMARY KEY,
+      content TEXT NOT NULL,
+      embedding vector(1536),
+      knowledge_point_id VARCHAR(20),
+      subject_code VARCHAR(20),
+      difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
+      question_type VARCHAR(30),
+      source_paper_id INTEGER,
+      metadata JSONB DEFAULT '{}',
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
+    -- 方案C：学生知识点掌握度表（学情诊断核心）
+    -- knowledge_point_id 逻辑关联方案A Apache AGE KnowledgePoint.id
+    CREATE TABLE IF NOT EXISTS student_knowledge_mastery (
+      id SERIAL PRIMARY KEY,
+      user_email VARCHAR(255) NOT NULL,
+      knowledge_point_id VARCHAR(20) NOT NULL,
+      mastery_score NUMERIC(4,2) DEFAULT 0 CHECK (mastery_score BETWEEN 0 AND 1),
+      attempt_count INTEGER DEFAULT 0,
+      correct_count INTEGER DEFAULT 0,
+      last_practice_at TIMESTAMPTZ,
+      -- SRS 间隔重复字段
+      next_review_at TIMESTAMPTZ,
+      ease_factor NUMERIC(4,2) DEFAULT 2.5,
+      interval_days INTEGER DEFAULT 0,
+      last_reviewed_at TIMESTAMPTZ,
+      updated_at TIMESTAMPTZ DEFAULT NOW(),
+      UNIQUE(user_email, knowledge_point_id)
+    );
+
+    -- SRS 复习日志表（记录每次复习的详情，用于分析复习效果）
+    CREATE TABLE IF NOT EXISTS srs_review_log (
+      id SERIAL PRIMARY KEY,
+      user_email VARCHAR(255) NOT NULL,
+      knowledge_point_id VARCHAR(20) NOT NULL,
+      is_correct BOOLEAN NOT NULL,
+      time_spent_ms INTEGER DEFAULT 0,
+      review_quality INTEGER CHECK (review_quality BETWEEN 0 AND 5),
+      old_mastery NUMERIC(4,2),
+      new_mastery NUMERIC(4,2),
+      old_interval INTEGER,
+      new_interval INTEGER,
+      old_ease NUMERIC(4,2),
+      new_ease NUMERIC(4,2),
+      next_review_at TIMESTAMPTZ,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
   `);
 
   await seedReferenceData(pool);
@@ -359,6 +428,37 @@ async function initTables(pool) {
     CREATE INDEX IF NOT EXISTS idx_task_metrics_task ON task_metrics(task_id);
     CREATE INDEX IF NOT EXISTS idx_task_metrics_model ON task_metrics(model);
     CREATE INDEX IF NOT EXISTS idx_task_metrics_quality ON task_metrics(quality_score);
+
+    -- 方案B：rag_questions 索引
+    CREATE INDEX IF NOT EXISTS idx_rag_questions_subject ON rag_questions(subject_code);
+    CREATE INDEX IF NOT EXISTS idx_rag_questions_kp ON rag_questions(knowledge_point_id);
+    CREATE INDEX IF NOT EXISTS idx_rag_questions_difficulty ON rag_questions(difficulty);
+    CREATE INDEX IF NOT EXISTS idx_rag_questions_type ON rag_questions(question_type);
+    CREATE INDEX IF NOT EXISTS idx_rag_questions_kp_subject ON rag_questions(knowledge_point_id, subject_code);
+
+    -- 方案C：student_knowledge_mastery 索引
+    CREATE INDEX IF NOT EXISTS idx_skm_user ON student_knowledge_mastery(user_email);
+    CREATE INDEX IF NOT EXISTS idx_skm_kp ON student_knowledge_mastery(knowledge_point_id);
+    CREATE INDEX IF NOT EXISTS idx_skm_score ON student_knowledge_mastery(mastery_score);
+    CREATE INDEX IF NOT EXISTS idx_skm_user_kp ON student_knowledge_mastery(user_email, knowledge_point_id);
+    CREATE INDEX IF NOT EXISTS idx_skm_user_score ON student_knowledge_mastery(user_email, mastery_score);
+    CREATE INDEX IF NOT EXISTS idx_skm_next_review ON student_knowledge_mastery(user_email, next_review_at);
+
+    -- SRS 复习日志索引
+    CREATE INDEX IF NOT EXISTS idx_srs_log_user ON srs_review_log(user_email);
+    CREATE INDEX IF NOT EXISTS idx_srs_log_kp ON srs_review_log(knowledge_point_id);
+    CREATE INDEX IF NOT EXISTS idx_srs_log_created ON srs_review_log(created_at);
+    CREATE INDEX IF NOT EXISTS idx_srs_log_user_kp ON srs_review_log(user_email, knowledge_point_id);
+  `);
+
+  // 方案B：HNSW 向量索引（独立执行，避免与常规索引混在同一事务）
+  // m=16: 中等图连接度，平衡内存与召回率
+  // ef_construction=64: 构建质量与速度的折中
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_rag_questions_embedding_hnsw
+      ON rag_questions
+      USING hnsw (embedding vector_cosine_ops)
+      WITH (m = 16, ef_construction = 64);
   `);
 }
 
@@ -420,4 +520,17 @@ export async function query(sql, params = []) {
   const database = await getDb();
   const result = await database.query(sql, params);
   return result.rows;
+}
+
+/**
+ * 获取连接池运行状态（用于监控与调试）
+ */
+export function getPoolStats() {
+  if (!pool) return null;
+  return {
+    total: pool.totalCount,
+    idle: pool.idleCount,
+    waiting: pool.waitingCount,
+    max: pool.options.max,
+  };
 }

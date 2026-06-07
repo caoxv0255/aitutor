@@ -24,6 +24,8 @@ export default [
         setImmediate: 'readonly',
         clearImmediate: 'readonly',
         fetch: 'readonly',
+        AbortController: 'readonly',
+        performance: 'readonly',
         crypto: 'readonly',
         Request: 'readonly',
         Response: 'readonly',

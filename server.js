@@ -23,7 +23,10 @@ import { getUserProvince, setUserProvince, deleteUserProvince } from './api/user
 import { getExamPapers, getExamPaperById, createExamPaper } from './api/exam-papers.js';
 import { getExamQuestions, createExamQuestion, batchCreateQuestions } from './api/exam-questions.js';
 import { startExamSession, submitExamSession, getExamHistory } from './api/exam-session.js';
-import adaptiveDifficultyHandler, { calculateUserAbility, calculateAdaptiveDifficulty } from './api/adaptive-difficulty.js';
+import adaptiveDifficultyHandler, {
+  calculateUserAbility,
+  calculateAdaptiveDifficulty,
+} from './api/adaptive-difficulty.js';
 import { getClassAnalysis, getTeacherDashboard, getClassDetail } from './api/class-analysis.js';
 import { checkIn, getCheckinStatus, getPointsHistory, getBadges } from './api/gamification.js';
 import { swaggerUI, swaggerSpec } from './api/swagger.js';
@@ -31,6 +34,11 @@ import { authMiddleware, validateJWTSecret } from './api/auth.js';
 import { getDb } from './api/db.js';
 import { startWorker } from './api/taskWorker.js';
 import graphragRouter from './api/graphrag.js';
+import ragSearchRouter from './api/rag-search.js';
+import tutorAgentRouter from './api/tutor-agent.js';
+import learningLoopRouter from './api/learning-loop.js';
+import visionParseRouter from './api/vision-parse.js';
+import srsEngineRouter from './api/srs-engine.js';
 import { errorHandler } from './api/middleware/errorHandler.js';
 import { securityHeaders, xssSanitizer, xssDetector, csrfProtection } from './api/middleware/security.js';
 
@@ -57,7 +65,7 @@ app.use((req, res, next) => {
   req.cookies = {};
   const header = req.headers.cookie;
   if (header) {
-    header.split(';').forEach(c => {
+    header.split(';').forEach((c) => {
       const idx = c.indexOf('=');
       if (idx > 0) {
         req.cookies[c.slice(0, idx).trim()] = c.slice(idx + 1).trim();
@@ -103,13 +111,16 @@ app.use('/vendor', express.static('public/vendor'));
 app.use(express.static('frontend'));
 app.use('/frontend', express.static('frontend'));
 app.use('/icons', express.static('public/icons'));
-app.use('/src', express.static('public/src', {
-  setHeaders(res, path) {
-    if (path.endsWith('.js')) {
-      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    }
-  }
-}));
+app.use(
+  '/src',
+  express.static('public/src', {
+    setHeaders(res, path) {
+      if (path.endsWith('.js')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      }
+    },
+  })
+);
 app.use('/uploads', express.static('uploads'));
 
 const wrapHandler = (handler) => async (req, res) => {
@@ -197,6 +208,11 @@ app.get('/api/points', authMiddleware, wrapHandler(getPointsHistory));
 app.get('/api/badges', authMiddleware, wrapHandler(getBadges));
 
 app.use('/api/graphrag', graphragRouter);
+app.use('/api/rag', ragSearchRouter);
+app.use('/api/tutor', tutorAgentRouter);
+app.use('/api/loop', learningLoopRouter);
+app.use('/api/vision', visionParseRouter);
+app.use('/api/srs', srsEngineRouter);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'API 端点不存在' });
