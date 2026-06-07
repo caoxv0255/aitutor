@@ -248,9 +248,9 @@ describe('P5-4: API response format unification', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/proxy.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/proxy.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/response.js'");
+    expect(source).toContain("from '../utils/response.js'");
     expect(source).toContain('errorResponse');
   });
 
@@ -259,9 +259,9 @@ describe('P5-4: API response format unification', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/auth.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/auth.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/response.js'");
+    expect(source).toContain("from '../utils/response.js'");
     expect(source).toContain('errorResponse');
   });
 
@@ -270,9 +270,9 @@ describe('P5-4: API response format unification', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/exam-session.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/exam-session.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/response.js'");
+    expect(source).toContain("from '../utils/response.js'");
   });
 
   it('graphrag.js should use errorResponse', async () => {
@@ -280,9 +280,9 @@ describe('P5-4: API response format unification', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/graphrag.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/routes/graphrag.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/response.js'");
+    expect(source).toContain("from '../utils/response.js'");
   });
 
   it('security middleware should use errorResponse', async () => {
@@ -303,13 +303,15 @@ describe('P5-4: API response format unification', () => {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const apiDir = path.join(__dirname, '../../api');
 
-    const jsFiles = fs.readdirSync(apiDir).filter(f => f.endsWith('.js'));
-    const middlewareDir = path.join(apiDir, 'middleware');
-    const middlewareFiles = fs.existsSync(middlewareDir)
-      ? fs.readdirSync(middlewareDir).filter(f => f.endsWith('.js')).map(f => path.join('middleware', f))
-      : [];
-
-    const allFiles = [...jsFiles, ...middlewareFiles];
+    const subdirs = ['handlers', 'routes', 'core', 'middleware', 'utils'];
+    const allFiles = [];
+    for (const sub of subdirs) {
+      const subDir = path.join(apiDir, sub);
+      if (fs.existsSync(subDir)) {
+        const files = fs.readdirSync(subDir).filter(f => f.endsWith('.js')).map(f => path.join(sub, f));
+        allFiles.push(...files);
+      }
+    }
     let violations = 0;
 
     for (const file of allFiles) {

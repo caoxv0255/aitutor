@@ -15,7 +15,7 @@ describe('P2-1: Vision model accuracy monitoring', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/db.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/db.js'), 'utf-8');
 
     expect(source).toContain('task_metrics');
     expect(source).toContain('quality_score');
@@ -32,7 +32,7 @@ describe('P2-1: Vision model accuracy monitoring', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
     expect(source).toContain('export function getTaskStats');
     expect(source).toContain('taskStats');
@@ -45,7 +45,7 @@ describe('P2-1: Vision model accuracy monitoring', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
     expect(source).toContain('recordMetrics');
     expect(source).toContain('tokenUsage');
@@ -59,7 +59,7 @@ describe('P2-1: Vision model accuracy monitoring', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
     expect(source).toContain('lowQuality');
     expect(source).toContain('quality < 30');
@@ -128,9 +128,9 @@ describe('P2-2: Prompt version management', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/prompts.js'");
+    expect(source).toContain("from '../utils/prompts.js'");
     expect(source).toContain('PROMPTS.IMAGE_RECOGNITION');
     expect(source).toContain('PROMPT_VERSION');
   });
@@ -140,9 +140,9 @@ describe('P2-2: Prompt version management', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/explain-question.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/explain-question.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/prompts.js'");
+    expect(source).toContain("from '../utils/prompts.js'");
     expect(source).toContain('PROMPTS.QUESTION_EXPLAIN');
   });
 });
@@ -246,9 +246,9 @@ describe('P2-3: LLM response parser enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/llmParser.js'");
+    expect(source).toContain("from '../utils/llmParser.js'");
     expect(source).toContain('parseImageRecognitionResponse');
     expect(source).toContain('createTaskMetrics');
     expect(source).toContain('logTaskMetrics');
@@ -259,9 +259,9 @@ describe('P2-3: LLM response parser enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/explain-question.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/explain-question.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/llmParser.js'");
+    expect(source).toContain("from '../utils/llmParser.js'");
     expect(source).toContain('parseExplainResponse');
   });
 });
@@ -403,7 +403,7 @@ describe('P2-5: Weak point algorithm upgrade', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/knowledge-points.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/knowledge-points.js'), 'utf-8');
 
     expect(source).toContain('matchWeakPoint');
     expect(source).toContain('findWeakKPIds');
@@ -414,7 +414,7 @@ describe('P2-5: Weak point algorithm upgrade', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain('matchWeakPoint');
   });

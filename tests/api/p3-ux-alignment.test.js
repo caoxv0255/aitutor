@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateUserAbility, calculateAdaptiveDifficulty } from '../../api/adaptive-difficulty.js';
+import { calculateUserAbility, calculateAdaptiveDifficulty } from '../../api/handlers/adaptive-difficulty.js';
 
 describe('P3-1: Mobile SPA memory leak fix', () => {
   it('should have cleanupPage method in App class', async () => {
@@ -152,7 +152,7 @@ describe('P3-3: Exam mode optimization', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../frontend/exam-mode.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../frontend/assets/js/exam-mode.js'), 'utf-8');
 
     expect(source).toContain('isCountdown');
     expect(source).toContain('remaining');
@@ -165,7 +165,7 @@ describe('P3-3: Exam mode optimization', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../frontend/exam-mode.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../frontend/assets/js/exam-mode.js'), 'utf-8');
 
     expect(source).toContain('remaining <= 0');
     expect(source).toContain('window._examMode.submit()');
@@ -176,7 +176,7 @@ describe('P3-3: Exam mode optimization', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../frontend/exam-mode.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../frontend/assets/js/exam-mode.js'), 'utf-8');
 
     expect(source).toContain('visibilitychange');
     expect(source).toContain('handleVisibilityChange');
@@ -190,7 +190,7 @@ describe('P3-3: Exam mode optimization', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../frontend/exam-mode.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../frontend/assets/js/exam-mode.js'), 'utf-8');
 
     expect(source).toContain('timer-toggle-btn');
     expect(source).toContain('isCountdown = !isCountdown');
@@ -201,7 +201,7 @@ describe('P3-3: Exam mode optimization', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../frontend/exam-mode.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../frontend/assets/js/exam-mode.js'), 'utf-8');
 
     expect(source).toContain('remaining <= 300');
     expect(source).toContain('#d71920');
@@ -214,7 +214,7 @@ describe('P3-3: Exam mode optimization', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../frontend/exam-mode.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../frontend/assets/js/exam-mode.js'), 'utf-8');
 
     expect(source).toContain('setTimeLimit');
     expect(source).toContain('getCountdown');
@@ -228,7 +228,7 @@ describe('P3-3: Exam mode optimization', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../frontend/exam-mode.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../frontend/assets/js/exam-mode.js'), 'utf-8');
 
     expect(source).toContain('visibilityChangeCount > 0');
     expect(source).toContain('切屏');
@@ -308,7 +308,7 @@ describe('P3-4: Adaptive difficulty', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const exists = fs.existsSync(path.join(__dirname, '../../api/adaptive-difficulty.js'));
+    const exists = fs.existsSync(path.join(__dirname, '../../api/handlers/adaptive-difficulty.js'));
     expect(exists).toBe(true);
   });
 
@@ -319,7 +319,7 @@ describe('P3-4: Adaptive difficulty', () => {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const source = fs.readFileSync(path.join(__dirname, '../../server.js'), 'utf-8');
 
-    expect(source).toContain("from './api/adaptive-difficulty.js'");
+    expect(source).toContain("from './api/handlers/adaptive-difficulty.js'");
     expect(source).toContain('/api/adaptive-difficulty');
   });
 
@@ -328,7 +328,7 @@ describe('P3-4: Adaptive difficulty', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain("from './adaptive-difficulty.js'");
     expect(source).toContain('getUserAbilityForSubject');

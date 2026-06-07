@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: frontend
+title: 高考/中考备考与诊断前端应用
+scope:
+    - frontend/
+source_files: []
+depends_on: []
+related_to:
+    - path: backend_api

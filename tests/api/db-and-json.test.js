@@ -6,7 +6,7 @@ describe('db.js PostgreSQL configuration', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/db.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/db.js'), 'utf-8');
 
     expect(source).toContain("import pg from 'pg'");
     expect(source).toContain('Pool');
@@ -22,7 +22,7 @@ describe('questions.js JSON.parse protection', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/questions.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/questions.js'), 'utf-8');
 
     expect(source).toContain('try {');
     expect(source).toContain('JSON.parse(r.data)');
@@ -37,7 +37,7 @@ describe('knowledge-points.js JSON.parse protection', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/knowledge-points.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/knowledge-points.js'), 'utf-8');
 
     const parseCount = (source.match(/JSON\.parse/g) || []).length;
     const tryCount = (source.match(/try \{/g) || []).length;

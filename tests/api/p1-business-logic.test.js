@@ -6,7 +6,7 @@ describe('P1-1: taskWorker retry mechanism', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
     expect(source).toContain('MAX_RETRIES = 3');
   });
@@ -16,7 +16,7 @@ describe('P1-1: taskWorker retry mechanism', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
     expect(source).toContain('RETRY_DELAYS');
     expect(source).toContain('5000');
@@ -29,7 +29,7 @@ describe('P1-1: taskWorker retry mechanism', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
     expect(source).toContain('recoverStaleTasks');
     expect(source).toContain("status = 'processing'");
@@ -41,7 +41,7 @@ describe('P1-1: taskWorker retry mechanism', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
     expect(source).toContain('DASHSCOPE_API_KEY');
   });
@@ -51,7 +51,7 @@ describe('P1-1: taskWorker retry mechanism', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/taskWorker.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/taskWorker.js'), 'utf-8');
 
     expect(source).toContain('retry_count');
     expect(source).toContain("'failed'");
@@ -65,7 +65,7 @@ describe('P1-2: questions.js pagination and validation', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/questions.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/questions.js'), 'utf-8');
 
     expect(source).toContain('parseInt(req.query.limit)');
     expect(source).toContain('parseInt(req.query.offset)');
@@ -78,7 +78,7 @@ describe('P1-2: questions.js pagination and validation', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/questions.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/questions.js'), 'utf-8');
 
     expect(source).toMatch(/\|\|\s*50/);
     expect(source).toContain('200');
@@ -89,7 +89,7 @@ describe('P1-2: questions.js pagination and validation', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/questions.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/questions.js'), 'utf-8');
 
     expect(source).toContain('paginatedResponse');
   });
@@ -99,7 +99,7 @@ describe('P1-2: questions.js pagination and validation', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/questions.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/questions.js'), 'utf-8');
 
     expect(source).toContain('1024 * 1024');
   });
@@ -182,9 +182,9 @@ describe('P1-3/P1-4: subjectMap unified module', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/knowledge-points.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/knowledge-points.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/subjectMap.js'");
+    expect(source).toContain("from '../utils/subjectMap.js'");
     expect(source).toContain('KEYWORD_MAP');
     expect(source).toContain('resolveSubjectName');
   });
@@ -194,9 +194,9 @@ describe('P1-3/P1-4: subjectMap unified module', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/subjectMap.js'");
+    expect(source).toContain("from '../utils/subjectMap.js'");
     expect(source).toContain('KEYWORD_MAP');
     expect(source).toContain('resolveSubjectName');
   });
@@ -208,7 +208,7 @@ describe('P1-5: generate-paper.js division-by-zero and score fixes', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain('allKP.length === 0');
     expect(source).toContain('400');
@@ -219,7 +219,7 @@ describe('P1-5: generate-paper.js division-by-zero and score fixes', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain('WHERE subject = $1 OR subject = $2');
   });
@@ -229,7 +229,7 @@ describe('P1-5: generate-paper.js division-by-zero and score fixes', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain('selectionScore = 5');
     expect(source).toContain('fillScore = 5');
@@ -242,7 +242,7 @@ describe('P1-5: generate-paper.js division-by-zero and score fixes', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     const weakKPCheck = source.includes('weakKPIds.includes(kp.id)');
     expect(weakKPCheck).toBe(true);
@@ -255,7 +255,7 @@ describe('P1-6: exam-session.js security hardening', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/exam-session.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/exam-session.js'), 'utf-8');
 
     expect(source).toContain("import crypto from 'crypto'");
     expect(source).toContain('crypto.randomUUID()');
@@ -266,7 +266,7 @@ describe('P1-6: exam-session.js security hardening', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/exam-session.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/exam-session.js'), 'utf-8');
 
     expect(source).toContain("Array.isArray(answers)");
     expect(source).toContain("answers.length === 0");
@@ -278,7 +278,7 @@ describe('P1-6: exam-session.js security hardening', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/exam-session.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/exam-session.js'), 'utf-8');
 
     expect(source).toContain('sessionQuestionIds');
     expect(source).toContain('sessionQuestionIds.has');
@@ -289,7 +289,7 @@ describe('P1-6: exam-session.js security hardening', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/exam-session.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/exam-session.js'), 'utf-8');
 
     expect(source).toContain('safeQuestionCount');
     expect(source).toContain('safeTimeLimit');
@@ -302,7 +302,7 @@ describe('P1-6: exam-session.js security hardening', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/exam-session.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/exam-session.js'), 'utf-8');
 
     expect(source).toContain('parseInt(req.query.limit)');
     expect(source).toContain('parseInt(req.query.offset)');
@@ -315,7 +315,7 @@ describe('P1-fix: db.js retry_count column', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/db.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/core/db.js'), 'utf-8');
 
     const taskQueueMatch = source.match(/CREATE TABLE IF NOT EXISTS task_queue[\s\S]*?;/);
     expect(taskQueueMatch).toBeTruthy();

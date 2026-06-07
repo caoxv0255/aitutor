@@ -179,7 +179,7 @@ describe('P4-3: New question type templates', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain("fill: {");
     expect(source).toContain("solution: {");
@@ -190,7 +190,7 @@ describe('P4-3: New question type templates', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain("'biology':");
     expect(source).toContain("BIOLOGY-001");
@@ -202,7 +202,7 @@ describe('P4-3: New question type templates', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain("'history':");
     expect(source).toContain("HISTORY-001");
@@ -213,7 +213,7 @@ describe('P4-3: New question type templates', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain("'geography':");
     expect(source).toContain("GEOGRAPHY-003");
@@ -224,7 +224,7 @@ describe('P4-3: New question type templates', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/generate-paper.js'), 'utf-8');
 
     expect(source).toContain("MATH-009");
     expect(source).toContain("MATH-006");
@@ -292,7 +292,7 @@ describe('P4-5: Class analysis enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/class-analysis.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/class-analysis.js'), 'utf-8');
 
     expect(source).toContain('export async function getClassDetail');
   });
@@ -302,7 +302,7 @@ describe('P4-5: Class analysis enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/class-analysis.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/class-analysis.js'), 'utf-8');
 
     expect(source).toContain('studentPerformance');
     expect(source).toContain('avg_accuracy');
@@ -313,7 +313,7 @@ describe('P4-5: Class analysis enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/class-analysis.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/class-analysis.js'), 'utf-8');
 
     expect(source).toContain('classWeakPoints');
     expect(source).toContain('affected_students');
@@ -324,7 +324,7 @@ describe('P4-5: Class analysis enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/class-analysis.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/class-analysis.js'), 'utf-8');
 
     expect(source).toContain('weeklyTrend');
     expect(source).toContain('active_students');
@@ -335,7 +335,7 @@ describe('P4-5: Class analysis enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/class-analysis.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/class-analysis.js'), 'utf-8');
 
     expect(source).toContain('scoreDistribution');
     expect(source).toContain('90-100');
@@ -347,7 +347,7 @@ describe('P4-5: Class analysis enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/class-analysis.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/class-analysis.js'), 'utf-8');
 
     expect(source).toContain('progressTrend');
   });
@@ -357,7 +357,7 @@ describe('P4-5: Class analysis enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/class-analysis.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/class-analysis.js'), 'utf-8');
 
     expect(source).toContain('examHistory');
   });
@@ -367,7 +367,7 @@ describe('P4-5: Class analysis enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/class-analysis.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/class-analysis.js'), 'utf-8');
 
     expect(source).toContain('Math.min(Math.max(parseInt(period)');
     expect(source).toContain('7)');
@@ -390,9 +390,9 @@ describe('P4-5: Class analysis enhancement', () => {
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/class-analysis.js'), 'utf-8');
+    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/class-analysis.js'), 'utf-8');
 
-    expect(source).toContain("from './utils/subjectMap.js'");
+    expect(source).toContain("from '../utils/subjectMap.js'");
     expect(source).toContain('resolveSubjectName');
   });
 });

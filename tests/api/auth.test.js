@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import jwt from 'jsonwebtoken';
-import { authMiddleware, validateJWTSecret } from '../../api/auth.js';
+import { authMiddleware, validateJWTSecret } from '../../api/core/auth.js';
 
 describe('auth.js', () => {
   describe('validateJWTSecret', () => {

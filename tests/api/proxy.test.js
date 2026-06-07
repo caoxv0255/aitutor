@@ -23,7 +23,7 @@ describe('proxy.js', () => {
   });
 
   it('should reject GET requests', async () => {
-    const { default: handler } = await import('../../api/proxy.js');
+    const { default: handler } = await import('../../api/handlers/proxy.js');
     const req = { method: 'GET', user: { email: 'test@test.com' }, body: {} };
     const res = createMockRes();
 
@@ -33,7 +33,7 @@ describe('proxy.js', () => {
   });
 
   it('should reject requests without user', async () => {
-    const { default: handler } = await import('../../api/proxy.js');
+    const { default: handler } = await import('../../api/handlers/proxy.js');
     const req = { method: 'POST', user: null, body: { model: 'qwen-plus', messages: [{ role: 'user', content: 'hi' }] } };
     const res = createMockRes();
 
@@ -43,7 +43,7 @@ describe('proxy.js', () => {
   });
 
   it('should reject unsupported model', async () => {
-    const { default: handler } = await import('../../api/proxy.js');
+    const { default: handler } = await import('../../api/handlers/proxy.js');
     const req = { method: 'POST', user: { email: 'test@test.com' }, body: { model: 'gpt-4', messages: [{ role: 'user', content: 'hi' }] } };
     const res = createMockRes();
 
@@ -54,7 +54,7 @@ describe('proxy.js', () => {
   });
 
   it('should reject empty messages', async () => {
-    const { default: handler } = await import('../../api/proxy.js');
+    const { default: handler } = await import('../../api/handlers/proxy.js');
     const req = { method: 'POST', user: { email: 'test@test.com' }, body: { model: 'qwen-plus', messages: [] } };
     const res = createMockRes();
 
@@ -64,7 +64,7 @@ describe('proxy.js', () => {
   });
 
   it('should reject messages array exceeding 20 items', async () => {
-    const { default: handler } = await import('../../api/proxy.js');
+    const { default: handler } = await import('../../api/handlers/proxy.js');
     const messages = Array.from({ length: 21 }, (_, i) => ({ role: 'user', content: `msg ${i}` }));
     const req = { method: 'POST', user: { email: 'test@test.com' }, body: { model: 'qwen-plus', messages } };
     const res = createMockRes();
@@ -77,7 +77,7 @@ describe('proxy.js', () => {
 
   it('should return 503 when API key is missing', async () => {
     delete process.env.DASHSCOPE_API_KEY;
-    const { default: handler } = await import('../../api/proxy.js');
+    const { default: handler } = await import('../../api/handlers/proxy.js');
     const req = { method: 'POST', user: { email: 'test@test.com' }, body: { model: 'qwen-plus', messages: [{ role: 'user', content: 'hi' }] } };
     const res = createMockRes();
 
@@ -87,7 +87,7 @@ describe('proxy.js', () => {
   });
 
   it('should clamp max_tokens to [100, 4000]', async () => {
-    const { default: handler } = await import('../../api/proxy.js');
+    const { default: handler } = await import('../../api/handlers/proxy.js');
     const req = { method: 'POST', user: { email: 'test@test.com' }, body: { model: 'qwen-plus', messages: [{ role: 'user', content: 'hi' }], max_tokens: -1 } };
     const res = createMockRes();
 

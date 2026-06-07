@@ -1,123 +1,146 @@
 # AI Tutor - 智启AI导师
 
-基于 AI 的高中/中考智能辅导系统，支持拍照搜题、错题管理、智能组卷、学情分析等功能。
+基于 Hybrid RAG 架构的中高考智能辅导系统，融合知识图谱（Apache AGE）、向量检索（pgvector）与 LLM 推理，提供拍照搜题、SSE 流式教学、间隔复习引擎、学情可视化等完整学习闭环。
 
-## 🌟 项目特点
+## 架构总览
 
-- **AI 驱动**: 集成 DashScope 和 DeepSeek 大模型，提供智能解题和分析能力
-- **多端支持**: PWA 移动端 + PC 端双架构设计
-- **新高考适配**: 支持 3+1+2 / 3+3 / 传统文理三种选科模式
-- **GraphRAG 增强**: 基于知识图谱的智能问答和知识点关联
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        前端 (Vanilla JS + PWA)                   │
+│  PWA 拍照 → KaTeX 流式渲染 → 知识图谱可视化 → SRS 复习面板       │
+└───────────────────────────┬─────────────────────────────────────┘
+                            │ SSE / REST
+┌───────────────────────────┼─────────────────────────────────────┐
+│                     Express.js 后端                              │
+│                                                                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌────────────────┐  │
+│  │ 方案 A    │  │ 方案 B    │  │ 方案 C    │  │ 数据飞轮 / SRS │  │
+│  │ AGE 图谱  │←→│ pgvector │←→│ LLM 推理 │←→│ 掌握度 + SM-2  │  │
+│  └──────────┘  └──────────┘  └──────────┘  └────────────────┘  │
+│                                                                  │
+│  ┌──────────────┐  ┌──────────────────────────────────────────┐ │
+│  │ Vision RAG   │  │ 基础服务 (Auth / Proxy / Tasks / Exam)   │ │
+│  │ 多模态解析    │  │                                          │ │
+│  └──────────────┘  └──────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────┘
+                            │
+          ┌─────────────────┼─────────────────┐
+          │     PostgreSQL + 扩展              │
+          │  Apache AGE (图) + pgvector (向量) │
+          └───────────────────────────────────┘
+```
 
-## 📁 项目架构
+## Hybrid RAG Triad
+
+| 层         | 模块                                          | 职责                      | 关键技术                  |
+| ---------- | --------------------------------------------- | ------------------------- | ------------------------- |
+| **方案 A** | `scripts/sync-obsidian-to-age.js`             | 知识图谱构建与查询        | Apache AGE, Cypher        |
+| **方案 B** | `api/rag-search.js` + `services/embedding.js` | 语义向量检索              | pgvector, HNSW 索引       |
+| **方案 C** | `api/tutor-agent.js` + `services/llm.js`      | LLM 教学推理 + 防跳跃机制 | DashScope, JSON Mode, SSE |
+
+**数据飞轮**：`api/learning-loop.js` — 学习反馈 → 掌握度更新 → 图谱涟漪效应 → 闭环
+
+**Vision RAG**：`api/vision-parse.js` — 拍照 → Qwen-VL 多模态解析 → 拍照即入库
+
+**SRS 引擎**：`api/srs-engine.js` — SM-2 间隔重复算法 + 艾宾浩斯遗忘曲线 → 每日复习任务
+
+## 项目结构
 
 ```
 aitutor/
-├── api/                    # Express.js 后端 API
-│   ├── middleware/          # 中间件（认证、安全、错误处理）
-│   ├── utils/              # 工具模块（响应格式、学科映射、Prompt、验证器）
-│   ├── auth.js             # JWT 认证中间件
-│   ├── db.js               # SQLite 数据库初始化
-│   ├── proxy.js            # AI 代理（DashScope/DeepSeek）
-│   ├── taskWorker.js       # 异步任务队列（图片识别）
-│   ├── generate-paper.js   # 智能组卷引擎
-│   ├── exam-session.js     # 考试会话管理
-│   ├── class-analysis.js   # 学情分析（学生+教师+班级）
-│   ├── knowledge-points.js # 知识点管理
-│   └── ...                 # 其他 API 模块
-├── public/                 # PWA 移动端（SPA）
-│   ├── src/                # 源码（app.js、组件、服务、工具）
-│   ├── icons/              # PWA 图标
-│   ├── vendor/             # 第三方库（KaTeX、Marked、DOMPurify）
-│   └── manifest.json       # PWA 配置
-├── frontend/               # PC 端多页应用
-│   ├── *.html              # 各学科考试/报告页面
-│   └── *.js                # 前端逻辑模块
-├── graphrag_workspace/     # GraphRAG Python 微服务（端口 8100）
-├── database/               # 数据库种子与归档
-├── scripts/                # 运维与数据导入脚本
-├── tests/                  # Vitest 测试套件
-├── deploy/                 # 部署配置（systemd service）
-├── server.js               # Express 入口
-├── Dockerfile              # Docker 容器化
-├── docker-compose.yml      # Docker Compose 编排
-└── .github/workflows/      # CI/CD 流水线
+├── api/                          # Express.js 后端 API
+│   ├── middleware/               # 认证、安全、错误处理
+│   ├── utils/                   # 响应格式、Prompt 模板、验证器
+│   ├── db.js                    # PostgreSQL + pgvector + AGE 初始化
+│   ├── tutor-agent.js           # 方案 C: 教学 Agent (SSE 流式)
+│   ├── rag-search.js            # 方案 B: 向量检索 + 混合检索
+│   ├── learning-loop.js         # 数据飞轮: 反馈 + 涟漪 + 图谱拓扑
+│   ├── vision-parse.js          # Vision RAG: 多模态图片解析
+│   ├── srs-engine.js            # SRS: SM-2 间隔重复引擎
+│   ├── proxy.js                 # AI 代理 (DashScope / DeepSeek)
+│   ├── generate-paper.js        # 智能组卷
+│   ├── class-analysis.js        # 班级学情分析
+│   └── ...                      # Auth / Exam / Tasks / Reports
+├── services/                    # 独立服务层
+│   ├── llm.js                   # LLM 封装 (文本 + 流式 + 多模态)
+│   └── embedding.js             # DashScope Embedding API
+├── public/                      # PWA 移动端 (SPA)
+│   ├── src/
+│   │   ├── js/
+│   │   │   ├── mastery-graph.js # 知识图谱可视化 (Cytoscape.js)
+│   │   │   ├── tutor-stream.js  # SSE 流式解析器
+│   │   │   └── katex-stream.js  # KaTeX 流式公式渲染 + PWA 拍照
+│   │   ├── components/          # 图片裁剪等 UI 组件
+│   │   └── app.js               # SPA 入口
+│   └── manifest.json            # PWA 配置
+├── frontend/                    # PC 端多页应用 (MPA)
+│   ├── dashboard.html           # 个人中心
+│   ├── mastery-dashboard.html   # 知识图谱仪表盘 (PC 版)
+│   └── *-exam/report.html       # 各学科考试/报告页
+├── scripts/                     # 运维脚本
+│   ├── sync-obsidian-to-age.js  # 方案 A: Obsidian → AGE 同步
+│   ├── benchmark-db.js          # 数据库性能基准测试
+│   └── ...                      # 数据导入/迁移脚本
+├── graphrag_service/            # GraphRAG Python 微服务
+├── tests/                       # Vitest 测试套件
+├── deploy/                      # systemd / Docker 部署
+├── server.js                    # Express 入口
+└── docker-compose.yml           # Docker Compose 编排
 ```
 
-## ✨ 核心功能
+## 技术栈
 
-| 功能 | 描述 |
-|------|------|
-| 拍照搜题 | 上传题目图片，AI 提供启发式解答（非直接给答案） |
-| 错题本 | 自动保存解题记录，支持按学科/知识点筛选 |
-| 智能组卷 | 基于薄弱知识点自动生成试卷，支持 9 学科 |
-| 考试模式 | 限时答题、防切屏、自动交卷、成绩统计 |
-| 学情分析 | 学生偏科预警、薄弱知识点追踪、进步趋势 |
-| 班级分析 | 教师仪表盘、群体薄弱点聚合、成绩分布 |
-| 作文评分 | 四维评分（内容/语言/结构/发展等级），对标高考标准 |
-| 新高考适配 | 支持 3+1+2 / 3+3 / 传统文理三种模式 |
-| PWA 离线 | Service Worker 缓存，支持离线访问 |
+| 层           | 技术                                                               |
+| ------------ | ------------------------------------------------------------------ |
+| **运行时**   | Node.js ≥ 22 (ES Modules)                                          |
+| **后端框架** | Express.js                                                         |
+| **数据库**   | PostgreSQL + Apache AGE (图) + pgvector (向量)                     |
+| **AI 模型**  | DashScope (qwen-plus / qwen-vl-max / text-embedding-v3) · DeepSeek |
+| **前端**     | Vanilla JS · Cytoscape.js · KaTeX · Marked.js · DOMPurify          |
+| **测试**     | Vitest                                                             |
+| **工程化**   | ESLint 9 · Prettier · GitHub Actions CI/CD                         |
+| **部署**     | Docker · systemd service                                           |
 
-## 🛠️ 技术栈
-
-**后端：** Node.js + Express + SQLite (WAL) + JWT
-
-**AI：** DashScope (qwen3-vl-plus, qwen-plus) + DeepSeek + GraphRAG
-
-**前端：** 原生 JavaScript (SPA + MPA 双架构) + KaTeX + Marked.js
-
-**测试：** Vitest (200 项测试)
-
-**工程化：** ESLint 9 + Prettier + GitHub Actions CI/CD + Docker
-
-## 🚀 快速开始
+## 快速开始
 
 ### 环境要求
 
-- Node.js >= 18
+- Node.js >= 22
+- PostgreSQL >= 15 (需安装 Apache AGE + pgvector 扩展)
 - npm >= 8
-- Git
 
-### 安装步骤
+### 安装
 
 ```bash
-# 克隆仓库
 git clone https://github.com/caoxv0255/aitutor.git
 cd aitutor
-
-# 安装依赖
 npm install
 ```
 
 ### 配置环境变量
 
-复制环境变量模板并填写必要的配置：
-
 ```bash
 cp .env.example .env
 ```
 
-`.env` 必填项：
-
 ```env
+# 必填
+DATABASE_URL=postgresql://user:password@localhost:5432/aitutor
 JWT_SECRET=your-secret-key-at-least-32-characters-long
 DASHSCOPE_API_KEY=your-dashscope-api-key
-```
 
-可选配置：
-
-```env
+# 可选
 DEEPSEEK_API_KEY=your-deepseek-api-key
+PG_POOL_MAX=20
 PORT=3000
 ```
 
-### 启动服务
+### 启动
 
 ```bash
 npm start
+# 访问 http://localhost:3000
 ```
-
-访问 `http://localhost:3000`
 
 ### Docker 部署
 
@@ -125,25 +148,47 @@ npm start
 docker compose up -d
 ```
 
-## 🔌 API 概览
+## API 概览
 
-| 端点 | 方法 | 描述 |
-|------|------|------|
-| `/api/register` | POST | 用户注册 |
-| `/api/login` | POST | 用户登录 |
-| `/api/guest-login` | POST | 游客登录 |
-| `/api/proxy` | POST | AI 对话代理 |
-| `/api/questions` | GET/POST | 错题管理 |
-| `/api/generate-paper` | POST | 智能组卷 |
-| `/api/exam-session` | POST/GET | 考试会话 |
-| `/api/class-analysis` | GET | 学生学情分析 |
-| `/api/teacher-dashboard` | GET | 教师仪表盘 |
-| `/api/class-detail` | GET | 班级详情分析 |
-| `/api/knowledge-points` | GET/POST | 知识点管理 |
-| `/api/send-reset-code` | POST | 密码重置验证码 |
-| `/api/reset-password` | POST | 重置密码 |
+### Hybrid RAG 核心接口
 
-所有 API 使用统一响应格式：
+| 端点                       | 方法 | 描述                            |
+| -------------------------- | ---- | ------------------------------- |
+| `/api/tutor/ask`           | POST | 教学 Agent 推理 (JSON 完整返回) |
+| `/api/tutor/ask/stream`    | POST | 教学 Agent 推理 (**SSE 流式**)  |
+| `/api/tutor/mastery/:kpId` | GET  | 单知识点学情诊断                |
+| `/api/rag/ingest`          | POST | 题目向量化入库                  |
+| `/api/rag/search`          | POST | 语义检索 + 图谱节点过滤         |
+| `/api/loop/feedback`       | POST | 学习反馈 + 图谱涟漪效应         |
+| `/api/loop/batch`          | POST | 批量反馈                        |
+| `/api/loop/graph`          | GET  | 知识图谱拓扑 (Cytoscape 格式)   |
+| `/api/loop/mastery`        | GET  | 掌握度概览                      |
+
+### Vision RAG & SRS
+
+| 端点                           | 方法 | 描述                        |
+| ------------------------------ | ---- | --------------------------- |
+| `/api/vision/parse`            | POST | 多模态图片解析 + 拍照即入库 |
+| `/api/vision/knowledge-points` | GET  | 可用知识点列表              |
+| `/api/srs/daily-tasks`         | GET  | 今日必复习任务 (SM-2 排序)  |
+| `/api/srs/complete`            | POST | 完成复习 → 更新 SRS 参数    |
+| `/api/srs/stats`               | GET  | SRS 复习统计概览            |
+
+### 基础服务
+
+| 端点                    | 方法     | 描述        |
+| ----------------------- | -------- | ----------- |
+| `/api/register`         | POST     | 用户注册    |
+| `/api/login`            | POST     | 用户登录    |
+| `/api/guest-login`      | POST     | 游客登录    |
+| `/api/proxy`            | POST     | AI 对话代理 |
+| `/api/questions`        | GET/POST | 错题管理    |
+| `/api/generate-paper`   | POST     | 智能组卷    |
+| `/api/exam-session`     | POST/GET | 考试会话    |
+| `/api/class-analysis`   | GET      | 学情分析    |
+| `/api/knowledge-points` | GET/POST | 知识点管理  |
+
+所有 API 统一响应格式：
 
 ```json
 {
@@ -153,76 +198,60 @@ docker compose up -d
 }
 ```
 
-## 🧪 测试
+## SSE 流式协议
+
+`POST /api/tutor/ask/stream` 使用 Server-Sent Events 推送教学回复：
+
+```
+event: metadata    → 结构化诊断数据（前置依赖、薄弱点、学习路径）
+event: content     → LLM 教学文本 delta（流式追加，打字机效果）
+event: done        → 流结束统计
+event: error       → 错误信息
+```
+
+## 测试 & 代码规范
 
 ```bash
-npm test                # 运行全部测试
+npm test                # 运行测试
 npm run test:watch      # 监听模式
-npm run test:coverage   # 生成覆盖率报告
-```
-
-## ✨ 代码规范
-
-```bash
-npm run lint            # 检查代码规范
+npm run test:coverage   # 覆盖率报告
+npm run lint            # ESLint 检查
 npm run lint:fix        # 自动修复
-npm run format          # 格式化代码
-npm run format:check    # 检查格式
+npm run format          # Prettier 格式化
 ```
 
-## 📊 知识点覆盖
+## 知识点覆盖
 
 覆盖 9 学科 213 个知识点：
 
-| 学科 | 高考知识点 | 中考知识点 |
-|------|-----------|-----------|
-| 数学 | 30 | - |
-| 语文 | 20 | - |
-| 英语 | 20 | - |
-| 物理 | 23 | - |
-| 化学 | 25 | - |
-| 政治 | 20 | - |
-| 生物 | 20 | 5 |
-| 历史 | 20 | 3 |
-| 地理 | 20 | 4 |
+| 学科 | 高考 | 中考 |
+| ---- | ---- | ---- |
+| 数学 | 30   | -    |
+| 语文 | 20   | -    |
+| 英语 | 20   | -    |
+| 物理 | 23   | -    |
+| 化学 | 25   | -    |
+| 政治 | 20   | -    |
+| 生物 | 20   | 5    |
+| 历史 | 20   | 3    |
+| 地理 | 20   | 4    |
 
-## 📋 新高考选科组合
+## 新高考选科组合
 
-| 模式 | 组合数 | 适用省份 |
-|------|--------|----------|
-| 3+1+2 | 12 种 | 广东、江苏、河北、湖南等 |
-| 3+3 | 20 种 | 北京、上海、天津、浙江等 |
-| 传统文理 | 2 种 | 其他省份 |
+| 模式     | 组合数 | 适用省份                 |
+| -------- | ------ | ------------------------ |
+| 3+1+2    | 12 种  | 广东、江苏、河北、湖南等 |
+| 3+3      | 20 种  | 北京、上海、天津、浙江等 |
+| 传统文理 | 2 种   | 其他省份                 |
 
-## 📁 目录结构说明
-
-```
-aitutor/
-├── .github/              # GitHub 配置（CI/CD 工作流）
-├── .qoder/               # Qoder MCP 配置
-├── api/                  # 后端 API 模块
-├── database/             # 数据库相关文件
-│   ├── graphify-*/       # GraphRAG 图数据
-│   └── 北京中考真题/      # 中考真题数据
-├── frontend/             # PC 端前端页面
-├── public/               # PWA 移动端资源
-├── tests/                # 测试文件
-├── AGENTS.md             # GitNexus 智能代理配置
-├── CLAUDE.md             # Claude AI 配置
-├── PWA_GUIDE.md          # PWA 开发指南
-├── USAGE_GUIDE.md        # 使用指南
-└── server.js             # 应用入口
-```
-
-## 📄 License
+## License
 
 MIT License
 
-## 🤝 贡献
+## 贡献
 
 欢迎提交 Issue 和 Pull Request！
 
-## 📞 联系方式
+## 联系方式
 
-如有问题或建议，请通过以下方式联系：
 - GitHub Issues: https://github.com/caoxv0255/aitutor/issues

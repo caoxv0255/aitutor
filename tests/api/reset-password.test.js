@@ -13,7 +13,7 @@ function createMockRes() {
 describe('reset-password.js', () => {
   describe('sendResetCodeHandler', () => {
     it('should reject without email', async () => {
-      const { sendResetCodeHandler } = await import('../../api/reset-password.js');
+      const { sendResetCodeHandler } = await import('../../api/handlers/reset-password.js');
       const req = { method: 'POST', body: {} };
       const res = createMockRes();
 
@@ -23,7 +23,7 @@ describe('reset-password.js', () => {
     });
 
     it('should reject GET method', async () => {
-      const { sendResetCodeHandler } = await import('../../api/reset-password.js');
+      const { sendResetCodeHandler } = await import('../../api/handlers/reset-password.js');
       const req = { method: 'GET', body: { email: 'test@test.com' } };
       const res = createMockRes();
 
@@ -35,7 +35,7 @@ describe('reset-password.js', () => {
 
   describe('handler (reset password)', () => {
     it('should reject without verification code', async () => {
-      const { default: handler } = await import('../../api/reset-password.js');
+      const { default: handler } = await import('../../api/handlers/reset-password.js');
       const req = { method: 'POST', body: { email: 'test@test.com', newPassword: '123456' } };
       const res = createMockRes();
 
@@ -46,7 +46,7 @@ describe('reset-password.js', () => {
     });
 
     it('should reject without email or password', async () => {
-      const { default: handler } = await import('../../api/reset-password.js');
+      const { default: handler } = await import('../../api/handlers/reset-password.js');
       const req = { method: 'POST', body: { code: '123456' } };
       const res = createMockRes();
 
@@ -56,7 +56,7 @@ describe('reset-password.js', () => {
     });
 
     it('should reject short passwords', async () => {
-      const { default: handler } = await import('../../api/reset-password.js');
+      const { default: handler } = await import('../../api/handlers/reset-password.js');
       const req = { method: 'POST', body: { email: 'test@test.com', newPassword: '123', code: '123456' } };
       const res = createMockRes();
 
@@ -66,7 +66,7 @@ describe('reset-password.js', () => {
     });
 
     it('should reject if no verification code was sent', async () => {
-      const { default: handler } = await import('../../api/reset-password.js');
+      const { default: handler } = await import('../../api/handlers/reset-password.js');
       const req = { method: 'POST', body: { email: 'new@test.com', newPassword: '123456', code: '123456' } };
       const res = createMockRes();
 
