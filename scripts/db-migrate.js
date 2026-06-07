@@ -1,61 +1,60 @@
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import pg from 'pg';
+import dotenv from 'dotenv';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dbPath = path.join(__dirname, '../database/example_db.sqlite');
+dotenv.config();
+
+const { Pool } = pg;
 
 const MIGRATIONS = [
   {
     version: 1,
     name: 'create_reference_tables',
     description: 'Create reference tables for subjects, question_types, exam_levels, grades',
-    up: async (db) => {
-      await db.exec(`
+    up: async (client) => {
+      await client.query(`
         CREATE TABLE IF NOT EXISTS subjects (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id SERIAL PRIMARY KEY,
           code VARCHAR(20) UNIQUE NOT NULL,
           name VARCHAR(50) UNIQUE NOT NULL,
           category VARCHAR(20) NOT NULL DEFAULT 'general',
           sort_order INTEGER DEFAULT 0,
           is_active INTEGER DEFAULT 1,
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+          created_at TIMESTAMPTZ DEFAULT NOW()
         );
 
         CREATE TABLE IF NOT EXISTS exam_levels (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id SERIAL PRIMARY KEY,
           code VARCHAR(20) UNIQUE NOT NULL,
           name VARCHAR(50) NOT NULL,
           sort_order INTEGER DEFAULT 0,
           is_active INTEGER DEFAULT 1,
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+          created_at TIMESTAMPTZ DEFAULT NOW()
         );
 
         CREATE TABLE IF NOT EXISTS question_types (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id SERIAL PRIMARY KEY,
           code VARCHAR(30) UNIQUE NOT NULL,
           name VARCHAR(50) NOT NULL,
           category VARCHAR(20) NOT NULL DEFAULT 'general',
           has_options INTEGER DEFAULT 0,
           sort_order INTEGER DEFAULT 0,
           is_active INTEGER DEFAULT 1,
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+          created_at TIMESTAMPTZ DEFAULT NOW()
         );
 
         CREATE TABLE IF NOT EXISTS grades (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id SERIAL PRIMARY KEY,
           code VARCHAR(20) UNIQUE NOT NULL,
           name VARCHAR(50) NOT NULL,
           level VARCHAR(20) NOT NULL,
           sort_order INTEGER DEFAULT 0,
           is_active INTEGER DEFAULT 1,
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+          created_at TIMESTAMPTZ DEFAULT NOW()
         );
       `);
 
-      await db.exec(`
-        INSERT OR IGNORE INTO subjects (code, name, category, sort_order) VALUES
+      await client.query(`
+        INSERT INTO subjects (code, name, category, sort_order) VALUES
           ('chinese', '语文', 'liberal', 1),
           ('math', '数学', 'science', 2),
           ('english', '英语', 'liberal', 3),
@@ -64,13 +63,15 @@ const MIGRATIONS = [
           ('biology', '生物', 'science', 6),
           ('politics', '政治', 'liberal', 7),
           ('history', '历史', 'liberal', 8),
-          ('geography', '地理', 'liberal', 9);
+          ('geography', '地理', 'liberal', 9)
+        ON CONFLICT (code) DO NOTHING;
 
-        INSERT OR IGNORE INTO exam_levels (code, name, sort_order) VALUES
+        INSERT INTO exam_levels (code, name, sort_order) VALUES
           ('zhongkao', '中考', 1),
-          ('gaokao', '高考', 2);
+          ('gaokao', '高考', 2)
+        ON CONFLICT (code) DO NOTHING;
 
-        INSERT OR IGNORE INTO question_types (code, name, category, has_options, sort_order) VALUES
+        INSERT INTO question_types (code, name, category, has_options, sort_order) VALUES
           ('choice', '选择题', 'objective', 1, 1),
           ('fill', '填空题', 'objective', 0, 2),
           ('true_false', '判断题', 'objective', 1, 3),
@@ -88,15 +89,17 @@ const MIGRATIONS = [
           ('continuation', '读后续写', 'subjective', 0, 15),
           ('experiment', '实验题', 'subjective', 0, 16),
           ('comprehensive', '综合题', 'subjective', 0, 17),
-          ('other', '其他', 'general', 0, 99);
+          ('other', '其他', 'general', 0, 99)
+        ON CONFLICT (code) DO NOTHING;
 
-        INSERT OR IGNORE INTO grades (code, name, level, sort_order) VALUES
+        INSERT INTO grades (code, name, level, sort_order) VALUES
           ('grade_7', '七年级', 'zhongkao', 1),
           ('grade_8', '八年级', 'zhongkao', 2),
           ('grade_9', '九年级', 'zhongkao', 3),
           ('grade_10', '高一', 'gaokao', 4),
           ('grade_11', '高二', 'gaokao', 5),
-          ('grade_12', '高三', 'gaokao', 6);
+          ('grade_12', '高三', 'gaokao', 6)
+        ON CONFLICT (code) DO NOTHING;
       `);
     }
   },
@@ -104,28 +107,33 @@ const MIGRATIONS = [
     version: 2,
     name: 'add_structured_columns_to_wrong_questions',
     description: 'Add structured columns to wrong_questions for efficient querying',
-    up: async (db) => {
+    up: async (client) => {
       const columns = [
-        { name: 'subject_code', type: 'VARCHAR(20)', default: 'NULL' },
-        { name: 'knowledge_point_id', type: 'VARCHAR(20)', default: 'NULL' },
-        { name: 'difficulty', type: 'INTEGER', default: 'NULL' },
-        { name: 'question_id', type: 'INTEGER', default: 'NULL' },
-        { name: 'is_correct', type: 'INTEGER', default: '0' },
-        { name: 'exam_level', type: 'VARCHAR(10)', default: 'NULL' },
-        { name: 'user_answer', type: 'TEXT', default: 'NULL' },
-        { name: 'correct_answer', type: 'TEXT', default: 'NULL' },
-        { name: 'session_id', type: 'VARCHAR(50)', default: 'NULL' }
+        { name: 'subject_code', type: 'VARCHAR(20)' },
+        { name: 'knowledge_point_id', type: 'VARCHAR(20)' },
+        { name: 'difficulty', type: 'INTEGER' },
+        { name: 'question_id', type: 'INTEGER' },
+        { name: 'is_correct', type: 'INTEGER DEFAULT 0' },
+        { name: 'exam_level', type: 'VARCHAR(10)' },
+        { name: 'user_answer', type: 'TEXT' },
+        { name: 'correct_answer', type: 'TEXT' },
+        { name: 'session_id', type: 'VARCHAR(50)' }
       ];
 
+      const existingCols = await client.query(`
+        SELECT column_name FROM information_schema.columns
+        WHERE table_name = 'wrong_questions'
+      `);
+      const existingSet = new Set(existingCols.rows.map(r => r.column_name));
+
       for (const col of columns) {
-        try {
-          await db.exec(`ALTER TABLE wrong_questions ADD COLUMN ${col.name} ${col.type} DEFAULT ${col.default}`);
-        } catch (e) {
-          if (!e.message.includes('duplicate column name')) throw e;
+        if (!existingSet.has(col.name)) {
+          await client.query(`ALTER TABLE wrong_questions ADD COLUMN ${col.name} ${col.type}`);
         }
       }
 
-      const rows = await db.all('SELECT id, data FROM wrong_questions WHERE data IS NOT NULL');
+      // Backfill from JSON data column
+      const rows = await client.query('SELECT id, data FROM wrong_questions WHERE data IS NOT NULL');
       const subjectMap = {
         '数学': 'math', '语文': 'chinese', '英语': 'english',
         '物理': 'physics', '化学': 'chemistry', '政治': 'politics',
@@ -135,7 +143,7 @@ const MIGRATIONS = [
         'biology': 'biology', 'history': 'history', 'geography': 'geography'
       };
 
-      for (const row of rows) {
+      for (const row of rows.rows) {
         try {
           let parsed;
           try { parsed = JSON.parse(row.data); } catch { continue; }
@@ -143,9 +151,10 @@ const MIGRATIONS = [
 
           const updates = [];
           const params = [];
+          let paramIdx = 1;
 
           if (parsed.subject && subjectMap[parsed.subject]) {
-            updates.push('subject_code = ?');
+            updates.push(`subject_code = $${paramIdx++}`);
             params.push(subjectMap[parsed.subject]);
           }
 
@@ -154,44 +163,44 @@ const MIGRATIONS = [
               (Array.isArray(parsed.knowledge_points) && parsed.knowledge_points.length > 0
                 ? parsed.knowledge_points[0] : null);
             if (kpId && typeof kpId === 'string') {
-              updates.push('knowledge_point_id = ?');
+              updates.push(`knowledge_point_id = $${paramIdx++}`);
               params.push(kpId);
             }
           }
 
           if (parsed.difficulty != null) {
-            updates.push('difficulty = ?');
+            updates.push(`difficulty = $${paramIdx++}`);
             params.push(Math.min(Math.max(parseInt(parsed.difficulty) || 0, 1), 5));
           }
 
           if (parsed.question_id) {
-            updates.push('question_id = ?');
+            updates.push(`question_id = $${paramIdx++}`);
             params.push(parseInt(parsed.question_id));
           }
 
           if (parsed.user_answer) {
-            updates.push('user_answer = ?');
+            updates.push(`user_answer = $${paramIdx++}`);
             params.push(typeof parsed.user_answer === 'string' ? parsed.user_answer : JSON.stringify(parsed.user_answer));
           }
 
           if (parsed.correct_answer) {
-            updates.push('correct_answer = ?');
+            updates.push(`correct_answer = $${paramIdx++}`);
             params.push(typeof parsed.correct_answer === 'string' ? parsed.correct_answer : JSON.stringify(parsed.correct_answer));
           }
 
           if (parsed.session_id) {
-            updates.push('session_id = ?');
+            updates.push(`session_id = $${paramIdx++}`);
             params.push(parsed.session_id);
           }
 
           if (parsed.exam_level) {
-            updates.push('exam_level = ?');
+            updates.push(`exam_level = $${paramIdx++}`);
             params.push(parsed.exam_level);
           }
 
           if (updates.length > 0) {
             params.push(row.id);
-            await db.run(`UPDATE wrong_questions SET ${updates.join(', ')} WHERE id = ?`, params);
+            await client.query(`UPDATE wrong_questions SET ${updates.join(', ')} WHERE id = $${paramIdx}`, params);
           }
         } catch (e) {
           console.warn(`Failed to backfill wrong_questions id=${row.id}: ${e.message}`);
@@ -203,19 +212,23 @@ const MIGRATIONS = [
     version: 3,
     name: 'add_structured_columns_to_reports',
     description: 'Add structured columns to reports for efficient querying',
-    up: async (db) => {
+    up: async (client) => {
       const columns = [
-        { name: 'subject_code', type: 'VARCHAR(20)', default: 'NULL' },
-        { name: 'score', type: 'DECIMAL(5,2)', default: 'NULL' },
-        { name: 'difficulty', type: 'INTEGER', default: 'NULL' },
-        { name: 'knowledge_point_id', type: 'VARCHAR(20)', default: 'NULL' }
+        { name: 'subject_code', type: 'VARCHAR(20)' },
+        { name: 'score', type: 'NUMERIC(5,2)' },
+        { name: 'difficulty', type: 'INTEGER' },
+        { name: 'knowledge_point_id', type: 'VARCHAR(20)' }
       ];
 
+      const existingCols = await client.query(`
+        SELECT column_name FROM information_schema.columns
+        WHERE table_name = 'reports'
+      `);
+      const existingSet = new Set(existingCols.rows.map(r => r.column_name));
+
       for (const col of columns) {
-        try {
-          await db.exec(`ALTER TABLE reports ADD COLUMN ${col.name} ${col.type} DEFAULT ${col.default}`);
-        } catch (e) {
-          if (!e.message.includes('duplicate column name')) throw e;
+        if (!existingSet.has(col.name)) {
+          await client.query(`ALTER TABLE reports ADD COLUMN ${col.name} ${col.type}`);
         }
       }
 
@@ -225,8 +238,8 @@ const MIGRATIONS = [
         '生物': 'biology', '历史': 'history', '地理': 'geography'
       };
 
-      const rows = await db.all('SELECT id, data FROM reports WHERE data IS NOT NULL');
-      for (const row of rows) {
+      const rows = await client.query('SELECT id, data FROM reports WHERE data IS NOT NULL');
+      for (const row of rows.rows) {
         try {
           let parsed;
           try { parsed = JSON.parse(row.data); } catch { continue; }
@@ -234,30 +247,31 @@ const MIGRATIONS = [
 
           const updates = [];
           const params = [];
+          let paramIdx = 1;
 
           if (parsed.subject && subjectMap[parsed.subject]) {
-            updates.push('subject_code = ?');
+            updates.push(`subject_code = $${paramIdx++}`);
             params.push(subjectMap[parsed.subject]);
           }
 
           if (parsed.score != null) {
-            updates.push('score = ?');
+            updates.push(`score = $${paramIdx++}`);
             params.push(parseFloat(parsed.score));
           }
 
           if (parsed.difficulty != null) {
-            updates.push('difficulty = ?');
+            updates.push(`difficulty = $${paramIdx++}`);
             params.push(parseInt(parsed.difficulty));
           }
 
           if (parsed.knowledge_point_id) {
-            updates.push('knowledge_point_id = ?');
+            updates.push(`knowledge_point_id = $${paramIdx++}`);
             params.push(parsed.knowledge_point_id);
           }
 
           if (updates.length > 0) {
             params.push(row.id);
-            await db.run(`UPDATE reports SET ${updates.join(', ')} WHERE id = ?`, params);
+            await client.query(`UPDATE reports SET ${updates.join(', ')} WHERE id = $${paramIdx}`, params);
           }
         } catch (e) {
           console.warn(`Failed to backfill reports id=${row.id}: ${e.message}`);
@@ -269,25 +283,25 @@ const MIGRATIONS = [
     version: 4,
     name: 'create_question_knowledge_points_junction',
     description: 'Create many-to-many junction table for exam_questions and knowledge_points',
-    up: async (db) => {
-      await db.exec(`
+    up: async (client) => {
+      await client.query(`
         CREATE TABLE IF NOT EXISTS question_knowledge_points (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id SERIAL PRIMARY KEY,
           question_id INTEGER NOT NULL,
           knowledge_point_id VARCHAR(20) NOT NULL,
-          relevance_score DECIMAL(3,2) DEFAULT 1.00,
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          relevance_score NUMERIC(3,2) DEFAULT 1.00,
+          created_at TIMESTAMPTZ DEFAULT NOW(),
           FOREIGN KEY (question_id) REFERENCES exam_questions(id) ON DELETE CASCADE,
           FOREIGN KEY (knowledge_point_id) REFERENCES knowledge_points(id),
           UNIQUE(question_id, knowledge_point_id)
         );
       `);
 
-      const questions = await db.all(
+      const questions = await client.query(
         'SELECT id, knowledge_points FROM exam_questions WHERE knowledge_points IS NOT NULL'
       );
 
-      for (const q of questions) {
+      for (const q of questions.rows) {
         try {
           let kpList;
           try { kpList = JSON.parse(q.knowledge_points); } catch { continue; }
@@ -297,14 +311,14 @@ const MIGRATIONS = [
             const kpId = typeof kp === 'string' ? kp : kp?.id;
             if (!kpId) continue;
             try {
-              await db.run(
-                'INSERT OR IGNORE INTO question_knowledge_points (question_id, knowledge_point_id) VALUES (?, ?)',
+              await client.query(
+                'INSERT INTO question_knowledge_points (question_id, knowledge_point_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
                 [q.id, kpId]
               );
             } catch (_) {}
           }
         } catch (e) {
-          console.warn(`Failed to process question_knowledge_points for q=${q.id}: ${e.message}`);
+          console.warn(`Failed to process question_knowledge_points from q=${q.id}: ${e.message}`);
         }
       }
     }
@@ -313,10 +327,10 @@ const MIGRATIONS = [
     version: 5,
     name: 'create_practice_records_table',
     description: 'Create practice_records table for tracking user practice history',
-    up: async (db) => {
-      await db.exec(`
+    up: async (client) => {
+      await client.query(`
         CREATE TABLE IF NOT EXISTS practice_records (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id SERIAL PRIMARY KEY,
           user_email VARCHAR(255) NOT NULL,
           question_id INTEGER,
           subject_code VARCHAR(20),
@@ -328,23 +342,23 @@ const MIGRATIONS = [
           time_spent_ms INTEGER,
           session_id VARCHAR(50),
           exam_level VARCHAR(10),
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          created_at TIMESTAMPTZ DEFAULT NOW(),
           FOREIGN KEY (question_id) REFERENCES exam_questions(id) ON DELETE SET NULL,
           FOREIGN KEY (session_id) REFERENCES exam_sessions(id) ON DELETE SET NULL
         );
       `);
 
-      const sessions = await db.all(
+      const sessions = await client.query(
         "SELECT id, user_email, subject, status FROM exam_sessions WHERE status = 'completed'"
       );
 
-      for (const session of sessions) {
-        const wrongQs = await db.all(
-          'SELECT question_id, user_answer, correct_answer, difficulty, knowledge_points, session_id FROM wrong_questions WHERE user_email = ? AND session_id = ?',
+      for (const session of sessions.rows) {
+        const wrongQs = await client.query(
+          'SELECT question_id, user_answer, correct_answer, difficulty, knowledge_points, session_id FROM wrong_questions WHERE user_email = $1 AND session_id = $2',
           [session.user_email, session.id]
         );
 
-        for (const wq of wrongQs) {
+        for (const wq of wrongQs.rows) {
           try {
             let kpId = null;
             if (wq.knowledge_points) {
@@ -356,9 +370,10 @@ const MIGRATIONS = [
               }
             }
 
-            await db.run(
-              `INSERT OR IGNORE INTO practice_records (user_email, question_id, subject_code, knowledge_point_id, difficulty, is_correct, user_answer, correct_answer, session_id, exam_level, created_at)
-               VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
+            await client.query(
+              `INSERT INTO practice_records (user_email, question_id, subject_code, knowledge_point_id, difficulty, is_correct, user_answer, correct_answer, session_id, exam_level, created_at)
+               VALUES ($1, $2, $3, $4, $5, 0, $6, $7, $8, $9, NOW())
+               ON CONFLICT DO NOTHING`,
               [session.user_email, wq.question_id, session.subject, kpId, wq.difficulty, wq.user_answer, wq.correct_answer, session.id, null]
             );
           } catch (e) {
@@ -372,13 +387,15 @@ const MIGRATIONS = [
     version: 6,
     name: 'add_updated_at_columns',
     description: 'Add updated_at columns to tables that lack them',
-    up: async (db) => {
+    up: async (client) => {
       const tables = ['exam_papers', 'exam_questions', 'knowledge_points', 'provinces', 'users'];
       for (const table of tables) {
-        try {
-          await db.exec(`ALTER TABLE ${table} ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP`);
-        } catch (e) {
-          if (!e.message.includes('duplicate column name')) throw e;
+        const existingCols = await client.query(`
+          SELECT column_name FROM information_schema.columns
+          WHERE table_name = $1 AND column_name = 'updated_at'
+        `, [table]);
+        if (existingCols.rows.length === 0) {
+          await client.query(`ALTER TABLE ${table} ADD COLUMN updated_at TIMESTAMPTZ DEFAULT NOW()`);
         }
       }
     }
@@ -387,27 +404,33 @@ const MIGRATIONS = [
     version: 7,
     name: 'add_exam_questions_structured_columns',
     description: 'Add subject_code and exam_level columns to exam_questions for denormalized queries',
-    up: async (db) => {
+    up: async (client) => {
       const columns = [
-        { name: 'subject_code', type: 'VARCHAR(20)', default: 'NULL' },
-        { name: 'province_code', type: 'VARCHAR(20)', default: 'NULL' },
-        { name: 'year', type: 'INTEGER', default: 'NULL' }
+        { name: 'subject_code', type: 'VARCHAR(20)' },
+        { name: 'province_code', type: 'VARCHAR(20)' },
+        { name: 'year', type: 'INTEGER' }
       ];
 
+      const existingCols = await client.query(`
+        SELECT column_name FROM information_schema.columns
+        WHERE table_name = 'exam_questions'
+      `);
+      const existingSet = new Set(existingCols.rows.map(r => r.column_name));
+
       for (const col of columns) {
-        try {
-          await db.exec(`ALTER TABLE exam_questions ADD COLUMN ${col.name} ${col.type} DEFAULT ${col.default}`);
-        } catch (e) {
-          if (!e.message.includes('duplicate column name')) throw e;
+        if (!existingSet.has(col.name)) {
+          await client.query(`ALTER TABLE exam_questions ADD COLUMN ${col.name} ${col.type}`);
         }
       }
 
-      await db.run(`
+      await client.query(`
         UPDATE exam_questions
-        SET subject_code = (SELECT ep.subject FROM exam_papers ep WHERE ep.id = exam_questions.paper_id),
-            province_code = (SELECT ep.province_code FROM exam_papers ep WHERE ep.id = exam_questions.paper_id),
-            year = (SELECT ep.year FROM exam_papers ep WHERE ep.id = exam_questions.paper_id)
-        WHERE subject_code IS NULL
+        SET subject_code = ep.subject,
+            province_code = ep.province_code,
+            year = ep.year
+        FROM exam_papers ep
+        WHERE ep.id = exam_questions.paper_id
+          AND exam_questions.subject_code IS NULL
       `);
     }
   },
@@ -415,7 +438,7 @@ const MIGRATIONS = [
     version: 8,
     name: 'add_comprehensive_indexes',
     description: 'Add comprehensive indexes for query performance optimization',
-    up: async (db) => {
+    up: async (client) => {
       const indexes = [
         'CREATE INDEX IF NOT EXISTS idx_wrong_questions_subject ON wrong_questions(subject_code)',
         'CREATE INDEX IF NOT EXISTS idx_wrong_questions_difficulty ON wrong_questions(difficulty)',
@@ -469,7 +492,7 @@ const MIGRATIONS = [
 
       for (const sql of indexes) {
         try {
-          await db.exec(sql);
+          await client.query(sql);
         } catch (e) {
           console.warn(`Index creation warning: ${e.message}`);
         }
@@ -480,8 +503,8 @@ const MIGRATIONS = [
     version: 9,
     name: 'deduplicate_data',
     description: 'Remove duplicate records from wrong_questions and reports',
-    up: async (db) => {
-      await db.run(`
+    up: async (client) => {
+      await client.query(`
         DELETE FROM wrong_questions
         WHERE id NOT IN (
           SELECT MIN(id)
@@ -490,7 +513,7 @@ const MIGRATIONS = [
         )
       `);
 
-      await db.run(`
+      await client.query(`
         DELETE FROM reports
         WHERE id NOT IN (
           SELECT MIN(id)
@@ -499,7 +522,7 @@ const MIGRATIONS = [
         )
       `);
 
-      await db.run(`
+      await client.query(`
         DELETE FROM exam_questions
         WHERE id NOT IN (
           SELECT MIN(id)
@@ -513,72 +536,75 @@ const MIGRATIONS = [
     version: 10,
     name: 'add_foreign_key_constraints',
     description: 'Add foreign key indexes and ensure referential integrity',
-    up: async (db) => {
-      await db.run(`DELETE FROM wrong_questions WHERE question_id IS NOT NULL AND question_id NOT IN (SELECT id FROM exam_questions)`);
-      await db.run(`DELETE FROM wrong_questions WHERE session_id IS NOT NULL AND session_id NOT IN (SELECT id FROM exam_sessions)`);
-      await db.run(`DELETE FROM similar_questions WHERE report_id NOT IN (SELECT id FROM reports)`);
-      await db.run(`DELETE FROM province_knowledge_stats WHERE knowledge_point_id IS NOT NULL AND knowledge_point_id NOT IN (SELECT id FROM knowledge_points)`);
+    up: async (client) => {
+      await client.query(`DELETE FROM wrong_questions WHERE question_id IS NOT NULL AND question_id NOT IN (SELECT id FROM exam_questions)`);
+      await client.query(`DELETE FROM wrong_questions WHERE session_id IS NOT NULL AND session_id NOT IN (SELECT id FROM exam_sessions)`);
+      await client.query(`DELETE FROM similar_questions WHERE report_id NOT IN (SELECT id FROM reports)`);
+      await client.query(`DELETE FROM province_knowledge_stats WHERE knowledge_point_id IS NOT NULL AND knowledge_point_id NOT IN (SELECT id FROM knowledge_points)`);
     }
   }
 ];
 
 async function runMigrations() {
-  const db = await open({
-    filename: dbPath,
-    driver: sqlite3.Database
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    max: 5,
   });
 
-  await db.exec('PRAGMA journal_mode=WAL');
-  await db.exec('PRAGMA busy_timeout=5000');
-  await db.exec('PRAGMA foreign_keys=ON');
+  const client = await pool.connect();
 
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS db_migrations (
-      version INTEGER PRIMARY KEY,
-      name VARCHAR(100) NOT NULL,
-      description TEXT,
-      applied_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-  `);
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS db_migrations (
+        version INTEGER PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        description TEXT,
+        applied_at TIMESTAMPTZ DEFAULT NOW()
+      );
+    `);
 
-  const applied = await db.all('SELECT version FROM db_migrations ORDER BY version');
-  const appliedVersions = new Set(applied.map(r => r.version));
+    const applied = await client.query('SELECT version FROM db_migrations ORDER BY version');
+    const appliedVersions = new Set(applied.rows.map(r => r.version));
 
-  console.log(`\n📋 已应用的迁移: ${appliedVersions.size} 个`);
-  console.log(`📦 待应用的迁移: ${MIGRATIONS.filter(m => !appliedVersions.has(m.version)).length} 个\n`);
+    console.log(`\n📋 已应用的迁移: ${appliedVersions.size} 个`);
+    console.log(`📦 待应用的迁移: ${MIGRATIONS.filter(m => !appliedVersions.has(m.version)).length} 个\n`);
 
-  for (const migration of MIGRATIONS) {
-    if (appliedVersions.has(migration.version)) {
-      console.log(`  ⏭️  v${migration.version}: ${migration.name} - 已应用，跳过`);
-      continue;
+    for (const migration of MIGRATIONS) {
+      if (appliedVersions.has(migration.version)) {
+        console.log(`  ⏭️  v${migration.version}: ${migration.name} - 已应用，跳过`);
+        continue;
+      }
+
+      console.log(`  🔄 v${migration.version}: ${migration.name} - 执行中...`);
+      const start = Date.now();
+
+      try {
+        await client.query('BEGIN');
+        await migration.up(client);
+        await client.query(
+          'INSERT INTO db_migrations (version, name, description) VALUES ($1, $2, $3)',
+          [migration.version, migration.name, migration.description]
+        );
+        await client.query('COMMIT');
+        const elapsed = Date.now() - start;
+        console.log(`  ✅ v${migration.version}: ${migration.name} - 完成 (${elapsed}ms)`);
+      } catch (error) {
+        await client.query('ROLLBACK');
+        console.error(`  ❌ v${migration.version}: ${migration.name} - 失败: ${error.message}`);
+        throw error;
+      }
     }
 
-    console.log(`  🔄 v${migration.version}: ${migration.name} - 执行中...`);
-    const start = Date.now();
+    console.log('\n🎉 数据库迁移全部完成！\n');
 
-    try {
-      await db.run('BEGIN TRANSACTION');
-      await migration.up(db);
-      await db.run('INSERT INTO db_migrations (version, name, description) VALUES (?, ?, ?)',
-        [migration.version, migration.name, migration.description]);
-      await db.run('COMMIT');
-      const elapsed = Date.now() - start;
-      console.log(`  ✅ v${migration.version}: ${migration.name} - 完成 (${elapsed}ms)`);
-    } catch (error) {
-      await db.run('ROLLBACK');
-      console.error(`  ❌ v${migration.version}: ${migration.name} - 失败: ${error.message}`);
-      throw error;
-    }
+    await printStats(client);
+  } finally {
+    client.release();
+    await pool.end();
   }
-
-  console.log('\n🎉 数据库迁移全部完成！\n');
-
-  await printStats(db);
-
-  await db.close();
 }
 
-async function printStats(db) {
+async function printStats(client) {
   const tables = [
     'users', 'wrong_questions', 'reports', 'task_queue', 'similar_questions',
     'knowledge_points', 'personalized_papers', 'provinces', 'exam_papers',
@@ -593,8 +619,8 @@ async function printStats(db) {
 
   for (const table of tables) {
     try {
-      const result = await db.all(`SELECT COUNT(*) as count FROM ${table}`);
-      console.log(`  ${table.padEnd(35)} ${result[0].count} 行`);
+      const result = await client.query(`SELECT COUNT(*) as count FROM ${table}`);
+      console.log(`  ${table.padEnd(35)} ${result.rows[0].count} 行`);
     } catch {
       console.log(`  ${table.padEnd(35)} 不存在`);
     }
@@ -602,10 +628,14 @@ async function printStats(db) {
 
   console.log('─'.repeat(50));
 
-  const indexResult = await db.all("SELECT name FROM sqlite_master WHERE type='index' AND name NOT LIKE 'sqlite_%' ORDER BY name");
-  console.log(`\n📑 索引总数: ${indexResult.length}`);
-  for (const idx of indexResult) {
-    console.log(`  - ${idx.name}`);
+  const indexResult = await client.query(`
+    SELECT indexname FROM pg_indexes
+    WHERE schemaname = 'public'
+    ORDER BY indexname
+  `);
+  console.log(`\n📑 索引总数: ${indexResult.rows.length}`);
+  for (const idx of indexResult.rows) {
+    console.log(`  - ${idx.indexname}`);
   }
 }
 

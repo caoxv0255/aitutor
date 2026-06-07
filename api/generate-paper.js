@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   }
 
   const email = req.user.email;
-  const db = await getDb();
+  const pool = await getDb();
   const { subject = 'math', difficulty: requestedDifficulty, timeLimit = 120, focusWeakPoints = true, adaptive = true } = req.body;
 
   let difficulty = requestedDifficulty;
@@ -21,15 +21,17 @@ export default async function handler(req, res) {
 
   const subjectName = resolveSubjectName(subject) || subject;
 
-  const wrongQuestions = await db.all(
-    'SELECT id, data, timestamp FROM wrong_questions WHERE user_email = ? ORDER BY timestamp DESC',
+  const wrongQuestionsResult = await pool.query(
+    'SELECT id, data, timestamp FROM wrong_questions WHERE user_email = $1 ORDER BY timestamp DESC',
     [email]
   );
+  const wrongQuestions = wrongQuestionsResult.rows;
 
-  const allKP = await db.all(
-    'SELECT * FROM knowledge_points WHERE subject = ? OR subject = ? ORDER BY difficulty DESC',
+  const allKPResult = await pool.query(
+    'SELECT * FROM knowledge_points WHERE subject = $1 OR subject = $2 ORDER BY difficulty DESC',
     [subject, subjectName]
   );
+  const allKP = allKPResult.rows;
 
   if (allKP.length === 0) {
     return res.status(400).json(errorResponse(`${subjectName}学科暂无知识点数据，无法生成试卷`));
@@ -144,8 +146,8 @@ export default async function handler(req, res) {
 
   paper.metadata.totalScore = selectionTotalScore + fillTotalScore + solutionTotalScore;
 
-  await db.run(
-    'INSERT INTO personalized_papers (user_email, subject, data) VALUES (?, ?, ?)',
+  await pool.query(
+    'INSERT INTO personalized_papers (user_email, subject, data) VALUES ($1, $2, $3)',
     [email, subject, JSON.stringify(paper)]
   );
 

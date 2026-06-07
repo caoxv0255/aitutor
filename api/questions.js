@@ -11,43 +11,44 @@ const SUBJECT_MAP = {
 
 export default async function handler(req, res) {
   const email = req.user.email;
-  const db = await getDb();
+  const pool = await getDb();
 
   if (req.method === 'GET') {
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 50, 1), 200);
     const offset = Math.max(parseInt(req.query.offset) || 0, 0);
 
-    const conditions = ['user_email = ?'];
+    const conditions = ['user_email = $1'];
     const params = [email];
+    let paramIdx = 2;
 
     if (req.query.subject) {
       const code = SUBJECT_MAP[req.query.subject] || req.query.subject;
-      conditions.push('subject_code = ?');
+      conditions.push(`subject_code = $${paramIdx++}`);
       params.push(code);
     }
     if (req.query.difficulty) {
-      conditions.push('difficulty = ?');
+      conditions.push(`difficulty = $${paramIdx++}`);
       params.push(req.query.difficulty);
     }
     if (req.query.knowledge_point_id) {
-      conditions.push('knowledge_point_id = ?');
+      conditions.push(`knowledge_point_id = $${paramIdx++}`);
       params.push(req.query.knowledge_point_id);
     }
 
     const whereClause = conditions.join(' AND ');
 
-    const rows = await db.all(
-      `SELECT id, data, timestamp, subject_code, knowledge_point_id, difficulty, question_id, is_correct, exam_level, user_answer, correct_answer, session_id FROM wrong_questions WHERE ${whereClause} ORDER BY timestamp DESC LIMIT ? OFFSET ?`,
+    const rows = await pool.query(
+      `SELECT id, data, timestamp, subject_code, knowledge_point_id, difficulty, question_id, is_correct, exam_level, user_answer, correct_answer, session_id FROM wrong_questions WHERE ${whereClause} ORDER BY timestamp DESC LIMIT $${paramIdx++} OFFSET $${paramIdx}`,
       [...params, limit, offset]
     );
 
-    const countResult = await db.all(
+    const countResult = await pool.query(
       `SELECT COUNT(*) as total FROM wrong_questions WHERE ${whereClause}`,
       params
     );
-    const total = countResult[0]?.total || 0;
+    const total = parseInt(countResult.rows[0]?.total || 0);
 
-    const data = rows.map(r => {
+    const data = rows.rows.map(r => {
       let parsed;
       try {
         parsed = JSON.parse(r.data);
@@ -85,24 +86,24 @@ export default async function handler(req, res) {
 
     const subject_code = SUBJECT_MAP[subject] || null;
 
-    const result = await db.run(
+    const result = await pool.query(
       `INSERT INTO wrong_questions (user_email, data, subject_code, knowledge_point_id, difficulty, question_id, is_correct, exam_level, user_answer, correct_answer, session_id)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`,
       [email, dataStr, subject_code, knowledge_point_id || null, difficulty || null, question_id || null, is_correct !== undefined ? (is_correct ? 1 : 0) : null, exam_level || null, user_answer || null, correct_answer || null, session_id || null]
     );
-    return res.status(201).json(successResponse({ id: String(result.lastID) }, '添加错题成功'));
+    return res.status(201).json(successResponse({ id: String(result.rows[0].id) }, '添加错题成功'));
   }
 
   if (req.method === 'DELETE') {
     const { id } = req.body;
     if (!id) return res.status(400).json(errorResponse('缺少 id 参数'));
     
-    const deleteResult = await db.run(
-      'DELETE FROM wrong_questions WHERE id = ? AND user_email = ?', 
+    const deleteResult = await pool.query(
+      'DELETE FROM wrong_questions WHERE id = $1 AND user_email = $2', 
       [id, email]
     );
     
-    if (deleteResult.changes === 0) {
+    if (deleteResult.rowCount === 0) {
       return res.status(404).json(errorResponse('错题不存在或无权限删除'));
     }
     

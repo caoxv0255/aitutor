@@ -15,7 +15,7 @@ const SUBJECT_MAP = {
 };
 
 export async function startExamSession(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const email = req.user.email;
   const { subject, province_code, year, time_limit = 120, question_count = 20 } = req.body;
 
@@ -31,40 +31,41 @@ export async function startExamSession(req, res) {
       SELECT eq.*, p.name as province_name
       FROM exam_questions eq
       LEFT JOIN provinces p ON eq.province_code = p.code
-      WHERE eq.subject_code = ?
+      WHERE eq.subject_code = $1
     `;
     const params = [subject];
+    let paramIdx = 2;
 
     if (province_code) {
       params.push(province_code);
-      query += ' AND eq.province_code = ?';
+      query += ` AND eq.province_code = $${paramIdx++}`;
     }
 
     if (year) {
       params.push(parseInt(year));
-      query += ' AND eq.year = ?';
+      query += ` AND eq.year = $${paramIdx++}`;
     }
 
-    query += ' ORDER BY RANDOM() LIMIT ?';
+    query += ` ORDER BY random() LIMIT $${paramIdx}`;
     params.push(safeQuestionCount);
 
-    const questions = await db.all(query, params);
+    const questions = await pool.query(query, params);
 
-    if (questions.length === 0) {
+    if (questions.rows.length === 0) {
       return res.status(404).json(errorResponse('没有找到符合条件的题目'));
     }
 
     const sessionId = crypto.randomUUID();
 
-    await db.run(
+    await pool.query(
       `
       INSERT INTO exam_sessions (id, user_email, subject, province_code, time_limit, question_count, status, started_at)
-      VALUES (?, ?, ?, ?, ?, ?, 'active', CURRENT_TIMESTAMP)
+      VALUES ($1, $2, $3, $4, $5, $6, 'active', NOW())
     `,
-      [sessionId, email, subject, province_code || null, safeTimeLimit, questions.length]
+      [sessionId, email, subject, province_code || null, safeTimeLimit, questions.rows.length]
     );
 
-    const cleanQuestions = questions.map((q) => ({
+    const cleanQuestions = questions.rows.map((q) => ({
       id: q.id,
       question_number: q.question_number,
       question_type: q.question_type,
@@ -94,7 +95,7 @@ export async function startExamSession(req, res) {
 }
 
 export async function submitExamSession(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const email = req.user.email;
   const { sessionId, answers } = req.body;
 
@@ -107,17 +108,17 @@ export async function submitExamSession(req, res) {
   }
 
   try {
-    const sessions = await db.all('SELECT * FROM exam_sessions WHERE id = ? AND user_email = ? AND status = ?', [
+    const sessions = await pool.query('SELECT * FROM exam_sessions WHERE id = $1 AND user_email = $2 AND status = $3', [
       sessionId,
       email,
       'active',
     ]);
 
-    if (sessions.length === 0) {
+    if (sessions.rows.length === 0) {
       return res.status(404).json(errorResponse('考试会话不存在或已结束'));
     }
 
-    const session = sessions[0];
+    const session = sessions.rows[0];
     const subjectCode = SUBJECT_MAP[session.subject] || session.subject;
 
     const questionIds = answers.map((a) => a.questionId).filter(Boolean);
@@ -125,29 +126,29 @@ export async function submitExamSession(req, res) {
       return res.status(400).json(errorResponse('答案中缺少有效的题目ID'));
     }
 
-    const placeholders = questionIds.map(() => '?').join(',');
-    const questions = await db.all(
+    const placeholders = questionIds.map((_, i) => `$${i + 1}`).join(',');
+    const questions = await pool.query(
       `SELECT id, answer, difficulty, score, knowledge_points FROM exam_questions WHERE id IN (${placeholders})`,
       questionIds
     );
 
-    const kpRows = await db.all(
+    const kpRows = await pool.query(
       `SELECT question_id, knowledge_point_id FROM question_knowledge_points WHERE question_id IN (${placeholders})`,
       questionIds
     );
     const kpMap = {};
-    for (const row of kpRows) {
+    for (const row of kpRows.rows) {
       if (!kpMap[row.question_id]) {
         kpMap[row.question_id] = row.knowledge_point_id;
       }
     }
 
     const sessionQuestionIds = new Set(
-      (await db.all('SELECT id FROM exam_questions WHERE subject_code = ?', [session.subject])).map((q) => q.id)
+      (await pool.query('SELECT id FROM exam_questions WHERE subject_code = $1', [session.subject])).rows.map((q) => q.id)
     );
 
-    const userRow = await db.get('SELECT exam_level FROM users WHERE email = ?', [email]);
-    const examLevel = userRow?.exam_level || null;
+    const userRow = await pool.query('SELECT exam_level FROM users WHERE email = $1', [email]);
+    const examLevel = userRow.rows[0]?.exam_level || null;
 
     let correctCount = 0;
     let totalScore = 0;
@@ -155,7 +156,7 @@ export async function submitExamSession(req, res) {
     const results = [];
 
     for (const answer of answers) {
-      const question = questions.find((q) => q.id === answer.questionId);
+      const question = questions.rows.find((q) => q.id === answer.questionId);
       if (!question) continue;
 
       if (!sessionQuestionIds.has(answer.questionId)) {
@@ -186,9 +187,9 @@ export async function submitExamSession(req, res) {
         knowledgePoints: question.knowledge_points,
       });
 
-      await db.run(
+      await pool.query(
         `INSERT INTO practice_records (user_email, question_id, subject_code, knowledge_point_id, difficulty, is_correct, user_answer, correct_answer, session_id, exam_level)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
         [
           email,
           answer.questionId,
@@ -204,15 +205,15 @@ export async function submitExamSession(req, res) {
       );
 
       if (!isCorrect) {
-        const existingWrong = await db.all('SELECT id FROM wrong_questions WHERE user_email = ? AND question_id = ?', [
+        const existingWrong = await pool.query('SELECT id FROM wrong_questions WHERE user_email = $1 AND question_id = $2', [
           email,
           answer.questionId,
         ]);
 
-        if (existingWrong.length === 0) {
-          await db.run(
+        if (existingWrong.rows.length === 0) {
+          await pool.query(
             `INSERT INTO wrong_questions (user_email, data, subject_code, knowledge_point_id, difficulty, question_id, is_correct, exam_level, user_answer, correct_answer, session_id)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
             [
               email,
               JSON.stringify({
@@ -241,20 +242,20 @@ export async function submitExamSession(req, res) {
 
     const accuracy = totalScore > 0 ? ((earnedScore / totalScore) * 100).toFixed(1) : 0;
 
-    await db.run(
+    await pool.query(
       `
       UPDATE exam_sessions
-      SET status = 'completed', accuracy = ?, score = ?, total_score = ?,
-          correct_count = ?, completed_at = CURRENT_TIMESTAMP
-      WHERE id = ?
+      SET status = 'completed', accuracy = $1, score = $2, total_score = $3,
+          correct_count = $4, completed_at = NOW()
+      WHERE id = $5
     `,
       [accuracy, earnedScore, totalScore, correctCount, sessionId]
     );
 
-    await db.run(
+    await pool.query(
       `
       INSERT INTO user_points (user_email, points, reason, created_at)
-      VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+      VALUES ($1, $2, $3, NOW())
     `,
       [email, Math.floor(earnedScore / 5) + 10, '完成练习']
     );
@@ -278,7 +279,7 @@ export async function submitExamSession(req, res) {
 }
 
 export async function getExamHistory(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const email = req.user.email;
   const limit = Math.min(Math.max(parseInt(req.query.limit) || 20, 1), 100);
   const offset = Math.max(parseInt(req.query.offset) || 0, 0);
@@ -288,22 +289,22 @@ export async function getExamHistory(req, res) {
   }
 
   try {
-    const sessions = await db.all(
+    const sessions = await pool.query(
       `
       SELECT * FROM exam_sessions
-      WHERE user_email = ?
+      WHERE user_email = $1
       ORDER BY started_at DESC
-      LIMIT ? OFFSET ?
+      LIMIT $2 OFFSET $3
     `,
       [email, limit, offset]
     );
 
-    const total = await db.all('SELECT COUNT(*) as count FROM exam_sessions WHERE user_email = ?', [email]);
+    const total = await pool.query('SELECT COUNT(*) as count FROM exam_sessions WHERE user_email = $1', [email]);
 
     res.json({
       success: true,
-      data: sessions,
-      total: total[0]?.count || 0,
+      data: sessions.rows,
+      total: total.rows[0]?.count || 0,
     });
   } catch (error) {
     console.error('获取考试历史失败:', error.message);

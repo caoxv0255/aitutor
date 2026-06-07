@@ -8,7 +8,7 @@ export async function getLearningDashboard(req, res) {
 
   try {
     const { data: dashboard } = await cacheWrapper(cacheKey, async () => {
-      const db = await getDb();
+      const pool = await getDb();
 
       const [
         wrongQuestionsResult,
@@ -17,23 +17,23 @@ export async function getLearningDashboard(req, res) {
         weakPointsResult,
         learningHistoryResult
       ] = await Promise.all([
-        db.all(
-          'SELECT subject_code, COUNT(*) as count FROM wrong_questions WHERE user_email = ? GROUP BY subject_code',
+        pool.query(
+          'SELECT subject_code, COUNT(*) as count FROM wrong_questions WHERE user_email = $1 GROUP BY subject_code',
           [email]
-        ),
-        db.all('SELECT * FROM users WHERE email = ?', [email]),
-        db.all(`
+        ).then(r => r.rows),
+        pool.query('SELECT * FROM users WHERE email = $1', [email]).then(r => r.rows),
+        pool.query(`
           SELECT 
             DATE(created_at) as date,
             COUNT(*) as practice_count,
             AVG(CASE WHEN is_correct = 1 THEN 1 ELSE 0 END) as accuracy
           FROM practice_records
-          WHERE user_email = ?
+          WHERE user_email = $1
           GROUP BY DATE(created_at)
           ORDER BY date DESC
           LIMIT 7
-        `, [email]),
-        db.all(`
+        `, [email]).then(r => r.rows),
+        pool.query(`
           SELECT 
             kp.id,
             kp.name,
@@ -45,30 +45,30 @@ export async function getLearningDashboard(req, res) {
           LEFT JOIN (
             SELECT knowledge_point_id, COUNT(*) as count 
             FROM wrong_questions 
-            WHERE user_email = ?
+            WHERE user_email = $1
             GROUP BY knowledge_point_id
           ) wq ON kp.id = wq.knowledge_point_id
           LEFT JOIN (
             SELECT knowledge_point_id, COUNT(*) as practice_count,
                    AVG(CASE WHEN is_correct = 1 THEN 1 ELSE 0 END) as accuracy
             FROM practice_records
-            WHERE user_email = ?
+            WHERE user_email = $2
             GROUP BY knowledge_point_id
           ) pc ON kp.id = pc.knowledge_point_id
           ORDER BY wq.count DESC, pc.accuracy ASC
           LIMIT 10
-        `, [email, email]),
-        db.all(`
+        `, [email, email]).then(r => r.rows),
+        pool.query(`
           SELECT 
-            strftime('%Y-%m', created_at) as month,
+            to_char(created_at, 'YYYY-MM') as month,
             COUNT(*) as total_practice,
             SUM(CASE WHEN is_correct = 1 THEN 1 ELSE 0 END) as correct_count
           FROM practice_records
-          WHERE user_email = ?
-          GROUP BY strftime('%Y-%m', created_at)
+          WHERE user_email = $1
+          GROUP BY to_char(created_at, 'YYYY-MM')
           ORDER BY month DESC
           LIMIT 6
-        `, [email])
+        `, [email]).then(r => r.rows)
       ]);
 
       const user = userInfoResult[0];

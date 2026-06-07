@@ -9,17 +9,19 @@ export default async function handler(req, res) {
   const email = req.user.email;
   const { subject = 'math' } = req.query;
 
-  const db = await getDb();
+  const pool = await getDb();
 
-  const wrongQuestions = await db.all(
-    'SELECT id, data, timestamp FROM wrong_questions WHERE user_email = ? ORDER BY timestamp DESC',
+  const wrongQuestionsResult = await pool.query(
+    'SELECT id, data, timestamp FROM wrong_questions WHERE user_email = $1 ORDER BY timestamp DESC',
     [email]
   );
+  const wrongQuestions = wrongQuestionsResult.rows;
 
-  const knowledgePoints = await db.all(
-    'SELECT * FROM knowledge_points WHERE subject = ? ORDER BY difficulty DESC',
+  const knowledgePointsResult = await pool.query(
+    'SELECT * FROM knowledge_points WHERE subject = $1 ORDER BY difficulty DESC',
     [subject]
   );
+  const knowledgePoints = knowledgePointsResult.rows;
 
   const subjectMap = {
     'math': '数学',

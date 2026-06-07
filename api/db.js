@@ -1,83 +1,95 @@
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import pg from 'pg';
 
 dotenv.config();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dbPath = path.join(__dirname, '../database/example_db.sqlite');
+const { Pool } = pg;
 
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
-
-let db = null;
+let pool = null;
 
 export async function getDb() {
-  if (db) return db;
+  if (pool) return pool;
 
-  db = await open({
-    filename: dbPath,
-    driver: sqlite3.Database
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 5000,
   });
 
-  await db.exec('PRAGMA journal_mode=WAL');
-  await db.exec('PRAGMA busy_timeout=5000');
-  await db.exec('PRAGMA foreign_keys=ON');
+  pool.on('error', (err) => {
+    console.error('PostgreSQL 连接池错误:', err.message);
+  });
 
-  await db.exec(`
+  // 验证连接
+  const client = await pool.connect();
+  try {
+    await client.query('SELECT 1');
+  } finally {
+    client.release();
+  }
+
+  await initTables(pool);
+
+  console.log('✅ PostgreSQL 数据库连接池初始化成功');
+  return pool;
+}
+
+async function initTables(pool) {
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       email VARCHAR(255) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL,
       grade VARCHAR(50) NOT NULL,
       province VARCHAR(20),
       exam_level VARCHAR(10),
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS subjects (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       code VARCHAR(20) UNIQUE NOT NULL,
       name VARCHAR(50) UNIQUE NOT NULL,
       category VARCHAR(20) NOT NULL DEFAULT 'general',
       sort_order INTEGER DEFAULT 0,
       is_active INTEGER DEFAULT 1,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS exam_levels (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       code VARCHAR(20) UNIQUE NOT NULL,
       name VARCHAR(50) NOT NULL,
       sort_order INTEGER DEFAULT 0,
       is_active INTEGER DEFAULT 1,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS question_types (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       code VARCHAR(30) UNIQUE NOT NULL,
       name VARCHAR(50) NOT NULL,
       category VARCHAR(20) NOT NULL DEFAULT 'general',
       has_options INTEGER DEFAULT 0,
       sort_order INTEGER DEFAULT 0,
       is_active INTEGER DEFAULT 1,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS grades (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       code VARCHAR(20) UNIQUE NOT NULL,
       name VARCHAR(50) NOT NULL,
       level VARCHAR(20) NOT NULL,
       sort_order INTEGER DEFAULT 0,
       is_active INTEGER DEFAULT 1,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS wrong_questions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       user_email VARCHAR(255) NOT NULL,
       data TEXT NOT NULL,
       subject_code VARCHAR(20),
@@ -89,22 +101,22 @@ export async function getDb() {
       user_answer TEXT,
       correct_answer TEXT,
       session_id VARCHAR(50),
-      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      timestamp TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS reports (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       user_email VARCHAR(255) NOT NULL,
       data TEXT NOT NULL,
       subject_code VARCHAR(20),
-      score DECIMAL(5,2),
+      score NUMERIC(5,2),
       difficulty INTEGER,
       knowledge_point_id VARCHAR(20),
-      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      timestamp TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS task_queue (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       user_email VARCHAR(255) NOT NULL,
       subject VARCHAR(50) NOT NULL,
       grade VARCHAR(50) NOT NULL,
@@ -112,17 +124,16 @@ export async function getDb() {
       status VARCHAR(20) DEFAULT 'pending',
       result TEXT,
       retry_count INTEGER DEFAULT 0,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS similar_questions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      report_id INTEGER NOT NULL,
+      id SERIAL PRIMARY KEY,
+      report_id INTEGER NOT NULL REFERENCES reports(id) ON DELETE CASCADE,
       user_email VARCHAR(255) NOT NULL,
       data TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (report_id) REFERENCES reports(id) ON DELETE CASCADE
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS knowledge_points (
@@ -134,46 +145,45 @@ export async function getDb() {
       frequency VARCHAR(20) DEFAULT 'medium',
       description TEXT,
       level VARCHAR(20) DEFAULT 'gaokao',
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      updated_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS personalized_papers (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       user_email VARCHAR(255) NOT NULL,
       subject VARCHAR(50) NOT NULL,
       data TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS provinces (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       code VARCHAR(20) UNIQUE NOT NULL,
       name VARCHAR(50) NOT NULL,
       exam_type VARCHAR(20) NOT NULL,
       paper_type VARCHAR(50),
       region VARCHAR(20),
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS exam_papers (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      province_code VARCHAR(20),
+      id SERIAL PRIMARY KEY,
+      province_code VARCHAR(20) REFERENCES provinces(code),
       year INTEGER NOT NULL,
       subject VARCHAR(20) NOT NULL,
       exam_level VARCHAR(10) NOT NULL,
       paper_file_path VARCHAR(500),
       question_count INTEGER,
       total_score INTEGER,
-      difficulty_avg DECIMAL(3,2),
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (province_code) REFERENCES provinces(code)
+      difficulty_avg NUMERIC(3,2),
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS exam_questions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      paper_id INTEGER,
+      id SERIAL PRIMARY KEY,
+      paper_id INTEGER REFERENCES exam_papers(id) ON DELETE CASCADE,
       question_number INTEGER NOT NULL,
       question_type VARCHAR(20) NOT NULL,
       stem TEXT NOT NULL,
@@ -187,62 +197,17 @@ export async function getDb() {
       subject_code VARCHAR(20),
       province_code VARCHAR(20),
       year INTEGER,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (paper_id) REFERENCES exam_papers(id) ON DELETE CASCADE
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS question_knowledge_points (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      question_id INTEGER NOT NULL,
-      knowledge_point_id VARCHAR(20) NOT NULL,
-      relevance_score DECIMAL(3,2) DEFAULT 1.00,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (question_id) REFERENCES exam_questions(id) ON DELETE CASCADE,
-      FOREIGN KEY (knowledge_point_id) REFERENCES knowledge_points(id),
+      id SERIAL PRIMARY KEY,
+      question_id INTEGER NOT NULL REFERENCES exam_questions(id) ON DELETE CASCADE,
+      knowledge_point_id VARCHAR(20) NOT NULL REFERENCES knowledge_points(id),
+      relevance_score NUMERIC(3,2) DEFAULT 1.00,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
       UNIQUE(question_id, knowledge_point_id)
-    );
-
-    CREATE TABLE IF NOT EXISTS practice_records (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_email VARCHAR(255) NOT NULL,
-      question_id INTEGER,
-      subject_code VARCHAR(20),
-      knowledge_point_id VARCHAR(20),
-      difficulty INTEGER,
-      is_correct INTEGER DEFAULT 0,
-      user_answer TEXT,
-      correct_answer TEXT,
-      time_spent_ms INTEGER,
-      session_id VARCHAR(50),
-      exam_level VARCHAR(10),
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (question_id) REFERENCES exam_questions(id) ON DELETE SET NULL,
-      FOREIGN KEY (session_id) REFERENCES exam_sessions(id) ON DELETE SET NULL
-    );
-
-    CREATE TABLE IF NOT EXISTS province_knowledge_stats (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      province_code VARCHAR(20),
-      year INTEGER NOT NULL,
-      subject VARCHAR(20) NOT NULL,
-      knowledge_point_id VARCHAR(20),
-      frequency INTEGER DEFAULT 0,
-      avg_difficulty DECIMAL(3,2),
-      total_score INTEGER,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (province_code) REFERENCES provinces(code)
-    );
-
-    CREATE TABLE IF NOT EXISTS user_province_prefs (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_email VARCHAR(255) NOT NULL,
-      exam_level VARCHAR(10) NOT NULL,
-      province_code VARCHAR(20),
-      target_score INTEGER,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (province_code) REFERENCES provinces(code)
     );
 
     CREATE TABLE IF NOT EXISTS exam_sessions (
@@ -253,16 +218,55 @@ export async function getDb() {
       time_limit INTEGER DEFAULT 120,
       question_count INTEGER DEFAULT 0,
       status VARCHAR(20) DEFAULT 'active',
-      accuracy DECIMAL(5,2),
+      accuracy NUMERIC(5,2),
       score INTEGER DEFAULT 0,
       total_score INTEGER DEFAULT 0,
       correct_count INTEGER DEFAULT 0,
-      started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      completed_at DATETIME
+      started_at TIMESTAMPTZ DEFAULT NOW(),
+      completed_at TIMESTAMPTZ
+    );
+
+    CREATE TABLE IF NOT EXISTS practice_records (
+      id SERIAL PRIMARY KEY,
+      user_email VARCHAR(255) NOT NULL,
+      question_id INTEGER REFERENCES exam_questions(id) ON DELETE SET NULL,
+      subject_code VARCHAR(20),
+      knowledge_point_id VARCHAR(20),
+      difficulty INTEGER,
+      is_correct INTEGER DEFAULT 0,
+      user_answer TEXT,
+      correct_answer TEXT,
+      time_spent_ms INTEGER,
+      session_id VARCHAR(50) REFERENCES exam_sessions(id) ON DELETE SET NULL,
+      exam_level VARCHAR(10),
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS province_knowledge_stats (
+      id SERIAL PRIMARY KEY,
+      province_code VARCHAR(20) REFERENCES provinces(code),
+      year INTEGER NOT NULL,
+      subject VARCHAR(20) NOT NULL,
+      knowledge_point_id VARCHAR(20),
+      frequency INTEGER DEFAULT 0,
+      avg_difficulty NUMERIC(3,2),
+      total_score INTEGER,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS user_province_prefs (
+      id SERIAL PRIMARY KEY,
+      user_email VARCHAR(255) NOT NULL,
+      exam_level VARCHAR(10) NOT NULL,
+      province_code VARCHAR(20) REFERENCES provinces(code),
+      target_score INTEGER,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW(),
+      UNIQUE(user_email, exam_level)
     );
 
     CREATE TABLE IF NOT EXISTS user_checkins (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       user_email VARCHAR(255) NOT NULL,
       checkin_date DATE NOT NULL,
       streak_days INTEGER DEFAULT 1,
@@ -270,24 +274,24 @@ export async function getDb() {
     );
 
     CREATE TABLE IF NOT EXISTS user_points (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       user_email VARCHAR(255) NOT NULL,
       points INTEGER NOT NULL,
       reason VARCHAR(200),
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS user_badges (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       user_email VARCHAR(255) NOT NULL,
       badge_id VARCHAR(50) NOT NULL,
-      earned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      earned_at TIMESTAMPTZ DEFAULT NOW(),
       UNIQUE(user_email, badge_id)
     );
 
     CREATE TABLE IF NOT EXISTS task_metrics (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      task_id INTEGER NOT NULL,
+      id SERIAL PRIMARY KEY,
+      task_id INTEGER NOT NULL REFERENCES task_queue(id),
       processing_time_ms INTEGER,
       model VARCHAR(50),
       prompt_version VARCHAR(20),
@@ -296,16 +300,13 @@ export async function getDb() {
       token_prompt INTEGER DEFAULT 0,
       token_completion INTEGER DEFAULT 0,
       token_total INTEGER DEFAULT 0,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (task_id) REFERENCES task_queue(id)
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
   `);
 
-  await seedReferenceData(db);
+  await seedReferenceData(pool);
 
-  await ensureStructuredColumns(db);
-
-  await db.exec(`
+  await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_exam_papers_province ON exam_papers(province_code);
     CREATE INDEX IF NOT EXISTS idx_exam_papers_year ON exam_papers(year);
     CREATE INDEX IF NOT EXISTS idx_exam_papers_subject ON exam_papers(subject);
@@ -359,17 +360,14 @@ export async function getDb() {
     CREATE INDEX IF NOT EXISTS idx_task_metrics_model ON task_metrics(model);
     CREATE INDEX IF NOT EXISTS idx_task_metrics_quality ON task_metrics(quality_score);
   `);
-
-  console.log('✅ SQLite 数据库连接成功');
-  return db;
 }
 
-async function seedReferenceData(db) {
-  const subjectCount = await db.get('SELECT COUNT(*) as count FROM subjects');
-  if (subjectCount.count > 0) return;
+async function seedReferenceData(pool) {
+  const result = await pool.query('SELECT COUNT(*) as count FROM subjects');
+  if (parseInt(result.rows[0].count) > 0) return;
 
-  await db.exec(`
-    INSERT OR IGNORE INTO subjects (code, name, category, sort_order) VALUES
+  await pool.query(`
+    INSERT INTO subjects (code, name, category, sort_order) VALUES
       ('chinese', '语文', 'liberal', 1),
       ('math', '数学', 'science', 2),
       ('english', '英语', 'liberal', 3),
@@ -378,13 +376,15 @@ async function seedReferenceData(db) {
       ('biology', '生物', 'science', 6),
       ('politics', '政治', 'liberal', 7),
       ('history', '历史', 'liberal', 8),
-      ('geography', '地理', 'liberal', 9);
+      ('geography', '地理', 'liberal', 9)
+    ON CONFLICT (code) DO NOTHING;
 
-    INSERT OR IGNORE INTO exam_levels (code, name, sort_order) VALUES
+    INSERT INTO exam_levels (code, name, sort_order) VALUES
       ('zhongkao', '中考', 1),
-      ('gaokao', '高考', 2);
+      ('gaokao', '高考', 2)
+    ON CONFLICT (code) DO NOTHING;
 
-    INSERT OR IGNORE INTO question_types (code, name, category, has_options, sort_order) VALUES
+    INSERT INTO question_types (code, name, category, has_options, sort_order) VALUES
       ('choice', '选择题', 'objective', 1, 1),
       ('fill', '填空题', 'objective', 0, 2),
       ('true_false', '判断题', 'objective', 1, 3),
@@ -402,76 +402,22 @@ async function seedReferenceData(db) {
       ('continuation', '读后续写', 'subjective', 0, 15),
       ('experiment', '实验题', 'subjective', 0, 16),
       ('comprehensive', '综合题', 'subjective', 0, 17),
-      ('other', '其他', 'general', 0, 99);
+      ('other', '其他', 'general', 0, 99)
+    ON CONFLICT (code) DO NOTHING;
 
-    INSERT OR IGNORE INTO grades (code, name, level, sort_order) VALUES
+    INSERT INTO grades (code, name, level, sort_order) VALUES
       ('grade_7', '七年级', 'zhongkao', 1),
       ('grade_8', '八年级', 'zhongkao', 2),
       ('grade_9', '九年级', 'zhongkao', 3),
       ('grade_10', '高一', 'gaokao', 4),
       ('grade_11', '高二', 'gaokao', 5),
-      ('grade_12', '高三', 'gaokao', 6);
+      ('grade_12', '高三', 'gaokao', 6)
+    ON CONFLICT (code) DO NOTHING;
   `);
-}
-
-async function ensureStructuredColumns(db) {
-  const columnChecks = [
-    { table: 'wrong_questions', columns: [
-      ['subject_code', "VARCHAR(20)"],
-      ['knowledge_point_id', "VARCHAR(20)"],
-      ['difficulty', "INTEGER"],
-      ['question_id', "INTEGER"],
-      ['is_correct', "INTEGER DEFAULT 0"],
-      ['exam_level', "VARCHAR(10)"],
-      ['user_answer', "TEXT"],
-      ['correct_answer', "TEXT"],
-      ['session_id', "VARCHAR(50)"]
-    ]},
-    { table: 'reports', columns: [
-      ['subject_code', "VARCHAR(20)"],
-      ['score', "DECIMAL(5,2)"],
-      ['difficulty', "INTEGER"],
-      ['knowledge_point_id', "VARCHAR(20)"]
-    ]},
-    { table: 'users', columns: [['updated_at', "DATETIME DEFAULT CURRENT_TIMESTAMP"]] },
-    { table: 'exam_papers', columns: [['updated_at', "DATETIME DEFAULT CURRENT_TIMESTAMP"]] },
-    { table: 'exam_questions', columns: [
-      ['updated_at', "DATETIME DEFAULT CURRENT_TIMESTAMP"],
-      ['subject_code', "VARCHAR(20)"],
-      ['province_code', "VARCHAR(20)"],
-      ['year', "INTEGER"]
-    ]},
-    { table: 'knowledge_points', columns: [['updated_at', "DATETIME DEFAULT CURRENT_TIMESTAMP"]] },
-    { table: 'provinces', columns: [['updated_at', "DATETIME DEFAULT CURRENT_TIMESTAMP"]] }
-  ];
-
-  for (const check of columnChecks) {
-    for (const [colName, colType] of check.columns) {
-      try {
-        await db.run(`ALTER TABLE ${check.table} ADD COLUMN ${colName} ${colType}`);
-      } catch (e) {
-        if (!e.message.includes('duplicate column name')) {
-          console.warn(`Column add warning (${check.table}.${colName}): ${e.message}`);
-        }
-      }
-    }
-  }
-
-  const denormalizeResult = await db.get(
-    `SELECT COUNT(*) as count FROM exam_questions WHERE subject_code IS NULL LIMIT 1`
-  );
-  if (denormalizeResult && denormalizeResult.count > 0) {
-    await db.run(`
-      UPDATE exam_questions
-      SET subject_code = (SELECT ep.subject FROM exam_papers ep WHERE ep.id = exam_questions.paper_id),
-          province_code = (SELECT ep.province_code FROM exam_papers ep WHERE ep.id = exam_questions.paper_id),
-          year = (SELECT ep.year FROM exam_papers ep WHERE ep.id = exam_questions.paper_id)
-      WHERE subject_code IS NULL AND paper_id IS NOT NULL
-    `);
-  }
 }
 
 export async function query(sql, params = []) {
   const database = await getDb();
-  return database.all(sql, params);
+  const result = await database.query(sql, params);
+  return result.rows;
 }

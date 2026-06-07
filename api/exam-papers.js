@@ -2,56 +2,57 @@ import { getDb } from './db.js';
 import { errorResponse } from './utils/response.js';
 
 export async function getExamPapers(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const { province, year, subject, exam_level, limit = 50, offset = 0 } = req.query;
 
   try {
     const conditions = [];
     const params = [];
+    let paramIdx = 1;
 
     if (province) {
       params.push(province);
-      conditions.push(`province_code = ?`);
+      conditions.push(`province_code = $${paramIdx++}`);
     }
 
     if (year) {
       params.push(parseInt(year));
-      conditions.push(`year = ?`);
+      conditions.push(`year = $${paramIdx++}`);
     }
 
     if (subject) {
       params.push(subject);
-      conditions.push(`subject = ?`);
+      conditions.push(`subject = $${paramIdx++}`);
     }
 
     if (exam_level) {
       params.push(exam_level);
-      conditions.push(`exam_level = ?`);
+      conditions.push(`exam_level = $${paramIdx++}`);
     }
 
     const whereClause = conditions.length > 0 ? 'WHERE ' + conditions.join(' AND ') : '';
 
-    const rows = await db.all(`
+    const rows = await pool.query(`
       SELECT id, province_code, year, subject, exam_level, question_count, total_score, difficulty_avg, created_at
       FROM exam_papers
       ${whereClause}
       ORDER BY year DESC, subject
-      LIMIT ? OFFSET ?
+      LIMIT $${paramIdx++} OFFSET $${paramIdx}
     `, [...params, parseInt(limit), parseInt(offset)]);
 
-    const countResult = await db.all(`
+    const countResult = await pool.query(`
       SELECT COUNT(*) as count FROM exam_papers ${whereClause}
     `, params);
 
-    const provinceCodes = [...new Set(rows.map(r => r.province_code).filter(Boolean))];
+    const provinceCodes = [...new Set(rows.rows.map(r => r.province_code).filter(Boolean))];
     const provinces = {};
     if (provinceCodes.length > 0) {
-      const placeholders = provinceCodes.map(() => '?').join(',');
-      const provinceRows = await db.all(`SELECT code, name FROM provinces WHERE code IN (${placeholders})`, provinceCodes);
-      provinceRows.forEach(p => provinces[p.code] = p.name);
+      const placeholders = provinceCodes.map((_, i) => `$${i + 1}`).join(',');
+      const provinceRows = await pool.query(`SELECT code, name FROM provinces WHERE code IN (${placeholders})`, provinceCodes);
+      provinceRows.rows.forEach(p => provinces[p.code] = p.name);
     }
 
-    const data = rows.map(r => ({
+    const data = rows.rows.map(r => ({
       ...r,
       province_name: provinces[r.province_code] || '全国'
     }));
@@ -59,7 +60,7 @@ export async function getExamPapers(req, res) {
     res.json({
       success: true,
       data,
-      total: parseInt(countResult[0]?.count || 0),
+      total: parseInt(countResult.rows[0]?.count || 0),
       limit: parseInt(limit),
       offset: parseInt(offset)
     });
@@ -70,28 +71,28 @@ export async function getExamPapers(req, res) {
 }
 
 export async function getExamPaperById(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const { id } = req.params;
 
   try {
-    const rows = await db.all(`
+    const rows = await pool.query(`
       SELECT ep.*, p.name as province_name, p.paper_type, p.region
       FROM exam_papers ep
       LEFT JOIN provinces p ON ep.province_code = p.code
-      WHERE ep.id = ?
+      WHERE ep.id = $1
     `, [id]);
 
-    if (rows.length === 0) {
+    if (rows.rows.length === 0) {
       return res.status(404).json(errorResponse('试卷不存在'));
     }
 
-    const questionCount = await db.all(
-      'SELECT COUNT(*) as count FROM exam_questions WHERE paper_id = ?',
+    const questionCount = await pool.query(
+      'SELECT COUNT(*) as count FROM exam_questions WHERE paper_id = $1',
       [id]
     );
 
-    const paper = rows[0];
-    paper.question_count = parseInt(questionCount[0]?.count || 0);
+    const paper = rows.rows[0];
+    paper.question_count = parseInt(questionCount.rows[0]?.count || 0);
 
     res.json({
       success: true,
@@ -104,7 +105,7 @@ export async function getExamPaperById(req, res) {
 }
 
 export async function createExamPaper(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const { province_code, year, subject, exam_level, paper_file_path, total_score } = req.body;
 
   if (!province_code || !year || !subject || !exam_level) {
@@ -112,28 +113,35 @@ export async function createExamPaper(req, res) {
   }
 
   try {
-    const provinceResult = await db.all(
-      'SELECT * FROM provinces WHERE code = ?',
+    const provinceResult = await pool.query(
+      'SELECT * FROM provinces WHERE code = $1',
       [province_code]
     );
 
-    if (provinceResult.length === 0) {
+    if (provinceResult.rows.length === 0) {
       return res.status(404).json(errorResponse('省份不存在'));
     }
 
-    await db.run(`
-      INSERT OR REPLACE INTO exam_papers (province_code, year, subject, exam_level, paper_file_path, total_score, question_count)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+    // Use ON CONFLICT to handle duplicates - since exam_papers has no unique constraint on the combination,
+    // we delete and insert instead
+    await pool.query(`
+      DELETE FROM exam_papers
+      WHERE province_code = $1 AND year = $2 AND subject = $3 AND exam_level = $4
+    `, [province_code, year, subject, exam_level]);
+
+    await pool.query(`
+      INSERT INTO exam_papers (province_code, year, subject, exam_level, paper_file_path, total_score, question_count)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
     `, [province_code, year, subject, exam_level, paper_file_path || null, total_score || null, 0]);
 
-    const result = await db.all(`
+    const result = await pool.query(`
       SELECT * FROM exam_papers
-      WHERE province_code = ? AND year = ? AND subject = ? AND exam_level = ?
+      WHERE province_code = $1 AND year = $2 AND subject = $3 AND exam_level = $4
     `, [province_code, year, subject, exam_level]);
 
     res.json({
       success: true,
-      data: result[0]
+      data: result.rows[0]
     });
   } catch (error) {
     console.error('创建试卷失败:', error.message);

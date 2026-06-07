@@ -10,12 +10,13 @@ export async function getProvinceTrends(req, res) {
   
   try {
     const { data: trends, cached } = await cacheWrapper(cacheKey, async () => {
-      const db = await getDb();
+      const pool = await getDb();
       
-      const provinceRows = await db.all(
-        'SELECT * FROM provinces WHERE code = ?',
+      const provinceResult = await pool.query(
+        'SELECT * FROM provinces WHERE code = $1',
         [code]
       );
+      const provinceRows = provinceResult.rows;
 
       if (provinceRows.length === 0) {
         return null;
@@ -29,15 +30,17 @@ export async function getProvinceTrends(req, res) {
       let paperQuery = `
         SELECT year, subject, question_count, total_score, difficulty_avg, COUNT(*) as paper_count
         FROM exam_papers
-        WHERE province_code = ? AND year BETWEEN ? AND ?
+        WHERE province_code = $1 AND year BETWEEN $2 AND $3
       `;
       let paperParams = [code, startYear, endYear];
+      let paramIdx = 4;
       if (subject) {
         paperParams.push(subject);
-        paperQuery += ' AND subject = ?';
+        paperQuery += ` AND subject = $${paramIdx++}`;
       }
       paperQuery += ' GROUP BY year, subject, question_count, total_score, difficulty_avg ORDER BY year';
-      const papersRows = await db.all(paperQuery, paperParams);
+      const papersResult = await pool.query(paperQuery, paperParams);
+      const papersRows = papersResult.rows;
 
       let knowledgeQuery = `
         SELECT pk.year, pk.knowledge_point_id, kp.name as knowledge_point_name, kp.subject,
@@ -45,58 +48,66 @@ export async function getProvinceTrends(req, res) {
                SUM(pk.total_score) as total_score
         FROM province_knowledge_stats pk
         LEFT JOIN knowledge_points kp ON pk.knowledge_point_id = kp.id
-        WHERE pk.province_code = ? AND pk.year BETWEEN ? AND ?
+        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3
       `;
       let knowledgeParams = [code, startYear, endYear];
+      paramIdx = 4;
       if (subject) {
         knowledgeParams.push(subject);
-        knowledgeQuery += ' AND pk.subject = ?';
+        knowledgeQuery += ` AND pk.subject = $${paramIdx++}`;
       }
       knowledgeQuery += ' GROUP BY pk.year, pk.knowledge_point_id, kp.name, kp.subject ORDER BY pk.year, frequency DESC';
-      const knowledgeRows = await db.all(knowledgeQuery, knowledgeParams);
+      const knowledgeResult = await pool.query(knowledgeQuery, knowledgeParams);
+      const knowledgeRows = knowledgeResult.rows;
 
       let typeQuery = `
         SELECT eq.question_type, COUNT(*) as count, AVG(eq.difficulty) as avg_difficulty, AVG(eq.score) as avg_score
         FROM exam_questions eq
         JOIN exam_papers ep ON eq.paper_id = ep.id
-        WHERE ep.province_code = ? AND ep.year BETWEEN ? AND ?
+        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3
       `;
       let typeParams = [code, startYear, endYear];
+      paramIdx = 4;
       if (subject) {
         typeParams.push(subject);
-        typeQuery += ' AND ep.subject = ?';
+        typeQuery += ` AND ep.subject = $${paramIdx++}`;
       }
       typeQuery += ' GROUP BY eq.question_type ORDER BY count DESC';
-      const typeRows = await db.all(typeQuery, typeParams);
+      const typeResult = await pool.query(typeQuery, typeParams);
+      const typeRows = typeResult.rows;
 
       let diffQuery = `
         SELECT eq.difficulty, COUNT(*) as count, AVG(eq.score) as avg_score
         FROM exam_questions eq
         JOIN exam_papers ep ON eq.paper_id = ep.id
-        WHERE ep.province_code = ? AND ep.year BETWEEN ? AND ?
+        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3
       `;
       let diffParams = [code, startYear, endYear];
+      paramIdx = 4;
       if (subject) {
         diffParams.push(subject);
-        diffQuery += ' AND ep.subject = ?';
+        diffQuery += ` AND ep.subject = $${paramIdx++}`;
       }
       diffQuery += ' GROUP BY eq.difficulty ORDER BY eq.difficulty';
-      const diffRows = await db.all(diffQuery, diffParams);
+      const diffResult = await pool.query(diffQuery, diffParams);
+      const diffRows = diffResult.rows;
 
       let topKnowledgeQuery = `
         SELECT pk.knowledge_point_id, kp.name as knowledge_point_name,
                SUM(pk.frequency) as total_frequency, AVG(pk.avg_difficulty) as avg_difficulty
         FROM province_knowledge_stats pk
         LEFT JOIN knowledge_points kp ON pk.knowledge_point_id = kp.id
-        WHERE pk.province_code = ? AND pk.year BETWEEN ? AND ?
+        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3
       `;
       let topKnowledgeParams = [code, startYear, endYear];
+      paramIdx = 4;
       if (subject) {
         topKnowledgeParams.push(subject);
-        topKnowledgeQuery += ' AND pk.subject = ?';
+        topKnowledgeQuery += ` AND pk.subject = $${paramIdx++}`;
       }
       topKnowledgeQuery += ' GROUP BY pk.knowledge_point_id, kp.name ORDER BY total_frequency DESC LIMIT 10';
-      const topKnowledgeRows = await db.all(topKnowledgeQuery, topKnowledgeParams);
+      const topKnowledgeResult = await pool.query(topKnowledgeQuery, topKnowledgeParams);
+      const topKnowledgeRows = topKnowledgeResult.rows;
 
       return {
         province,
@@ -134,11 +145,11 @@ export async function getProvinceCompare(req, res) {
 
   try {
     const { data: rows } = await cacheWrapper(cacheKey, async () => {
-      const db = await getDb();
+      const pool = await getDb();
       const currentYear = new Date().getFullYear();
       const startYear = currentYear - parseInt(years);
 
-      const placeholders = codeList.map(() => '?').join(',');
+      const placeholders = codeList.map((_, i) => `$${i + 1}`).join(',');
       
       let compareQuery = `
         SELECT ep.province_code, p.name as province_name,
@@ -147,17 +158,19 @@ export async function getProvinceCompare(req, res) {
         FROM exam_papers ep
         LEFT JOIN provinces p ON ep.province_code = p.code
         LEFT JOIN exam_questions eq ON ep.id = eq.paper_id
-        WHERE ep.province_code IN (${placeholders}) AND ep.year BETWEEN ? AND ?
+        WHERE ep.province_code IN (${placeholders}) AND ep.year BETWEEN $${codeList.length + 1} AND $${codeList.length + 2}
       `;
       
       let compareParams = [...codeList, startYear, currentYear];
+      let paramIdx = codeList.length + 3;
       if (subject) {
         compareParams.push(subject);
-        compareQuery += ' AND ep.subject = ?';
+        compareQuery += ` AND ep.subject = $${paramIdx++}`;
       }
       compareQuery += ' GROUP BY ep.province_code, p.name ORDER BY paper_count DESC';
 
-      return await db.all(compareQuery, compareParams);
+      const result = await pool.query(compareQuery, compareParams);
+      return result.rows;
     }, CACHE_CONFIG.LONG_TTL);
 
     res.json(successResponse(rows, '获取省份对比成功'));

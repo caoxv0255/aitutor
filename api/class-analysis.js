@@ -3,39 +3,42 @@ import { successResponse, errorResponse } from './utils/response.js';
 import { resolveSubjectName, resolveSubjectKey } from './utils/subjectMap.js';
 
 export async function getClassAnalysis(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const email = req.user.email;
 
   try {
-    const subjects = await db.all(`
+    const subjectsResult = await pool.query(`
       SELECT subject_code, COUNT(*) as count,
              AVG(score) as avg_score
       FROM reports
-      WHERE user_email = ?
+      WHERE user_email = $1
       GROUP BY subject_code
     `, [email]);
+    const subjects = subjectsResult.rows;
 
-    const weakPoints = await db.all(`
+    const weakPointsResult = await pool.query(`
       SELECT subject_code, COUNT(*) as error_count
       FROM wrong_questions
-      WHERE user_email = ?
+      WHERE user_email = $1
       GROUP BY subject_code
       ORDER BY error_count DESC
     `, [email]);
+    const weakPoints = weakPointsResult.rows;
 
-    const recentActivity = await db.all(`
-      SELECT date(timestamp) as date, COUNT(*) as count
+    const recentActivityResult = await pool.query(`
+      SELECT DATE(timestamp) as date, COUNT(*) as count
       FROM (
-        SELECT timestamp FROM wrong_questions WHERE user_email = ?
+        SELECT timestamp FROM wrong_questions WHERE user_email = $1
         UNION ALL
-        SELECT timestamp FROM reports WHERE user_email = ?
-      )
-      GROUP BY date(timestamp)
+        SELECT timestamp FROM reports WHERE user_email = $2
+      ) sub
+      GROUP BY DATE(timestamp)
       ORDER BY date DESC
       LIMIT 30
     `, [email, email]);
+    const recentActivity = recentActivityResult.rows;
 
-    const knowledgeDistribution = await db.all(`
+    const knowledgeDistributionResult = await pool.query(`
       SELECT
         wq.subject_code,
         wq.knowledge_point_id,
@@ -43,34 +46,37 @@ export async function getClassAnalysis(req, res) {
         COUNT(*) as frequency
       FROM wrong_questions wq
       LEFT JOIN knowledge_points kp ON wq.knowledge_point_id = kp.id
-      WHERE wq.user_email = ?
-      GROUP BY wq.subject_code, wq.knowledge_point_id
+      WHERE wq.user_email = $1
+      GROUP BY wq.subject_code, wq.knowledge_point_id, kp.name
       ORDER BY frequency DESC
       LIMIT 20
     `, [email]);
+    const knowledgeDistribution = knowledgeDistributionResult.rows;
 
-    const progressTrend = await db.all(`
+    const progressTrendResult = await pool.query(`
       SELECT
-        date(timestamp) as date,
+        DATE(timestamp) as date,
         subject_code,
         COUNT(*) as error_count
       FROM wrong_questions
-      WHERE user_email = ? AND timestamp >= date('now', '-30 days')
-      GROUP BY date(timestamp), subject_code
+      WHERE user_email = $1 AND timestamp >= CURRENT_DATE - INTERVAL '30 days'
+      GROUP BY DATE(timestamp), subject_code
       ORDER BY date ASC
     `, [email]);
+    const progressTrend = progressTrendResult.rows;
 
-    const examHistory = await db.all(`
+    const examHistoryResult = await pool.query(`
       SELECT
         subject,
         correct_count,
         total_questions,
         created_at
       FROM exam_sessions
-      WHERE user_email = ?
+      WHERE user_email = $1
       ORDER BY created_at DESC
       LIMIT 10
     `, [email]);
+    const examHistory = examHistoryResult.rows;
 
     const subjectWarning = subjects.map(s => {
       const weak = weakPoints.find(w => w.subject_code === s.subject_code);
@@ -111,30 +117,30 @@ export async function getClassAnalysis(req, res) {
 }
 
 export async function getTeacherDashboard(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
 
   try {
-    const totalUsers = await db.all('SELECT COUNT(*) as count FROM users');
-    const activeToday = await db.all(`
+    const totalUsersResult = await pool.query('SELECT COUNT(*) as count FROM users');
+    const activeTodayResult = await pool.query(`
       SELECT COUNT(DISTINCT user_email) as count
       FROM wrong_questions
-      WHERE date(timestamp) = date('now')
+      WHERE DATE(timestamp) = CURRENT_DATE
     `);
-    const totalQuestions = await db.all('SELECT COUNT(*) as count FROM exam_questions');
-    const totalPapers = await db.all('SELECT COUNT(*) as count FROM exam_papers');
+    const totalQuestionsResult = await pool.query('SELECT COUNT(*) as count FROM exam_questions');
+    const totalPapersResult = await pool.query('SELECT COUNT(*) as count FROM exam_papers');
 
-    const subjectStats = await db.all(`
+    const subjectStatsResult = await pool.query(`
       SELECT subject_code, COUNT(*) as user_count
       FROM (
         SELECT DISTINCT user_email, subject_code
         FROM wrong_questions
         WHERE subject_code IS NOT NULL
-      )
+      ) sub
       GROUP BY subject_code
       ORDER BY user_count DESC
     `);
 
-    const difficultyDistribution = await db.all(`
+    const difficultyDistributionResult = await pool.query(`
       SELECT difficulty, COUNT(*) as count
       FROM exam_questions
       WHERE difficulty IS NOT NULL
@@ -146,13 +152,13 @@ export async function getTeacherDashboard(req, res) {
       success: true,
       data: {
         overview: {
-          totalUsers: totalUsers[0]?.count || 0,
-          activeToday: activeToday[0]?.count || 0,
-          totalQuestions: totalQuestions[0]?.count || 0,
-          totalPapers: totalPapers[0]?.count || 0
+          totalUsers: totalUsersResult.rows[0]?.count || 0,
+          activeToday: activeTodayResult.rows[0]?.count || 0,
+          totalQuestions: totalQuestionsResult.rows[0]?.count || 0,
+          totalPapers: totalPapersResult.rows[0]?.count || 0
         },
-        subjectStats,
-        difficultyDistribution
+        subjectStats: subjectStatsResult.rows,
+        difficultyDistribution: difficultyDistributionResult.rows
       }
     });
   } catch (error) {
@@ -162,76 +168,82 @@ export async function getTeacherDashboard(req, res) {
 }
 
 export async function getClassDetail(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const { subject, period = '30' } = req.query;
   const periodDays = Math.min(Math.max(parseInt(period) || 30, 7), 365);
+  const subjectStr = subject || '';
+  const subjectNameStr = resolveSubjectName(subject) || '';
 
   try {
-    const studentPerformance = await db.all(`
+    const studentPerformanceResult = await pool.query(`
       SELECT
         u.email,
         u.name,
         COUNT(DISTINCT wq.id) as error_count,
         COUNT(DISTINCT es.id) as exam_count,
         AVG(CASE WHEN es.total_questions > 0
-          THEN CAST(es.correct_count AS REAL) / es.total_questions
+          THEN CAST(es.correct_count AS DOUBLE PRECISION) / es.total_questions
           ELSE NULL END) as avg_accuracy
       FROM users u
       LEFT JOIN wrong_questions wq ON u.email = wq.user_email
-        AND wq.timestamp >= date('now', '-' || ? || ' days')
+        AND wq.timestamp >= CURRENT_DATE - CAST($1 AS INTEGER) * INTERVAL '1 day'
       LEFT JOIN exam_sessions es ON u.email = es.user_email
-        AND es.created_at >= date('now', '-' || ? || ' days')
-        AND (? = '' OR es.subject = ? OR es.subject = ?)
+        AND es.created_at >= CURRENT_DATE - CAST($2 AS INTEGER) * INTERVAL '1 day'
+        AND ($3 = '' OR es.subject = $4 OR es.subject = $5)
       GROUP BY u.email, u.name
-      HAVING error_count > 0 OR exam_count > 0
+      HAVING COUNT(DISTINCT wq.id) > 0 OR COUNT(DISTINCT es.id) > 0
       ORDER BY avg_accuracy ASC
       LIMIT 50
-    `, [periodDays, periodDays, subject || '', subject || '', resolveSubjectName(subject) || '']);
+    `, [periodDays, periodDays, subjectStr, subjectStr, subjectNameStr]);
+    const studentPerformance = studentPerformanceResult.rows;
 
-    const classWeakPoints = await db.all(`
+    const classWeakPointsResult = await pool.query(`
       SELECT
-        json_extract(wq.data, '$.knowledge_point') as knowledge_point,
-        json_extract(wq.data, '$.subject') as subject,
+        wq.data::jsonb->>'knowledge_point' as knowledge_point,
+        wq.data::jsonb->>'subject' as subject,
         COUNT(*) as frequency,
         COUNT(DISTINCT wq.user_email) as affected_students
       FROM wrong_questions wq
-      WHERE wq.timestamp >= date('now', '-' || ? || ' days')
-        AND (? = '' OR json_extract(wq.data, '$.subject') = ? OR json_extract(wq.data, '$.subject') = ?)
-      GROUP BY knowledge_point, subject
-      HAVING knowledge_point IS NOT NULL
+      WHERE wq.timestamp >= CURRENT_DATE - CAST($1 AS INTEGER) * INTERVAL '1 day'
+        AND ($2 = '' OR wq.data::jsonb->>'subject' = $3 OR wq.data::jsonb->>'subject' = $4)
+      GROUP BY wq.data::jsonb->>'knowledge_point', wq.data::jsonb->>'subject'
+      HAVING wq.data::jsonb->>'knowledge_point' IS NOT NULL
       ORDER BY frequency DESC
       LIMIT 20
-    `, [periodDays, subject || '', subject || '', resolveSubjectName(subject) || '']);
+    `, [periodDays, subjectStr, subjectStr, subjectNameStr]);
+    const classWeakPoints = classWeakPointsResult.rows;
 
-    const weeklyTrend = await db.all(`
+    const weeklyTrendResult = await pool.query(`
       SELECT
-        strftime('%Y-%W', timestamp) as week,
+        to_char(timestamp, 'IYYY-IW') as week,
         COUNT(*) as total_errors,
         COUNT(DISTINCT user_email) as active_students
       FROM wrong_questions
-      WHERE timestamp >= date('now', '-' || ? || ' days')
-        AND (? = '' OR json_extract(data, '$.subject') = ? OR json_extract(data, '$.subject') = ?)
-      GROUP BY week
+      WHERE timestamp >= CURRENT_DATE - CAST($1 AS INTEGER) * INTERVAL '1 day'
+        AND ($2 = '' OR data::jsonb->>'subject' = $3 OR data::jsonb->>'subject' = $4)
+      GROUP BY to_char(timestamp, 'IYYY-IW')
       ORDER BY week ASC
-    `, [periodDays, subject || '', subject || '', resolveSubjectName(subject) || '']);
+    `, [periodDays, subjectStr, subjectStr, subjectNameStr]);
+    const weeklyTrend = weeklyTrendResult.rows;
 
-    const scoreDistribution = await db.all(`
+    const scoreDistributionResult = await pool.query(`
       SELECT
         CASE
-          WHEN CAST(correct_count AS REAL) / total_questions >= 0.9 THEN '90-100'
-          WHEN CAST(correct_count AS REAL) / total_questions >= 0.8 THEN '80-89'
-          WHEN CAST(correct_count AS REAL) / total_questions >= 0.7 THEN '70-79'
-          WHEN CAST(correct_count AS REAL) / total_questions >= 0.6 THEN '60-69'
+          WHEN CAST(correct_count AS DOUBLE PRECISION) / total_questions >= 0.9 THEN '90-100'
+          WHEN CAST(correct_count AS DOUBLE PRECISION) / total_questions >= 0.8 THEN '80-89'
+          WHEN CAST(correct_count AS DOUBLE PRECISION) / total_questions >= 0.7 THEN '70-79'
+          WHEN CAST(correct_count AS DOUBLE PRECISION) / total_questions >= 0.6 THEN '60-69'
           ELSE '0-59'
         END as score_range,
         COUNT(*) as count
       FROM exam_sessions
-      WHERE created_at >= date('now', '-' || ? || ' days')
-        AND (? = '' OR subject = ? OR subject = ?)
+      WHERE created_at >= CURRENT_DATE - CAST($1 AS INTEGER) * INTERVAL '1 day'
+        AND ($2 = '' OR subject = $3 OR subject = $4)
         AND total_questions > 0
       GROUP BY score_range
       ORDER BY score_range DESC
-    `, [periodDays, subject || '', subject || '', resolveSubjectName(subject) || '']);
+    `, [periodDays, subjectStr, subjectStr, subjectNameStr]);
+    const scoreDistribution = scoreDistributionResult.rows;
 
     res.json(successResponse({
       studentPerformance,

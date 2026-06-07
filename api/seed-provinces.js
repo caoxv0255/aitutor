@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export async function seedProvinces() {
-  const db = await getDb();
+  const pool = await getDb();
 
   try {
     const dataPath = join(__dirname, '../database/seed_provinces.json');
@@ -16,9 +16,10 @@ export async function seedProvinces() {
     console.log('🌱 开始导入省份数据...');
 
     for (const province of provinces) {
-      await db.run(`
-        INSERT OR REPLACE INTO provinces (code, name, exam_type, paper_type, region)
-        VALUES (?, ?, ?, ?, ?)
+      await pool.query(`
+        INSERT INTO provinces (code, name, exam_type, paper_type, region)
+        VALUES ($1, $2, $3, $4, $5)
+        ON CONFLICT (code) DO UPDATE SET name = EXCLUDED.name, exam_type = EXCLUDED.exam_type, paper_type = EXCLUDED.paper_type, region = EXCLUDED.region
       `, [province.code, province.name, province.exam_type, province.paper_type, province.region]);
 
       console.log(`  ✅ ${province.name} (${province.code})`);

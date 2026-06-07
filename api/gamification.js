@@ -19,25 +19,26 @@ const BADGES = [
 ];
 
 export async function checkIn(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const email = req.user.email;
 
   try {
     const today = new Date().toISOString().split('T')[0];
 
-    const existing = await db.all(
-      'SELECT * FROM user_checkins WHERE user_email = ? AND date(checkin_date) = date(?)',
+    const existingResult = await pool.query(
+      'SELECT * FROM user_checkins WHERE user_email = $1 AND DATE(checkin_date) = DATE($2)',
       [email, today]
     );
 
-    if (existing.length > 0) {
+    if (existingResult.rows.length > 0) {
       return res.status(400).json(errorResponse('今日已打卡'));
     }
 
-    const lastCheckin = await db.all(
-      'SELECT checkin_date FROM user_checkins WHERE user_email = ? ORDER BY checkin_date DESC LIMIT 1',
+    const lastCheckinResult = await pool.query(
+      'SELECT checkin_date FROM user_checkins WHERE user_email = $1 ORDER BY checkin_date DESC LIMIT 1',
       [email]
     );
+    const lastCheckin = lastCheckinResult.rows;
 
     let streakDays = 1;
     if (lastCheckin.length > 0) {
@@ -45,25 +46,25 @@ export async function checkIn(req, res) {
       const todayDate = new Date(today);
       const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
       if (diffDays === 1) {
-        const streakResult = await db.all(
-          'SELECT MAX(streak_days) as max_streak FROM user_checkins WHERE user_email = ?',
+        const streakResult = await pool.query(
+          'SELECT MAX(streak_days) as max_streak FROM user_checkins WHERE user_email = $1',
           [email]
         );
-        streakDays = (streakResult[0]?.max_streak || 0) + 1;
+        streakDays = (streakResult.rows[0]?.max_streak || 0) + 1;
       }
     }
 
-    await db.run(
-      'INSERT INTO user_checkins (user_email, checkin_date, streak_days) VALUES (?, ?, ?)',
+    await pool.query(
+      'INSERT INTO user_checkins (user_email, checkin_date, streak_days) VALUES ($1, $2, $3)',
       [email, today, streakDays]
     );
 
-    await db.run(
-      'INSERT INTO user_points (user_email, points, reason) VALUES (?, ?, ?)',
+    await pool.query(
+      'INSERT INTO user_points (user_email, points, reason) VALUES ($1, $2, $3)',
       [email, 5 + Math.min(streakDays, 20), '每日打卡（连续' + streakDays + '天）']
     );
 
-    const newBadges = await checkAndAwardBadges(db, email);
+    const newBadges = await checkAndAwardBadges(pool, email);
 
     res.json({
       success: true,
@@ -81,36 +82,39 @@ export async function checkIn(req, res) {
 }
 
 export async function getCheckinStatus(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const email = req.user.email;
 
   try {
     const today = new Date().toISOString().split('T')[0];
-    const todayCheckin = await db.all(
-      'SELECT * FROM user_checkins WHERE user_email = ? AND date(checkin_date) = date(?)',
+    const todayResult = await pool.query(
+      'SELECT * FROM user_checkins WHERE user_email = $1 AND DATE(checkin_date) = DATE($2)',
       [email, today]
     );
+    const todayCheckin = todayResult.rows;
 
-    const streakInfo = await db.all(
-      'SELECT MAX(streak_days) as current_streak FROM user_checkins WHERE user_email = ?',
+    const streakResult = await pool.query(
+      'SELECT MAX(streak_days) as current_streak FROM user_checkins WHERE user_email = $1',
       [email]
     );
 
-    const recentCheckins = await db.all(
-      'SELECT checkin_date, streak_days FROM user_checkins WHERE user_email = ? ORDER BY checkin_date DESC LIMIT 30',
+    const recentResult = await pool.query(
+      'SELECT checkin_date, streak_days FROM user_checkins WHERE user_email = $1 ORDER BY checkin_date DESC LIMIT 30',
       [email]
     );
+    const recentCheckins = recentResult.rows;
 
-    const totalCheckins = await db.all(
-      'SELECT COUNT(*) as count FROM user_checkins WHERE user_email = ?',
+    const totalResult = await pool.query(
+      'SELECT COUNT(*) as count FROM user_checkins WHERE user_email = $1',
       [email]
     );
+    const totalCheckins = totalResult.rows;
 
     res.json({
       success: true,
       data: {
         todayCheckedIn: todayCheckin.length > 0,
-        currentStreak: streakInfo[0]?.current_streak || 0,
+        currentStreak: streakResult.rows[0]?.current_streak || 0,
         totalCheckins: totalCheckins[0]?.count || 0,
         recentCheckins
       }
@@ -122,25 +126,26 @@ export async function getCheckinStatus(req, res) {
 }
 
 export async function getPointsHistory(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const email = req.user.email;
   const { limit = 30, offset = 0 } = req.query;
 
   try {
-    const history = await db.all(
-      'SELECT * FROM user_points WHERE user_email = ? ORDER BY created_at DESC LIMIT ? OFFSET ?',
+    const historyResult = await pool.query(
+      'SELECT * FROM user_points WHERE user_email = $1 ORDER BY created_at DESC LIMIT $2 OFFSET $3',
       [email, parseInt(limit), parseInt(offset)]
     );
+    const history = historyResult.rows;
 
-    const total = await db.all(
-      'SELECT SUM(points) as total FROM user_points WHERE user_email = ?',
+    const totalResult = await pool.query(
+      'SELECT SUM(points) as total FROM user_points WHERE user_email = $1',
       [email]
     );
 
     res.json({
       success: true,
       data: {
-        totalPoints: total[0]?.total || 0,
+        totalPoints: totalResult.rows[0]?.total || 0,
         history
       }
     });
@@ -151,18 +156,19 @@ export async function getPointsHistory(req, res) {
 }
 
 export async function getBadges(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const email = req.user.email;
 
   try {
-    const earned = await db.all(
-      'SELECT badge_id, earned_at FROM user_badges WHERE user_email = ?',
+    const earnedResult = await pool.query(
+      'SELECT badge_id, earned_at FROM user_badges WHERE user_email = $1',
       [email]
     );
+    const earned = earnedResult.rows;
 
     const earnedIds = earned.map(e => e.badge_id);
 
-    const stats = await getUserStats(db, email);
+    const stats = await getUserStats(pool, email);
 
     const allBadges = BADGES.map(badge => ({
       ...badge,
@@ -185,20 +191,20 @@ export async function getBadges(req, res) {
   }
 }
 
-async function checkAndAwardBadges(db, email) {
-  const stats = await getUserStats(db, email);
-  const earned = await db.all(
-    'SELECT badge_id FROM user_badges WHERE user_email = ?',
+async function checkAndAwardBadges(pool, email) {
+  const stats = await getUserStats(pool, email);
+  const earnedResult = await pool.query(
+    'SELECT badge_id FROM user_badges WHERE user_email = $1',
     [email]
   );
-  const earnedIds = earned.map(e => e.badge_id);
+  const earnedIds = earnedResult.rows.map(e => e.badge_id);
 
   const newBadges = [];
 
   for (const badge of BADGES) {
     if (!earnedIds.includes(badge.id) && badge.condition(stats)) {
-      await db.run(
-        'INSERT INTO user_badges (user_email, badge_id) VALUES (?, ?)',
+      await pool.query(
+        'INSERT INTO user_badges (user_email, badge_id) VALUES ($1, $2)',
         [email, badge.id]
       );
       newBadges.push(badge);
@@ -208,50 +214,50 @@ async function checkAndAwardBadges(db, email) {
   return newBadges;
 }
 
-async function getUserStats(db, email) {
-  const loginDays = await db.all(
-    'SELECT COUNT(DISTINCT date(checkin_date)) as count FROM user_checkins WHERE user_email = ?',
+async function getUserStats(pool, email) {
+  const loginDaysResult = await pool.query(
+    'SELECT COUNT(DISTINCT DATE(checkin_date)) as count FROM user_checkins WHERE user_email = $1',
     [email]
   );
 
-  const streakDays = await db.all(
-    'SELECT MAX(streak_days) as max FROM user_checkins WHERE user_email = ?',
+  const streakDaysResult = await pool.query(
+    'SELECT MAX(streak_days) as max FROM user_checkins WHERE user_email = $1',
     [email]
   );
 
-  const totalErrors = await db.all(
-    'SELECT COUNT(*) as count FROM wrong_questions WHERE user_email = ?',
+  const totalErrorsResult = await pool.query(
+    'SELECT COUNT(*) as count FROM wrong_questions WHERE user_email = $1',
     [email]
   );
 
-  const totalExams = await db.all(
-    'SELECT COUNT(*) as count FROM exam_sessions WHERE user_email = ? AND status = ?',
+  const totalExamsResult = await pool.query(
+    'SELECT COUNT(*) as count FROM exam_sessions WHERE user_email = $1 AND status = $2',
     [email, 'completed']
   );
 
-  const bestAccuracy = await db.all(
-    'SELECT MAX(accuracy) as best FROM exam_sessions WHERE user_email = ? AND status = ?',
+  const bestAccuracyResult = await pool.query(
+    'SELECT MAX(accuracy) as best FROM exam_sessions WHERE user_email = $1 AND status = $2',
     [email, 'completed']
   );
 
-  const totalPoints = await db.all(
-    'SELECT SUM(points) as total FROM user_points WHERE user_email = ?',
+  const totalPointsResult = await pool.query(
+    'SELECT SUM(points) as total FROM user_points WHERE user_email = $1',
     [email]
   );
 
-  const subjectCount = await db.all(
-    'SELECT COUNT(DISTINCT subject) as count FROM exam_sessions WHERE user_email = ? AND status = ?',
+  const subjectCountResult = await pool.query(
+    'SELECT COUNT(DISTINCT subject) as count FROM exam_sessions WHERE user_email = $1 AND status = $2',
     [email, 'completed']
   );
 
   return {
-    loginDays: loginDays[0]?.count || 0,
-    streakDays: streakDays[0]?.max || 0,
-    totalErrors: totalErrors[0]?.count || 0,
-    totalExams: totalExams[0]?.count || 0,
-    bestAccuracy: bestAccuracy[0]?.best ? parseFloat(bestAccuracy[0].best) : 0,
-    totalPoints: totalPoints[0]?.total || 0,
-    subjectCount: subjectCount[0]?.count || 0
+    loginDays: loginDaysResult.rows[0]?.count || 0,
+    streakDays: streakDaysResult.rows[0]?.max || 0,
+    totalErrors: totalErrorsResult.rows[0]?.count || 0,
+    totalExams: totalExamsResult.rows[0]?.count || 0,
+    bestAccuracy: bestAccuracyResult.rows[0]?.best ? parseFloat(bestAccuracyResult.rows[0].best) : 0,
+    totalPoints: totalPointsResult.rows[0]?.total || 0,
+    subjectCount: subjectCountResult.rows[0]?.count || 0
   };
 }
 

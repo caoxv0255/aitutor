@@ -17,9 +17,9 @@ export default async function handler(req, res) {
     return res.status(error.statusCode || 400).json(errorResponse(error.message));
   }
 
-  const db = await getDb();
-  const rows = await db.all('SELECT * FROM users WHERE email = ?', [email]);
-  const user = rows[0];
+  const pool = await getDb();
+  const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+  const user = result.rows[0];
 
   if (!user) {
     return res.status(401).json(errorResponse('邮箱或密码错误'));

@@ -2,14 +2,14 @@ import { getDb } from './db.js';
 import { errorResponse } from './utils/response.js';
 
 export async function getExamQuestions(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const { paperId } = req.params;
   const { type, difficulty, knowledge_point, limit = 100, offset = 0 } = req.query;
 
   try {
-    const paperResult = await db.all('SELECT * FROM exam_papers WHERE id = ?', [paperId]);
+    const paperResult = await pool.query('SELECT * FROM exam_papers WHERE id = $1', [paperId]);
 
-    if (paperResult.length === 0) {
+    if (paperResult.rows.length === 0) {
       return res.status(404).json(errorResponse('试卷不存在'));
     }
 
@@ -20,24 +20,25 @@ export async function getExamQuestions(req, res) {
       FROM exam_questions eq
       JOIN exam_papers ep ON eq.paper_id = ep.id
       LEFT JOIN provinces p ON ep.province_code = p.code
-      WHERE eq.paper_id = ?
+      WHERE eq.paper_id = $1
     `;
     const conditions = [];
     const params = [paperId];
+    let paramIdx = 2;
 
     if (type) {
       params.push(type);
-      conditions.push(`eq.question_type = ?`);
+      conditions.push(`eq.question_type = $${paramIdx++}`);
     }
 
     if (difficulty) {
       params.push(parseInt(difficulty));
-      conditions.push(`eq.difficulty = ?`);
+      conditions.push(`eq.difficulty = $${paramIdx++}`);
     }
 
     if (knowledge_point) {
       params.push(knowledge_point);
-      conditions.push(`eq.id IN (SELECT question_id FROM question_knowledge_points WHERE knowledge_point_id = ?)`);
+      conditions.push(`eq.id IN (SELECT question_id FROM question_knowledge_points WHERE knowledge_point_id = $${paramIdx++})`);
     }
 
     if (conditions.length > 0) {
@@ -47,20 +48,19 @@ export async function getExamQuestions(req, res) {
     query += ' ORDER BY eq.question_number';
 
     params.push(parseInt(limit));
-    query += ' LIMIT ?';
+    query += ` LIMIT $${paramIdx++}`;
     params.push(parseInt(offset));
-    query += ' OFFSET ?';
+    query += ` OFFSET $${paramIdx}`;
 
-    const rows = await db.all(query, params);
+    const rows = await pool.query(query, params);
 
-    let countQuery = 'SELECT COUNT(*) as count FROM exam_questions WHERE paper_id = ?';
-    const countResult = await db.all(countQuery, [paperId]);
+    const countResult = await pool.query('SELECT COUNT(*) as count FROM exam_questions WHERE paper_id = $1', [paperId]);
 
     res.json({
       success: true,
-      paper: paperResult[0],
-      data: rows,
-      total: parseInt(countResult[0]?.count || 0),
+      paper: paperResult.rows[0],
+      data: rows.rows,
+      total: parseInt(countResult.rows[0]?.count || 0),
       limit: parseInt(limit),
       offset: parseInt(offset)
     });
@@ -71,7 +71,7 @@ export async function getExamQuestions(req, res) {
 }
 
 export async function createExamQuestion(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const {
     paper_id,
     question_number,
@@ -91,26 +91,24 @@ export async function createExamQuestion(req, res) {
   }
 
   try {
-    const paperResult = await db.all('SELECT * FROM exam_papers WHERE id = ?', [paper_id]);
+    const paperResult = await pool.query('SELECT * FROM exam_papers WHERE id = $1', [paper_id]);
 
-    if (paperResult.length === 0) {
+    if (paperResult.rows.length === 0) {
       return res.status(404).json(errorResponse('试卷不存在'));
     }
 
-    const paper = paperResult[0];
+    const paper = paperResult.rows[0];
     const optionsJson = options ? JSON.stringify(options) : null;
     const knowledgeJson = knowledge_points ? JSON.stringify(knowledge_points) : null;
     const tagsJson = ability_tags ? JSON.stringify(ability_tags) : null;
 
-    const stmt = await db.prepare(`
+    const result = await pool.query(`
       INSERT INTO exam_questions (
         paper_id, question_number, question_type, stem, options,
         answer, analysis, knowledge_points, difficulty, ability_tags, score,
         subject_code, province_code, year
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
-
-    const result = await stmt.run([
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id
+    `, [
       paper_id,
       question_number,
       question_type,
@@ -131,32 +129,32 @@ export async function createExamQuestion(req, res) {
       for (const kp of knowledge_points) {
         const kpId = typeof kp === 'string' ? kp : kp?.id;
         if (kpId) {
-          await db.run(
-            'INSERT OR IGNORE INTO question_knowledge_points (question_id, knowledge_point_id) VALUES (?, ?)',
-            [result.lastID, kpId]
+          await pool.query(
+            'INSERT INTO question_knowledge_points (question_id, knowledge_point_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+            [result.rows[0].id, kpId]
           );
         }
       }
     }
 
-    const countResult = await db.all(
-      'SELECT COUNT(*) as count FROM exam_questions WHERE paper_id = ?',
+    const countResult = await pool.query(
+      'SELECT COUNT(*) as count FROM exam_questions WHERE paper_id = $1',
       [paper_id]
     );
 
-    await db.run(
-      'UPDATE exam_papers SET question_count = ? WHERE id = ?',
-      [countResult[0].count, paper_id]
+    await pool.query(
+      'UPDATE exam_papers SET question_count = $1 WHERE id = $2',
+      [countResult.rows[0].count, paper_id]
     );
 
-    const newQuestion = await db.all(
-      'SELECT * FROM exam_questions WHERE paper_id = ? AND question_number = ?',
+    const newQuestion = await pool.query(
+      'SELECT * FROM exam_questions WHERE paper_id = $1 AND question_number = $2',
       [paper_id, question_number]
     );
 
     res.json({
       success: true,
-      data: newQuestion[0]
+      data: newQuestion.rows[0]
     });
   } catch (error) {
     console.error('创建题目失败:', error.message);
@@ -165,7 +163,7 @@ export async function createExamQuestion(req, res) {
 }
 
 export async function batchCreateQuestions(req, res) {
-  const db = await getDb();
+  const pool = await getDb();
   const { paper_id, questions } = req.body;
 
   if (!paper_id || !questions || !Array.isArray(questions)) {
@@ -173,25 +171,24 @@ export async function batchCreateQuestions(req, res) {
   }
 
   try {
-    const paperResult = await db.all('SELECT * FROM exam_papers WHERE id = ?', [paper_id]);
+    const paperResult = await pool.query('SELECT * FROM exam_papers WHERE id = $1', [paper_id]);
 
-    if (paperResult.length === 0) {
+    if (paperResult.rows.length === 0) {
       return res.status(404).json(errorResponse('试卷不存在'));
     }
 
-    const paper = paperResult[0];
+    const paper = paperResult.rows[0];
 
     const created = [];
-    const stmt = await db.prepare(`
-      INSERT INTO exam_questions (
-        paper_id, question_number, question_type, stem, options,
-        answer, analysis, knowledge_points, difficulty, ability_tags, score,
-        subject_code, province_code, year
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
 
     for (const q of questions) {
-      const result = await stmt.run([
+      const result = await pool.query(`
+        INSERT INTO exam_questions (
+          paper_id, question_number, question_type, stem, options,
+          answer, analysis, knowledge_points, difficulty, ability_tags, score,
+          subject_code, province_code, year
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id
+      `, [
         paper_id,
         q.question_number,
         q.question_type,
@@ -212,9 +209,9 @@ export async function batchCreateQuestions(req, res) {
         for (const kp of q.knowledge_points) {
           const kpId = typeof kp === 'string' ? kp : kp?.id;
           if (kpId) {
-            await db.run(
-              'INSERT OR IGNORE INTO question_knowledge_points (question_id, knowledge_point_id) VALUES (?, ?)',
-              [result.lastID, kpId]
+            await pool.query(
+              'INSERT INTO question_knowledge_points (question_id, knowledge_point_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+              [result.rows[0].id, kpId]
             );
           }
         }
@@ -223,14 +220,14 @@ export async function batchCreateQuestions(req, res) {
       created.push(q.question_number);
     }
 
-    const countResult = await db.all(
-      'SELECT COUNT(*) as count, AVG(difficulty) as avg_difficulty FROM exam_questions WHERE paper_id = ? AND difficulty IS NOT NULL',
+    const countResult = await pool.query(
+      'SELECT COUNT(*) as count, AVG(difficulty) as avg_difficulty FROM exam_questions WHERE paper_id = $1 AND difficulty IS NOT NULL',
       [paper_id]
     );
 
-    await db.run(
-      'UPDATE exam_papers SET question_count = ?, difficulty_avg = ? WHERE id = ?',
-      [countResult[0].count, countResult[0].avg_difficulty, paper_id]
+    await pool.query(
+      'UPDATE exam_papers SET question_count = $1, difficulty_avg = $2 WHERE id = $3',
+      [countResult.rows[0].count, countResult.rows[0].avg_difficulty, paper_id]
     );
 
     res.json({

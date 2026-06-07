@@ -9,14 +9,14 @@ export default async function handler(req, res) {
     return res.status(405).json(errorResponse('Method not allowed'));
   }
 
-  const db = await getDb();
+  const pool = await getDb();
 
   const guestId = req.cookies?.guest_id;
 
   if (guestId) {
     const guestEmail = `guest_${guestId}@aitutor.local`;
-    const rows = await db.all('SELECT * FROM users WHERE email = ?', [guestEmail]);
-    const user = rows[0];
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [guestEmail]);
+    const user = result.rows[0];
 
     if (user) {
       const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
@@ -34,8 +34,8 @@ export default async function handler(req, res) {
   const hashedPassword = await bcrypt.hash(guestPassword, 10);
   const defaultGrade = '高中';
 
-  await db.run(
-    'INSERT INTO users (email, password, grade) VALUES (?, ?, ?)',
+  await pool.query(
+    'INSERT INTO users (email, password, grade) VALUES ($1, $2, $3)',
     [guestEmail, hashedPassword, defaultGrade]
   );
 

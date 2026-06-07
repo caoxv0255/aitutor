@@ -6,20 +6,21 @@ import { errorResponse } from './utils/response.js';
 
 export default async function handler(req, res) {
   const email = req.user.email;
-  const db = await getDb();
+  const pool = await getDb();
 
   if (req.method === 'GET') {
     const { subject, level } = req.query;
     let query = 'SELECT * FROM knowledge_points';
     const params = [];
     const conditions = [];
+    let paramIdx = 1;
 
     if (subject) {
-      conditions.push('subject = ?');
+      conditions.push(`subject = $${paramIdx++}`);
       params.push(subject);
     }
     if (level) {
-      conditions.push('level = ?');
+      conditions.push(`level = $${paramIdx++}`);
       params.push(level);
     }
 
@@ -29,8 +30,8 @@ export default async function handler(req, res) {
 
     query += ' ORDER BY subject, difficulty DESC';
 
-    const rows = await db.all(query, params);
-    return res.json(rows.map(r => {
+    const result = await pool.query(query, params);
+    return res.json(result.rows.map(r => {
       let subtopics;
       try {
         subtopics = JSON.parse(r.subtopics);
@@ -49,12 +50,13 @@ export default async function handler(req, res) {
         const filePath = path.join(process.cwd(), 'database', 'seed_knowledge_points.json');
         const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
-        await db.run("DELETE FROM knowledge_points WHERE level IS NULL OR level = 'gaokao'");
+        await pool.query("DELETE FROM knowledge_points WHERE level IS NULL OR level = 'gaokao'");
 
         for (const kp of data) {
-          await db.run(
-            `INSERT OR REPLACE INTO knowledge_points (id, subject, name, subtopics, difficulty, frequency, description, level)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          await pool.query(
+            `INSERT INTO knowledge_points (id, subject, name, subtopics, difficulty, frequency, description, level)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+             ON CONFLICT (id) DO UPDATE SET subject = EXCLUDED.subject, name = EXCLUDED.name, subtopics = EXCLUDED.subtopics, difficulty = EXCLUDED.difficulty, frequency = EXCLUDED.frequency, description = EXCLUDED.description, level = EXCLUDED.level`,
             [kp.id, kp.subject, kp.name, JSON.stringify(kp.subtopics), kp.difficulty, kp.frequency, kp.description, kp.level || 'gaokao']
           );
         }
@@ -71,12 +73,13 @@ export default async function handler(req, res) {
         const filePath = path.join(process.cwd(), 'database', 'seed_knowledge_points_zhongkao.json');
         const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
-        await db.run("DELETE FROM knowledge_points WHERE level = 'zhongkao'");
+        await pool.query("DELETE FROM knowledge_points WHERE level = 'zhongkao'");
 
         for (const kp of data) {
-          await db.run(
-            `INSERT OR REPLACE INTO knowledge_points (id, subject, name, subtopics, difficulty, frequency, description, level)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          await pool.query(
+            `INSERT INTO knowledge_points (id, subject, name, subtopics, difficulty, frequency, description, level)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+             ON CONFLICT (id) DO UPDATE SET subject = EXCLUDED.subject, name = EXCLUDED.name, subtopics = EXCLUDED.subtopics, difficulty = EXCLUDED.difficulty, frequency = EXCLUDED.frequency, description = EXCLUDED.description, level = EXCLUDED.level`,
             [kp.id, kp.subject, kp.name, JSON.stringify(kp.subtopics), kp.difficulty, kp.frequency, kp.description, kp.level || 'zhongkao']
           );
         }
@@ -96,14 +99,16 @@ export default async function handler(req, res) {
 
 export async function getWeakPointsHandler(req, res) {
   const email = req.user.email;
-  const db = await getDb();
+  const pool = await getDb();
 
-  const wrongQuestions = await db.all(
-    'SELECT id, data, timestamp FROM wrong_questions WHERE user_email = ? ORDER BY timestamp DESC',
+  const wrongQuestionsResult = await pool.query(
+    'SELECT id, data, timestamp FROM wrong_questions WHERE user_email = $1 ORDER BY timestamp DESC',
     [email]
   );
+  const wrongQuestions = wrongQuestionsResult.rows;
 
-  const allKP = await db.all('SELECT * FROM knowledge_points');
+  const allKPResult = await pool.query('SELECT * FROM knowledge_points');
+  const allKP = allKPResult.rows;
 
   const weakResults = findWeakKPIds(wrongQuestions, allKP);
 

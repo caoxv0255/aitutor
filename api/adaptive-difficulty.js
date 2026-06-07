@@ -42,28 +42,30 @@ export function calculateAdaptiveDifficulty(userAbility, weakPointRatio = 0) {
 }
 
 export async function getUserAbilityForSubject(email, subject) {
-  const db = await getDb();
+  const pool = await getDb();
   const subjectName = resolveSubjectName(subject) || subject;
 
-  const history = await db.all(
+  const historyResult = await pool.query(
     `SELECT es.*, 
-       AVG(CAST(qp.difficulty AS REAL)) as avg_difficulty
+       AVG(CAST(qp.difficulty AS DOUBLE PRECISION)) as avg_difficulty
      FROM exam_sessions es
      LEFT JOIN wrong_questions wq ON es.user_email = wq.user_email
-     LEFT JOIN json_each(wq.data) qp ON 1=0
-     WHERE es.user_email = ? AND (es.subject = ? OR es.subject = ?)
+     WHERE es.user_email = $1 AND (es.subject = $2 OR es.subject = $3)
+     GROUP BY es.id
      ORDER BY es.created_at DESC
      LIMIT 10`,
     [email, subject, subjectName]
   );
+  const history = historyResult.rows;
 
   if (!history || history.length === 0) return { ability: 3.0, examCount: 0, adaptiveDifficulty: 3.5 };
 
   const ability = calculateUserAbility(history);
-  const weakPoints = await db.all(
-    'SELECT COUNT(*) as count FROM knowledge_points WHERE subject = ? OR subject = ?',
+  const weakPointsResult = await pool.query(
+    'SELECT COUNT(*) as count FROM knowledge_points WHERE subject = $1 OR subject = $2',
     [subject, subjectName]
   );
+  const weakPoints = weakPointsResult.rows;
   const weakPointRatio = 0.3;
   const adaptiveDifficulty = calculateAdaptiveDifficulty(ability, weakPointRatio);
 

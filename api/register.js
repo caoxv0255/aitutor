@@ -31,16 +31,16 @@ export default async function handler(req, res) {
     return res.status(400).json(errorResponse('请选择有效的年级'));
   }
 
-  const db = await getDb();
-  const rows = await db.all('SELECT id FROM users WHERE email = ?', [email]);
+  const pool = await getDb();
+  const result = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
 
-  if (rows.length > 0) {
+  if (result.rows.length > 0) {
     return res.status(400).json(errorResponse('该邮箱已注册'));
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  await db.run(
-    'INSERT INTO users (email, password, grade) VALUES (?, ?, ?)',
+  await pool.query(
+    'INSERT INTO users (email, password, grade) VALUES ($1, $2, $3)',
     [email, hashedPassword, grade]
   );
 

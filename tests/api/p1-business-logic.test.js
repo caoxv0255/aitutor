@@ -221,7 +221,7 @@ describe('P1-5: generate-paper.js division-by-zero and score fixes', () => {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const source = fs.readFileSync(path.join(__dirname, '../../api/generate-paper.js'), 'utf-8');
 
-    expect(source).toContain('WHERE subject = ? OR subject = ?');
+    expect(source).toContain('WHERE subject = $1 OR subject = $2');
   });
 
   it('should have correct score calculation: selectionTotal*5 + fillCount*5 + solutionScores', async () => {

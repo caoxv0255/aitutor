@@ -3,14 +3,14 @@ import { errorResponse, successResponse, createdResponse } from './utils/respons
 
 export default async function handler(req, res) {
   const email = req.user.email;
-  const db = await getDb();
+  const pool = await getDb();
 
   if (req.method === 'GET') {
-    const rows = await db.all(
-      'SELECT id, subject, status, image_data, result, created_at, updated_at FROM task_queue WHERE user_email = ? ORDER BY created_at DESC',
+    const rows = await pool.query(
+      'SELECT id, subject, status, image_data, result, created_at, updated_at FROM task_queue WHERE user_email = $1 ORDER BY created_at DESC',
       [email]
     );
-    return res.json(rows.map(r => ({
+    return res.json(rows.rows.map(r => ({
       _id: String(r.id),
       subject: r.subject,
       status: r.status,
@@ -26,17 +26,17 @@ export default async function handler(req, res) {
     if (!subject || !grade || !imageData) {
       return res.status(400).json(errorResponse('缺少必要参数'));
     }
-    const result = await db.run(
-      'INSERT INTO task_queue (user_email, subject, grade, image_data) VALUES (?, ?, ?, ?)',
+    const result = await pool.query(
+      'INSERT INTO task_queue (user_email, subject, grade, image_data) VALUES ($1, $2, $3, $4) RETURNING id',
       [email, subject, grade, imageData]
     );
-    return res.status(201).json(createdResponse({ id: String(result.lastID) }));
+    return res.status(201).json(createdResponse({ id: String(result.rows[0].id) }));
   }
 
   if (req.method === 'DELETE') {
     const { id } = req.body;
     if (!id) return res.status(400).json(errorResponse('缺少 id 参数'));
-    await db.run('DELETE FROM task_queue WHERE id = ? AND user_email = ?', [id, email]);
+    await pool.query('DELETE FROM task_queue WHERE id = $1 AND user_email = $2', [id, email]);
     return res.json(successResponse(null));
   }
 

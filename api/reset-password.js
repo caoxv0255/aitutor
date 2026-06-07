@@ -21,9 +21,9 @@ export async function sendResetCodeHandler(req, res) {
     return res.status(400).json(errorResponse('请填写邮箱'));
   }
 
-  const db = await getDb();
-  const rows = await db.all('SELECT id FROM users WHERE email = ?', [email]);
-  if (rows.length === 0) {
+  const pool = await getDb();
+  const result = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+  if (result.rows.length === 0) {
     return res.status(404).json(errorResponse('该邮箱未注册'));
   }
 
@@ -87,14 +87,14 @@ export default async function handler(req, res) {
 
   verificationCodes.delete(email);
 
-  const db = await getDb();
-  const rows = await db.all('SELECT id FROM users WHERE email = ?', [email]);
-  if (rows.length === 0) {
+  const pool = await getDb();
+  const result = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+  if (result.rows.length === 0) {
     return res.status(404).json(errorResponse('该邮箱未注册'));
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
-  await db.run('UPDATE users SET password = ? WHERE email = ?', [hashedPassword, email]);
+  await pool.query('UPDATE users SET password = $1 WHERE email = $2', [hashedPassword, email]);
 
   res.json(successResponse(null, '密码重置成功'));
 }

@@ -1,16 +1,18 @@
 import { describe, it, expect } from 'vitest';
 
-describe('db.js SQLite configuration', () => {
-  it('should have WAL mode pragma in db.js source', async () => {
+describe('db.js PostgreSQL configuration', () => {
+  it('should use pg Pool in db.js source', async () => {
     const fs = await import('fs');
     const path = await import('path');
     const { fileURLToPath } = await import('url');
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     const source = fs.readFileSync(path.join(__dirname, '../../api/db.js'), 'utf-8');
 
-    expect(source).toContain('PRAGMA journal_mode=WAL');
-    expect(source).toContain('PRAGMA busy_timeout=5000');
-    expect(source).toContain('PRAGMA foreign_keys=ON');
+    expect(source).toContain("import pg from 'pg'");
+    expect(source).toContain('Pool');
+    expect(source).toContain('DATABASE_URL');
+    expect(source).not.toContain('PRAGMA');
+    expect(source).not.toContain('sqlite');
   });
 });
 

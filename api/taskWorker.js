@@ -13,25 +13,25 @@ let taskStats = { total: 0, success: 0, fallback: 0, failed: 0, lowQuality: 0 };
 
 async function recoverStaleTasks() {
   try {
-    const db = await getDb();
+    const pool = await getDb();
     const cutoff = new Date(Date.now() - STALE_PROCESSING_THRESHOLD_MS).toISOString();
-    const result = await db.run(
-      "UPDATE task_queue SET status = 'pending', updated_at = CURRENT_TIMESTAMP WHERE status = 'processing' AND updated_at < ?",
+    const result = await pool.query(
+      "UPDATE task_queue SET status = 'pending', updated_at = CURRENT_TIMESTAMP WHERE status = 'processing' AND updated_at < $1",
       [cutoff]
     );
-    if (result.changes > 0) {
-      console.log(`[Worker] Recovered ${result.changes} stale processing tasks`);
+    if (result.rowCount > 0) {
+      console.log(`[Worker] Recovered ${result.rowCount} stale processing tasks`);
     }
   } catch (err) {
     console.error('[Worker] Failed to recover stale tasks:', err.message);
   }
 }
 
-async function recordMetrics(db, taskId, metrics) {
+async function recordMetrics(pool, taskId, metrics) {
   try {
-    await db.run(
+    await pool.query(
       `INSERT INTO task_metrics (task_id, processing_time_ms, model, prompt_version, quality_score, is_fallback, token_prompt, token_completion, token_total)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
       [taskId, metrics.processing_time_ms, metrics.model, metrics.prompt_version,
        metrics.quality_score, metrics.is_fallback ? 1 : 0,
        metrics.token_usage.prompt, metrics.token_usage.completion, metrics.token_usage.total]
@@ -46,19 +46,19 @@ async function processNext() {
   isProcessing = true;
 
   try {
-    const db = await getDb();
+    const pool = await getDb();
 
-    const rows = await db.all('SELECT id, user_email, subject, grade, image_data, retry_count FROM task_queue WHERE status = ? ORDER BY created_at LIMIT 1', ['pending']);
+    const rowsResult = await pool.query('SELECT id, user_email, subject, grade, image_data, retry_count FROM task_queue WHERE status = $1 ORDER BY created_at LIMIT 1', ['pending']);
     
-    if (rows.length === 0) {
+    if (rowsResult.rows.length === 0) {
       isProcessing = false;
       return;
     }
 
-    const task = rows[0];
+    const task = rowsResult.rows[0];
     const retryCount = task.retry_count || 0;
     
-    await db.run('UPDATE task_queue SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?', ['processing', task.id]);
+    await pool.query('UPDATE task_queue SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', ['processing', task.id]);
 
     console.log(`[Worker] Processing task #${task.id} for ${task.user_email} (attempt ${retryCount + 1}/${MAX_RETRIES})`);
 
@@ -110,7 +110,7 @@ async function processNext() {
 
       const metrics = createTaskMetrics(task.id, startTime, endTime, promptConfig.model, tokenUsage, quality, isFallback);
       logTaskMetrics(metrics);
-      await recordMetrics(db, task.id, metrics);
+      await recordMetrics(pool, task.id, metrics);
 
       taskStats.total++;
       if (isFallback) {
@@ -123,8 +123,8 @@ async function processNext() {
         taskStats.success++;
       }
 
-      await db.run(
-        'UPDATE task_queue SET status = ?, result = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+      await pool.query(
+        'UPDATE task_queue SET status = $1, result = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3',
         ['completed', JSON.stringify(result), task.id]
       );
 
@@ -133,8 +133,8 @@ async function processNext() {
         subject: task.subject,
         ...result
       };
-      await db.run(
-        'INSERT INTO wrong_questions (user_email, data) VALUES (?, ?)',
+      await pool.query(
+        'INSERT INTO wrong_questions (user_email, data) VALUES ($1, $2)',
         [task.user_email, JSON.stringify(questionData)]
       );
 
@@ -150,14 +150,14 @@ async function processNext() {
 
       if (retryCount + 1 < MAX_RETRIES) {
         const delay = RETRY_DELAYS[retryCount] || RETRY_DELAYS[RETRY_DELAYS.length - 1];
-        await db.run(
-          "UPDATE task_queue SET status = 'pending', retry_count = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+        await pool.query(
+          "UPDATE task_queue SET status = 'pending', retry_count = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2",
           [retryCount + 1, task.id]
         );
         console.log(`[Worker] Task #${task.id} will retry in ${delay}ms`);
       } else {
-        await db.run(
-          'UPDATE task_queue SET status = ?, result = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+        await pool.query(
+          'UPDATE task_queue SET status = $1, result = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3',
           ['failed', JSON.stringify({ error: err.message, retries: MAX_RETRIES }), task.id]
         );
         console.log(`[Worker] Task #${task.id} permanently failed after ${MAX_RETRIES} attempts`);
