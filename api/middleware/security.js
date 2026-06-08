@@ -1,9 +1,13 @@
-import DOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
+import createDOMPurify from 'dompurify';
 import { errorResponse } from '../utils/response.js';
+
+const window = new JSDOM('').window;
+const purify = createDOMPurify(window);
 
 export function sanitizeInput(obj) {
   if (typeof obj === 'string') {
-    return DOMPurify.sanitize(obj, { ALLOWED_TAGS: [] });
+    return purify.sanitize(obj, { ALLOWED_TAGS: [] });
   }
   if (Array.isArray(obj)) {
     return obj.map(item => sanitizeInput(item));

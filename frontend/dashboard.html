@@ -428,17 +428,25 @@ async function loadProvinces() {
   const examLevel = document.getElementById('province-exam-level').value;
   try {
     const res = await fetch(`/api/provinces?exam_level=${examLevel}`);
+    if (!res.ok) throw new Error('加载省份失败');
     const { data } = await res.json();
     const select = document.getElementById('province-code-select');
     select.innerHTML = '<option value="">请选择省份</option>';
     data.forEach(p => {
       const opt = document.createElement('option');
       opt.value = p.code;
-      opt.textContent = p.name;
+      const typeLabel = p.paper_type === 'independent' ? '自主命题' :
+        p.paper_type === 'new_gaokao_i' ? '新高考I卷' :
+        p.paper_type === 'new_gaokao_ii' ? '新高考II卷' :
+        p.paper_type === 'national_a' ? '全国甲卷' :
+        p.paper_type === 'national_b' ? '全国乙卷' : (p.paper_type || '');
+      opt.textContent = p.name + (typeLabel ? ' (' + typeLabel + ')' : '');
       select.appendChild(opt);
     });
   } catch (err) {
     console.error('加载省份失败:', err);
+    const select = document.getElementById('province-code-select');
+    if (select) select.innerHTML = '<option value="">加载失败，请刷新</option>';
   }
 }
 
@@ -449,6 +457,15 @@ async function loadUserProvince() {
     const res = await fetch('/api/user-province', {
       headers: { 'Authorization': 'Bearer ' + token }
     });
+    if (!res.ok) {
+      // Token may be expired, redirect to login
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        location.href = 'login.html';
+      }
+      return;
+    }
     const { data } = await res.json();
     if (data && data.length > 0) {
       const pref = data[0];
@@ -458,6 +475,8 @@ async function loadUserProvince() {
       document.getElementById('province-select-box').style.display = 'none';
       // 预选下拉框
       document.getElementById('province-exam-level').value = pref.exam_level;
+      // Reload provinces with correct exam level, then set selected province
+      await loadProvinces();
       document.getElementById('province-code-select').value = pref.province_code;
     } else {
       document.getElementById('province-show').style.display = 'none';
@@ -492,10 +511,11 @@ async function saveProvince() {
       location.reload();
     } else {
       const err = await res.json();
-      alert(err.error || '保存失败');
+      alert(err.message || '保存失败，请重试');
     }
   } catch (err) {
-    alert('保存失败');
+    console.error('保存省份失败:', err);
+    alert('网络错误，保存失败：' + err.message);
   }
 }
 </script>

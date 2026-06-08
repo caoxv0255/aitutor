@@ -164,7 +164,7 @@ loginForm.addEventListener('submit', async (e) => {
       })
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || '登录失败');
+    if (!res.ok) throw new Error(data.message || data.error || '登录失败');
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     location.href = 'dashboard.html';
@@ -180,7 +180,7 @@ guestBtn.addEventListener('click', async () => {
   try {
     const res = await fetch(API_BASE + '/api/guest-login', { method: 'POST' });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || '游客登录失败');
+    if (!res.ok) throw new Error(data.message || data.error || '游客登录失败');
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     location.href = 'dashboard.html';

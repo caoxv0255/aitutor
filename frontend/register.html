@@ -117,7 +117,7 @@ form.addEventListener('submit', async (e) => {
       })
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || '注册失败');
+    if (!res.ok) throw new Error(data.message || data.error || '注册失败');
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     location.href = 'dashboard.html';

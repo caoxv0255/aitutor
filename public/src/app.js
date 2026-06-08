@@ -806,7 +806,7 @@ class App {
             this.navigateTo('menu');
           } else {
             const err = await res.json();
-            alert(err.error || '设置失败');
+            alert(err.message || err.error || '设置失败');
           }
         } catch (err) {
           alert('设置失败');
@@ -1111,7 +1111,7 @@ class App {
         };
       });
     } catch (err) {
-      provinceList.innerHTML = '<div style="text-align: center; color: #ff3b30; padding: 20px;">加载失败</div>';
+      provinceList.innerHTML = '<div style="text-align: center; color: #ff3b30; padding: 20px;">加载失败: ' + this.sanitize(err.message) + '</div>';
     }
   }
 

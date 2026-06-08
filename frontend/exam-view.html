@@ -111,7 +111,7 @@ let currentPaper = null;
     const res = await fetch(`/api/exam-questions/${paperId}`);
     if (!res.ok) {
       const err = await res.json();
-      throw new Error(err.error || '加载失败');
+      throw new Error(err.message || err.error || '加载失败');
     }
 
     const result = await res.json();

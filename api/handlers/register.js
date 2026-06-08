@@ -4,7 +4,12 @@ import { getDb } from '../core/db.js';
 import { validateEmailFormat, validatePassword } from '../utils/validator.js';
 import { errorResponse } from '../utils/response.js';
 
-const VALID_GRADES = ['小学', '初中', '高中'];
+const VALID_GRADES = [
+  '小学', '初中', '高中',
+  '小一', '小二', '小三', '小四', '小五', '小六',
+  '初一', '初二', '初三',
+  '高一', '高二', '高三'
+];
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
