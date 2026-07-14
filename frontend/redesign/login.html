@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录/注册 — AI Tutor</title>
+    <style id="theme-vars">
+/* @group-priority: primary, success, info, accent */
+/* AI Tutor (智启AI导师) — Design Tokens */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+:root {
+  /* primary */
+  --aitutor-primary-50: #fff1f1; /* AI-generated */
+  --aitutor-primary-100: #ffe0e0; /* AI-generated */
+  --aitutor-primary-200: #ffc5c5; /* AI-generated */
+  --aitutor-primary-300: #ffa0a0; /* AI-generated */
+  --aitutor-primary-400: #f36b6b; /* AI-generated */
+  --aitutor-primary-500: #d71920; /* @primary */ /* AI-generated */
+  --aitutor-primary-600: #b8151b; /* AI-generated */
+  --aitutor-primary-700: #941218; /* AI-generated */
+  --aitutor-primary-800: #7a1014; /* AI-generated */
+  --aitutor-primary-900: #660f13; /* AI-generated */
+  /* accent-blue */
+  --aitutor-blue-50: #eff6ff; /* AI-generated */
+  --aitutor-blue-100: #dbeafe; /* AI-generated */
+  --aitutor-blue-200: #bfdbfe; /* AI-generated */
+  --aitutor-blue-300: #93c5fd; /* AI-generated */
+  --aitutor-blue-400: #60a5fa; /* AI-generated */
+  --aitutor-blue-500: #2563eb; /* @primary */ /* AI-generated */
+  --aitutor-blue-600: #1d4ed8; /* AI-generated */
+  --aitutor-blue-700: #1e40af; /* AI-generated */
+  --aitutor-blue-800: #1e3a8a; /* AI-generated */
+  --aitutor-blue-900: #172554; /* AI-generated */
+  /* success */
+  --aitutor-success-50: #ecfdf5; /* AI-generated */
+  --aitutor-success-100: #d1fae5; /* AI-generated */
+  --aitutor-success-200: #a7f3d0; /* AI-generated */
+  --aitutor-success-300: #6ee7b7; /* AI-generated */
+  --aitutor-success-400: #34d399; /* AI-generated */
+  --aitutor-success-500: #059669; /* @primary */ /* AI-generated */
+  --aitutor-success-600: #047857; /* AI-generated */
+  --aitutor-success-700: #065f46; /* AI-generated */
+  --aitutor-success-800: #064e3b; /* AI-generated */
+  --aitutor-success-900: #022c22; /* AI-generated */
+  /* info */
+  --aitutor-info-50: #f0f9ff; /* AI-generated */
+  --aitutor-info-100: #e0f2fe; /* AI-generated */
+  --aitutor-info-200: #bae6fd; /* AI-generated */
+  --aitutor-info-300: #7dd3fc; /* AI-generated */
+  --aitutor-info-400: #38bdf8; /* AI-generated */
+  --aitutor-info-500: #0284c7; /* @primary */ /* AI-generated */
+  --aitutor-info-600: #0369a1; /* AI-generated */
+  --aitutor-info-700: #075985; /* AI-generated */
+  --aitutor-info-800: #0c4a6e; /* AI-generated */
+  --aitutor-info-900: #082f49; /* AI-generated */
+  /* warning */
+  --aitutor-warning-50: #fffbeb; /* AI-generated */
+  --aitutor-warning-100: #fef3c7; /* AI-generated */
+  --aitutor-warning-200: #fde68a; /* AI-generated */
+  --aitutor-warning-300: #fcd34d; /* AI-generated */
+  --aitutor-warning-400: #fbbf24; /* AI-generated */
+  --aitutor-warning-500: #f59e0b; /* @primary */ /* AI-generated */
+  --aitutor-warning-600: #d97706; /* AI-generated */
+  --aitutor-warning-700: #b45309; /* AI-generated */
+  --aitutor-warning-800: #92400e; /* AI-generated */
+  --aitutor-warning-900: #78350f; /* AI-generated */
+  /* error */
+  --aitutor-error-50: #fef2f2; /* AI-generated */
+  --aitutor-error-100: #fee2e2; /* AI-generated */
+  --aitutor-error-200: #fecaca; /* AI-generated */
+  --aitutor-error-300: #fca5a5; /* AI-generated */
+  --aitutor-error-400: #f87171; /* AI-generated */
+  --aitutor-error-500: #ef4444; /* @primary */ /* AI-generated */
+  --aitutor-error-600: #dc2626; /* AI-generated */
+  --aitutor-error-700: #b91c1c; /* AI-generated */
+  --aitutor-error-800: #991b1b; /* AI-generated */
+  --aitutor-error-900: #7f1d1d; /* AI-generated */
+
+  /* === Semantic Aliases (Layer 2) === */
+  --primary: var(--aitutor-primary-500); --primary-hover: var(--aitutor-primary-600); --primary-foreground: #ffffff;
+  --secondary: var(--aitutor-blue-500); --secondary-hover: var(--aitutor-blue-600); --secondary-foreground: #ffffff;
+  --accent: var(--aitutor-primary-500); --accent-hover: var(--aitutor-primary-600); --accent-foreground: #ffffff;
+  --background: #f8f9fa; --foreground: #1a1a2e; --muted: #94a3b8; --muted-foreground: #64748b;
+  --border: #e2e8f0; --ring: var(--aitutor-primary-500);
+  --error: var(--aitutor-error-600); --error-foreground: #ffffff; --success: var(--aitutor-success-600); --warning: var(--aitutor-warning-600);
+  --surface: #ffffff; --surface-dim: #f1f5f9; --surface-container-lowest: #f8f9fa;
+  --surface-container-low: #f1f5f9; --surface-container: #e8ecf1; --surface-container-high: #dfe4ea; --surface-container-highest: #d5dae1;
+  --inverse-surface: #1a1a2e; --inverse-on-surface: #f1f5f9;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --link: var(--aitutor-blue-600); --card-bg: var(--surface);
+
+  /* === Typography === */
+  --font-display: 'DM Sans', 'Noto Sans SC', sans-serif; --font-heading: 'DM Sans', 'Noto Sans SC', sans-serif;
+  --font-body: 'Noto Sans SC', 'DM Sans', sans-serif; --font-mono: 'DM Sans', monospace;
+  --font-size-display: 56px; --font-size-h1: 40px; --font-size-h2: 32px; --font-size-h3: 24px;
+  --font-size-h4: 20px; --font-size-body: 16px; --font-size-lead: 18px; --font-size-caption: 12px;
+  --font-size-eyebrow: 11px; --font-size-mono: 14px;
+  --font-weight-display: 700; --font-weight-h1: 700; --font-weight-h2: 600; --font-weight-h3: 600;
+  --font-weight-h4: 600; --font-weight-body: 400; --font-weight-lead: 400; --font-weight-caption: 400;
+  --font-weight-eyebrow: 600; --font-weight-mono: 400;
+  --line-height-display: 1.1; --line-height-h1: 1.2; --line-height-h2: 1.25; --line-height-h3: 1.3;
+  --line-height-h4: 1.4; --line-height-body: 1.6; --line-height-lead: 1.7; --line-height-caption: 1.5;
+  --line-height-eyebrow: 1.4; --line-height-mono: 1.6;
+
+  /* === Spacing === */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+
+  /* === Sizing === */
+  --size-button-sm: 32px; --size-button-md: 40px; --size-button-lg: 48px;
+  --size-input-height: 40px; --size-icon-sm: 16px; --size-icon-md: 24px; --size-icon-lg: 32px;
+
+  /* === Radius === */
+  --radius-sm: 8px; --radius-md: 14px; --radius-lg: 16px; --radius-pill: 9999px;
+
+  /* === Shadows === */
+  --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04); /* Card */
+  --shadow-2: 0 4px 8px -2px rgba(0,0,0,.10); /* Card Hover */
+  --shadow-3: 0 8px 24px -8px rgba(0,0,0,.18); /* Float */
+  --shadow-4: 0 16px 40px -12px rgba(0,0,0,.24); /* Modal */
+  --shadow-5: 0 24px 60px -20px rgba(0,0,0,.30); /* Overlay */
+
+  /* === Portable Aliases (Layer 3) === */
+  --color-background: var(--bg); --color-foreground: var(--fg);
+  --color-surface: var(--surface); --color-surface-dim: var(--surface-dim);
+  --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-primary: var(--accent); --color-primary-hover: var(--accent-hover);
+  --color-on-primary: #ffffff; --color-primary-container: var(--aitutor-primary-50);
+  --color-on-primary-container: var(--aitutor-primary-900);
+  --color-secondary: var(--aitutor-blue-100); --color-secondary-container: var(--aitutor-blue-50);
+  --color-on-secondary-container: var(--aitutor-blue-900);
+  --color-outline: var(--rule); --color-outline-variant: var(--aitutor-blue-100); --color-border: var(--rule);
+  --color-success: var(--aitutor-success-600); --color-warning: var(--aitutor-warning-600);
+  --color-error: var(--aitutor-error-600); --color-info: var(--aitutor-info-600);
+  --radius-full: 9999px; --type-display-sm: 40px; --type-heading-sm: 24px;
+  --type-body-md: 16px; --type-body-sm: 14px; --font-family-base: var(--font-body);
+}
+
+/* Dark Theme */
+.dark {
+  --background: #0f1117; --foreground: #e8ecf1; --surface: #1a1d27; --surface-dim: #12141c;
+  --surface-container-lowest: #0f1117; --surface-container-low: #1a1d27;
+  --surface-container: #22252f; --surface-container-high: #2a2d38; --surface-container-highest: #33374a;
+  --inverse-surface: #f1f5f9; --inverse-on-surface: #1a1a2e;
+  --muted: #64748b; --muted-foreground: #94a3b8; --border: #2a2d38;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --card-bg: var(--surface);
+  --color-background: var(--bg); --color-foreground: var(--fg); --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim); --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container); --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high); --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-outline: var(--rule); --color-outline-variant: #2a2d38;
+  --color-border: var(--rule);
+}
+
+/* Typography Classes */
+.aitutor-display { font-family: var(--font-display); font-size: 3.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); letter-spacing: -0.02em; }
+.aitutor-h1 { font-family: var(--font-heading); font-size: 2.5rem; font-weight: var(--font-weight-h1); line-height: var(--line-height-h1); }
+.aitutor-h2 { font-family: var(--font-heading); font-size: 2rem; font-weight: var(--font-weight-h2); line-height: var(--line-height-h2); }
+.aitutor-h3 { font-family: var(--font-heading); font-size: 1.5rem; font-weight: var(--font-weight-h3); line-height: var(--line-height-h3); }
+.aitutor-h4 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); }
+.aitutor-body { font-family: var(--font-body); font-size: 1rem; font-weight: var(--font-weight-body); line-height: var(--line-height-body); }
+.aitutor-lead { font-family: var(--font-body); font-size: 1.125rem; font-weight: var(--font-weight-lead); line-height: var(--line-height-lead); }
+.aitutor-caption { font-family: var(--font-body); font-size: 0.75rem; font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); }
+.aitutor-eyebrow { font-family: var(--font-body); font-size: 0.6875rem; font-weight: var(--font-weight-eyebrow); line-height: var(--line-height-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; }
+.aitutor-mono { font-family: var(--font-mono); font-size: 0.875rem; font-weight: var(--font-weight-mono); line-height: var(--line-height-mono); }
+.aitutor-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); font-variant-numeric: tabular-nums; }
+
+    </style>
+    <style id="component-vars">
+/* ═══════════════════════════════════════════════════════════════
+   components.css — Design System Component Definitions
+   Auto-extracted from preview/component-*.html
+   DO NOT EDIT MANUALLY — regenerate via extract-components-css.mjs
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Button ────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">主要</span> <button class="btn primary sm">开始学习</button> <button class="btn primary md" data-evidence-sample="Primary MD">开始学习</button> <button class="btn primary lg" data-evidence-sample="Primary LG">开始学习</button>
+*/
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: var(--font-body); font-weight: var(--font-weight-body); white-space: nowrap; cursor: pointer; border: none; border-radius: var(--radius-pill); transition: background .15s, border-color .15s, opacity .15s; flex-shrink: 0; }
+.btn.primary { background: var(--accent); color: var(--primary-foreground); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn.ghost:hover { background: var(--color-surface-container-low); }
+.btn.sm { height: var(--size-button-sm); padding: 0 var(--space-4); font-size: var(--font-size-caption); min-width: var(--size-button-sm); }
+.btn.md { height: var(--size-button-md); padding: 0 var(--space-5); font-size: var(--font-size-body); min-width: var(--size-button-md); }
+.btn.lg { height: var(--size-button-lg); padding: 0 28px; font-size: var(--font-size-lead); min-width: var(--size-button-lg); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+/* ── Card ──────────────────────────────────────────────────── */
+/* @anatomy
+   <div class="card" data-evidence-sample="Default"> <div class="card-heading">我的错题本
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+  .card { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); }
+  .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); word-break: keep-all; overflow-wrap: break-word; }
+  .card-body { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+  .card-interactive { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
+  .card-interactive:hover { border-color: var(--color-primary); transform: translateY(-3px); box-shadow: var(--shadow-2); }
+  .card-interactive .card-icon { width: var(--size-icon-lg); height: var(--size-icon-lg); flex-shrink: 0; color: var(--color-primary); }
+  .card-interactive .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); }
+  .card-interactive .card-desc { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+
+/* ── Input ─────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">默认</span> <div class="form-group" data-evidence-sample="Default"> <label>题目内容</label> <input class="input-field" type="text" placeholder="请输入题目内容">
+*/
+.form-group { display: flex; flex-direction: column; gap: var(--space-1); min-width: 240px; }
+  .form-group > label { font-size: var(--font-size-body); font-weight: 500; color: var(--color-on-surface); }
+  .input-field { display: flex; align-items: center; height: var(--size-input-height); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0 var(--space-3); font-family: var(--font-body); font-size: var(--font-size-body); color: var(--color-on-surface); outline: none; transition: border-color .15s; width: 100%; min-width: 120px; }
+  .input-field::placeholder { color: var(--muted); }
+  .input-field:focus { border-color: var(--color-primary); }
+  .input-field:disabled { opacity: .5; cursor: not-allowed; }
+  .input-wrap { display: flex; align-items: center; height: var(--size-input-height); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-pill); padding: 0 var(--space-3); width: 100%; min-width: 240px; transition: border-color .15s; }
+  .input-wrap:focus-within { border-color: var(--color-primary); }
+  .input-wrap .icon { width: var(--size-icon-md); height: var(--size-icon-md); flex-shrink: 0; color: var(--muted); }
+  .input-wrap input { border: none; outline: none; background: transparent; font: inherit; color: inherit; flex: 1; min-width: 0; }
+  .input-wrap input::placeholder { color: var(--muted); }
+
+/* ── Navigation ────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">桌面端</span>
+*/
+.navbar { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 var(--space-5); background: var(--color-surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--color-border); width: 100%; box-sizing: border-box; }
+.navbar--compact { padding: 0 var(--space-3); }
+.navbar-logo { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h2); color: var(--color-on-surface); white-space: nowrap; text-decoration: none; }
+.navbar-links { display: flex; align-items: center; gap: var(--space-5); list-style: none; margin: 0; padding: 0; }
+.navbar-link { font-size: var(--font-size-body); font-weight: var(--font-weight-body); color: var(--color-on-surface-variant); text-decoration: none; white-space: nowrap; transition: filter .15s; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); }
+.navbar-link:hover { filter: brightness(1.2); }
+.navbar-link.active { color: var(--color-on-surface); font-weight: var(--font-weight-h4); }
+.navbar-actions { display: flex; align-items: center; gap: var(--space-3); }
+.navbar-btn { display: inline-flex; align-items: center; padding: var(--space-2) var(--space-4); background: var(--color-primary); color: var(--color-on-primary); font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-h4); border: none; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; transition: background .15s; }
+.navbar-btn:hover { background: var(--color-primary-hover); }
+.navbar-hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: none; border: none; color: var(--color-on-surface-variant); cursor: pointer; border-radius: var(--radius-sm); transition: filter .15s; flex-shrink: 0; }
+.navbar-hamburger:hover { filter: brightness(1.2); }
+
+/* ── Stat Card ─────────────────────────────────────────────── */
+/* @anatomy
+   <div class="stat-card" data-evidence-sample="Default"> <span class="stat-card__number">78</span> <span class="stat-card__label">综合得分</span>
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+  .stat-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-1); flex-shrink: 0; min-width: 140px; }
+  .stat-card:hover { box-shadow: var(--shadow-2); transition: box-shadow .15s; }
+  .stat-card__number { font-family: var(--font-display); font-size: var(--font-size-h2); font-weight: var(--font-weight-h1); line-height: var(--line-height-h2); color: var(--color-on-surface); }
+  .stat-card__label { font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); white-space: nowrap; }
+  .stat-card__change { font-size: var(--font-size-caption); font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); color: var(--color-success); white-space: nowrap; }
+  .stat-card--accent { background: var(--color-primary-container); border: 2px solid var(--color-primary); }
+  .stat-card--accent .stat-card__number { color: var(--color-primary); }
+
+/* ── Tag ───────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">Default</span><span class="tag tag--default">数学</span><span class="tag tag--default">物理</span><span class="tag tag--default">化学</span><span class="tag tag--default">英语</span>
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+.tag { display: inline-flex; align-items: center; height: 24px; padding: 0 var(--space-3); border-radius: var(--radius-pill); font-size: 12px; font-weight: 600; white-space: nowrap; line-height: 1; min-width: 24px; flex-shrink: 0; transition: background .15s, border-color .15s, filter .15s; }
+.tag--default { background: var(--color-surface); border: 1px solid var(--color-outline); color: var(--color-on-surface); }
+.tag--default:hover { background: var(--color-surface-container-low); }
+.tag--primary { background: var(--aitutor-primary-50); color: var(--aitutor-primary-700); border: 1px solid var(--aitutor-primary-200); }
+.tag--primary:hover { filter: brightness(1.05); }
+.tag--blue { background: var(--aitutor-blue-50); color: var(--aitutor-blue-700); border: 1px solid var(--aitutor-blue-200); }
+.tag--blue:hover { filter: brightness(1.05); }
+.tag--success { background: var(--aitutor-success-50); color: var(--aitutor-success-700); border: 1px solid var(--aitutor-success-200); }
+.tag--success:hover { filter: brightness(1.05); }
+.tag--info { background: var(--aitutor-info-50); color: var(--aitutor-info-700); border: 1px solid var(--aitutor-info-200); }
+.tag--info:hover { filter: brightness(1.05); }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  
+  @layer base {
+    body { background: var(--aitutor-background); color: var(--aitutor-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/enhancements.css">
+    <link rel="stylesheet" href="../../assets/router.css">
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <!-- Sticky Navbar -->
+    <nav class="navbar" style="position:sticky;top:0;z-index:50;">
+      <div style="max-width:1280px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;">
+        <a class="navbar-logo" href="home.html">AI Tutor</a>
+        <ul class="navbar-links hidden md:flex" style="list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:var(--space-5);">
+          <li><a class="navbar-link" href="home.html" data-dom-id="nav-home">首页</a></li>
+          <li><a class="navbar-link" href="dashboard.html" data-dom-id="nav-dashboard">学习驾驶舱</a></li>
+          <li><a class="navbar-link" href="exam-simulation.html" data-dom-id="nav-exam">模拟考场</a></li>
+          <li><a class="navbar-link" href="wrong-book.html" data-dom-id="nav-wrong">错题本</a></li>
+          <li><a class="navbar-link" href="ai-tutor-chat.html" data-dom-id="nav-ai">AI讲题</a></li>
+          <li><a class="navbar-link" href="learning-journey.html" data-dom-id="nav-path">学习旅程</a></li>
+        </ul>
+        <div class="navbar-actions">
+          <select id="provinceSelector" style="height:32px;padding:0 8px;background:var(--color-surface-container-low);border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-on-surface);font:inherit;font-size:var(--font-size-caption);outline:none;cursor:pointer;">
+            <option value="default">全部省份</option>
+            <option value="beijing">北京</option>
+            <option value="shanghai">上海</option>
+            <option value="guangdong">广东</option>
+            <option value="zhejiang">浙江</option>
+            <option value="jiangsu">江苏</option>
+          </select>
+          <button class="navbar-hamburger" id="themeToggle" aria-label="切换主题">
+            <i data-lucide="moon" style="width:20px;height:20px;"></i>
+          </button>
+          <button class="navbar-hamburger" id="hamburgerBtn" aria-label="菜单" style="display:none;">
+            <i data-lucide="menu" style="width:20px;height:20px;"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 60px - 64px);padding:var(--space-5) var(--space-4);">
+      <!-- Auth Container -->
+      <div style="width:100%;max-width:440px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-7);box-shadow:var(--shadow-3);">
+
+        <!-- Logo Area -->
+        <div style="text-align:center;margin-bottom:var(--space-6);">
+          <h1 class="aitutor-h2" style="color:var(--color-on-surface);margin:0 0 var(--space-2);text-wrap:balance;word-break:keep-all;overflow-wrap:break-word;">AI Tutor</h1>
+          <p class="aitutor-body" style="color:var(--color-on-surface-variant);margin:0;">智启AI导师</p>
+        </div>
+
+        <!-- Tab Toggle -->
+        <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-6);background:var(--color-surface-container-low);border-radius:var(--radius-pill);padding:3px;" role="tablist">
+          <button class="auth-tab active" id="tabLogin" role="tab" aria-selected="true" style="flex:1;height:40px;border:none;border-radius:var(--radius-pill);font-family:var(--font-body);font-size:var(--font-size-body);font-weight:var(--font-weight-h4);cursor:pointer;transition:all .15s;">登录</button>
+          <button class="auth-tab" id="tabRegister" role="tab" aria-selected="false" style="flex:1;height:40px;border:none;border-radius:var(--radius-pill);font-family:var(--font-body);font-size:var(--font-size-body);font-weight:var(--font-weight-body);cursor:pointer;transition:all .15s;">注册</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form active" style="display:flex;flex-direction:column;gap:var(--space-4);" novalidate>
+          <div class="form-group" style="min-width:auto;">
+            <div class="input-wrap" style="min-width:auto;">
+              <i data-lucide="mail" class="icon" style="width:var(--size-icon-md);height:var(--size-icon-md);flex-shrink:0;color:var(--muted);"></i>
+              <input type="email" id="loginEmail" placeholder="请输入邮箱地址" autocomplete="email">
+            </div>
+            <p class="input-error" id="loginEmailError" style="display:none;font-size:var(--font-size-caption);color:var(--color-error);margin:var(--space-1) 0 0;">请输入有效的邮箱地址</p>
+          </div>
+
+          <div class="form-group" style="min-width:auto;">
+            <div class="input-wrap" style="min-width:auto;position:relative;">
+              <i data-lucide="lock" class="icon" style="width:var(--size-icon-md);height:var(--size-icon-md);flex-shrink:0;color:var(--muted);"></i>
+              <input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="current-password">
+              <button type="button" class="password-toggle" data-target="loginPassword" style="position:absolute;right:0;background:none;border:none;color:var(--muted);cursor:pointer;padding:0 var(--space-2);display:flex;align-items:center;">
+                <i data-lucide="eye-off" style="width:18px;height:18px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember me + Forgot password -->
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <label style="display:flex;align-items:center;gap:var(--space-2);cursor:pointer;font-size:var(--font-size-body);color:var(--color-on-surface-variant);">
+              <input type="checkbox" id="rememberMe" style="accent-color:var(--color-primary);width:16px;height:16px;">
+              <span>记住我</span>
+            </label>
+            <a href="#" style="font-size:var(--font-size-body);color:var(--color-on-surface-variant);text-decoration:none;transition:color .15s;" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-on-surface-variant)'">忘记密码?</a>
+          </div>
+
+          <!-- Login Button -->
+          <button type="submit" class="btn primary md auth-submit-btn" data-dom-id="btn-login" style="width:100%;border-radius:var(--radius-pill);height:44px;font-size:var(--font-size-body);font-weight:var(--font-weight-h4);">登 录</button>
+
+          <!-- Divider -->
+          <div style="display:flex;align-items:center;gap:var(--space-4);color:var(--color-on-surface-variant);font-size:var(--font-size-body);">
+            <span style="flex:1;height:1px;background:var(--color-border);"></span>
+            <span>或</span>
+            <span style="flex:1;height:1px;background:var(--color-border);"></span>
+          </div>
+
+          <!-- Guest Login -->
+          <button type="button" class="btn ghost md" data-dom-id="btn-guest" style="width:100%;border-radius:var(--radius-pill);height:44px;font-size:var(--font-size-body);font-weight:var(--font-weight-body);">游客登录</button>
+
+          <!-- Switch to register -->
+          <p style="text-align:center;font-size:var(--font-size-body);color:var(--color-on-surface-variant);margin:var(--space-2) 0 0;">
+            还没有账号？<a href="#" id="switchToRegister" style="color:var(--color-primary);text-decoration:none;font-weight:var(--font-weight-h4);">立即注册</a>
+          </p>
+        </form>
+
+        <!-- Register Form (hidden by default) -->
+        <form id="registerForm" class="auth-form" style="display:none;flex-direction:column;gap:var(--space-4);" novalidate>
+          <div class="form-group" style="min-width:auto;">
+            <div class="input-wrap" style="min-width:auto;">
+              <i data-lucide="mail" class="icon" style="width:var(--size-icon-md);height:var(--size-icon-md);flex-shrink:0;color:var(--muted);"></i>
+              <input type="email" id="regEmail" placeholder="请输入邮箱地址" autocomplete="email">
+            </div>
+            <p class="input-error" id="regEmailError" style="display:none;font-size:var(--font-size-caption);color:var(--color-error);margin:var(--space-1) 0 0;">请输入有效的邮箱地址</p>
+          </div>
+
+          <div class="form-group" style="min-width:auto;">
+            <div class="input-wrap" style="min-width:auto;">
+              <i data-lucide="user" class="icon" style="width:var(--size-icon-md);height:var(--size-icon-md);flex-shrink:0;color:var(--muted);"></i>
+              <input type="text" id="regUsername" placeholder="请设置用户名" autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group" style="min-width:auto;">
+            <div class="input-wrap" style="min-width:auto;">
+              <i data-lucide="lock" class="icon" style="width:var(--size-icon-md);height:var(--size-icon-md);flex-shrink:0;color:var(--muted);"></i>
+              <input type="password" id="regPassword" placeholder="请设置密码 (至少8位)" autocomplete="new-password">
+            </div>
+            <p class="input-error" id="regPasswordError" style="display:none;font-size:var(--font-size-caption);color:var(--color-error);margin:var(--space-1) 0 0;">密码长度至少8位</p>
+          </div>
+
+          <div class="form-group" style="min-width:auto;">
+            <div class="input-wrap" style="min-width:auto;">
+              <i data-lucide="lock" class="icon" style="width:var(--size-icon-md);height:var(--size-icon-md);flex-shrink:0;color:var(--muted);"></i>
+              <input type="password" id="regConfirmPassword" placeholder="请确认密码" autocomplete="new-password">
+            </div>
+            <p class="input-error" id="regConfirmError" style="display:none;font-size:var(--font-size-caption);color:var(--color-error);margin:var(--space-1) 0 0;">两次密码输入不一致</p>
+          </div>
+
+          <!-- Register Button -->
+          <button type="submit" class="btn primary md auth-submit-btn" data-dom-id="btn-register" style="width:100%;border-radius:var(--radius-pill);height:44px;font-size:var(--font-size-body);font-weight:var(--font-weight-h4);">注 册</button>
+
+          <!-- Switch to login -->
+          <p style="text-align:center;font-size:var(--font-size-body);color:var(--color-on-surface-variant);margin:var(--space-2) 0 0;">
+            已有账号？<a href="#" id="switchToLogin" style="color:var(--color-primary);text-decoration:none;font-weight:var(--font-weight-h4);">立即登录</a>
+          </p>
+        </form>
+
+        <!-- Trust Note -->
+        <p style="text-align:center;font-size:var(--font-size-caption);color:var(--color-on-surface-variant);margin:var(--space-5) 0 0;line-height:var(--line-height-caption);">
+          登录即同意<a href="#" style="color:var(--color-primary);text-decoration:none;">《用户协议》</a>和<a href="#" style="color:var(--color-primary);text-decoration:none;">《隐私政策》</a>
+        </p>
+      </div>
+    </main>
+
+    <!-- Bottom Nav (Mobile) -->
+    <nav class="bottom-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;height:64px;background:var(--color-surface);border-top:1px solid var(--color-border);z-index:50;justify-content:space-around;align-items:center;padding:0 var(--space-2);">
+      <a href="index.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+        <i data-lucide="home" style="width:20px;height:20px;"></i>
+        <span>首页</span>
+      </a>
+      <a href="dashboard.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+        <i data-lucide="layout-dashboard" style="width:20px;height:20px;"></i>
+        <span>驾驶舱</span>
+      </a>
+      <a href="exam.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+        <i data-lucide="file-text" style="width:20px;height:20px;"></i>
+        <span>考场</span>
+      </a>
+      <a href="wrong.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+        <i data-lucide="book-x" style="width:20px;height:20px;"></i>
+        <span>错题本</span>
+      </a>
+      <a href="ai.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+        <i data-lucide="bot" style="width:20px;height:20px;"></i>
+        <span>AI讲题</span>
+      </a>
+      <a href="path.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+        <i data-lucide="map" style="width:20px;height:20px;"></i>
+        <span>旅程</span>
+      </a>
+    </nav>
+
+    <!-- Custom styles and JS (before   <script src="../../assets/router.js"></script>
+</body>) -->
+    <style>
+      /* Auth tab active/inactive styles */
+      .auth-tab.active {
+        background: var(--color-primary);
+        color: var(--color-on-primary);
+      }
+      .auth-tab:not(.active) {
+        background: transparent;
+        color: var(--color-on-surface-variant);
+      }
+      .auth-tab:not(.active):hover {
+        background: var(--color-surface-container);
+      }
+
+      /* Input error state */
+      .input-wrap.input--error {
+        border-color: var(--color-error);
+      }
+      .input-wrap.input--error:focus-within {
+        border-color: var(--color-error);
+      }
+
+      /* Form animation */
+      .auth-form {
+        animation: authFadeIn .25s ease-out;
+      }
+      @keyframes authFadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Loading state */
+      .auth-submit-btn.loading {
+        opacity: .7;
+        pointer-events: none;
+      }
+
+      /* Desktop nav links visibility */
+      @media (min-width: 1024px) {
+        #desktopNavLinks { display: flex !important; }
+        #hamburgerBtn { display: none !important; }
+      }
+      @media (max-width: 1023px) {
+        .bottom-nav { display: flex !important; }
+      }
+    </style>
+
+    <script>
+    (function() {
+      'use strict';
+
+      /* ── Tab Toggle ── */
+      var tabLogin = document.getElementById('tabLogin');
+      var tabRegister = document.getElementById('tabRegister');
+      var loginForm = document.getElementById('loginForm');
+      var registerForm = document.getElementById('registerForm');
+      var switchToRegister = document.getElementById('switchToRegister');
+      var switchToLogin = document.getElementById('switchToLogin');
+
+      function showForm(formToShow, activeTab) {
+        loginForm.style.display = 'none';
+        loginForm.classList.remove('active');
+        registerForm.style.display = 'none';
+        registerForm.classList.remove('active');
+        tabLogin.classList.remove('active');
+        tabLogin.setAttribute('aria-selected', 'false');
+        tabRegister.classList.remove('active');
+        tabRegister.setAttribute('aria-selected', 'false');
+        formToShow.style.display = 'flex';
+        formToShow.classList.add('active');
+        activeTab.classList.add('active');
+        activeTab.setAttribute('aria-selected', 'true');
+        // Re-trigger animation
+        formToShow.style.animation = 'none';
+        formToShow.offsetHeight; // reflow
+        formToShow.style.animation = '';
+      }
+
+      tabLogin.addEventListener('click', function(e) {
+        e.preventDefault();
+        showForm(loginForm, tabLogin);
+      });
+      tabRegister.addEventListener('click', function(e) {
+        e.preventDefault();
+        showForm(registerForm, tabRegister);
+      });
+      switchToRegister.addEventListener('click', function(e) {
+        e.preventDefault();
+        showForm(registerForm, tabRegister);
+      });
+      switchToLogin.addEventListener('click', function(e) {
+        e.preventDefault();
+        showForm(loginForm, tabLogin);
+      });
+
+      /* ── Password Toggle ── */
+      document.querySelectorAll('.password-toggle').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var targetId = btn.getAttribute('data-target');
+          var input = document.getElementById(targetId);
+          var icon = btn.querySelector('i');
+          if (input.type === 'password') {
+            input.type = 'text';
+            icon.setAttribute('data-lucide', 'eye');
+          } else {
+            input.type = 'password';
+            icon.setAttribute('data-lucide', 'eye-off');
+          }
+          if (window.lucide) lucide.createIcons();
+        });
+      });
+
+      /* ── Validation Helpers ── */
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      function setError(inputWrap, errorEl, show) {
+        if (show) {
+          inputWrap.classList.add('input--error');
+          errorEl.style.display = 'block';
+        } else {
+          inputWrap.classList.remove('input--error');
+          errorEl.style.display = 'none';
+        }
+      }
+
+      function setLoading(btn, loading) {
+        if (loading) {
+          btn.classList.add('loading');
+          btn.textContent = '处理中...';
+        } else {
+          btn.classList.remove('loading');
+        }
+      }
+
+      /* ── Login Form Validation ── */
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = document.getElementById('loginEmail');
+        var password = document.getElementById('loginPassword');
+        var emailWrap = email.closest('.input-wrap');
+        var emailError = document.getElementById('loginEmailError');
+        var valid = true;
+
+        if (!emailRegex.test(email.value.trim())) {
+          setError(emailWrap, emailError, true);
+          valid = false;
+        } else {
+          setError(emailWrap, emailError, false);
+        }
+
+        if (valid) {
+          var btn = loginForm.querySelector('[data-dom-id="btn-login"]');
+          setLoading(btn, true);
+          setTimeout(function() {
+            setLoading(btn, false);
+            btn.textContent = '登 录';
+            window.location.href = 'dashboard.html';
+          }, 1200);
+        }
+      });
+
+      /* ── Register Form Validation ── */
+      registerForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = document.getElementById('regEmail');
+        var username = document.getElementById('regUsername');
+        var password = document.getElementById('regPassword');
+        var confirm = document.getElementById('regConfirmPassword');
+        var emailWrap = email.closest('.input-wrap');
+        var emailError = document.getElementById('regEmailError');
+        var passwordWrap = password.closest('.input-wrap');
+        var passwordError = document.getElementById('regPasswordError');
+        var confirmWrap = confirm.closest('.input-wrap');
+        var confirmError = document.getElementById('regConfirmError');
+        var valid = true;
+
+        if (!emailRegex.test(email.value.trim())) {
+          setError(emailWrap, emailError, true);
+          valid = false;
+        } else {
+          setError(emailWrap, emailError, false);
+        }
+
+        if (password.value.length < 8) {
+          setError(passwordWrap, passwordError, true);
+          valid = false;
+        } else {
+          setError(passwordWrap, passwordError, false);
+        }
+
+        if (confirm.value !== password.value || confirm.value.length === 0) {
+          setError(confirmWrap, confirmError, true);
+          valid = false;
+        } else {
+          setError(confirmWrap, confirmError, false);
+        }
+
+        if (valid) {
+          var btn = registerForm.querySelector('[data-dom-id="btn-register"]');
+          setLoading(btn, true);
+          setTimeout(function() {
+            setLoading(btn, false);
+            btn.textContent = '注 册';
+            window.location.href = 'dashboard.html';
+          }, 1200);
+        }
+      });
+
+      /* ── Guest Login ── */
+      document.querySelector('[data-dom-id="btn-guest"]').addEventListener('click', function() {
+        window.location.href = 'dashboard.html';
+      });
+
+      /* ── Theme Toggle ── */
+      var themeToggle = document.getElementById('themeToggle');
+      function updateThemeIcon() {
+        var isDark = document.documentElement.classList.contains('dark');
+        var icon = themeToggle.querySelector('i');
+        if (icon) {
+          icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+      themeToggle.addEventListener('click', function() {
+        var html = document.documentElement;
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          html.classList.add('light');
+          localStorage.setItem('aitutor-theme', 'light');
+        } else {
+          html.classList.remove('light');
+          html.classList.add('dark');
+          localStorage.setItem('aitutor-theme', 'dark');
+        }
+        updateThemeIcon();
+      });
+      // Init theme from localStorage
+      (function() {
+        var saved = localStorage.getItem('aitutor-theme');
+        if (saved) {
+          document.documentElement.classList.remove('light', 'dark');
+          document.documentElement.classList.add(saved);
+        }
+        updateThemeIcon();
+      })();
+
+    })();
+    </script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -34,11 +34,12 @@
 .province-tabs button:hover{border-color:var(--accent)}
 .province-tabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .province-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
-.province-item{display:flex;flex-direction:column;align-items:center;padding:16px 12px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--text);transition:var(--transition);cursor:pointer}
-.province-item:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 4px 16px rgba(215,25,32,.1)}
-.province-item .province-icon{font-size:1.8rem;margin-bottom:8px}
-.province-item .province-name{font-size:.88rem;font-weight:700}
-.province-item .province-type{font-size:.72rem;color:var(--text-muted);margin-top:4px}
+.province-item{display:flex;flex-direction:column;align-items:center;padding:20px 12px;background:linear-gradient(145deg,#ffffff,#f8fafc);border:2px solid #e2e8f0;border-radius:16px;text-decoration:none;color:#1e293b;transition:all 0.3s ease;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.province-item:hover{border-color:#3b82f6;transform:translateY(-4px);box-shadow:0 8px 24px rgba(59,130,246,0.15)}
+.province-item.active{border-color:#3b82f6;background:linear-gradient(145deg,#eff6ff,#dbeafe)}
+.province-item .province-icon{font-size:2rem;margin-bottom:8px;color:#3b82f6}
+.province-item .province-name{font-size:.9rem;font-weight:700;color:#1e293b}
+.province-item .province-type{font-size:.72rem;color:#64748b;margin-top:4px}
 .province-loading{text-align:center;padding:24px;color:var(--text-muted)}
 
 /* 新增：专业驾驶舱样式 */

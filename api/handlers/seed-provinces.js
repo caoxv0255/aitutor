@@ -10,7 +10,7 @@ export async function seedProvinces() {
   const pool = await getDb();
 
   try {
-    const dataPath = join(__dirname, '../database/seed_provinces.json');
+    const dataPath = join(__dirname, '../../database/seed_provinces.json');
     const provinces = JSON.parse(readFileSync(dataPath, 'utf-8'));
 
     console.log('🌱 开始导入省份数据...');

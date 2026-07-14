@@ -189,16 +189,20 @@ async function initTables(pool) {
       year INTEGER NOT NULL,
       subject VARCHAR(20) NOT NULL,
       exam_level VARCHAR(10) NOT NULL,
+      paper_type VARCHAR(30),
+      math_type VARCHAR(10),
       paper_file_path VARCHAR(500),
       question_count INTEGER,
       total_score INTEGER,
       difficulty_avg NUMERIC(3,2),
       created_at TIMESTAMPTZ DEFAULT NOW(),
-      updated_at TIMESTAMPTZ DEFAULT NOW()
+      updated_at TIMESTAMPTZ DEFAULT NOW(),
+      UNIQUE(province_code, year, subject, exam_level)
     );
 
     CREATE TABLE IF NOT EXISTS exam_questions (
       id SERIAL PRIMARY KEY,
+      question_uid VARCHAR(64) UNIQUE,
       paper_id INTEGER REFERENCES exam_papers(id) ON DELETE CASCADE,
       question_number INTEGER NOT NULL,
       question_type VARCHAR(20) NOT NULL,
@@ -209,10 +213,22 @@ async function initTables(pool) {
       knowledge_points TEXT,
       difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
       ability_tags TEXT,
-      score INTEGER,
+      score NUMERIC(5,2),
       subject_code VARCHAR(20),
       province_code VARCHAR(20),
       year INTEGER,
+      has_image BOOLEAN DEFAULT FALSE,
+      has_formula BOOLEAN DEFAULT FALSE,
+      raw_image_path VARCHAR(500),
+      image_descriptions TEXT,
+      latex_formulas TEXT,
+      formula_semantics TEXT,
+      semantic_description TEXT,
+      solution_description TEXT,
+      physics_structure JSONB DEFAULT '{}',
+      chemistry_structure JSONB DEFAULT '{}',
+      math_structure JSONB DEFAULT '{}',
+      file_path VARCHAR(500),
       created_at TIMESTAMPTZ DEFAULT NOW(),
       updated_at TIMESTAMPTZ DEFAULT NOW()
     );
@@ -267,7 +283,8 @@ async function initTables(pool) {
       frequency INTEGER DEFAULT 0,
       avg_difficulty NUMERIC(3,2),
       total_score INTEGER,
-      created_at TIMESTAMPTZ DEFAULT NOW()
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      UNIQUE(province_code, year, subject, knowledge_point_id)
     );
 
     CREATE TABLE IF NOT EXISTS user_province_prefs (
@@ -333,6 +350,52 @@ async function initTables(pool) {
       metadata JSONB DEFAULT '{}',
       created_at TIMESTAMPTZ DEFAULT NOW(),
       updated_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
+    -- 多模态知识对象：四向量检索表（Q/S/K/A 向量）
+    CREATE TABLE IF NOT EXISTS question_vectors (
+      id SERIAL PRIMARY KEY,
+      question_id INTEGER UNIQUE REFERENCES exam_questions(id) ON DELETE CASCADE,
+      question_uid VARCHAR(64),
+      subject_code VARCHAR(20),
+      question_type VARCHAR(30),
+      difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
+      q_embedding vector(1536),
+      s_embedding vector(1536),
+      k_embedding vector(1536),
+      a_embedding vector(1536),
+      q_text TEXT,
+      s_text TEXT,
+      k_text TEXT,
+      a_text TEXT,
+      metadata JSONB DEFAULT '{}',
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
+    -- 多模态知识对象：题目图片表
+    CREATE TABLE IF NOT EXISTS question_images (
+      id SERIAL PRIMARY KEY,
+      question_id INTEGER REFERENCES exam_questions(id) ON DELETE CASCADE,
+      image_type VARCHAR(20) DEFAULT 'figure',
+      file_path VARCHAR(500) NOT NULL,
+      semantic_description TEXT,
+      caption TEXT,
+      width INTEGER,
+      height INTEGER,
+      sort_order INTEGER DEFAULT 0,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
+    -- 多模态知识对象：题目公式表
+    CREATE TABLE IF NOT EXISTS question_formulas (
+      id SERIAL PRIMARY KEY,
+      question_id INTEGER REFERENCES exam_questions(id) ON DELETE CASCADE,
+      latex TEXT NOT NULL,
+      semantic_description TEXT,
+      formula_type VARCHAR(30),
+      sort_order INTEGER DEFAULT 0,
+      created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     -- 方案C：学生知识点掌握度表（学情诊断核心）
@@ -436,6 +499,26 @@ async function initTables(pool) {
     CREATE INDEX IF NOT EXISTS idx_rag_questions_type ON rag_questions(question_type);
     CREATE INDEX IF NOT EXISTS idx_rag_questions_kp_subject ON rag_questions(knowledge_point_id, subject_code);
 
+    -- 多模态知识对象：question_vectors 索引
+    CREATE INDEX IF NOT EXISTS idx_question_vectors_question_id ON question_vectors(question_id);
+    CREATE INDEX IF NOT EXISTS idx_question_vectors_uid ON question_vectors(question_uid);
+    CREATE INDEX IF NOT EXISTS idx_question_vectors_subject ON question_vectors(subject_code);
+    CREATE INDEX IF NOT EXISTS idx_question_vectors_type ON question_vectors(question_type);
+    CREATE INDEX IF NOT EXISTS idx_question_vectors_difficulty ON question_vectors(difficulty);
+
+    -- 四向量 HNSW 索引
+    CREATE INDEX IF NOT EXISTS idx_qv_q_embedding_hnsw ON question_vectors USING hnsw (q_embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
+    CREATE INDEX IF NOT EXISTS idx_qv_s_embedding_hnsw ON question_vectors USING hnsw (s_embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
+    CREATE INDEX IF NOT EXISTS idx_qv_k_embedding_hnsw ON question_vectors USING hnsw (k_embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
+    CREATE INDEX IF NOT EXISTS idx_qv_a_embedding_hnsw ON question_vectors USING hnsw (a_embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
+
+    -- 多模态知识对象：question_images 索引
+    CREATE INDEX IF NOT EXISTS idx_question_images_question ON question_images(question_id);
+    CREATE INDEX IF NOT EXISTS idx_question_images_type ON question_images(image_type);
+
+    -- 多模态知识对象：question_formulas 索引
+    CREATE INDEX IF NOT EXISTS idx_question_formulas_question ON question_formulas(question_id);
+
     -- 方案C：student_knowledge_mastery 索引
     CREATE INDEX IF NOT EXISTS idx_skm_user ON student_knowledge_mastery(user_email);
     CREATE INDEX IF NOT EXISTS idx_skm_kp ON student_knowledge_mastery(knowledge_point_id);
@@ -450,6 +533,29 @@ async function initTables(pool) {
     CREATE INDEX IF NOT EXISTS idx_srs_log_created ON srs_review_log(created_at);
     CREATE INDEX IF NOT EXISTS idx_srs_log_user_kp ON srs_review_log(user_email, knowledge_point_id);
   `);
+
+  // 教材知识点扩展列（幂等迁移，IF NOT EXISTS 语法）
+  const alterStatements = [
+    `ALTER TABLE knowledge_points ADD COLUMN IF NOT EXISTS module VARCHAR(200)`,
+    `ALTER TABLE knowledge_points ADD COLUMN IF NOT EXISTS textbook VARCHAR(100)`,
+    `ALTER TABLE knowledge_points ADD COLUMN IF NOT EXISTS volume VARCHAR(50)`,
+    `ALTER TABLE knowledge_points ADD COLUMN IF NOT EXISTS volume_code VARCHAR(10)`,
+    `ALTER TABLE knowledge_points ADD COLUMN IF NOT EXISTS content TEXT`,
+    `ALTER TABLE knowledge_points ADD COLUMN IF NOT EXISTS source VARCHAR(200)`,
+    `ALTER TABLE knowledge_points ADD COLUMN IF NOT EXISTS tags TEXT DEFAULT '[]'`,
+    `ALTER TABLE exam_papers ADD COLUMN IF NOT EXISTS math_type VARCHAR(10)`,
+    `ALTER TABLE exam_papers ADD COLUMN IF NOT EXISTS paper_type VARCHAR(30)`,
+  ];
+  for (const sql of alterStatements) {
+    try {
+      await pool.query(sql);
+    } catch (err) {
+      // 忽略 "column already exists" 错误
+      if (!err.message.includes('already exists')) {
+        console.warn(`[DB Migration] ${sql.substring(0, 60)}... failed: ${err.message}`);
+      }
+    }
+  }
 
   // 方案B：HNSW 向量索引（独立执行，避免与常规索引混在同一事务）
   // m=16: 中等图连接度，平衡内存与召回率

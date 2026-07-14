@@ -12,7 +12,12 @@
     "lint": "eslint api/ server.js tests/",
     "lint:fix": "eslint api/ server.js tests/ --fix",
     "format": "prettier --write \"api/**/*.js\" server.js \"tests/**/*.js\"",
-    "format:check": "prettier --check \"api/**/*.js\" server.js \"tests/**/*.js\""
+    "format:check": "prettier --check \"api/**/*.js\" server.js \"tests/**/*.js\"",
+    "sync": "node scripts/sync-knowledge.js",
+    "sync:stats": "node scripts/sync-knowledge.js stats",
+    "sync:obsidian": "node scripts/sync-knowledge.js sync",
+    "sync:graphrag": "node scripts/sync-knowledge.js sync-back",
+    "sync:watch": "node scripts/sync-knowledge.js watch"
   },
   "dependencies": {
     "axios": "^1.16.1",
@@ -25,8 +30,12 @@
     "jsdom": "^29.1.1",
     "jsonwebtoken": "^9.0.3",
     "katex": "^0.16.33",
+    "mammoth": "^1.12.0",
     "marked": "^17.0.4",
+    "pdf-parse": "^2.4.5",
+    "pdfkit": "^0.19.1",
     "pg": "^8.13.0",
+    "word-extractor": "^1.0.4",
     "yaml": "^2.9.0"
   },
   "devDependencies": {

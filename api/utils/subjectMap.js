@@ -10,6 +10,8 @@ export const SUBJECT_MAP = {
   'geography': '地理'
 };
 
+import { TEXTBOOK_KEYWORD_MAP } from './textbookKeywords.js';
+
 export const SUBJECT_MAP_REVERSE = Object.fromEntries(
   Object.entries(SUBJECT_MAP).map(([k, v]) => [v, k])
 );
@@ -262,11 +264,11 @@ const CORE_KEYWORDS = new Set([
 ]);
 
 export function getKeywordsForKP(kpId) {
-  return KEYWORD_MAP[kpId] || [];
+  return KEYWORD_MAP[kpId] || TEXTBOOK_KEYWORD_MAP[kpId] || [];
 }
 
 export function matchWeakPoint(questionData, kpId) {
-  const keywords = KEYWORD_MAP[kpId];
+  const keywords = KEYWORD_MAP[kpId] || TEXTBOOK_KEYWORD_MAP[kpId];
   if (!keywords || keywords.length === 0) return { matched: false, score: 0, matchedKeywords: [] };
 
   const searchFields = extractSearchFields(questionData);

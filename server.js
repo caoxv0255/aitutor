@@ -11,7 +11,7 @@ import questionsHandler from './api/handlers/questions.js';
 import reportsHandler from './api/handlers/reports.js';
 import proxyHandler from './api/handlers/proxy.js';
 import tasksHandler from './api/handlers/tasks.js';
-import knowledgePointsHandler, { getWeakPointsHandler } from './api/handlers/knowledge-points.js';
+import knowledgePointsHandler, { getWeakPointsHandler, getKPContentHandler } from './api/handlers/knowledge-points.js';
 import generatePaperHandler from './api/handlers/generate-paper.js';
 import explainQuestionHandler from './api/handlers/explain-question.js';
 import learningPathHandler from './api/handlers/learning-path.js';
@@ -22,6 +22,7 @@ import { seedProvinces } from './api/handlers/seed-provinces.js';
 import { getUserProvince, setUserProvince, deleteUserProvince } from './api/handlers/user-province.js';
 import { getExamPapers, getExamPaperById, createExamPaper } from './api/handlers/exam-papers.js';
 import { getExamQuestions, createExamQuestion, batchCreateQuestions } from './api/handlers/exam-questions.js';
+import { generateExamPdf } from './api/handlers/exam-pdf.js';
 import { startExamSession, submitExamSession, getExamHistory } from './api/handlers/exam-session.js';
 import adaptiveDifficultyHandler, {
   calculateUserAbility,
@@ -39,6 +40,7 @@ import tutorAgentRouter from './api/routes/tutor-agent.js';
 import learningLoopRouter from './api/routes/learning-loop.js';
 import visionParseRouter from './api/routes/vision-parse.js';
 import srsEngineRouter from './api/routes/srs-engine.js';
+import knowledgeGraphRouter from './api/routes/knowledge-graph.js';
 import { errorHandler } from './api/middleware/errorHandler.js';
 import { securityHeaders, xssSanitizer, xssDetector, csrfProtection } from './api/middleware/security.js';
 
@@ -108,7 +110,25 @@ app.get('/app', (req, res) => {
 
 app.use(express.static('public'));
 app.use('/vendor', express.static('public/vendor'));
-app.use(express.static('frontend'));
+app.use(
+  '/assets',
+  express.static('frontend/assets', {
+    setHeaders(res, path) {
+      if (path.endsWith('.js') || path.endsWith('.css')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      }
+    },
+  })
+);
+app.use(express.static('frontend', {
+  setHeaders(res, path) {
+    if (path.endsWith('.html') || path.endsWith('.js') || path.endsWith('.css')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  },
+}));
 app.use('/frontend', express.static('frontend'));
 app.use('/icons', express.static('public/icons'));
 app.use(
@@ -172,12 +192,14 @@ app.post('/api/provinces/seed', async (req, res) => {
 app.get('/api/exam-papers', wrapHandler(getExamPapers));
 app.get('/api/exam-papers/:id', wrapHandler(getExamPaperById));
 app.get('/api/exam-questions/:paperId', wrapHandler(getExamQuestions));
+app.get('/api/exam-pdf/:paperId', generateExamPdf);
 
 app.all('/api/questions', authMiddleware, wrapHandler(questionsHandler));
 app.all('/api/reports', authMiddleware, wrapHandler(reportsHandler));
 app.all('/api/tasks', authMiddleware, wrapHandler(tasksHandler));
 app.post('/api/proxy', authMiddleware, proxyLimiter, wrapHandler(proxyHandler));
 app.get('/api/knowledge-points', authMiddleware, wrapHandler(knowledgePointsHandler));
+app.get('/api/knowledge-points/:id/content', authMiddleware, wrapHandler(getKPContentHandler));
 app.get('/api/weak-points', authMiddleware, wrapHandler(getWeakPointsHandler));
 app.post('/api/generate-paper', authMiddleware, wrapHandler(generatePaperHandler));
 app.post('/api/explain-question', authMiddleware, wrapHandler(explainQuestionHandler));
@@ -213,6 +235,7 @@ app.use('/api/tutor', tutorAgentRouter);
 app.use('/api/loop', learningLoopRouter);
 app.use('/api/vision', visionParseRouter);
 app.use('/api/srs', srsEngineRouter);
+app.use('/api/knowledge', knowledgeGraphRouter);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'API 端点不存在' });

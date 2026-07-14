@@ -76,6 +76,22 @@ export async function getProvinceTrends(req, res) {
       const typeResult = await pool.query(typeQuery, typeParams);
       const typeRows = typeResult.rows;
 
+      let typeByYearQuery = `
+        SELECT ep.year, ep.subject, eq.question_type, COUNT(*) as count, AVG(eq.difficulty) as avg_difficulty, AVG(eq.score) as avg_score
+        FROM exam_questions eq
+        JOIN exam_papers ep ON eq.paper_id = ep.id
+        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3
+      `;
+      let typeByYearParams = [code, startYear, endYear];
+      paramIdx = 4;
+      if (subject) {
+        typeByYearParams.push(subject);
+        typeByYearQuery += ` AND ep.subject = $${paramIdx++}`;
+      }
+      typeByYearQuery += ' GROUP BY ep.year, ep.subject, eq.question_type ORDER BY ep.year DESC, ep.subject, eq.question_type';
+      const typeByYearResult = await pool.query(typeByYearQuery, typeByYearParams);
+      const typeByYearRows = typeByYearResult.rows;
+
       let diffQuery = `
         SELECT eq.difficulty, COUNT(*) as count, AVG(eq.score) as avg_score
         FROM exam_questions eq
@@ -91,6 +107,22 @@ export async function getProvinceTrends(req, res) {
       diffQuery += ' GROUP BY eq.difficulty ORDER BY eq.difficulty';
       const diffResult = await pool.query(diffQuery, diffParams);
       const diffRows = diffResult.rows;
+
+      let diffByYearQuery = `
+        SELECT ep.year, ep.subject, eq.difficulty, COUNT(*) as count, AVG(eq.score) as avg_score
+        FROM exam_questions eq
+        JOIN exam_papers ep ON eq.paper_id = ep.id
+        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3
+      `;
+      let diffByYearParams = [code, startYear, endYear];
+      paramIdx = 4;
+      if (subject) {
+        diffByYearParams.push(subject);
+        diffByYearQuery += ` AND ep.subject = $${paramIdx++}`;
+      }
+      diffByYearQuery += ' GROUP BY ep.year, ep.subject, eq.difficulty ORDER BY ep.year DESC, ep.subject, eq.difficulty';
+      const diffByYearResult = await pool.query(diffByYearQuery, diffByYearParams);
+      const diffByYearRows = diffByYearResult.rows;
 
       let topKnowledgeQuery = `
         SELECT pk.knowledge_point_id, kp.name as knowledge_point_name,
@@ -115,7 +147,9 @@ export async function getProvinceTrends(req, res) {
         papers: papersRows,
         knowledge_points: groupKnowledgeByYear(knowledgeRows),
         question_types: typeRows,
+        question_types_by_year: groupByYearAndSubject(typeByYearRows),
         difficulty_distribution: diffRows,
+        difficulty_distribution_by_year: groupByYearAndSubject(diffByYearRows),
         top_knowledge_points: topKnowledgeRows,
         summary: generateSummary(province, papersRows, knowledgeRows, typeRows),
         cached: false
@@ -187,6 +221,20 @@ function groupKnowledgeByYear(rows) {
       grouped[row.year] = [];
     }
     grouped[row.year].push(row);
+  }
+  return grouped;
+}
+
+function groupByYearAndSubject(rows) {
+  const grouped = {};
+  for (const row of rows) {
+    if (!grouped[row.year]) {
+      grouped[row.year] = {};
+    }
+    if (!grouped[row.year][row.subject]) {
+      grouped[row.year][row.subject] = [];
+    }
+    grouped[row.year][row.subject].push(row);
   }
   return grouped;
 }

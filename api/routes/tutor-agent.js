@@ -95,16 +95,17 @@ async function queryPrerequisites(ageClient, knowledgePointId) {
     const hop1 = await runCypher(
       ageClient,
       `MATCH (kp:KnowledgePoint {id: $1})-[:DEPENDS_ON]->(pre:KnowledgePoint)
-       RETURN pre.id, pre.name`,
+       RETURN pre.id, pre.name, pre.content`,
       [knowledgePointId],
-      'id agtype, name agtype'
+      'id agtype, name agtype, content agtype'
     );
 
     for (const row of hop1.rows) {
       const id = parseAgtype(row.id);
       const name = parseAgtype(row.name);
+      const content = parseAgtype(row.content);
       if (id) {
-        prereqs.push({ id, name: name || id, hop: 1 });
+        prereqs.push({ id, name: name || id, hop: 1, content: content || '' });
         seenIds.add(id);
       }
     }
@@ -113,16 +114,17 @@ async function queryPrerequisites(ageClient, knowledgePointId) {
     const hop2 = await runCypher(
       ageClient,
       `MATCH (kp:KnowledgePoint {id: $1})-[:DEPENDS_ON]->(mid:KnowledgePoint)-[:DEPENDS_ON]->(pre2:KnowledgePoint)
-       RETURN pre2.id, pre2.name`,
+       RETURN pre2.id, pre2.name, pre2.content`,
       [knowledgePointId],
-      'id agtype, name agtype'
+      'id agtype, name agtype, content agtype'
     );
 
     for (const row of hop2.rows) {
       const id = parseAgtype(row.id);
       const name = parseAgtype(row.name);
+      const content = parseAgtype(row.content);
       if (id && !seenIds.has(id)) {
-        prereqs.push({ id, name: name || id, hop: 2 });
+        prereqs.push({ id, name: name || id, hop: 2, content: content || '' });
         seenIds.add(id);
       }
     }
@@ -184,7 +186,7 @@ async function assembleLearningContext(pool, ageClient, userEmail, knowledgePoin
   // 当前知识点掌握度
   const currentMastery = masteryMap.get(knowledgePointId) ?? null;
 
-  // 组装前置依赖列表（含掌握度 + 薄弱标记）
+  // 组装前置依赖列表（含掌握度 + 薄弱标记 + 教材内容摘要）
   const weakPrereqs = [];
   const prerequisites = prereqs.map((p) => {
     const score = masteryMap.get(p.id) ?? null;
@@ -195,6 +197,7 @@ async function assembleLearningContext(pool, ageClient, userEmail, knowledgePoin
       hop: p.hop,
       mastery_score: score,
       is_weak: isWeak,
+      content: p.content || '',
     };
     if (isWeak) weakPrereqs.push(entry);
     return entry;
@@ -216,7 +219,8 @@ function buildSystemPrompt(context) {
           .map((p) => {
             const tag = p.is_weak ? ' ⚠️ [薄弱]' : '';
             const score = p.mastery_score !== null ? p.mastery_score.toFixed(2) : '未评估';
-            return `  - ${p.name}（${p.id}，${p.hop}跳前置，掌握度: ${score}）${tag}`;
+            const contentSnippet = p.content ? `\n    内容摘要: ${p.content.slice(0, 150)}...` : '';
+            return `  - ${p.name}（${p.id}，${p.hop}跳前置，掌握度: ${score}）${tag}${contentSnippet}`;
           })
           .join('\n')
       : '  （无已知前置依赖）';
@@ -379,7 +383,8 @@ function buildStreamSystemPrompt(context) {
           .map((p) => {
             const tag = p.is_weak ? ' ⚠️ [薄弱]' : '';
             const score = p.mastery_score !== null ? p.mastery_score.toFixed(2) : '未评估';
-            return `  - ${p.name}（${p.id}，${p.hop}跳前置，掌握度: ${score}）${tag}`;
+            const contentSnippet = p.content ? `\n    内容摘要: ${p.content.slice(0, 150)}...` : '';
+            return `  - ${p.name}（${p.id}，${p.hop}跳前置，掌握度: ${score}）${tag}${contentSnippet}`;
           })
           .join('\n')
       : '  （无已知前置依赖）';
@@ -406,14 +411,14 @@ function buildStreamSystemPrompt(context) {
 
   const masteryText = currentMastery !== null ? currentMastery.toFixed(2) : '未评估（首次接触）';
 
-  return `你是一位经验丰富的AI导师，精通新高考全科教学。你正在使用"知识图谱驱动的教学推理系统"进行个性化辅导。
+  return `你是一位经验丰富的AI导师，精通新高考全科教学。你正在使用“知识图谱驱动的教学推理系统”进行个性化辅导。
 
 ## 🛡️ 防跳跃教学机制（最高优先级）
 1. 若存在标记为 ⚠️ [薄弱] 的前置知识点，你**绝对不能**直接解答当前问题。
 2. 你必须首先明确指出薄弱前置节点，用通俗易懂的语言解释为什么需要掌握它们。
 3. 然后提供针对性的复习引导（概念回顾 + 简单例题），帮助学生补齐知识链。
 4. 只有当所有前置节点掌握度均 ≥ ${MASTERY_THRESHOLD} 时，才能完整解答当前问题。
-5. 即使学生要求"直接告诉我答案"，也必须先完成前置知识的复习引导。
+5. 即使学生要求“直接告诉我答案”，也必须先完成前置知识的复习引导。
 
 ## 📊 当前学生学情上下文
 

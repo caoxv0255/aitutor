@@ -394,7 +394,7 @@ a:hover { color: var(--accent); }
 
 /* ── 打印样式 ── */
 @media print {
-  .site-header, .exam-side, .timer-bar, .btn, .answer-toggle, .answer-content { display: none !important; }
+  .site-header, .exam-side, .timer-bar, .btn, .answer-toggle, .answer-content, .mode-bar, #wrong-panel { display: none !important; }
   .page-wrap, .exam-wrap { display: block !important; padding: 0 !important; background: #fff !important; }
   .exam-grid { display: block !important; }
   .exam-paper { box-shadow: none !important; padding: 20px !important; }
@@ -419,6 +419,7 @@ a:hover { color: var(--accent); }
   }
   .hamburger { display: block; }
   .theme-toggle { margin-right: 8px; }
+  .theme-toggle .theme-label { display: none; }
   .hero h1 { font-size: 2rem; }
   .stats-bar { grid-template-columns: repeat(2,1fr); }
   .page-wrap, .exam-wrap { grid-template-columns: 1fr; }
@@ -443,6 +444,9 @@ a:hover { color: var(--accent); }
 .submit-btn{padding:8px 28px;border-radius:999px;border:none;background:linear-gradient(135deg,#d71920,#8b1015);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
 .submit-btn:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(215,25,32,.4)}
 .submit-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.shuffle-btn{padding:8px 20px;border-radius:999px;border:1px solid #333;background:transparent;color:rgba(255,255,255,.65);font-size:13px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
+.shuffle-btn:hover{border-color:#059669;color:#fff}
+.shuffle-btn.active{background:#059669;border-color:#059669;color:#fff}
 .exam-timer-display{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;color:#fff;letter-spacing:.02em}
 .exam-timer-display .timer-minutes{color:#d71920}
 
@@ -477,11 +481,14 @@ body.exam-mode.submitted .score-summary{display:block}
 body.exam-mode .timer-fixed.show{display:flex}
 
 /* ── 主题切换按钮 ── */
-.theme-toggle{background:none;border:none;font-size:1.25rem;cursor:pointer;padding:8px 10px;border-radius:50%;transition:var(--transition);line-height:1;color:var(--text);margin-right:12px}
-.theme-toggle:hover{background:var(--bg-card-hover)}
+.theme-toggle{background:var(--bg-card);border:1px solid var(--border);font-size:1.15rem;cursor:pointer;padding:6px 10px;border-radius:8px;transition:var(--transition);line-height:1;color:var(--text);margin-right:12px;display:flex;align-items:center;gap:4px}
+.theme-toggle:hover{background:var(--bg-card-hover);border-color:var(--accent)}
 .theme-toggle .icon-sun,.theme-toggle .icon-moon{display:inline-block}
+.theme-toggle .theme-label{font-size:.7rem;font-weight:600}
 [data-theme="light"] .theme-toggle .icon-moon{display:none}
 [data-theme="dark"] .theme-toggle .icon-sun{display:none}
+[data-theme="light"] .theme-toggle{background:#fff;border-color:#d0d0d8;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+[data-theme="dark"] .theme-toggle{background:#1e1e2a;border-color:#333}
 
 /* ── 浅色主题变量 ── */
 :root[data-theme="light"], [data-theme="light"] {

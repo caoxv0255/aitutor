@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor - 智启AI导师</title>
+    <style id="theme-vars">
+/* @group-priority: primary, success, info, accent */
+/* AI Tutor (智启AI导师) — Design Tokens */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+:root {
+  /* primary */
+  --aitutor-primary-50: #fff1f1; /* AI-generated */
+  --aitutor-primary-100: #ffe0e0; /* AI-generated */
+  --aitutor-primary-200: #ffc5c5; /* AI-generated */
+  --aitutor-primary-300: #ffa0a0; /* AI-generated */
+  --aitutor-primary-400: #f36b6b; /* AI-generated */
+  --aitutor-primary-500: #d71920; /* @primary */ /* AI-generated */
+  --aitutor-primary-600: #b8151b; /* AI-generated */
+  --aitutor-primary-700: #941218; /* AI-generated */
+  --aitutor-primary-800: #7a1014; /* AI-generated */
+  --aitutor-primary-900: #660f13; /* AI-generated */
+  /* accent-blue */
+  --aitutor-blue-50: #eff6ff; /* AI-generated */
+  --aitutor-blue-100: #dbeafe; /* AI-generated */
+  --aitutor-blue-200: #bfdbfe; /* AI-generated */
+  --aitutor-blue-300: #93c5fd; /* AI-generated */
+  --aitutor-blue-400: #60a5fa; /* AI-generated */
+  --aitutor-blue-500: #2563eb; /* @primary */ /* AI-generated */
+  --aitutor-blue-600: #1d4ed8; /* AI-generated */
+  --aitutor-blue-700: #1e40af; /* AI-generated */
+  --aitutor-blue-800: #1e3a8a; /* AI-generated */
+  --aitutor-blue-900: #172554; /* AI-generated */
+  /* success */
+  --aitutor-success-50: #ecfdf5; /* AI-generated */
+  --aitutor-success-100: #d1fae5; /* AI-generated */
+  --aitutor-success-200: #a7f3d0; /* AI-generated */
+  --aitutor-success-300: #6ee7b7; /* AI-generated */
+  --aitutor-success-400: #34d399; /* AI-generated */
+  --aitutor-success-500: #059669; /* @primary */ /* AI-generated */
+  --aitutor-success-600: #047857; /* AI-generated */
+  --aitutor-success-700: #065f46; /* AI-generated */
+  --aitutor-success-800: #064e3b; /* AI-generated */
+  --aitutor-success-900: #022c22; /* AI-generated */
+  /* info */
+  --aitutor-info-50: #f0f9ff; /* AI-generated */
+  --aitutor-info-100: #e0f2fe; /* AI-generated */
+  --aitutor-info-200: #bae6fd; /* AI-generated */
+  --aitutor-info-300: #7dd3fc; /* AI-generated */
+  --aitutor-info-400: #38bdf8; /* AI-generated */
+  --aitutor-info-500: #0284c7; /* @primary */ /* AI-generated */
+  --aitutor-info-600: #0369a1; /* AI-generated */
+  --aitutor-info-700: #075985; /* AI-generated */
+  --aitutor-info-800: #0c4a6e; /* AI-generated */
+  --aitutor-info-900: #082f49; /* AI-generated */
+  /* warning */
+  --aitutor-warning-50: #fffbeb; /* AI-generated */
+  --aitutor-warning-100: #fef3c7; /* AI-generated */
+  --aitutor-warning-200: #fde68a; /* AI-generated */
+  --aitutor-warning-300: #fcd34d; /* AI-generated */
+  --aitutor-warning-400: #fbbf24; /* AI-generated */
+  --aitutor-warning-500: #f59e0b; /* @primary */ /* AI-generated */
+  --aitutor-warning-600: #d97706; /* AI-generated */
+  --aitutor-warning-700: #b45309; /* AI-generated */
+  --aitutor-warning-800: #92400e; /* AI-generated */
+  --aitutor-warning-900: #78350f; /* AI-generated */
+  /* error */
+  --aitutor-error-50: #fef2f2; /* AI-generated */
+  --aitutor-error-100: #fee2e2; /* AI-generated */
+  --aitutor-error-200: #fecaca; /* AI-generated */
+  --aitutor-error-300: #fca5a5; /* AI-generated */
+  --aitutor-error-400: #f87171; /* AI-generated */
+  --aitutor-error-500: #ef4444; /* @primary */ /* AI-generated */
+  --aitutor-error-600: #dc2626; /* AI-generated */
+  --aitutor-error-700: #b91c1c; /* AI-generated */
+  --aitutor-error-800: #991b1b; /* AI-generated */
+  --aitutor-error-900: #7f1d1d; /* AI-generated */
+
+  /* === Semantic Aliases (Layer 2) === */
+  --primary: var(--aitutor-primary-500); --primary-hover: var(--aitutor-primary-600); --primary-foreground: #ffffff;
+  --secondary: var(--aitutor-blue-500); --secondary-hover: var(--aitutor-blue-600); --secondary-foreground: #ffffff;
+  --accent: var(--aitutor-primary-500); --accent-hover: var(--aitutor-primary-600); --accent-foreground: #ffffff;
+  --background: #f8f9fa; --foreground: #1a1a2e; --muted: #94a3b8; --muted-foreground: #64748b;
+  --border: #e2e8f0; --ring: var(--aitutor-primary-500);
+  --error: var(--aitutor-error-600); --error-foreground: #ffffff; --success: var(--aitutor-success-600); --warning: var(--aitutor-warning-600);
+  --surface: #ffffff; --surface-dim: #f1f5f9; --surface-container-lowest: #f8f9fa;
+  --surface-container-low: #f1f5f9; --surface-container: #e8ecf1; --surface-container-high: #dfe4ea; --surface-container-highest: #d5dae1;
+  --inverse-surface: #1a1a2e; --inverse-on-surface: #f1f5f9;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --link: var(--aitutor-blue-600); --card-bg: var(--surface);
+
+  /* === Typography === */
+  --font-display: 'DM Sans', 'Noto Sans SC', sans-serif; --font-heading: 'DM Sans', 'Noto Sans SC', sans-serif;
+  --font-body: 'Noto Sans SC', 'DM Sans', sans-serif; --font-mono: 'DM Sans', monospace;
+  --font-size-display: 56px; --font-size-h1: 40px; --font-size-h2: 32px; --font-size-h3: 24px;
+  --font-size-h4: 20px; --font-size-body: 16px; --font-size-lead: 18px; --font-size-caption: 12px;
+  --font-size-eyebrow: 11px; --font-size-mono: 14px;
+  --font-weight-display: 700; --font-weight-h1: 700; --font-weight-h2: 600; --font-weight-h3: 600;
+  --font-weight-h4: 600; --font-weight-body: 400; --font-weight-lead: 400; --font-weight-caption: 400;
+  --font-weight-eyebrow: 600; --font-weight-mono: 400;
+  --line-height-display: 1.1; --line-height-h1: 1.2; --line-height-h2: 1.25; --line-height-h3: 1.3;
+  --line-height-h4: 1.4; --line-height-body: 1.6; --line-height-lead: 1.7; --line-height-caption: 1.5;
+  --line-height-eyebrow: 1.4; --line-height-mono: 1.6;
+
+  /* === Spacing === */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+
+  /* === Sizing === */
+  --size-button-sm: 32px; --size-button-md: 40px; --size-button-lg: 48px;
+  --size-input-height: 40px; --size-icon-sm: 16px; --size-icon-md: 24px; --size-icon-lg: 32px;
+
+  /* === Radius === */
+  --radius-sm: 8px; --radius-md: 14px; --radius-lg: 16px; --radius-pill: 9999px;
+
+  /* === Shadows === */
+  --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04); /* Card */
+  --shadow-2: 0 4px 8px -2px rgba(0,0,0,.10); /* Card Hover */
+  --shadow-3: 0 8px 24px -8px rgba(0,0,0,.18); /* Float */
+  --shadow-4: 0 16px 40px -12px rgba(0,0,0,.24); /* Modal */
+  --shadow-5: 0 24px 60px -20px rgba(0,0,0,.30); /* Overlay */
+
+  /* === Portable Aliases (Layer 3) === */
+  --color-background: var(--bg); --color-foreground: var(--fg);
+  --color-surface: var(--surface); --color-surface-dim: var(--surface-dim);
+  --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-primary: var(--accent); --color-primary-hover: var(--accent-hover);
+  --color-on-primary: #ffffff; --color-primary-container: var(--aitutor-primary-50);
+  --color-on-primary-container: var(--aitutor-primary-900);
+  --color-secondary: var(--aitutor-blue-100); --color-secondary-container: var(--aitutor-blue-50);
+  --color-on-secondary-container: var(--aitutor-blue-900);
+  --color-outline: var(--rule); --color-outline-variant: var(--aitutor-blue-100); --color-border: var(--rule);
+  --color-success: var(--aitutor-success-600); --color-warning: var(--aitutor-warning-600);
+  --color-error: var(--aitutor-error-600); --color-info: var(--aitutor-info-600);
+  --radius-full: 9999px; --type-display-sm: 40px; --type-heading-sm: 24px;
+  --type-body-md: 16px; --type-body-sm: 14px; --font-family-base: var(--font-body);
+}
+
+/* Dark Theme */
+.dark {
+  --background: #0f1117; --foreground: #e8ecf1; --surface: #1a1d27; --surface-dim: #12141c;
+  --surface-container-lowest: #0f1117; --surface-container-low: #1a1d27;
+  --surface-container: #22252f; --surface-container-high: #2a2d38; --surface-container-highest: #33374a;
+  --inverse-surface: #f1f5f9; --inverse-on-surface: #1a1a2e;
+  --muted: #64748b; --muted-foreground: #94a3b8; --border: #2a2d38;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --card-bg: var(--surface);
+  --color-background: var(--bg); --color-foreground: var(--fg); --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim); --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container); --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high); --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-outline: var(--rule); --color-outline-variant: #2a2d38;
+  --color-border: var(--rule);
+}
+
+/* Typography Classes */
+.aitutor-display { font-family: var(--font-display); font-size: 3.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); letter-spacing: -0.02em; }
+.aitutor-h1 { font-family: var(--font-heading); font-size: 2.5rem; font-weight: var(--font-weight-h1); line-height: var(--line-height-h1); }
+.aitutor-h2 { font-family: var(--font-heading); font-size: 2rem; font-weight: var(--font-weight-h2); line-height: var(--line-height-h2); }
+.aitutor-h3 { font-family: var(--font-heading); font-size: 1.5rem; font-weight: var(--font-weight-h3); line-height: var(--line-height-h3); }
+.aitutor-h4 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); }
+.aitutor-body { font-family: var(--font-body); font-size: 1rem; font-weight: var(--font-weight-body); line-height: var(--line-height-body); }
+.aitutor-lead { font-family: var(--font-body); font-size: 1.125rem; font-weight: var(--font-weight-lead); line-height: var(--line-height-lead); }
+.aitutor-caption { font-family: var(--font-body); font-size: 0.75rem; font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); }
+.aitutor-eyebrow { font-family: var(--font-body); font-size: 0.6875rem; font-weight: var(--font-weight-eyebrow); line-height: var(--line-height-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; }
+.aitutor-mono { font-family: var(--font-mono); font-size: 0.875rem; font-weight: var(--font-weight-mono); line-height: var(--line-height-mono); }
+.aitutor-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); font-variant-numeric: tabular-nums; }
+
+    </style>
+    <style id="component-vars">
+/* ═══════════════════════════════════════════════════════════════
+   components.css — Design System Component Definitions
+   Auto-extracted from preview/component-*.html
+   DO NOT EDIT MANUALLY — regenerate via extract-components-css.mjs
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Button ────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">主要</span> <button class="btn primary sm">开始学习</button> <button class="btn primary md" data-evidence-sample="Primary MD">开始学习</button> <button class="btn primary lg" data-evidence-sample="Primary LG">开始学习</button>
+*/
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: var(--font-body); font-weight: var(--font-weight-body); white-space: nowrap; cursor: pointer; border: none; border-radius: var(--radius-pill); transition: background .15s, border-color .15s, opacity .15s; flex-shrink: 0; }
+.btn.primary { background: var(--accent); color: var(--primary-foreground); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn.ghost:hover { background: var(--color-surface-container-low); }
+.btn.sm { height: var(--size-button-sm); padding: 0 var(--space-4); font-size: var(--font-size-caption); min-width: var(--size-button-sm); }
+.btn.md { height: var(--size-button-md); padding: 0 var(--space-5); font-size: var(--font-size-body); min-width: var(--size-button-md); }
+.btn.lg { height: var(--size-button-lg); padding: 0 28px; font-size: var(--font-size-lead); min-width: var(--size-button-lg); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+/* ── Card ──────────────────────────────────────────────────── */
+/* @anatomy
+   <div class="card" data-evidence-sample="Default"> <div class="card-heading">我的错题本
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+  .card { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); }
+  .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); word-break: keep-all; overflow-wrap: break-word; }
+  .card-body { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+  .card-interactive { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
+  .card-interactive:hover { border-color: var(--color-primary); transform: translateY(-3px); box-shadow: var(--shadow-2); }
+  .card-interactive .card-icon { width: var(--size-icon-lg); height: var(--size-icon-lg); flex-shrink: 0; color: var(--color-primary); }
+  .card-interactive .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); }
+  .card-interactive .card-desc { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+
+/* ── Input ─────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">默认</span> <div class="form-group" data-evidence-sample="Default"> <label>题目内容</label> <input class="input-field" type="text" placeholder="请输入题目内容">
+*/
+.form-group { display: flex; flex-direction: column; gap: var(--space-1); min-width: 240px; }
+  .form-group > label { font-size: var(--font-size-body); font-weight: 500; color: var(--color-on-surface); }
+  .input-field { display: flex; align-items: center; height: var(--size-input-height); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0 var(--space-3); font-family: var(--font-body); font-size: var(--font-size-body); color: var(--color-on-surface); outline: none; transition: border-color .15s; width: 100%; min-width: 120px; }
+  .input-field::placeholder { color: var(--muted); }
+  .input-field:focus { border-color: var(--color-primary); }
+  .input-field:disabled { opacity: .5; cursor: not-allowed; }
+  .input-wrap { display: flex; align-items: center; height: var(--size-input-height); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-pill); padding: 0 var(--space-3); width: 100%; min-width: 240px; transition: border-color .15s; }
+  .input-wrap:focus-within { border-color: var(--color-primary); }
+  .input-wrap .icon { width: var(--size-icon-md); height: var(--size-icon-md); flex-shrink: 0; color: var(--muted); }
+  .input-wrap input { border: none; outline: none; background: transparent; font: inherit; color: inherit; flex: 1; min-width: 0; }
+  .input-wrap input::placeholder { color: var(--muted); }
+
+/* ── Navigation ────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">桌面端</span>
+*/
+.navbar { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 var(--space-5); background: var(--color-surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--color-border); width: 100%; box-sizing: border-box; }
+.navbar--compact { padding: 0 var(--space-3); }
+.navbar-logo { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h2); color: var(--color-on-surface); white-space: nowrap; text-decoration: none; }
+.navbar-links { display: flex; align-items: center; gap: var(--space-5); list-style: none; margin: 0; padding: 0; }
+.navbar-link { font-size: var(--font-size-body); font-weight: var(--font-weight-body); color: var(--color-on-surface-variant); text-decoration: none; white-space: nowrap; transition: filter .15s; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); }
+.navbar-link:hover { filter: brightness(1.2); }
+.navbar-link.active { color: var(--color-on-surface); font-weight: var(--font-weight-h4); }
+.navbar-actions { display: flex; align-items: center; gap: var(--space-3); }
+.navbar-btn { display: inline-flex; align-items: center; padding: var(--space-2) var(--space-4); background: var(--color-primary); color: var(--color-on-primary); font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-h4); border: none; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; transition: background .15s; }
+.navbar-btn:hover { background: var(--color-primary-hover); }
+.navbar-hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: none; border: none; color: var(--color-on-surface-variant); cursor: pointer; border-radius: var(--radius-sm); transition: filter .15s; flex-shrink: 0; }
+.navbar-hamburger:hover { filter: brightness(1.2); }
+
+/* ── Stat Card ─────────────────────────────────────────────── */
+/* @anatomy
+   <div class="stat-card" data-evidence-sample="Default"> <span class="stat-card__number">78</span> <span class="stat-card__label">综合得分</span>
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+  .stat-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-1); flex-shrink: 0; min-width: 140px; }
+  .stat-card:hover { box-shadow: var(--shadow-2); transition: box-shadow .15s; }
+  .stat-card__number { font-family: var(--font-display); font-size: var(--font-size-h2); font-weight: var(--font-weight-h1); line-height: var(--line-height-h2); color: var(--color-on-surface); }
+  .stat-card__label { font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); white-space: nowrap; }
+  .stat-card__change { font-size: var(--font-size-caption); font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); color: var(--color-success); white-space: nowrap; }
+  .stat-card--accent { background: var(--color-primary-container); border: 2px solid var(--color-primary); }
+  .stat-card--accent .stat-card__number { color: var(--color-primary); }
+
+/* ── Tag ───────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">Default</span><span class="tag tag--default">数学</span><span class="tag tag--default">物理</span><span class="tag tag--default">化学</span><span class="tag tag--default">英语</span>
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+.tag { display: inline-flex; align-items: center; height: 24px; padding: 0 var(--space-3); border-radius: var(--radius-pill); font-size: 12px; font-weight: 600; white-space: nowrap; line-height: 1; min-width: 24px; flex-shrink: 0; transition: background .15s, border-color .15s, filter .15s; }
+.tag--default { background: var(--color-surface); border: 1px solid var(--color-outline); color: var(--color-on-surface); }
+.tag--default:hover { background: var(--color-surface-container-low); }
+.tag--primary { background: var(--aitutor-primary-50); color: var(--aitutor-primary-700); border: 1px solid var(--aitutor-primary-200); }
+.tag--primary:hover { filter: brightness(1.05); }
+.tag--blue { background: var(--aitutor-blue-50); color: var(--aitutor-blue-700); border: 1px solid var(--aitutor-blue-200); }
+.tag--blue:hover { filter: brightness(1.05); }
+.tag--success { background: var(--aitutor-success-50); color: var(--aitutor-success-700); border: 1px solid var(--aitutor-success-200); }
+.tag--success:hover { filter: brightness(1.05); }
+.tag--info { background: var(--aitutor-info-50); color: var(--aitutor-info-700); border: 1px solid var(--aitutor-info-200); }
+.tag--info:hover { filter: brightness(1.05); }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+
+  @layer base {
+    body { background: var(--aitutor-background); color: var(--aitutor-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/router.css">
+    <link rel="stylesheet" href="../../assets/enhancements.css">
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+      <!-- ===== Navigation Bar ===== -->
+      <header class="navbar sticky top-0 z-50">
+        <a class="navbar-logo" href="#">AI Tutor</a>
+        <ul class="navbar-links hidden md:flex">
+          <li><a class="navbar-link active" href="home.html" data-dom-id="nav-home">首页</a></li>
+          <li><a class="navbar-link" href="dashboard.html" data-dom-id="nav-dashboard">学习驾驶舱</a></li>
+          <li><a class="navbar-link" href="exam-simulation.html" data-dom-id="nav-exam">模拟考场</a></li>
+          <li><a class="navbar-link" href="wrong-book.html" data-dom-id="nav-wrong">错题本</a></li>
+          <li><a class="navbar-link" href="ai-tutor-chat.html" data-dom-id="nav-ai">AI讲题</a></li>
+          <li><a class="navbar-link" href="learning-journey.html" data-dom-id="nav-path">学习旅程</a></li>
+        </ul>
+        <div class="navbar-actions">
+          <select style="background:var(--color-surface);color:var(--color-on-surface);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:var(--space-1) var(--space-3);font-family:var(--font-body);font-size:var(--font-size-body);outline:none;cursor:pointer;appearance:auto;">
+            <option>全国</option>
+          </select>
+          <button id="theme-toggle" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--color-surface-container-low);border:1px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;color:var(--color-on-surface-variant);transition:background .15s,color .15s;" title="切换深浅色" aria-label="切换深浅色">
+            <svg id="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg id="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+          <button class="navbar-hamburger md:hidden" aria-label="菜单"><i data-lucide="menu" style="width:24px;height:24px;display:inline-block"></i></button>
+        </div>
+      </header>
+
+      <!-- ===== Hero Section ===== -->
+      <section class="w-full px-4 md:px-8 lg:px-16 py-10 md:py-14 lg:py-16" style="background:var(--color-background);">
+        <div class="max-w-4xl mx-auto text-center flex flex-col items-center gap-4 md:gap-6">
+          <h1 class="aitutor-h1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl whitespace-nowrap" style="text-wrap:balance;word-break:keep-all;overflow-wrap:break-word;color:var(--color-on-surface);">AI驱动的个性化学习诊断</h1>
+          <p class="aitutor-body text-sm md:text-base lg:text-lg max-w-2xl" style="color:var(--color-on-surface-variant);">基于 Hybrid RAG 架构，为每位考生定制专属提分路径</p>
+          <div class="flex items-center gap-3 mt-2">
+            <button class="btn primary md" data-dom-id="cta-start">立即开始</button>
+            <button class="btn ghost md" data-dom-id="nav-exam-btn">查看预测卷</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Tab Bar ===== -->
+      <nav class="w-full px-4 md:px-8 lg:px-16" style="background:var(--color-surface);border-bottom:1px solid var(--color-border);">
+        <div class="max-w-5xl mx-auto flex gap-0">
+          <button class="tab-item" data-dom-id="tab-home" data-tab="home" style="padding:var(--space-3) var(--space-5);font-family:var(--font-body);font-size:var(--font-size-body);font-weight:var(--font-weight-body);color:var(--color-on-surface-variant);border-bottom:2px solid transparent;background:none;cursor:pointer;white-space:nowrap;">总览</button>
+          <button class="tab-item" data-dom-id="tab-exam" data-tab="exam" style="padding:var(--space-3) var(--space-5);font-family:var(--font-body);font-size:var(--font-size-body);font-weight:var(--font-weight-body);color:var(--color-on-surface-variant);border-bottom:2px solid transparent;background:none;cursor:pointer;white-space:nowrap;">预测卷</button>
+          <button class="tab-item" data-dom-id="tab-report" data-tab="report" style="padding:var(--space-3) var(--space-5);font-family:var(--font-body);font-size:var(--font-size-body);font-weight:var(--font-weight-h4);color:var(--color-primary);border-bottom:2px solid var(--color-primary);background:none;cursor:pointer;white-space:nowrap;">样例报告</button>
+        </div>
+        <a href="learning-journey.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>旅程</span>
+      </a>
+    </nav>
+
+      <!-- ===== Tab Content: 样例报告 ===== -->
+      <section id="tab-content" class="w-full px-4 md:px-8 lg:px-16 py-8 md:py-10 lg:py-12" style="background:var(--color-background);">
+        <div class="max-w-5xl mx-auto flex flex-col gap-8 md:gap-10">
+
+          <!-- Section Header -->
+          <div class="flex flex-col gap-2 text-center">
+            <h2 class="aitutor-h2" style="color:var(--color-on-surface);">学习诊断报告</h2>
+            <p class="aitutor-body" style="color:var(--color-on-surface-variant);">多维度分析学习状况，精准定位提分方向</p>
+          </div>
+
+          <!-- Role-based Report Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+
+            <!-- Card 1: Student -->
+            <div class="card-interactive" style="width:100%;">
+              <span class="tag tag--primary">学生版</span>
+              <div class="card-heading">学生学习报告</div>
+              <div class="card-desc">能力雷达图 + 薄弱知识点热力图 + 个性化学习路径建议</div>
+              <button class="btn ghost sm" style="align-self:flex-start;" onclick="alert('学生版报告功能开发中，敬请期待！')">查看样例</button>
+            </div>
+
+            <!-- Card 2: Parent -->
+            <div class="card-interactive" style="width:100%;">
+              <span class="tag tag--blue">家长版</span>
+              <div class="card-heading">家长关注报告</div>
+              <div class="card-desc">学习趋势曲线 + 每日任务进度 + 教师评语摘要</div>
+              <button class="btn ghost sm" style="align-self:flex-start;" onclick="alert('家长版报告功能开发中，敬请期待！')">查看样例</button>
+            </div>
+
+            <!-- Card 3: Teacher -->
+            <div class="card-interactive" style="width:100%;">
+              <span class="tag tag--success">教师版</span>
+              <div class="card-heading">教师分析报告</div>
+              <div class="card-desc">班级共性错因分析 + 分层教学建议 + 个性化辅导方案</div>
+              <button class="btn ghost sm" style="align-self:flex-start;" onclick="alert('教师版报告功能开发中，敬请期待！')">查看样例</button>
+            </div>
+
+          </div>
+
+          <!-- Methodology Note -->
+          <p class="aitutor-caption text-center" style="color:var(--color-muted-foreground);">所有分析基于 Hybrid RAG 架构，结合知识图谱与历年真题数据，确保诊断结果的科学性与准确性。</p>
+
+        </div>
+      </section>
+
+      <!-- ===== Footer ===== -->
+      <footer class="w-full px-4 md:px-8 lg:px-16 py-6" style="background:var(--color-surface);border-top:1px solid var(--color-border);">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span class="aitutor-caption" style="color:var(--color-muted-foreground);">&copy; 2026 智启AI导师</span>
+          <div class="flex items-center gap-4">
+            <a href="#" class="aitutor-caption" style="color:var(--color-on-surface-variant);text-decoration:none;">隐私政策</a>
+            <a href="#" class="aitutor-caption" style="color:var(--color-on-surface-variant);text-decoration:none;">用户协议</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+    <script>lucide.createIcons();</script>
+<script>
+(function(){function t(e){var n=e?"dark":"light";document.documentElement.className=e?"":"light",document.documentElement.classList.remove(e?"light":"dark");if(e)document.documentElement.classList.add("dark");var i=document.getElementById("theme-icon-dark"),s=document.getElementById("theme-icon-light");if(i&&s)i.style.display=e?"none":"inline-block",s.style.display=e?"inline-block":"none";try{localStorage.setItem("aitutor-theme",n)}catch(r){}}var e=document.getElementById("theme-toggle");if(e)e.addEventListener("click",function(){t(!document.documentElement.classList.contains("dark"))});try{var i=localStorage.getItem("aitutor-theme");if(i==="light")t(false);else if(i==="dark")t(true)}catch(r){}})();
+</script>
+
+    <nav class="bottom-nav">
+      <a href="home.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>首页</span>
+      </a>
+      <a href="exam-simulation.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>做题</span>
+      </a>
+      <a href="wrong-book.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+        <span>错题</span>
+      </a>
+      <a href="ai-tutor-chat.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>AI讲题</span>
+      </a>
+      <a href="dashboard.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>我的</span>
+      </a>
+    </nav>
+    <div class="bottom-nav-spacer"></div>
+<script>
+(function(){
+var ROUTES={'nav-home':'home.html','nav-dashboard':'dashboard.html','nav-exam':'exam-simulation.html','nav-wrong':'wrong-book.html','nav-ai':'ai-tutor-chat.html','nav-path':'learning-journey.html','cta-start':'dashboard.html','nav-exam-btn':'exam-simulation.html','cta-start-exam':'exam-simulation.html','btn-scan':'wrong-book.html','btn-ai-diagnose':'ai-tutor-chat.html','btn-submit':'home-report.html','btn-new-chat':'ai-tutor-chat.html','btn-view-solution':'ai-tutor-chat.html','tab-home':'home.html','tab-dashboard':'dashboard.html','tab-exam':'exam-simulation.html','tab-wrong':'wrong-book.html','tab-ai':'ai-tutor-chat.html'};
+var TEXT_ROUTES={'立即开始':'dashboard.html','开始做题':'exam-simulation.html','查看预测卷':'exam-simulation.html','扫描错题':'wrong-book.html','立即扫描':'wrong-book.html','AI诊断':'ai-tutor-chat.html','查看解析':'ai-tutor-chat.html','查看解答':'ai-tutor-chat.html','交卷':'home-report.html','开始讲题':'ai-tutor-chat.html','生成试卷':'exam-simulation.html','新对话':'ai-tutor-chat.html'};
+function navigateTo(href){
+var target=href.split('?')[0].split('#')[0].replace(/\\/g,'/').split('/').pop();
+var current=window.location.pathname.split('/').pop()||'home.html';
+if(target===current)return;
+var l=document.createElement('div');l.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center';l.innerHTML='<div style="color:white;font-size:20px">加载中...</div>';document.body.appendChild(l);
+setTimeout(function(){window.location.href=target},300);
+}
+function bindEvents(){
+document.querySelectorAll('[data-dom-id]').forEach(function(el){
+var id=el.getAttribute('data-dom-id');
+if(ROUTES[id]){
+el.addEventListener('click',function(e){e.preventDefault();navigateTo(ROUTES[id])});
+}
+});
+document.querySelectorAll('a.navbar-link,a.bottom-nav-item,a[href$=".html"]').forEach(function(link){
+var href=link.getAttribute('href');
+if(!href||href==='#'||href.startsWith('javascript'))return;
+link.addEventListener('click',function(e){e.preventDefault();navigateTo(href)});
+});
+document.querySelectorAll('button.btn').forEach(function(btn){
+if(btn.hasAttribute('data-dom-id'))return;
+var text=btn.textContent.trim();
+if(TEXT_ROUTES[text]){
+btn.addEventListener('click',function(e){e.preventDefault();navigateTo(TEXT_ROUTES[text])});
+}
+});
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindEvents)}else{bindEvents()}
+})();
+</script>
+</body>
+</html>

@@ -4,9 +4,11 @@
  * 核心能力:
  *   1. ingestQuestion()      — 题目文本 → Embedding → 存入 rag_questions（含 knowledge_point_id 关联方案A）
  *   2. searchSimilarQuestions() — 语义检索 + 可选的图谱节点过滤（混合检索）
+ *   3. searchMultiVector()   — 四向量检索（Q/S/K/A）+ 加权组合检索
+ *   4. upsertQuestionVectors() — 插入/更新四向量数据
  *
  * 架构边界:
- *   - 本模块属于方案 B（Micro Vector RAG），仅操作 pgvector 表
+ *   - 本模块属于方案 B（Micro Vector RAG），操作 rag_questions 和 question_vectors 表
  *   - 通过 knowledge_point_id 字段与方案 A（Apache AGE KnowledgePoint）实现逻辑关联
  *   - 不执行图遍历、不触发 LLM 推理（那是方案 C 的职责）
  *
@@ -232,6 +234,295 @@ export async function deleteQuestion(questionId) {
   return result.rowCount > 0;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 多模态四向量检索（Q/S/K/A）
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * 插入或更新四向量数据
+ *
+ * @param {object} vectorData - 向量数据
+ * @param {number} vectorData.question_id - 题目ID（exam_questions.id）
+ * @param {string} vectorData.question_uid - 题目唯一标识
+ * @param {string} vectorData.subject_code - 学科代码
+ * @param {string} vectorData.question_type - 题型
+ * @param {number} vectorData.difficulty - 难度
+ * @param {number[]} [vectorData.q_embedding] - Q向量（题目向量）
+ * @param {number[]} [vectorData.s_embedding] - S向量（语义向量）
+ * @param {number[]} [vectorData.k_embedding] - K向量（知识点向量）
+ * @param {number[]} [vectorData.a_embedding] - A向量（解法向量）
+ * @param {string} [vectorData.q_text] - Q向量文本
+ * @param {string} [vectorData.s_text] - S向量文本
+ * @param {string} [vectorData.k_text] - K向量文本
+ * @param {string} [vectorData.a_text] - A向量文本
+ * @param {object} [vectorData.metadata] - 元数据
+ * @returns {Promise<{id: number}>} 记录ID
+ */
+export async function upsertQuestionVectors(vectorData) {
+  const {
+    question_id,
+    question_uid,
+    subject_code,
+    question_type,
+    difficulty,
+    q_embedding,
+    s_embedding,
+    k_embedding,
+    a_embedding,
+    q_text,
+    s_text,
+    k_text,
+    a_text,
+    metadata = {},
+  } = vectorData;
+
+  if (!question_id) {
+    throw new Error('question_id 不能为空');
+  }
+
+  const pool = await getDb();
+  const result = await pool.query(
+    `INSERT INTO question_vectors
+       (question_id, question_uid, subject_code, question_type, difficulty,
+        q_embedding, s_embedding, k_embedding, a_embedding,
+        q_text, s_text, k_text, a_text, metadata)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+     ON CONFLICT (question_id) DO UPDATE SET
+       question_uid = EXCLUDED.question_uid,
+       subject_code = EXCLUDED.subject_code,
+       question_type = EXCLUDED.question_type,
+       difficulty = EXCLUDED.difficulty,
+       q_embedding = COALESCE(EXCLUDED.q_embedding, question_vectors.q_embedding),
+       s_embedding = COALESCE(EXCLUDED.s_embedding, question_vectors.s_embedding),
+       k_embedding = COALESCE(EXCLUDED.k_embedding, question_vectors.k_embedding),
+       a_embedding = COALESCE(EXCLUDED.a_embedding, question_vectors.a_embedding),
+       q_text = COALESCE(EXCLUDED.q_text, question_vectors.q_text),
+       s_text = COALESCE(EXCLUDED.s_text, question_vectors.s_text),
+       k_text = COALESCE(EXCLUDED.k_text, question_vectors.k_text),
+       a_text = COALESCE(EXCLUDED.a_text, question_vectors.a_text),
+       metadata = EXCLUDED.metadata,
+       updated_at = NOW()
+     RETURNING id`,
+    [
+      question_id,
+      question_uid || null,
+      subject_code || null,
+      question_type || null,
+      difficulty || null,
+      q_embedding ? `[${q_embedding.join(',')}]` : null,
+      s_embedding ? `[${s_embedding.join(',')}]` : null,
+      k_embedding ? `[${k_embedding.join(',')}]` : null,
+      a_embedding ? `[${a_embedding.join(',')}]` : null,
+      q_text || null,
+      s_text || null,
+      k_text || null,
+      a_text || null,
+      JSON.stringify(metadata),
+    ]
+  );
+
+  return { id: result.rows[0].id };
+}
+
+/**
+ * 四向量检索（支持单向量、多向量加权组合）
+ *
+ * 检索策略：
+ *   - 'q': 仅题目向量（Question）
+ *   - 's': 仅语义向量（Semantic）
+ *   - 'k': 仅知识点向量（Knowledge）
+ *   - 'a': 仅解法向量（Solution）
+ *   - 'q+s': Q向量 + S向量（默认，找相似题）
+ *   - 'q+s+k': 三向量组合
+ *   - 'all': 四向量加权组合
+ *
+ * @param {string} queryText - 用户查询文本
+ * @param {object} [options] - 检索选项
+ * @param {string} [options.vector_type] - 向量类型组合（默认 'q+s'）
+ * @param {object} [options.weights] - 各向量权重（默认 {q:0.4, s:0.4, k:0.1, a:0.1}）
+ * @param {string} [options.subject_code] - 学科代码过滤
+ * @param {number} [options.difficulty_min] - 最低难度
+ * @param {number} [options.difficulty_max] - 最高难度
+ * @param {string} [options.question_type] - 题型过滤
+ * @param {number} [options.top_k] - 返回结果数
+ * @param {number} [options.threshold] - 相似度阈值
+ * @param {number} [options.exclude_question_id] - 排除指定题目ID
+ * @returns {Promise<Array>} 相似题目数组（含综合相似度分数）
+ */
+export async function searchMultiVector(queryText, options = {}) {
+  if (!queryText || typeof queryText !== 'string' || queryText.trim().length === 0) {
+    throw new Error('查询文本不能为空');
+  }
+
+  const {
+    vector_type = 'q+s',
+    weights = { q: 0.4, s: 0.4, k: 0.1, a: 0.1 },
+    subject_code,
+    difficulty_min,
+    difficulty_max,
+    question_type,
+    top_k = DEFAULT_TOP_K,
+    threshold = DEFAULT_SIMILARITY_THRESHOLD,
+    exclude_question_id,
+  } = options;
+
+  const limit = Math.min(Math.max(parseInt(top_k) || DEFAULT_TOP_K, 1), MAX_TOP_K);
+
+  const queryEmbedding = await getEmbedding(queryText);
+  const embeddingStr = `[${queryEmbedding.join(',')}]`;
+
+  const vectorTypes = vector_type.split('+');
+  const validTypes = ['q', 's', 'k', 'a'];
+  const activeTypes = vectorTypes.filter((t) => validTypes.includes(t));
+
+  if (activeTypes.length === 0) {
+    throw new Error('无效的向量类型组合');
+  }
+
+  const pool = await getDb();
+
+  const weightSum = activeTypes.reduce((sum, t) => sum + (weights[t] || 0), 0);
+  const normalizedWeights = {};
+  activeTypes.forEach((t) => {
+    normalizedWeights[t] = ((weights[t] || 0) / weightSum).toFixed(4);
+  });
+
+  let similarityExpr = '';
+  const vectorFields = {
+    q: 'q_embedding',
+    s: 's_embedding',
+    k: 'k_embedding',
+    a: 'a_embedding',
+  };
+
+  activeTypes.forEach((t, idx) => {
+    if (idx > 0) similarityExpr += ' + ';
+    similarityExpr += `(${normalizedWeights[t]} * (1 - (${vectorFields[t]} <=> $1)))`;
+  });
+
+  const conditions = [`${similarityExpr} > $2`];
+  const params = [embeddingStr, threshold];
+  let paramIdx = 3;
+
+  if (subject_code && typeof subject_code === 'string') {
+    conditions.push(`subject_code = $${paramIdx}`);
+    params.push(subject_code);
+    paramIdx++;
+  }
+
+  if (question_type && typeof question_type === 'string') {
+    conditions.push(`question_type = $${paramIdx}`);
+    params.push(question_type);
+    paramIdx++;
+  }
+
+  const hasMinDiff = typeof difficulty_min === 'number';
+  const hasMaxDiff = typeof difficulty_max === 'number';
+
+  if (hasMinDiff && hasMaxDiff) {
+    conditions.push(`difficulty BETWEEN $${paramIdx} AND $${paramIdx + 1}`);
+    params.push(difficulty_min, difficulty_max);
+    paramIdx += 2;
+  } else if (hasMinDiff) {
+    conditions.push(`difficulty >= $${paramIdx}`);
+    params.push(difficulty_min);
+    paramIdx++;
+  } else if (hasMaxDiff) {
+    conditions.push(`difficulty <= $${paramIdx}`);
+    params.push(difficulty_max);
+    paramIdx++;
+  }
+
+  if (typeof exclude_question_id === 'number') {
+    conditions.push(`question_id != $${paramIdx}`);
+    params.push(exclude_question_id);
+    paramIdx++;
+  }
+
+  const whereClause = conditions.join(' AND ');
+  params.push(limit);
+
+  const sql = `
+    SELECT
+      id,
+      question_id,
+      question_uid,
+      subject_code,
+      question_type,
+      difficulty,
+      q_text,
+      s_text,
+      k_text,
+      a_text,
+      ${similarityExpr} AS similarity,
+      metadata
+    FROM question_vectors
+    WHERE ${whereClause}
+      AND (${activeTypes.map((t) => `${vectorFields[t]} IS NOT NULL`).join(' OR ')})
+    ORDER BY ${similarityExpr} DESC
+    LIMIT $${paramIdx}
+  `;
+
+  const result = await pool.query(sql, params);
+
+  return result.rows.map((row) => ({
+    id: row.id,
+    question_id: row.question_id,
+    question_uid: row.question_uid,
+    subject_code: row.subject_code,
+    question_type: row.question_type,
+    difficulty: row.difficulty,
+    q_text: row.q_text,
+    s_text: row.s_text,
+    k_text: row.k_text,
+    a_text: row.a_text,
+    similarity: parseFloat(row.similarity.toFixed(4)),
+    metadata: row.metadata,
+  }));
+}
+
+/**
+ * 根据题目ID获取四向量详情
+ * @param {number} questionId - exam_questions.id
+ * @returns {Promise<object|null>} 向量详情
+ */
+export async function getQuestionVectors(questionId) {
+  const pool = await getDb();
+  const result = await pool.query('SELECT * FROM question_vectors WHERE question_id = $1', [questionId]);
+  return result.rows[0] || null;
+}
+
+/**
+ * 删除四向量记录
+ * @param {number} questionId - exam_questions.id
+ * @returns {Promise<boolean>} 是否成功删除
+ */
+export async function deleteQuestionVectors(questionId) {
+  const pool = await getDb();
+  const result = await pool.query('DELETE FROM question_vectors WHERE question_id = $1', [questionId]);
+  return result.rowCount > 0;
+}
+
+/**
+ * 获取四向量表统计信息
+ * @returns {Promise<object>} 统计结果
+ */
+export async function getQuestionVectorsStats() {
+  const pool = await getDb();
+  const result = await pool.query(`
+    SELECT
+      COUNT(*) AS total,
+      COUNT(DISTINCT subject_code) AS subjects,
+      COUNT(*) FILTER (WHERE q_embedding IS NOT NULL) AS q_embedded,
+      COUNT(*) FILTER (WHERE s_embedding IS NOT NULL) AS s_embedded,
+      COUNT(*) FILTER (WHERE k_embedding IS NOT NULL) AS k_embedded,
+      COUNT(*) FILTER (WHERE a_embedding IS NOT NULL) AS a_embedded,
+      COUNT(*) FILTER (WHERE q_embedding IS NOT NULL AND s_embedding IS NOT NULL AND k_embedding IS NOT NULL AND a_embedding IS NOT NULL) AS fully_embedded
+    FROM question_vectors
+  `);
+  return result.rows[0];
+}
+
 /**
  * 获取 rag_questions 表的统计信息
  * @returns {Promise<object>} 统计结果
@@ -355,7 +646,7 @@ router.delete('/questions/:id', authMiddleware, async (req, res) => {
 });
 
 /**
- * GET /api/rag/stats — 获取向量库统计
+ * GET /api/rag/stats — 获取向量库统计（旧版 rag_questions）
  */
 router.get('/stats', authMiddleware, async (req, res) => {
   try {
@@ -363,6 +654,189 @@ router.get('/stats', authMiddleware, async (req, res) => {
     return res.json(successResponse(stats));
   } catch (err) {
     console.error('[RAG] 统计查询失败:', err.message);
+    return res.status(500).json(errorResponse(`统计查询失败: ${err.message}`));
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 多模态四向量检索路由
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * POST /api/rag/multi/search — 四向量检索（支持单向量/多向量加权组合）
+ *
+ * 检索策略:
+ *   - 'q': 仅题目向量（Question）
+ *   - 's': 仅语义向量（Semantic）
+ *   - 'k': 仅知识点向量（Knowledge）
+ *   - 'a': 仅解法向量（Solution）
+ *   - 'q+s': Q向量 + S向量（默认，找相似题）
+ *   - 'q+s+k': 三向量组合
+ *   - 'all': 四向量加权组合
+ */
+router.post('/multi/search', authMiddleware, async (req, res) => {
+  try {
+    const {
+      query,
+      vector_type = 'q+s',
+      weights = { q: 0.4, s: 0.4, k: 0.1, a: 0.1 },
+      subject_code,
+      difficulty_min,
+      difficulty_max,
+      question_type,
+      top_k,
+      threshold,
+      exclude_question_id,
+    } = req.body;
+
+    if (!query) {
+      return res.status(400).json(errorResponse('缺少必填字段: query'));
+    }
+
+    const results = await searchMultiVector(query, {
+      vector_type,
+      weights,
+      subject_code,
+      difficulty_min,
+      difficulty_max,
+      question_type,
+      top_k,
+      threshold,
+      exclude_question_id,
+    });
+
+    return res.json(
+      successResponse(
+        {
+          query,
+          vector_type,
+          weights,
+          filters: {
+            subject_code: subject_code || null,
+            question_type: question_type || null,
+            difficulty_range:
+              typeof difficulty_min === 'number' || typeof difficulty_max === 'number'
+                ? { min: difficulty_min ?? 1, max: difficulty_max ?? 5 }
+                : null,
+          },
+          results,
+          total: results.length,
+        },
+        `找到 ${results.length} 道相似题目`
+      )
+    );
+  } catch (err) {
+    console.error('[RAG Multi] 检索失败:', err.message);
+    const status = err.message.includes('API Key') ? 503 : 500;
+    return res.status(status).json(errorResponse(`检索失败: ${err.message}`));
+  }
+});
+
+/**
+ * POST /api/rag/multi/upsert — 插入/更新四向量数据
+ */
+router.post('/multi/upsert', authMiddleware, async (req, res) => {
+  try {
+    const {
+      question_id,
+      question_uid,
+      subject_code,
+      question_type,
+      difficulty,
+      q_embedding,
+      s_embedding,
+      k_embedding,
+      a_embedding,
+      q_text,
+      s_text,
+      k_text,
+      a_text,
+      metadata,
+    } = req.body;
+
+    if (!question_id) {
+      return res.status(400).json(errorResponse('缺少必填字段: question_id'));
+    }
+
+    const result = await upsertQuestionVectors({
+      question_id,
+      question_uid,
+      subject_code,
+      question_type,
+      difficulty,
+      q_embedding,
+      s_embedding,
+      k_embedding,
+      a_embedding,
+      q_text,
+      s_text,
+      k_text,
+      a_text,
+      metadata,
+    });
+
+    return res
+      .status(201)
+      .json(successResponse({ id: result.id }, '四向量数据已成功保存'));
+  } catch (err) {
+    console.error('[RAG Multi] 保存失败:', err.message);
+    return res.status(500).json(errorResponse(`保存失败: ${err.message}`));
+  }
+});
+
+/**
+ * GET /api/rag/multi/questions/:question_id — 获取题目四向量详情
+ */
+router.get('/multi/questions/:question_id', authMiddleware, async (req, res) => {
+  try {
+    const question_id = parseInt(req.params.question_id);
+    if (isNaN(question_id)) {
+      return res.status(400).json(errorResponse('无效的 question_id'));
+    }
+
+    const vectors = await getQuestionVectors(question_id);
+    if (!vectors) {
+      return res.status(404).json(errorResponse('四向量记录不存在'));
+    }
+
+    return res.json(successResponse(vectors));
+  } catch (err) {
+    console.error('[RAG Multi] 查询失败:', err.message);
+    return res.status(500).json(errorResponse(`查询失败: ${err.message}`));
+  }
+});
+
+/**
+ * DELETE /api/rag/multi/questions/:question_id — 删除题目四向量记录
+ */
+router.delete('/multi/questions/:question_id', authMiddleware, async (req, res) => {
+  try {
+    const question_id = parseInt(req.params.question_id);
+    if (isNaN(question_id)) {
+      return res.status(400).json(errorResponse('无效的 question_id'));
+    }
+
+    const deleted = await deleteQuestionVectors(question_id);
+    if (!deleted) {
+      return res.status(404).json(errorResponse('四向量记录不存在'));
+    }
+
+    return res.json(successResponse(null, '四向量记录已删除'));
+  } catch (err) {
+    console.error('[RAG Multi] 删除失败:', err.message);
+    return res.status(500).json(errorResponse(`删除失败: ${err.message}`));
+  }
+});
+
+/**
+ * GET /api/rag/multi/stats — 获取四向量表统计信息
+ */
+router.get('/multi/stats', authMiddleware, async (req, res) => {
+  try {
+    const stats = await getQuestionVectorsStats();
+    return res.json(successResponse(stats));
+  } catch (err) {
+    console.error('[RAG Multi] 统计查询失败:', err.message);
     return res.status(500).json(errorResponse(`统计查询失败: ${err.message}`));
   }
 });

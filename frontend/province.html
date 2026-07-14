@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>省份高考详情 - AI Tutor</title>
 <link rel="stylesheet" href="assets/css/style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 .province-header{background:linear-gradient(135deg,var(--accent) 0%,#8b1015 100%);border-radius:var(--radius);padding:32px;margin:24px auto;max-width:1100px;color:#fff}
 .province-header h1{font-size:1.8rem;margin-bottom:8px}
@@ -31,7 +31,11 @@
 .paper-card .year{font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:6px}
 .paper-card .title{font-size:.95rem;font-weight:700;margin-bottom:8px}
 .paper-card .info{font-size:.82rem;color:var(--text-muted)}
+.paper-card .question-count{font-size:.78rem;margin-top:4px;color:#4caf50;font-weight:500}
+.paper-card.no-questions .question-count{color:#f44336}
+.paper-card.no-questions{opacity:0.7}
 .paper-card .btn-group{margin-top:12px}
+.paper-card .btn.disabled{opacity:0.5;cursor:not-allowed}
 .action-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px auto;max-width:1100px;padding:0 24px}
 .action-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;color:inherit;transition:var(--transition)}
 .action-card:hover{border-color:var(--accent);transform:translateY(-2px)}
@@ -42,6 +46,35 @@
 .error-msg{text-align:center;padding:48px;color:#f44336}
 .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:.88rem;margin:16px 0}
 .back-link:hover{color:var(--accent)}
+.paper-filters{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-bottom:16px;padding:12px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius)}
+.filter-group{display:flex;align-items:center;gap:8px}
+.filter-group>label{font-size:.85rem;font-weight:600;color:var(--text-muted)}
+.filter-btn{padding:4px 14px;border:1px solid var(--border);border-radius:20px;background:var(--bg-secondary);color:var(--text-muted);font-size:.82rem;cursor:pointer;transition:var(--transition)}
+.filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.filter-select{padding:4px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg-secondary);color:var(--text);font-size:.82rem;cursor:pointer;outline:none}
+.filter-select:focus{border-color:var(--accent)}
+.filter-count{font-size:.8rem;color:var(--text-muted);margin-left:auto}
+.trend-selector{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-bottom:24px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius)}
+.trend-selector h3{font-size:.95rem;font-weight:700;margin:0 12px 0 0;color:var(--text-muted)}
+.trend-subject-btns{display:flex;gap:8px;flex-wrap:wrap}
+.trend-subject-btn{padding:6px 16px;border:1px solid var(--border);border-radius:24px;background:var(--bg-secondary);color:var(--text-muted);font-size:.85rem;cursor:pointer;transition:var(--transition)}
+.trend-subject-btn:hover{border-color:var(--accent);color:var(--accent)}
+.trend-subject-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.year-range-selector{display:flex;gap:8px;align-items:center}
+.year-range-selector select{padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg-secondary);color:var(--text);font-size:.85rem;cursor:pointer;outline:none}
+.year-range-selector select:focus{border-color:var(--accent)}
+.trend-table{width:100%;border-collapse:collapse;background:var(--bg-card);border-radius:var(--radius);overflow:hidden;margin-top:16px}
+.trend-table th,.trend-table td{padding:12px 16px;text-align:center;border-bottom:1px solid var(--border);font-size:.85rem}
+.trend-table th{background:var(--bg-secondary);font-weight:700;color:var(--text-muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.trend-table tr:hover{background:var(--bg-hover)}
+.trend-table .year-cell{font-weight:700;color:var(--accent)}
+.trend-table .type-cell{display:flex;gap:4px;justify-content:center;flex-wrap:wrap}
+.trend-table .type-badge{padding:2px 8px;border-radius:12px;font-size:.75rem}
+.trend-table .type-choice{background:#dbeafe;color:#1d4ed8}.trend-table .type-fill{background:#fef3c7;color:#d97706}.trend-table .type-solve{background:#dcfce7;color:#166534}.trend-table .type-multi{background:#fce7f3;color:#be185d}
+.trend-table .diff-bar{height:12px;border-radius:6px;background:var(--bg-secondary);overflow:hidden}
+.trend-table .diff-fill{height:100%;transition:width 0.3s}
+.trend-table .diff-easy{background:#4caf50}.trend-table .diff-medium{background:#ffc107}.trend-table .diff-hard{background:#f44336}
 </style>
 </head>
 <body>
@@ -60,10 +93,41 @@
 </div>
 
 <div id="loading" class="loading">加载中...</div>
+<div id="skeleton-container" style="display:none"></div>
 <div id="error" class="error-msg" style="display:none"></div>
 
 <div id="stats-container" style="display:none">
   <div class="stats-grid" id="stats-grid"></div>
+
+  <div class="trend-section">
+    <h2>趋势分析</h2>
+    <div class="trend-selector" id="trend-selector">
+      <h3>筛选条件</h3>
+      <div class="trend-subject-btns" id="trend-subject-btns">
+        <button class="trend-subject-btn active" data-subject="">全部学科</button>
+        <button class="trend-subject-btn" data-subject="chinese">语文</button>
+        <button class="trend-subject-btn" data-subject="math">数学</button>
+        <button class="trend-subject-btn" data-subject="english">英语</button>
+        <button class="trend-subject-btn" data-subject="physics">物理</button>
+        <button class="trend-subject-btn" data-subject="chemistry">化学</button>
+        <button class="trend-subject-btn" data-subject="biology">生物</button>
+        <button class="trend-subject-btn" data-subject="history">历史</button>
+        <button class="trend-subject-btn" data-subject="politics">政治</button>
+        <button class="trend-subject-btn" data-subject="geography">地理</button>
+      </div>
+      <div class="year-range-selector">
+        <label>年份范围：</label>
+        <select id="trend-year-start">
+          <option value="">起始年份</option>
+        </select>
+        <span>至</span>
+        <select id="trend-year-end">
+          <option value="">结束年份</option>
+        </select>
+        <button class="btn" onclick="window.ProvincePage.refreshTrends()">刷新</button>
+      </div>
+    </div>
+  </div>
 
   <div class="trend-section">
     <h2>命题特色</h2>
@@ -88,7 +152,21 @@
 
   <div class="trend-section" id="type-section">
     <h2>题型分布</h2>
-    <div id="type-chart" style="display:flex;gap:8px;align-items:flex-end;height:180px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;overflow-x:auto"></div>
+    <div class="trend-selector" style="margin-bottom:16px;padding:12px 16px">
+      <div class="filter-group">
+        <label>学科：</label>
+        <select id="type-subject-select" class="filter-select">
+          <option value="">选择学科</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>年份：</label>
+        <select id="type-year-select" class="filter-select">
+          <option value="">选择年份</option>
+        </select>
+      </div>
+    </div>
+    <div id="type-chart" style="display:block;gap:8px;align-items:flex-end;min-height:240px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;overflow-x:auto"></div>
     <table class="knowledge-table" id="type-table">
       <thead>
         <tr>
@@ -104,7 +182,21 @@
 
   <div class="trend-section" id="difficulty-section">
     <h2>难度分布</h2>
-    <div id="difficulty-chart" style="display:flex;gap:8px;align-items:flex-end;height:180px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;overflow-x:auto"></div>
+    <div class="trend-selector" style="margin-bottom:16px;padding:12px 16px">
+      <div class="filter-group">
+        <label>学科：</label>
+        <select id="diff-subject-select" class="filter-select">
+          <option value="">选择学科</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>年份：</label>
+        <select id="diff-year-select" class="filter-select">
+          <option value="">选择年份</option>
+        </select>
+      </div>
+    </div>
+    <div id="difficulty-chart" style="display:block;gap:8px;align-items:flex-end;min-height:240px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;overflow-x:auto"></div>
     <table class="knowledge-table" id="difficulty-table">
       <thead>
         <tr>
@@ -134,12 +226,52 @@
   </div>
 
   <div class="trend-section">
-    <h2>趋势摘要</h2>
-    <div id="trend-summary" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px"></div>
+    <h2>年份趋势表</h2>
+    <div id="year-trend-table-container">
+      <table class="trend-table" id="year-trend-table">
+        <thead>
+          <tr>
+            <th>年份</th>
+            <th>学科</th>
+            <th>题型分布</th>
+            <th>平均难度</th>
+            <th>题目数量</th>
+            <th>总分值</th>
+          </tr>
+        </thead>
+        <tbody id="year-trend-tbody"></tbody>
+      </table>
+    </div>
   </div>
 
   <div class="trend-section">
     <h2>试卷列表</h2>
+    <div class="paper-filters">
+      <div class="filter-group">
+        <label>年份：</label>
+        <button class="filter-btn active" data-year-range="all">全部年份</button>
+        <button class="filter-btn" data-year-range="recent3">近三年</button>
+      </div>
+      <div class="filter-group">
+        <label>科目：</label>
+        <select id="subject-filter" class="filter-select">
+          <option value="">全部科目</option>
+          <option value="chinese">语文</option>
+          <option value="math">数学</option>
+          <option value="english">英语</option>
+          <option value="physics">物理</option>
+          <option value="chemistry">化学</option>
+          <option value="biology">生物</option>
+          <option value="politics">政治</option>
+          <option value="history">历史</option>
+          <option value="geography">地理</option>
+          <option value="science">理综</option>
+          <option value="liberal_arts">文综</option>
+          <option value="comprehensive">综合</option>
+        </select>
+      </div>
+      <span class="filter-count" id="paper-filter-count"></span>
+    </div>
     <div class="papers-list" id="papers-list"></div>
   </div>
 
@@ -170,264 +302,12 @@
   </div>
 </div>
 
-<script src="assets/js/qr.js"></script>
-<script src="assets/js/components.js"></script>
-<script src="assets/js/theme-utils.js"></script>
-<script>
-(function() {
-  var params = new URLSearchParams(window.location.search);
-  var code = params.get('code');
-
-  if (!code) {
-    showError('请先选择省份');
-    return;
-  }
-
-  fetch('/api/provinces/' + code)
-    .then(function(res) {
-      if (!res.ok) throw new Error('省份不存在');
-      return res.json();
-    })
-    .then(function(result) {
-      var province = result.data;
-
-      document.getElementById('province-header').style.display = 'block';
-      document.getElementById('province-name').textContent = province.name;
-      document.getElementById('province-exam-type').innerHTML = province.exam_type === 'gaokao' ? '&#127891; 高考' : '&#128214; 中考';
-      document.getElementById('province-paper-type').textContent = getPaperTypeName(province.paper_type);
-      document.getElementById('province-region').textContent = getRegionName(province.region);
-      document.title = province.name + '高考详情 - AI Tutor';
-
-      var stats = province.stats || {};
-      document.getElementById('stats-grid').innerHTML =
-        '<div class="stat-box"><div class="num">' + (stats.year_count || 0) + '</div><div class="label">覆盖年份</div></div>' +
-        '<div class="stat-box"><div class="num">' + (stats.subject_count || 0) + '</div><div class="label">覆盖学科</div></div>' +
-        '<div class="stat-box"><div class="num">' + (stats.paper_count || 0) + '</div><div class="label">试卷数量</div></div>' +
-        '<div class="stat-box"><div class="num">' + (stats.min_year || '-') + '~' + (stats.max_year || '-') + '</div><div class="label">年份范围</div></div>';
-
-      document.getElementById('province-desc').innerHTML = '<p>' + (province.description || '暂无描述') + '</p>';
-
-      loadTrends(code);
-      loadPapers(code);
-
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('stats-container').style.display = 'block';
-    })
-    .catch(function(err) {
-      showError(err.message || '加载失败');
-    });
-
-  function loadTrends(provinceCode) {
-    fetch('/api/province-trends/' + provinceCode + '?years=5')
-      .then(function(res) {
-        if (!res.ok) throw new Error('趋势数据加载失败');
-        return res.json();
-      })
-      .then(function(result) {
-        var data = result.data;
-        if (!data) {
-          hideTrendSections();
-          return;
-        }
-        if (data.knowledge_points && Object.keys(data.knowledge_points).length > 0) {
-          renderKnowledgeChart(data.knowledge_points);
-          renderKnowledgeTable(data.knowledge_points);
-        } else {
-          document.getElementById('knowledge-section').style.display = 'none';
-        }
-        if (data.question_types && data.question_types.length > 0) {
-          renderTypeChart(data.question_types);
-          renderTypeTable(data.question_types);
-        } else {
-          document.getElementById('type-section').style.display = 'none';
-        }
-        if (data.difficulty_distribution && data.difficulty_distribution.length > 0) {
-          renderDifficultyChart(data.difficulty_distribution);
-          renderDifficultyTable(data.difficulty_distribution);
-        } else {
-          document.getElementById('difficulty-section').style.display = 'none';
-        }
-        if (data.top_knowledge_points && data.top_knowledge_points.length > 0) {
-          renderTopKnowledgeChart(data.top_knowledge_points);
-          renderTopKnowledgeTable(data.top_knowledge_points);
-        } else {
-          document.getElementById('top-knowledge-section').style.display = 'none';
-        }
-        if (data.summary) {
-          renderTrendSummary(data.summary);
-        } else {
-          document.getElementById('trend-summary').innerHTML = '<p style="color:var(--text-muted)">暂无趋势分析数据</p>';
-        }
-      })
-      .catch(function() {
-        hideTrendSections();
-        document.getElementById('trend-summary').innerHTML = '<p style="color:var(--text-muted)">暂无趋势分析数据</p>';
-      });
-  }
-
-  function hideTrendSections() {
-    document.getElementById('knowledge-section').style.display = 'none';
-    document.getElementById('type-section').style.display = 'none';
-    document.getElementById('difficulty-section').style.display = 'none';
-    document.getElementById('top-knowledge-section').style.display = 'none';
-  }
-
-  function loadPapers(provinceCode) {
-    fetch('/api/exam-papers?province=' + provinceCode + '&limit=50')
-      .then(function(res) { return res.json(); })
-      .then(function(papersData) {
-        var papers = papersData.data || [];
-        var papersList = document.getElementById('papers-list');
-        if (papers.length > 0) {
-          papersList.innerHTML = papers.map(function(p) {
-            return '<div class="paper-card">' +
-              '<div class="year">' + p.year + '年</div>' +
-              '<div class="title">' + getSubjectName(p.subject) + '试卷</div>' +
-              '<div class="info">' + (p.question_count || '-') + ' 题 · ' + (p.total_score || '-') + ' 分' + (p.difficulty_avg ? ' · 难度' + Number(p.difficulty_avg).toFixed(1) : '') + '</div>' +
-              '<div class="btn-group">' +
-              '<a href="exam-view.html?id=' + p.id + '" class="btn primary" style="font-size:.82rem;padding:8px 16px">查看试卷</a>' +
-              '</div></div>';
-          }).join('');
-        } else {
-          papersList.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:24px">暂无试卷数据</div>';
-        }
-      })
-      .catch(function() {
-        document.getElementById('papers-list').innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:24px">试卷加载失败</div>';
-      });
-  }
-
-  function renderKnowledgeChart(knowledgeData) {
-    var container = document.getElementById('knowledge-chart');
-    var canvas = document.createElement('canvas');
-    canvas.id = 'knowledgeCanvas';
-    container.innerHTML = '';
-    container.appendChild(canvas);
-    var years = Object.keys(knowledgeData).sort();
-    var allKP = [];
-    years.forEach(function(y) { knowledgeData[y].forEach(function(kp) { if (allKP.indexOf(kp.knowledge_point_name) === -1) allKP.push(kp.knowledge_point_name); }); });
-    allKP = allKP.slice(0, 8);
-    var colors = ['#d71920', '#ff6b6b', '#ffa502', '#2ed573', '#1e90ff', '#a55eea', '#ff6348', '#3ae374'];
-    var datasets = allKP.map(function(kp, i) {
-      return {
-        label: kp,
-        data: years.map(function(y) { var found = knowledgeData[y].find(function(k) { return k.knowledge_point_name === kp; }); return found ? parseInt(found.frequency) : 0; }),
-        borderColor: colors[i % colors.length],
-        backgroundColor: colors[i % colors.length] + '33',
-        tension: 0.3,
-        fill: false
-      };
-    });
-    new Chart(canvas, { type: 'line', data: { labels: years, datasets: datasets }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }, scales: { y: { beginAtZero: true, title: { display: true, text: '出现次数' } } } } });
-  }
-
-  function renderKnowledgeTable(knowledgeData) {
-    var tbody = document.getElementById('knowledge-tbody');
-    var allKP = [];
-    Object.values(knowledgeData).forEach(function(yearData) {
-      yearData.forEach(function(kp) {
-        var existing = allKP.find(function(k) { return k.knowledge_point_name === kp.knowledge_point_name; });
-        if (existing) { existing.frequency += parseInt(kp.frequency || 0); existing.total_score += parseInt(kp.total_score || 0); }
-        else { allKP.push({ knowledge_point_name: kp.knowledge_point_name, frequency: parseInt(kp.frequency || 0), avg_difficulty: kp.avg_difficulty, total_score: parseInt(kp.total_score || 0) }); }
-      });
-    });
-    allKP.sort(function(a, b) { return b.frequency - a.frequency; });
-    if (allKP.length > 0) {
-      tbody.innerHTML = allKP.slice(0, 20).map(function(kp) {
-        return '<tr><td>' + (kp.knowledge_point_name || '-') + '</td><td class="freq">' + kp.frequency + ' 次</td><td><span class="diff"><span class="diff-dot diff-' + Math.round(kp.avg_difficulty || 3) + '"></span>' + Number(kp.avg_difficulty || 0).toFixed(1) + '</span></td><td>' + kp.total_score + ' 分</td></tr>';
-      }).join('');
-    } else {
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">暂无数据</td></tr>';
-    }
-  }
-
-  function renderTypeChart(typeData) {
-    var container = document.getElementById('type-chart');
-    var canvas = document.createElement('canvas');
-    canvas.id = 'typeCanvas';
-    container.innerHTML = '';
-    container.appendChild(canvas);
-    var typeNames = { choice: '单选题', multi_choice: '多选题', fill: '填空题', solve: '解答题', reading: '阅读理解', writing: '写作' };
-    new Chart(canvas, { type: 'doughnut', data: { labels: typeData.map(function(t) { return typeNames[t.question_type] || t.question_type; }), datasets: [{ data: typeData.map(function(t) { return parseInt(t.count); }), backgroundColor: ['#d71920', '#ff6b6b', '#ffa502', '#2ed573', '#1e90ff', '#a55eea'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
-  }
-
-  function renderTypeTable(typeData) {
-    var tbody = document.getElementById('type-tbody');
-    var typeNames = { choice: '单选题', multi_choice: '多选题', fill: '填空题', solve: '解答题', reading: '阅读理解', writing: '写作' };
-    tbody.innerHTML = typeData.map(function(t) {
-      return '<tr><td>' + (typeNames[t.question_type] || t.question_type) + '</td><td class="freq">' + t.count + ' 道</td><td><span class="diff"><span class="diff-dot diff-' + Math.round(t.avg_difficulty || 3) + '"></span>' + Number(t.avg_difficulty || 0).toFixed(1) + '</span></td><td>' + Number(t.avg_score || 0).toFixed(1) + ' 分</td></tr>';
-    }).join('');
-  }
-
-  function renderDifficultyChart(diffData) {
-    var container = document.getElementById('difficulty-chart');
-    var canvas = document.createElement('canvas');
-    canvas.id = 'difficultyCanvas';
-    container.innerHTML = '';
-    container.appendChild(canvas);
-    var diffNames = { 1: '简单', 2: '较易', 3: '中等', 4: '较难', 5: '困难' };
-    var colors = ['#4caf50', '#8bc34a', '#ffc107', '#ff9800', '#f44336'];
-    new Chart(canvas, { type: 'bar', data: { labels: diffData.map(function(d) { return diffNames[d.difficulty] || '难度' + d.difficulty; }), datasets: [{ label: '题目数量', data: diffData.map(function(d) { return parseInt(d.count); }), backgroundColor: colors }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, title: { display: true, text: '题目数量' } } } } });
-  }
-
-  function renderDifficultyTable(diffData) {
-    var tbody = document.getElementById('difficulty-tbody');
-    var diffNames = { 1: '简单', 2: '较易', 3: '中等', 4: '较难', 5: '困难' };
-    tbody.innerHTML = diffData.map(function(d) {
-      return '<tr><td><span class="diff"><span class="diff-dot diff-' + d.difficulty + '"></span>' + (diffNames[d.difficulty] || '难度' + d.difficulty) + '</span></td><td class="freq">' + d.count + ' 道</td><td>' + Number(d.avg_score || 0).toFixed(1) + ' 分</td></tr>';
-    }).join('');
-  }
-
-  function renderTopKnowledgeChart(topData) {
-    var container = document.getElementById('top-knowledge-chart');
-    var canvas = document.createElement('canvas');
-    canvas.id = 'topKnowledgeCanvas';
-    container.innerHTML = '';
-    container.appendChild(canvas);
-    new Chart(canvas, { type: 'bar', data: { labels: topData.map(function(k) { return k.knowledge_point_name || '-'; }), datasets: [{ label: '出现次数', data: topData.map(function(k) { return parseInt(k.total_frequency); }), backgroundColor: '#d71920' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: '出现次数' } } } } });
-  }
-
-  function renderTopKnowledgeTable(topData) {
-    var tbody = document.getElementById('top-knowledge-tbody');
-    tbody.innerHTML = topData.map(function(k, i) {
-      return '<tr><td>' + (i + 1) + '</td><td>' + (k.knowledge_point_name || '-') + '</td><td class="freq">' + k.total_frequency + ' 次</td><td><span class="diff"><span class="diff-dot diff-' + Math.round(k.avg_difficulty || 3) + '"></span>' + Number(k.avg_difficulty || 0).toFixed(1) + '</span></td></tr>';
-    }).join('');
-  }
-
-  function renderTrendSummary(summary) {
-    var container = document.getElementById('trend-summary');
-    var html = '<h3 style="margin-bottom:12px">' + summary.title + '</h3>';
-    if (summary.highlights && summary.highlights.length > 0) {
-      html += '<div style="margin-bottom:12px"><strong>要点：</strong><ul style="margin:8px 0;padding-left:20px">';
-      summary.highlights.forEach(function(h) { html += '<li>' + h + '</li>'; });
-      html += '</ul></div>';
-    }
-    if (summary.recommendations && summary.recommendations.length > 0) {
-      html += '<div><strong>建议：</strong><ul style="margin:8px 0;padding-left:20px">';
-      summary.recommendations.forEach(function(r) { html += '<li>' + r + '</li>'; });
-      html += '</ul></div>';
-    }
-    container.innerHTML = html;
-  }
-
-  function showError(msg) {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('error').textContent = msg;
-    document.getElementById('error').style.display = 'block';
-  }
-})();
-
-function getPaperTypeName(type) {
-  var map = { independent: '自主命题', new_gaokao_i: '新高考I卷', new_gaokao_ii: '新高考II卷', national_a: '全国甲卷', national_b: '全国乙卷' };
-  return map[type] || type;
-}
-
-function getRegionName(region) {
-  var map = { north: '华北', south: '华南', east: '华东', west: '西南', central: '华中', northeast: '东北', national: '全国' };
-  return map[region] || region;
-}
-
-function getSubjectName(subject) {
-  var map = { math: '数学', chinese: '语文', english: '英语', physics: '物理', chemistry: '化学', biology: '生物', politics: '政治', history: '历史', geography: '地理' };
-  return map[subject] || subject;
-}
+<script src="assets/js/qr.js?v=3"></script>
+<script src="assets/js/components.js?v=4"></script>
+<script src="assets/js/utils/security.js?v=4"></script>
+<script src="assets/js/components/toast.js?v=3"></script>
+<script src="assets/js/components/skeleton.js?v=3"></script>
+<script src="assets/js/theme-utils.js?v=3"></script>
+<script src="assets/js/pages/province-page.js?v=21"></script>
+</body>
+</html>

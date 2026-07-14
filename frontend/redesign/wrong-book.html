@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错题诊断中心</title>
+    <style id="theme-vars">
+/* @group-priority: primary, success, info, accent */
+/* AI Tutor (智启AI导师) — Design Tokens */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+:root {
+  /* primary */
+  --aitutor-primary-50: #fff1f1; /* AI-generated */
+  --aitutor-primary-100: #ffe0e0; /* AI-generated */
+  --aitutor-primary-200: #ffc5c5; /* AI-generated */
+  --aitutor-primary-300: #ffa0a0; /* AI-generated */
+  --aitutor-primary-400: #f36b6b; /* AI-generated */
+  --aitutor-primary-500: #d71920; /* @primary */ /* AI-generated */
+  --aitutor-primary-600: #b8151b; /* AI-generated */
+  --aitutor-primary-700: #941218; /* AI-generated */
+  --aitutor-primary-800: #7a1014; /* AI-generated */
+  --aitutor-primary-900: #660f13; /* AI-generated */
+  /* accent-blue */
+  --aitutor-blue-50: #eff6ff; /* AI-generated */
+  --aitutor-blue-100: #dbeafe; /* AI-generated */
+  --aitutor-blue-200: #bfdbfe; /* AI-generated */
+  --aitutor-blue-300: #93c5fd; /* AI-generated */
+  --aitutor-blue-400: #60a5fa; /* AI-generated */
+  --aitutor-blue-500: #2563eb; /* @primary */ /* AI-generated */
+  --aitutor-blue-600: #1d4ed8; /* AI-generated */
+  --aitutor-blue-700: #1e40af; /* AI-generated */
+  --aitutor-blue-800: #1e3a8a; /* AI-generated */
+  --aitutor-blue-900: #172554; /* AI-generated */
+  /* success */
+  --aitutor-success-50: #ecfdf5; /* AI-generated */
+  --aitutor-success-100: #d1fae5; /* AI-generated */
+  --aitutor-success-200: #a7f3d0; /* AI-generated */
+  --aitutor-success-300: #6ee7b7; /* AI-generated */
+  --aitutor-success-400: #34d399; /* AI-generated */
+  --aitutor-success-500: #059669; /* @primary */ /* AI-generated */
+  --aitutor-success-600: #047857; /* AI-generated */
+  --aitutor-success-700: #065f46; /* AI-generated */
+  --aitutor-success-800: #064e3b; /* AI-generated */
+  --aitutor-success-900: #022c22; /* AI-generated */
+  /* info */
+  --aitutor-info-50: #f0f9ff; /* AI-generated */
+  --aitutor-info-100: #e0f2fe; /* AI-generated */
+  --aitutor-info-200: #bae6fd; /* AI-generated */
+  --aitutor-info-300: #7dd3fc; /* AI-generated */
+  --aitutor-info-400: #38bdf8; /* AI-generated */
+  --aitutor-info-500: #0284c7; /* @primary */ /* AI-generated */
+  --aitutor-info-600: #0369a1; /* AI-generated */
+  --aitutor-info-700: #075985; /* AI-generated */
+  --aitutor-info-800: #0c4a6e; /* AI-generated */
+  --aitutor-info-900: #082f49; /* AI-generated */
+  /* warning */
+  --aitutor-warning-50: #fffbeb; /* AI-generated */
+  --aitutor-warning-100: #fef3c7; /* AI-generated */
+  --aitutor-warning-200: #fde68a; /* AI-generated */
+  --aitutor-warning-300: #fcd34d; /* AI-generated */
+  --aitutor-warning-400: #fbbf24; /* AI-generated */
+  --aitutor-warning-500: #f59e0b; /* @primary */ /* AI-generated */
+  --aitutor-warning-600: #d97706; /* AI-generated */
+  --aitutor-warning-700: #b45309; /* AI-generated */
+  --aitutor-warning-800: #92400e; /* AI-generated */
+  --aitutor-warning-900: #78350f; /* AI-generated */
+  /* error */
+  --aitutor-error-50: #fef2f2; /* AI-generated */
+  --aitutor-error-100: #fee2e2; /* AI-generated */
+  --aitutor-error-200: #fecaca; /* AI-generated */
+  --aitutor-error-300: #fca5a5; /* AI-generated */
+  --aitutor-error-400: #f87171; /* AI-generated */
+  --aitutor-error-500: #ef4444; /* @primary */ /* AI-generated */
+  --aitutor-error-600: #dc2626; /* AI-generated */
+  --aitutor-error-700: #b91c1c; /* AI-generated */
+  --aitutor-error-800: #991b1b; /* AI-generated */
+  --aitutor-error-900: #7f1d1d; /* AI-generated */
+
+  /* === Semantic Aliases (Layer 2) === */
+  --primary: var(--aitutor-primary-500); --primary-hover: var(--aitutor-primary-600); --primary-foreground: #ffffff;
+  --secondary: var(--aitutor-blue-500); --secondary-hover: var(--aitutor-blue-600); --secondary-foreground: #ffffff;
+  --accent: var(--aitutor-primary-500); --accent-hover: var(--aitutor-primary-600); --accent-foreground: #ffffff;
+  --background: #f8f9fa; --foreground: #1a1a2e; --muted: #94a3b8; --muted-foreground: #64748b;
+  --border: #e2e8f0; --ring: var(--aitutor-primary-500);
+  --error: var(--aitutor-error-600); --error-foreground: #ffffff; --success: var(--aitutor-success-600); --warning: var(--aitutor-warning-600);
+  --surface: #ffffff; --surface-dim: #f1f5f9; --surface-container-lowest: #f8f9fa;
+  --surface-container-low: #f1f5f9; --surface-container: #e8ecf1; --surface-container-high: #dfe4ea; --surface-container-highest: #d5dae1;
+  --inverse-surface: #1a1a2e; --inverse-on-surface: #f1f5f9;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --link: var(--aitutor-blue-600); --card-bg: var(--surface);
+
+  /* === Typography === */
+  --font-display: 'DM Sans', 'Noto Sans SC', sans-serif; --font-heading: 'DM Sans', 'Noto Sans SC', sans-serif;
+  --font-body: 'Noto Sans SC', 'DM Sans', sans-serif; --font-mono: 'DM Sans', monospace;
+  --font-size-display: 56px; --font-size-h1: 40px; --font-size-h2: 32px; --font-size-h3: 24px;
+  --font-size-h4: 20px; --font-size-body: 16px; --font-size-lead: 18px; --font-size-caption: 12px;
+  --font-size-eyebrow: 11px; --font-size-mono: 14px;
+  --font-weight-display: 700; --font-weight-h1: 700; --font-weight-h2: 600; --font-weight-h3: 600;
+  --font-weight-h4: 600; --font-weight-body: 400; --font-weight-lead: 400; --font-weight-caption: 400;
+  --font-weight-eyebrow: 600; --font-weight-mono: 400;
+  --line-height-display: 1.1; --line-height-h1: 1.2; --line-height-h2: 1.25; --line-height-h3: 1.3;
+  --line-height-h4: 1.4; --line-height-body: 1.6; --line-height-lead: 1.7; --line-height-caption: 1.5;
+  --line-height-eyebrow: 1.4; --line-height-mono: 1.6;
+
+  /* === Spacing === */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+
+  /* === Sizing === */
+  --size-button-sm: 32px; --size-button-md: 40px; --size-button-lg: 48px;
+  --size-input-height: 40px; --size-icon-sm: 16px; --size-icon-md: 24px; --size-icon-lg: 32px;
+
+  /* === Radius === */
+  --radius-sm: 8px; --radius-md: 14px; --radius-lg: 16px; --radius-pill: 9999px;
+
+  /* === Shadows === */
+  --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04); /* Card */
+  --shadow-2: 0 4px 8px -2px rgba(0,0,0,.10); /* Card Hover */
+  --shadow-3: 0 8px 24px -8px rgba(0,0,0,.18); /* Float */
+  --shadow-4: 0 16px 40px -12px rgba(0,0,0,.24); /* Modal */
+  --shadow-5: 0 24px 60px -20px rgba(0,0,0,.30); /* Overlay */
+
+  /* === Portable Aliases (Layer 3) === */
+  --color-background: var(--bg); --color-foreground: var(--fg);
+  --color-surface: var(--surface); --color-surface-dim: var(--surface-dim);
+  --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-primary: var(--accent); --color-primary-hover: var(--accent-hover);
+  --color-on-primary: #ffffff; --color-primary-container: var(--aitutor-primary-50);
+  --color-on-primary-container: var(--aitutor-primary-900);
+  --color-secondary: var(--aitutor-blue-100); --color-secondary-container: var(--aitutor-blue-50);
+  --color-on-secondary-container: var(--aitutor-blue-900);
+  --color-outline: var(--rule); --color-outline-variant: var(--aitutor-blue-100); --color-border: var(--rule);
+  --color-success: var(--aitutor-success-600); --color-warning: var(--aitutor-warning-600);
+  --color-error: var(--aitutor-error-600); --color-info: var(--aitutor-info-600);
+  --radius-full: 9999px; --type-display-sm: 40px; --type-heading-sm: 24px;
+  --type-body-md: 16px; --type-body-sm: 14px; --font-family-base: var(--font-body);
+}
+
+/* Dark Theme */
+.dark {
+  --background: #0f1117; --foreground: #e8ecf1; --surface: #1a1d27; --surface-dim: #12141c;
+  --surface-container-lowest: #0f1117; --surface-container-low: #1a1d27;
+  --surface-container: #22252f; --surface-container-high: #2a2d38; --surface-container-highest: #33374a;
+  --inverse-surface: #f1f5f9; --inverse-on-surface: #1a1a2e;
+  --muted: #64748b; --muted-foreground: #94a3b8; --border: #2a2d38;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --card-bg: var(--surface);
+  --color-background: var(--bg); --color-foreground: var(--fg); --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim); --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container); --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high); --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-outline: var(--rule); --color-outline-variant: #2a2d38;
+  --color-border: var(--rule);
+}
+
+/* Typography Classes */
+.aitutor-display { font-family: var(--font-display); font-size: 3.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); letter-spacing: -0.02em; }
+.aitutor-h1 { font-family: var(--font-heading); font-size: 2.5rem; font-weight: var(--font-weight-h1); line-height: var(--line-height-h1); }
+.aitutor-h2 { font-family: var(--font-heading); font-size: 2rem; font-weight: var(--font-weight-h2); line-height: var(--line-height-h2); }
+.aitutor-h3 { font-family: var(--font-heading); font-size: 1.5rem; font-weight: var(--font-weight-h3); line-height: var(--line-height-h3); }
+.aitutor-h4 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); }
+.aitutor-body { font-family: var(--font-body); font-size: 1rem; font-weight: var(--font-weight-body); line-height: var(--line-height-body); }
+.aitutor-lead { font-family: var(--font-body); font-size: 1.125rem; font-weight: var(--font-weight-lead); line-height: var(--line-height-lead); }
+.aitutor-caption { font-family: var(--font-body); font-size: 0.75rem; font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); }
+.aitutor-eyebrow { font-family: var(--font-body); font-size: 0.6875rem; font-weight: var(--font-weight-eyebrow); line-height: var(--line-height-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; }
+.aitutor-mono { font-family: var(--font-mono); font-size: 0.875rem; font-weight: var(--font-weight-mono); line-height: var(--line-height-mono); }
+.aitutor-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); font-variant-numeric: tabular-nums; }
+
+    </style>
+    <style id="component-vars">
+/* ═══════════════════════════════════════════════════════════════
+   components.css — Design System Component Definitions
+   Auto-extracted from preview/component-*.html
+   DO NOT EDIT MANUALLY — regenerate via extract-components-css.mjs
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Button ────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">主要</span> <button class="btn primary sm">开始学习</button> <button class="btn primary md" data-evidence-sample="Primary MD">开始学习</button> <button class="btn primary lg" data-evidence-sample="Primary LG">开始学习</button>
+*/
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: var(--font-body); font-weight: var(--font-weight-body); white-space: nowrap; cursor: pointer; border: none; border-radius: var(--radius-pill); transition: background .15s, border-color .15s, opacity .15s; flex-shrink: 0; }
+.btn.primary { background: var(--accent); color: var(--primary-foreground); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn.ghost:hover { background: var(--color-surface-container-low); }
+.btn.sm { height: var(--size-button-sm); padding: 0 var(--space-4); font-size: var(--font-size-caption); min-width: var(--size-button-sm); }
+.btn.md { height: var(--size-button-md); padding: 0 var(--space-5); font-size: var(--font-size-body); min-width: var(--size-button-md); }
+.btn.lg { height: var(--size-button-lg); padding: 0 28px; font-size: var(--font-size-lead); min-width: var(--size-button-lg); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+/* ── Card ──────────────────────────────────────────────────── */
+/* @anatomy
+   <div class="card" data-evidence-sample="Default"> <div class="card-heading">我的错题本
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+  .card { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); }
+  .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); word-break: keep-all; overflow-wrap: break-word; }
+  .card-body { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+  .card-interactive { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
+  .card-interactive:hover { border-color: var(--color-primary); transform: translateY(-3px); box-shadow: var(--shadow-2); }
+  .card-interactive .card-icon { width: var(--size-icon-lg); height: var(--size-icon-lg); flex-shrink: 0; color: var(--color-primary); }
+  .card-interactive .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); }
+  .card-interactive .card-desc { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+
+/* ── Input ─────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">默认</span> <div class="form-group" data-evidence-sample="Default"> <label>题目内容</label> <input class="input-field" type="text" placeholder="请输入题目内容">
+*/
+.form-group { display: flex; flex-direction: column; gap: var(--space-1); min-width: 240px; }
+  .form-group > label { font-size: var(--font-size-body); font-weight: 500; color: var(--color-on-surface); }
+  .input-field { display: flex; align-items: center; height: var(--size-input-height); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0 var(--space-3); font-family: var(--font-body); font-size: var(--font-size-body); color: var(--color-on-surface); outline: none; transition: border-color .15s; width: 100%; min-width: 120px; }
+  .input-field::placeholder { color: var(--muted); }
+  .input-field:focus { border-color: var(--color-primary); }
+  .input-field:disabled { opacity: .5; cursor: not-allowed; }
+  .input-wrap { display: flex; align-items: center; height: var(--size-input-height); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-pill); padding: 0 var(--space-3); width: 100%; min-width: 240px; transition: border-color .15s; }
+  .input-wrap:focus-within { border-color: var(--color-primary); }
+  .input-wrap .icon { width: var(--size-icon-md); height: var(--size-icon-md); flex-shrink: 0; color: var(--muted); }
+  .input-wrap input { border: none; outline: none; background: transparent; font: inherit; color: inherit; flex: 1; min-width: 0; }
+  .input-wrap input::placeholder { color: var(--muted); }
+
+/* ── Navigation ────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">桌面端</span>
+*/
+.navbar { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 var(--space-5); background: var(--color-surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--color-border); width: 100%; box-sizing: border-box; }
+.navbar--compact { padding: 0 var(--space-3); }
+.navbar-logo { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h2); color: var(--color-on-surface); white-space: nowrap; text-decoration: none; }
+.navbar-links { display: flex; align-items: center; gap: var(--space-5); list-style: none; margin: 0; padding: 0; }
+.navbar-link { font-size: var(--font-size-body); font-weight: var(--font-weight-body); color: var(--color-on-surface-variant); text-decoration: none; white-space: nowrap; transition: filter .15s; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); }
+.navbar-link:hover { filter: brightness(1.2); }
+.navbar-link.active { color: var(--color-on-surface); font-weight: var(--font-weight-h4); }
+.navbar-actions { display: flex; align-items: center; gap: var(--space-3); }
+.navbar-btn { display: inline-flex; align-items: center; padding: var(--space-2) var(--space-4); background: var(--color-primary); color: var(--color-on-primary); font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-h4); border: none; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; transition: background .15s; }
+.navbar-btn:hover { background: var(--color-primary-hover); }
+.navbar-hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: none; border: none; color: var(--color-on-surface-variant); cursor: pointer; border-radius: var(--radius-sm); transition: filter .15s; flex-shrink: 0; }
+.navbar-hamburger:hover { filter: brightness(1.2); }
+
+/* ── Stat Card ─────────────────────────────────────────────── */
+/* @anatomy
+   <div class="stat-card" data-evidence-sample="Default"> <span class="stat-card__number">78</span> <span class="stat-card__label">综合得分</span>
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+  .stat-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-1); flex-shrink: 0; min-width: 140px; }
+  .stat-card:hover { box-shadow: var(--shadow-2); transition: box-shadow .15s; }
+  .stat-card__number { font-family: var(--font-display); font-size: var(--font-size-h2); font-weight: var(--font-weight-h1); line-height: var(--line-height-h2); color: var(--color-on-surface); }
+  .stat-card__label { font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); white-space: nowrap; }
+  .stat-card__change { font-size: var(--font-size-caption); font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); color: var(--color-success); white-space: nowrap; }
+  .stat-card--accent { background: var(--color-primary-container); border: 2px solid var(--color-primary); }
+  .stat-card--accent .stat-card__number { color: var(--color-primary); }
+
+/* ── Tag ───────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">Default</span><span class="tag tag--default">数学</span><span class="tag tag--default">物理</span><span class="tag tag--default">化学</span><span class="tag tag--default">英语</span>
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+.tag { display: inline-flex; align-items: center; height: 24px; padding: 0 var(--space-3); border-radius: var(--radius-pill); font-size: 12px; font-weight: 600; white-space: nowrap; line-height: 1; min-width: 24px; flex-shrink: 0; transition: background .15s, border-color .15s, filter .15s; }
+.tag--default { background: var(--color-surface); border: 1px solid var(--color-outline); color: var(--color-on-surface); }
+.tag--default:hover { background: var(--color-surface-container-low); }
+.tag--primary { background: var(--aitutor-primary-50); color: var(--aitutor-primary-700); border: 1px solid var(--aitutor-primary-200); }
+.tag--primary:hover { filter: brightness(1.05); }
+.tag--blue { background: var(--aitutor-blue-50); color: var(--aitutor-blue-700); border: 1px solid var(--aitutor-blue-200); }
+.tag--blue:hover { filter: brightness(1.05); }
+.tag--success { background: var(--aitutor-success-50); color: var(--aitutor-success-700); border: 1px solid var(--aitutor-success-200); }
+.tag--success:hover { filter: brightness(1.05); }
+.tag--info { background: var(--aitutor-info-50); color: var(--aitutor-info-700); border: 1px solid var(--aitutor-info-200); }
+.tag--info:hover { filter: brightness(1.05); }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  
+  @layer base {
+    body { background: var(--aitutor-background); color: var(--aitutor-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/router.css">
+    <link rel="stylesheet" href="../../assets/enhancements.css">
+</head>
+<body class="min-h-screen font-sans antialiased" style="background:var(--background);color:var(--foreground);">
+    <main class="flex flex-col min-h-screen">
+
+      <!-- ── Navigation Bar ── -->
+      <header class="navbar sticky top-0 z-50">
+        <a class="navbar-logo" href="#">AI Tutor</a>
+        <nav>
+          <ul class="navbar-links">
+          <li><a class="navbar-link" href="home.html" data-dom-id="nav-home">首页</a></li>
+          <li><a class="navbar-link" href="dashboard.html" data-dom-id="nav-dashboard">学习驾驶舱</a></li>
+          <li><a class="navbar-link" href="exam-simulation.html" data-dom-id="nav-exam">模拟考场</a></li>
+          <li><a class="navbar-link active" href="wrong-book.html" data-dom-id="nav-wrong">错题本</a></li>
+          <li><a class="navbar-link" href="ai-tutor-chat.html" data-dom-id="nav-ai">AI讲题</a></li>
+          <li><a class="navbar-link" href="learning-journey.html" data-dom-id="nav-path">学习旅程</a></li>
+        </ul>
+          <a href="learning-journey.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>旅程</span>
+      </a>
+    </nav>
+        <div class="navbar-actions">
+          <div class="input-wrap" style="height:var(--size-button-sm);min-width:120px;">
+            <i data-lucide="map-pin" class="icon" style="width:var(--size-icon-sm);height:var(--size-icon-sm);"></i>
+            <input type="text" placeholder="选择省份" readonly style="font-size:var(--font-size-caption);">
+            <i data-lucide="chevron-down" class="icon" style="width:var(--size-icon-sm);height:var(--size-icon-sm);"></i>
+          </div>
+          <button id="theme-toggle" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--color-surface-container-low);border:1px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;color:var(--color-on-surface-variant);transition:background .15s,color .15s;" title="切换深浅色" aria-label="切换深浅色">
+            <svg id="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg id="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+          <button class="navbar-hamburger lg:hidden" aria-label="菜单">
+            <i data-lucide="menu" style="width:22px;height:22px;display:inline-block;"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- ── Page Content ── -->
+      <div class="w-full mx-auto" style="max-width:1184px;padding:var(--space-6);">
+
+        <!-- Page Header -->
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between" style="margin-bottom:var(--space-6);">
+          <div class="min-w-0">
+            <h1 class="aitutor-h3" style="color:var(--color-on-surface);word-break:keep-all;overflow-wrap:break-word;text-wrap:balance;">错题诊断中心</h1>
+            <p class="aitutor-body" style="color:var(--color-on-surface-variant);">共 23 道错题</p>
+          </div>
+          <div class="flex items-center gap-3 shrink-0 flex-wrap">
+            <div class="input-wrap" style="min-width:220px;">
+              <i data-lucide="search" class="icon"></i>
+              <input type="text" placeholder="搜索题目或知识点">
+            </div>
+            <button class="btn primary md" onclick="window.location.href='wrong-book.html'">扫描错题</button>
+            <button class="btn ghost md" onclick="window.location.href='ai-tutor-chat.html'">AI诊断</button>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="flex items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar" style="margin-bottom:var(--space-5);padding-bottom:var(--space-1);">
+          <button class="filter-pill active" style="display:inline-flex;align-items:center;height:32px;padding:0 var(--space-4);border-radius:var(--radius-pill);font-size:var(--font-size-caption);font-weight:600;white-space:nowrap;cursor:pointer;border:none;background:var(--aitutor-primary-500);color:var(--color-on-primary;transition:background .15s;flex-shrink:0;">全部</button>
+          <button class="filter-pill" style="display:inline-flex;align-items:center;height:32px;padding:0 var(--space-4);border-radius:var(--radius-pill);font-size:var(--font-size-caption);font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-on-surface-variant);transition:background .15s;flex-shrink:0;">数学</button>
+          <button class="filter-pill" style="display:inline-flex;align-items:center;height:32px;padding:0 var(--space-4);border-radius:var(--radius-pill);font-size:var(--font-size-caption);font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-on-surface-variant);transition:background .15s;flex-shrink:0;">物理</button>
+          <button class="filter-pill" style="display:inline-flex;align-items:center;height:32px;padding:0 var(--space-4);border-radius:var(--radius-pill);font-size:var(--font-size-caption);font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-on-surface-variant);transition:background .15s;flex-shrink:0;">化学</button>
+          <button class="filter-pill" style="display:inline-flex;align-items:center;height:32px;padding:0 var(--space-4);border-radius:var(--radius-pill);font-size:var(--font-size-caption);font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-on-surface-variant);transition:background .15s;flex-shrink:0;">英语</button>
+          <div style="width:1px;height:20px;background:var(--color-border);margin:0 var(--space-1);flex-shrink:0;"></div>
+          <button class="filter-pill" style="display:inline-flex;align-items:center;height:32px;padding:0 var(--space-4);border-radius:var(--radius-pill);font-size:var(--font-size-caption);font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-on-surface-variant);transition:background .15s;flex-shrink:0;">知识盲区</button>
+          <button class="filter-pill" style="display:inline-flex;align-items:center;height:32px;padding:0 var(--space-4);border-radius:var(--radius-pill);font-size:var(--font-size-caption);font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-on-surface-variant);transition:background .15s;flex-shrink:0;">计算失误</button>
+          <button class="filter-pill" style="display:inline-flex;align-items:center;height:32px;padding:0 var(--space-4);border-radius:var(--radius-pill);font-size:var(--font-size-caption);font-weight:600;white-space:nowrap;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-on-surface-variant);transition:background .15s;flex-shrink:0;">审题错误</button>
+        </div>
+
+        <!-- Stats Row (3 StatCards) -->
+        <div class="stats-3col grid gap-4" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:var(--space-6);">
+          <div class="stat-card" style="width:auto;">
+            <span class="stat-card__number">23</span>
+            <span class="stat-card__label">错题总数</span>
+            <span class="stat-card__change" style="color:var(--aitutor-error-400);">-3 本周</span>
+          </div>
+          <div class="stat-card" style="width:auto;">
+            <span class="stat-card__number">12</span>
+            <span class="stat-card__label">知识盲区</span>
+            <span class="stat-card__change" style="color:var(--aitutor-warning-500);">占比52%</span>
+          </div>
+          <div class="stat-card" style="width:auto;">
+            <span class="stat-card__number">8</span>
+            <span class="stat-card__label">已掌握</span>
+            <span class="tag tag--success" style="font-size:var(--font-size-caption);height:20px;">进步</span>
+          </div>
+        </div>
+
+        <!-- Wrong Question Cards List -->
+        <div class="flex flex-col gap-4">
+
+          <!-- Card 1: 数学 - 导数与切线 -->
+          <div class="card" style="width:auto;padding:var(--space-5);">
+            <!-- Top row: tags + time -->
+            <div class="flex items-center gap-2 flex-wrap min-w-0">
+              <span class="tag tag--primary">数学</span>
+              <span class="tag tag--default">导数与切线</span>
+              <span class="tag" style="background:var(--aitutor-warning-50);color:var(--aitutor-warning-700);border:1px solid var(--aitutor-warning-200);">知识盲区</span>
+              <span class="aitutor-caption shrink-0" style="color:var(--muted);white-space:nowrap;margin-left:auto;">2天前</span>
+            </div>
+            <!-- Question text -->
+            <div class="min-w-0" style="padding:var(--space-3) var(--space-4);background:var(--color-surface-container-low);border-radius:var(--radius-sm);">
+              <p class="aitutor-body truncate" style="color:var(--color-on-surface);">设函数 f(x) = x³ - 3x + 1，求曲线 y=f(x) 在点 (1,-1) 处的切线方程。</p>
+            </div>
+            <!-- Bottom row: progress + buttons -->
+            <div class="flex items-center gap-4 flex-wrap">
+              <div class="flex items-center gap-2 flex-1 min-w-0" style="max-width:200px;">
+                <span class="aitutor-caption shrink-0" style="color:var(--muted);white-space:nowrap;">正确率 42%</span>
+                <div class="flex-1 min-w-0">
+                  <div style="width:100%;height:6px;border-radius:var(--radius-pill);overflow:hidden;background:var(--color-surface-container);">
+                    <div style="width:42%;height:100%;border-radius:var(--radius-pill);background:var(--aitutor-primary-500);"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0" style="margin-left:auto;">
+                <button class="btn ghost sm" onclick="window.location.href='ai-tutor-chat.html'">查看解析</button>
+                <button class="btn ghost sm" onclick="window.location.href='ai-tutor-chat.html'">AI诊断</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: 物理 - 电磁感应 -->
+          <div class="card" style="width:auto;padding:var(--space-5);">
+            <div class="flex items-center gap-2 flex-wrap min-w-0">
+              <span class="tag tag--blue">物理</span>
+              <span class="tag tag--default">电磁感应</span>
+              <span class="tag tag--info">计算失误</span>
+              <span class="aitutor-caption shrink-0" style="color:var(--muted);white-space:nowrap;margin-left:auto;">3天前</span>
+            </div>
+            <div class="min-w-0" style="padding:var(--space-3) var(--space-4);background:var(--color-surface-container-low);border-radius:var(--radius-sm);">
+              <p class="aitutor-body truncate" style="color:var(--color-on-surface);">一矩形线圈在匀强磁场中绕垂直于磁场的轴匀速转动，当线圈平面与磁场方向平行时，穿过线圈的磁通量为零，此时的感应电动势最大。请证明这一结论。</p>
+            </div>
+            <div class="flex items-center gap-4 flex-wrap">
+              <div class="flex items-center gap-2 flex-1 min-w-0" style="max-width:200px;">
+                <span class="aitutor-caption shrink-0" style="color:var(--muted);white-space:nowrap;">正确率 58%</span>
+                <div class="flex-1 min-w-0">
+                  <div style="width:100%;height:6px;border-radius:var(--radius-pill);overflow:hidden;background:var(--color-surface-container);">
+                    <div style="width:58%;height:100%;border-radius:var(--radius-pill);background:var(--aitutor-warning-500);"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0" style="margin-left:auto;">
+                <button class="btn ghost sm" onclick="window.location.href='ai-tutor-chat.html'">查看解析</button>
+                <button class="btn ghost sm" onclick="window.location.href='ai-tutor-chat.html'">AI诊断</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: 化学 - 氧化还原反应 -->
+          <div class="card" style="width:auto;padding:var(--space-5);">
+            <div class="flex items-center gap-2 flex-wrap min-w-0">
+              <span class="tag tag--success">化学</span>
+              <span class="tag tag--default">氧化还原反应</span>
+              <span class="tag" style="background:var(--aitutor-warning-50);color:var(--aitutor-warning-700);border:1px solid var(--aitutor-warning-200);">审题错误</span>
+              <span class="aitutor-caption shrink-0" style="color:var(--muted);white-space:nowrap;margin-left:auto;">5天前</span>
+            </div>
+            <div class="min-w-0" style="padding:var(--space-3) var(--space-4);background:var(--color-surface-container-low);border-radius:var(--radius-sm);">
+              <p class="aitutor-body truncate" style="color:var(--color-on-surface);">已知反应 2KMnO₄ + 16HCl → 2KCl + 2MnCl₂ + 5Cl₂↑ + 8H₂O，请配平该化学方程式并指出氧化剂和还原剂。</p>
+            </div>
+            <div class="flex items-center gap-4 flex-wrap">
+              <div class="flex items-center gap-2 flex-1 min-w-0" style="max-width:200px;">
+                <span class="aitutor-caption shrink-0" style="color:var(--muted);white-space:nowrap;">正确率 35%</span>
+                <div class="flex-1 min-w-0">
+                  <div style="width:100%;height:6px;border-radius:var(--radius-pill);overflow:hidden;background:var(--color-surface-container);">
+                    <div style="width:35%;height:100%;border-radius:var(--radius-pill);background:var(--aitutor-primary-500);"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0" style="margin-left:auto;">
+                <button class="btn ghost sm" onclick="window.location.href='ai-tutor-chat.html'">查看解析</button>
+                <button class="btn ghost sm" onclick="window.location.href='ai-tutor-chat.html'">AI诊断</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: 数学 - 三角函数 -->
+          <div class="card" style="width:auto;padding:var(--space-5);">
+            <div class="flex items-center gap-2 flex-wrap min-w-0">
+              <span class="tag tag--primary">数学</span>
+              <span class="tag tag--default">三角函数</span>
+              <span class="tag" style="background:var(--aitutor-warning-50);color:var(--aitutor-warning-700);border:1px solid var(--aitutor-warning-200);">知识盲区</span>
+              <span class="aitutor-caption shrink-0" style="color:var(--muted);white-space:nowrap;margin-left:auto;">1周前</span>
+            </div>
+            <div class="min-w-0" style="padding:var(--space-3) var(--space-4);background:var(--color-surface-container-low);border-radius:var(--radius-sm);">
+              <p class="aitutor-body truncate" style="color:var(--color-on-surface);">在△ABC中，已知 a=2, b=√3, A=π/3，求角 B 的值。</p>
+            </div>
+            <div class="flex items-center gap-4 flex-wrap">
+              <div class="flex items-center gap-2 flex-1 min-w-0" style="max-width:200px;">
+                <span class="aitutor-caption shrink-0" style="color:var(--muted);white-space:nowrap;">正确率 67%</span>
+                <div class="flex-1 min-w-0">
+                  <div style="width:100%;height:6px;border-radius:var(--radius-pill);overflow:hidden;background:var(--color-surface-container);">
+                    <div style="width:67%;height:100%;border-radius:var(--radius-pill);background:var(--aitutor-success-500);"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0" style="margin-left:auto;">
+                <button class="btn ghost sm" onclick="window.location.href='ai-tutor-chat.html'">查看解析</button>
+                <button class="btn ghost sm" onclick="window.location.href='ai-tutor-chat.html'">AI诊断</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex items-center justify-between" style="margin-top:var(--space-5);">
+          <span class="aitutor-caption" style="color:var(--muted);white-space:nowrap;">显示 1-4 / 共 23 条</span>
+          <div class="flex items-center gap-2">
+            <button class="btn ghost sm">上一页</button>
+            <button class="btn ghost sm">下一页</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Responsive overrides -->
+    <style>
+    @media (max-width: 1023px) {
+      .stats-3col { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    }
+    @media (max-width: 639px) {
+      .stats-3col { grid-template-columns: minmax(0, 1fr) !important; }
+    }
+    </style>
+
+    <script>lucide.createIcons();</script>
+<script>
+(function(){function t(e){var n=e?"dark":"light";document.documentElement.className=e?"":"light",document.documentElement.classList.remove(e?"light":"dark");if(e)document.documentElement.classList.add("dark");var i=document.getElementById("theme-icon-dark"),s=document.getElementById("theme-icon-light");if(i&&s)i.style.display=e?"none":"inline-block",s.style.display=e?"inline-block":"none";try{localStorage.setItem("aitutor-theme",n)}catch(r){}}var e=document.getElementById("theme-toggle");if(e)e.addEventListener("click",function(){t(!document.documentElement.classList.contains("dark"))});try{var i=localStorage.getItem("aitutor-theme");if(i==="light")t(false);else if(i==="dark")t(true)}catch(r){}})();
+</script>
+
+    <nav class="bottom-nav">
+      <a href="home.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>首页</span>
+      </a>
+      <a href="exam-simulation.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>做题</span>
+      </a>
+      <a href="wrong-book.html" class="bottom-nav-item active"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+        <span>错题</span>
+      </a>
+      <a href="ai-tutor-chat.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>AI讲题</span>
+      </a>
+      <a href="dashboard.html" class="bottom-nav-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>我的</span>
+      </a>
+    </nav>
+    <div class="bottom-nav-spacer"></div>
+<script>
+(function(){
+var ROUTES={'nav-home':'home.html','nav-dashboard':'dashboard.html','nav-exam':'exam-simulation.html','nav-wrong':'wrong-book.html','nav-ai':'ai-tutor-chat.html','nav-path':'learning-journey.html','cta-start':'dashboard.html','nav-exam-btn':'exam-simulation.html','cta-start-exam':'exam-simulation.html','btn-scan':'wrong-book.html','btn-ai-diagnose':'ai-tutor-chat.html','btn-submit':'home-report.html','btn-new-chat':'ai-tutor-chat.html','btn-view-solution':'ai-tutor-chat.html','tab-home':'home.html','tab-dashboard':'dashboard.html','tab-exam':'exam-simulation.html','tab-wrong':'wrong-book.html','tab-ai':'ai-tutor-chat.html'};
+var TEXT_ROUTES={'立即开始':'dashboard.html','开始做题':'exam-simulation.html','查看预测卷':'exam-simulation.html','扫描错题':'wrong-book.html','立即扫描':'wrong-book.html','AI诊断':'ai-tutor-chat.html','查看解析':'ai-tutor-chat.html','查看解答':'ai-tutor-chat.html','交卷':'home-report.html','开始讲题':'ai-tutor-chat.html','生成试卷':'exam-simulation.html','新对话':'ai-tutor-chat.html'};
+var currentPage=1;
+var totalPages=6;
+var currentFilter='全部';
+function navigateTo(href){
+var target=href.split('?')[0].split('#')[0].replace(/\\/g,'/').split('/').pop();
+var current=window.location.pathname.split('/').pop()||'home.html';
+if(target===current)return;
+var l=document.createElement('div');l.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center';l.innerHTML='<div style="color:white;font-size:20px">加载中...</div>';document.body.appendChild(l);
+setTimeout(function(){window.location.href=target},300);
+}
+function showToast(msg){var t=document.createElement('div');t.style.cssText='position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:white;padding:12px 24px;border-radius:8px;z-index:9999;font-size:14px';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},2000)}
+function bindEvents(){
+document.querySelectorAll('[data-dom-id]').forEach(function(el){
+var id=el.getAttribute('data-dom-id');
+if(ROUTES[id]){
+el.addEventListener('click',function(e){e.preventDefault();navigateTo(ROUTES[id])});
+}
+});
+document.querySelectorAll('a.navbar-link,a.bottom-nav-item,a[href$=".html"]').forEach(function(link){
+var href=link.getAttribute('href');
+if(!href||href==='#'||href.startsWith('javascript'))return;
+link.addEventListener('click',function(e){e.preventDefault();navigateTo(href)});
+});
+document.querySelectorAll('button.btn').forEach(function(btn){
+if(btn.hasAttribute('data-dom-id'))return;
+var text=btn.textContent.trim();
+if(TEXT_ROUTES[text]){
+btn.addEventListener('click',function(e){e.preventDefault();navigateTo(TEXT_ROUTES[text])});
+}
+});
+document.querySelectorAll('button.btn').forEach(function(btn){
+var text=btn.textContent.trim();
+if(text==='上一页'){
+btn.addEventListener('click',function(){
+if(currentPage>1){currentPage--;showToast('第 '+currentPage+' 页')}
+else{showToast('已经是第一页')}
+});
+}
+if(text==='下一页'){
+btn.addEventListener('click',function(){
+if(currentPage<totalPages){currentPage++;showToast('第 '+currentPage+' 页')}
+else{showToast('已经是最后一页')}
+});
+}
+var filters=['全部','数学','物理','化学','英语','知识盲区','计算失误','审题错误'];
+if(filters.indexOf(text)!==-1){
+btn.addEventListener('click',function(){
+currentFilter=text;
+showToast('筛选: '+text);
+document.querySelectorAll('button.btn').forEach(function(b){
+if(filters.indexOf(b.textContent.trim())!==-1){
+b.style.backgroundColor='';
+b.style.color='';
+}
+});
+btn.style.backgroundColor='var(--aitutor-primary-500)';
+btn.style.color='white';
+});
+}
+});
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bindEvents)}else{bindEvents()}
+})();
+</script>
+</body>
+</html>

@@ -35,32 +35,25 @@
 | 层         | 模块                                          | 职责                      | 关键技术                  |
 | ---------- | --------------------------------------------- | ------------------------- | ------------------------- |
 | **方案 A** | `scripts/sync-obsidian-to-age.js`             | 知识图谱构建与查询        | Apache AGE, Cypher        |
-| **方案 B** | `api/rag-search.js` + `services/embedding.js` | 语义向量检索              | pgvector, HNSW 索引       |
-| **方案 C** | `api/tutor-agent.js` + `services/llm.js`      | LLM 教学推理 + 防跳跃机制 | DashScope, JSON Mode, SSE |
+| **方案 B** | `api/routes/rag-search.js` + `services/embedding.js` | 语义向量检索              | pgvector, HNSW 索引       |
+| **方案 C** | `api/routes/tutor-agent.js` + `services/llm.js`      | LLM 教学推理 + 防跳跃机制 | DashScope, JSON Mode, SSE |
 
-**数据飞轮**：`api/learning-loop.js` — 学习反馈 → 掌握度更新 → 图谱涟漪效应 → 闭环
+**数据飞轮**：`api/routes/learning-loop.js` — 学习反馈 → 掌握度更新 → 图谱涟漪效应 → 闭环
 
-**Vision RAG**：`api/vision-parse.js` — 拍照 → Qwen-VL 多模态解析 → 拍照即入库
+**Vision RAG**：`api/routes/vision-parse.js` — 拍照 → Qwen-VL 多模态解析 → 拍照即入库
 
-**SRS 引擎**：`api/srs-engine.js` — SM-2 间隔重复算法 + 艾宾浩斯遗忘曲线 → 每日复习任务
+**SRS 引擎**：`api/routes/srs-engine.js` — SM-2 间隔重复算法 + 艾宾浩斯遗忘曲线 → 每日复习任务
 
 ## 项目结构
 
 ```
 aitutor/
 ├── api/                          # Express.js 后端 API
+│   ├── core/                    # 核心基础设施 (db, auth, swagger, taskWorker)
+│   ├── handlers/                # 请求处理函数 (login, questions, reports, exam...)
+│   ├── routes/                  # Express Router (graphrag, rag, tutor, loop...)
 │   ├── middleware/               # 认证、安全、错误处理
-│   ├── utils/                   # 响应格式、Prompt 模板、验证器
-│   ├── db.js                    # PostgreSQL + pgvector + AGE 初始化
-│   ├── tutor-agent.js           # 方案 C: 教学 Agent (SSE 流式)
-│   ├── rag-search.js            # 方案 B: 向量检索 + 混合检索
-│   ├── learning-loop.js         # 数据飞轮: 反馈 + 涟漪 + 图谱拓扑
-│   ├── vision-parse.js          # Vision RAG: 多模态图片解析
-│   ├── srs-engine.js            # SRS: SM-2 间隔重复引擎
-│   ├── proxy.js                 # AI 代理 (DashScope / DeepSeek)
-│   ├── generate-paper.js        # 智能组卷
-│   ├── class-analysis.js        # 班级学情分析
-│   └── ...                      # Auth / Exam / Tasks / Reports
+│   └── utils/                   # 响应格式、Prompt 模板、验证器
 ├── services/                    # 独立服务层
 │   ├── llm.js                   # LLM 封装 (文本 + 流式 + 多模态)
 │   └── embedding.js             # DashScope Embedding API
@@ -74,16 +67,16 @@ aitutor/
 │   │   └── app.js               # SPA 入口
 │   └── manifest.json            # PWA 配置
 ├── frontend/                    # PC 端多页应用 (MPA)
+│   ├── assets/
+│   │   ├── css/                 # style.css, brand.css
+│   │   └── js/                  # components.js, exam-mode.js, qr.js 等
 │   ├── dashboard.html           # 个人中心
-│   ├── mastery-dashboard.html   # 知识图谱仪表盘 (PC 版)
 │   └── *-exam/report.html       # 各学科考试/报告页
-├── scripts/                     # 运维脚本
-│   ├── sync-obsidian-to-age.js  # 方案 A: Obsidian → AGE 同步
-│   ├── benchmark-db.js          # 数据库性能基准测试
-│   └── ...                      # 数据导入/迁移脚本
+├── scripts/                     # 运维脚本与数据导入
 ├── graphrag_service/            # GraphRAG Python 微服务
-├── tests/                       # Vitest 测试套件
-├── deploy/                      # systemd / Docker 部署
+├── tests/                       # Vitest 测试套件 (200 tests)
+├── deploy/                      # systemd / Nginx / Docker 部署
+├── docs/                        # 项目文档
 ├── server.js                    # Express 入口
 └── docker-compose.yml           # Docker Compose 编排
 ```

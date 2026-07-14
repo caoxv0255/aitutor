@@ -71,8 +71,8 @@
     var btn = document.querySelector('.theme-toggle');
     if (btn) {
       btn.innerHTML = theme === 'dark'
-        ? '<span class="icon-sun">&#9728;</span>'
-        : '<span class="icon-moon">&#9790;</span>';
+        ? '<span class="icon-sun">&#9728;</span><span class="theme-label">浅色</span>'
+        : '<span class="icon-moon">&#9790;</span><span class="theme-label">深色</span>';
     }
     // Update body background for standalone pages that use inline styles
     var body = document.body;

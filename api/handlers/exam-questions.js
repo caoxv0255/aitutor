@@ -6,12 +6,31 @@ export async function getExamQuestions(req, res) {
   const { paperId } = req.params;
   const { type, difficulty, knowledge_point, limit = 100, offset = 0 } = req.query;
 
+  const SUBJECT_MAP = {
+    'chinese': '语文',
+    'math': '数学',
+    'english': '英语',
+    'physics': '物理',
+    'chemistry': '化学',
+    'biology': '生物',
+    'politics': '政治',
+    'history': '历史',
+    'geography': '地理',
+    'science': '理综',
+    'liberal_arts': '文综',
+    'comprehensive': '综合'
+  };
+
   try {
     const paperResult = await pool.query('SELECT * FROM exam_papers WHERE id = $1', [paperId]);
 
     if (paperResult.rows.length === 0) {
       return res.status(404).json(errorResponse('试卷不存在'));
     }
+
+    const paper = paperResult.rows[0];
+    paper.title = `${paper.year}年${SUBJECT_MAP[paper.subject] || paper.subject}试卷`;
+    paper.name = paper.title;
 
     let query = `
       SELECT
@@ -58,7 +77,7 @@ export async function getExamQuestions(req, res) {
 
     res.json({
       success: true,
-      paper: paperResult.rows[0],
+      paper: paper,
       data: rows.rows,
       total: parseInt(countResult.rows[0]?.count || 0),
       limit: parseInt(limit),

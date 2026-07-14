@@ -2,14 +2,14 @@ import { getDb } from '../core/db.js';
 import fs from 'fs';
 import path from 'path';
 import { KEYWORD_MAP, resolveSubjectName, matchWeakPoint, findWeakKPIds } from '../utils/subjectMap.js';
-import { errorResponse } from '../utils/response.js';
+import { errorResponse, successResponse } from '../utils/response.js';
 
 export default async function handler(req, res) {
   const email = req.user.email;
   const pool = await getDb();
 
   if (req.method === 'GET') {
-    const { subject, level } = req.query;
+    const { subject, level, source, include_content } = req.query;
     let query = 'SELECT * FROM knowledge_points';
     const params = [];
     const conditions = [];
@@ -22,6 +22,12 @@ export default async function handler(req, res) {
     if (level) {
       conditions.push(`level = $${paramIdx++}`);
       params.push(level);
+    }
+    // 按数据来源过滤：source=textbook 表示有教材内容的知识点
+    if (source === 'textbook') {
+      conditions.push(`content IS NOT NULL AND content != ''`);
+    } else if (source === 'seed') {
+      conditions.push(`content IS NULL OR content = ''`);
     }
 
     if (conditions.length > 0) {
@@ -38,7 +44,11 @@ export default async function handler(req, res) {
       } catch {
         subtopics = [];
       }
-      return { ...r, subtopics };
+      // 默认截断 content 为前 200 字（避免大响应），include_content=full 时返回完整内容
+      const content = include_content === 'full'
+        ? r.content
+        : (r.content ? r.content.slice(0, 200) + (r.content.length > 200 ? '...' : '') : null);
+      return { ...r, subtopics, content };
     }));
   }
 
@@ -65,6 +75,53 @@ export default async function handler(req, res) {
       } catch (err) {
         console.error('Seed error:', err);
         return res.status(500).json(errorResponse('导入知识点失败: ' + err.message));
+      }
+    }
+
+    if (action === 'seed_textbook') {
+      try {
+        const filePath = path.join(process.cwd(), 'database', 'graphify-gaokao-knowledge', 'textbook_knowledge.json');
+        const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+
+        let inserted = 0, updated = 0;
+        const existingResult = await pool.query('SELECT id FROM knowledge_points');
+        const existingIds = new Set(existingResult.rows.map(r => r.id));
+
+        for (const kp of data) {
+          const isNew = !existingIds.has(kp.id);
+          await pool.query(
+            `INSERT INTO knowledge_points
+              (id, subject, name, subtopics, difficulty, frequency, description, level,
+               module, textbook, volume, volume_code, content, source, tags)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+             ON CONFLICT (id) DO UPDATE SET
+               subject = EXCLUDED.subject, name = EXCLUDED.name, subtopics = EXCLUDED.subtopics,
+               difficulty = EXCLUDED.difficulty, frequency = EXCLUDED.frequency, description = EXCLUDED.description,
+               level = EXCLUDED.level, module = EXCLUDED.module, textbook = EXCLUDED.textbook,
+               volume = EXCLUDED.volume, volume_code = EXCLUDED.volume_code, content = EXCLUDED.content,
+               source = EXCLUDED.source, tags = EXCLUDED.tags, updated_at = NOW()`,
+            [
+              kp.id, kp.subject, kp.name, JSON.stringify([]),
+              kp.difficulty || 3, kp.frequency || 'medium',
+              kp.summary || kp.content?.slice(0, 300) || '',
+              kp.level || 'gaokao',
+              kp.module || '', kp.textbook || '', kp.volume || '', kp.volume_code || '',
+              kp.content || '', kp.source || '', JSON.stringify(kp.tags || []),
+            ]
+          );
+          if (isNew) inserted++; else updated++;
+        }
+
+        return res.json({
+          success: true,
+          inserted,
+          updated,
+          total: data.length,
+          message: `教材知识点导入完成：新增 ${inserted} 条，更新 ${updated} 条`
+        });
+      } catch (err) {
+        console.error('Seed textbook error:', err);
+        return res.status(500).json(errorResponse('导入教材知识点失败: ' + err.message));
       }
     }
 
@@ -95,6 +152,33 @@ export default async function handler(req, res) {
   }
 
   res.status(405).json(errorResponse('Method not allowed'));
+}
+
+/**
+ * GET /api/knowledge-points/:id/content — 返回指定知识点的完整教材内容
+ */
+export async function getKPContentHandler(req, res) {
+  try {
+    const pool = await getDb();
+    const result = await pool.query(
+      `SELECT id, name, subject, module, textbook, volume, volume_code, content, source, tags, difficulty, frequency
+       FROM knowledge_points WHERE id = $1`,
+      [req.params.id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json(errorResponse('知识点不存在'));
+    }
+
+    const kp = result.rows[0];
+    let tags;
+    try { tags = JSON.parse(kp.tags); } catch { tags = []; }
+
+    return res.json(successResponse({ ...kp, tags }));
+  } catch (err) {
+    console.error('[KP Content] 查询失败:', err.message);
+    return res.status(500).json(errorResponse('查询失败: ' + err.message));
+  }
 }
 
 export async function getWeakPointsHandler(req, res) {

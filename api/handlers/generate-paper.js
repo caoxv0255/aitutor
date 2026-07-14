@@ -154,7 +154,7 @@ export default async function handler(req, res) {
   return res.json(paper);
 }
 
-function calculateDistribution(targetDifficulty, timeLimit, kpCount) {
+export function calculateDistribution(targetDifficulty, timeLimit, kpCount) {
   let easy, medium, hard;
   
   if (targetDifficulty <= 2) {
@@ -175,6 +175,7 @@ function calculateDistribution(targetDifficulty, timeLimit, kpCount) {
   } else if (timeFactor > 1.2) {
     easy = Math.floor(easy * 1.2);
     medium = Math.floor(medium * 1.2);
+    hard = Math.floor(hard * 1.2);
   }
 
   return {

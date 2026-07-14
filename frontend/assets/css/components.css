@@ -1,0 +1,96 @@
+/* ═══════════════════════════════════════════════════════════════
+   components.css — Design System Component Definitions
+   Auto-extracted from preview/component-*.html
+   DO NOT EDIT MANUALLY — regenerate via extract-components-css.mjs
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Button ────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">主要</span> <button class="btn primary sm">开始学习</button> <button class="btn primary md" data-evidence-sample="Primary MD">开始学习</button> <button class="btn primary lg" data-evidence-sample="Primary LG">开始学习</button>
+*/
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: var(--font-body); font-weight: var(--font-weight-body); white-space: nowrap; cursor: pointer; border: none; border-radius: var(--radius-pill); transition: background .15s, border-color .15s, opacity .15s; flex-shrink: 0; }
+.btn.primary { background: var(--accent); color: var(--primary-foreground); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn.ghost:hover { background: var(--color-surface-container-low); }
+.btn.sm { height: var(--size-button-sm); padding: 0 var(--space-4); font-size: var(--font-size-caption); min-width: var(--size-button-sm); }
+.btn.md { height: var(--size-button-md); padding: 0 var(--space-5); font-size: var(--font-size-body); min-width: var(--size-button-md); }
+.btn.lg { height: var(--size-button-lg); padding: 0 28px; font-size: var(--font-size-lead); min-width: var(--size-button-lg); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+/* ── Card ──────────────────────────────────────────────────── */
+/* @anatomy
+   <div class="card" data-evidence-sample="Default"> <div class="card-heading">我的错题本
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+  .card { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); }
+  .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); word-break: keep-all; overflow-wrap: break-word; }
+  .card-body { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+  .card-interactive { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
+  .card-interactive:hover { border-color: var(--color-primary); transform: translateY(-3px); box-shadow: var(--shadow-2); }
+  .card-interactive .card-icon { width: var(--size-icon-lg); height: var(--size-icon-lg); flex-shrink: 0; color: var(--color-primary); }
+  .card-interactive .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); }
+  .card-interactive .card-desc { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+
+/* ── Input ─────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">默认</span> <div class="form-group" data-evidence-sample="Default"> <label>题目内容</label> <input class="input-field" type="text" placeholder="请输入题目内容">
+*/
+.form-group { display: flex; flex-direction: column; gap: var(--space-1); min-width: 240px; }
+  .form-group > label { font-size: var(--font-size-body); font-weight: 500; color: var(--color-on-surface); }
+  .input-field { display: flex; align-items: center; height: var(--size-input-height); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0 var(--space-3); font-family: var(--font-body); font-size: var(--font-size-body); color: var(--color-on-surface); outline: none; transition: border-color .15s; width: 100%; min-width: 120px; }
+  .input-field::placeholder { color: var(--muted); }
+  .input-field:focus { border-color: var(--color-primary); }
+  .input-field:disabled { opacity: .5; cursor: not-allowed; }
+  .input-wrap { display: flex; align-items: center; height: var(--size-input-height); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-pill); padding: 0 var(--space-3); width: 100%; min-width: 240px; transition: border-color .15s; }
+  .input-wrap:focus-within { border-color: var(--color-primary); }
+  .input-wrap .icon { width: var(--size-icon-md); height: var(--size-icon-md); flex-shrink: 0; color: var(--muted); }
+  .input-wrap input { border: none; outline: none; background: transparent; font: inherit; color: inherit; flex: 1; min-width: 0; }
+  .input-wrap input::placeholder { color: var(--muted); }
+
+/* ── Navigation ────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">桌面端</span>
+*/
+.navbar { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 var(--space-5); background: rgba(11,11,13,.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--color-border); width: 100%; box-sizing: border-box; }
+.navbar--compact { padding: 0 var(--space-3); }
+.navbar-logo { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h2); color: #ffffff; white-space: nowrap; text-decoration: none; }
+.navbar-links { display: flex; align-items: center; gap: var(--space-5); list-style: none; margin: 0; padding: 0; }
+.navbar-link { font-size: var(--font-size-body); font-weight: var(--font-weight-body); color: rgba(255,255,255,.72); text-decoration: none; white-space: nowrap; transition: filter .15s; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); }
+.navbar-link:hover { filter: brightness(1.2); }
+.navbar-link.active { color: #ffffff; font-weight: var(--font-weight-h4); }
+.navbar-actions { display: flex; align-items: center; gap: var(--space-3); }
+.navbar-btn { display: inline-flex; align-items: center; padding: var(--space-2) var(--space-4); background: var(--color-primary); color: var(--color-on-primary); font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-h4); border: none; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; transition: background .15s; }
+.navbar-btn:hover { background: var(--color-primary-hover); }
+.navbar-hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: none; border: none; color: rgba(255,255,255,.72); cursor: pointer; border-radius: var(--radius-sm); transition: filter .15s; flex-shrink: 0; }
+.navbar-hamburger:hover { filter: brightness(1.2); }
+
+/* ── Stat Card ─────────────────────────────────────────────── */
+/* @anatomy
+   <div class="stat-card" data-evidence-sample="Default"> <span class="stat-card__number">78</span> <span class="stat-card__label">综合得分</span>
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+  .stat-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-1); flex-shrink: 0; min-width: 140px; }
+  .stat-card:hover { box-shadow: var(--shadow-2); transition: box-shadow .15s; }
+  .stat-card__number { font-family: var(--font-display); font-size: var(--font-size-h2); font-weight: var(--font-weight-h1); line-height: var(--line-height-h2); color: var(--color-on-surface); }
+  .stat-card__label { font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); white-space: nowrap; }
+  .stat-card__change { font-size: var(--font-size-caption); font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); color: var(--color-success); white-space: nowrap; }
+  .stat-card--accent { background: var(--color-primary-container); border: 2px solid var(--color-primary); }
+  .stat-card--accent .stat-card__number { color: var(--color-primary); }
+
+/* ── Tag ───────────────────────────────────────────────────── */
+/* @anatomy
+   <span class="label">Default</span><span class="tag tag--default">数学</span><span class="tag tag--default">物理</span><span class="tag tag--default">化学</span><span class="tag tag--default">英语</span>
+*/
+/* Component definitions — extracted to components.css by deterministic script */
+.tag { display: inline-flex; align-items: center; height: 24px; padding: 0 var(--space-3); border-radius: var(--radius-pill); font-size: 12px; font-weight: 600; white-space: nowrap; line-height: 1; min-width: 24px; flex-shrink: 0; transition: background .15s, border-color .15s, filter .15s; }
+.tag--default { background: var(--color-surface); border: 1px solid var(--color-outline); color: var(--color-on-surface); }
+.tag--default:hover { background: var(--color-surface-container-low); }
+.tag--primary { background: var(--aitutor-primary-50); color: var(--aitutor-primary-700); border: 1px solid var(--aitutor-primary-200); }
+.tag--primary:hover { filter: brightness(1.05); }
+.tag--blue { background: var(--aitutor-blue-50); color: var(--aitutor-blue-700); border: 1px solid var(--aitutor-blue-200); }
+.tag--blue:hover { filter: brightness(1.05); }
+.tag--success { background: var(--aitutor-success-50); color: var(--aitutor-success-700); border: 1px solid var(--aitutor-success-200); }
+.tag--success:hover { filter: brightness(1.05); }
+.tag--info { background: var(--aitutor-info-50); color: var(--aitutor-info-700); border: 1px solid var(--aitutor-info-200); }
+.tag--info:hover { filter: brightness(1.05); }
