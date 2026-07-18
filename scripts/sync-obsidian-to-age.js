@@ -107,12 +107,16 @@ function parseKnowledgeFile(filepath) {
     return null;
   }
 
+  // 提取 Markdown 正文内容（去除 YAML frontmatter）
+  const bodyContent = content.replace(/^---[\s\S]*?---\s*/, '').trim();
+
   const meta = {
     id: String(frontmatter.id),
     name: String(frontmatter.name),
     subject: String(frontmatter.subject || '未知'),
     module: String(frontmatter.module || '未知'),
     difficulty: Number(frontmatter.difficulty) || 3,
+    content: bodyContent.slice(0, 500), // 截取前 500 字作为图节点内容摘要
   };
 
   // 提取 [[ ]] 双向链接（去除重复目标）
@@ -161,15 +165,15 @@ async function execCypher(client, cypherQuery, params = [], resultDef = 'result 
 }
 
 /**
- * 幂等创建/更新 KnowledgePoint 节点（MERGE by id，SET 所有属性）
+ * 幂等创建/更新 KnowledgePoint 节点（MERGE by id，SET 所有属性，含 content 摘要）
  */
-async function upsertNode(client, { id, name, subject, module, difficulty }) {
+async function upsertNode(client, { id, name, subject, module, difficulty, content }) {
   await execCypher(
     client,
     `MERGE (kp:KnowledgePoint {id: $1})
-     SET kp.name = $2, kp.subject = $3, kp.module = $4, kp.difficulty = $5
+     SET kp.name = $2, kp.subject = $3, kp.module = $4, kp.difficulty = $5, kp.content = $6
      RETURN kp`,
-    [id, name, subject, module, difficulty],
+    [id, name, subject, module, difficulty, (content || '').slice(0, 500)],
     'kp agtype'
   );
 }

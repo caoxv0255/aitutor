@@ -2,14 +2,24 @@
 /**
  * 导入2025年湖南卷物理真题到 exam_questions 和 province_knowledge_stats
  */
-import { getDb } from '/home/flaskappuser/Desktop/NewDisk_2T/new_fastapi.git/aitutor/api/db.js';
+import { getDb } from '../api/core/db.js';
 
 const pool = await getDb();
 
-const PAPER_ID = 19; // 2025 湖南物理
 const PROVINCE_CODE = 'hunan';
 const YEAR = 2025;
 const SUBJECT = 'physics';
+
+// 0. 先创建/获取试卷记录
+const paperResult = await pool.query(`
+  INSERT INTO exam_papers (province_code, year, subject, exam_level, paper_file_path)
+  VALUES ($1, $2, $3, 'gaokao', 'database/高考真题/湖南高考/2025年高考物理试卷.pdf')
+  ON CONFLICT (province_code, year, subject, exam_level)
+  DO UPDATE SET paper_file_path = EXCLUDED.paper_file_path
+  RETURNING id
+`, [PROVINCE_CODE, YEAR, SUBJECT]);
+const PAPER_ID = paperResult.rows[0].id;
+console.log(`✅ 试卷记录已创建/更新, ID: ${PAPER_ID}`);
 
 // 1. 确保光学知识点存在
 await pool.query(`
@@ -85,7 +95,7 @@ const kpStats = await pool.query(`
     AVG(difficulty) as avg_d,
     SUM(score) as total_s
   FROM (
-    SELECT jsonb_array_elements_text(knowledge_points) as kp_id, difficulty, score
+    SELECT jsonb_array_elements_text(knowledge_points::jsonb) as kp_id, difficulty, score
     FROM exam_questions WHERE paper_id = $1
   ) sub
   GROUP BY kp_id
@@ -105,12 +115,6 @@ for (const row of kpStats.rows) {
   `, [PROVINCE_CODE, YEAR, SUBJECT, row.kp_id, parseInt(row.count), parseFloat(row.avg_d).toFixed(2), parseInt(row.total_s)]);
 }
 console.log('✅ province_knowledge_stats 已更新');
-
-// 5. 更新 provinces 表的 description 字段（如果没有）
-await pool.query(`
-  UPDATE provinces SET description = '使用新高考I卷，注重基础知识和能力并重'
-  WHERE code = 'hunan' AND (description IS NULL OR description = '')
-`);
 
 console.log(`\n✅ 湖南卷数据全部导入完成!`);
 process.exit(0);
