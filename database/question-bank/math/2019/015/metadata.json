@@ -1,0 +1,170 @@
+{
+  "uid": "math_2019_beijing_015",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 13,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 24,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 10,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_1_img_7.png",
+      "page": 1,
+      "width": 170,
+      "height": 261
+    },
+    {
+      "filename": "page_1_img_8.png",
+      "page": 1,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_1_img_9.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_10.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_11.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 158,
+      "height": 154
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 108,
+      "height": 69
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 213,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 116,
+      "height": 49
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 207,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 22,
+      "height": 47
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 13,
+      "height": 35
+    }
+  ],
+  "created_at": "2026-07-17T16:13:47.731Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 13分\n\n---\n\n## 题目内容\n\n在△ABC中，a＝3，b-c＝2，cosB＝-\\frac{1}{2}．（Ⅰ）求b，c的值；（Ⅱ）求sin（B+C）的值．\n\n## 小题\n\n### 15(Ⅰ)\n\n求b，c的值；\n\n**答案**: b=7，c=5\n\n### 15(Ⅱ)\n\n求sin（B+C）的值．\n\n**答案**: \\frac{3\\sqrt{3}}{14}\n\n---\n\n## 参考答案\n\n（Ⅰ）b=7，c=5；（Ⅱ）\\frac{3\\sqrt{3}}{14}\n\n",
+  "answer": "解：由正弦定理，a/sinA = b/sinB，得2/sinA = √6/sin60°，sinA = (2×√3/2)/√6 = √3/√6 = √2/2，所以A=45°或135°，但a<b，所以A<B，故A=45°。C=180°-45°-60°=75°。由正弦定理，c/sinC = a/sinA，c = a sinC/sinA = 2×sin75°/(√2/2) = 4×sin75°/√2，sin75°=sin(45°+30°)= (√6+√2)/4，所以c=4×(√6+√2)/(4√2)= (√6+√2)/√2 = √3+1。",
+  "analysis": "本题考查正弦定理的应用。解题思路：利用正弦定理求角A，注意大边对大角，确定A的唯一性，再求角C和边c。关键知识点：正弦定理、三角形内角和、两角和的正弦公式。评分标准：正确使用正弦定理得2分，求出A得2分，求出C得2分，求出c得2分，结果正确得2分。"
+}

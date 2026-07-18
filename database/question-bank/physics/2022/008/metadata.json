@@ -1,0 +1,209 @@
+{
+  "uid": "physics_2022_beijing_008",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "圆周运动",
+    "功"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 387,
+      "height": 413
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 566,
+      "height": 289
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 564,
+      "height": 374
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 358,
+      "height": 257
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 282,
+      "height": 339
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 529,
+      "height": 284
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 355,
+      "height": 257
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 222,
+      "height": 289
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 481,
+      "height": 417
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 401,
+      "height": 458
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 722,
+      "height": 190
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 380,
+      "height": 323
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 275,
+      "height": 543
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 818,
+      "height": 154
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 651,
+      "height": 628
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 720,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 376,
+      "height": 261
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 383
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 381,
+      "height": 458
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:58:36.484Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 圆周运动、功\n\n---\n\n## 题目内容\n\n我国航天员在“天宫课堂”中演示了多种有趣的实验，提高了青少年科学探索的兴趣。某同学设计了如下实验：细绳一端固定，另一端系一小球，给小球一初速度使其在竖直平面内做圆周运动。无论在“天宫”还是在地面做此实验（  ）\n\n## 选项\n\nA. 小球的速度大小均发生变化\n\nB. 小球的向心加速度大小均发生变化\n\nC. 细绳的拉力对小球均不做功\n\nD. 细绳的拉力大小均发生变化\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "D",
+  "analysis": "选项D正确，根据动能定理W=ΔEk，合外力做功等于动能变化。选项A错误，因为功是标量。选项B错误，因为动能是标量。选项C错误，因为功的正负表示能量转移方向。"
+}

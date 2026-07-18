@@ -1,0 +1,158 @@
+{
+  "uid": "biology_2021_beijing_017",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 454,
+      "height": 288
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 510,
+      "height": 377
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 353,
+      "height": 264
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 511,
+      "height": 211
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 432,
+      "height": 302
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 550,
+      "height": 168
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 274,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 498,
+      "height": 237
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 593,
+      "height": 305
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 720,
+      "height": 322
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1000,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 596,
+      "height": 427
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:47:31.017Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n北大西洋沿岸某水域生活着多种海藻和以藻类为食的一种水虱，以及水虱的天敌隆头鱼。柏桉藻在上世纪末被引入，目前已在该水域广泛分布，数量巨大，表现出明显的优势。为探究柏桉藻成功入侵的原因，研究者进行了系列实验。\n\n## 小题\n\n### 17(1)\n\n从生态系统的组成成分划分，柏桉藻属于_________。\n\n**答案**: 生产者\n\n### 17(2)\n\n用三组水箱模拟该水域的环境。水箱中均放入柏桉藻和甲、乙、丙3 种本地藻各0．5 克，用纱网分区（见图1）；三组水箱中分别放入0、4、8 只水虱/箱。10 天后对海藻称重，结果如图2，同时记录水虱的分布。①图2 结果说明水虱对本地藻有更强的取食作用，作出判断的依据是：与没有水虱相比，在有水虱的水箱中，_________。②水虱分布情况记录结果显示，在有水虱的两组中，大部分水虱附着在柏桉藻上，说明水虱对所栖息的海藻种类具有__________。\n\n**答案**: 本地藻重量下降更明显；选择性（或偏好性）\n\n### 17(3)\n\n为研究不同海藻对隆头鱼捕食水虱的影响，在盛有等量海水的水箱中分别放入相应的实验材料，一段时间后检测，结果如图3（甲、乙、丙为上述本地藻）。该实验的对照组放入的有_________。\n\n**答案**: 水虱和隆头鱼（或水虱、隆头鱼和柏桉藻）\n\n### 17(4)\n\n研究发现，柏桉藻含有一种引起动物不适的化学物质，若隆头鱼吞食水虱时误吞柏桉藻，会将两者吐出。请综合上述研究结果，阐明柏桉藻成功入侵的原因________。\n\n**答案**: 柏桉藻含有化学物质使隆头鱼不适，减少水虱被捕食，水虱偏好取食本地藻，导致本地藻减少，柏桉藻获得竞争优势\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）次级卵母细胞  0  （2）a  （3）DNA复制  着丝粒分裂",
+  "analysis": "（1）图甲细胞无同源染色体，着丝粒排列在赤道板上，为减数第二次分裂中期，是次级卵母细胞，染色体数为2，DNA数为4，染色单体数为4。（2）图乙中a表示染色体数，b表示染色单体数，c表示DNA数。（3）AB段DNA加倍原因是DNA复制，CD段染色体加倍原因是着丝粒分裂。评分标准：每空1分，共6分。"
+}

@@ -1,0 +1,230 @@
+{
+  "uid": "chemistry_2021_beijing_013",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 34,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 139,
+      "height": 90
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 103,
+      "height": 76
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 54,
+      "height": 45
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 64,
+      "height": 42
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 1231,
+      "height": 420
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 173,
+      "height": 132
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 258,
+      "height": 248
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 549,
+      "height": 201
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 74,
+      "height": 52
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 162,
+      "height": 66
+    },
+    {
+      "filename": "page_4_img_5.jpeg",
+      "page": 4,
+      "width": 1426,
+      "height": 287
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 305,
+      "height": 251
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 177,
+      "height": 89
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1154,
+      "height": 401
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 380,
+      "height": 224
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 1483,
+      "height": 479
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 395,
+      "height": 162
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 164,
+      "height": 75
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 1467,
+      "height": 122
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 524,
+      "height": 348
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 118,
+      "height": 121
+    }
+  ],
+  "created_at": "2026-07-17T16:45:52.219Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n有科学研究提出:锂电池负极材料(Li)由于生成LiH而不利于电池容量的保持。一定温度下，利用足量重水(D2O）与含LiH的Li负极材料反应，通过测定n(D2)/n(HD)可以获知n(Li)/n(LiH)。已知：①LiH+H2O=LiOH+H2↑ ②2Li(s)+H2⇌2LiH △H＜0 下列说法不正确的是\n\n## 选项\n\nA. A. 可用质谱区分D2和HD\n\nB. B. Li与D2O的反应：2Li+2D2O=2LiOD+D2↑\n\nC. C. 若n(Li)/n(LiH)越大，则n(D2)/n(HD)越小\n\nD. D. 80℃反应所得n(D2)/n(HD)比25℃反应所得n(D2)/n(HD)大\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "选项A正确，因为分子是保持物质化学性质的最小粒子。选项B错误，原子是化学变化中的最小粒子。选项C错误，分子在化学变化中可再分。选项D错误，分子和原子都是构成物质的粒子。"
+}

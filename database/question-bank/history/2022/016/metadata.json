@@ -1,0 +1,104 @@
+{
+  "uid": "history_2022_beijing_016",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 857,
+      "height": 761
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 301,
+      "height": 359
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 953,
+      "height": 515
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 1039,
+      "height": 530
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:10:28.921Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\n绢与马\n材料一唐与突厥互市，“以金帛市马”“以助军旅”，唐马“既杂胡种，马乃益壮。天宝后，诸军战马动以万计”，“秦、汉以来，唐马最盛”。唐代驿制“凡三十里一驿，天下凡一千六百三十有九所”，各驿站的官马多至75 匹、少至8 匹，“冠盖相望，邮驿继踵”。士庶也喜骑马出行，“贵贱所行，通鞍马而已”。马球蔚然成风，太宗“闻西蕃人好为打球，比亦令习”。\n材料二突厥、回纥与唐朝进行绢马贸易，规模巨大。回纥“每一马易四十缣（注：细绢），动至数万匹”，除自身消费外，还将多余的绢帛通过中间商人不断向西销售。突厥、回纥还开始建设据点聚积物资，突厥毗伽可汗“欲修筑城壁，造立寺观”。回纥最初“风俗朴厚”，获得唐朝厚利后，登里可汗“筑宫殿以居，妇人有粉黛文绣之饰”。\n以绢马贸易为例，阐述唐代农耕与游牧民族互动的影响。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）秦朝：三公九卿制；唐朝：三省六部制。（2）相同点：都分割相权，加强皇权；不同点：秦朝三公互不统属，直接对皇帝负责；唐朝三省分工明确，相互制约。（3）趋势：相权不断削弱，皇权不断加强。",
+  "analysis": "本题考查中国古代中央官制演变。解题思路：首先回忆秦朝和唐朝的中央官制，秦朝实行三公九卿制，唐朝实行三省六部制。然后比较两者异同，相同点都是分割相权加强皇权，不同点在于权力结构。最后总结趋势，相权削弱、皇权加强。评分标准：第（1）问每点1分，共2分；第（2）问相同点2分，不同点2分；第（3）问2分。"
+}

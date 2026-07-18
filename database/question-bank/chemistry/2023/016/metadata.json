@@ -1,0 +1,272 @@
+{
+  "uid": "chemistry_2023_beijing_016",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 41,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1536,
+      "height": 349
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 215,
+      "height": 211
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 274,
+      "height": 274
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 476,
+      "height": 147
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 1125,
+      "height": 433
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 713,
+      "height": 291
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 1031,
+      "height": 516
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 396,
+      "height": 275
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 284,
+      "height": 189
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 940,
+      "height": 513
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 704,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 1247,
+      "height": 573
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 579,
+      "height": 447
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 626,
+      "height": 472
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 529,
+      "height": 468
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1187,
+      "height": 325
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 1260,
+      "height": 607
+    },
+    {
+      "filename": "page_8_img_4.png",
+      "page": 8,
+      "width": 488,
+      "height": 222
+    },
+    {
+      "filename": "page_8_img_5.png",
+      "page": 8,
+      "width": 187,
+      "height": 97
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 252,
+      "height": 128
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 273,
+      "height": 142
+    },
+    {
+      "filename": "page_9_img_4.png",
+      "page": 9,
+      "width": 1239,
+      "height": 329
+    },
+    {
+      "filename": "page_9_img_5.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_6.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_7.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 642,
+      "height": 519
+    },
+    {
+      "filename": "page_10_img_3.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_4.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.jpeg",
+      "page": 11,
+      "width": 552,
+      "height": 302
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:21:16.117Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n尿素[CO(NH2)2]合成的发展体现了化学科学与技术的不断进步。\n（1）十九世纪初，用氰酸银(AgOCN)与NH4Cl在一定条件下反应制得CO(NH2)2，实现了由无机物到有机物的合成。该反应的化学方程式是____________________。\n（2）二十世纪初，工业上以CO2和NH3为原料在一定温度和压强下合成尿素。反应分两步：ⅰ．CO2和NH3生成NH4COONH2；ⅱ．NH4COONH2分解生成尿素。结合反应过程中能量变化示意图，下列说法正确的是__________(填序号)。\na．活化能：反应ⅰ<反应ⅱ\nb．ⅰ为放热反应，ⅱ为吸热反应\nc．ΔH=E1-E2\n（3）近年研究发现，电催化CO2和含氮物质(NO3-等)在常温常压下合成尿素，有助于实现碳中和及解决含氮废水污染问题。向一定浓度的KNO3溶液通CO2至饱和，在电极上反应生成CO(NH2)2，电解原理如图所示。\n①电极b是电解池的__________极。\n②电解过程中生成尿素的电极反应式是_____________。\n（4）尿素样品含氮量的测定方法如下。已知：溶液中c(NH4+)不能直接用NaOH溶液准确滴定。\n①消化液中的含氮粒子是__________。\n②步骤ⅳ中标准NaOH溶液的浓度和消耗的体积分别为c和V，计算样品含氮量还需要的实验数据有__________。\n\n## 小题\n\n### 16(1)\n\n十九世纪初，用氰酸银(AgOCN)与NH4Cl在一定条件下反应制得CO(NH2)2，实现了由无机物到有机物的合成。该反应的化学方程式是____________________。\n\n**答案**: AgOCN + NH4Cl → CO(NH2)2 + AgCl\n\n### 16(2)\n\n二十世纪初，工业上以CO2和NH3为原料在一定温度和压强下合成尿素。反应分两步：ⅰ．CO2和NH3生成NH4COONH2；ⅱ．NH4COONH2分解生成尿素。结合反应过程中能量变化示意图，下列说法正确的是__________(填序号)。\na．活化能：反应ⅰ<反应ⅱ\nb．ⅰ为放热反应，ⅱ为吸热反应\nc．ΔH=E1-E2\n\n**答案**: a、b\n\n### 16(3)\n\n近年研究发现，电催化CO2和含氮物质(NO3-等)在常温常压下合成尿素，有助于实现碳中和及解决含氮废水污染问题。向一定浓度的KNO3溶液通CO2至饱和，在电极上反应生成CO(NH2)2，电解原理如图所示。\n①电极b是电解池的__________极。\n②电解过程中生成尿素的电极反应式是_____________。\n\n**答案**: ①阳；②2NO3- + 16H+ + 12e- + CO2 → CO(NH2)2 + 7H2O\n\n### 16(4)\n\n尿素样品含氮量的测定方法如下。已知：溶液中c(NH4+)不能直接用NaOH溶液准确滴定。\n①消化液中的含氮粒子是__________。\n②步骤ⅳ中标准NaOH溶液的浓度和消耗的体积分别为c和V，计算样品含氮量还需要的实验数据有__________。\n\n**答案**: ①NH4+；②样品质量\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）试管；（2）A；（3）2KMnO4 =△= K2MnO4 + MnO2 + O2↑；（4）将带火星的木条放在集气瓶口，若木条复燃，则已满。",
+  "analysis": "该题考查实验室制取氧气。解题思路：根据装置图识别仪器名称；高锰酸钾制氧气需加热，发生装置选A；化学方程式注意配平和条件；验满方法用带火星木条放在瓶口。关键知识点：高锰酸钾制氧气是固体加热型，氧气密度比空气大，可用向上排空气法。评分标准：每空2分，共8分。"
+}

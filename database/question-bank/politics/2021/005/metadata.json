@@ -1,0 +1,134 @@
+{
+  "uid": "politics_2021_beijing_005",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 226,
+      "height": 137
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 125,
+      "height": 136
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 128,
+      "height": 136
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 244,
+      "height": 220
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 650,
+      "height": 434
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 513,
+      "height": 159
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 313,
+      "height": 272
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 448,
+      "height": 147
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 330,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:50:38.160Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n从孔子到王阳明，从苏格拉底到黑格尔，众多哲学家就像是璀璨星河中的一颗颗星辰。纵观哲学发展史，也许哲学家们解答哲学问题的具体内容已经“过时”，但是他们解答问题的特有方式却具有永恒价值。这说明（    ）\n\n## 选项\n\nA. A. 哲学作为先进的社会意识，其发达程度取决于社会存在的高度发展\n\nB. B. 认识是无限发展的，哲学追求是一个永无止境的过程，需要不断完善自身\n\nC. C. 哲学家是真理的发现者，真理都是主体与客体、理论与实践的具体的历史的统一\n\nD. D. 哲学具有时代性，而哲学思维以其特有的反思精神与批判精神不断激发思想\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "本题考查消费类型。按消费目的，消费可分为生存资料消费、发展资料消费和享受资料消费。选项A正确，旅游属于享受资料消费。选项B错误，购买书籍属于发展资料消费。选项C错误，食品属于生存资料消费。选项D错误，住房属于生存资料消费。因此选A。"
+}

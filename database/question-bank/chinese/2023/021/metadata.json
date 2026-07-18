@@ -1,0 +1,92 @@
+{
+  "uid": "chinese_2023_beijing_021",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:14:51.021Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\n阅读下面材料，完成小题。\n近年来，微信公众号成为信息传播的一种重要媒介。班级准备创建自己的公众号，但对是否需要创建，同学们意见不一。请说明你的观点和理由。\n要求：理由充分，条理清晰。不超过150字。不透露所在区、学校及个人信息。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）示例：坚持就是胜利。（2分）\n（2）示例：爱迪生经过上千次实验，终于发明了电灯，他的坚持带来了光明。（2分）",
+  "analysis": "本题考查议论文论据。第一问提炼观点；第二问补充事实论据。评分标准：观点明确2分；论据需典型、有说服力，2分。"
+}

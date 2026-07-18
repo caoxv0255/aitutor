@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_035",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 35,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.718Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第35题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\nHealth and fitness help a person live a good and healthy life. Often due to various pressures, we tend to ignore our health. ____35____ It is the fitness level of our body that helps us fight these diseases. \n____36____ We need to be fit to have a healthy body. Similarly, if we are healthy we shall naturally be attracted towards maintaining the fitness of our body. Health is the state of our body at a given time. We may not have any disease but still have a weak body, which is ready to be targeted by viruses. ____37____ This does not definitely mean that we are not healthy. It means the fitness level is not in accordance with our age and the climatic conditions we live in. \nIt is important for everyone to devote some time to health and fitness. ____38____ For instance, we must exercise daily regardless of our age and working style. There are different levels of exercises for different age groups and we must do them according to our own health and age. \nAdditionally, it is important to relax our body. We should have at least six to eight hours of sleep every day. It helps in improving our immune (免疫) system and protects us against diseases. ____39____ This, in turn, gives us new goals of health and fitness.\n\n## 选项\n\nA. A. Fitness levels decide the quality of life.\n\nB. B. Health and fitness are interrelated to each other.\n\nC. C. It also helps in keeping us calm and relaxes our mind.\n\nD. D. For instance, we may have a tendency to catch a cold easily.\n\nE. E. If we keep our body fit, we can enjoy life in a better manner.\n\nF. F. There are some activities which everyone should do in our life.\n\nG. G. This makes our body suffer and we will catch other diseases.\n\n---\n\n## 参考答案\n\n35. D 36. B 37. G 38. F 39. C\n\n",
+  "answer": "B",
+  "analysis": "本题考查代词。A项‘两者都’；B项‘两者都不’；C项‘三者或以上都不’；D项‘三者或以上都’。由but可知不喜欢两者，且两者用neither。故选B。"
+}

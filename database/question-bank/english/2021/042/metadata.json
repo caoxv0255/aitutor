@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_042",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 42,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T15:57:51.389Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第42题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n42. Please decide which part is false in the following statement, then underline it and explain why．\nResolving arguments can improve your emotional health, because it increases your reactivity and reduces the chance of you getting angry．\n\n---\n\n## 参考答案\n\nThe false part is \"increases your reactivity\". Because resolving arguments actually reduces reactivity, as shown in the study where people who had a resolved argument had half the reactivity of those who avoided an argument.\n\n",
+  "answer": "Dear Tom,\nI'm glad to hear that you are coming to China. I suggest you visit the Great Wall, the Forbidden City, and the Summer Palace. They are famous places with long history. Also, try Chinese food like Beijing Duck. If you need help, let me know.\nYours,\nLi Hua",
+  "analysis": "本题要求写一封建议信。要点：表示欢迎、推荐景点（长城、故宫、颐和园）、推荐美食（北京烤鸭）、提供帮助。注意书信格式，时态用一般现在时。评分标准：格式正确2分，内容完整4分，语言准确3分，逻辑连贯1分。"
+}

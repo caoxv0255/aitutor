@@ -1,0 +1,128 @@
+{
+  "uid": "geography_2020_beijing_008",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 309,
+      "height": 327
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 553,
+      "height": 167
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 435,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 440,
+      "height": 271
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 369,
+      "height": 275
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 553,
+      "height": 159
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 415,
+      "height": 323
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 540,
+      "height": 326
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 603,
+      "height": 131
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 553,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 488,
+      "height": 317
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 421,
+      "height": 297
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 552,
+      "height": 264
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 553,
+      "height": 377
+    },
+    {
+      "filename": "page_10_img_2.jpeg",
+      "page": 10,
+      "width": 600,
+      "height": 279
+    }
+  ],
+  "created_at": "2026-07-17T16:38:08.406Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下图为北京时间2020年5月14日14时亚洲局部地区海平面气压分布图，据图推断（   ）\n\n## 选项\n\nA. 甲地风向偏西南，气温高\n\nB. 乙地气流辐散，空气洁净\n\nC. 丙地天气晴朗，紫外线强\n\nD. 丁地受冷锋影响，有暴雪\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "世界气温分布规律：从低纬度向高纬度递减，同纬度海洋和陆地气温不同，海拔越高气温越低。B选项正确。A选项错误，气温从低纬向高纬递减；C选项错误，同纬度夏季陆地气温高于海洋；D选项错误，海拔每升高100米气温下降约0.6℃。"
+}

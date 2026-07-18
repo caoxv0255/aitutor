@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_033",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 33,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.258Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第33题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nWhat can we learn from this passage?\n\n## 选项\n\nA. A. ALife holds the key to human future.\n\nB. B. ALife and AI share a common feature.\n\nC. C. AI mirrors the developments of ALife.\n\nD. D. AI speeds up the process of human evolution.\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "B",
+  "analysis": "本题考查介词短语。A. 代替；B. 尽管；C. 因为；D. 除了。句意‘尽管下雨，他们还是继续工作’，故选B。"
+}

@@ -1,0 +1,158 @@
+{
+  "uid": "chemistry_2019_beijing_001",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 196,
+      "height": 89
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 145,
+      "height": 164
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 121,
+      "height": 136
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 147,
+      "height": 147
+    },
+    {
+      "filename": "page_1_img_5.jpeg",
+      "page": 1,
+      "width": 134,
+      "height": 210
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 175,
+      "height": 168
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 221,
+      "height": 165
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 309,
+      "height": 247
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 22,
+      "height": 26
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 280,
+      "height": 278
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 80,
+      "height": 141
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 53,
+      "height": 37
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 249,
+      "height": 226
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 696,
+      "height": 177
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 473,
+      "height": 84
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 59,
+      "height": 37
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 446,
+      "height": 85
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 257,
+      "height": 173
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 228,
+      "height": 206
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 407,
+      "height": 172
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 454,
+      "height": 79
+    }
+  ],
+  "created_at": "2026-07-17T16:18:20.257Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\n下列我国科研成果所涉及材料中，主要成分为同主族元素形成的无机非金属材料的是（  ）\n\n## 选项\n\nA. A．4.03 米大口径碳化硅反射镜\n\nB. B．2022 年冬奥会聚氨酯速滑服\n\nC. C．能屏蔽电磁波的碳包覆银纳米线\n\nD. D．“玉兔二号”钛合金筛网轮\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "A",
+  "analysis": "本题考查化学变化与物理变化的区别。化学变化有新物质生成，物理变化没有新物质生成。A选项铁生锈生成氧化铁，有新物质，属于化学变化；B选项水蒸发是状态变化，无新物质；C选项玻璃破碎是形状变化；D选项酒精挥发是分子运动，均无新物质。因此选A。"
+}

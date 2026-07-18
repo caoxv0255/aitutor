@@ -1,0 +1,134 @@
+{
+  "uid": "politics_2021_beijing_018",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 226,
+      "height": 137
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 125,
+      "height": 136
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 128,
+      "height": 136
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 244,
+      "height": 220
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 650,
+      "height": 434
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 513,
+      "height": 159
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 313,
+      "height": 272
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 448,
+      "height": 147
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 330,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:50:38.167Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\n材料一  1981年，全国人大通过了《关于开展全民义务植树运动的决议》，植树造林、绿化祖国成为中国每一位适龄公民的法定义务。2019年有国际科研机构发现，世界越来越绿了，中国是促进这一改变的重要贡献者之一，全球从2000年到2017年新增的绿化面积约四分之一来自中国。\n坚持不懈植绿造绿、养绿护绿，是中国建设生态良好的地球美好家园的有力体现，也成为中国推动实现人与自然和谐共生的现代化的生动缩影。中国大力推动绿色生产和绿色消费，形成节约资源和保护环境的空间格局、产业结构、生产方式、生活方式，向世界递出了“绿色名片”。\n材料二  中国积极倡导并推动将绿色生态理念贯穿于共建“一带一路”倡议，主张“把绿色作为底色，推动绿色基础设施建设、绿色投资、绿色金融，保护好我们赖以生存的共同家园”。\n从柬埔寨额勒赛水电站，到哈萨克斯坦扎纳塔斯的风电项目，再到埃塞俄比亚索马里州光伏电站；从非洲的气候遥感卫星，到东南亚的低碳示范区，再到小岛国的节能灯……中国通过多种形式的务实合作，推动绿色发展。2021年4月，在领导人气候峰会上，习近平主席进一步倡导“共商应对气候变化挑战，共谋人与自然和谐共生之道”。\n材料一和材料二涉及了构建“人与自然生命共同体”的两种做法。运用哲学观点，分析中国是如何统筹这两种做法推动构建“人与自然生命共同体”的。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "①坚持和完善按劳分配为主体、多种分配方式并存的分配制度。②增加居民收入，提高居民收入在国民收入分配中的比重、劳动报酬在初次分配中的比重。③再分配更加注重公平，通过税收、社会保障等调节收入差距。④坚持共同富裕的根本目标，让发展成果更多更公平惠及全体人民。",
+  "analysis": "本题考查促进收入分配公平的措施。解题思路：从制度保障、初次分配、再分配和根本目标四个方面回答。评分标准：每个要点1.5分，共6分。"
+}

@@ -1,0 +1,50 @@
+{
+  "uid": "biology_2019_beijing_002",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 307,
+      "height": 221
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 171,
+      "height": 98
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 376,
+      "height": 233
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 464,
+      "height": 234
+    }
+  ],
+  "created_at": "2026-07-17T16:19:45.465Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\n为探究运动对海马脑区发育和学习记忆能力的影响，研究者将实验动物分为运动组和对照组，运动组每天进行适量的有氧运动（跑步/游泳）。数周后，研究人员发现运动组海马脑区发育水平比对照组提高了1.5倍，靠学习记忆找到特定目标的时间缩短了约40%。根据该研究结果可得出（  ）\n\n## 选项\n\nA. A．有氧运动不利于海马脑区的发育\n\nB. B．规律且适量的运动促进学习记忆\n\nC. C．有氧运动会减少神经元间的联系\n\nD. D．不运动利于海马脑区神经元兴奋\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "C",
+  "analysis": "本题考查光合作用过程。光反应阶段在类囊体薄膜上进行，包括水的光解和ATP合成，产物有O2、[H]（NADPH）和ATP。暗反应阶段在叶绿体基质中进行，包括CO2固定和C3还原，需要光反应提供的[H]和ATP。选项A错误：光反应产生的ATP用于暗反应。选项B错误：暗反应不需要光，但需要光反应产物。选项C正确：光反应产生的[H]用于暗反应中C3的还原。选项D错误：CO2固定不需要光，但C3还原需要光反应提供的能量和还原剂。"
+}

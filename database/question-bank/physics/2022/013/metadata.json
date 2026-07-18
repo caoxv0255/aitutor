@@ -1,0 +1,209 @@
+{
+  "uid": "physics_2022_beijing_013",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 4,
+  "score": 3,
+  "knowledge_points": [
+    "传感器",
+    "电路分析"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 387,
+      "height": 413
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 566,
+      "height": 289
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 564,
+      "height": 374
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 358,
+      "height": 257
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 282,
+      "height": 339
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 529,
+      "height": 284
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 355,
+      "height": 257
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 222,
+      "height": 289
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 481,
+      "height": 417
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 401,
+      "height": 458
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 722,
+      "height": 190
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 380,
+      "height": 323
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 275,
+      "height": 543
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 818,
+      "height": 154
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 651,
+      "height": 628
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 720,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 376,
+      "height": 261
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 383
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 381,
+      "height": 458
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:58:36.489Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★★★☆\n\n**分值**: 3分\n\n**知识点**: 传感器、电路分析\n\n---\n\n## 题目内容\n\n某同学利用压力传感器设计水库水位预警系统。如图所示，电路中的R1和R2，其中一个是定值电阻，另一个是压力传感器（可等效为可变电阻）。水位越高，对压力传感器的压力越大，压力传感器的电阻值越小。当a、b两端的电压大于U1时，控制开关自动开启低水位预警；当a、b两端的电压小于U2（U1、U2为定值）时，控制开关自动开启高水位预警。下列说法正确的是（  ）\n\n## 选项\n\nA. U1<U2\n\nB. R2为压力传感器\n\nC. 若定值电阻的阻值越大，开启高水位预警时的水位越低\n\nD. 若定值电阻的阻值越大，开启低水位预警时的水位越高\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "选项A正确，根据欧姆定律I=U/R，电流与电压成正比。选项B错误，因为电阻是导体属性，与电压电流无关。选项C错误，因为电阻由材料、长度、横截面积决定。选项D错误，因为电流方向与正电荷定向移动方向相同。"
+}

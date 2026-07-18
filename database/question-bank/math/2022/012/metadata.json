@@ -1,0 +1,134 @@
+{
+  "uid": "math_2022_beijing_012",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 1,
+  "score": 5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 568,
+      "height": 486
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 272,
+      "height": 203
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_5.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_6.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:55:27.404Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 填空题\n\n**难度**: ★☆☆☆☆\n\n**分值**: 5分\n\n---\n\n## 题目内容\n\n已知双曲线x^2+y^2/m=1的渐近线方程为y=±√3/3 x，则m=__________．\n\n---\n\n## 参考答案\n\n-3\n\n",
+  "answer": "2",
+  "analysis": "由约束条件画出可行域，目标函数z=x+y，当直线过点(1,1)时z取最大值2。"
+}

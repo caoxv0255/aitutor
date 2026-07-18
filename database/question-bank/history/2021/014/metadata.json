@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_014",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:03.003Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n1947年，日本近代天皇制度的核心机构内务省被废除。1949年，通商产业省成立，主管工业和商业，制定经济政策。这些举措\n①强化了天皇控制国家经济的权力\n②有助于铲除日本的军国主义残余\n③推动了日本经济复兴与贸易扩大\n④延缓了战后日本政府民主化改革\n\n## 选项\n\nA. A. ①②\n\nB. B. ③④\n\nC. C. ②③\n\nD. D. ①④\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "本题考查德意志帝国君主立宪制。1871年宪法规定皇帝拥有大权，宰相由皇帝任命，对皇帝负责。选项A错误，德国是君主立宪制。选项B错误，帝国议会权力有限。选项C正确，皇帝拥有实权，德国是虚假的民主。选项D错误，联邦议会权力大于帝国议会。"
+}

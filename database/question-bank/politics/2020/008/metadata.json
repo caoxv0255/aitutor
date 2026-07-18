@@ -1,0 +1,107 @@
+{
+  "uid": "politics_2020_beijing_008",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "基层治理",
+    "政府与社会合作"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 229,
+      "height": 126
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 371,
+      "height": 234
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 650,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 82,
+      "height": 72
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 92,
+      "height": 84
+    },
+    {
+      "filename": "page_5_img_4.jpeg",
+      "page": 5,
+      "width": 95,
+      "height": 88
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 650,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 645,
+      "height": 348
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 264
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 218,
+      "height": 285
+    }
+  ],
+  "created_at": "2026-07-17T16:36:47.003Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 基层治理、政府与社会合作\n\n---\n\n## 题目内容\n\n某街道办事处主动征集居民需求，同时挖掘社会资源，鼓励辖区企业参与“接单”。街道办事处从居民中收集到教育培训、硬件建设、精神慰藉、健康服务等方面的需求，梳理成“邻里清单”，这些需求被辖区企业、单位和部门全部认领，惠及两万多人。这一做法的内在逻辑是（    ）\n\n## 选项\n\nA. A.“邻里清单”来自居民，实现了经济管理的民主化\n\nB. B.让市场主动提供公共服务，满足人们多样化需求\n\nC. C.通过政府与社会的合作，将居民需求与社会资源连接\n\nD. D.基层政府简政放权，提升居民自我管理自我服务水平\n\n---\n\n## 参考答案\n\nC\n\n## 解析\n\nC正确。A错误，不是经济管理；B错误，市场不主动提供公共服务；D错误，街道办事处不是基层政府。\n\n",
+  "answer": "D",
+  "analysis": "本题考查就业的意义。就业是民生之本，对整个社会生产和发展具有重要意义。选项A错误，就业是劳动者谋生的手段。选项B错误，就业促进社会进步。选项C错误，就业是劳动者实现自身价值的重要途径。选项D正确，就业是民生之本。因此选D。"
+}

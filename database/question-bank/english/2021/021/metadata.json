@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_021",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:42:35.307Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nIf you are planning to start a career in the field of education，science，or culture，then an internship（实习） at UNESCO will be ideal for you．Who can apply？You have completed your full-time university studies；or．You are studying in a graduate program for a master's degree．Applicants in technical assignments must have reached the last year of their studies in a technical institution．What are the requirements？You must be at least 20 years old．You should have a good command （掌握） of either English or French．You must have an excellent knowledge of office-related software．You should be able to work well in a team and adapt to an international working environment．You should possess strong interpersonal and communication skills．What do you need to prepare？Visa：You should obtain the necessary visas．Travel：You must arrange and finance your travel to and from the location where you will do your internship．Medical insurance：You must show proof of a comprehensive health insurance valid（有效的）in the target country for the entire period of the internship．UNESCO will provide limited insurance coverage up to USD30,000 for the internship period．Medical certificate：You must provide a medical certificate indicating you are fit to work．Motivation letter：You should have your motivation letter ready before filling out the application form．Your application will be accessed by UNESCO managers and will stay in our database for six months．We do not respond to every candidate．If selected，you will be contacted by a manager．If you do not receive any update within six months，it means that your application has not been successful．\n\n## 选项\n\nA. A. hold a master's degree in science\n\nB. B. have international work experience\n\nC. C. be fluent in either English or French\n\nD. D. present a letter from a technical institution\n\n## 小题\n\n### 21\n\n21. According to this passage，applicants are required to________．\n\n**答案**: C\n\n### 22\n\n22. What will UNESCO provide for the internship period？\n\n**答案**: A\n\n### 23\n\n23. What should applicants do before filling out the application form？\n\n**答案**: C\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "本题考查定语从句。先行词是“the factory”，关系词在从句中作地点状语，应用where。A项which作主语或宾语；B项that作主语或宾语；D项when作时间状语。故选C。"
+}

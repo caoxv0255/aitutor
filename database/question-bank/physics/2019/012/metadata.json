@@ -1,0 +1,103 @@
+{
+  "uid": "physics_2019_beijing_012",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 20,
+  "knowledge_points": [
+    "动能定理",
+    "空气阻力",
+    "收尾速度",
+    "分子动理论"
+  ],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 167,
+      "height": 104
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 215,
+      "height": 181
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 135,
+      "height": 136
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 161,
+      "height": 131
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 126,
+      "height": 124
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 415,
+      "height": 224
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 22,
+      "height": 48
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 144,
+      "height": 131
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 633,
+      "height": 166
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 169,
+      "height": 62
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 202,
+      "height": 141
+    }
+  ],
+  "created_at": "2026-07-17T16:16:55.701Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 20分\n\n**知识点**: 动能定理、空气阻力、收尾速度、分子动理论\n\n---\n\n## 题目内容\n\n雨滴落到地面的速度通常仅为几米每秒，这与雨滴下落过程中受到空气阻力有关。雨滴间无相互作用且雨滴质量不变，重力加速度为g。\n（1）质量为m的雨滴由静止开始，下落高度h时速度为u，求这一过程中克服空气阻力所做的功W。\n（2）将雨滴看作半径为r的球体，设其竖直落向地面的过程中所受空气阻力f＝kr²v²，其中v是雨滴的速度，k是比例系数。\na．设雨滴的密度为ρ，推导雨滴下落趋近的最大速度vm与半径r的关系式；\nb．示意图中画出了半径为r1、r2（r1＞r2）的雨滴在空气中无初速下落的v﹣t图线，其中     对应半径为r1的雨滴（选填①、②）；若不计空气阻力，请在图中画出雨滴无初速下落的v﹣t图线。\n（3）由于大量气体分子在各方向运动的几率相等，其对静止雨滴的作用力为零。将雨滴简化为垂直于运动方向面积为S的圆盘，证明：圆盘以速度v下落时受到的空气阻力f∝v²（提示：设单位体积内空气分子数为n，空气分子质量为m₀）。\n\n## 小题\n\n### 12(1)\n\n质量为m的雨滴由静止开始，下落高度h时速度为u，求这一过程中克服空气阻力所做的功W。\n\n**答案**: W=mgh-½mu²\n\n### 12(2)\n\na．设雨滴的密度为ρ，推导雨滴下落趋近的最大速度vm与半径r的关系式；\nb．示意图中画出了半径为r1、r2（r1＞r2）的雨滴在空气中无初速下落的v﹣t图线，其中     对应半径为r1的雨滴（选填①、②）；若不计空气阻力，请在图中画出雨滴无初速下落的v﹣t图线。\n\n**答案**: a.vm=√(4ρgr/(3k))；b.①，图略\n\n### 12(3)\n\n由于大量气体分子在各方向运动的几率相等，其对静止雨滴的作用力为零。将雨滴简化为垂直于运动方向面积为S的圆盘，证明：圆盘以速度v下落时受到的空气阻力f∝v²（提示：设单位体积内空气分子数为n，空气分子质量为m₀）。\n\n**答案**: 证明见解析\n\n---\n\n## 参考答案\n\n（1）W=mgh-½mu²；（2）a.vm=√(4ρgr/(3k))；b.①，图略；（3）证明见解析\n\n",
+  "answer": "解答过程略",
+  "analysis": "题目未提供具体内容，无法给出解析。请提供题目。"
+}

@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_029",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 29,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.714Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第29题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\n29. What can be inferred about the field of nutrition?\n\n## 选项\n\nA. A. The first objective of systems thinking hasn’t been achieved.\n\nB. B. The relationships among players have been clarified.\n\nC. C. Machine learning can solve the nutrition problem.\n\nD. D. The impact of nutrition cannot be quantified.\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "C",
+  "analysis": "本题考查倒装句。否定词never置于句首，句子部分倒装，即助动词提前。主语是I，故用have I。故选C。"
+}

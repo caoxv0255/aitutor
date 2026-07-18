@@ -1,0 +1,134 @@
+{
+  "uid": "politics_2021_beijing_012",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 226,
+      "height": 137
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 125,
+      "height": 136
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 128,
+      "height": 136
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 244,
+      "height": 220
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 650,
+      "height": 434
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 513,
+      "height": 159
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 313,
+      "height": 272
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 448,
+      "height": 147
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 330,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:50:38.164Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n电脑键盘的字母排序为什么从Q-W-E-R-T-Y而非A-B-C-D-E-H开始呢？这要从打字机时代说起。因为字母的使用频率不同，按字母表顺序排列会影响打字速度，但把常用字母集中放置又容易导致打字杆纠缠在一起。经过初期的市场竞争，1873年某公司推出的Q-W-E-R-T-Y键盘被多数人使用，几年内其他打字机生产商都开始改用这一布局。电脑键盘问世后，字杆纠缠问题不复存在，但按键布局却沿用至今。\n关于以上材料解读不正确的是（    ）\n\n## 选项\n\nA. A. 注重效率标准的市场调节存在滞后性\n\nB. B. 新产品的问世要考虑技术上的相互关联性\n\nC. C. 技术标准存在规模效应，市场占有率越高，效率越高\n\nD. D. 经济行为存在路径依赖，历史偶然不可忽略\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "D",
+  "analysis": "本题考查税收的特征。税收具有强制性、无偿性和固定性。选项A错误，税收的强制性是指国家凭借政治权力强制征税。选项B错误，税收的无偿性是指国家取得税收收入不需要返还给纳税人。选项C错误，税收的固定性是指征税对象和税率等预先规定。选项D正确，税收的三个特征是统一的。因此选D。"
+}

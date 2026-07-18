@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_009",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:02.998Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n八路军总参谋长叶剑英在接受记者专访时，介绍了正在紧张进行的中日会战情况：“晋省得失，不仅关系华北之存亡，实对中日整个战局有相当之影响。”并强调了八路军近期的军事胜利对提振全国抗战信心的重大作用。结合所学，判断这一胜利是指\n\n## 选项\n\nA. A. 淞沪会战\n\nB. B. 平型关大捷\n\nC. C. 台儿庄战役\n\nD. D. 百团大战\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "A",
+  "analysis": "本题考查古希腊民主政治。雅典民主政治的特点是人民主权和轮番而治，公民大会是最高权力机构。选项A正确，雅典民主是直接民主。选项B错误，雅典民主仅限于成年男性公民。选项C错误，雅典民主是小国寡民的产物。选项D错误，雅典民主并非现代民主的典范。"
+}

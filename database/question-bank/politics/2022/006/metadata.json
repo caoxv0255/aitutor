@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_006",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.362Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n“银锭观山”是“燕京小八景”之一，曾是老城内展现山水城相融的景观。后来一些高层建筑出现在银锭观山的景观视廊内，连绵起伏的西山山脊线被“截”成了两段。《北京城市总体规划（2016 年—2035 年）》明确提出恢复银锭观山景观视廊。2021 年，相关建筑拆除后，银锭观山美景再现。这说明（   ）\n\n## 选项\n\nA. A. 城市记忆是人们的精神故乡，应尊重社会意识的独立性\n\nB. B. 完整恢复老城美景是重塑城市空间秩序的首要价值选择\n\nC. C. 抓住主要矛盾，统筹规划，可以恢复自在事物的联系\n\nD. D. 坚持用联系的观点看问题，才能实现山水城和谐相融\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查公有制经济的地位。公有制经济是社会主义经济制度的基础，在国民经济中占主体地位。A选项错误，因为公有制经济包括国有经济、集体经济和混合所有制经济中的国有成分和集体成分，国有经济是主导。B选项错误，因为公有制经济在国民经济中占主体，但并非所有行业都占优势。C选项正确，公有制经济的主体地位体现在公有资产在社会总资产中占优势，国有经济控制国民经济命脉。D选项错误，因为公有制经济是主体，非公有制经济是重要组成部分。"
+}

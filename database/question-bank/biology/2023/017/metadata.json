@@ -1,0 +1,168 @@
+{
+  "uid": "biology_2023_beijing_017",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 10,
+  "knowledge_points": [
+    "静息电位",
+    "细胞膜",
+    "K+浓度"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 547,
+      "height": 323
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 695,
+      "height": 549
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 351,
+      "height": 183
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 353,
+      "height": 276
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 440,
+      "height": 232
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 429,
+      "height": 136
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 585,
+      "height": 427
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 200,
+      "height": 199
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 245,
+      "height": 147
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 579,
+      "height": 236
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 552,
+      "height": 222
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1308,
+      "height": 838
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:22:55.920Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 10分\n\n**知识点**: 静息电位、细胞膜、K+浓度\n\n---\n\n## 题目内容\n\n细胞膜的选择透过性与细胞膜的静息电位密切相关。科学家以哺乳动物骨骼肌细胞为材料，研究了静息电位形成的机制。\n\n## 小题\n\n### 17(1)\n\n骨骼肌细胞膜的主要成分是___________，膜的基本支架是___________。\n\n**答案**: 脂质和蛋白质；磷脂双分子层\n\n### 17(2)\n\n假设初始状态下，膜两侧正负电荷均相等，且膜内K+浓度高于膜外。在静息电位形成过程中，当膜仅对K+具有通透性时，K+顺浓度梯度向膜外流动，膜外正电荷和膜内负电荷数量逐步增加，对K+进一步外流起阻碍作用，最终K+跨膜流动达到平衡，形成稳定的跨膜静电场，此时膜两侧的电位表现是___________。K+静电场强度只能通过公式“K+静电场强度（mV）=60×lg(胞外K+浓度/胞内K+浓度)”计算得出。\n\n**答案**: 外正内负\n\n### 17(3)①\n\n骨骼肌细胞处于静息状态时，实验测得膜静息电位为-90mV，膜内、外K+浓度依次为155mmoL/L和4mmoL/L（lg(胞外K+浓度/胞内K+浓度)=-1.59），此时没有K+跨膜净流动。静息状态下，K+静电场强度为___________mV，与静息电位实测值接近，推测K+外流形成的静电场可能是构成静息电位的主要因素。\n\n**答案**: -95.4\n\n### 17(3)②\n\n为证明①中的推测，研究者梯度增加细胞外K+浓度并测量静息电位。如果所测静息电位的值___________，则可验证此假设。\n\n**答案**: 随细胞外K+浓度增加而减小（或绝对值减小）\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）常染色体隐性遗传 （2）Aa 1/3 （3）1/4",
+  "analysis": "根据遗传系谱图，父母正常，女儿患病，说明该病为常染色体隐性遗传病。父母基因型均为Aa，女儿患病aa，正常儿子基因型为1/3AA、2/3Aa。儿子与携带者女性（Aa）结婚，后代患病概率为2/3×1/4=1/6。评分标准：每空1分，共4分。"
+}

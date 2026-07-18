@@ -1,0 +1,25 @@
+{
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2024,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 11,
+  "page_count": 0,
+  "image_count": 19,
+  "source_file": "2024年北京高考英语试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T02:54:46.932Z",
+  "quality_stats": {
+    "total": 11,
+    "by_type": {
+      "choice": 6,
+      "fill": 3,
+      "solve": 2
+    },
+    "avg_difficulty": "2.82",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

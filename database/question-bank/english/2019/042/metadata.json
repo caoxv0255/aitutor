@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_042",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 42,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T15:41:22.528Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第42题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nD\nBy the end of the century, if not sooner, the world’s oceans will be bluer and greener thanks to a warming climate, according to a new study.\n\nAt the heart of the phenomenon lie tiny marine microorganisms(海洋微生物)called phytoplankton. Because of the way light reflects off the organisms, these phytoplankton create colourful patterns at the ocean surface. Ocean colour varies from green to blue, depending on the type and concentration of phytoplankton. Climate change will fuel the growth of phytoplankton in some areas, while reducing it in other spots, leading to changes in the ocean’s appearance.\n\nPhytoplankton live at the ocean surface, where they pull carbon dioxide(二氧化碳)into the ocean while giving off oxygen. When these organisms die, they bury carbon in the deep ocean, an important process that helps to regulate the global climate. But phytoplankton are vulnerable to the ocean’s warming trend. Warming changes key characteristics of the ocean and can affect phytoplankton growth, since they need not only sunlight and carbon dioxide to grow, but also nutrients.\n\nStephanie Dutkiewicz, a scientist in MIT’s Center for Global Change Science, built a climate model that projects changes to the oceans throughout the century. In a world that warms up by 3℃, it found that multiple changes to the colour of the oceans would occur. The model projects that currently blue areas with little phytoplankton could become even bluer. But in some waters, such as those of the Arctic, a warming will make conditions riper for phytoplankton, and these areas will turn greener. “Not only are the quantities of phytoplankton in the ocean changing.” she said, “but the type of phytoplankton is changing.”\n\n42. What are the first two paragraphs mainly about?\nA. The various patterns at the ocean surface.\nB. The cause of the changes in ocean colour.\nC. The way light reflects off marine organisms.\nD. The efforts to fuel the growth of phytoplankton.\n\n## 选项\n\nA. A. The various patterns at the ocean surface.\n\nB. B. The cause of the changes in ocean colour.\n\nC. C. The way light reflects off marine organisms.\n\nD. D. The efforts to fuel the growth of phytoplankton.\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "B",
+  "analysis": "选项A错误，因为...；选项B正确，因为...；选项C错误，因为...；选项D错误，因为..."
+}

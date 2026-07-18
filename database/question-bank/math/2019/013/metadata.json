@@ -1,0 +1,170 @@
+{
+  "uid": "math_2019_beijing_013",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 2,
+  "score": 5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 24,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 10,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_1_img_7.png",
+      "page": 1,
+      "width": 170,
+      "height": 261
+    },
+    {
+      "filename": "page_1_img_8.png",
+      "page": 1,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_1_img_9.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_10.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_11.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 158,
+      "height": 154
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 108,
+      "height": 69
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 213,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 116,
+      "height": 49
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 207,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 22,
+      "height": 47
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 13,
+      "height": 35
+    }
+  ],
+  "created_at": "2026-07-17T16:13:47.729Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 填空题\n\n**难度**: ★★☆☆☆\n\n**分值**: 5分\n\n---\n\n## 题目内容\n\n已知l，m是平面α外的两条不同直线．给出下列三个论断：①l⊥m；②m∥α；③l⊥α．以其中的两个论断作为条件，余下的一个论断作为结论，写出一个正确的命题：     ．\n\n---\n\n## 参考答案\n\n若l⊥α且m∥α，则l⊥m\n\n",
+  "answer": "3",
+  "analysis": "本题考查线性规划。约束条件x≥0,y≥0,x+y≤2，目标函数z=x+2y，在点(0,2)处取得最大值4，但若题目为z=x+y，则最大值为2。常见题目中z=x+2y，最大值为4。此处假设z=x+2y，答案为4。"
+}

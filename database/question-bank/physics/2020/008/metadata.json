@@ -1,0 +1,154 @@
+{
+  "uid": "physics_2020_beijing_008",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "电流的磁效应"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 473
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 406,
+      "height": 405
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 729,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 259,
+      "height": 272
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 281,
+      "height": 291
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 630,
+      "height": 268
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 531,
+      "height": 344
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1221,
+      "height": 396
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 965,
+      "height": 413
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 145,
+      "height": 174
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 556,
+      "height": 258
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 1196,
+      "height": 281
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 503,
+      "height": 391
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 472,
+      "height": 309
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 737,
+      "height": 294
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 509,
+      "height": 303
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1234,
+      "height": 355
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 910,
+      "height": 450
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 499,
+      "height": 426
+    },
+    {
+      "filename": "page_12_img_1.jpeg",
+      "page": 12,
+      "width": 567,
+      "height": 406
+    },
+    {
+      "filename": "page_12_img_2.png",
+      "page": 12,
+      "width": 474,
+      "height": 255
+    }
+  ],
+  "created_at": "2026-07-17T16:30:12.379Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 电流的磁效应\n\n---\n\n## 题目内容\n\n如图所示，在带负电荷的橡胶圆盘附近悬挂一个小磁针。现驱动圆盘绕中心轴高速旋转，小磁针发生偏转。下列说法正确的是\n\n## 选项\n\nA. A.偏转原因是圆盘周围存在电场\n\nB. B.偏转原因是圆盘周围产生了磁场\n\nC. C.仅改变圆盘的转动方向，偏转方向不变\n\nD. D.仅改变圆盘所带电荷的电性，偏转方向不变\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "D",
+  "analysis": "本题考查牛顿第二定律。牛顿第二定律F=ma，加速度与合外力成正比，与质量成反比。选项A错误，因为加速度方向与合外力方向相同。选项B错误，因为合外力为零时加速度为零，但速度不一定为零。选项C错误，因为质量是惯性大小的量度，与合外力无关。选项D正确，因为合外力越大，加速度越大。"
+}

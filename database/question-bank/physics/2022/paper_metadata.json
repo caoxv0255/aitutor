@@ -1,0 +1,27 @@
+{
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2022,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 30,
+  "source_file": "2022年北京高考物理试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:58:36.495Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 14,
+      "fill": 2,
+      "solve": 4
+    },
+    "avg_difficulty": "2.60",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

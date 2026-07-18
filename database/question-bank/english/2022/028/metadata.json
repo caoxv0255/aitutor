@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_028",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 28,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.713Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第28题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\n“What would the world be if there were no hunger?” It’s a question that Professor Crystal would ask her students. They found it hard to answer, she wrote later, because imagining something that isn’t part of real life—and learning how to make it real—is a rare skill. It is taught to artists and engineers, but much less often to scientists. Crystal set out to change that, and helped to create a global movement. The result—an approach known as systems thinking—is now seen as essential in meeting global challenges. \nSystems thinking is crucial to achieving targets such as zero hunger and better nutrition because it requires considering the way in which food is produced, processed, delivered and consumed, and looking at how those things intersect (交叉 ) with human health, the environment, economics and society. According to systems thinking, changing the food system—or any other network—requires three things to happen. First, researchers need to identify all the players in that system; second, they must work out how they relate to each other; and third, they need to understand and quantify the impact of those relationships on each other and on those outside the system. \nTake nutrition. In the latest UN report on global food security, the number of undernourished (营养不 良 )people in the world has been rising, despite great advances in nutrition science. Tracking of 150 biochemicals in food has been important in revealing the relationships between calories, sugar, fat and the occurrence of common diseases. But using machine learning and artificial intelligence, some scientists propose that human diets consist of at least 26,000 biochemicals—and that the vast majority are not known.This shows that we have some way to travel before achieving the first objective of systems t hinking - which,in this example, is to identify more constituent parts of the nutrition system. \nA systems approach to creating change is also built on the assumption that everyone in the system has equal power. But as some researchers find, the food system is not an equal one. A good way to redress (修正 ) such power imbalance is for more universities to do what Crystal did and teach students how to think using a systems approach. \nMore researchers, policymakers and representatives from the food industry must learn to look beyond their direct lines of responsibility and adopt a systems approach. Crystal knew that visions alone don’t produce results, but concluded that “we’ll never produce results that we can’t envision”. \n28. The author uses the question underlined in Paragraph 1 to ________.\n\n## 选项\n\nA. A. illustrate an argument\n\nB. B. highlight an opinion\n\nC. C. introduce the topic\n\nD. D. predict the ending\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "本题考查名词性从句。what引导主语从句，在从句中作主语。句意：我们需要的是更多的时间。故选B。"
+}

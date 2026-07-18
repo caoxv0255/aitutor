@@ -1,0 +1,134 @@
+{
+  "uid": "politics_2021_beijing_017",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 226,
+      "height": 137
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 125,
+      "height": 136
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 128,
+      "height": 136
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 244,
+      "height": 220
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 650,
+      "height": 434
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 513,
+      "height": 159
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 313,
+      "height": 272
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 448,
+      "height": 147
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 330,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:50:38.166Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\n数据已成为国家基础性战略资源，数据治理是数据资源及其应用过程中相关管控活动、绩效和风险管理的集合。\n政府在推进数据治理方面已取得了积极成效。新冠肺炎疫情防控，小小健康码助力10亿级人口提升精准防控能力；日常政务服务，从“最多跑一次”到实现24小时“不打烊”“一网通办”……“十四五”规划和2035年远景目标纲要提出，“迎接数字时代，激活数据要素潜能”。\n数据治理涉及公民、政府、企业、社会组织等多方主体，需要界定各方权限和责任。在提升公共服务和社会治理数字智能化水平、扩大基础公共信息数据有序开放、加强数据资源安全保护等方面，还有待完善。\n结合材料，运用《政治生活》知识，说明政府如何运用法治思维推进数据治理。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "①生产决定消费的对象、方式、质量和水平，并为消费创造动力。②消费对生产有重要的反作用，消费拉动经济增长、促进生产发展。③消费是生产的目的和动力，新的消费热点往往带动相关产业的出现和成长。",
+  "analysis": "本题考查生产与消费的辩证关系。解题思路：从生产决定消费和消费反作用于生产两个方面回答。生产决定消费的四个表现，消费反作用的三个表现。评分标准：生产决定消费3分，消费反作用3分，共6分。"
+}

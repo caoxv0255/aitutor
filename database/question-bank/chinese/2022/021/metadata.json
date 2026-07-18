@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_021",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [
+    "微写作"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.655Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n**知识点**: 微写作\n\n---\n\n## 题目内容\n\n微写作\n按要求作答。不超过150 字。\n校学生会成立新社团“悦读会”，要拟一则招新启事。\n请你围绕“阅读带来审美愉悦”这一宗旨，为启事写一段话。要求：语言简练，有吸引力。\n\n---\n\n## 参考答案\n\n示例：悦读会招新啦！在这里，每一页书都是一扇窗，带你领略文字之美、思想之深。阅读，让心灵在诗意中栖息，在智慧中升华。加入我们，一起品味经典，共享审美愉悦！\n\n## 解析\n\n围绕宗旨，语言有吸引力。\n\n",
+  "answer": "① 陈尧咨：骄傲自大、盛气凌人。如'汝亦知射乎？吾射不亦精乎？'② 卖油翁：沉稳自信、技艺高超。如'乃取一葫芦置于地，以钱覆其口，徐以杓酌油沥之，自钱孔入，而钱不湿。'③ 两人对比，揭示'熟能生巧'的道理。",
+  "analysis": "本题考查人物形象分析。结合语言、动作、神态描写分析。评分标准：每点2分，共6分，需结合文本。"
+}

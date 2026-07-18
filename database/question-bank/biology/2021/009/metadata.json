@@ -1,0 +1,158 @@
+{
+  "uid": "biology_2021_beijing_009",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 454,
+      "height": 288
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 510,
+      "height": 377
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 353,
+      "height": 264
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 511,
+      "height": 211
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 432,
+      "height": 302
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 550,
+      "height": 168
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 274,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 498,
+      "height": 237
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 593,
+      "height": 305
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 720,
+      "height": 322
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1000,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 596,
+      "height": 427
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:47:31.011Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n在有或无机械助力两种情形下，从事家务劳动和日常运动时人体平均能量消耗如图。对图中结果叙述错误的是（  ）\n\n## 选项\n\nA. A. 走路上学比手洗衣服在单位时间内耗能更多\n\nB. B. 葡萄糖是图中各种活动的重要能量来源\n\nC. C. 爬楼梯时消耗的能量不是全部用于肌肉收缩\n\nD. D. 借助机械减少人体能量消耗就能缓解温室效应\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "内环境稳态是指内环境的化学成分和理化性质保持相对稳定的状态，主要调节机制是神经-体液-免疫调节。选项A正确；B错误，稳态是相对的；C错误，内环境包括血浆、组织液和淋巴；D错误，稳态是机体进行正常生命活动的必要条件。"
+}

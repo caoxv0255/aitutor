@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_035",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 35,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:42:35.310Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第35题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\nMusic has long been considered to be an enjoyable pastime for many people． ____35____ The mental health benefits from music can't be argued．Music could also be helping you with many other health problems behind the scenes．____36____However，for the same reason，music can be very beneficial if one is in pain．By distracting （分心） the mind from the pain，music，people say，can lower stress and anxiety levels．This，of course，can lead to less pain．Many people enjoy relaxing music in the evening prior to going to bed．____37____While the validity of the idea is still being assessed，the lowered stress can even be tied back to blood pressure．Similarly, according to researchers，listening to just 30 minutes of soft music every day may help with healthy blood sugar levels， through the lowering of stress and anxiety．When it comes to heart health，there is speculation （推测） that it's not the style of music， but rather the tempo that makes it so good for your heart health．In one European study，participants listened to music as the researchers monitored their heart rates and blood pressure．____38____ On the other hand，when the music slowed，the participants' stress and anxiety levels became lower and the effects on heart rates appeared to follow suit．____39____But there is a whole range of other health issues that turning up the radio could be beneficial for，which is what makes music so valuable．\n\n## 选项\n\nA. A. This feeling can also result in many other health problems.\n\nB. B. Some experts say that music can be harmful if it is too loud.\n\nC. C. This idea is a little off-the-wall but still has scientific backing.\n\nD. D. They say it can play a big role in calming the brain enough to sleep.\n\nE. E. The implications of music on overall well-being are really impressive.\n\nF. F. It is also highly popular due to the individualized effects on stress and anxiety.\n\nG. G. Interestingly，the more cheerful the music was，the faster their heart rates were.\n\n## 小题\n\n### 35\n\n35. \n\n**答案**: E\n\n### 36\n\n36. \n\n**答案**: F\n\n### 37\n\n37. \n\n**答案**: D\n\n### 38\n\n38. \n\n**答案**: G\n\n### 39\n\n39. \n\n**答案**: B\n\n---\n\n## 参考答案\n\nE, F, D, G, B\n\n",
+  "answer": "C",
+  "analysis": "本题考查非谓语动词。句意“被树木环绕的房子看起来很漂亮”。“房子”与“环绕”之间是被动关系，应用过去分词作定语。A项现在分词表示主动；B项不定式表示将来；D项现在分词的被动式表示正在被。故选C。"
+}

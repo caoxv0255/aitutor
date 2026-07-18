@@ -1,0 +1,140 @@
+{
+  "uid": "politics_2023_beijing_012",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 19,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 660,
+      "height": 254
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 362,
+      "height": 233
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 593,
+      "height": 311
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 358,
+      "height": 226
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 458,
+      "height": 344
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 820,
+      "height": 410
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 173,
+      "height": 218
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 481,
+      "height": 667
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:31:26.581Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n近年来，我国实体经济第三产业加快发展，内部结构优化，对于做实做强做优实体经济发挥了重要作用。如图为我国实体经济第三产业内部的部分行业增加值所占比重的变化。\n注：租赁和商务服务业包括企业管理服务、法律服务、咨询与调查、机械设备租赁、汽车租赁、计算机及通信设备租赁等。\n据此推断正确的是（   ）\n\n## 选项\n\nA. A. 租赁和商务服务业将会替代批发和零售业\n\nB. B. 对住宿和餐饮业的服务需求量呈现下降趋势\n\nC. C. 部分现代服务业增加值的增速高于实体经济第三产业\n\nD. D. 第三产业内部的行业结构变化使产业劳动密集程度提高\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "D",
+  "analysis": "本题考查财政的作用。国家财政是国家治理的基础和重要支柱，具有促进资源合理配置、促进经济平稳运行、促进社会公平、改善人民生活的作用。题干中“财政拨款用于教育”体现了财政促进社会公平、改善人民生活的作用，因此选项D正确。选项A促进资源合理配置通常指基础设施建设，选项B促进经济平稳运行指宏观调控，选项C与题意不符。"
+}

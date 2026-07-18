@@ -1,0 +1,157 @@
+{
+  "uid": "physics_2020_beijing_019",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 10,
+  "knowledge_points": [
+    "带电粒子在电场中的运动",
+    "带电粒子在磁场中的运动",
+    "电流",
+    "压强"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 473
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 406,
+      "height": 405
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 729,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 259,
+      "height": 272
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 281,
+      "height": 291
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 630,
+      "height": 268
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 531,
+      "height": 344
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1221,
+      "height": 396
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 965,
+      "height": 413
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 145,
+      "height": 174
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 556,
+      "height": 258
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 1196,
+      "height": 281
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 503,
+      "height": 391
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 472,
+      "height": 309
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 737,
+      "height": 294
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 509,
+      "height": 303
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1234,
+      "height": 355
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 910,
+      "height": 450
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 499,
+      "height": 426
+    },
+    {
+      "filename": "page_12_img_1.jpeg",
+      "page": 12,
+      "width": 567,
+      "height": 406
+    },
+    {
+      "filename": "page_12_img_2.png",
+      "page": 12,
+      "width": 474,
+      "height": 255
+    }
+  ],
+  "created_at": "2026-07-17T16:30:12.387Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 10分\n\n**知识点**: 带电粒子在电场中的运动、带电粒子在磁场中的运动、电流、压强\n\n---\n\n## 题目内容\n\n如图甲所示，真空中有一长直细金属导线MN，与导线同轴放置一半径为R的金属圆柱面。假设导线沿径向均匀射出速率相同的电子，已知电子质量为m，电荷量为e。不考虑出射电子间的相互作用。\n(1)可以用以下两种实验方案测量出射电子的初速度：\na.在柱面和导线之间，只加恒定电压；\nb.在柱面内，只加与MN平行的匀强磁场。\n当电压为U0或磁感应强度为B0时，刚好没有电子到达柱面。分别计算出射电子的初速度v0。\n(2)撤去柱面，沿柱面原位置放置一个弧长为a、长度为b的金属片，如图乙所示。在该金属片上检测到出射电子形成的电流为I，电子流对该金属片的压强为p。求单位长度导线单位时间内出射电子的总动能。\n\n## 小题\n\n### 19(1)\n\n可以用以下两种实验方案测量出射电子的初速度：\na.在柱面和导线之间，只加恒定电压；\nb.在柱面内，只加与MN平行的匀强磁场。\n当电压为U0或磁感应强度为B0时，刚好没有电子到达柱面。分别计算出射电子的初速度v0。\n\n**答案**: a.v0=√(2eU0/m) b.v0=eB0R/m\n\n### 19(2)\n\n撤去柱面，沿柱面原位置放置一个弧长为a、长度为b的金属片，如图乙所示。在该金属片上检测到出射电子形成的电流为I，电子流对该金属片的压强为p。求单位长度导线单位时间内出射电子的总动能。\n\n**答案**: Ek总=(2πR I p)/(a b e)\n\n---\n\n## 参考答案\n\n(1)a.v0=√(2eU0/m) b.v0=eB0R/m (2)Ek总=(2πR I p)/(a b e)\n\n",
+  "answer": "解：设物体质量为m，从高度h=10 m处自由下落，忽略空气阻力。由机械能守恒定律：mgh=1/2 mv^2，得v=√(2gh)=√(2×10×10)=√200≈14.14 m/s。答：物体落地时的速度约为14.14 m/s。",
+  "analysis": "本题考查机械能守恒定律。解题思路：自由落体运动只有重力做功，机械能守恒，重力势能转化为动能。也可用运动学公式求解。评分标准：机械能守恒定律正确得2分，公式代入正确得2分，结果正确得1分。"
+}

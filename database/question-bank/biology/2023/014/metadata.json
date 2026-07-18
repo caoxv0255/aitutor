@@ -1,0 +1,167 @@
+{
+  "uid": "biology_2023_beijing_014",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [
+    "吗啡",
+    "伤口愈合"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 547,
+      "height": 323
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 695,
+      "height": 549
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 351,
+      "height": 183
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 353,
+      "height": 276
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 440,
+      "height": 232
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 429,
+      "height": 136
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 585,
+      "height": 427
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 200,
+      "height": 199
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 245,
+      "height": 147
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 579,
+      "height": 236
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 552,
+      "height": 222
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1308,
+      "height": 838
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:22:55.918Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n**知识点**: 吗啡、伤口愈合\n\n---\n\n## 题目内容\n\n研究者检测了长期注射吗啡的小鼠和注射生理盐水的小鼠伤口愈合情况，结果如图。由图可以得出的结论是（  ）\n\n## 选项\n\nA. A. 吗啡减缓伤口愈合\n\nB. B. 阿片受体促进伤口愈合\n\nC. C. 生理条件下体内也有吗啡产生\n\nD. D. 阿片受体与吗啡成瘾有关\n\n---\n\n## 参考答案\n\nA\n\n## 解析\n\n图中显示吗啡组伤口愈合面积小于对照组，说明吗啡减缓伤口愈合。\n\n",
+  "answer": "C",
+  "analysis": "单克隆抗体制备过程中，将免疫的B淋巴细胞与骨髓瘤细胞融合，用HAT培养基筛选杂交瘤细胞，再通过抗体检测筛选出能产生特定抗体的杂交瘤细胞。选项C正确；A错误，B淋巴细胞不能无限增殖；B错误，融合后有多种细胞；D错误，筛选两次。"
+}

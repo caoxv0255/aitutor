@@ -1,0 +1,134 @@
+{
+  "uid": "politics_2021_beijing_004",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 226,
+      "height": 137
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 125,
+      "height": 136
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 128,
+      "height": 136
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 244,
+      "height": 220
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 650,
+      "height": 434
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 513,
+      "height": 159
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 313,
+      "height": 272
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 448,
+      "height": 147
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 330,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:50:38.159Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n在吉祥戏院看戏是一代北京人的美好记忆，梅兰芳、马连良等诸多京剧大师都曾在此演出。近日，被拆除的吉祥戏院获得“重生”，新吉祥戏院既传承了老戏院的经典形象，又采用了不少国际先进的技术设备，将成为国粹艺术传承展示体验基地和多元文化活动平台。新吉祥戏院（    ）\n\n## 选项\n\nA. A. 历久弥“新”，在文化传承和创新中起了决定性作用\n\nB. B. 推陈出“新”，符合时代特点和文化发展实践的需要\n\nC. C. 返本开“新”，实现了传统文化与现代文化的相互转化\n\nD. D. 革故鼎“新”，取其精华，去其糟粕，实现了文化形式的创新\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "D",
+  "analysis": "本题考查供求影响价格。当商品供过于求时，价格下降；供不应求时，价格上升。选项A错误，价格由价值决定，不是由供求决定。选项B错误，供求影响价格，但价格最终由价值决定。选项C错误，价格围绕价值波动。选项D正确，供求关系变化会引起价格变动。因此选D。"
+}

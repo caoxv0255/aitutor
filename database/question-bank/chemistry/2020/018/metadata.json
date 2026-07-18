@@ -1,0 +1,152 @@
+{
+  "uid": "chemistry_2020_beijing_018",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 12,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 129,
+      "height": 320
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 335,
+      "height": 232
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 284,
+      "height": 231
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 119,
+      "height": 299
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 1150,
+      "height": 452
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 949,
+      "height": 233
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 585,
+      "height": 296
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 403,
+      "height": 333
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1320,
+      "height": 349
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 781,
+      "height": 184
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 787,
+      "height": 95
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 1055,
+      "height": 188
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1051,
+      "height": 198
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1307,
+      "height": 79
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 438,
+      "height": 137
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1079,
+      "height": 219
+    }
+  ],
+  "created_at": "2026-07-17T16:31:53.303Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 12分\n\n---\n\n## 题目内容\n\nMnO2是重要化工原料，由软锰矿制备MnO2的一种工艺流程如下：\n资料：①软锰矿的主要成分为MnO2，主要杂质有Al2O3和SiO2\n②金属离子沉淀的pH\nFe3+开始沉淀1.5，完全沉淀2.8；Al3+开始沉淀3.4，完全沉淀4.7；Mn2+开始沉淀5.8，完全沉淀7.8；Fe2+开始沉淀6.3，完全沉淀8.3\n③该工艺条件下，MnO2与H2SO4不反应。\n(1)溶出\n①溶出前，软锰矿需研磨。目的是 。\n②溶出时，Fe的氧化过程及得到Mn2+的主要途径如图所示。\ni. Ⅱ是从软锰矿中溶出Mn2+的主要反应，反应的离子方程式是 。\nii.若Fe2+全部来自于反应Fe + 2H+ → Fe2+ + H2↑，完全溶出Mn2+所需Fe与MnO2的物质的量比值为2。而实际比值(0.9)小于2，原因是 。\n(2)纯化\n已知：MnO2的氧化性与溶液pH有关。纯化时先加入MnO2，后加入NH3·H2O，调溶液pH≈5，说明试剂加入顺序及调节pH的原因： 。\n(3)电解\nMn2+纯化液经电解得MnO2。生成MnO2的电极反应式是 。\n(4)产品纯度测定\n向ag产品中依次加入足量bg Na2C2O4和足量稀H2SO4，加热至充分反应，再用c mol·L-1 KMnO4溶液滴定剩余Na2C2O4至终点，消耗KMnO4溶液的体积为dL。(已知：MnO2及MnO4-均被还原为Mn2+。相对分子质量：MnO2 86.94；Na2C2O4 134.0)产品纯度为 (用质量分数表示)。\n\n## 小题\n\n### 18(1)①\n\n溶出前，软锰矿需研磨。目的是 。\n\n**答案**: 增大接触面积，加快反应速率\n\n### 18(1)②i\n\nⅡ是从软锰矿中溶出Mn2+的主要反应，反应的离子方程式是 。\n\n**答案**: MnO2 + 2Fe2+ + 4H+ → Mn2+ + 2Fe3+ + 2H2O\n\n### 18(1)②ii\n\n若Fe2+全部来自于反应Fe + 2H+ → Fe2+ + H2↑，完全溶出Mn2+所需Fe与MnO2的物质的量比值为2。而实际比值(0.9)小于2，原因是 。\n\n**答案**: Fe2+被空气中的氧气氧化，部分Fe2+转化为Fe3+，减少了Fe的用量\n\n### 18(2)\n\n纯化时先加入MnO2，后加入NH3·H2O，调溶液pH≈5，说明试剂加入顺序及调节pH的原因： 。\n\n**答案**: 先加入MnO2将Fe2+氧化为Fe3+，再加入NH3·H2O调节pH至5左右，使Fe3+和Al3+完全沉淀，而Mn2+不沉淀\n\n### 18(3)\n\n生成MnO2的电极反应式是 。\n\n**答案**: Mn2+ + 2H2O - 2e- → MnO2 + 4H+\n\n### 18(4)\n\n产品纯度为 (用质量分数表示)。\n\n**答案**: (86.94 × (b/134.0 - 5cd/2)) / a × 100%\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "见解析",
+  "analysis": "【答案】\n（1）第三周期第ⅥA族\n（2）S + O2 =点燃= SO2\n（3）H2SO4\n（4）H2S + Cl2 = S↓ + 2HCl\n【解析】\n（1）X为S，原子序数16，位于第三周期第ⅥA族。\n（2）S在氧气中燃烧生成SO2，化学方程式为S + O2 =点燃= SO2。\n（3）最高价氧化物对应水化物为H2SO4。\n（4）Cl2氧化H2S生成S和HCl，化学方程式为H2S + Cl2 = S↓ + 2HCl。"
+}

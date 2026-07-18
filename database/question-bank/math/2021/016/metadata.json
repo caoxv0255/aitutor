@@ -1,0 +1,98 @@
+{
+  "uid": "math_2021_beijing_016",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 14,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 380,
+      "height": 359
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 453,
+      "height": 76
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 348,
+      "height": 541
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 347,
+      "height": 319
+    }
+  ],
+  "created_at": "2026-07-17T16:40:59.570Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 14分\n\n---\n\n## 题目内容\n\n已知在△ABC中，c=2bcosB，C=2π/3．\n（1）求B的大小；\n（2）在三个条件中选择一个作为已知，使△ABC存在且唯一确定，并求出BC边上的中线的长度．\n①c=√2b；②周长为4+2√3；③面积为S△ABC=3√3/4；\n\n## 小题\n\n### 16(1)\n\n求B的大小\n\n**答案**: B=π/6\n\n### 16(2)\n\n在三个条件中选择一个作为已知，使△ABC存在且唯一确定，并求出BC边上的中线的长度．\n\n**答案**: 选择②，中线长为√7\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：由正弦定理，a/sinA = b/sinB，得sinB = b sinA / a = (√3×sin60°)/3 = (√3×√3/2)/3 = (3/2)/3 = 1/2。因为a>b，所以A>B，B为锐角，故B=30°。",
+  "analysis": "本题考查正弦定理的应用。已知两边及一边对角，求另一角。利用正弦定理求出sinB，再根据大边对大角确定B为锐角。"
+}

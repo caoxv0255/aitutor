@@ -1,0 +1,158 @@
+{
+  "uid": "chemistry_2019_beijing_006",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 196,
+      "height": 89
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 145,
+      "height": 164
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 121,
+      "height": 136
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 147,
+      "height": 147
+    },
+    {
+      "filename": "page_1_img_5.jpeg",
+      "page": 1,
+      "width": 134,
+      "height": 210
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 175,
+      "height": 168
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 221,
+      "height": 165
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 309,
+      "height": 247
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 22,
+      "height": 26
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 280,
+      "height": 278
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 80,
+      "height": 141
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 53,
+      "height": 37
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 249,
+      "height": 226
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 696,
+      "height": 177
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 473,
+      "height": 84
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 59,
+      "height": 37
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 446,
+      "height": 85
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 257,
+      "height": 173
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 228,
+      "height": 206
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 407,
+      "height": 172
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 454,
+      "height": 79
+    }
+  ],
+  "created_at": "2026-07-17T16:18:20.260Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\n探究草酸（H2C2O4）性质，进行如下实验。（已知：室温下，0.1mol•L﹣1H2C2O4的pH＝1.3）由上述实验所得草酸性质所对应的方程式不正确的是（  ）\n\n## 选项\n\nA. A．H2C2O4 有酸性，Ca（OH）2+H2C2O4═CaC2O4↓+2H2O\n\nB. B．酸性：H2C2O4＞H2CO3，NaHCO3+H2C2O4═NaHC2O4+CO2↑+H2O\n\nC. C．H2C2O4 有还原性，2MnO4﹣+5C2O42+16H+═2Mn2++10CO2↑+8H2O\n\nD. D．H2C2O4 可发生酯化反应，HOOCCOOH+2C2H5OH C2H5OOCCOOC2H5+2H2O\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "本题考查质量守恒定律。化学反应前后，原子种类、数目、质量均不变，但分子种类一定改变，分子数目可能改变。A选项正确；B选项分子种类一定改变，错误；C选项正确；D选项正确。因此选B。"
+}

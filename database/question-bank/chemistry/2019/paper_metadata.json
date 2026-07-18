@@ -1,0 +1,26 @@
+{
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2019,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 11,
+  "page_count": 0,
+  "image_count": 22,
+  "source_file": "2019年北京高考化学试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:18:20.266Z",
+  "quality_stats": {
+    "total": 11,
+    "by_type": {
+      "choice": 7,
+      "solve": 4
+    },
+    "avg_difficulty": "N/A",
+    "answer_completeness": "63.6",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

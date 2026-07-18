@@ -1,0 +1,125 @@
+{
+  "uid": "biology_2020_beijing_013",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [
+    "植物体细胞杂交",
+    "无籽果实"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.371Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n**知识点**: 植物体细胞杂交、无籽果实\n\n---\n\n## 题目内容\n\n为培育具有市场竞争力的无籽柑情，研究者设计如下流程。相关叙述不正确的是（    ）\n\n## 选项\n\nA. A.过程①需使用胰蛋白酶处理\n\nB. B.实现过程②依赖膜的流动性\n\nC. C.过程③需应用植物组培技术\n\nD. D.三倍体植株可产生无籽柑橘\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "B",
+  "analysis": "本题考查群落演替。初生演替是指在一个从来没有被植物覆盖的地面，或者是原来存在过植被但被彻底消灭了的地方发生的演替。选项A：次生演替是在原有植被虽已不存在但土壤条件基本保留的地方发生的演替；选项C：演替最终不一定形成森林；选项D：人类活动会影响演替的速度和方向。因此B正确。"
+}

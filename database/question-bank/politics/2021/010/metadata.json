@@ -1,0 +1,134 @@
+{
+  "uid": "politics_2021_beijing_010",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 226,
+      "height": 137
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 125,
+      "height": 136
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 128,
+      "height": 136
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 244,
+      "height": 220
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 650,
+      "height": 434
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 513,
+      "height": 159
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 313,
+      "height": 272
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 448,
+      "height": 147
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 330,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:50:38.163Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n“与君远相知，不道云海深。”2021年是博鳌亚洲论坛成立20周年，世纪疫情之下，身处不同时区嘉宾，通过线上线下的方式加入这场盛会，共话全球热点问题。论坛部分年会的主题如下：\n2002年（第一届）新世纪、新挑战、新亚洲——亚洲经济合作与发展\n2012年（第十一届）变革世界中的亚洲：迈向健康与可持续发展\n2021年（第二十届）世界大变局：共襄全球治理盛举合奏“一带一路”强音\n上述资料最适合论证下列哪一观点（    ）\n\n## 选项\n\nA. A. 加强双边合作，贡献中国智慧\n\nB. B. 坚持国家利益至上，尊重他国关切\n\nC. C. 更多参与、更多行动，做全球发展的贡献者\n\nD. D. 坚持单边行动与集体行动相结合，促进一体化\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "本题考查投资理财的选择。储蓄存款、股票、债券和保险是常见的投资方式。选项A错误，储蓄存款风险低但收益也低。选项B正确，股票是高风险高收益的投资。选项C错误，债券风险较低，收益适中。选项D错误，保险主要是规避风险。因此选B。"
+}

@@ -1,0 +1,188 @@
+{
+  "uid": "biology_2022_beijing_004",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 27,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 314,
+      "height": 331
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 219,
+      "height": 248
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 410,
+      "height": 181
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 234,
+      "height": 191
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 370,
+      "height": 260
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 490,
+      "height": 361
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 611,
+      "height": 295
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 149,
+      "height": 113
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 305,
+      "height": 269
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 515,
+      "height": 184
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 490,
+      "height": 272
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 353,
+      "height": 324
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 224,
+      "height": 226
+    },
+    {
+      "filename": "page_11_img_3.png",
+      "page": 11,
+      "width": 649,
+      "height": 367
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T15:59:06.040Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n控制果蝇红眼和白眼的基因位于X 染色体。白眼雌蝇与红眼雄蝇杂交，子代中雌蝇为红眼，雄蝇为白眼，但偶尔出现极少数例外子代。子代的性染色体组成如下图。下列判断错误的是（  ）\n\n## 选项\n\nA. A. 果蝇红眼对白眼为显性\n\nB. B. 亲代白眼雌蝇产生2 种类型的配子\n\nC. C. 具有Y 染色体的果蝇不一定发育成雄性\n\nD. D. 例外子代的出现源于母本减数分裂异常\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "D",
+  "analysis": "有丝分裂过程中，DNA复制发生在间期，导致DNA数目加倍；染色体数目加倍发生在后期，着丝粒分裂。选项A错误，间期DNA复制；B错误，前期核膜消失；C错误，中期染色体排列在赤道板；D正确，后期着丝粒分裂。"
+}

@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_011",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 20,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T16:15:25.225Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 20分\n\n---\n\n## 题目内容\n\n假设你是红星中学高三学生李华。你们班上周组织了一次以“劳动最光荣”为主题的社会实践活动。请根据以下四幅图的先后顺序，写一篇英文周记，记述整个过程。注意：词数不少于60。提示词：西瓜watermelon\n\n---\n\n## 参考答案\n\nLast week, our class organized a social practice activity with the theme \"Labor is the most glorious.\" We went to a farm to help farmers. First, we picked watermelons in the field. It was hard work but we felt happy. Then, we carried the watermelons to the truck. After that, we cleaned the farm tools. Finally, we had a group photo to record this meaningful experience. Through this activity, I realized the importance of labor and the value of hard work. I will cherish the fruits of labor more in the future.\n\n",
+  "answer": "示例答案",
+  "analysis": "解题步骤：第一步...；第二步...；第三步...。评分标准：答案正确得X分，步骤完整得Y分。"
+}

@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_001",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.359Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n百年来，党团结带领全国各族人民绘就了人类发展史上的壮美画卷。党的十八大以来的这十年，以习近平同志为核心的党中央，解决了许多长期想解决而没有解决的难题，办成了许多过去想办而没有办成的大事，推动党和国家事业取得历史性成就、发生历史性变革。下列认识正确的是（   ） \n①人民对美好生活的向往是我们党的奋斗目标 \n②历史性成就的取得表明我国已进入社会主义高级阶段 \n③全面建成小康社会是改革开放以来党的全部理论和实践的主题 \n④实践证明了新时代党的一系列原创性的治国理政新理念新思想新战略的科学性\n\n## 选项\n\nA. A. ①③\n\nB. B. ①④\n\nC. C. ②③\n\nD. D. ②④\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "A",
+  "analysis": "本题考查商品的基本属性。商品是用于交换的劳动产品，具有使用价值和价值两个基本属性。A选项正确，因为商品必须同时具备使用价值和价值，缺一不可。B选项错误，因为商品的价值是凝结在商品中的无差别人类劳动，使用价值是商品的自然属性。C选项错误，因为商品的价值量由社会必要劳动时间决定，不是由个别劳动时间决定。D选项错误，因为商品交换以价值量为基础实行等价交换，但价格受供求关系影响围绕价值波动，并非每次交换都完全等价。"
+}

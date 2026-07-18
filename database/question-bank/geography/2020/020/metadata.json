@@ -1,0 +1,128 @@
+{
+  "uid": "geography_2020_beijing_020",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 309,
+      "height": 327
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 553,
+      "height": 167
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 435,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 440,
+      "height": 271
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 369,
+      "height": 275
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 553,
+      "height": 159
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 415,
+      "height": 323
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 540,
+      "height": 326
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 603,
+      "height": 131
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 553,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 488,
+      "height": 317
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 421,
+      "height": 297
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 552,
+      "height": 264
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 553,
+      "height": 377
+    },
+    {
+      "filename": "page_10_img_2.jpeg",
+      "page": 10,
+      "width": 600,
+      "height": 279
+    }
+  ],
+  "created_at": "2026-07-17T16:38:08.420Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n阅读图文材料，回答下列问题。\n奥地利某村在18世纪60年代约有200人，以放牧和编织为生。到1910年，因大多数村民外迁，全村仅剩39人。随着山地旅游的兴起，改造后的农舍用于接待住宿，当地传统农业向旅游业转变。20世纪50年代以后，该村成为登山、滑雪胜地。到2001年，常住居民增长到420人，年接待游客达12万人次。与此同时，受观光、滑雪等活动的影响，当地植被出现不同程度的退化。下图为该村景观及当地气温、降水量图。\n（1）简述旅游业对当地地理环境的影响。\n林线是由于低温、土壤等条件限制而不能生长森林的界限。该村附近的林线海拔大约2070米。\n（2）指出该村林线附近的森林植被类型，说明该植被生长的大致月份及主要依据。\n冻土是指温度在0℃以下的土壤，冻土层厚度与积雪等地表覆盖状况密切相关。下图示意某年该村相邻的甲、乙两地土壤温度的垂直变化。\n（3）比较甲、乙两地冻土层的差异，说明主要原因。\n\n## 小题\n\n### 20(1)\n\n简述旅游业对当地地理环境的影响。\n\n**答案**: \n\n### 20(2)\n\n指出该村林线附近的森林植被类型，说明该植被生长的大致月份及主要依据。\n\n**答案**: \n\n### 20(3)\n\n比较甲、乙两地冻土层的差异，说明主要原因。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）A：北京 B：上海 C：广州 D：成都 （2）A：温带季风气候 B：亚热带季风气候 C：亚热带季风气候 D：亚热带季风气候 （3）A：冬季寒冷干燥，夏季高温多雨 B：冬季温和少雨，夏季高温多雨 C：冬季温和少雨，夏季高温多雨 D：冬季温和少雨，夏季高温多雨",
+  "analysis": "本题考查中国主要城市的气候类型和特征。北京位于北方，为温带季风气候；上海、广州、成都位于南方，为亚热带季风气候。温带季风气候冬季寒冷干燥，夏季高温多雨；亚热带季风气候冬季温和少雨，夏季高温多雨。"
+}

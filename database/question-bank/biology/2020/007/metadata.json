@@ -1,0 +1,125 @@
+{
+  "uid": "biology_2020_beijing_007",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [
+    "减数分裂",
+    "基因自由组合定律"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.368Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n**知识点**: 减数分裂、基因自由组合定律\n\n---\n\n## 题目内容\n\n如图是雄性哺乳动物体内处于分裂某时期的一个细胞的染色体示意图。相关叙述不正确的是（    ）\n\n## 选项\n\nA. A.该个体的基因型为AaBbDd\n\nB. B.该细胞正在进行减数分裂\n\nC. C.该细胞分裂完成后只产生2 种基因型的精子\n\nD. D.A、a 和D、d 基因的遗传遵循自由组合定律\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "本题考查基因表达。转录是以DNA的一条链为模板合成RNA的过程，主要发生在细胞核中。选项B：翻译发生在核糖体上；选项C：逆转录发生在某些病毒中；选项D：DNA复制发生在细胞核。因此A正确。"
+}

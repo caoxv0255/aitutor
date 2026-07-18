@@ -1,0 +1,27 @@
+{
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2025,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 26,
+  "page_count": 0,
+  "image_count": 25,
+  "source_file": "2025高考北京卷语文（解析版）.pdf",
+  "processing_time": "2026-07-18T03:38:35.626Z",
+  "quality_stats": {
+    "total": 26,
+    "by_type": {
+      "choice": 13,
+      "solve": 11,
+      "fill": 2
+    },
+    "avg_difficulty": "3.00",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [
+    "存在1个重复题号"
+  ],
+  "issues": []
+}

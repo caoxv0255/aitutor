@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_035",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 35,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.260Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第35题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\nIt’s a joyful and stressful time of year in the United States for students and their families as they make decisions about where to attend college. Families often turn to rankings systems to help make a decision. ____35____ When I talk to families as a scholar of higher education, they’re often surprised that teaching excellence is not counted in rankings. ____36____ Emerging research suggests that courses in lower-ranked universities, on average, scored higher on teaching than courses in higher-ranked universities. ____37____ The absence of teaching excellence from the rankings is surprising given the link between high-quality teaching and student success. Quality teaching is one of the most important predictors of a wide range of college outcomes. Rankings, however, are only one reason why a low value is placed on teaching in higher education. Administrators often don’t view teaching excellence as a way to increase enrolment (注册) or funding. ____38____ Research shows that the more time instructors spend on teaching, the lower their salary. What is the result？ Many instructors continue to teach using traditional lectures, which lead to lower success rates. ____39____ Nevertheless, not much will change until schools with high-quality teaching are rewarded with more resources, higher rankings and increased enrolments. In the long term, universities, organisations that rank schools, and others should work to make teaching a valued, core part of the mission. What should students and their families do? They should give strong consideration to universities where high-quality teaching is valued, even though the schools may be ranked lower.\n\n## 选项\n\nA. A. Higher education has achieved its true potential.\n\nB. B. Therefore, it’s not highly valued in hiring or promotion.\n\nC. C. Quality teaching has been an important reputation-building factor.\n\nD. D. However, the rankings ignore a critical factor: the quality of teaching.\n\nE. E. Efforts to improve teaching at the university level have recently emerged.\n\nF. F. They’re even more surprised at how teaching is undervalued by universities.\n\nG. G. In fact, universities often shift emphasis from teaching to other ranking factors.\n\n## 小题\n\n### 35\n\nFamilies often turn to rankings systems to help make a decision. ____35____\n\n**答案**: D\n\n### 36\n\nthey’re often surprised that teaching excellence is not counted in rankings. ____36____\n\n**答案**: F\n\n### 37\n\ncourses in lower-ranked universities, on average, scored higher on teaching than courses in higher-ranked universities. ____37____\n\n**答案**: G\n\n### 38\n\nAdministrators often don’t view teaching excellence as a way to increase enrolment or funding. ____38____\n\n**答案**: B\n\n### 39\n\n____39____ Nevertheless, not much will change until schools with high-quality teaching are rewarded with more resources, higher rankings and increased enrolments.\n\n**答案**: E\n\n---\n\n## 参考答案\n\n35. D 36. F 37. G 38. B 39. E\n\n",
+  "answer": "A",
+  "analysis": "本题考查交际用语。对方道歉时，回答‘没关系’用‘That's all right’或‘Never mind’。A选项正确。"
+}

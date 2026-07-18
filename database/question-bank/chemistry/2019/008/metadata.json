@@ -1,0 +1,158 @@
+{
+  "uid": "chemistry_2019_beijing_008",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 16,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 196,
+      "height": 89
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 145,
+      "height": 164
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 121,
+      "height": 136
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 147,
+      "height": 147
+    },
+    {
+      "filename": "page_1_img_5.jpeg",
+      "page": 1,
+      "width": 134,
+      "height": 210
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 175,
+      "height": 168
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 221,
+      "height": 165
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 309,
+      "height": 247
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 22,
+      "height": 26
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 280,
+      "height": 278
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 80,
+      "height": 141
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 53,
+      "height": 37
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 249,
+      "height": 226
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 696,
+      "height": 177
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 473,
+      "height": 84
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 59,
+      "height": 37
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 446,
+      "height": 85
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 257,
+      "height": 173
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 228,
+      "height": 206
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 407,
+      "height": 172
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 454,
+      "height": 79
+    }
+  ],
+  "created_at": "2026-07-17T16:18:20.262Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 16分\n\n---\n\n## 题目内容\n\n抗癌药托瑞米芬的前体K 的合成路线如图。已知：ⅰ．ⅱ．有机物结构可用键线式表示，如（CH3）2NCH2CH3 的键线式为。\n\n## 小题\n\n### 8(1)\n\n有机物A 能与Na2CO3 溶液反应产生CO2，其钠盐可用于食品防腐。有机物B 能与Na2CO3 溶液反应，但不产生CO2；B 加氢可得环己醇。A 和B 反应生成C 的化学方程式是     ，反应类型是     。\n\n**答案**: \n\n### 8(2)\n\nD 中含有的官能团：     。\n\n**答案**: \n\n### 8(3)\n\nE 的结构简式为     。\n\n**答案**: \n\n### 8(4)\n\nF 是一种天然香料，经碱性水解、酸化，得G 和J．J 经还原可转化为G．J 的结构简式为     。\n\n**答案**: \n\n### 8(5)\n\nM 是J 的同分异构体，符合下列条件的M 的结构简式是     。①包含2 个六元环②M 可水解，与NaOH 溶液共热时，1molM 最多消耗2molNaOH\n\n**答案**: \n\n### 8(6)\n\n推测E 和G 反应得到K 的过程中，反应物LiAlH4 和H2O 的作用是     。\n\n**答案**: \n\n### 8(7)\n\n由K 合成托瑞米芬的过程：托瑞米芬具有反式结构，其结构简式是     。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设需要氯酸钾的质量为x。\n2KClO3 → 2KCl + 3O2↑\n245         96\nx            4.8g\n245/x = 96/4.8g\nx = (245×4.8g)/96 = 12.25g\n答：需要氯酸钾12.25克。",
+  "analysis": "本题考查根据化学方程式的计算。解题思路：写出化学方程式，找出已知量和未知量，列比例式求解。关键知识点：质量守恒定律，化学方程式的配平，相对分子质量的计算。步骤：1.设未知量；2.写出化学方程式；3.标出相关物质的相对分子质量和已知量、未知量；4.列比例式；5.求解；6.答。评分标准：设未知数1分，化学方程式正确2分，比例式正确2分，计算结果正确1分，答1分，共7分。"
+}

@@ -1,0 +1,107 @@
+{
+  "uid": "politics_2020_beijing_006",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "政府职能",
+    "文化职能"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 229,
+      "height": 126
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 371,
+      "height": 234
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 650,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 82,
+      "height": 72
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 92,
+      "height": 84
+    },
+    {
+      "filename": "page_5_img_4.jpeg",
+      "page": 5,
+      "width": 95,
+      "height": 88
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 650,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 645,
+      "height": 348
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 264
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 218,
+      "height": 285
+    }
+  ],
+  "created_at": "2026-07-17T16:36:47.002Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 政府职能、文化职能\n\n---\n\n## 题目内容\n\n“我们的城市---北京儿童城市规划宣传教育计划”是由北京市规划和自然资源委员会主办的公益宣传教育项目，该项目策划了以下四节线上城市探索公开课。探索中轴线，探秘“自行车高速路”，寻找玉河，城市公共空间观测与营造，这些课程（    ）\n①将传统与现代、自然与社会有机地连接在一起，实现了共性与个性的转化\n②使儿童在“城市探索”中获得间接经验，了解所生活的城市，提高参与意识\n③鼓励儿童参与城市规划，尊重儿童的知情权，保障其政治义务的履行\n④发挥了政府在社会教育方面的作用，市政府行使文化职能的具体体现\n\n## 选项\n\nA. A.①③\n\nB. B.①④\n\nC. C.②③\n\nD. D.②④\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n②④正确。①错误，未体现共性与个性转化；③错误，儿童没有政治义务。\n\n",
+  "answer": "B",
+  "analysis": "本题考查公有制经济的地位。公有制经济是社会主义经济制度的基础，在国民经济中占主体地位。选项A错误，国有经济是主导。选项B正确，公有制经济是主体。选项C错误，非公有制经济是重要组成部分。选项D错误，混合所有制经济中的国有和集体成分属于公有制。因此选B。"
+}

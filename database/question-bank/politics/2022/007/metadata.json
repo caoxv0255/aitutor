@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_007",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.363Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n“你读过的课文中哪一篇给你留下了深刻的印象？”某论坛的这一话题，吸引了数万人参与讨论。下面是不同年龄的人分享重温课文的感受：重温课文（   ） \n甲：我记得诱人的高邮威鸭蛋，“筷子头一扎下去，吱——红油就冒出来了”。 \n乙：《匆匆》让我开始知道要珍惜时间,不能让时间白白流逝。 \n丙：十几岁的日子和思想很简单，其实当年并没有完全读懂《我与地坛》的深意。 \n丁：学《记承天寺夜游》时也有清凉月夜，但不懂得知己难遇，不懂得能在夜半时分找到人“相与步于中庭”的可贵。 \n①可以唤醒人们的文化记忆，丰富精神世界 \n②获得的是理性认识，有助于实现认识的飞跃 \n③让历经岁月洗礼的人们对课文内容的理解更深刻 \n④让不同年龄的人思昔抚今，形成对当下生活的共同认知\n\n## 选项\n\nA. A. ①③\n\nB. B. ①④\n\nC. C. ②③\n\nD. D. ②④\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "B",
+  "analysis": "本题考查公司的类型。我国法定的公司形式是有限责任公司和股份有限公司。A选项错误，因为个人独资企业不是公司。B选项正确，有限责任公司和股份有限公司是公司的主要形式。C选项错误，因为合伙企业和公司是不同组织形式。D选项错误，因为国有企业和公司有交叉，但公司形式主要是两种。"
+}

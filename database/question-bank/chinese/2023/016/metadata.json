@@ -1,0 +1,92 @@
+{
+  "uid": "chinese_2023_beijing_016",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:14:51.017Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n下列对文中加点词语的解说，不正确的一项是\n\n## 选项\n\nA. A. 媒体已就此探讨同质化的问题  同质化：性质或品质趋于相同\n\nB. B. 如虬结着的粗大血管  虬结：蜷曲缠绕\n\nC. C. 有古风古韵，又率性从容  率性：真诚\n\nD. D. 而毫无浊气和混沌  混沌：不纯净\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "本题考查诗歌鉴赏。A项‘直挂云帆济沧海’表达了乐观自信，正确；B项‘感时花溅泪’是拟人；C项‘大漠孤烟直’是边塞诗；D项‘采菊东篱下’是田园诗。因此选A。"
+}

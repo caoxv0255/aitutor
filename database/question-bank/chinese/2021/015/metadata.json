@@ -1,0 +1,80 @@
+{
+  "uid": "chinese_2021_beijing_015",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:39:35.335Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 填空题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n在横线处填写作品原句。\n\n## 小题\n\n### 15(1)\n\n古代贬谪之地往往环境艰苦，白居易在《琵琶行》中这样描述谪居浔阳生活：“__________________，__________________。其间旦暮闻何物？杜鹃啼血猿哀鸣。\n\n**答案**: 住近湓江地低湿，黄芦苦竹绕宅生\n\n### 15(2)\n\n古代诗人多有对“乐”的独到体会。欧阳修贬滁州，于山林间感慨“禽鸟知山林之乐，而不知人之乐；__________________，__________________”。\n\n**答案**: 人知从太守游而乐，而不知太守之乐其乐也\n\n### 15(3)\n\n宋初道士陈抟，字图南，号扶摇子，其名、字、号都出自《庄子·逍遥游》。其名与号出自“__________________”，其字出自“__________________”。\n\n**答案**: 抟扶摇而上者九万里；而后乃今将图南\n\n### 15(4)\n\n骨气是人之脊梁，李白“__________________，__________________”的傲岸，郑板桥“千磨万击还坚劲，任尔东西南北风”的坚毅，都是骨气的表现。\n\n**答案**: 安能摧眉折腰事权贵，使我不得开心颜\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）策勋十二转，赏赐百千强。（2）可汗问所欲，木兰不用尚书郎。",
+  "analysis": "本题考查默写。注意“策”“勋”“赏”“赐”“郎”等字。评分标准：每空1分，共4分。"
+}

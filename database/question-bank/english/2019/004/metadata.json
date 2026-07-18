@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_004",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 30,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T16:15:25.217Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 30分\n\n---\n\n## 题目内容\n\nRegardless of the weather or the distance, Paul Wilson will make sure low-income students in his neighbourhood arrive at their college classes on time. A retired engineer, 76-year-old Wilson has been ___11___ free rides to college students for the past eight years. Since he first started ___12___ his car to the young people. Wilson has ___13___ an astonishing 64, 000 miles, and has had countless pleasant and often humorous ___14___ with the students he transports to and from school. The students who he’s ___15___ have gone on to become physicians, teachers and engineers, but what they’ve also got out of their time in school is finding a role model and a friend in Wilson. Some students ___16___ call him “Grandpa”. Tina Stern ___17___ rides from Wilson for all her four years in college, and the trips meant much more to her than just free ___18___. “It’s not just a ride; you’re not just sitting there in ___19___ silence or with your headphones on.” Stern said. “He asks you questions and actually ___20___ the answers, so the next time you ride with him, he’ll ___21___ those things.” Wilson first worked as a driver through a student-support programme of the non-profit organisation. On Point for College. Although the ___22___ asks the members only to drive students to and from their classes, Wilson often goes ___23___ to ensure the welfare and safety of the students. If they have problems with registration. Wilson is there to ___24___ them. If they run out of certain daily necessities. Wilson will drive to the nearest store and purchase what’s needed. If a student gets hungry on the long drives to and from school, Wilson never ___25___ to buy them a meal. For many students, Wilson’s help is not only appreciated, it’s also entirely ___26___ for them to be able to complete their college education. Some students don’t have a reliable car, while others have to ___27___ vehicles with parents who work six days a week. For them, riding with Wilson has ___28___ them to complete their education — but according to Wilson, he benefits just as much from the ___29___. “I just love driving and I love these kids,” Wilson said. “It’s such a(n) ___30___ to be a part of these kids’ lives, even just for a few hours, getting to know them and hearing their stories.”\n\n## 选项\n\nA. 11. A. linking B. sending C. offering D. distributing\n\nB. 12. A. donating B. lending C. delivering D. volunteering\n\nC. 13. A. paved B. covered C. measured D. wandered\n\nD. 14. A. arguments B. interviews C. negotiations D. conversations\n\nE. 15. A. met B. driven C. addressed D. conversations\n\nF. 16. A. even B. ever C. once D. already\n\nG. 17. A. earned B. received C. assessed D. demanded\n\nH. 18. A. transportation B. style C. time D. communication\n\nI. 19. A. forced B. awkward C. ridiculous D. suspicious\n\nJ. 20. A. selects B. recites C. guesses D. remembers\n\nK. 21. A. act on B. settle on C. check on D. agree on\n\nL. 22. A. club B. league C. college D. programme\n\nM. 23. A. far B. around C. beyond D. forwards\n\nN. 24. A. assist B. watch C. urge D. warm\n\nO. 25. A. expects B. attempts C. manages D. hesitates\n\nP. 26. A. extra B. unusual C. necessary D. adequate\n\nQ. 27. A. share B. fuel C. repair D. exchange\n\nR. 28. A. required B. allowed C. reminded D. convinced\n\nS. 29. A. experience B. arrangement C. appreciation D. employment\n\nT. 30. A. effort B. ambition C. privilege D. convenience\n\n---\n\n## 参考答案\n\n11. C; 12. D; 13. B; 14. D; 15. B; 16. A; 17. B; 18. A; 19. B; 20. D; 21. C; 22. D; 23. C; 24. A; 25. D; 26. C; 27. A; 28. B; 29. A; 30. C\n\n",
+  "answer": "A",
+  "analysis": "选项A正确，因为...；选项B错误，因为...；选项C错误，因为...；选项D错误，因为..."
+}

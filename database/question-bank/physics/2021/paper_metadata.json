@@ -1,0 +1,26 @@
+{
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2021,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 28,
+  "source_file": "2021年北京高考物理试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:44:14.409Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 14,
+      "solve": 6
+    },
+    "avg_difficulty": "3.55",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

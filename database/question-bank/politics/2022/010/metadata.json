@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_010",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.367Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n促进公平就业、减少人力资本提升的障碍，可以让更多人根据自身比较优势选择职业，从而提升经济效率，促进经济增长。下列做法符合上述原理的是（   ） \n①征收个人所得税，调节个人收入分配 \n②为外来务工人员提供均等化的公共服务 \n③发展多种层次和形式的职业教育，推进多元办学 \n④提高进口产品关税，保护本国相关产业工人的就业机会\n\n## 选项\n\nA. A. ①③\n\nB. B. ①④\n\nC. C. ②③\n\nD. D. ②④\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "本题考查财政的作用。国家财政具有促进资源合理配置、促进经济平稳运行、促进社会公平、改善人民生活的作用。题干中“国家投资建设高铁”体现了财政促进资源合理配置的作用。A选项促进经济平稳运行是通过财政政策调节总需求，题干未体现。B选项促进社会公平主要通过社会保障等，题干未体现。D选项改善人民生活与题干直接相关，但更准确的是促进资源合理配置。因此C选项正确。"
+}

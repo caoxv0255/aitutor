@@ -1,0 +1,198 @@
+{
+  "uid": "physics_2021_beijing_017",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 9,
+  "knowledge_points": [
+    "平抛运动",
+    "动量守恒",
+    "能量守恒"
+  ],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 28,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 256,
+      "height": 277
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 390,
+      "height": 228
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 449,
+      "height": 208
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 413,
+      "height": 223
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 810,
+      "height": 105
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 441,
+      "height": 262
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 316,
+      "height": 258
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 231,
+      "height": 304
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 301,
+      "height": 228
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 129,
+      "height": 310
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 506,
+      "height": 265
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1078,
+      "height": 213
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 525,
+      "height": 346
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 706,
+      "height": 395
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 437,
+      "height": 441
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 785,
+      "height": 283
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 478,
+      "height": 331
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 402,
+      "height": 238
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 678,
+      "height": 272
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:44:14.406Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 9分\n\n**知识点**: 平抛运动、动量守恒、能量守恒\n\n---\n\n## 题目内容\n\n如图所示，小物块A、B的质量均为m = 0.10 kg，B静止在轨道水平段的末端。A以水平速度v0与B碰撞，碰后两物块粘在一起水平抛出。抛出点距离水平地面的竖直高度为h = 0.45 m，两物块落地点距离轨道末端的水平距离为s = 0.30 m，取重力加速度g = 10 m/s2。求：\n（1）两物块在空中运动的时间t；\n（2）两物块碰前A的速度v0的大小；\n（3）两物块碰撞过程中损失的机械能ΔE。\n\n## 小题\n\n### 17(1)\n\n两物块在空中运动的时间t；\n\n**答案**: 0.3s\n\n### 17(2)\n\n两物块碰前A的速度v0的大小；\n\n**答案**: 2.0m/s\n\n### 17(3)\n\n两物块碰撞过程中损失的机械能ΔE。\n\n**答案**: 0.10J\n\n---\n\n## 参考答案\n\n（1）0.3s；（2）2.0m/s；（3）0.10J\n\n",
+  "answer": "（1）4m/s （2）0.8m",
+  "analysis": "本题考查平抛运动。\n（1）水平方向匀速运动，x=v0t，代入x=1.6m，t=0.4s，得v0=1.6/0.4=4m/s。\n（2）竖直方向自由落体，h=1/2 gt^2=1/2×10×0.4^2=0.8m。\n评分标准：每问5分，公式正确得3分，结果正确得2分。"
+}

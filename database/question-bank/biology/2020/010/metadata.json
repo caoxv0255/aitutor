@@ -1,0 +1,125 @@
+{
+  "uid": "biology_2020_beijing_010",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [
+    "种间竞争",
+    "生态位"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.369Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n**知识点**: 种间竞争、生态位\n\n---\n\n## 题目内容\n\n近缘种动物常因利用相同的食物资源而竞争。为研究亲缘关系较远的啮齿动物和蚂蚁之间是否也存在竞争关系，研究者调查了5 种啮齿动物与7 种蚂蚁采食的种子，统计各种大小不同的种子所占的比例（如图）。以下叙述错误的是（    ）\n\n## 选项\n\nA. A.应选择有共同活动区域的啮齿动物和蚂蚁\n\nB. B.啮齿动物与蚂蚁采食的种子大小有所重叠\n\nC. C.啮齿动物与蚂蚁之间一定不存在竞争关系\n\nD. D.无法判断啮因动物与蚂蚁间存在捕食关系\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "本题考查免疫调节。体液免疫中，浆细胞产生抗体，抗体与抗原特异性结合。选项A：T细胞参与细胞免疫和体液免疫；选项B：记忆细胞在二次免疫中迅速增殖分化；选项D：吞噬细胞处理抗原并呈递。因此C正确。"
+}

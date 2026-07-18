@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_009",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "文意理解"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.646Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 文意理解\n\n---\n\n## 题目内容\n\n根据文意，下列理解与推断，不正确的一项是\n\n## 选项\n\nA. A. 培育美好的品德要从小做起，应该营造良好的环境，近朱者赤，近墨者黑。\n\nB. B. 一般人的智力有限，可以明了已经发生的事情，不能预见将会发生的事情。\n\nC. C. 君主面对各种不同的言论，必须有正确的辨别之道，那就是要以事实验证。\n\nD. D. 君主的治国方略不一定会应验于国之安危，百姓哀乐才是国之安危的根本。\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n文章强调君主取舍决定国家安危，而非百姓哀乐为根本。\n\n",
+  "answer": "A",
+  "analysis": "本题考查句子翻译。'见往事耳'意思是'了解历史罢了'。A项正确；B项误将'见'译为'看见'；C项误将'往事'译为'过去的事情'；D项误将'耳'译为'耳朵'。因此选A。"
+}

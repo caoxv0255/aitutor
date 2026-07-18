@@ -1,0 +1,134 @@
+{
+  "uid": "math_2022_beijing_017",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 14,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 568,
+      "height": 486
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 272,
+      "height": 203
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_5.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_6.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:55:27.408Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 14分\n\n---\n\n## 题目内容\n\n如图，在三棱柱ABC-A1B1C1中，侧面BCC1B1为正方形，平面BCC1B1⊥平面ABB1A1，AB=BC=2，M，N分别为A1B1，AC的中点．\n（1）求证：MN∥平面BCC1B1；\n（2）再从条件①、条件②这两个条件中选择一个作为已知，求直线AB与平面BMN所成角的正弦值．\n条件①：AB⊥MN；\n条件②：BM=MN．\n注：如果选择条件①和条件②分别解答，按第一个解答计分．\n\n## 小题\n\n### 17(1)\n\n求证：MN∥平面BCC1B1；\n\n**答案**: 略\n\n### 17(2)\n\n选择条件①或②，求直线AB与平面BMN所成角的正弦值．\n\n**答案**: √6/3\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "见解析",
+  "analysis": "（1）设等差数列{an}公差为d，由a2=5，a5=11得a1+d=5，a1+4d=11，解得a1=3，d=2，所以an=2n+1。\n（2）bn=2^(an)=2^(2n+1)=2×4^n，所以{bn}是等比数列，首项b1=8，公比q=4，前n项和Sn=8(1-4^n)/(1-4)=8(4^n-1)/3。"
+}

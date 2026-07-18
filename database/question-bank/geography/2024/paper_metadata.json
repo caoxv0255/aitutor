@@ -1,0 +1,28 @@
+{
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2024,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 33,
+  "source_file": "2024年北京高考地理试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T03:36:40.628Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 15,
+      "solve": 5
+    },
+    "avg_difficulty": "2.70",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [
+    "第7题题干较短",
+    "第9题题干较短",
+    "第11题题干较短"
+  ],
+  "issues": []
+}

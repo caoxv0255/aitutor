@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_022",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 22,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.245Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第22题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nIf selected as an IOC Young Leader, one will need to ________.\n\n## 选项\n\nA. A. complete a reflection task each week\n\nB. B. watch sports on the IOC channel\n\nC. C. work on a sport-based project\n\nD. D. coach and advise their peers\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "本题考查定语从句。先行词是‘the factory’，关系词在从句中作visited的宾语，且指物，故用which或that。选项C正确。"
+}

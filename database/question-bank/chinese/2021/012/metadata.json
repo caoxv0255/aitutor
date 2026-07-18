@@ -1,0 +1,80 @@
+{
+  "uid": "chinese_2021_beijing_012",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:39:35.332Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n下列对诗句的分析，不正确的一项是（   ）\n\n## 选项\n\nA. A. “环州多白水”四句写景，写惠州被群山环绕，幽僻而苍凉。\n\nB. B. “东家著孔丘”四句，写出了当地人的道德淳厚、民风纯朴。\n\nC. C. “周公与管蔡”二句，设想彼此对立的人也会向往安居于此。\n\nD. D. “我饱一饭足”二句，写生活虽穷困，但诗人仍能感到满足。\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "B",
+  "analysis": "本题考查诗歌赏析。A项“朔气传金柝”写北方寒气中传来打更声，表现军旅生活艰苦；C项“策勋十二转”写木兰功劳大；D项“雄兔脚扑朔”比喻事情错综复杂。B项“万里赴戎机”写奔赴战场，并非“归乡”。故选B。"
+}

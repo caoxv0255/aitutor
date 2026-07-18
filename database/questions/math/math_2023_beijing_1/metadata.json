@@ -1,0 +1,27 @@
+{
+  "question_id": "math_2023_beijing_01",
+  "subject": "math",
+  "subject_cn": "数学",
+  "year": 2023,
+  "region": "beijing",
+  "region_cn": "北京",
+  "question_no": 1,
+  "question_type": "solve",
+  "question_type_cn": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [
+    "函数",
+    "导数",
+    "单调性"
+  ],
+  "has_image": false,
+  "has_formula": true,
+  "source_info": {
+    "paper_name": "2023年北京高考数学试卷",
+    "source_type": "gaokao",
+    "collection_date": "2023-06-10"
+  },
+  "created_at": "2026-07-16T14:03:00.615Z",
+  "updated_at": "2026-07-16T14:03:00.615Z"
+}

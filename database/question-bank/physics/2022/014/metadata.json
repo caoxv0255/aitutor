@@ -1,0 +1,209 @@
+{
+  "uid": "physics_2022_beijing_014",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "核聚变",
+    "等离子体"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 387,
+      "height": 413
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 566,
+      "height": 289
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 564,
+      "height": 374
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 358,
+      "height": 257
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 282,
+      "height": 339
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 529,
+      "height": 284
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 355,
+      "height": 257
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 222,
+      "height": 289
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 481,
+      "height": 417
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 401,
+      "height": 458
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 722,
+      "height": 190
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 380,
+      "height": 323
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 275,
+      "height": 543
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 818,
+      "height": 154
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 651,
+      "height": 628
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 720,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 376,
+      "height": 261
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 383
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 381,
+      "height": 458
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:58:36.491Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 核聚变、等离子体\n\n---\n\n## 题目内容\n\n2021年5月，中国科学院全超导托卡马克核聚变实验装置（EAST）取得新突破，成功实现了可重复的1.2亿摄氏度101秒和1.6亿摄氏度20秒等离子体运行，创造托卡马克实验装置运行新的世界纪录，向核聚变能源应用迈出重要一步。等离子体状态不同于固体、液体和气体的状态，被认为是物质的第四态。当物质处于气态时，如果温度进一步升高，几乎全部分子或原子由于激烈的相互碰撞而离解为电子和正离子，此时物质称为等离子体。在自然界里，火焰、闪电、极光中都会形成等离子体，太阳和所有恒星都是等离子体。下列说法不正确的是（  ）\n\n## 选项\n\nA. 核聚变释放的能量源于等离子体中离子的动能\n\nB. 可以用磁场来约束等离子体\n\nC. 尽管等离子体整体是电中性的，但它是电的良导体\n\nD. 提高托卡马克实验装置运行温度有利于克服等离子体中正离子间的库仑斥力\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "C",
+  "analysis": "选项C正确，根据安培力公式F=BILsinθ，当B与I垂直时F=BIL。选项A错误，因为安培力方向由左手定则判断。选项B错误，因为安培力与B、I均有关。选项D错误，因为当B∥I时安培力为零。"
+}

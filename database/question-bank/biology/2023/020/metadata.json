@@ -1,0 +1,169 @@
+{
+  "uid": "biology_2023_beijing_020",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [
+    "细胞凋亡",
+    "活性氧",
+    "叶绿体",
+    "线粒体"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 547,
+      "height": 323
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 695,
+      "height": 549
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 351,
+      "height": 183
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 353,
+      "height": 276
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 440,
+      "height": 232
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 429,
+      "height": 136
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 585,
+      "height": 427
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 200,
+      "height": 199
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 245,
+      "height": 147
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 579,
+      "height": 236
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 552,
+      "height": 222
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1308,
+      "height": 838
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:22:55.922Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 12分\n\n**知识点**: 细胞凋亡、活性氧、叶绿体、线粒体\n\n---\n\n## 题目内容\n\n学习以下材料，回答下面问题。调控植物细胞活性氧产生机制的新发现，能量代谢本质上是一系列氧化还原反应。在植物细胞中，线粒体和叶绿体是能量代谢的重要场所。叶绿体内氧化还原稳态的维持对叶绿体行使正常功能非常重要。在细胞的氧化还原反应过程中会有活性氧产生，活性氧可以调控细胞代谢，并与细胞凋亡有关。我国科学家发现一个拟南芥突变体m（M 基因突变为m 基因），在受到长时间连续光照时，植株会出现因细胞凋亡而引起的叶片黄斑等表型。M 基因编码叶绿体中催化脂肪酸合成的M 酶。与野生型相比，突变体m 中M 酶活性下降，脂肪酸含量显著降低。为探究M 基因突变导致细胞凋亡的原因，研究人员以诱变剂处理突变体m，筛选不表现细胞凋亡，但仍保留m 基因的突变株。通过对所获一系列突变体的详细解析，发现叶绿体中pMDH 酶、线粒体中mMDH 酶和线粒体内膜复合物I（催化有氧呼吸第三阶段的酶）等均参与细胞凋亡过程。由此揭示出一条活性氧产生的新途径（如图）：A 酸作为叶绿体中氧化还原平衡的调节物质，从叶绿体经细胞质基质进入到线粒体中，在mMDH 酶的作用下产生NADH（[H]）和B 酸，NADH 被氧化会产生活性氧。活性氧超过一定水平后引发细胞凋亡。在上述研究中，科学家从拟南芥突变体m 入手，揭示出在叶绿体和线粒体之间存在着一条A 酸-B 酸循环途径。对A 酸-B 酸循环的进一步研究，将为探索植物在不同环境胁迫下生长的调控机制提供新的思路。\n\n## 小题\n\n### 20(1)\n\n叶绿体通过___________作用将CO2转化为糖。从文中可知，叶绿体也可以合成脂肪的组分___________。\n\n**答案**: 光合；脂肪酸\n\n### 20(2)\n\n结合文中图示分析，M 基因突变为m 后，植株在长时间光照条件下出现细胞凋亡的原因是：_____，A 酸转运到线粒体，最终导致产生过量活性氧并诱发细胞凋亡。\n\n**答案**: M酶活性下降，脂肪酸合成减少，导致叶绿体中A酸积累\n\n### 20(3)\n\n请将下列各项的序号排序，以呈现本文中科学家解析“M 基因突变导致细胞凋亡机制”的研究思路：___________。①确定相应蛋白的细胞定位和功能②用诱变剂处理突变体m③鉴定相关基因④筛选保留m 基因但不表现凋亡的突变株\n\n**答案**: ②④③①\n\n### 20(4)\n\n本文拓展了高中教材中关于细胞器间协调配合的内容，请从细胞器间协作以维持稳态与平衡的角度加以概括说明___________。\n\n**答案**: 叶绿体和线粒体通过A酸-B酸循环协调氧化还原平衡，维持细胞稳态，避免活性氧过量导致细胞凋亡。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）DNA双螺旋结构 碱基互补配对原则 （2）解旋 以母链为模板，按照碱基互补配对原则合成子链 （3）半保留复制",
+  "analysis": "DNA复制以亲代DNA为模板，在解旋酶作用下解开双链，以每条链为模板，按照碱基互补配对原则，在DNA聚合酶作用下合成子链，形成两个子代DNA分子。复制方式为半保留复制。评分标准：每空1分，共5分。"
+}

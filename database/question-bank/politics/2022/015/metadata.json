@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_015",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.370Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n城镇化是当今世界发展的重要趋势之一，高质量的城镇化是经济增长的重要动力。根据联合国经济和社会事务部在《世界城镇化展望（2018）》中的估算和预测，1950—2050 年全球及发展中国家的人口变动情况如右图所示。材料表明（   ） \n①人口是国家最重要的基本要素，人口数量影响一个国家的经济增长 \n②2025—2030 年，全球人口增长几乎全部来自发展中国家的城镇人口增长 \n③2030—2050 年，发展中国家城镇人口增长数量将高于全球人口增长数量 \n④发展中国家推进高质量的城镇化对全球可持续发展至关重要\n\n## 选项\n\nA. A. ①②\n\nB. B. ①③\n\nC. C. ②④\n\nD. D. ③④\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "B",
+  "analysis": "本题考查经济全球化的影响。经济全球化是一把双刃剑，既带来机遇也带来挑战。A选项错误，因为经济全球化对发展中国家既是机遇也是挑战。B选项正确，经济全球化使各国经济相互依赖，风险全球化。C选项错误，因为经济全球化有利于资源在全球配置。D选项错误，因为经济全球化是生产力发展的结果，不可逆转。"
+}

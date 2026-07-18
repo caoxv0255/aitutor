@@ -1,0 +1,26 @@
+{
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2025,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 21,
+  "page_count": 0,
+  "image_count": 69,
+  "source_file": "2025年北京高考数学试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T03:40:31.790Z",
+  "quality_stats": {
+    "total": 21,
+    "by_type": {
+      "choice": 10,
+      "fill": 4,
+      "multi_choice": 1,
+      "solve": 6
+    },
+    "avg_difficulty": "2.67",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

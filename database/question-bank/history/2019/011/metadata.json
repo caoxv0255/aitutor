@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_011",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.193Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n1924 年，英国保守党和自由党对工党政府提出了谴责动议，工党政府将它视为不信任案。按照英国政治体制，政府接下来可以（  ）\n\n## 选项\n\nA. A．否决谴责动议，继续执政\n\nB. B．要求解散议会，重新大选\n\nC. C．将谴责动议提交国王裁决\n\nD. D．向最高法院提起违宪诉讼\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "C",
+  "analysis": "本题考查中国古代监察制度。秦朝设御史大夫，汉朝设刺史，宋朝设通判，明朝设厂卫，监察制度不断完善。选项C正确。选项A错误，御史大夫是中央监察官。选项B错误，刺史是地方监察官。选项D错误，通判是地方监察官。"
+}

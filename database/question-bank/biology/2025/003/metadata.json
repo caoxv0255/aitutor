@@ -1,0 +1,155 @@
+{
+  "uid": "biology_2025_beijing_003",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2025,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 557,
+      "height": 478
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 502,
+      "height": 239
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 491,
+      "height": 449
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 337,
+      "height": 360
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 574,
+      "height": 291
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 1511,
+      "height": 502
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 606,
+      "height": 372
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 393,
+      "height": 173
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 386,
+      "height": 192
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 614,
+      "height": 581
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 827,
+      "height": 272
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 579,
+      "height": 170
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-18T04:00:20.323Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0"
+}

@@ -1,0 +1,230 @@
+{
+  "uid": "chemistry_2021_beijing_009",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 34,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 139,
+      "height": 90
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 103,
+      "height": 76
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 54,
+      "height": 45
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 64,
+      "height": 42
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 1231,
+      "height": 420
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 173,
+      "height": 132
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 258,
+      "height": 248
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 549,
+      "height": 201
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 74,
+      "height": 52
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 162,
+      "height": 66
+    },
+    {
+      "filename": "page_4_img_5.jpeg",
+      "page": 4,
+      "width": 1426,
+      "height": 287
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 305,
+      "height": 251
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 177,
+      "height": 89
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1154,
+      "height": 401
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 380,
+      "height": 224
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 1483,
+      "height": 479
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 395,
+      "height": 162
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 164,
+      "height": 75
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 1467,
+      "height": 122
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 524,
+      "height": 348
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 118,
+      "height": 121
+    }
+  ],
+  "created_at": "2026-07-17T16:45:52.215Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n用电石（主要成分为CaC2，含CaS和Ca3P2等）制取乙炔时，常用CuSO4溶液除去乙炔中的杂质。反应为: ①CuSO4+H2S=CuS↓+H2SO4 ②11PH3+24CuSO4+12H2O=3H3PO4+24H2SO4+8Cu3P↓ 下列分析不正确的是\n\n## 选项\n\nA. A. CaS、Ca3P2发生水解反应的化学方程式：CaS+2H2O=Ca(OH)2+H2S↑、Ca3P2+6H2O=3Ca(OH)2+2PH3↑\n\nB. B. 不能依据反应①比较硫酸与氢硫酸的酸性强弱\n\nC. C. 反应②中每24 mol CuSO4氧化11 mol PH3\n\nD. D. 用酸性KMnO4溶液验证乙炔还原性时，H2S、PH3有干扰\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "选项A正确，因为地壳中含量最多的元素是氧。选项B错误，硅是第二。选项C错误，铝是金属中最多。选项D错误，铁不是最多。"
+}

@@ -1,0 +1,104 @@
+{
+  "uid": "history_2022_beijing_008",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 857,
+      "height": 761
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 301,
+      "height": 359
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 953,
+      "height": 515
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 1039,
+      "height": 530
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:10:28.915Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n1946 年4 月8 日，中共代表王若飞、博古等人参加政治协商会议后，从重庆返回延安途中因飞机失事遇难，民主人士、国民党要员等社会各界纷纷表示哀悼。有悼文指出：“他们的事业，就是中国人民大众的事业，就是全人类的事业。”这反映出当时中国社会各界（   ）\n\n## 选项\n\nA. A. 拥护抗日民族统一战线\n\nB. B. 反对国民党政权的统治\n\nC. C. 希望建立无产阶级政权\n\nD. D. 企盼国家实现和平民主\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "D",
+  "analysis": "本题考查英国君主立宪制的确立。1689年《权利法案》限制了国王权力，确立了议会主权，标志着英国君主立宪制开始确立。选项D正确。选项A错误，1215年《大宪章》限制王权，但并非确立君主立宪制。选项B错误，1640年革命爆发，但制度确立在1689年。选项C错误，1721年责任内阁制形成，但君主立宪制早已确立。"
+}

@@ -1,0 +1,154 @@
+{
+  "uid": "physics_2020_beijing_015",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 9,
+  "knowledge_points": [
+    "探究加速度与力、质量的关系"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 473
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 406,
+      "height": 405
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 729,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 259,
+      "height": 272
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 281,
+      "height": 291
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 630,
+      "height": 268
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 531,
+      "height": 344
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1221,
+      "height": 396
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 965,
+      "height": 413
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 145,
+      "height": 174
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 556,
+      "height": 258
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 1196,
+      "height": 281
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 503,
+      "height": 391
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 472,
+      "height": 309
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 737,
+      "height": 294
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 509,
+      "height": 303
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1234,
+      "height": 355
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 910,
+      "height": 450
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 499,
+      "height": 426
+    },
+    {
+      "filename": "page_12_img_1.jpeg",
+      "page": 12,
+      "width": 567,
+      "height": 406
+    },
+    {
+      "filename": "page_12_img_2.png",
+      "page": 12,
+      "width": 474,
+      "height": 255
+    }
+  ],
+  "created_at": "2026-07-17T16:30:12.385Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 9分\n\n**知识点**: 探究加速度与力、质量的关系\n\n---\n\n## 题目内容\n\n在“探究加速度与物体受力、物体质量的关系”实验中，做如下探究：\n(1)为猜想加速度与质量的关系，可利用图1所示装置进行对比实验。两小车放在水平板上，前端通过钩码牵引，后端各系一条细线，用板擦把两条细线按在桌上，使小车静止。抬起板擦，小车同时运动，一段时间后按下板擦，小车同时停下。对比两小车的位移，可知加速度与质量大致成反比。关于实验条件，下列正确的是： (选填选项前的字母)。\nA.小车质量相同，钩码质量不同\nB.小车质量不同，钩码质量相同\nC.小车质量不同，钩码质量不同\n\n(2)某同学为了定量验证(1)中得到的初步关系，设计实验并得到小车加速度a与质量M的7组实验数据，如下表所示。在图2所示的坐标纸上已经描好了6组数据点，请将余下的一组数据描在坐标纸上，并作出a-1/M图像。\n次数 1 2 3 4 5 6 7\na/(m·s^-2) 0.62 0.56 0.48 0.40 0.32 0.24 0.15\nM/kg 0.25 0.29 0.33 0.40 0.50 0.71 1.00\n\n(3)在探究加速度与力的关系实验之前，需要思考如何测“力”。请在图3中画出小车受力的示意图。为了简化“力”的测量，下列说法正确的是：__________（选填选项前的字母）。\nA．使小车沿倾角合适的斜面运动，小车受力可等效为只受绳的拉力\nB．若斜面倾角过大，小车所受合力将小于绳的拉力\nC．无论小车运动的加速度多大，砂和桶的重力都等于绳的拉力\nD．让小车的运动趋近于匀速运动，砂和桶的重力才近似等于绳的拉力\n\n## 小题\n\n### 15(1)\n\n为猜想加速度与质量的关系，可利用图1所示装置进行对比实验。两小车放在水平板上，前端通过钩码牵引，后端各系一条细线，用板擦把两条细线按在桌上，使小车静止。抬起板擦，小车同时运动，一段时间后按下板擦，小车同时停下。对比两小车的位移，可知加速度与质量大致成反比。关于实验条件，下列正确的是： (选填选项前的字母)。\n\n**答案**: B\n\n### 15(2)\n\n某同学为了定量验证(1)中得到的初步关系，设计实验并得到小车加速度a与质量M的7组实验数据，如下表所示。在图2所示的坐标纸上已经描好了6组数据点，请将余下的一组数据描在坐标纸上，并作出a-1/M图像。\n\n**答案**: 略\n\n### 15(3)\n\n在探究加速度与力的关系实验之前，需要思考如何测“力”。请在图3中画出小车受力的示意图。为了简化“力”的测量，下列说法正确的是：__________（选填选项前的字母）。\n\n**答案**: AD\n\n---\n\n## 参考答案\n\n(1)B (2)略 (3)AD\n\n",
+  "answer": "解：设物体质量为m，初速度为v0=10 m/s，加速度a=-2 m/s^2，t=4 s。由速度公式v=v0+at，得v=10+(-2)×4=2 m/s。由位移公式x=v0t+1/2 at^2，得x=10×4+1/2×(-2)×4^2=40-16=24 m。答：4 s末的速度为2 m/s，位移为24 m。",
+  "analysis": "本题考查匀变速直线运动的基本公式。解题思路：已知初速度、加速度和时间，直接代入速度公式和位移公式计算。注意加速度为负值表示减速。评分标准：速度公式正确得2分，位移公式正确得2分，计算结果正确得1分。"
+}

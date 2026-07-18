@@ -1,0 +1,188 @@
+{
+  "uid": "biology_2022_beijing_021",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 27,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 314,
+      "height": 331
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 219,
+      "height": 248
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 410,
+      "height": 181
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 234,
+      "height": 191
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 370,
+      "height": 260
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 490,
+      "height": 361
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 611,
+      "height": 295
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 149,
+      "height": 113
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 305,
+      "height": 269
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 515,
+      "height": 184
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 490,
+      "height": 272
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 353,
+      "height": 324
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 224,
+      "height": 226
+    },
+    {
+      "filename": "page_11_img_3.png",
+      "page": 11,
+      "width": 649,
+      "height": 367
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T15:59:06.053Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n生态文明建设已成为我国基本国策。水中雌激素类物质（E 物质）污染会导致鱼类雌性化等异常，并通过食物链影响人体健康和生态安全。原产南亚的斑马鱼，其肌细胞、生殖细胞等存在E 物质受体，且幼体透明。科学家将绿色荧光蛋白（GFP）等基因转入斑马鱼，建立了一种经济且快速的水体E 物质监测方法。\n（1）将表达载体导入斑马鱼受精卵的最佳方式是_______。\n（2）为监测E 物质，研究者设计了下图所示的两种方案制备转基因斑马鱼，其中ERE 和酵母来源的UAS是两种诱导型启动子，分别被E 物质-受体复合物和酵母来源的Gal4 蛋白特异性激活，启动下游基因表达。与方案1 相比，方案2 的主要优势是_______，因而被用于制备监测鱼（MO）。\n（3）现拟制备一种不育的监测鱼SM，用于实际监测。SM 需经MO 和另一亲本（X）杂交获得。欲获得X，需从以下选项中选择启动子和基因，构建表达载体并转入野生型斑马鱼受精卵，经培育后进行筛选。请将选项的序号填入相应的方框中。\nⅠ.启动子：____。\n①ERE②UAS③使基因仅在生殖细胞表达的启动子（P 生）④使基因仅在肌细胞表达的启动子（P 肌）\nⅡ.基因：______\nA．GFP    B.Gal4    C.雌激素受体基因（ER）  D.仅导致生殖细胞凋亡的基因（dg）\n（4）SM 不育的原因是：成体SM 自身产生雌激素，与受体结合后_______造成不育。\n（5）使拟用于实际监测的SM 不育的目的是_______。\n\n## 小题\n\n### 21(1)\n\n将表达载体导入斑马鱼受精卵的最佳方式是_______。\n\n**答案**: \n\n### 21(2)\n\n为监测E 物质，研究者设计了下图所示的两种方案制备转基因斑马鱼，其中ERE 和酵母来源的UAS是两种诱导型启动子，分别被E 物质-受体复合物和酵母来源的Gal4 蛋白特异性激活，启动下游基因表达。与方案1 相比，方案2 的主要优势是_______，因而被用于制备监测鱼（MO）。\n\n**答案**: \n\n### 21(3)\n\n现拟制备一种不育的监测鱼SM，用于实际监测。SM 需经MO 和另一亲本（X）杂交获得。欲获得X，需从以下选项中选择启动子和基因，构建表达载体并转入野生型斑马鱼受精卵，经培育后进行筛选。请将选项的序号填入相应的方框中。\nⅠ.启动子：____。\n①ERE②UAS③使基因仅在生殖细胞表达的启动子（P 生）④使基因仅在肌细胞表达的启动子（P 肌）\nⅡ.基因：______\nA．GFP    B.Gal4    C.雌激素受体基因（ER）  D.仅导致生殖细胞凋亡的基因（dg）\n\n**答案**: \n\n### 21(4)\n\nSM 不育的原因是：成体SM 自身产生雌激素，与受体结合后_______造成不育。\n\n**答案**: \n\n### 21(5)\n\n使拟用于实际监测的SM 不育的目的是_______。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）生产者 消费者 分解者 （2）食物链 食物网 （3）单向流动 逐级递减",
+  "analysis": "生态系统的组成成分包括非生物物质和能量、生产者、消费者和分解者。营养结构是食物链和食物网。能量流动的特点是单向流动、逐级递减。评分标准：每空1分，共6分。"
+}

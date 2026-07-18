@@ -1,0 +1,104 @@
+{
+  "uid": "history_2022_beijing_005",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 857,
+      "height": 761
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 301,
+      "height": 359
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 953,
+      "height": 515
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 1039,
+      "height": 530
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:10:28.913Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n西方有“条条大路通罗马”的说法，中国古代也有“处处有路透长安”的谚语。这两句话蕴含的历史信息是（   ）\n\n## 选项\n\nA. A. 长安城的设计借鉴了罗马城市布局\n\nB. B. 长安和罗马两地之间的交通网络密集\n\nC. C. 古代商路便利了东西方之间的文化交流\n\nD. D. 长安和罗马都曾经是帝国交通网络的中心\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "本题考查明清君主专制的加强。明朝废除丞相，权分六部，直接对皇帝负责，君主专制空前强化。选项A正确。选项B错误，明朝设内阁，但内阁不是法定中央机构，只是顾问机构。选项C错误，清朝设军机处，但军机处并非明朝。选项D错误，明朝设厂卫特务机构，但并非直接加强君主专制的主要措施。"
+}

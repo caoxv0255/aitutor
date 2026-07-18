@@ -1,0 +1,92 @@
+{
+  "uid": "chinese_2023_beijing_001",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:14:51.005Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n根据材料一，下列理解与推断正确的一项是\n\n## 选项\n\nA. A. 符号加工模式把人的认知比作计算机的程序。\n\nB. B. 联结主义模式不把认知的本质看作是计算。\n\nC. C. 具身认知在认知心理学中一直居主流地位。\n\nD. D. 根据具身认知，蝙蝠对世界的感知与人一样。\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "A",
+  "analysis": "本题考查字音。A项全部正确；B项‘潜’应读qián；C项‘档’应读dàng；D项‘创’应读chuāng。因此选A。"
+}

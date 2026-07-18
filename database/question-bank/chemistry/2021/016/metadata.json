@@ -1,0 +1,230 @@
+{
+  "uid": "chemistry_2021_beijing_016",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 34,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 139,
+      "height": 90
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 103,
+      "height": 76
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 54,
+      "height": 45
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 64,
+      "height": 42
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 1231,
+      "height": 420
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 173,
+      "height": 132
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 258,
+      "height": 248
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 549,
+      "height": 201
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 74,
+      "height": 52
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 162,
+      "height": 66
+    },
+    {
+      "filename": "page_4_img_5.jpeg",
+      "page": 4,
+      "width": 1426,
+      "height": 287
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 305,
+      "height": 251
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 177,
+      "height": 89
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1154,
+      "height": 401
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 380,
+      "height": 224
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 1483,
+      "height": 479
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 395,
+      "height": 162
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 164,
+      "height": 75
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 1467,
+      "height": 122
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 524,
+      "height": 348
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 118,
+      "height": 121
+    }
+  ],
+  "created_at": "2026-07-17T16:45:52.222Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n某小组实验验证“Ag++Fe2+ ⇌ Fe3++Ag↓”为可逆反应并测定其平衡常数。\n（1）实验验证\n实验I：将0.0100 mol/L Ag2SO4溶液与0.0400 mo/L FeSO4溶液(pH=1)等体积混合，产生灰黑色沉淀，溶液呈黄色。\n实验II：向少量Ag粉中加入0.0100 mol/L Fe2(SO4)3溶液(pH=1)，固体完全溶解。\n①取I中沉淀，加入浓硝酸，证实沉淀为Ag。现象是_______。\n②II中溶液选用Fe2(SO4)3，不选用Fe(NO3)3的原因是_______。\n综合上述实验，证实“Ag++Fe2+⇌Fe3++Ag↓”为可逆反应。\n③小组同学采用电化学装置从平衡移动角度进行验证。补全电化学装置示意图,写出操作及现象_______。\n（2）测定平衡常数\n实验Ⅲ：一定温度下，待实验Ⅰ中反应达到平衡状态时，取v mL上层清液，用c1 mol/L KSCN标准溶液滴定Ag+，至出现稳定的浅红色时消耗KSCN标准溶液v1 mL。\n资料：Ag++SCN-⇌AgSCN↓（白色） K=1012\nFe3++SCN-⇌FeSCN2+（红色） K=102.3\n①滴定过程中Fe3+的作用是_______。\n②测得平衡常数K=_______。\n（3）思考问题\n①取实验I的浊液测定c(Ag+)，会使所测K值_______(填“偏高”“偏低”或“不受影响”)。\n②不用实验II中清液测定K的原因是_______。\n\n## 小题\n\n### 16(1)①\n\n取I中沉淀，加入浓硝酸，证实沉淀为Ag。现象是_______。\n\n**答案**: \n\n### 16(1)②\n\nII中溶液选用Fe2(SO4)3，不选用Fe(NO3)3的原因是_______。\n\n**答案**: \n\n### 16(1)③\n\n小组同学采用电化学装置从平衡移动角度进行验证。补全电化学装置示意图,写出操作及现象_______。\n\n**答案**: \n\n### 16(2)①\n\n滴定过程中Fe3+的作用是_______。\n\n**答案**: \n\n### 16(2)②\n\n测得平衡常数K=_______。\n\n**答案**: \n\n### 16(3)①\n\n取实验I的浊液测定c(Ag+)，会使所测K值_______(填“偏高”“偏低”或“不受影响”)。\n\n**答案**: \n\n### 16(3)②\n\n不用实验II中清液测定K的原因是_______。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设生成二氧化碳的质量为x。\nC + O2 → CO2\n12g 44g\n6g x\n12/6 = 44/x\nx = 22g\n答：生成二氧化碳22g。",
+  "analysis": "根据碳燃烧的化学方程式，碳与氧气反应生成二氧化碳，质量比为12:44=3:11。6g碳生成22g二氧化碳。评分标准：设未知数1分，写化学方程式1分，列比例式1分，计算结果1分，答1分。"
+}

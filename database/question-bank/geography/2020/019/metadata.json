@@ -1,0 +1,128 @@
+{
+  "uid": "geography_2020_beijing_019",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 309,
+      "height": 327
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 553,
+      "height": 167
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 435,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 440,
+      "height": 271
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 369,
+      "height": 275
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 553,
+      "height": 159
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 415,
+      "height": 323
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 540,
+      "height": 326
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 603,
+      "height": 131
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 553,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 488,
+      "height": 317
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 421,
+      "height": 297
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 552,
+      "height": 264
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 553,
+      "height": 377
+    },
+    {
+      "filename": "page_10_img_2.jpeg",
+      "page": 10,
+      "width": 600,
+      "height": 279
+    }
+  ],
+  "created_at": "2026-07-17T16:38:08.419Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n2020年5月，北京经济技术开发区发布《高质量发展行动计划（2020年-2022年）》。读下图，回答下列问题。\n新一代信息技术、高端汽车和新能源智能汽车、生物技术和大健康、机器人和装备制造产业已成为北京经济技术开发区四大主导产业。\n（1）说明开发区发展四大主导产业的共同优势条件。\n智能机器人创新园区原为某印刷机生产企业厂址。目前，该园区集会展交易、设计研发、试验检测、产业孵化器等功能于一体，成为世界机器人大会的会址。\n（2）阐述该园区对当地社会经济发展的积极作用。\n宏达路两侧泡桐树每年四月中下旬进入盛花期，淡紫色的花朵妆点出一条花香四溢的春之长廊，成为北京旅游新的“打卡地”。\n（3）说出泡桐花景观具有的旅游资源价值及观赏方法。\n\n## 小题\n\n### 19(1)\n\n说明开发区发展四大主导产业的共同优势条件。\n\n**答案**: \n\n### 19(2)\n\n阐述该园区对当地社会经济发展的积极作用。\n\n**答案**: \n\n### 19(3)\n\n说出泡桐花景观具有的旅游资源价值及观赏方法。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）①：长江 ②：黄河 ③：珠江 ④：黑龙江 （2）①：上游 ②：中游 ③：下游 （3）①：水能 ②：航运 ③：灌溉",
+  "analysis": "本题考查中国主要河流及其特征。长江最长，黄河含沙量大，珠江水量大，黑龙江纬度最高。河流上游落差大，水能丰富；中游河道弯曲；下游水流平缓，航运价值高。河流具有水能、航运、灌溉等综合效益。"
+}

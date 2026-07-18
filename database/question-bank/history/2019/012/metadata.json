@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_012",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.193Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n日本自1963 年起成为世界上最大的钢铁出口国。同年，美国指责日本对美进行钢铁倾销，日本遂减少对美出口。1968 年美国迫使日本签署协定，日本再次大幅减少对美钢铁出口。这说明（  ）\n\n## 选项\n\nA. A．“一超多强”的世界格局已形成\n\nB. B．世界经济一体化的进程加速\n\nC. C．日本难以摆脱美国的经济控制\n\nD. D．美国开始建立世界经济霸权\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "本题考查中国古代政治制度的特点。中国古代政治制度以君主专制中央集权为核心，皇权至上，中央集权不断加强。选项B正确。选项A错误，相权不断被削弱。选项C错误，地方权力不断被削弱。选项D错误，选官制度逐渐公平化。"
+}

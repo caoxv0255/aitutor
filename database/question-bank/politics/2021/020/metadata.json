@@ -1,0 +1,134 @@
+{
+  "uid": "politics_2021_beijing_020",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 226,
+      "height": 137
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 125,
+      "height": 136
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 128,
+      "height": 136
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 244,
+      "height": 220
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 650,
+      "height": 434
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 513,
+      "height": 159
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 313,
+      "height": 272
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 448,
+      "height": 147
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 330,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:50:38.168Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 12分\n\n---\n\n## 题目内容\n\n人力资本是劳动者积累的知识、技能和健康水平的总和，是一国消除贫困和实现经济可持续增长的重要驱动力。\n材料一  教育是积累人力资本的主要途径之一。右图给出了2015年中国1%人口抽样调查中的高等教育覆盖率数据。左纵轴表示各年龄段人口中拥有大专及以上学历者的占比，右纵轴表示城镇和农村地区这一占比的比值。\n（1）材料一反映了什么信息？\n材料二  人力资本的个人回报相当丰厚，有研究发现，劳动者的受教育年限每增加一年，劳动收入平均会提高5~15%。但有些家庭受固有观念的束缚，没有意识到人力资本的重要性还有些家庭愿意投资改善健康和教育状况，却可能心有余而力不足。此外，人力资本的社会回报同样不容忽视，提升全社会的人力资本水平有助于促进科技创新、公民参与和社会和谐。\n（2）结合材料二，运用《经济生活》知识，谈谈在培育人力资本方面，为什么需要政府发挥重要作用。\n\n## 小题\n\n### 20(1)\n\n材料一反映了什么信息？\n\n**答案**: \n\n### 20(2)\n\n结合材料二，运用《经济生活》知识，谈谈在培育人力资本方面，为什么需要政府发挥重要作用。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "①坚持创新发展，把创新摆在国家发展全局的核心位置。②坚持协调发展，促进城乡、区域、经济社会等协调发展。③坚持绿色发展，坚持节约资源和保护环境的基本国策。④坚持开放发展，发展更高层次的开放型经济。⑤坚持共享发展，使全体人民在共建共享发展中有更多获得感。",
+  "analysis": "本题考查新发展理念的具体内容。解题思路：分别阐述创新、协调、绿色、开放、共享五大理念的内涵和要求。评分标准：每个理念1.2分，共6分。"
+}

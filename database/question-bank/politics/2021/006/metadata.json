@@ -1,0 +1,134 @@
+{
+  "uid": "politics_2021_beijing_006",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 226,
+      "height": 137
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 125,
+      "height": 136
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 128,
+      "height": 136
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 244,
+      "height": 220
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 650,
+      "height": 434
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 513,
+      "height": 159
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 313,
+      "height": 272
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 448,
+      "height": 147
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 330,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:50:38.161Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n浅溪曲涧，步石几点。汀步本是小溪中的渡水设施，现在被广泛应用于园林，铺设在草坪上，营造出独特的意趣。有人说，汀步的间距不合理，一步太小，两步又太大：也有人说，汀步间距的设计就是为了让人放慢脚步，边走边欣赏，而且这种设计还能照顾到老人和小孩。对此，评论恰当的是（    ）\n\n## 选项\n\nA. A. 草坪汀步作为园林道路其个性寓于路的共性之中\n\nB. B. 草坪汀步说明审美追求和以人为本可以有机结合\n\nC. C. 同一事物的主要矛盾和次要矛盾的区别因人而异\n\nD. D. 矛盾的解决是以牺牲矛盾双方的某一方为条件的\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "B",
+  "analysis": "本题考查生产与消费的关系。生产决定消费的对象、方式、质量和水平，并为消费创造动力。选项A错误，消费对生产有反作用，但生产决定消费。选项B正确，生产决定消费。选项C错误，消费是生产的目的和动力。选项D错误，消费调节生产。因此选B。"
+}

@@ -1,0 +1,103 @@
+{
+  "uid": "physics_2019_beijing_003",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 6,
+  "knowledge_points": [
+    "温度",
+    "内能",
+    "气体压强",
+    "分子平均动能"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 167,
+      "height": 104
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 215,
+      "height": 181
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 135,
+      "height": 136
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 161,
+      "height": 131
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 126,
+      "height": 124
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 415,
+      "height": 224
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 22,
+      "height": 48
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 144,
+      "height": 131
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 633,
+      "height": 166
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 169,
+      "height": 62
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 202,
+      "height": 141
+    }
+  ],
+  "created_at": "2026-07-17T16:16:55.691Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 6分\n\n**知识点**: 温度、内能、气体压强、分子平均动能\n\n---\n\n## 题目内容\n\n下列说法正确的是（  ）\n\n## 选项\n\nA. A．温度标志着物体内大量分子热运动的剧烈程度\n\nB. B．内能是物体中所有分子热运动所具有的动能的总和\n\nC. C．气体压强仅与气体分子的平均动能有关\n\nD. D．气体膨胀对外做功且温度降低，分子的平均动能可能不变\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "C",
+  "analysis": "题目未提供具体内容，无法给出解析。请提供题目。"
+}

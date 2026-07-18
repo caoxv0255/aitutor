@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_011",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.368Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n确定和调整最低工资标准是政府调节收入分配的政策之一。最低工资标准的有效执行能提高低收入者的工资水平，缩小收入差距，同时也会影响企业用工成本和社会就业状况。当最低工资标准提高时，企业的下列应对方法将导致社会就业减少的是（   ）\n\n## 选项\n\nA. A. 提高产品价格，抵消用工成本的增加\n\nB. B. 开拓国际市场，使出口利润高于用工成本增加额\n\nC. C. 调整生产布局，将低附加值产品生产转移至国外\n\nD. D. 提高管理水平，用节省的运营成本补偿用工成本增加\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "本题考查税收的特征。税收具有强制性、无偿性和固定性三个基本特征。A选项错误，因为税收具有强制性，纳税人必须依法纳税。B选项正确，税收的无偿性是指国家征税后不直接对纳税人返还。C选项错误，因为税收的固定性是指征税标准预先规定，但并非一成不变。D选项错误，因为税收的强制性是无偿性的保障。"
+}

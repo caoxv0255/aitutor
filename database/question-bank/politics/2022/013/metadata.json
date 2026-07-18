@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_013",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.369Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n大数据时代，个人信息安全问题日益凸显，个人信息保护法的制定是对这一问题的积极回应。下面是该法的部分条文： \n第69 条第1 款:“处理个人信息侵害个人信怠权益造成损害，个人信怠处理者不能证明自己没有过错的，应当承担损害赔偿等侵权责任。” \n第70 条:“个人信息处理者违反本法规定处理个人信息，侵害众多个人的权益的，人民检察院、法律规定的消费者组织和由国家网信部门确定的组织可以依法向人民法院提起诉讼。 \n根据上述条文，下列说法正确的是（   ）\n\n## 选项\n\nA. A. 个人信息处理者侵权的，承担无过错侵权责任\n\nB. B. 个人信息处理者侵权，在民事上仅承担损害赔偿责任\n\nC. C. 个人信息处理者侵权的，均可适用第70 条的规定\n\nD. D. 发生第70 条规定情形的，该条规定的机构和组织有提起诉讼的职责\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "本题考查宏观调控的目标。我国宏观调控的主要目标是促进经济增长、增加就业、稳定物价、保持国际收支平衡。题干中“稳定物价”是宏观调控的目标之一。A选项正确，稳定物价是宏观调控的目标。B选项错误，因为稳定物价是目标，不是手段。C选项错误，因为稳定物价与财政政策有关，但本身是目标。D选项错误，因为稳定物价与货币政策有关，但本身是目标。"
+}

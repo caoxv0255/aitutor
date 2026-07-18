@@ -1,0 +1,168 @@
+{
+  "uid": "biology_2023_beijing_018",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 12,
+  "knowledge_points": [
+    "生态群落",
+    "光照影响",
+    "节肢动物"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 547,
+      "height": 323
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 695,
+      "height": 549
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 351,
+      "height": 183
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 353,
+      "height": 276
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 440,
+      "height": 232
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 429,
+      "height": 136
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 585,
+      "height": 427
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 200,
+      "height": 199
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 245,
+      "height": 147
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 579,
+      "height": 236
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 552,
+      "height": 222
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1308,
+      "height": 838
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:22:55.921Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 12分\n\n**知识点**: 生态群落、光照影响、节肢动物\n\n---\n\n## 题目内容\n\n为了研究城市人工光照对节肢动物群落的影响，研究者在城市森林边缘进行了延长光照时间的实验（此实验中人工光源对植物的影响可以忽略；实验期间，天气等环境因素基本稳定）。实验持续15 天：1～5 天，无人工光照；6～10 天，每日黄昏后和次日太阳升起前人为增加光照时间；11～15 天，无人工光照。在此期间，每日黄昏前特定时间段，通过多个调查点的装置捕获节肢动物，按食性将其归入三种生态功能团，即植食动物（如蛾类幼虫）、肉食动物（如蜘蛛）和腐食动物（如蚂蚁），结果如图。\n\n## 小题\n\n### 18(1)\n\n动物捕获量直接反映动物的活跃程度。本研究说明人为增加光照时间会影响节肢动物的活跃程度，依据是：与1～5、11～15 天相比，______________。\n\n**答案**: 6～10天（人工光照期间）节肢动物捕获量发生变化\n\n### 18(2)\n\n光是生态系统中的非生物成分。在本研究中，人工光照最可能作为___________对节肢动物产生影响，从而在生态系统中发挥作用。\n\n**答案**: 物理信息\n\n### 18(3)\n\n增加人工光照会对生物群落结构产生多方面的影响，如：肉食动物在黄昏前活动加强，有限的食物资源导致___________加剧；群落空间结构在___________两个维度发生改变。\n\n**答案**: 种间竞争；垂直和水平\n\n### 18(4)\n\n有人认为本实验只需进行10 天研究即可，没有必要收集11～15 天的数据。相比于10 天方案，15 天方案除了增加对照组数量以降低随机因素影响外，另一个主要优点是________________。\n\n**答案**: 可以观察撤去人工光照后节肢动物活跃程度是否恢复，从而验证光照的影响\n\n### 18(5)\n\n城市是人类构筑的大型聚集地，在进行城市小型绿地生态景观设计时应__________。\n\n**答案**: AC\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）神经-体液-免疫 （2）下丘脑 垂体 甲状腺 （3）反馈调节",
+  "analysis": "人体稳态调节机制是神经-体液-免疫调节网络。寒冷刺激下，下丘脑分泌促甲状腺激素释放激素作用于垂体，垂体分泌促甲状腺激素作用于甲状腺，甲状腺分泌甲状腺激素增多，促进代谢产热。当甲状腺激素过多时，会抑制下丘脑和垂体分泌，属于反馈调节。评分标准：每空1分，共5分。"
+}

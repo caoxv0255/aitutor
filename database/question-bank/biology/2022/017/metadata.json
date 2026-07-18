@@ -1,0 +1,188 @@
+{
+  "uid": "biology_2022_beijing_017",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 27,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 314,
+      "height": 331
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 219,
+      "height": 248
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 410,
+      "height": 181
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 234,
+      "height": 191
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 370,
+      "height": 260
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 490,
+      "height": 361
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 611,
+      "height": 295
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 149,
+      "height": 113
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 305,
+      "height": 269
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 515,
+      "height": 184
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 490,
+      "height": 272
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 353,
+      "height": 324
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 224,
+      "height": 226
+    },
+    {
+      "filename": "page_11_img_3.png",
+      "page": 11,
+      "width": 649,
+      "height": 367
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T15:59:06.049Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n干旱可诱导植物体内脱落酸（ABA）增加，以减少失水，但干旱促进ABA 合成的机制尚不明确。研究者发现一种分泌型短肽（C）在此过程中起重要作用。\n（1）C 由其前体肽加工而成，该前体肽在内质网上的______________合成。\n（2）分别用微量（0.1μmol·L-1）的C 或ABA 处理拟南芥根部后，检测叶片气孔开度，结果如下图1。据图1 可知，C 和ABA 均能够_______，从而减少失水。\n（3）已知N 是催化ABA 生物合成的关键酶。研究表明C 可能通过促进N 基因表达，进而促进ABA 合成。图2 中支持这一结论的证据是，经干旱处理后_______。\n（4）实验表明，野生型植物经干旱处理后，C 在根中表达远高于叶片；在根部外施的C 可运输到叶片中。因此设想，干旱下根合成C 运输到叶片促进N 基因的表达。为验证此设想，进行了如下表所示的嫁接实验，干旱处理后，检测接穗叶片中C 含量，又检测了其中N 基因的表达水平。以接穗与砧木均为野生型的植株经干旱处理后的N 基因表达量为参照值，在表中填写假设成立时，与参照值相比N 基因表达量的预期结果（用“远低于”、“远高于”、“相近”表示）。①____；②____。\n接穗：野生型、突变体、突变体；砧木：野生型、突变体、野生型；接穗叶片中N 基因的表达量：参照值、①、②。\n注:突变体为C 基因缺失突变体\n（5）研究者认为C 也属于植物激素，作出此判断的依据是____。这一新发现扩展了人们对植物激素化学本质的认识。\n\n## 小题\n\n### 17(1)\n\nC 由其前体肽加工而成，该前体肽在内质网上的______________合成。\n\n**答案**: \n\n### 17(2)\n\n分别用微量（0.1μmol·L-1）的C 或ABA 处理拟南芥根部后，检测叶片气孔开度，结果如下图1。据图1 可知，C 和ABA 均能够_______，从而减少失水。\n\n**答案**: \n\n### 17(3)\n\n已知N 是催化ABA 生物合成的关键酶。研究表明C 可能通过促进N 基因表达，进而促进ABA 合成。图2 中支持这一结论的证据是，经干旱处理后_______。\n\n**答案**: \n\n### 17(4)\n\n实验表明，野生型植物经干旱处理后，C 在根中表达远高于叶片；在根部外施的C 可运输到叶片中。因此设想，干旱下根合成C 运输到叶片促进N 基因的表达。为验证此设想，进行了如下表所示的嫁接实验，干旱处理后，检测接穗叶片中C 含量，又检测了其中N 基因的表达水平。以接穗与砧木均为野生型的植株经干旱处理后的N 基因表达量为参照值，在表中填写假设成立时，与参照值相比N 基因表达量的预期结果（用“远低于”、“远高于”、“相近”表示）。①____；②____。\n\n**答案**: \n\n### 17(5)\n\n研究者认为C 也属于植物激素，作出此判断的依据是____。这一新发现扩展了人们对植物激素化学本质的认识。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）有丝分裂 减数分裂 （2）间期 前期 （3）着丝粒分裂 姐妹染色单体分离",
+  "analysis": "有丝分裂和减数分裂是细胞分裂的两种方式。有丝分裂间期DNA复制，前期染色质变成染色体；减数分裂过程中，减数第一次分裂后期同源染色体分离，减数第二次分裂后期着丝粒分裂。评分标准：每空1分，共6分。"
+}

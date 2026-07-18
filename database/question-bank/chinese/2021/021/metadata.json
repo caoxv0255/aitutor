@@ -1,0 +1,80 @@
+{
+  "uid": "chinese_2021_beijing_021",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:39:35.338Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n语言基础运用。①近年来，我国数字经济欣欣向荣，互联网应用百花齐放。②网络的发展便捷了人们的生活，与此同时，给管网治网带来了许多新的挑战。③目前各类服务端APP都上线了青少年模式，虽取得了一定成效，但仍存在不少漏洞。④随着短视频、直播平台的异军突起，还带来了未成年人沉迷网络、打赏主播等问题，引起家长的普遍担忧。⑤事实上，不仅未成年人需要清朗的网络环境，对广大人民群众而言，也渴求健康的网络空间。⑥网络上，水军、黑公关等顽瘴痼疾反复兴风作浪，淫秽色情、赌博诈骗信息屡禁不绝，群众对此反应强烈，普遍期待开展一场网络大扫除。（1）下列说法不正确的一项是（   ）\n\n## 选项\n\nA. A. 加点的两个四字成语使用得当。\n\nB. B. 加波浪线的两句有相同的语病。\n\nC. C. 第⑤⑥两句的位置不能够互换。\n\nD. D. 末句的“反应”应改为“反映”。\n\n## 小题\n\n### 21(2)\n\n不改变原意，将第②句中画线并被逗号隔开的两个语言片段整合为一个。将改写后的答案写在答题卡上。\n\n**答案**: 网络的发展在便捷了人们的生活的同时，也给管网治网带来了许多新的挑战。\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查文言文内容理解。A项“蒙辞以军中多务”是推辞；B项“孤岂欲卿治经为博士邪”表明孙权目的；D项“肃遂拜蒙母”是结果。C项“卿今者才略，非复吴下阿蒙”是鲁肃的赞叹，并非吕蒙自述。故选C。"
+}

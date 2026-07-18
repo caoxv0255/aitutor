@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_008",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "文言翻译"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.644Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 文言翻译\n\n---\n\n## 题目内容\n\n下列对文中语句的理解，不正确的一项是\n\n## 选项\n\nA. A. 岂顾不用哉         难道反而不用（赏善罚恶）吗\n\nB. B. 皆以积渐然         都凭借积累渐变使社会达到这种状态\n\nC. C. 汤武之定取舍审     商汤和周武王审查并制定治国的方略\n\nD. D. 人主胡不引殷、周、秦事以观之也    人主为什么不引用殷、周、秦的史实来考察上述言论呢\n\n---\n\n## 参考答案\n\nC\n\n## 解析\n\n“汤武之定取舍审”应理解为“商汤和周武王在决定取舍方面很审慎”，而非“审查并制定”。\n\n",
+  "answer": "D",
+  "analysis": "本题考查文言虚词。A项'以'：用/因为；B项'之'：代词/助词'的'；C项'而'：表顺承/表转折；D项'于'：在。因此选D。"
+}

@@ -1,0 +1,209 @@
+{
+  "uid": "physics_2022_beijing_017",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 9,
+  "knowledge_points": [
+    "平抛运动",
+    "动量定理"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 387,
+      "height": 413
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 566,
+      "height": 289
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 564,
+      "height": 374
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 358,
+      "height": 257
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 282,
+      "height": 339
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 529,
+      "height": 284
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 355,
+      "height": 257
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 222,
+      "height": 289
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 481,
+      "height": 417
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 401,
+      "height": 458
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 722,
+      "height": 190
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 380,
+      "height": 323
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 275,
+      "height": 543
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 818,
+      "height": 154
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 651,
+      "height": 628
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 720,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 376,
+      "height": 261
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 383
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 381,
+      "height": 458
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:58:36.492Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 9分\n\n**知识点**: 平抛运动、动量定理\n\n---\n\n## 题目内容\n\n体育课上，甲同学在距离地面高h1=2.5m处将排球击出，球的初速度沿水平方向，大小为v0=8.0m/s；乙同学在离地h2=0.7m处将排球垫起，垫起前后球的速度大小相等，方向相反。已知排球质量m=0.3kg，取重力加速度g=10m/s²。不计空气阻力。求：\n（1）排球被垫起前在水平方向飞行的距离x；\n（2）排球被垫起前瞬间的速度大小v及方向；\n（3）排球与乙同学作用过程中所受冲量的大小I。\n\n---\n\n## 参考答案\n\n（1）4.8m；（2）10m/s，方向与水平方向夹角为37°；（3）6N·s\n\n",
+  "answer": "解：设物体质量为m，斜面倾角为θ，动摩擦因数为μ。物体沿斜面下滑时，受力分析：重力mg、支持力N、摩擦力f。沿斜面方向：mgsinθ - μmgcosθ = ma，得a=g(sinθ - μcosθ)。代入数据：sin37°=0.6，cos37°=0.8，g=10m/s²，a=10×(0.6-0.2×0.8)=10×(0.6-0.16)=10×0.44=4.4m/s²。物体从静止开始下滑，位移x=½at²，t=2s，得x=½×4.4×4=8.8m。故2s内下滑的距离为8.8m。",
+  "analysis": "本题主要考查牛顿第二定律和匀变速直线运动公式。解题步骤：1. 对物体进行受力分析，确定合外力；2. 根据牛顿第二定律求加速度；3. 利用运动学公式求位移。评分标准：受力分析正确得2分，牛顿第二定律列式正确得3分，加速度计算正确得2分，位移计算正确得3分。"
+}

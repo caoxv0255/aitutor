@@ -1,0 +1,92 @@
+{
+  "uid": "chinese_2023_beijing_025",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 25,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 50,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:14:51.023Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第25题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 50分\n\n---\n\n## 题目内容\n\n作文2：\n舞台上，戏曲演员有登场亮相的瞬间。生活中也有许多亮相时刻：国旗下的讲话，研学成果的汇报，新产品的发布……每一次亮相，都受到众人关注；每一次亮相，也会有一段故事。\n请以“亮相”为题目，写一篇记叙文。不少于700字。\n要求：思想健康，内容充实、合理，有细节描写；语言流畅，书写清晰。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）示例：青春是用来奋斗的。（2分）\n（2）示例：我们应珍惜时光，努力学习，为未来打下基础。（2分）",
+  "analysis": "本题考查议论文写作。第一句提出观点；第二句阐述理由。评分标准：观点积极向上2分；理由充分2分。"
+}

@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_019",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:03.007Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n“自写真”\n15—17世纪，伴随着中、西方社会的变化，传统绘画有了新突破。\n中国古代自画像称为“自写真”，最早记载于《后汉书》。宋元始有零星作品传世，但多将人物融入山水背景或群像中。明清时期，部分士人挣脱“无我”枷锁，画中人物也从背景中独立出来。画家借助像赞、题记表达自我。苏州人沈周的自画像呈现了眼睛、额头、皱纹和老年斑等更为个性的面部特征。绍兴人徐渭在自画像上写道，“吾年十岁手植青藤”“流光荏苒，两鬓如霜”“合作此图，寿藤亦寿吾”。江南画家唐寅、陈洪绶等也有自画像传世。\n西方在古希腊罗马时期出现少量自画像。15世纪以来，意大利人热衷于古典文化，并效法古罗马人定制艺术品以获得不朽荣誉，自画像作为一个独立门类发展起来。画家多在宗教、历史等场景中插入自己的形象。威尼斯人改进了制镜技术，阿尔伯蒂的《论绘画》分析了数学、几何学与绘画的关系，推动了自画像写实风格的发展。画中人物脱离场景，独立呈现。丢勒、提香等人绘制了多幅自画像。丢勒在自画像上写道：“我，丢勒，在28岁时用永不褪色的颜料画下了我自己。”16、17世纪后，欧洲出现自画像收藏热潮，伦勃朗一人就创作了70余幅自画像，莱奥波尔多·德·美第奇则收藏了79幅自画像。\n阅读材料，提取信息，结合所学，阐释15-17世纪自画像发展所折射出的中、西方时代特征。要求：信息提取充分，史论结合，逻辑清晰。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）原则：三权分立；联邦制；共和制。（2）体现：立法权归国会；行政权归总统；司法权归最高法院；联邦政府与州政府分权。",
+  "analysis": "本题考查美国1787年宪法的原则和体现。解题思路：从宪法内容中归纳原则。关键知识点：三权分立是核心原则。步骤：先答原则，再答具体体现。评分标准：原则4分，体现4分。"
+}

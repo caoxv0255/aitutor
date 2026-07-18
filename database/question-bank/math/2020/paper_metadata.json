@@ -1,0 +1,27 @@
+{
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2020,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 21,
+  "page_count": 0,
+  "image_count": 11,
+  "source_file": "2020年北京高考数学试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:26:53.820Z",
+  "quality_stats": {
+    "total": 21,
+    "by_type": {
+      "choice": 10,
+      "fill": 5,
+      "solve": 6
+    },
+    "avg_difficulty": "2.62",
+    "answer_completeness": "71.4",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

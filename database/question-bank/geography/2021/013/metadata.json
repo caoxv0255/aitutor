@@ -1,0 +1,167 @@
+{
+  "uid": "geography_2021_beijing_013",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "民居与自然环境",
+    "气候对建筑的影响"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 562,
+      "height": 270
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 291,
+      "height": 131
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 625,
+      "height": 148
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 469,
+      "height": 127
+    },
+    {
+      "filename": "page_2_img_4.jpeg",
+      "page": 2,
+      "width": 377,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 481,
+      "height": 259
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 493,
+      "height": 134
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 343,
+      "height": 349
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 518,
+      "height": 718
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 502,
+      "height": 311
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 560,
+      "height": 277
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 345,
+      "height": 187
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 335,
+      "height": 256
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 401,
+      "height": 253
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 222,
+      "height": 349
+    }
+  ],
+  "created_at": "2026-07-17T16:52:17.353Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 民居与自然环境、气候对建筑的影响\n\n---\n\n## 题目内容\n\n舟山群岛位于浙江省北部海域，主要地貌为山地丘陵。读图，完成下面小题。舟山群岛传统民居外形低矮，屋檐短，窗户小，建造时主要考虑因素是（   ）\n\n## 选项\n\nA. 植被状况\n\nB. 地形条件\n\nC. 气候条件\n\nD. 水源分布\n\n---\n\n## 参考答案\n\nC\n\n## 解析\n\n舟山群岛多台风，低矮、屋檐短、窗户小可防风。\n\n",
+  "answer": "A",
+  "analysis": "本题考查降水分布。赤道附近降水多，两极地区降水少。选项A正确，B错误（中纬度沿海多），C错误（回归线大陆东岸多），D错误（山地迎风坡多）。"
+}

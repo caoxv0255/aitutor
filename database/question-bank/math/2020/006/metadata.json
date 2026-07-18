@@ -1,0 +1,92 @@
+{
+  "uid": "math_2020_beijing_006",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 566
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 964,
+      "height": 377
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 294,
+      "height": 271
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:26:53.808Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n已知函数 f(x)=2^x - x - 1，则不等式 f(x)>0 的解集是\n\n## 选项\n\nA. (-1,1)\n\nB. (-∞,-1)∪(1,+∞)\n\nC. (0,1)\n\nD. (-∞,0)∪(1,+∞)\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "解析：..."
+}

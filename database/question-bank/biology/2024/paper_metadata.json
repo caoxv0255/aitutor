@@ -1,0 +1,24 @@
+{
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2024,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 21,
+  "page_count": 0,
+  "image_count": 42,
+  "source_file": "2024年北京高考生物试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T04:30:44.289Z",
+  "quality_stats": {
+    "total": 21,
+    "by_type": {
+      "choice": 15,
+      "solve": 6
+    },
+    "avg_difficulty": "3.24",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

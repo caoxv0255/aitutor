@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_008",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.364Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n“飞花令是古人发明的酒令游戏，源自文人的诗词之趣，经过现代改良后进入我们的日常生活。一些精巧高雅的诗词游戏仍是祖先留给我们的宝贵精神遗产。”在这段话里，下列四个选项中周延性与其他三个不同的是（   ） \n“东风随春归，发我枝上花。” \n“江南春山远，山下暮云长。” \n“人闲桂花落，夜静春山空。” \n这种每句都包含同一个字（例如“春”）的诗词游戏被称为“飞花令”，得名于唐代名句“春城无处不飞花”。\n\n## 选项\n\nA. A. 飞花令\n\nB. B. 古人发明的酒令游戏\n\nC. C. 精巧高雅的诗词游戏\n\nD. D. 祖先留给我们的宝贵精神遗产\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "D",
+  "analysis": "本题考查就业的意义。就业是民生之本，对整个社会生产和发展具有重要意义。A选项错误，因为就业是劳动者谋生的手段，但不是唯一手段。B选项错误，因为就业能促进人的全面发展，但题干强调的是就业对社会的作用。C选项错误，因为就业能增加收入，但题干未体现。D选项正确，就业使劳动力与生产资料结合，生产出社会需要的物质财富和精神财富。"
+}

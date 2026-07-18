@@ -1,0 +1,278 @@
+{
+  "uid": "chemistry_2022_beijing_016",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 42,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 103,
+      "height": 85
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 124,
+      "height": 54
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 131,
+      "height": 38
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 651,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 227,
+      "height": 173
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 116,
+      "height": 171
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 132,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 98,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 200,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 258,
+      "height": 118
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 383,
+      "height": 250
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 1260,
+      "height": 333
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 554,
+      "height": 205
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 390,
+      "height": 305
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_7.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1260,
+      "height": 397
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 674,
+      "height": 406
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 321,
+      "height": 401
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1260,
+      "height": 463
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 1137,
+      "height": 167
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 406,
+      "height": 474
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 807,
+      "height": 394
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 178,
+      "height": 58
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 877,
+      "height": 216
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 1242,
+      "height": 571
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:00:18.432Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n煤中硫的存在形态分为有机硫和无机硫(CaSO4、硫化物及微量单质硫等)。库仑滴定法是常用的快捷检测煤中全硫含量的方法。其主要过程如下图所示。\n已知：在催化剂作用下，煤在管式炉中燃烧，出口气体主要含O2、CO2、H2O、N2、SO2。\n（1）煤样需研磨成细小粉末，其目的是___________。\n（2）高温下，煤中CaSO4完全转化为SO2，该反应的化学方程式为___________。\n（3）通过干燥装置后，待测气体进入库仑测硫仪进行测定。\n已知：库仑测硫仪中电解原理示意图如下。检测前，电解质溶液中c(I-)/c(I3-)保持定值时，电解池不工作。待测气体进入电解池后，SO2溶解并将I3-还原，测硫仪便立即自动进行电解到c(I-)/c(I3-)又回到原定值，测定结束，通过测定电解消耗的电量可以求得煤中含硫量。\n①SO2在电解池中发生反应的离子方程式为___________。\n②测硫仪工作时电解池的阳极反应式为___________。\n（4）煤样为a g，电解消耗的电量为x库仑，煤样中硫的质量分数为___________。\n已知：电解中转移1mol电子所消耗的电量为96500库仑。\n（5）条件控制和误差分析。\n①测定过程中，需控制电解质溶液pH，当pH<1时，非电解生成的I3-使得测得的全硫含量偏小，生成I3-的离子方程式为___________。\n②测定过程中，管式炉内壁上有SO3残留，测得全硫量结果为___________。(填“偏大”或“偏小”)\n\n## 小题\n\n### 16(1)\n\n煤样需研磨成细小粉末，其目的是___________。\n\n**答案**: 增大接触面积，使燃烧更充分\n\n### 16(2)\n\n高温下，煤中CaSO4完全转化为SO2，该反应的化学方程式为___________。\n\n**答案**: 2CaSO4 + C → 2CaO + 2SO2↑ + CO2↑\n\n### 16(3)①\n\nSO2在电解池中发生反应的离子方程式为___________。\n\n**答案**: SO2 + I3- + 2H2O = SO42- + 3I- + 4H+\n\n### 16(3)②\n\n测硫仪工作时电解池的阳极反应式为___________。\n\n**答案**: 3I- - 2e- = I3-\n\n### 16(4)\n\n煤样为a g，电解消耗的电量为x库仑，煤样中硫的质量分数为___________。\n\n**答案**: (32x)/(96500×2a)×100%\n\n### 16(5)①\n\n测定过程中，需控制电解质溶液pH，当pH<1时，非电解生成的I3-使得测得的全硫含量偏小，生成I3-的离子方程式为___________。\n\n**答案**: I- + I2 = I3-\n\n### 16(5)②\n\n测定过程中，管式炉内壁上有SO3残留，测得全硫量结果为___________。(填“偏大”或“偏小”)\n\n**答案**: 偏小\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设原混合气体中CO2的体积为x L，CO的体积为y L。根据反应：2CO + O2 → 2CO2，反应后气体体积减少量等于消耗的O2体积。反应前总体积x+y=10，反应后总体积x+2y=15（因为CO转化为CO2体积不变，但通入O2后总体积增加）。解得x=5，y=5。答：原混合气体中CO2和CO各5L。",
+  "analysis": "本题考察气体体积变化计算，利用反应前后体积差。关键点：CO燃烧生成CO2，体积不变，但通入O2后总体积增加。设未知数列方程求解。评分标准：写出反应方程式得1分，列方程得2分，解方程得1分，答案正确得1分。"
+}

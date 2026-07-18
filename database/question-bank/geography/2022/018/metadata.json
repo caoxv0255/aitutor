@@ -1,0 +1,164 @@
+{
+  "uid": "geography_2022_beijing_018",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 1140,
+      "height": 486
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 956,
+      "height": 671
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 1260,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_4.jpeg",
+      "page": 2,
+      "width": 884,
+      "height": 648
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 465,
+      "height": 220
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 1124,
+      "height": 472
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 565,
+      "height": 331
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 958,
+      "height": 609
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 443,
+      "height": 341
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 933,
+      "height": 526
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 1260,
+      "height": 653
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 827,
+      "height": 704
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 841,
+      "height": 845
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 1240,
+      "height": 1484
+    }
+  ],
+  "created_at": "2026-07-17T17:13:23.962Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n阅读图文材料，回答下列问题。2021年10月三江源国家公园正式设立。图为黄河源园区示意图。（1）说出黄河源园区的主要天然植被类型和气候特点。（2）判断扎陵湖和鄂陵湖是淡水湖的主要依据。（3）分析核心保育区受人类活动影响小的原因。\n\n## 小题\n\n### 18(1)\n\n说出黄河源园区的主要天然植被类型和气候特点。\n\n**答案**: \n\n### 18(2)\n\n判断扎陵湖和鄂陵湖是淡水湖的主要依据。\n\n**答案**: \n\n### 18(3)\n\n分析核心保育区受人类活动影响小的原因。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）A为背斜，B为向斜，C为断层。（2）背斜是良好的储油构造，向斜是良好的储水构造，断层处易形成泉水，但工程建设需避开断层。（3）背斜顶部受张力，岩石破碎，易被侵蚀成谷地；向斜槽部受挤压，岩石坚硬，不易被侵蚀，反而成山岭。",
+  "analysis": "本题考察地质构造的判读及实践意义。解题思路：岩层向上拱起为背斜，向下弯曲为向斜，岩层断裂并错动为断层。背斜储油，向斜储水，断层处地下水易出露。背斜成谷、向斜成山的原因：外力侵蚀差异。评分标准：每点2分，共6分。"
+}

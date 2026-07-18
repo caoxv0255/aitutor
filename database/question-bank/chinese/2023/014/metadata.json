@@ -1,0 +1,92 @@
+{
+  "uid": "chinese_2023_beijing_014",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:14:51.016Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n杜甫的诗内涵深刻而丰富，往往一联就有多重意蕴。此诗“侧身天地更怀古，回首风尘甘息机”一联历来为人称道。请分析这一联有哪些内涵。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）苔痕上阶绿，草色入帘青。（2分）\n（2）这是简陋的屋子，只因我（住屋的人）的品德好（就不感到简陋了）。（2分）",
+  "analysis": "本题考查文言文翻译。第一句注意‘上’‘入’的动词用法；第二句‘惟吾德馨’是重点，需译出‘品德高尚’之意。评分标准：每句2分，关键词翻译错误扣1分。"
+}

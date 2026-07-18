@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_002",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:02.991Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n下图为唐代告身（官员接受官职的凭证）书写格式示意图。该图说明唐代告身\n①由中书省和门下省官员共同草拟\n②在皇帝画可同意后交门下省审议\n③最终由尚书省的官员签署并颁下\n④可体现三省相互牵制又分工配合\n\n## 选项\n\nA. A. ①③\n\nB. B. ②④\n\nC. C. ①②\n\nD. D. ③④\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查秦朝中央集权制度。秦朝实行郡县制，郡县长官由中央直接任免，加强了中央集权。选项A错误，秦朝废除了分封制。选项B错误，三公九卿制是中央官制，与地方管理无关。选项C正确，郡县制实现了中央对地方的垂直管理。选项D错误，秦朝并未实行行省制，行省制始于元朝。"
+}

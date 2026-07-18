@@ -1,0 +1,140 @@
+{
+  "uid": "politics_2023_beijing_001",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 19,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 660,
+      "height": 254
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 362,
+      "height": 233
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 593,
+      "height": 311
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 358,
+      "height": 226
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 458,
+      "height": 344
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 820,
+      "height": 410
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 173,
+      "height": 218
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 481,
+      "height": 667
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:31:26.569Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n红色文化主题游——“进京赶考之路（北京段）”示意图重走“进京赶考之路”，是追忆也是洗礼，其意义在于（   ）\n①感受社会主义建设新征程的开启\n②感悟共产党人“赶考”的清醒与坚定\n③了解生产关系的根本性改变\n④不忘初心，汲取前行力量\n\n## 选项\n\nA. A. ①②\n\nB. B. ①③\n\nC. C. ②④\n\nD. D. ③④\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "本题考查商品的基本属性。商品是用于交换的劳动产品，具有使用价值和价值两个基本属性。使用价值是商品的自然属性，价值是商品的社会属性。选项A正确，因为商品是使用价值和价值的统一体。选项B错误，因为使用价值不是商品特有的，非商品也有使用价值。选项C错误，因为价值是商品特有的，但并非所有劳动产品都有价值。选项D错误，因为商品交换实质上是商品生产者之间的劳动交换。"
+}

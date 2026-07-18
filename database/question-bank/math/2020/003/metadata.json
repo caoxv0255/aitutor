@@ -1,0 +1,92 @@
+{
+  "uid": "math_2020_beijing_003",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 566
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 964,
+      "height": 377
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 294,
+      "height": 271
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:26:53.806Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n在 (x-2)^5 的展开式中，x^2 的系数为\n\n## 选项\n\nA. -5\n\nB. 5\n\nC. -10\n\nD. 10\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "解题思路：...关键知识点：...步骤：..."
+}

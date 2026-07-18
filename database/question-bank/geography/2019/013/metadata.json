@@ -1,0 +1,80 @@
+{
+  "uid": "geography_2019_beijing_013",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 586,
+      "height": 225
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 269,
+      "height": 265
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 313,
+      "height": 238
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 450,
+      "height": 177
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 366,
+      "height": 274
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 226,
+      "height": 167
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 320,
+      "height": 337
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 676,
+      "height": 516
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 423,
+      "height": 384
+    }
+  ],
+  "created_at": "2026-07-17T16:24:03.197Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\n描述德国老龄人口密度的分布特征，列举人口老龄化对该国可能带来的影响。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "答案：夏至日正午太阳高度角为73.5°，冬至日为26.5°。",
+  "analysis": "解题步骤：1. 当地纬度40°N。2. 夏至日太阳直射23.5°N，正午太阳高度角H=90°-|40°-23.5°|=73.5°。3. 冬至日太阳直射23.5°S，H=90°-|40°+23.5°|=26.5°。评分标准：公式正确得2分，计算正确各得2分。"
+}

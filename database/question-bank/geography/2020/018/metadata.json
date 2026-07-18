@@ -1,0 +1,128 @@
+{
+  "uid": "geography_2020_beijing_018",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 309,
+      "height": 327
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 553,
+      "height": 167
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 435,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 440,
+      "height": 271
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 369,
+      "height": 275
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 553,
+      "height": 159
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 415,
+      "height": 323
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 540,
+      "height": 326
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 603,
+      "height": 131
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 553,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 488,
+      "height": 317
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 421,
+      "height": 297
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 552,
+      "height": 264
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 553,
+      "height": 377
+    },
+    {
+      "filename": "page_10_img_2.jpeg",
+      "page": 10,
+      "width": 600,
+      "height": 279
+    }
+  ],
+  "created_at": "2026-07-17T16:38:08.418Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n读下图，回答下列问题。\n（1）推测莱州湾湾口宽度的变化趋势，阐述变化过程。\n莱州湾蕴藏着石油资源。原油可选择管道运输和水路运输。\n（2）在管道运输和水路运输中任选其一，评价该运输方式的优势和不足。\n\n## 小题\n\n### 18(1)\n\n推测莱州湾湾口宽度的变化趋势，阐述变化过程。\n\n**答案**: \n\n### 18(2)\n\n在管道运输和水路运输中任选其一，评价该运输方式的优势和不足。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）A：青藏高原 B：巴西高原 C：亚马孙平原 D：刚果盆地 E：安第斯山脉 F：阿尔卑斯山脉 （2）A：高 B：低 C：低 D：高 E：高 F：高",
+  "analysis": "本题考查世界主要地形区的分布和海拔。青藏高原是世界最高高原，巴西高原是世界最大高原，亚马孙平原是世界最大平原，刚果盆地是世界最大盆地，安第斯山脉是世界最长山脉，阿尔卑斯山脉是欧洲最高山脉。海拔：高原一般较高，平原较低，盆地四周高中间低，山脉高。"
+}

@@ -1,0 +1,158 @@
+{
+  "uid": "biology_2021_beijing_021",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 454,
+      "height": 288
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 510,
+      "height": 377
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 353,
+      "height": 264
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 511,
+      "height": 211
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 432,
+      "height": 302
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 550,
+      "height": 168
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 274,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 498,
+      "height": 237
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 593,
+      "height": 305
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 720,
+      "height": 322
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1000,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 596,
+      "height": 427
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:47:31.019Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n近年来发现海藻糖-6-磷酸（T6P）是一种信号分子，在植物生长发育过程中起重要调节作用。研究者以豌豆为材料研究了T6P 在种子发育过程中的作用。\n\n## 小题\n\n### 21(1)\n\n豌豆叶肉细胞通过光合作用在__________中合成三碳糖，在细胞质基质中转化为蔗糖后运输到发育的种子中转化为淀粉贮存。\n\n**答案**: 叶绿体基质\n\n### 21(2)\n\n细胞内T6P 的合成与转化途径如下：底物S→(酶)T6P→(P酶)海藻糖。将P 酶基因与启动子U（启动与之连接的基因仅在种子中表达）连接，获得U-P 基因，导入野生型豌豆中获得U-P 纯合转基因植株，预期U-P 植株种子中T6P 含量比野生型植株__________，检测结果证实了预期，同时发现U-P 植株种子中淀粉含量降低，表现为皱粒。用同样方法获得U-S 纯合转基因植株，检测发现植株种子中淀粉含量增加。\n\n**答案**: 低\n\n### 21(3)\n\n本实验使用的启动子U 可以排除由于目的基因__________对种子发育产生的间接影响。\n\n**答案**: 在其他部位表达\n\n### 21(4)\n\n在进一步探讨T6P 对种子发育的调控机制时，发现U-P 植株种子中一种生长素合成酶基因R 的转录降低，U-S 植株种子中R 基因转录升高。已知R 基因功能缺失突变体r 的种子皱缩，淀粉含量下降。据此提出假说：T6P 通过促进R 基因的表达促进种子中淀粉的积累。请从①~⑤选择合适的基因与豌豆植株，进行转基因实验，为上述假说提供两个新的证据。写出相应组合并预期实验结果________。\n\n**答案**: 组合1：①+④，预期R基因转录升高，种子淀粉含量增加；组合2：②+⑤，预期R基因转录升高，种子淀粉含量增加\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）基因突变  不定向性  （2）自然选择  隔离  （3）生殖隔离",
+  "analysis": "（1）生物进化的原材料是突变和基因重组，突变包括基因突变和染色体变异，基因突变具有不定向性。（2）自然选择决定生物进化的方向，隔离是物种形成的必要条件。（3）新物种形成的标志是生殖隔离。评分标准：每空1分，共5分。"
+}

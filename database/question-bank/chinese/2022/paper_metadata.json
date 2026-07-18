@@ -1,0 +1,27 @@
+{
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 26,
+  "page_count": 0,
+  "image_count": 10,
+  "source_file": "2022年北京高考语文试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:54:03.658Z",
+  "quality_stats": {
+    "total": 26,
+    "by_type": {
+      "choice": 13,
+      "solve": 12,
+      "fill": 1
+    },
+    "avg_difficulty": "2.69",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [
+    "存在1个重复题号"
+  ],
+  "issues": []
+}

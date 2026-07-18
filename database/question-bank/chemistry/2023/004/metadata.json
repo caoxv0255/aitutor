@@ -1,0 +1,272 @@
+{
+  "uid": "chemistry_2023_beijing_004",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 41,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1536,
+      "height": 349
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 215,
+      "height": 211
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 274,
+      "height": 274
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 476,
+      "height": 147
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 1125,
+      "height": 433
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 713,
+      "height": 291
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 1031,
+      "height": 516
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 396,
+      "height": 275
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 284,
+      "height": 189
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 940,
+      "height": 513
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 704,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 1247,
+      "height": 573
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 579,
+      "height": 447
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 626,
+      "height": 472
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 529,
+      "height": 468
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1187,
+      "height": 325
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 1260,
+      "height": 607
+    },
+    {
+      "filename": "page_8_img_4.png",
+      "page": 8,
+      "width": 488,
+      "height": 222
+    },
+    {
+      "filename": "page_8_img_5.png",
+      "page": 8,
+      "width": 187,
+      "height": 97
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 252,
+      "height": 128
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 273,
+      "height": 142
+    },
+    {
+      "filename": "page_9_img_4.png",
+      "page": 9,
+      "width": 1239,
+      "height": 329
+    },
+    {
+      "filename": "page_9_img_5.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_6.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_7.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 642,
+      "height": 519
+    },
+    {
+      "filename": "page_10_img_3.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_4.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.jpeg",
+      "page": 11,
+      "width": 552,
+      "height": 302
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:21:16.106Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列事实能用平衡移动原理解释的是\n\n## 选项\n\nA. A. H2O2溶液中加入少量MnO2固体，促进H2O2分解\n\nB. B. 密闭烧瓶内的NO2和N2O4的混合气体，受热后颜色加深\n\nC. C. 铁钉放入浓HNO3中，待不再变化后，加热能产生大量红棕色气体\n\nD. D. 锌片与稀H2SO4反应过程中，加入少量CuSO4固体，促进H2的产生\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "D",
+  "analysis": "该题考查化学实验基本操作。A：用嘴吹灭酒精灯易引发火灾，应用灯帽盖灭；B：给试管加热时，试管口不能对着人；C：量筒不能用于溶解或稀释，应在烧杯中进行；D：取用粉末状药品用药匙或纸槽，正确。因此选D。"
+}

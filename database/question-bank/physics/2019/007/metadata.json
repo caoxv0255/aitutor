@@ -1,0 +1,102 @@
+{
+  "uid": "physics_2019_beijing_007",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 4,
+  "score": 6,
+  "knowledge_points": [
+    "光电效应",
+    "逸出功",
+    "光电流"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 167,
+      "height": 104
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 215,
+      "height": 181
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 135,
+      "height": 136
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 161,
+      "height": 131
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 126,
+      "height": 124
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 415,
+      "height": 224
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 22,
+      "height": 48
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 144,
+      "height": 131
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 633,
+      "height": 166
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 169,
+      "height": 62
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 202,
+      "height": 141
+    }
+  ],
+  "created_at": "2026-07-17T16:16:55.695Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★★☆\n\n**分值**: 6分\n\n**知识点**: 光电效应、逸出功、光电流\n\n---\n\n## 题目内容\n\n光电管是一种利用光照射产生电流的装置，当入射光照在管中金属板上时，可能形成光电流。表中给出了6次实验的结果。由表中数据得出的论断中不正确的是（  ）\n\n## 选项\n\nA. A．两组实验采用了不同频率的入射光\n\nB. B．两组实验所用的金属板材质不同\n\nC. C．若入射光子的能量为5.0eV，逸出光电子的最大动能为1.9eV\n\nD. D．若入射光子的能量为5.0eV，相对光强越强，光电流越大\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "C",
+  "analysis": "题目未提供具体内容，无法给出解析。请提供题目。"
+}

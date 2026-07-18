@@ -1,0 +1,278 @@
+{
+  "uid": "chemistry_2022_beijing_002",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 42,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 103,
+      "height": 85
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 124,
+      "height": 54
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 131,
+      "height": 38
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 651,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 227,
+      "height": 173
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 116,
+      "height": 171
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 132,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 98,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 200,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 258,
+      "height": 118
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 383,
+      "height": 250
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 1260,
+      "height": 333
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 554,
+      "height": 205
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 390,
+      "height": 305
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_7.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1260,
+      "height": 397
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 674,
+      "height": 406
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 321,
+      "height": 401
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1260,
+      "height": 463
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 1137,
+      "height": 167
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 406,
+      "height": 474
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 807,
+      "height": 394
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 178,
+      "height": 58
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 877,
+      "height": 216
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 1242,
+      "height": 571
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:00:18.419Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列化学用语或图示表达不正确的是\n\n## 选项\n\nA. A. 乙炔的结构简式：HC≡CH\n\nB. B. 顺-2-丁烯的分子结构模型：\n\nC. C. 基态Si原子的价层电子的轨道表示式：\n\nD. D. Na2O2的电子式：\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "原电池中较活泼金属作负极，发生氧化反应。A错误，Zn比Cu活泼，Zn作负极；B错误，电子从负极Zn流出，经导线流向Cu；C正确，Cu电极上H+得电子生成H2；D错误，溶液中阳离子向正极移动。"
+}

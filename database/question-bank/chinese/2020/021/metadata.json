@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_021",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.931Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\n音乐和美术对作者的成长及认识生命起到了什么作用？(6分)\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）①开篇'浔阳江头夜送客'交代时间地点；②'主人忘归客不发'烘托离愁；③'忽闻水上琵琶声'引出琵琶女；④'千呼万唤始出来'表现其矜持；⑤'犹抱琵琶半遮面'刻画其羞涩。（2）①'大弦嘈嘈如急雨'比喻声音沉重；②'小弦切切如私语'比喻声音轻柔；③'嘈嘈切切错杂弹'表现声音交错；④'大珠小珠落玉盘'比喻声音清脆；⑤'间关莺语花底滑'比喻声音婉转。",
+  "analysis": "本题考查诗歌鉴赏。第（1）问需概括情节，每点1分；第（2）问需分析音乐描写，每点1分。共5分。"
+}

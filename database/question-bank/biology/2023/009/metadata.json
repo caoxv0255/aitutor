@@ -1,0 +1,167 @@
+{
+  "uid": "biology_2023_beijing_009",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [
+    "甲状腺激素调节",
+    "反馈调节"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 547,
+      "height": 323
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 695,
+      "height": 549
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 351,
+      "height": 183
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 353,
+      "height": 276
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 440,
+      "height": 232
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 429,
+      "height": 136
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 585,
+      "height": 427
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 200,
+      "height": 199
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 245,
+      "height": 147
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 579,
+      "height": 236
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 552,
+      "height": 222
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1308,
+      "height": 838
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:22:55.916Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n**知识点**: 甲状腺激素调节、反馈调节\n\n---\n\n## 题目内容\n\n甲状腺激素的分泌受下丘脑-垂体-甲状腺轴的调节，促甲状腺激素能刺激甲状腺增生。如果食物中长期缺乏合成甲状腺激素的原料碘，会导致（  ）\n\n## 选项\n\nA. A. 甲状腺激素合成增加，促甲状腺激素分泌降低\n\nB. B. 甲状腺激素合成降低，甲状腺肿大\n\nC. C. 促甲状腺激素分泌降低，甲状腺肿大\n\nD. D. 促甲状腺激素释放激素分泌降低，甲状腺肿大\n\n---\n\n## 参考答案\n\nB\n\n## 解析\n\n缺碘导致甲状腺激素合成减少，反馈引起促甲状腺激素分泌增加，刺激甲状腺增生肿大。\n\n",
+  "answer": "A",
+  "analysis": "生长素具有两重性，低浓度促进生长，高浓度抑制生长。顶端优势是因为顶芽产生的生长素向下运输，侧芽处积累过多抑制生长。选项A正确；B错误，生长素促进果实发育；C错误，生长素促进扦插枝条生根；D错误，生长素能促进细胞伸长。"
+}

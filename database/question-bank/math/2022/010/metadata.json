@@ -1,0 +1,134 @@
+{
+  "uid": "math_2022_beijing_010",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 568,
+      "height": 486
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 272,
+      "height": 203
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_5.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_6.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:55:27.403Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n在△ABC中，AC=3，BC=4，∠C=90°．P为△ABC所在平面内的动点，且PC=1，则PA·PB的取值范围是（    ）\n\n## 选项\n\nA. A. [-5,3]\n\nB. B. [-3,5]\n\nC. C. [-6,4]\n\nD. D. [-4,6]\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "B",
+  "analysis": "函数f(x)=log₂(x²-2x-3)的定义域为x²-2x-3>0，即(x-3)(x+1)>0，解得x<-1或x>3，故选B。"
+}

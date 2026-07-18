@@ -1,0 +1,78 @@
+{
+  "uid": "politics_2019_beijing_005",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 4,
+  "knowledge_points": [
+    "实践与认识",
+    "意识的能动作用",
+    "直接现实性"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.002Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4分\n\n**知识点**: 实践与认识、意识的能动作用、直接现实性\n\n---\n\n## 题目内容\n\n一百多年前，艺术家把自己对未来生活的畅想画在了纸上，展示了人们对邮寄方式的幻想。随着科技进步，当时异想天开的想法，如今成为了生活中的现实。这说明（  ）\n\n## 选项\n\nA. A．科学幻想是推动科技创新的基础\n\nB. B．意识具有直接现实性，可以把幻想变为现实\n\nC. C．意识具有能动性，人们可以在想象中创造出现实世界\n\nD. D．通过实践，观念的东西可以变成现实的东西\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n幻想通过实践变为现实，说明实践具有直接现实性，D正确；A错误，实践是基础；B错误，意识不具有直接现实性；C错误，想象不能直接创造现实世界。\n\n",
+  "answer": "A",
+  "analysis": "本题考查消费类型。按消费目的划分，消费可分为生存资料消费、发展资料消费和享受资料消费。生存资料消费是满足基本生活需要的消费，如衣食住行。发展资料消费是用于提高自身素质的消费，如教育、培训。享受资料消费是满足精神享受的消费，如旅游、娱乐。题目中“旅游”属于享受资料消费，A正确。B选项发展资料消费如购买书籍，C选项生存资料消费如购买食品，D选项贷款消费是按交易方式划分的。"
+}

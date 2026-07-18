@@ -1,0 +1,92 @@
+{
+  "uid": "chinese_2023_beijing_020",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:14:51.020Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n语言基础运用\n①城市建设理念不断升级，北京开始全面推进“无界公园”建设。②目前，已有近百个公园拆除了围墙、护栏，实现开放管理。③围栏拆除后，园内风光同城市街道景观融为一体。④无界公园让城市在高楼林立的同时，拥有了更多自然的光影，让节奏匆促的城市拥有了更多休闲的空间。⑤通过充分沟通与合理设计，无界公园的治理模式由公园单方管理变为志愿者、热心市民等多方维护，无界公园可望成为“共建共治共享”的生动样本。⑥当然，公园开放还应遵循因地制宜的原则，比如高速公路沿线的公园开放要慎重，历史名园以及需要保护文物的公园还应保留围墙等设置。\n（1）下列说法不正确的一项是\n\n## 选项\n\nA. A. ①句句首“城市”之前可以添加“随着”\n\nB. B. ③句中画波浪线的两处互换位置，衔接更恰当。\n\nC. C. ⑤句中的“可望”可以换为“有望”。\n\nD. D. ⑥句中的成语“因地制宜”使用恰当。\n\n## 小题\n\n### 20(2)\n\n不改变原意，对④句画横线的部分进行改写，使之与④句的后半部分结构基本一致。将改写后的答案写在下面。\n\n**答案**: \n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "C",
+  "analysis": "本题考查说明方法。例句‘像一条巨龙’运用了打比方的说明方法。A项列数字；B项作比较；C项打比方；D项举例子。因此选C。"
+}

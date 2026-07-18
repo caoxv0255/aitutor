@@ -1,0 +1,92 @@
+{
+  "uid": "math_2020_beijing_017",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 13,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 566
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 964,
+      "height": 377
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 294,
+      "height": 271
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:26:53.818Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 13分\n\n---\n\n## 题目内容\n\n在△ABC中，a+b=11，再从条件①、条件②这两个条件中选择一个作为已知，求:(I)a的值；(II)sinC和△ABC的面积。条件①: c=7, cosA=-1/7；条件②: cosA=1/8, cosB=9/16。注:如果选择条件①和条件②分别解答，按第一个解答计分。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：...",
+  "analysis": "解题步骤：...评分标准：..."
+}

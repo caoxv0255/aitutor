@@ -1,0 +1,224 @@
+{
+  "uid": "geography_2024_beijing_001",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2024,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "自然地理环境差异",
+    "生物多样性"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 33,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 731,
+      "height": 335
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 532,
+      "height": 509
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 793,
+      "height": 612
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 502,
+      "height": 485
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 484,
+      "height": 518
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 647,
+      "height": 317
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 598,
+      "height": 612
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 633,
+      "height": 429
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 707,
+      "height": 484
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 562,
+      "height": 654
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 479,
+      "height": 575
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 639,
+      "height": 216
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 639,
+      "height": 216
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.jpeg",
+      "page": 10,
+      "width": 672,
+      "height": 613
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.jpeg",
+      "page": 11,
+      "width": 694,
+      "height": 701
+    },
+    {
+      "filename": "page_11_img_3.jpeg",
+      "page": 11,
+      "width": 540,
+      "height": 606
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_14_img_1.png",
+      "page": 14,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_14_img_2.jpeg",
+      "page": 14,
+      "width": 808,
+      "height": 627
+    },
+    {
+      "filename": "page_15_img_1.png",
+      "page": 15,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_16_img_1.png",
+      "page": 16,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-18T03:36:40.586Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0"
+}

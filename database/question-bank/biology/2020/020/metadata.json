@@ -1,0 +1,125 @@
+{
+  "uid": "biology_2020_beijing_020",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [
+    "植物组织培养",
+    "基因表达调控"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.376Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n**知识点**: 植物组织培养、基因表达调控\n\n---\n\n## 题目内容\n\n研究者以拟南芥根段作为组织培养材料，探讨了激素诱导愈伤组织分化生芽的机制。\n\n## 小题\n\n### 20(1)\n\n离体的拟南芥根段在适宜条件下可以培育出完整的植株，说明植物细胞具有__________。在组织培养过程中，根段细胞经过__________形成愈伤组织，此后调整培养基中细胞分裂素（CK）与生长素的比例可诱导愈伤组织分化。\n\n**答案**: 全能性；脱分化\n\n### 20(2)\n\n在愈伤组织生芽过程中，CK 通过ARRs（A）基因和WUS（W）基因起作用。为探讨A 基因与W 基因的关系，将A 基因功能缺失突变体（突变体a）和野生型的愈伤组织分别置于CK 与生长素比例高的（高 CK）培养基中诱导生芽，在此过程中测定W 基因的表达量。图1 中，野生型的W 基因表达量与高CK 诱导时间的关系是____________________。分析图1 结果可得出的结论是：在高CK 诱导下A 基因促进W 基因表达。得出结论的依据为：与野生型相比，________________________________________________。\n\n**答案**: 随时间延长而增加；突变体a的W基因表达量较低\n\n### 20(3)\n\n用转基因方法在上述突变体a 中过量表达W 基因，获得材料甲。将材料甲、突变体a 和野生型三组愈伤组织在高CK 培养基中培养，三组愈伤组织分化生芽的比例如图2，由此能得出的结论包括__________。A.A 基因在愈伤组织分化生芽的过程中起作用 B.w 基因的表达产物调控A 基因的表达 C.缺失A 基因时W 基因表达不能促进生芽 D.过量表达W 基因可使生芽时间提前\n\n**答案**: AD\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）生产者 （2）消费者 （3）分解者 （4）非生物的物质和能量",
+  "analysis": "本题考查生态系统的成分。解题思路：生态系统由生产者（绿色植物）、消费者（动物）、分解者（细菌真菌）和非生物的物质和能量（阳光、水等）组成。评分标准：每空1分，共4分。"
+}

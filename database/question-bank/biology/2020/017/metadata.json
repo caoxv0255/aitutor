@@ -1,0 +1,126 @@
+{
+  "uid": "biology_2020_beijing_017",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 12,
+  "knowledge_points": [
+    "纤维素酶",
+    "基因工程",
+    "酶工程"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.373Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 12分\n\n**知识点**: 纤维素酶、基因工程、酶工程\n\n---\n\n## 题目内容\n\n枯草芽孢杆菌可分泌纤维素酶。研究者筛选到一株降解纤维素能力较强的枯草芽孢杆菌菌株（B 菌），从中克隆得到了一种纤维素酶（C1 酶）基因。将获得的C1 酶基因与高效表达载体（HT 质粒）连接，再导入B 菌，以期获得降解纤维素能力更强的工程菌。\n\n## 小题\n\n### 17(1)\n\n纤维素属于__________糖，因此经过一系列酶催化最终可降解成单糖，该单糖是__________。\n\n**答案**: 多；葡萄糖\n\n### 17(2)\n\n对克隆到的C1 酶基因测序，与数据库中的C1 酶基因编码序列相比有两个碱基对不同，但两者编码出的蛋白的氨基酸序列相同，这是因为____________________。\n\n**答案**: 密码子具有简并性\n\n### 17(3)\n\nC1 酶基因以B 链为转录模板链，转录时mRNA 自身的延伸方向为5'→3'。为了使C1 酶基因按照正确的方向与已被酶切的HT 质粒连接，克隆C1 酶基因时在其两端添加了Sma I 和BamH I 的酶切位点。该基因内部没有这两种酶切位点。图1 中酶切位点1 和2 所对应的酶分别是__________。\n\n**答案**: BamH I和Sma I\n\n### 17(4)\n\n将纤维素含量为20%的培养基分为三组，一组接种工程菌，对照组1 不进行处理，对照组2 进行相应处理。在相同条件下培养96 小时，检测培养基中纤维素的含量。结果（图2）说明工程菌降解纤维素的能力最强。对照组2 的处理应为____________________。\n\n**答案**: 接种等量B菌\n\n### 17(5)\n\n预期该工程菌在处理废弃物以保护环境方面可能的应用。（举一例）\n\n**答案**: 用于降解农业秸秆废弃物\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）常染色体隐性遗传 （2）Aa （3）1/4 （4）1/6",
+  "analysis": "本题考查遗传系谱图分析。解题思路：无中生有为隐性，女病父正非伴性，故为常染色体隐性遗传。父母均为杂合子Aa，再生患病孩子概率1/4。若孩子正常，则基因型为1/3AA或2/3Aa，与携带者Aa婚配，后代患病概率为2/3×1/4=1/6。评分标准：每空1分，共4分。"
+}

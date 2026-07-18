@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_043",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 43,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.722Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第43题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 5分\n\n---\n\n## 题目内容\n\n43. Among Tom’s qualities, which one(s) do you think will be important for us? Why?(In about 40 words)\n\n---\n\n## 参考答案\n\nTom's humility and perseverance are important. He remains humble despite awards and emphasizes that success takes time and family support. These qualities help us stay grounded and persistent in pursuing our goals.\n\n",
+  "answer": "If I were you, I would accept the invitation.",
+  "analysis": "本题考查虚拟语气。与现在事实相反，if从句用were，主句用would+动词原形。评分标准：虚拟语气结构正确得2分，动词形式正确得1分，共3分。"
+}

@@ -1,0 +1,167 @@
+{
+  "uid": "geography_2021_beijing_012",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "舟山群岛",
+    "旅游资源"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 562,
+      "height": 270
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 291,
+      "height": 131
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 625,
+      "height": 148
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 469,
+      "height": 127
+    },
+    {
+      "filename": "page_2_img_4.jpeg",
+      "page": 2,
+      "width": 377,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 481,
+      "height": 259
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 493,
+      "height": 134
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 343,
+      "height": 349
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 518,
+      "height": 718
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 502,
+      "height": 311
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 560,
+      "height": 277
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 345,
+      "height": 187
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 335,
+      "height": 256
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 401,
+      "height": 253
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 222,
+      "height": 349
+    }
+  ],
+  "created_at": "2026-07-17T16:52:17.353Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 舟山群岛、旅游资源\n\n---\n\n## 题目内容\n\n舟山群岛位于浙江省北部海域，主要地貌为山地丘陵。读图，完成下面小题。舟山群岛（   ）\n\n## 选项\n\nA. 位于北纬30°附近，终年受副高控制\n\nB. 岛屿众多，自然与人文旅游资源兼备\n\nC. 距杭州湾近，由钱塘江泥沙淤积形成\n\nD. 主要河流自西向东汇入黄海\n\n---\n\n## 参考答案\n\nB\n\n## 解析\n\n舟山群岛岛屿众多，有普陀山等自然景观和佛教文化等人文景观。\n\n",
+  "answer": "D",
+  "analysis": "本题考查气温分布规律。气温从赤道向两极递减，同纬度海洋和陆地气温不同。选项A错误（赤道最高），B错误（海拔高气温低），C错误（南半球等温线较平直），D正确。"
+}

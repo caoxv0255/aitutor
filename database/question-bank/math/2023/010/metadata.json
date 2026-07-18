@@ -1,0 +1,146 @@
+{
+  "uid": "math_2023_beijing_010",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 4,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 20,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_7.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 458,
+      "height": 188
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 358,
+      "height": 424
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:16:16.056Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★★★☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n已知数列{an}满足a_{n+1}=1/6(a_n-6)^2+6 (n=1,2,3,…)，则（    ）\n\n## 选项\n\nA. A. 当a1=3时，{an}为递减数列，且存在常数M≤0，使得an>M恒成立\n\nB. B. 当a1=5时，{an}为递增数列，且存在常数M≤6，使得an<M恒成立\n\nC. C. 当a1=7时，{an}为递减数列，且存在常数M>6，使得an>M恒成立\n\nD. D. 当a1=9时，{an}为递增数列，且存在常数M>0，使得an<M恒成立\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "C",
+  "analysis": "由正弦定理，a/sinA=b/sinB，得sinB=bsinA/a=2×sin30°/1=1，所以B=90°，故选C。选项A、B、D错误。"
+}

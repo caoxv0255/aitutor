@@ -1,0 +1,68 @@
+{
+  "uid": "history_2020_beijing_010",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 7,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 558,
+      "height": 242
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 298,
+      "height": 214
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 238,
+      "height": 149
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 310,
+      "height": 158
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 331,
+      "height": 233
+    }
+  ],
+  "created_at": "2026-07-17T15:55:26.739Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n如表说明，随着改革开放不断深入，中国在应对自然灾害、公共卫生和社会安全等突发事件时，着力于\n\n## 选项\n\nA. A. 加强政治制度建设\n\nB. B. 发挥舆论监督作用\n\nC. C. 探索民主管理机制\n\nD. D. 完善相关法制体系\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查法国共和制确立。1875年法兰西第三共和国宪法确立共和制，但共和派与君主派斗争激烈。C项正确。A项错误，法国大革命爆发于1789年。B项错误，拿破仑建立帝国。D项错误，巴黎公社是1871年。"
+}

@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_012",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.923Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\n阅读下面《论语》中的文字，回答问题。 子曰：“我非生而知之者，好古，敏以求之者也。”(《述而》) 子曰：“盖有不知而作之者，我无是也。多闻，择其善者而从之，多见而识之，知之次也。”(《述而》) 太宰问于子贡曰：“夫子圣者与？何其多能也？”子贡曰：“固天纵之将圣，又多能也。” 子闻之，曰：“太宰知我乎！吾少也贱，故多能鄙事。君子多乎哉？不多也。”(《子罕》) (1)请解释“生而知之者”与“不知而作之者”。(2分) (2)综合以上材料，简述孔子获取知识的途径，并就其中一点谈谈对你的启示。(4分)\n\n## 小题\n\n### 12(1)\n\n请解释“生而知之者”与“不知而作之者”。(2分)\n\n**答案**: \n\n### 12(2)\n\n综合以上材料，简述孔子获取知识的途径，并就其中一点谈谈对你的启示。(4分)\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）①交代了故事发生的时间、地点和背景；②渲染了悲凉的气氛；③为下文写祥林嫂的悲剧命运作铺垫。（2）①勤劳善良；②命运悲惨；③深受封建礼教迫害。",
+  "analysis": "本题考查小说阅读。第（1）问环境描写作用，每点1分；第（2）问人物形象，每点1分，共3分。语言表达1分。"
+}

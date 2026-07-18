@@ -1,0 +1,56 @@
+{
+  "uid": "english_2020_beijing_006",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 8,
+  "knowledge_points": [
+    "阅读理解",
+    "词义猜测",
+    "细节理解",
+    "推理判断",
+    "观点态度"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 161,
+      "height": 139
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 367,
+      "height": 311
+    }
+  ],
+  "created_at": "2026-07-17T16:28:33.925Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 8分\n\n**知识点**: 阅读理解、词义猜测、细节理解、推理判断、观点态度\n\n---\n\n## 题目内容\n\n阅读下列短文，从每题所给的A、B、C、D四个选项中，选出最佳选项。\n\nD\nCertain forms of AI are indeed becoming ubiquitous. For example, algorithms（算法）carry out huge volumes of trading on our financial markets, self-driving cars are appearing on city streets, and our smartphones are translating from one language into another. These systems are sometimes faster and more perceptive than we humans are. But so far that is only true for the specific tasks for which the systems have been designed. That is something that some AI developers are now eager to change.\nSome of today's AI pioneers want to move on from today's world of “weak” or “narrow” AI, to create “strong” or “full” AI, or what is often called artificial general intelligence（AGI）. In some respects, today's powerful computing machines already make our brains look weak. AGI could, its advocates say, work for us around the clock, and drawing on all available data, could suggest solutions to many problems. DM, a company focused on the development of AGI, has an ambition to “solve intelligence”. “If we're successful,” their mission statement reads, “we believe this will be one of the most important and widely beneficial scientific advances ever made.”\nSince the early days of AI, imagination has outpaced what is possible or even probable. In 1965, an imaginative mathematician called Irving Good predicted the eventual creation of an \"ultra-intelligent machine…that can far surpass all the intellectual（智力的）activities of any man, however clever.\" Good went on to suggest that “the first ultra-intelligent machine\" could be “the last invention that man need ever make.\"\nFears about the appearance of bad, powerful, man-made intelligent machines have been reinforced（强化）by many works of fiction—Mary Shelley's Frankenstein and the Terminator film series, for example. But if AI does eventually prove to be our downfall, it is unlikely to be at the hands of human-shaped forms like these, with recognisably human motivations such as aggression（敌对行为）. Instead, I agree with Oxford University philosopher Nick Bostrom, who believes that the heaviest risks from AGI do not come from a decision to turn against mankind but rather from a dogged pursuit of set objectives at the expense of everything else.\nThe promise and danger of true AGI are great. But all of today's excited discussion about these possibilities presupposes the fact that we will be able to build these systems. And, having spoken to many of the world's foremost AI researchers, I believe there is good reason to doubt that we will see AGI any time soon, if ever:\n42. What does the underlined word “ubiquitous” in Paragraph 1 probably mean?\n43. What could AGI do for us, according to its supporters?\n44. As for Irving Good's opinion on ultra-intelligent machines, the author is ____________.\n45. What can be inferred about AGI from the passage?\n\n## 选项\n\nA. A. Enormous in quantity. B. Changeable daily. C. Stable in quality. D. Present everywhere.\n\nB. A. Help to tackle problems. B. Make brains more active. C. Benefit ambitious people. D. Set up powerful databases.\n\nC. A. supportive B. disapproving C. fearful D. uncertain\n\nD. A. It may be only a dream. B. It will come into being soon. C. It will be controlled by humans. D. It may be more dangerous than ever.\n\n---\n\n## 参考答案\n\n42. D 43. A 44. D 45. A\n\n",
+  "answer": "（根据具体题目内容填写）",
+  "analysis": "（根据具体题目内容填写）"
+}

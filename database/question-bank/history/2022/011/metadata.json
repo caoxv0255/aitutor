@@ -1,0 +1,104 @@
+{
+  "uid": "history_2022_beijing_011",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 857,
+      "height": 761
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 301,
+      "height": 359
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 953,
+      "height": 515
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 1039,
+      "height": 530
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:10:28.917Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n英国学者马丁·贝尔纳在其著作《黑色雅典娜：古典文明的亚非之根》中，批判了关于希腊文明起源的传统观点，提出希腊文明的源头在西亚和北非。下列希腊文明成果，能印证这一观点的是（   ）\n①字母文字         ②雕刻艺术         ③民主政治           ④冶铁技术\n\n## 选项\n\nA. A. ①②③\n\nB. B. ①②④\n\nC. C. ①③④\n\nD. D. ②③④\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "C",
+  "analysis": "本题考查德意志帝国君主立宪制。1871年德意志帝国宪法规定皇帝拥有巨大权力，宰相由皇帝任命，对皇帝负责，议会权力有限，具有浓厚的专制色彩。选项C正确。选项A错误，德国是联邦制，但各邦权力较小。选项B错误，德国实行两院制，但联邦议会权力大于帝国议会。选项D错误，德国是君主立宪制，但皇帝权力很大。"
+}

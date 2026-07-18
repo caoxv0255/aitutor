@@ -1,0 +1,126 @@
+{
+  "uid": "biology_2020_beijing_003",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 1,
+  "score": 2,
+  "knowledge_points": [
+    "原核细胞",
+    "真核细胞",
+    "细胞增殖"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.365Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★☆☆☆☆\n\n**分值**: 2分\n\n**知识点**: 原核细胞、真核细胞、细胞增殖\n\n---\n\n## 题目内容\n\n丰富多彩的生物世界具有高度的统一性。以下对于原核细胞和真核细胞统一性的表述，不正确的是（    ）\n\n## 选项\n\nA. A.细胞膜的基本结构是脂双层\n\nB. B.DNA 是它们的遗传物质\n\nC. C.在核糖体上合成蛋白质\n\nD. D.通过有丝分裂进行细胞增殖\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "本题考查酶的特性。酶具有高效性、专一性和作用条件温和。选项A：酶的高效性是指与无机催化剂相比，酶降低活化能的作用更显著，催化效率更高。选项B：专一性是指一种酶只能催化一种或一类化学反应。选项C：酶的作用条件温和，高温、强酸、强碱会使酶变性失活。选项D：酶在反应前后性质不变。因此A正确。"
+}

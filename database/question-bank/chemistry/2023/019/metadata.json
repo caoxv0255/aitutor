@@ -1,0 +1,272 @@
+{
+  "uid": "chemistry_2023_beijing_019",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 41,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1536,
+      "height": 349
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 215,
+      "height": 211
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 274,
+      "height": 274
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 476,
+      "height": 147
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 1125,
+      "height": 433
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 713,
+      "height": 291
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 1031,
+      "height": 516
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 396,
+      "height": 275
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 284,
+      "height": 189
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 940,
+      "height": 513
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 704,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 1247,
+      "height": 573
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 579,
+      "height": 447
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 626,
+      "height": 472
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 529,
+      "height": 468
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1187,
+      "height": 325
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 1260,
+      "height": 607
+    },
+    {
+      "filename": "page_8_img_4.png",
+      "page": 8,
+      "width": 488,
+      "height": 222
+    },
+    {
+      "filename": "page_8_img_5.png",
+      "page": 8,
+      "width": 187,
+      "height": 97
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 252,
+      "height": 128
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 273,
+      "height": 142
+    },
+    {
+      "filename": "page_9_img_4.png",
+      "page": 9,
+      "width": 1239,
+      "height": 329
+    },
+    {
+      "filename": "page_9_img_5.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_6.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_7.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 642,
+      "height": 519
+    },
+    {
+      "filename": "page_10_img_3.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_4.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.jpeg",
+      "page": 11,
+      "width": 552,
+      "height": 302
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:21:16.119Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n资料显示，I2可以将Cu氧化为Cu2+。某小组同学设计实验探究Cu被I2氧化的产物及铜元素的价态。已知：I2易溶于KI溶液，发生反应I2+I-⇌I3-(红棕色)；I2和I3-氧化性几乎相同。\nI.将等体积的KI溶液加入到mmol铜粉和nmolI2(n>m)的固体混合物中，振荡。实验记录如下：\n\nc(KI) | 实验现象\n0.01mol·L-1 | 极少量I2溶解，溶液为淡红色；充分反应后，红色的铜粉转化为白色沉淀，溶液仍为淡红色\n0.1mol·L-1 | 部分I2溶解，溶液为红棕色；充分反应后，红色的铜粉转化为白色沉淀，溶液仍为红棕色\n4mol·L-1 | I2完全溶解，溶液为深红棕色；充分反应后，红色的铜粉完全溶解，溶液为深红棕色\n\n（1）初始阶段，Cu被氧化的反应速率：实验Ⅰ__________(填“>”“<”或“=”)实验Ⅱ。\n（2）实验Ⅲ所得溶液中，被氧化的铜元素的可能存在形式有[Cu(H2O)4]2+(蓝色)或[CuI2]-(无色)，进行以下实验探究：\n步骤a．取实验Ⅲ的深红棕色溶液，加入CCl4，多次萃取、分液。\n步骤b．取分液后的无色水溶液，滴入浓氨水。溶液颜色变浅蓝色，并逐渐变深。\nⅰ．步骤a的目的是_____________________。\nⅱ．查阅资料，2Cu2++4I-=2CuI↓+I2，[Cu(NH3)2]+(无色)容易被空气氧化。用离子方程式解释步骤b的溶液中发生的变化：______________。\n（3）结合实验Ⅲ，推测实验Ⅰ和Ⅱ中的白色沉淀可能是CuI，实验Ⅰ中铜被氧化的化学方程式是____________________。分别取实验Ⅰ和Ⅱ充分反应后的固体，洗涤后得到白色沉淀，加入浓KI溶液，__________(填实验现象)，观察到少量红色的铜。分析铜未完全反应的原因是____________________。\n（4）上述实验结果，I2仅将Cu氧化为+1价。在隔绝空气的条件下进行电化学实验，证实了I2能将Cu氧化为Cu2+。装置如图所示，a、b分别是_____________。\n（5）运用氧化还原反应规律，分析在上述实验中Cu被I2氧化的产物中价态不同的原因：_________。\n\n## 小题\n\n### 19(1)\n\n初始阶段，Cu被氧化的反应速率：实验Ⅰ__________(填“>”“<”或“=”)实验Ⅱ。\n\n**答案**: <\n\n### 19(2)\n\n实验Ⅲ所得溶液中，被氧化的铜元素的可能存在形式有[Cu(H2O)4]2+(蓝色)或[CuI2]-(无色)，进行以下实验探究：\n步骤a．取实验Ⅲ的深红棕色溶液，加入CCl4，多次萃取、分液。\n步骤b．取分液后的无色水溶液，滴入浓氨水。溶液颜色变浅蓝色，并逐渐变深。\nⅰ．步骤a的目的是_____________________。\nⅱ．查阅资料，2Cu2++4I-=2CuI↓+I2，[Cu(NH3)2]+(无色)容易被空气氧化。用离子方程式解释步骤b的溶液中发生的变化：______________。\n\n**答案**: ⅰ．除去过量的I2和I3-；ⅱ．[Cu(NH3)2]+ + 4H2O + O2 → [Cu(NH3)4]2+ + 2OH- + 2H2O\n\n### 19(3)\n\n结合实验Ⅲ，推测实验Ⅰ和Ⅱ中的白色沉淀可能是CuI，实验Ⅰ中铜被氧化的化学方程式是____________________。分别取实验Ⅰ和Ⅱ充分反应后的固体，洗涤后得到白色沉淀，加入浓KI溶液，__________(填实验现象)，观察到少量红色的铜。分析铜未完全反应的原因是____________________。\n\n**答案**: 2Cu + I2 → 2CuI；白色沉淀溶解，溶液变红棕色；CuI不溶于水，覆盖在铜表面，阻止反应进一步进行\n\n### 19(4)\n\n上述实验结果，I2仅将Cu氧化为+1价。在隔绝空气的条件下进行电化学实验，证实了I2能将Cu氧化为Cu2+。装置如图所示，a、b分别是_____________。\n\n**答案**: a为Cu电极，b为I2电极\n\n### 19(5)\n\n运用氧化还原反应规律，分析在上述实验中Cu被I2氧化的产物中价态不同的原因：_________。\n\n**答案**: 在KI浓度较低时，I2氧化性较弱，只能将Cu氧化为+1价；在KI浓度较高时，I2与I-形成I3-，氧化性增强，且Cu+与I-形成CuI沉淀，促进反应进行，但Cu2+与I-反应生成CuI和I2，最终产物为+1价；在电化学条件下，通过外加电压可控制氧化产物为+2价\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）Fe + CuSO4 = FeSO4 + Cu；（2）置换反应；（3）铁表面有红色固体析出，溶液由蓝色变为浅绿色。",
+  "analysis": "该题考查金属与盐溶液的反应。解题思路：铁比铜活泼，铁能置换硫酸铜中的铜；反应类型是置换反应；现象：铁表面出现红色铜，溶液蓝色变浅绿（Fe2+颜色）。关键知识点：金属活动性顺序的应用。评分标准：每空2分，共6分。"
+}

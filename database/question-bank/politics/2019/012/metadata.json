@@ -1,0 +1,77 @@
+{
+  "uid": "politics_2019_beijing_012",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 1,
+  "score": 4,
+  "knowledge_points": [
+    "中国企业走出去",
+    "对外开放"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.008Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★☆☆☆☆\n\n**分值**: 4分\n\n**知识点**: 中国企业走出去、对外开放\n\n---\n\n## 题目内容\n\n货币是国家的“名片”，如今在一些国家的货币上，出现了由中国企业承建的地标建筑和大型工程的图案。\n\n这一现象适用于说明（  ）\n\n## 选项\n\nA. A．区域经济一体化深入发展\n\nB. B．中国企业走出去，助力当地发展\n\nC. C．中国外交政策的基本立场\n\nD. D．中国放宽市场准入，扩大对外开放\n\n---\n\n## 参考答案\n\nB\n\n## 解析\n\n中国企业承建工程出现在他国货币上，体现中国企业走出去，助力当地发展，B正确；A未体现区域一体化；C未涉及外交政策；D未体现市场准入。\n\n",
+  "answer": "D",
+  "analysis": "本题考查财政的作用。国家财政具有促进资源合理配置、促进经济平稳运行、促进社会公平、改善人民生活的作用。题目中“国家财政用于教育、医疗等支出”体现了财政促进社会公平、改善人民生活的作用，D正确。A选项促进资源合理配置通常指对基础设施、重大工程的投资，B选项促进经济平稳运行指通过财政政策调节经济，C选项保障国家政权稳定不是直接作用。"
+}

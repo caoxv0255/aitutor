@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_002",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.360Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n我国宪法规定，公民有劳动的权利和义务，国家奖励劳动模范和先进工作者。回顾历史，劳模表彰随着党和国家事业的发展而发展。劳模表彰起步于新民主主义革命时期，历经几十年探索与发展，在中国特色社会主义新时代得到发扬光大。开展劳模表彰（   ） \n①旨在保障劳动者接受职业技能培训权利，提高劳动生产效率 \n②是有效的社会动员方法，也是国家治理中不可或缺的制度安排 \n③能进一步激励全党全国各族人民积极投身经济社会发展的实践 \n④可以从根本上解决发展不平衡不充分问题，实现共同富裕\n\n## 选项\n\nA. A. ①③\n\nB. B. ①④\n\nC. C. ②③\n\nD. D. ②④\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "本题考查货币的职能。货币具有价值尺度、流通手段、支付手段、贮藏手段和世界货币五种职能。题干中“标价”是货币在执行价值尺度职能，即衡量商品价值的大小。A选项流通手段是指货币充当商品交换媒介的职能，通常表现为一手交钱一手交货。B选项支付手段是指货币在赊购赊销中清偿债务、支付工资等职能。D选项贮藏手段是指货币退出流通领域作为财富储存的职能。因此C选项正确。"
+}

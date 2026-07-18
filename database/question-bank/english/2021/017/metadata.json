@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_017",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:42:35.306Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 填空题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\nThere ____17____(be) a dramatic rise in the number of extreme weather events over the past 20 years,____18____(cause) largely by rising global temperatures,according to a new report from the United Nations. From 2000 to 2019, there were 7,348 major natural disasters around the world,____19____(result) in USD 2,970 billion in economic loss．Much of this increase can be due to climate change. The findings show a critical need ____20____ (invest) in disaster prevention.\n\n## 小题\n\n### 17\n\n17. (be)\n\n**答案**: has been\n\n### 18\n\n18. (cause)\n\n**答案**: caused\n\n### 19\n\n19. (result)\n\n**答案**: resulting\n\n### 20\n\n20. (invest)\n\n**答案**: to invest\n\n---\n\n## 参考答案\n\n17. has been; 18. caused; 19. resulting; 20. to invest\n\n",
+  "answer": "were playing",
+  "analysis": "本题考查时态。根据语境“when I called”可知，表示过去某个时间点正在进行的动作，应用过去进行时。主语是复数，故填were playing。"
+}

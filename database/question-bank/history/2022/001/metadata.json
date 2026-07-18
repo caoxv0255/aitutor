@@ -1,0 +1,104 @@
+{
+  "uid": "history_2022_beijing_001",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 857,
+      "height": 761
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 301,
+      "height": 359
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 953,
+      "height": 515
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 1039,
+      "height": 530
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:10:28.910Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n近年，考古工作者在江西国字山发现了战国中期的大型墓葬。该墓葬具有突出的越文化特征，同时又有楚文化和江淮文化等文化因素，墓葬形制也与中原墓葬有相似之处。此考古发现（   ）\n\n## 选项\n\nA. A. 印证了“春秋五霸”的政治格局\n\nB. B. 反映了中华文明多元一体的特点\n\nC. C. 证明中原率先成为中华文明核心\n\nD. D. 说明了统一多民族国家已经建立\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "A",
+  "analysis": "本题考查西周分封制。分封制下，周天子将土地和人民分给诸侯，诸侯享有世袭统治权，但需服从周天子命令、定期朝贡、提供军赋和力役。选项A正确，因为分封制确立了周天子的天下共主地位，加强了周天子对地方的统治。选项B错误，分封制下诸侯有较大独立性，但并非完全独立。选项C错误，分封制主要分封同姓亲族，但异姓功臣和先代贵族也可受封。选项D错误，分封制后期导致诸侯割据，但初期有利于巩固统治。"
+}

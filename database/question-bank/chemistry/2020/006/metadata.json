@@ -1,0 +1,152 @@
+{
+  "uid": "chemistry_2020_beijing_006",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 129,
+      "height": 320
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 335,
+      "height": 232
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 284,
+      "height": 231
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 119,
+      "height": 299
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 1150,
+      "height": 452
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 949,
+      "height": 233
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 585,
+      "height": 296
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 403,
+      "height": 333
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1320,
+      "height": 349
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 781,
+      "height": 184
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 787,
+      "height": 95
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 1055,
+      "height": 188
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1051,
+      "height": 198
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1307,
+      "height": 79
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 438,
+      "height": 137
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1079,
+      "height": 219
+    }
+  ],
+  "created_at": "2026-07-17T16:31:53.292Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列说法正确的是\n\n## 选项\n\nA. A. 用碳酸钠溶液处理锅炉水垢：CaSO4(s) + CO32- → CaCO3(s) + SO42-\n\nB. B. 湿润的淀粉碘化钾试纸遇氯气变蓝：3Cl2 + I- + 3H2O → 6Cl- + IO3- + 6H+\n\nC. C. 铝粉和氧化铁组成的铝热剂用于焊接钢轨：2Al + Fe2O3 → Al2O3 + 2Fe\n\nD. D. 淡黄色的过氧化钠敞口放置变成白色：2Na2O2 + 2CO2 → 2Na2CO3 + O2，2Na2O2 + 2H2O → 4NaOH + O2↑\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "A选项错误，因为离子晶体中离子键越强，晶格能越大，熔点越高。MgO中Mg2+和O2-电荷高、半径小，离子键强，熔点高于NaCl。B选项正确，因为分子晶体中，组成和结构相似时，相对分子质量越大，分子间作用力越强，熔点越高，所以熔点：I2>Br2>Cl2>F2。C选项错误，因为原子晶体中，共价键键长越短，键能越大，熔点越高，金刚石中C-C键键长短，熔点高于硅。D选项错误，因为金属晶体中，金属键越强，熔点越高，同周期从左到右金属键增强，熔点升高，所以熔点：Na<Mg<Al。"
+}

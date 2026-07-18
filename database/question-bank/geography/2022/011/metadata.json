@@ -1,0 +1,164 @@
+{
+  "uid": "geography_2022_beijing_011",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 1140,
+      "height": 486
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 956,
+      "height": 671
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 1260,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_4.jpeg",
+      "page": 2,
+      "width": 884,
+      "height": 648
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 465,
+      "height": 220
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 1124,
+      "height": 472
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 565,
+      "height": 331
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 958,
+      "height": 609
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 443,
+      "height": 341
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 933,
+      "height": 526
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 1260,
+      "height": 653
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 827,
+      "height": 704
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 841,
+      "height": 845
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 1240,
+      "height": 1484
+    }
+  ],
+  "created_at": "2026-07-17T17:13:23.955Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n2022年1月，“盐城长三角（东台）康养基地启动区”项目成为江苏省储备重大项目之一，拟建设上海某知名医院东台院区。与上海市区相比，东台市建设康养基地优势是（   ）\n\n## 选项\n\nA. 消费需求量大\n\nB. 土地成本较低\n\nC. 医养设施完善\n\nD. 产业部门齐全\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "B",
+  "analysis": "从赤道到两极的地域分异规律以热量为基础，自然带呈东西延伸、南北更替。选项A错误，纬度地带性以热量为基础。选项B正确，经度地带性以水分为基础。选项C错误，垂直地带性以水热组合变化为基础。选项D错误，非地带性受地形、洋流等因素影响。"
+}

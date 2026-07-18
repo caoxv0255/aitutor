@@ -1,0 +1,26 @@
+{
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2024,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 22,
+  "page_count": 0,
+  "image_count": 38,
+  "source_file": "2024年北京高考物理试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T04:27:44.538Z",
+  "quality_stats": {
+    "total": 22,
+    "by_type": {
+      "choice": 14,
+      "fill": 2,
+      "multi_choice": 1,
+      "solve": 5
+    },
+    "avg_difficulty": "3.45",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

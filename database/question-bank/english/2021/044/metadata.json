@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_044",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 44,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 20,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:42:35.313Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第44题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 20分\n\n---\n\n## 题目内容\n\n假设你是红星中学高三学生李华。你和英国好友Jim 原定本周末一起外出，你因故不能赴约。请你用英文给他写一封电子邮件，内容包括：1.表达歉意并说明原因；2.提出建议并给出理由。注意：1.词数100 左右；2.开头和结尾已给出，不计入总词数。Dear Jim,_______________________________________________________________________________Yours Li Hua\n\n---\n\n## 参考答案\n\nDear Jim,\nI'm writing to apologize for not being able to go out with you this weekend as planned. My mother suddenly fell ill and I have to take care of her at home. I'm really sorry for any inconvenience caused. To make it up, how about we go hiking next Saturday instead? The weather forecast says it will be sunny and warm, perfect for outdoor activities. I hope you can make it. Looking forward to your reply.\nYours,\nLi Hua\n\n",
+  "answer": "1. The main idea is that people should protect the environment by reducing waste.\n2. The author suggests recycling and reusing items.\n3. Because it helps save resources and reduce pollution.\n4. (Open-ended) I agree because small actions can make a big difference.",
+  "analysis": "本题考查阅读理解。1. 主旨大意题，根据首段主题句得出。2. 细节题，从第二段找到建议。3. 细节题，从第三段找到原因。4. 观点表达题，需给出个人看法并简要说明理由。评分标准：每题2分，共8分。答案需简洁准确，第四题言之有理即可。"
+}

@@ -1,0 +1,55 @@
+{
+  "uid": "english_2020_beijing_005",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 8,
+  "knowledge_points": [
+    "阅读理解",
+    "细节理解",
+    "推理判断",
+    "主旨大意"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 161,
+      "height": 139
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 367,
+      "height": 311
+    }
+  ],
+  "created_at": "2026-07-17T16:28:33.924Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 8分\n\n**知识点**: 阅读理解、细节理解、推理判断、主旨大意\n\n---\n\n## 题目内容\n\n阅读下列短文，从每题所给的A、B、C、D四个选项中，选出最佳选项。\n\nC\nFor the past five years, Paula Smith, a historian of science, has devoted herself to re-creating long-forgotten techniques. While doing research for her new book, she came across a 16th-century French manuscript（手稿）consisting of nearly 1,000 sets of instructions, covering subjects from tool making to finding the best sand.\nThe author's intention remains as mysterious（神秘）as his name; he may have been simply taking notes for his own records. But Smith was struck mainly by the fact that she didn't truly grasp any of the skills the author described. \"You simply can't get an understanding of that handwork by reading about it,\" she says.\nThough Smith did get her hands on the best sand, doing things the old-fashioned way isn't just about playing around with French mud. Reconstructing the work of the craftsmen（工匠）who lived centuries ago can reveal how they viewed the world, what objects filled their homes, and what went on in the workshops that produced them. It can even help solve present-day problems: In 2015, scientists discovered that a 10th-century English medicine for eye problems could kill a drug-resistant virus.\nThe work has also brought insights for museums, Smith says. One must know how an object was made in order to preserve it. What's more, reconstructions might be the only way to know what treasures looked like before time wore them down. Scholars have seen this idea in practice with ancient Greek and Roman statues. These sculptures were painted a rainbow of striking colours. We can't appreciate these kinds of details without seeing works of art as they originally appeared-something Smith believes you can do only when you have a road map.\nSmith has put the manuscript's ideas into practice. Her final goal is to link the worlds of art and science back together: She believes that bringing the old recipes to life can help develop a kind of learning that highlights experimentation, teamwork, and problem solving.\nBack when science—then called “the new philosophy”—took shape, academics looked to craftsmen for help in understanding the natural world. Microscopes and telescopes were invented by way of artistic tinkering（修补）, as craftsmen experimented with glass to better bend light.\nIf we can rediscover the values of hands-on experience and craftwork, Smith says, we can marry the best of our modern insights with the handiness of our ancestors.\n38. How did Smith feel after reading the French manuscript?\n39. According to Smith, the reconstruction work is done mainly to _____________.\n40. Why does the author mention museums?\n41. Which would be the best title for this passage?\n\n## 选项\n\nA. A. Confused about the technical terms. B. Impressed with its detailed instructions. C. Discouraged by its complex structure. D. Shocked for her own lack of hand skills.\n\nB. A. restore old workshops B. understand the craftsmen C. improve visual effects D. inspire the philosophers\n\nC. A. To reveal the beauty of ancient objects. B. To present the findings of old science. C. To highlight the importance of antiques. D. To emphasise the values of hand skills.\n\nD. A. Craftsmen Set the Trends for Artists B. Craftsmanship Leads to New Theories C. Craftsmanship Makes Better Scientists D. Craftsmen Reshape the Future of Science\n\n---\n\n## 参考答案\n\n38. D 39. B 40. D 41. C\n\n",
+  "answer": "（根据具体题目内容填写）",
+  "analysis": "（根据具体题目内容填写）"
+}

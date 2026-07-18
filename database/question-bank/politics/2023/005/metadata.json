@@ -1,0 +1,140 @@
+{
+  "uid": "politics_2023_beijing_005",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 19,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 660,
+      "height": 254
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 362,
+      "height": 233
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 593,
+      "height": 311
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 358,
+      "height": 226
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 458,
+      "height": 344
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 820,
+      "height": 410
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 173,
+      "height": 218
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 481,
+      "height": 667
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:31:26.574Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n“人见佳山水，辄曰‘如画’，见善丹青，辄曰‘逼真’。”清代画家王鉴的这句话道出了人们对美好事物的审美体验。可见，“如画”与“逼真”（   ）\n\n## 选项\n\nA. A. 是对现实的描绘和升华，实现了思维和存在的同一\n\nB. B. 表明事物的存在受到主体认识和体验的制约\n\nC. C. 说明观念可以无限趋近于客观现实\n\nD. D. 反映了山水与丹青的联系具有“人化”特点\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "本题考查消费类型。按消费目的，消费可分为生存资料消费、发展资料消费和享受资料消费。生存资料消费是满足基本生活需要的消费，如衣食住行。题干中“购买食品”属于生存资料消费，因此选项A正确。选项B发展资料消费如教育、培训，选项C享受资料消费如旅游、娱乐，选项D贷款消费是按交易方式划分的。"
+}

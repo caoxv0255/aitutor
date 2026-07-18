@@ -1,0 +1,80 @@
+{
+  "uid": "geography_2019_beijing_007",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 586,
+      "height": 225
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 269,
+      "height": 265
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 313,
+      "height": 238
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 450,
+      "height": 177
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 366,
+      "height": 274
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 226,
+      "height": 167
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 320,
+      "height": 337
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 676,
+      "height": 516
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 423,
+      "height": 384
+    }
+  ],
+  "created_at": "2026-07-17T16:24:03.192Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n图示区域（  ）\n\n## 选项\n\nA. ①地的风向为东南\n\nB. ②地有大雾出现\n\nC. ③地未来有强降水\n\nD. ④地寒暖流交汇\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "地球公转速度在近日点（1月初）最快，远日点（7月初）最慢。选项B正确。"
+}

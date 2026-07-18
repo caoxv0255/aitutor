@@ -1,0 +1,50 @@
+{
+  "uid": "biology_2019_beijing_003",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 307,
+      "height": 221
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 171,
+      "height": 98
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 376,
+      "height": 233
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 464,
+      "height": 234
+    }
+  ],
+  "created_at": "2026-07-17T16:19:45.465Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\n筛选淀粉分解菌需使用以淀粉为唯一碳源的培养基。接种培养后，若细菌能分解淀粉，培养平板经稀碘液处理，会出现以菌落为中心的透明圈（如图），实验结果见下表。菌种 菌落直径：C（mm） 透明圈直径：H（mm） H/C 细菌Ⅰ 5.1 11.2 2.2 细菌Ⅱ 8.1 13.0 1.6 有关本实验的叙述，错误的是（  ）\n\n## 选项\n\nA. A．培养基除淀粉外还含有氮源等其他营养物质\n\nB. B．筛选分解淀粉的细菌时，菌液应稀释后涂布\n\nC. C．以上两种细菌均不能将淀粉酶分泌至细胞外\n\nD. D．H/C值反映了两种细菌分解淀粉能力的差异\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "本题考查酶的特性。酶具有高效性、专一性和作用条件温和。选项A正确：酶的高效性指与无机催化剂相比，酶降低活化能的作用更显著。选项B错误：酶的专一性指一种酶只能催化一种或一类化学反应，并非所有酶都只催化一种底物，如蛋白酶可催化多种蛋白质。选项C正确：酶的作用条件温和，高温、强酸、强碱会使其变性失活。选项D正确：酶在反应前后性质不变，可重复使用。"
+}

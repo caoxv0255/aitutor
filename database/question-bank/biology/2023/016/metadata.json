@@ -1,0 +1,167 @@
+{
+  "uid": "biology_2023_beijing_016",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 12,
+  "knowledge_points": [
+    "微生物分离",
+    "溶菌"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 547,
+      "height": 323
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 695,
+      "height": 549
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 351,
+      "height": 183
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 353,
+      "height": 276
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 440,
+      "height": 232
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 429,
+      "height": 136
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 585,
+      "height": 427
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 200,
+      "height": 199
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 245,
+      "height": 147
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 579,
+      "height": 236
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 552,
+      "height": 222
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1308,
+      "height": 838
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:22:55.919Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 12分\n\n**知识点**: 微生物分离、溶菌\n\n---\n\n## 题目内容\n\n自然界中不同微生物之间存在着复杂的相互作用。有些细菌具有溶菌特性，能够破坏其他细菌的结构使细胞内容物释出。科学家试图从某湖泊水样中分离出有溶菌特性的细菌。\n\n## 小题\n\n### 16(1)\n\n用于分离细菌的固体培养基包含水、葡萄糖、蛋白胨和琼脂等成分，其中蛋白胨主要为细菌提供___________和维生素等。\n\n**答案**: 氮源\n\n### 16(2)\n\nA 菌通常被用做溶菌对象。研究者将含有一定浓度A 菌的少量培养基倾倒在固体培养平板上，凝固形成薄层。培养一段时间后，薄层变浑浊（如图），表明______________________。\n\n**答案**: A菌大量繁殖\n\n### 16(3)\n\n为分离出具有溶菌作用的细菌，需要合适的菌落密度，因此应将含菌量较高的湖泊水样___________后，依次分别涂布于不同的浑浊薄层上。培养一段时间后，能溶解A 菌的菌落周围会出现___________。采用这种方法，研究者分离、培养并鉴定出P 菌。\n\n**答案**: 稀释；透明圈\n\n### 16(4)\n\n为探究P 菌溶解破坏A 菌的方式，请提出一个假设，该假设能用以下材料和设备加以验证（主要实验材料和设备：P 菌、A 菌、培养基、圆形滤纸小片、离心机和细菌培养箱）___________。\n\n**答案**: 假设：P菌通过分泌某种物质溶解破坏A菌。验证：将P菌培养液离心，取上清液滴加在圆形滤纸小片上，置于涂有A菌的培养基上，培养后观察是否出现透明圈。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）叶绿体类囊体薄膜 光能转变成ATP和NADPH中活跃的化学能 （2）CO2的固定 C3的还原 （3）光照强度 温度",
+  "analysis": "光合作用过程：光反应在类囊体薄膜上进行，将光能转化为ATP和NADPH中的化学能；暗反应在叶绿体基质中进行，包括CO2固定和C3还原。影响光合作用的环境因素主要有光照强度、温度、CO2浓度等。评分标准：每空1分，共5分。"
+}

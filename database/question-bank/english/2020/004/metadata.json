@@ -1,0 +1,55 @@
+{
+  "uid": "english_2020_beijing_004",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 8,
+  "knowledge_points": [
+    "阅读理解",
+    "细节理解",
+    "推理判断",
+    "主旨大意"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 161,
+      "height": 139
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 367,
+      "height": 311
+    }
+  ],
+  "created_at": "2026-07-17T16:28:33.923Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 8分\n\n**知识点**: 阅读理解、细节理解、推理判断、主旨大意\n\n---\n\n## 题目内容\n\n阅读下列短文，从每题所给的A、B、C、D四个选项中，选出最佳选项。\n\nB\nBaggy has become the first dog in the UK—and potentially the world—to join the fight against air pollution by recording pollutant levels near the ground.\nBaggy wears a pollution monitor on her collar so she can take data measurements close to the ground. Her monitor has shown that air pollution levels are higher closer to ground level, which has helped highlight concerns that babies and young kids may be at higher risk of developing lung problems.\nConventional air pollution monitors are normally fixed on lampposts at about nine feet in the air. However, since Baggy stands at about the same height as a child in a pushchair（婴儿车）, she frequently records pollution levels which are much higher than the data gathered by the Environment Agency.\nThe doggy data research was the idea of Baggy's 13-year-old owner Tom Hunt and his dad Matt. The English youngster noticed that pollution levels are around two-thirds higher close to the ground than they are in the air at the height where they are recorded by the agency. Tom has since reported the shocking findings to the government in an attempt to emphasise that babies are at higher risk of developing asthma（哮喘）.\nMatt Hunt said he was \"very proud\" of his son because “when the boy gets an idea, he keeps his head down and gets on with it, and he really does want to do some good and stop young kids from getting asthma.\"\n“Tom built up a passion for environmental protection at a very early age,\" Matt added. “He became very interested in gadgets（小装置）. About one year ago, he got this new piece of tech which is like a test tube. One Sunday afternoon, we went out to do some monitoring, and he said, why don't we put it on Baggy's collar and let her monitor the pollution？'So we did it.\"\nTom said, \"Most of the time, Baggy is just like any other dog. But for the rest of the time she is a super dog, and we are all really proud of her.\"\n34. With a monitor on her collar, Baggy can ____________.\n35. What can we learn from the Baggy data?\n36. What is Tom's purpose of doing the research?\n37. According to the passage, which word can best describe Tom Hunt?\n\n## 选项\n\nA. A. take pollutant readings B. record pollutant levels C. process collected data D. reduce air pollution\n\nB. A. High places are free of air pollution. B. Higher pushchairs are more risky for kids. C. Conventional monitors are more reliable. D. Air is more polluted closer to the ground.\n\nC. A. To warn of a health risk. B. To find out pollution sources. C. To test his new monitor. D. To prove Baggy's abilities.\n\nD. A. Modest. B. Generous. C. Creative. D. Outgoing.\n\n---\n\n## 参考答案\n\n34. B 35. D 36. A 37. C\n\n",
+  "answer": "（根据具体题目内容填写）",
+  "analysis": "（根据具体题目内容填写）"
+}

@@ -1,0 +1,197 @@
+{
+  "uid": "physics_2021_beijing_012",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 4,
+  "score": 3,
+  "knowledge_points": [
+    "带电粒子在磁场中的运动",
+    "轨迹方程"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 28,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 256,
+      "height": 277
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 390,
+      "height": 228
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 449,
+      "height": 208
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 413,
+      "height": 223
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 810,
+      "height": 105
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 441,
+      "height": 262
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 316,
+      "height": 258
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 231,
+      "height": 304
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 301,
+      "height": 228
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 129,
+      "height": 310
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 506,
+      "height": 265
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1078,
+      "height": 213
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 525,
+      "height": 346
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 706,
+      "height": 395
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 437,
+      "height": 441
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 785,
+      "height": 283
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 478,
+      "height": 331
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 402,
+      "height": 238
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 678,
+      "height": 272
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:44:14.403Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★★★☆\n\n**分值**: 3分\n\n**知识点**: 带电粒子在磁场中的运动、轨迹方程\n\n---\n\n## 题目内容\n\n如图所示，在xOy坐标系的第一象限内存在匀强磁场。一带电粒子在P点以与x轴正方向成60°的方向垂直磁场射入，并恰好垂直于y轴射出磁场。已知带电粒子质量为m、电荷量为q，OP = a。不计重力。根据上述信息可以得出（  ）\n\n## 选项\n\nA. A. 带电粒子在磁场中运动的轨迹方程\n\nB. B. 带电粒子在磁场中运动的速率\n\nC. C. 带电粒子在磁场中运动的时间\n\nD. D. 该匀强磁场的磁感应强度\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "D",
+  "analysis": "本题考查功的概念。功是标量，但有正负，正功表示力对物体做功，负功表示物体克服力做功，故A错误。功的大小由力、位移和夹角决定，位移大不一定功大，故B错误。合外力对物体做功为零，物体动能不变，但速度方向可能改变，故C错误。摩擦力可以做正功、负功或不做功，例如传送带上的物体，摩擦力做正功，故D正确。"
+}

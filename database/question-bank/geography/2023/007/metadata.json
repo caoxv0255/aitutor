@@ -1,0 +1,168 @@
+{
+  "uid": "geography_2023_beijing_007",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 4,
+  "score": 3,
+  "knowledge_points": [
+    "垂直自然带",
+    "中国地理",
+    "植被分布"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1133,
+      "height": 568
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 933,
+      "height": 616
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 853,
+      "height": 648
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 774,
+      "height": 387
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 1079,
+      "height": 803
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 1243,
+      "height": 627
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 616,
+      "height": 406
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 641,
+      "height": 542
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 1145,
+      "height": 742
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 645
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 540
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 1080,
+      "height": 1020
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 417,
+      "height": 756
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 1169,
+      "height": 800
+    }
+  ],
+  "created_at": "2026-07-17T17:33:01.006Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★★☆\n\n**分值**: 3分\n\n**知识点**: 垂直自然带、中国地理、植被分布\n\n---\n\n## 题目内容\n\n我国某校劳动课开展附近山地自然保护区所有阔叶木本植物种类的分布调查。学生绘制的调查结果如图所示。完成该保护区（   ）\n\n## 选项\n\nA. A. 所处纬度大约是30°N\n\nB. B. 年降水量低于400毫米\n\nC. C. 山麓地带起点海拔为350米\n\nD. D. 落叶乔木仅分布在1200米以上\n\n---\n\n## 参考答案\n\nA\n\n## 解析\n\n根据植被垂直分布规律，该地山麓为常绿阔叶林，推测纬度约为30°N；年降水量应大于400毫米；山麓起点海拔需从图中读取；落叶乔木分布范围需结合图例。\n\n",
+  "answer": "B",
+  "analysis": "太阳直射点在北回归线时为夏至日（6月22日前后），在南回归线时为冬至日（12月22日前后），在赤道时为春分（3月21日前后）或秋分（9月23日前后）。选项B正确。"
+}

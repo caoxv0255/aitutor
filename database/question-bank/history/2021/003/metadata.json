@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_003",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:02.991Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n唐中后期，官府在今福建地区大量设置税场，五代十国至宋初又将很多税场升为县，其分布状况见如图。以下说法正确的是\n①由场升县绝大部分发生在宋代\n②增置新县与移民聚集密切相关\n③该地区西部经济比东部更繁荣\n④国家对该地区的控制渐趋深入\n\n## 选项\n\nA. A. ①②\n\nB. B. ③④\n\nC. C. ②④\n\nD. D. ①③\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "本题考查汉朝察举制。察举制是汉武帝时期确立的选官制度，由地方官员向中央推荐人才，经考核后任官。选项A错误，世卿世禄制是先秦时期的选官制度。选项B正确，察举制以品德和才能为标准，打破了贵族垄断。选项C错误，九品中正制是魏晋时期的选官制度。选项D错误，科举制始于隋朝。"
+}

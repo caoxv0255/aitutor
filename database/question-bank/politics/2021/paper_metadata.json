@@ -1,0 +1,26 @@
+{
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 21,
+  "page_count": 0,
+  "image_count": 18,
+  "source_file": "2021年北京高考政治试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:50:38.169Z",
+  "quality_stats": {
+    "total": 21,
+    "by_type": {
+      "choice": 15,
+      "solve": 6
+    },
+    "avg_difficulty": "3.33",
+    "answer_completeness": "71.4",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

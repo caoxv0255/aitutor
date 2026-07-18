@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生物 2024年 - 北京高考真题</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .header h1 { font-size: 2em; }
+        .header .info { margin-top: 10px; opacity: 0.9; }
+        .back-btn { display: inline-block; padding: 8px 16px; background: rgba(255,255,255,0.2); color: white; text-decoration: none; border-radius: 6px; margin-bottom: 15px; }
+        .question-list { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .question-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.3s; }
+        .question-item:last-child { border-bottom: none; }
+        .question-item:hover { background: #f8f9fa; }
+        .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .q-number { font-weight: bold; color: #667eea; font-size: 1.2em; }
+        .q-type { padding: 3px 8px; background: #e9ecef; border-radius: 4px; font-size: 0.85em; }
+        .q-stem { color: #666; font-size: 0.95em; line-height: 1.5; }
+        .q-meta { display: flex; gap: 15px; margin-top: 8px; font-size: 0.85em; color: #999; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: flex-start; padding: 40px; z-index: 1000; }
+        .modal-content { background: white; border-radius: 12px; max-width: 800px; width: 100%; max-height: 80vh; overflow-y: auto; padding: 20px; position: relative; }
+        .modal-close { position: absolute; top: 15px; right: 15px; font-size: 24px; cursor: pointer; color: #999; }
+        .md-content { line-height: 1.8; }
+        .md-content h1 { color: #667eea; margin-bottom: 15px; }
+        .md-content h2 { color: #333; margin: 20px 0 10px; padding-bottom: 5px; border-bottom: 2px solid #eee; }
+        .md-content h3 { color: #555; margin: 15px 0 8px; }
+        .md-content p { margin-bottom: 10px; }
+        .md-content ul, .md-content ol { margin-left: 20px; margin-bottom: 10px; }
+        .md-content blockquote { border-left: 4px solid #667eea; padding-left: 15px; margin: 15px 0; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../index/index.html" class="back-btn">← 返回题库首页</a>
+            <h1>生物 2024年高考真题</h1>
+            <div class="info">题目数: 21 | 页面数: - | 图片数: 42</div>
+        </div>
+        <div class="question-list">
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_001')">
+                <div class="q-header"><span class="q-number">第1题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★☆☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 原核细胞与真核细胞的区别、细胞器的种类和功能</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_002')">
+                <div class="q-header"><span class="q-number">第2题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★☆☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: DNA分子的特异性、DNA的结构</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_003')">
+                <div class="q-header"><span class="q-number">第3题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 胞吞作用、膜的流动性、胆固醇的性质</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_004')">
+                <div class="q-header"><span class="q-number">第4题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 光合作用的影响因素、CO2浓度对光合作用的影响</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_005')">
+                <div class="q-header"><span class="q-number">第5题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 减数分裂的过程、有丝分裂的过程、染色体数目变化</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_006')">
+                <div class="q-header"><span class="q-number">第6题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 伴性遗传、基因在染色体上、等位基因的概念</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_007')">
+                <div class="q-header"><span class="q-number">第7题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★★☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 染色体数目变异、减数分裂、多倍体育种</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_008')">
+                <div class="q-header"><span class="q-number">第8题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 血糖调节、胰高血糖素的作用、神经-体液调节</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_009')">
+                <div class="q-header"><span class="q-number">第9题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 体液免疫、细胞免疫、疫苗的作用机制</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_010')">
+                <div class="q-header"><span class="q-number">第10题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★☆☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 种群的概念、环境容纳量、生物多样性保护</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_011')">
+                <div class="q-header"><span class="q-number">第11题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 胚胎干细胞、动物细胞培养、胚胎移植</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_012')">
+                <div class="q-header"><span class="q-number">第12题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 质壁分离、叶绿素的提取、生长素的作用...</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_013')">
+                <div class="q-header"><span class="q-number">第13题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★☆☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 原生质体的制备、细胞全能性、植物体细胞杂交</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_014')">
+                <div class="q-header"><span class="q-number">第14题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 观察细胞有丝分裂实验、脂肪的鉴定、观察细胞质流动...</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_015')">
+                <div class="q-header"><span class="q-number">第15题</span><span class="q-type">选择题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★☆☆☆</span>
+                    <span>分值: 2分</span>
+                    <span>知识点: 生态足迹、可持续发展</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_016')">
+                <div class="q-header"><span class="q-number">第16题</span><span class="q-type">解答题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★★☆</span>
+                    <span>分值: 12分</span>
+                    <span>知识点: 生态系统、种间关系、传粉...</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_017')">
+                <div class="q-header"><span class="q-number">第17题</span><span class="q-type">解答题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★★☆</span>
+                    <span>分值: 12分</span>
+                    <span>知识点: 酵母菌的呼吸方式、微生物培养、酶的作用</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_018')">
+                <div class="q-header"><span class="q-number">第18题</span><span class="q-type">解答题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★★★</span>
+                    <span>分值: 12分</span>
+                    <span>知识点: 植物激素、基因表达调控、信号转导</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_019')">
+                <div class="q-header"><span class="q-number">第19题</span><span class="q-type">解答题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★★☆</span>
+                    <span>分值: 12分</span>
+                    <span>知识点: 神经调节、嗅觉受体、信号转导</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_020')">
+                <div class="q-header"><span class="q-number">第20题</span><span class="q-type">解答题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★★★</span>
+                    <span>分值: 12分</span>
+                    <span>知识点: 细胞分化、基因表达调控、增强子...</span>
+                </div>
+            </div>
+            
+            <div class="question-item" onclick="showQuestion('biology_2024_beijing_021')">
+                <div class="q-header"><span class="q-number">第21题</span><span class="q-type">解答题</span></div>
+                <div class="q-stem"></div>
+                <div class="q-meta">
+                    <span>难度: ★★★★★</span>
+                    <span>分值: 12分</span>
+                    <span>知识点: 基因的分离定律、基因的自由组合定律、表观遗传...</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="modal" id="question-modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="md-content" id="question-content"></div>
+        </div>
+    </div>
+    <script>
+        async function showQuestion(uid) {
+            const modal = document.getElementById('question-modal');
+            const content = document.getElementById('question-content');
+            try {
+                const num = uid.split('_')[3];
+                const res = await fetch(`${num}/content.md`);
+                const md = await res.text();
+                content.innerHTML = mdToHtml(md);
+            } catch(e) {
+                content.innerHTML = '<p>加载失败</p>';
+            }
+            modal.style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('question-modal').style.display = 'none';
+        }
+        function mdToHtml(md) {
+            return md.replace(/^# (.+)$/gm, '<h1>$1</h1>')
+                     .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                     .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                     .replace(/**(.+?)**/g, '<strong>$1</strong>')
+                     .replace(/---/g, '<hr>')
+                     .replace(/
+/g, '<br>');
+        }
+        document.getElementById('question-modal').addEventListener('click', (e) => {
+            if(e.target.id === 'question-modal') closeModal();
+        });
+    </script>
+</body>
+</html>

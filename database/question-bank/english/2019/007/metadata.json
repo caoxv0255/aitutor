@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_007",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 8,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T16:15:25.219Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 8分\n\n---\n\n## 题目内容\n\nThe problem of robocalls has gotten so bad that many people now refuse to pick up calls from numbers they don’t know. By next year, half of the calls we receive will be scams(欺诈). We are finally waking up to the severity of the problem by supporting and developing a group of tools, apps and approaches intended to prevent scammers from getting through. Unfortunately, it’s too little, too late. By the time these “solutions”(解决方案)become widely available, scammers will have moved onto cleverer means. In the near future, it’s not just going to be the number you see on your screen that will be in doubt. Soon you will also question whether the voice you’re hearing is actually real. That’s because there are a number of powerful voice manipulation (处理) and automation technologies that are about to become widely available for anyone to use. At this year’s I/O Conference, a company showed a new voice technology able to produce such a convincing human–sounding voice that it was able to speak to a receptionist and book a reservation without detection. These developments are likely to make our current problems with robocalls much worse. The reason that robocalls are a headache has less to do with amount than precision. A decade of data breaches(数据侵入)of personal information has led to a situation where scammers can easily learn your mother’s name, and far more. Armed with this knowledge, they’re able to carry out individually targeted campaigns to cheat people. This means, for example, that a scammer could call you from what looks to be a familiar number and talk to you using a voice that sounds exactly like your bank teller’s, ricking you into “confirming” your address, mother’s name, and card number. Scammers follow money, so companies will be the worst hit. A lot of business is still done over the phone, and much of it is based on trust and existing relationships. Voice manipulation technologies may weaken that gradually. We need to deal with the insecure nature of our telecom networks. Phone carriers and consumers need to work together to find ways of determining and communicating what is real. That might mean either developing a uniform way to mark videos and images, showing when and who they were made by, or abandoning phone calls altogether and moving towards data-based communications—using apps like Face Time or WhatsApp, which can be tied to your identity. Credibility is hard to earn but easy to lose, and the problem is only going to harder from here on out.\n\n## 选项\n\nA. 38. A. Panicked. B. Confused. C. Embarrassed. D. Disappointed.\n\nB. 39. A. aim at victims precisely B. damage databases easily C. start campaigns rapidly D. spread information widely\n\nC. 40. A. Honesty is the best policy. B. Technologies can be double-edited. C. There are more solutions than problems. D. Credibility holds the key to development.\n\nD. 41. A. Where the Problem of Robocalls Is Rooted B. Who Is to Blame for the Problem of Roboealls C. Why Robocalls Are About to Get More Dangerous D. How Robocalls Are Affecting the World of Technology\n\n## 小题\n\n### 38\n\nHow does the author feel about the solutions to problem of robocalls?\n\n**答案**: D\n\n### 39\n\nTaking advantage of the new technologies, scammer can______.\n\n**答案**: A\n\n### 40\n\nWhat does the passage imply?\n\n**答案**: B\n\n### 41\n\nWhich of the following would be the best title for the passage?\n\n**答案**: C\n\n---\n\n## 参考答案\n\n38. D; 39. A; 40. B; 41. C\n\n",
+  "answer": "D",
+  "analysis": "选项A错误，因为...；选项B错误，因为...；选项C错误，因为...；选项D正确，因为..."
+}

@@ -1,0 +1,164 @@
+{
+  "uid": "geography_2022_beijing_019",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 1140,
+      "height": 486
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 956,
+      "height": 671
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 1260,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_4.jpeg",
+      "page": 2,
+      "width": 884,
+      "height": 648
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 465,
+      "height": 220
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 1124,
+      "height": 472
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 565,
+      "height": 331
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 958,
+      "height": 609
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 443,
+      "height": 341
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 933,
+      "height": 526
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 1260,
+      "height": 653
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 827,
+      "height": 704
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 841,
+      "height": 845
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 1240,
+      "height": 1484
+    }
+  ],
+  "created_at": "2026-07-17T17:13:23.962Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n阅读图文材料，回答下列问题。美国塔科马市（47°17'N，122°28'W）是位于北太平洋东岸的港口城市，人口约21.9万（2020年）。该市一位名叫约克的年轻人非常喜爱中国文化，工作之余经常前往图书馆读书，或漫步公园游憩。1873年，横贯美洲大陆的北太平洋铁路建成。这条铁路成了分处铁路两端的约克曾祖父母缔结姻缘的纽带。他们初识时，位于铁路西端的塔科马仅千余人，到1889年人口达3.6万。图12示意塔科马市内部空间结构。（1）概述该市兴起与发展的过程。（2）归纳该市商业区的分布特征。（3）说明该市适宜步行的原因。\n\n## 小题\n\n### 19(1)\n\n概述该市兴起与发展的过程。\n\n**答案**: \n\n### 19(2)\n\n归纳该市商业区的分布特征。\n\n**答案**: \n\n### 19(3)\n\n说明该市适宜步行的原因。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）自然带：A为热带雨林带，B为热带草原带，C为热带荒漠带，D为亚热带常绿硬叶林带。（2）从A到D自然带的变化体现了从赤道到两极的地域分异规律，以热量为基础。（3）影响因素：纬度位置（太阳辐射）导致热量差异。",
+  "analysis": "本题考察自然带分布及地域分异规律。解题思路：根据气候类型判断自然带，热带雨林气候对应热带雨林带，热带草原气候对应热带草原带，热带沙漠气候对应热带荒漠带，地中海气候对应亚热带常绿硬叶林带。从赤道到两极，热量递减，自然带呈纬度地带性分布。评分标准：每点2分，共6分。"
+}

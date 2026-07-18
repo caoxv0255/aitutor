@@ -1,0 +1,68 @@
+{
+  "uid": "history_2020_beijing_009",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 7,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 558,
+      "height": 242
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 298,
+      "height": 214
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 238,
+      "height": 149
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 310,
+      "height": 158
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 331,
+      "height": 233
+    }
+  ],
+  "created_at": "2026-07-17T15:55:26.739Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n建国初期，为改变民间拜神祈福的旧习俗，国家鼓励创作新年画。如图《拖拉机》在1950年全国新年画评奖中获甲等奖。该画\"新\"在\n①选用了年画创作的新题材  ②表现出移风易俗的新气象\n③展示了合作化运动的新成就  ④描绘出农业机械化的新愿景\n\n## 选项\n\nA. A. ①②④\n\nB. B. ②③④\n\nC. C. ①③④\n\nD. D. ①②③\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "A",
+  "analysis": "本题考查美国1787年宪法。宪法规定联邦制，联邦政府拥有最高权力，各州有一定自治权。A项正确。B项错误，总统由选举人团选举。C项错误，最高法院大法官由总统任命。D项错误，参议员由州议会选举。"
+}

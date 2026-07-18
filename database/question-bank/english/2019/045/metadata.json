@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_045",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 45,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T15:41:22.530Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第45题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\n45. What is the main purpose of the passage?\nA. To assess the consequences of ocean colour changes.\nB. To analyse the composition of the ocean food chain.\nC. To explain the effects of climate change on oceans.\nD. To introduce a new method to study phytoplankton.\n\n## 选项\n\nA. A. To assess the consequences of ocean colour changes.\n\nB. B. To analyse the composition of the ocean food chain.\n\nC. C. To explain the effects of climate change on oceans.\n\nD. D. To introduce a new method to study phytoplankton.\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "选项A正确，因为...；选项B错误，因为...；选项C错误，因为...；选项D错误，因为..."
+}

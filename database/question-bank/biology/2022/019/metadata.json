@@ -1,0 +1,188 @@
+{
+  "uid": "biology_2022_beijing_019",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 27,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 314,
+      "height": 331
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 219,
+      "height": 248
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 410,
+      "height": 181
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 234,
+      "height": 191
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 370,
+      "height": 260
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 490,
+      "height": 361
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 611,
+      "height": 295
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 149,
+      "height": 113
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 305,
+      "height": 269
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 515,
+      "height": 184
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 490,
+      "height": 272
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 353,
+      "height": 324
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 224,
+      "height": 226
+    },
+    {
+      "filename": "page_11_img_3.png",
+      "page": 11,
+      "width": 649,
+      "height": 367
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T15:59:06.051Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n学习以下材料，回答（1）～（5）题。\n蚜虫的适应策略：蚜虫是陆地生态系统中常见的昆虫。春季蚜虫从受精卵开始发育，迁飞到取食宿主上度过夏季，其间行孤雌生殖，经卵胎生产生大量幼蚜；秋季蚜虫迁飞回产卵宿主，行有性生殖，以受精卵越冬。蚜虫周围生活着很多生物，体内还有布氏菌等多种微生物，这些生物之间的关系如下图。\n蚜虫以植物为食。植物通过筛管将以糖类为主的光合产物不断运至根、茎等器官。组成筛管的筛管细胞之间通过筛板上的筛孔互通。筛管受损会引起筛管汁液中Ca2+浓度升高，导致筛管中P 蛋白从结晶态变为非结晶态而堵塞筛孔，以阻止营养物质外泄。蚜虫取食时，将口器刺入植物组织，寻找到筛管，持续吸食筛管汁液，但刺吸的损伤并不引起筛孔堵塞。体外实验表明，筛管P 蛋白在Ca2+浓度低时呈现结晶态，Ca2+浓度提高后P 蛋白溶解，加入蚜虫唾液后P 蛋白重新结晶。蚜虫仅以筛管汁液为食，其体内的布氏菌从蚜虫获取全部营养元素。筛管汁液的主要营养成分是糖类，所含氮元素极少。这些氮元素绝大部分以氨基酸形式存在，但无法完全满足蚜虫的需求。蚜虫不能合成的氨基酸来源如下表。\n氨基酸：组氨酸、异亮氨酸、亮氨酸、赖氨酸、甲硫氨酸、苯丙氨酸、苏氨酸、色氨酸、缬氨酸\n植物提供：+、-、-、-、-、-、-、\\、-\n布氏菌合成：-、+、+、+、+、+、+、\\、+\n注：“－”代表低于蚜虫需求的量，“＋”代表高于蚜虫需求的量，“\\”代表难以检出。\n蚜虫大量吸食筛管汁液，同时排出大量蜜露。蜜露以糖为主要成分，为蚂蚁等多种生物提供了营养物质。蚜虫利用这些策略应对各种环境压力，在生态系统中扮演着独特的角色。\n（1）蚜虫生活环境中的全部生物共同构成了_______。从生态系统功能角度分析，图中实线单箭头代表了_______的方向。\n（2）蚜虫为布氏菌提供其不能合成的氨基酸，而在蚜虫不能合成的氨基酸中，布氏菌来源的氨基酸与从植物中获取的氨基酸_______。\n（3）蚜虫能够持续吸食植物筛管汁液，而不引起筛孔堵塞，可能是因为蚜虫唾液中有_______的物质。\n（4）从文中可知，蚜虫获取足量的氮元素并维持内环境稳态的对策是_______。\n（5）从物质与能量以及进化与适应的角度，分析蚜虫在冬季所采取的生殖方式对于种群延续和进化的意义_______。\n\n## 小题\n\n### 19(1)\n\n蚜虫生活环境中的全部生物共同构成了_______。从生态系统功能角度分析，图中实线单箭头代表了_______的方向。\n\n**答案**: \n\n### 19(2)\n\n蚜虫为布氏菌提供其不能合成的氨基酸，而在蚜虫不能合成的氨基酸中，布氏菌来源的氨基酸与从植物中获取的氨基酸_______。\n\n**答案**: \n\n### 19(3)\n\n蚜虫能够持续吸食植物筛管汁液，而不引起筛孔堵塞，可能是因为蚜虫唾液中有_______的物质。\n\n**答案**: \n\n### 19(4)\n\n从文中可知，蚜虫获取足量的氮元素并维持内环境稳态的对策是_______。\n\n**答案**: \n\n### 19(5)\n\n从物质与能量以及进化与适应的角度，分析蚜虫在冬季所采取的生殖方式对于种群延续和进化的意义_______。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）基因突变 基因重组 染色体变异 （2）不定向性 多害少利性 （3）自然选择 隔离",
+  "analysis": "可遗传变异包括基因突变、基因重组和染色体变异。基因突变具有不定向性和多害少利性。自然选择决定生物进化方向，隔离是物种形成的必要条件。评分标准：每空1分，共6分。"
+}

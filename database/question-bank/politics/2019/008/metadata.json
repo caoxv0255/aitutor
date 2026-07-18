@@ -1,0 +1,78 @@
+{
+  "uid": "politics_2019_beijing_008",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 4,
+  "knowledge_points": [
+    "人民陪审员",
+    "司法公正",
+    "法治社会"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.005Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4分\n\n**知识点**: 人民陪审员、司法公正、法治社会\n\n---\n\n## 题目内容\n\n“司法局喊你来当人民陪审员了！”2018年底，不少北京市民收到了一条短信，告知已被随机抽选为人民陪审员的候选人。这是《中华人民共和国人民陪审员法》颁布实施后，第一次尝试从常住人口中随机抽选候选人，以确保群众参与的广泛性。下列选项正确的是（  ）\n①从市民中抽选人民陪审员，满足了公众行使国家权力的诉求\n②公民依法参加审判活动，有利于促进司法公正，提升司法公信\n③让普通市民参加审判活动，目的在于提高法院的审判工作效率\n④这一举措可以促进公众直接接触、了解法律，推动法治社会建设\n\n## 选项\n\nA. A．①③\n\nB. B．①④\n\nC. C．②③\n\nD. D．②④\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n公民参与审判促进司法公正，②正确；接触法律推动法治建设，④正确；①错误，公众不能直接行使国家权力；③错误，目的不是提高效率。\n\n",
+  "answer": "D",
+  "analysis": "本题考查公司的组织机构。公司的组织机构通常包括决策机构（股东会或股东大会及董事会）、执行机构（经理）和监督机构（监事会）。A选项董事会是决策机构，B选项经理是执行机构，C选项监事会负责监督。D选项工会是职工自愿结合的群众组织，不属于公司法定组织机构。因此，D选项错误。"
+}

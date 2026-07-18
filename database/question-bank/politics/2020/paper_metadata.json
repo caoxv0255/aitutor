@@ -1,0 +1,24 @@
+{
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 21,
+  "page_count": 0,
+  "image_count": 13,
+  "source_file": "2020年北京高考政治试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:36:47.015Z",
+  "quality_stats": {
+    "total": 21,
+    "by_type": {
+      "choice": 15,
+      "solve": 6
+    },
+    "avg_difficulty": "2.86",
+    "answer_completeness": "85.7",
+    "analysis_completeness": "76.2"
+  },
+  "warnings": [],
+  "issues": []
+}

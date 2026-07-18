@@ -1,0 +1,79 @@
+{
+  "uid": "politics_2019_beijing_007",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [
+    "人大监督",
+    "预算审查",
+    "质询权",
+    "工作机制创新"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.004Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n**知识点**: 人大监督、预算审查、质询权、工作机制创新\n\n---\n\n## 题目内容\n\n“新举措•新变化•新气象”，某校学生在全国人大相关内容的学习中搜集到以下资料。\n◇全国人大常委会在执法检查中引入专业机构作为第三方进行评估，推动人大监督提质增效，增强科学性，使监督更有力度、更具权威性。\n◇全国人大建立预算审查联系代表机制，选取具有财政预算、会计、税收等专业背景，或者有机关、企业、农村等领域工作经历的代表，参加预算编制通报会、预算草案初审会。\n◇全国人大常委会在听取和审议最高人民法院、最高人民检察院专项工作报告之外，首次对“两高”工作开展专题询问。\n对这些新举措理解正确的是（  ）\n①引入第三方评估，使人大立法工作更好地反映民意、集中民智\n②建立预算审查联系代表机制，可以增强监督的针对性、实效性\n③人大行使质询权开展专题询问，有利于加大人大监督工作力度\n④人大创新工作机制，不断提高监督的能力和水平\n\n## 选项\n\nA. A．①②\n\nB. B．①③\n\nC. C．②④\n\nD. D．③④\n\n---\n\n## 参考答案\n\nC\n\n## 解析\n\n预算审查联系代表机制增强监督针对性，②正确；人大创新工作机制提高监督水平，④正确；①错误，第三方评估针对执法检查而非立法；③错误，专题询问是监督方式，质询权是人大代表的权利。\n\n",
+  "answer": "B",
+  "analysis": "本题考查我国的基本经济制度。公有制经济包括国有经济、集体经济以及混合所有制经济中的国有成分和集体成分。非公有制经济包括个体经济、私营经济、外资经济等。题目中“国有经济”属于公有制经济，B正确。A选项个体经济属于非公有制经济，C选项私营经济属于非公有制经济，D选项外资经济属于非公有制经济。"
+}

@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_003",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 2,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T16:15:25.216Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 填空题\n\n**难度**: ★★☆☆☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\nDoes the name of the college you attend really matter? Research on the question ___7___ (suggest)that, for most students, it doesn’t. What students do at college seems to matter much more than ___8___ they go. The students benefitting most from college are those ___9___ are totally engaged(参与)in academic life, taking full advantage of the college’s chances and resources(资源), Students should have a proper attitude towards college before thinking about which college to attend, and it’s never too early to make necessary preparations for a healthy and ___10___(meaning)college experience.\n\n## 小题\n\n### 3(1)\n\nResearch on the question ___7___ (suggest)that, for most students, it doesn’t.\n\n**答案**: suggests\n\n### 3(2)\n\nWhat students do at college seems to matter much more than ___8___ they go.\n\n**答案**: where\n\n### 3(3)\n\nThe students benefitting most from college are those ___9___ are totally engaged in academic life.\n\n**答案**: who\n\n### 3(4)\n\nit’s never too early to make necessary preparations for a healthy and ___10___(meaning)college experience.\n\n**答案**: meaningful\n\n---\n\n## 参考答案\n\n7. suggests; 8. where; 9. who; 10. meaningful\n\n",
+  "answer": "示例答案",
+  "analysis": "示例解析"
+}

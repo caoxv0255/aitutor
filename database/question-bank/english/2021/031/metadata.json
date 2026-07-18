@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_031",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 31,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:42:35.309Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第31题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nEarly fifth-century philosopher St．Augustine famously wrote that he knew what time was unless someone asked him．Albert Einstein added another wrinkle when he theorized that time varies depending on where you measure it．Today's state-of-the-art atomic（原子的） clocks have proven Einstein right．Even advanced physics can't decisively tell us what time is, because the answer depends on the question you're asking．Forget about time as an absolute．What if，instead of considering time in terms of astronomy,we related time to ecology？What if we allowed environmental conditions to set the tempo（节奏） of human life？We're increasingly aware of the fact that we can't control Earth systems with engineering alone，and realizing that we need to moderate（调节）our actions if we hope to live in balance．What if our definition of time reflected that？Recently，I conceptualized a new approach to timekeeping that's connected to circumstances on our planet，conditions that might change as a result of global warming．We're now building a clock at the Anchorage Museum that reflects the total flow of several major Alaskan rivers，which are sensitive to local and global environmental changes．We've programmed it to match an atomic clock if the waterways continue to flow at their present rate．If the rivers run faster in the future on average，the clock will get ahead of standard time．If they run slower，you'll see the opposite effect．The clock registers both short-term irregularities and long-term trends in river dynamics．It's a sort of observatory that reveals how the rivers are behaving from their own temporal frame（时间框架），and allows us to witness those changes on our smartwatches or phones．Anyone who opts to go on Alaska Mean River Time will live in harmony with the planet．Anyone who considers river time in relation to atomic time will encounter a major imbalance and may be motivated to counteract it by consuming less fuel or supporting greener policies．Even if this method of timekeeping is novel in its particulars，early agricultural societies also connected time to natural phenomena．In pre-Classical Greece，for instance，people“corrected”official calendars by shifting dates forward or backward to reflect the change of season．Temporal connection to the environment was vital to their survival．Likewise，river time and other timekeeping systems we're developing may encourage environmental awareness．When St．Augustine admitted his inability to define time， he highlighted one of time 's most noticeable qualities：Time becomes meaningful only in a defined context．Any timekeeping system is valid，and each is as praiseworthy as its purpose．\n\n## 选项\n\nA. A. Timekeeping is increasingly related to nature.\n\nB. B. Everyone can define time on their own terms.\n\nC. C. The qualities of time vary with how you measure it.\n\nD. D. Time is a major concern of philosophers and scientists.\n\n## 小题\n\n### 31\n\n31. What is the main idea of Paragraph 1？\n\n**答案**: C\n\n### 32\n\n32. The author raises three questions in Paragraph 2 mainly to________．\n\n**答案**: D\n\n### 33\n\n33. What can we learn from this passage？\n\n**答案**: D\n\n### 34\n\n34. What can we infer from this passage？\n\n**答案**: C\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "本题考查动词短语辨析。A项“put up with”意为“忍受”；B项“come up with”意为“想出”；C项“keep up with”意为“跟上”；D项“end up with”意为“以……告终”。句意“我无法忍受他的粗鲁”，故选A。"
+}

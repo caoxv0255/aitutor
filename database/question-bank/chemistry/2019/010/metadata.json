@@ -1,0 +1,158 @@
+{
+  "uid": "chemistry_2019_beijing_010",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 14,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 196,
+      "height": 89
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 145,
+      "height": 164
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 121,
+      "height": 136
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 147,
+      "height": 147
+    },
+    {
+      "filename": "page_1_img_5.jpeg",
+      "page": 1,
+      "width": 134,
+      "height": 210
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 175,
+      "height": 168
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 221,
+      "height": 165
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 309,
+      "height": 247
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 22,
+      "height": 26
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 280,
+      "height": 278
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 80,
+      "height": 141
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 53,
+      "height": 37
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 249,
+      "height": 226
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 696,
+      "height": 177
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 473,
+      "height": 84
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 59,
+      "height": 37
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 446,
+      "height": 85
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 257,
+      "height": 173
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 228,
+      "height": 206
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 407,
+      "height": 172
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 454,
+      "height": 79
+    }
+  ],
+  "created_at": "2026-07-17T16:18:20.264Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 14分\n\n---\n\n## 题目内容\n\n氢能源是最具有应用前景的能源之一，高纯氢的制备是目前的研究热点。\n\n## 小题\n\n### 10(1)①\n\n甲烷水蒸气催化重整是制高纯氢的方法之一。①反应器中初始反应的生成物为H2 和CO2，其物质的量之比为4：1，甲烷和水蒸气反应的方程式是     。\n\n**答案**: \n\n### 10(1)②\n\n②已知反应器中还存在如下反应：ⅰ．CH4（g）+H2O（g）═CO（g）+3H2（g）△H1，ⅱ．CO（g）+H2O（g）═CO2（g）+H2（g）△H2，ⅲ．CH4（g）═C（s）+2H2（g）△H3，…ⅲ为积炭反应，利用△H1 和△H2 计算△H3 时，还需要利用     反应的△H。\n\n**答案**: \n\n### 10(1)③\n\n③反应物投料比采用n（H2O）：n（CH4）＝4：1，大于初始反应的化学计量数之比，目的是     （选填字母序号）。a．促进CH4 转化 b．促进CO 转化为CO2 c．减少积炭生成\n\n**答案**: \n\n### 10(1)④\n\n④用CaO 可以去除CO2．H2 体积分数和CaO 消耗率随时间变化关系如图所示。从t1 时开始，H2 体积分数显著降低，单位时间CaO 消耗率     （填“升高”“降低”或“不变”）。此时CaO 消耗率约为35%，但已失效，结合化学方程式解释原因：     。\n\n**答案**: \n\n### 10(2)①\n\n（2）可利用太阳能光伏电池电解水制高纯氢，工作示意图如图。通过控制开关连接K1或K2，可交替得到H2 和O2。①制H2 时，连接     。产生H2 的电极方程式是     。\n\n**答案**: \n\n### 10(2)②\n\n②改变开关连接方式，可得O2。\n\n**答案**: \n\n### 10(2)③\n\n③结合①和②中电极3 的电极反应式，说明电极3 的作用：     。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设原混合物中氯酸钾的质量为x，生成氯化钾的质量为y。\n2KClO3 → 2KCl + 3O2↑\n245       149   96\nx          y    4.8g\n245/x = 96/4.8g，x = (245×4.8g)/96 = 12.25g\n149/y = 96/4.8g，y = (149×4.8g)/96 = 7.45g\n二氧化锰质量 = 15g - 12.25g = 2.75g\n剩余固体中氯化钾质量7.45g，二氧化锰质量2.75g。\n答：剩余固体中氯化钾7.45克，二氧化锰2.75克。",
+  "analysis": "本题考查混合物计算。解题思路：根据氧气质量计算氯酸钾和氯化钾质量，再求二氧化锰质量。关键知识点：催化剂在反应前后质量不变。步骤：1.设未知量；2.写出化学方程式；3.标出相关物质的相对分子质量和已知量、未知量；4.列比例式求解氯酸钾和氯化钾质量；5.计算二氧化锰质量；6.答。评分标准：设未知数1分，化学方程式正确2分，比例式正确2分，计算结果正确2分，答1分，共8分。"
+}

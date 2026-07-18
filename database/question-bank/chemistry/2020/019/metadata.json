@@ -1,0 +1,152 @@
+{
+  "uid": "chemistry_2020_beijing_019",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 12,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 129,
+      "height": 320
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 335,
+      "height": 232
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 284,
+      "height": 231
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 119,
+      "height": 299
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 1150,
+      "height": 452
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 949,
+      "height": 233
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 585,
+      "height": 296
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 403,
+      "height": 333
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1320,
+      "height": 349
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 781,
+      "height": 184
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 787,
+      "height": 95
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 1055,
+      "height": 188
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1051,
+      "height": 198
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1307,
+      "height": 79
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 438,
+      "height": 137
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1079,
+      "height": 219
+    }
+  ],
+  "created_at": "2026-07-17T16:31:53.304Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 12分\n\n---\n\n## 题目内容\n\n探究Na2SO3固体的热分解产物：\n资料：①4Na2SO3 → Na2S + 3Na2SO4。\n②Na2S能与S反应生成Na2Sx，Na2Sx与酸反应生成S和H2S。\n③BaS易溶于水。\n隔绝空气条件下，加热无水Na2SO3固体得到黄色固体A，过程中未检测到气体生成。黄色固体A加水得到浊液，放置得无色溶液B。\n(1)检验分解产物Na2S\n取少量溶液B，向其中滴加CuSO4溶液，产生黑色沉淀，证实有S2-。反应的离子方程式是 。\n(2)检验分解产物Na2SO4\n取少量溶液B，滴加BaCl2溶液，产生白色沉淀，加入盐酸，沉淀增多(经检验该沉淀含S)，同时产生有臭鸡蛋气味的气体(H2S)，由于沉淀增多对检验造成干扰，另取少量溶液B，加入足量盐酸，离心沉降(固液分离)后， (填操作和现象)，可证实分解产物中含有SO42-。\n(3)探究(2)中S的来源\n来源1：固体A中有未分解的Na2SO3，在酸性条件下与Na2S反应生成S。\n来源2：溶液B中有Na2Sx，加酸反应生成S。\n针对来源1进行如下实验：\n①实验可证实来源1不成立。实验证据是 。\n②不能用盐酸代替硫酸的原因是 。\n③写出来源2产生S的反应的离子方程式： 。\n(4)实验证明Na2SO3固体热分解有Na2S、Na2SO4和S产生。运用氧化还原反应规律分析产物中S产生的合理性： 。\n\n## 小题\n\n### 19(1)\n\n取少量溶液B，向其中滴加CuSO4溶液，产生黑色沉淀，证实有S2-。反应的离子方程式是 。\n\n**答案**: Cu2+ + S2- → CuS↓\n\n### 19(2)\n\n取少量溶液B，滴加BaCl2溶液，产生白色沉淀，加入盐酸，沉淀增多(经检验该沉淀含S)，同时产生有臭鸡蛋气味的气体(H2S)，由于沉淀增多对检验造成干扰，另取少量溶液B，加入足量盐酸，离心沉降(固液分离)后， (填操作和现象)，可证实分解产物中含有SO42-。\n\n**答案**: 取上层清液，滴加BaCl2溶液，产生白色沉淀\n\n### 19(3)①\n\n实验可证实来源1不成立。实验证据是 。\n\n**答案**: 固体A加水得到浊液，放置得无色溶液B，说明固体A中不含Na2SO3\n\n### 19(3)②\n\n不能用盐酸代替硫酸的原因是 。\n\n**答案**: 盐酸具有还原性，会与Na2Sx反应生成S，干扰实验\n\n### 19(3)③\n\n写出来源2产生S的反应的离子方程式： 。\n\n**答案**: Sx2- + 2H+ → (x-1)S↓ + H2S↑\n\n### 19(4)\n\n实验证明Na2SO3固体热分解有Na2S、Na2SO4和S产生。运用氧化还原反应规律分析产物中S产生的合理性： 。\n\n**答案**: Na2SO3中S为+4价，分解产物中Na2S中S为-2价，Na2SO4中S为+6价，S单质中S为0价，既有化合价升高又有化合价降低，符合氧化还原反应规律\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "见解析",
+  "analysis": "【答案】\n（1）第三周期第ⅠA族\n（2）2Na + 2H2O = 2NaOH + H2↑\n（3）NaOH > Mg(OH)2 > Al(OH)3\n（4）Na2O2 + 2H2O = 4NaOH + O2↑\n【解析】\n（1）X为Na，原子序数11，位于第三周期第ⅠA族。\n（2）Na与水反应生成NaOH和H2，化学方程式为2Na + 2H2O = 2NaOH + H2↑。\n（3）金属性：Na>Mg>Al，所以碱性：NaOH>Mg(OH)2>Al(OH)3。\n（4）Na2O2与水反应生成NaOH和O2，化学方程式为2Na2O2 + 2H2O = 4NaOH + O2↑。"
+}

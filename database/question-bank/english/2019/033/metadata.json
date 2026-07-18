@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_033",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 33,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T15:41:22.522Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第33题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\n33. The shared goal of GDA’s projects to         .\nA. explore new cultures\nB. protect the environment\nC. gain corporate benefit\nD. help communities in need\n\n## 选项\n\nA. A. explore new cultures\n\nB. B. protect the environment\n\nC. C. gain corporate benefit\n\nD. D. help communities in need\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "选项A正确，因为...；选项B错误，因为...；选项C错误，因为...；选项D错误，因为..."
+}

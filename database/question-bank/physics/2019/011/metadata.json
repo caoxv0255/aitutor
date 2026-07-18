@@ -1,0 +1,103 @@
+{
+  "uid": "physics_2019_beijing_011",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 18,
+  "knowledge_points": [
+    "电容器",
+    "充电",
+    "电能",
+    "恒流源"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 167,
+      "height": 104
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 215,
+      "height": 181
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 135,
+      "height": 136
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 161,
+      "height": 131
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 126,
+      "height": 124
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 415,
+      "height": 224
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 22,
+      "height": 48
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 144,
+      "height": 131
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 633,
+      "height": 166
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 169,
+      "height": 62
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 202,
+      "height": 141
+    }
+  ],
+  "created_at": "2026-07-17T16:16:55.700Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 18分\n\n**知识点**: 电容器、充电、电能、恒流源\n\n---\n\n## 题目内容\n\n电容器作为储能器件，在生产生活中有广泛的应用。对给定电容值为C的电容器充电，无论采用何种充电方式，其两极间的电势差u随电荷量q的变化图象都相同。\n（1）请在图1中画出上述u﹣q图象。类比直线运动中由v﹣t图象求位移的方法，求两极间电压为U时电容器所储存的电能Ep。\n（2）在如图2所示的充电电路中，R表示电阻，E表示电源（忽略内阻）。通过改变电路中元件的参数对同一电容器进行两次充电，对应的q﹣t曲线如图3中①②所示。\na．①②两条曲线不同是     （选填E或R）的改变造成的；\nb．电容器有时需要快速充电，有时需要均匀充电。依据a中的结论，说明实现这两种充电方式的途径。\n（3）设想使用理想的“恒流源”替换（2）中电源对电容器充电，可实现电容器电荷量随时间均匀增加。请思考使用“恒流源”和（2）中电源对电容器的充电过程，填写下表（选填“增大”、“减小”或“不变”）。\n“恒流源”\n（2）中电源\n电源两端电压\n      \n      \n通过电源的电流\n      \n      \n\n## 小题\n\n### 11(1)\n\n请在图1中画出上述u﹣q图象。类比直线运动中由v﹣t图象求位移的方法，求两极间电压为U时电容器所储存的电能Ep。\n\n**答案**: 图略，Ep=CU²/2\n\n### 11(2)\n\na．①②两条曲线不同是     （选填E或R）的改变造成的；\nb．电容器有时需要快速充电，有时需要均匀充电。依据a中的结论，说明实现这两种充电方式的途径。\n\n**答案**: a.R；b.快速充电：减小R，均匀充电：增大R\n\n### 11(3)\n\n请思考使用“恒流源”和（2）中电源对电容器的充电过程，填写下表（选填“增大”、“减小”或“不变”）。\n“恒流源”\n（2）中电源\n电源两端电压\n      \n      \n通过电源的电流\n      \n      \n\n**答案**: 恒流源：电源两端电压增大，通过电源的电流不变；（2）中电源：电源两端电压不变，通过电源的电流减小\n\n---\n\n## 参考答案\n\n（1）图略，Ep=CU²/2；（2）a.R；b.快速充电：减小R，均匀充电：增大R；（3）恒流源：电源两端电压增大，通过电源的电流不变；（2）中电源：电源两端电压不变，通过电源的电流减小\n\n",
+  "answer": "解答过程略",
+  "analysis": "题目未提供具体内容，无法给出解析。请提供题目。"
+}

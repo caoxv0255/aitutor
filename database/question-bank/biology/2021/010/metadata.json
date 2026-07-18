@@ -1,0 +1,158 @@
+{
+  "uid": "biology_2021_beijing_010",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 454,
+      "height": 288
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 510,
+      "height": 377
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 353,
+      "height": 264
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 511,
+      "height": 211
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 432,
+      "height": 302
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 550,
+      "height": 168
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 274,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 498,
+      "height": 237
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 593,
+      "height": 305
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 720,
+      "height": 322
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1000,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 596,
+      "height": 427
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:47:31.012Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n植物顶芽产生生长素向下运输，使侧芽附近生长素浓度较高，抑制侧芽的生长，形成顶端优势。用细胞分裂素处理侧芽，侧芽生长形成侧枝。关于植物激素作用的叙述不正确的是（  ）\n\n## 选项\n\nA. A. 顶端优势体现了生长素既可促进也可抑制生长\n\nB. B. 去顶芽或抑制顶芽的生长素运输可促进侧芽生长\n\nC. C. 细胞分裂素能促进植物的顶端优势\n\nD. D. 侧芽生长受不同植物激素共同调节\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "兴奋在神经纤维上以电信号形式传导，在突触处传递时，电信号转化为化学信号再转化为电信号。选项A正确；B正确；C错误，兴奋在突触处单向传递；D正确。"
+}

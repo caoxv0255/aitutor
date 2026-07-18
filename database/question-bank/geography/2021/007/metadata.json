@@ -1,0 +1,167 @@
+{
+  "uid": "geography_2021_beijing_007",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "垂直自然带",
+    "植被分布"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 562,
+      "height": 270
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 291,
+      "height": 131
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 625,
+      "height": 148
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 469,
+      "height": 127
+    },
+    {
+      "filename": "page_2_img_4.jpeg",
+      "page": 2,
+      "width": 377,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 481,
+      "height": 259
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 493,
+      "height": 134
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 343,
+      "height": 349
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 518,
+      "height": 718
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 502,
+      "height": 311
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 560,
+      "height": 277
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 345,
+      "height": 187
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 335,
+      "height": 256
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 401,
+      "height": 253
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 222,
+      "height": 349
+    }
+  ],
+  "created_at": "2026-07-17T16:52:17.347Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 垂直自然带、植被分布\n\n---\n\n## 题目内容\n\n某科考队在我国暖温带某山地开展垂直自然带植被调查。下图是部分树种随高度出现的次数变化图。读图，图中为针叶树种的折线是（   ）\n\n## 选项\n\nA. ①\n\nB. ②\n\nC. ③\n\nD. ④\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n暖温带山地针叶林分布海拔较高，且出现次数随高度先增后减，④折线符合。\n\n",
+  "answer": "B",
+  "analysis": "本题考查等高线地形图。等高线向海拔低处凸出为山脊，向高处凸出为山谷。选项A错误（等高线闭合为山峰），B正确，C错误（陡崖等高线重叠），D错误（鞍部位于两山峰之间）。"
+}

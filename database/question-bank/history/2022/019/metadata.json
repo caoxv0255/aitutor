@@ -1,0 +1,104 @@
+{
+  "uid": "history_2022_beijing_019",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 857,
+      "height": 761
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 301,
+      "height": 359
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 953,
+      "height": 515
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 1039,
+      "height": 530
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:10:28.923Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\n军费与财政\n材料一明万历四十六年（1618）至崇祯四年（1631）辽饷结构表\n注：明万历末年，为应对辽东战事而加派赋税，称“辽饷”。\n材料二清咸丰同治时期（1851—1874）主要财政收入趋势表\n注：清咸丰年间，“盐引停运，关税难征，地丁钱粮复间因兵荒而蠲免（注：免除）缓征”。清政府为镇压太平天国，在国内交通要道设立关卡，依商品数量或价值加征约百分之一的税，称为“厘金”。\n（1）明代为应对辽东战事、清代为镇压太平天国而筹措军费。阅读上述材料，指出两者增加军费的主要来源有何不同。\n（2）结合材料及所学，概括19 世纪60—70 年代清政府财政收入结构变化的总体趋势，并分析导致这一趋势的原因。\n\n## 小题\n\n### 19(1)\n\n明代为应对辽东战事、清代为镇压太平天国而筹措军费。阅读上述材料，指出两者增加军费的主要来源有何不同。\n\n**答案**: \n\n### 19(2)\n\n结合材料及所学，概括19 世纪60—70 年代清政府财政收入结构变化的总体趋势，并分析导致这一趋势的原因。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）特点：人民主权；轮番而治；直接民主；法律至上。（2）评价：积极：开创了民主政治的先河，为后世提供借鉴；消极：民主范围有限，仅限成年男性公民；直接民主可能导致权力滥用。",
+  "analysis": "本题考查雅典民主政治的特点和评价。解题思路：首先从材料中提取特点，如人民主权、轮番而治等。然后从积极和消极两方面评价。评分标准：第（1）问每点1分，共4分；第（2）问积极2分，消极2分。"
+}

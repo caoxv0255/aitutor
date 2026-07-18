@@ -1,0 +1,188 @@
+{
+  "uid": "biology_2022_beijing_018",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 27,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 314,
+      "height": 331
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 219,
+      "height": 248
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 410,
+      "height": 181
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 234,
+      "height": 191
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 370,
+      "height": 260
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 490,
+      "height": 361
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 611,
+      "height": 295
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 149,
+      "height": 113
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 305,
+      "height": 269
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 515,
+      "height": 184
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 490,
+      "height": 272
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 353,
+      "height": 324
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 224,
+      "height": 226
+    },
+    {
+      "filename": "page_11_img_3.png",
+      "page": 11,
+      "width": 649,
+      "height": 367
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T15:59:06.050Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n番茄果实成熟涉及一系列生理生化过程，导致果实颜色及硬度等发生变化。果实颜色由果皮和果肉颜色决定。为探究番茄果实成熟的机制，科学家进行了相关研究。\n（1）果皮颜色由一对等位基因控制。果皮黄色与果皮无色的番茄杂交的F1果皮为黄色，F1自交所得F2果皮颜色及比例为_______。\n（2）野生型番茄成熟时果肉为红色。现有两种单基因纯合突变体，甲（基因A 突变为a）果肉黄色，乙（基因B 突变为b）果肉橙色。用甲、乙进行杂交实验，结果如下图1。据此，写出F2中黄色的基因型：_______。\n（3）深入研究发现，成熟番茄的果肉由于番茄红素的积累而呈红色，当番茄红素量较少时，果肉呈黄色，而前体物质2 积累会使果肉呈橙色，如下图2。上述基因A、B 以及另一基因H 均编码与果肉颜色相关的酶，但H 在果实中的表达量低。根据上述代谢途径，aabb 中前体物质2 积累、果肉呈橙色的原因是_______。\n（4）有一果实不能成熟的变异株M，果肉颜色与甲相同，但A 并未突变，而调控A 表达的C 基因转录水平极低。C 基因在果实中特异性表达，敲除野生型中的C 基因，其表型与M 相同。进一步研究发现M 中C 基因的序列未发生改变，但其甲基化程度一直很高。推测果实成熟与C 基因甲基化水平改变有关。欲为此推测提供证据，合理的方案包括_______，并检测C 的甲基化水平及表型。\n①将果实特异性表达的去甲基化酶基因导入M\n②敲除野生型中果实特异性表达的去甲基化酶基因\n③将果实特异性表达的甲基化酶基因导入M\n④将果实特异性表达的甲基化酶基因导入野生型\n\n## 小题\n\n### 18(1)\n\n果皮颜色由一对等位基因控制。果皮黄色与果皮无色的番茄杂交的F1果皮为黄色，F1自交所得F2果皮颜色及比例为_______。\n\n**答案**: \n\n### 18(2)\n\n野生型番茄成熟时果肉为红色。现有两种单基因纯合突变体，甲（基因A 突变为a）果肉黄色，乙（基因B 突变为b）果肉橙色。用甲、乙进行杂交实验，结果如下图1。据此，写出F2中黄色的基因型：_______。\n\n**答案**: \n\n### 18(3)\n\n深入研究发现，成熟番茄的果肉由于番茄红素的积累而呈红色，当番茄红素量较少时，果肉呈黄色，而前体物质2 积累会使果肉呈橙色，如下图2。上述基因A、B 以及另一基因H 均编码与果肉颜色相关的酶，但H 在果实中的表达量低。根据上述代谢途径，aabb 中前体物质2 积累、果肉呈橙色的原因是_______。\n\n**答案**: \n\n### 18(4)\n\n有一果实不能成熟的变异株M，果肉颜色与甲相同，但A 并未突变，而调控A 表达的C 基因转录水平极低。C 基因在果实中特异性表达，敲除野生型中的C 基因，其表型与M 相同。进一步研究发现M 中C 基因的序列未发生改变，但其甲基化程度一直很高。推测果实成熟与C 基因甲基化水平改变有关。欲为此推测提供证据，合理的方案包括_______，并检测C 的甲基化水平及表型。\n①将果实特异性表达的去甲基化酶基因导入M\n②敲除野生型中果实特异性表达的去甲基化酶基因\n③将果实特异性表达的甲基化酶基因导入M\n④将果实特异性表达的甲基化酶基因导入野生型\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）DNA复制 转录 翻译 （2）细胞核 核糖体 （3）密码子 反密码子",
+  "analysis": "中心法则描述了遗传信息的传递方向：DNA复制以DNA为模板合成DNA；转录以DNA为模板合成RNA；翻译以mRNA为模板合成蛋白质。转录主要发生在细胞核，翻译在核糖体。mRNA上的密码子与tRNA上的反密码子互补配对。评分标准：每空1分，共6分。"
+}

@@ -1,0 +1,78 @@
+{
+  "uid": "politics_2019_beijing_010",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 4,
+  "knowledge_points": [
+    "产业关联",
+    "就业",
+    "需求弹性"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.007Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4分\n\n**知识点**: 产业关联、就业、需求弹性\n\n---\n\n## 题目内容\n\n2022年北京将举办冬奥会，这给冰雪产业带来了新的发展机会。冰雪产业主要包括冰雪装备、冰雪旅游、冰雪赛事、冰雪运动培训、冰雪营销五大板块。下列选项正确的是（  ）\n\n## 选项\n\nA. A．对冰雪装备企业减税降费，会提高冰雪装备产品的价值\n\nB. B．冰雪营销产业的发展会增加冰雪旅游消费的需求弹性\n\nC. C．冰雪赛事发展会增加冰雪运动培训产业的就业机会\n\nD. D．冰雪产业链的延伸使五大冰雪产业的替代性增加\n\n---\n\n## 参考答案\n\nC\n\n## 解析\n\n冰雪赛事发展带动培训需求，增加就业，C正确；A错误，减税降费不提高价值；B错误，需求弹性不变；D错误，产业链延伸增加互补性而非替代性。\n\n",
+  "answer": "C",
+  "analysis": "本题考查投资理财方式。储蓄存款、股票、债券和商业保险是常见的投资方式。股票是高风险高收益的投资，债券风险较低收益稳定，储蓄存款风险最低收益也低，商业保险主要是规避风险。题目中“风险较高、收益较高”对应股票，C正确。A选项储蓄存款风险低收益低，B选项债券风险较低收益稳定，D选项商业保险主要是保障功能。"
+}

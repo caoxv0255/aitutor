@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_013",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:03.002Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n1829—1841年间，俄国诗人莱蒙托夫创作了一系列关于1812年俄法战争和拿破仑的诗。诗中既赞颂俄国士兵“以身相许为祖国报效”，又将拿破仑描绘成传播自由的“盖世英雄”。下列说法正确的是\n①莱蒙托夫的诗蕴含着俄国民族主义情感\n②俄法战争成为俄国农奴制改革的导火线\n③莱蒙托夫认同拿破仑传播的大革命精神\n④莱蒙托夫的作品属于现代主义文学著作\n\n## 选项\n\nA. A. ①③\n\nB. B. ②④\n\nC. C. ①②\n\nD. D. ③④\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "A",
+  "analysis": "本题考查法国共和政体的确立。1875年宪法确立了议会制共和制，总统由议会选举产生，权力受议会制约。选项A正确，法国是议会制共和制。选项B错误，总统权力有限。选项C错误，议会是权力中心。选项D错误，法国实行多党制。"
+}

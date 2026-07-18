@@ -1,0 +1,68 @@
+{
+  "uid": "history_2020_beijing_002",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 7,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 558,
+      "height": 242
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 298,
+      "height": 214
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 238,
+      "height": 149
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 310,
+      "height": 158
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 331,
+      "height": 233
+    }
+  ],
+  "created_at": "2026-07-17T15:55:26.735Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n\"清乐\"源自汉代乐府的俗乐，魏晋时期逐渐雅乐化，此后分散各地。河西地区的清乐与\"羌胡之声\"结合，南朝的清乐则与江南音乐结合，北朝曾改编清乐并由\"胡人\"演唱。隋代统一后重新整理了清乐，隋文帝称之为\"华夏正声\"。清乐的发展说明，魏晋以来\n\n## 选项\n\nA. A. 中原的传统文化日渐消亡\n\nB. B. 各民族文化互动增多，不断交融\n\nC. C. 汉代的礼乐制度逐步复原\n\nD. D. 西域文化成为南北朝文化的主流\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "C",
+  "analysis": "本题考查秦朝中央集权制度。秦朝实行三公九卿制，三公指丞相、御史大夫、太尉，分别负责行政、监察、军事。C项正确。A项错误，三省六部制是隋唐时期。B项错误，二府三司制是宋代。D项错误，内阁制是明代。"
+}

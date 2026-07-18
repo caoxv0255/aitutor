@@ -1,0 +1,140 @@
+{
+  "uid": "politics_2023_beijing_009",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 19,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 660,
+      "height": 254
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 362,
+      "height": 233
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 593,
+      "height": 311
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 358,
+      "height": 226
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 458,
+      "height": 344
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 820,
+      "height": 410
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 173,
+      "height": 218
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 481,
+      "height": 667
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:31:26.579Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n某居民去办理户政业务，因异地往返不便，一时难以提供相关证明。户籍民警了解到这一情况，主动告知该居民可以采用“个人承诺”的方式先期提交材料，后续由派出所联系有关部门进行核实，最终手续得以顺利完成。\n北京市户政领域适用“告知承诺制”的情形中，承诺内容如下：\n◇申请人所填写的基本信息、提交的所需材料真实、合法、有效、完整。\n◇申请人已经知晓告知的全部内容。\n◇申请人愿意承担不实承诺的法律责任，以及告知的违诺失信惩戒后果。\n◇申请人所作承诺是申请人真实意思的表示。\n对上述材料的解读，正确的是（   ）\n①申请人明确其承诺为真实的意思表示，体现了民事活动的自愿原则\n②申请人承诺失实应承担法律责任，说明权力与责任是相匹配的\n③政务信息资源共享渠道畅通，有助于“告知承诺制”的落实\n④政府通过“减证”实现了便民利民，践行以人民为中心的思想\n\n## 选项\n\nA. A. ①②\n\nB. B. ①③\n\nC. C. ②④\n\nD. D. ③④\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "本题考查公司的类型。我国法定的公司形式是有限责任公司和股份有限公司。有限责任公司股东人数较少，不能公开募股；股份有限公司可以公开募股，股票可以上市交易。题干中“可以发行股票”是股份有限公司的特征，因此选项A正确。选项B有限责任公司不能发行股票，选项C个人独资企业和选项D合伙企业不是公司制企业。"
+}

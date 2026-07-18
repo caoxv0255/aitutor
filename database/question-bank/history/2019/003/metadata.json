@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_003",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.189Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n据《梦溪笔谈》记载，张咏任崇阳知县时，因“民不务耕织”而唯以植茶获利，遂下令将茶树全部砍掉，改种桑麻。有人入市买菜，他怒斥：“汝村民皆有土田，何不自种而费钱买菜？”这反映出，宋代（  ）\n\n## 选项\n\nA. A．官府垄断茶利，商业环境恶劣\n\nB. B．农副产品较少，货币使用率低\n\nC. C．地方官员固守重农抑商的思想\n\nD. D．商人社会地位较以往愈加低下\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "本题考查汉武帝加强中央集权的措施。汉武帝颁布“推恩令”，规定诸侯王的子弟均可分得土地，从而削弱了诸侯国势力。选项B正确。选项A“削藩策”是汉景帝时期晁错提出，但引发了七国之乱。选项C“附益之法”是汉武帝时期限制诸侯王与地方官勾结的法律。选项D“左官律”是规定诸侯国官员地位低于中央官员的法律。"
+}

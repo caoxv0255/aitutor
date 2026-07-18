@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_016",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:03.005Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n明堂\n材料一  西周的明堂是朝堂及太庙的美称。《礼记》等典籍记載，周公曾于明堂“朝诸侯”祀文王”。《周礼》记载，西周明堂“东西九筵，南北七筵”，即长方形布局。春秋战国的阴阳五行家则将明堂设想为独立于朝堂、太庙之外的建筑，将其描绘为“亞”形布局。\n材料二  汉武帝根据儒生的建议，尝试复原儒家经典中记载的明堂。汉代儒生提出，明堂为“亞”形布局，符合阴阳五行之数。东汉《白虎通义》载：“天子立明堂者，所以通神灵，感天地，正四时，出教化。”汉代明堂都是独立建筑。目前发掘的汉长安城明堂遗址中心建筑即呈“亞”形。\n材料三  汉代以后，明堂一直是皇帝祭祀与布政的重要建筑。北魏孝文帝曾下诏“起明堂”，模仿汉制在平城南郊建立明堂，并亲赴明堂祭先祖、“布政事”。北魏迁都后，宣武帝再修洛阳明堂。\n（1）阅读材料一、二，指出汉代复原的明堂与西周明堂的差异，并结合汉代思想背景，说明产生差异的原因。\n（2）阅读材料三，结合所学，分析北魏为何重视修建明堂。\n\n## 小题\n\n### 16(1)\n\n阅读材料一、二，指出汉代复原的明堂与西周明堂的差异，并结合汉代思想背景，说明产生差异的原因。\n\n**答案**: \n\n### 16(2)\n\n阅读材料三，结合所学，分析北魏为何重视修建明堂。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）特点：以血缘关系为纽带；等级森严；权力世袭；地方分权。（2）影响：巩固了周王朝的统治；扩大了统治区域；促进了文化交流；但后期导致诸侯割据。",
+  "analysis": "本题考查分封制的特点和影响。解题思路：从材料中提取分封制的特点，如分封对象、权力义务等。关键知识点：分封制是西周政治制度的核心。步骤：先概括特点，再分析影响。评分标准：特点4分，影响4分，言之有理即可。"
+}

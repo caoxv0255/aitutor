@@ -1,0 +1,170 @@
+{
+  "uid": "math_2019_beijing_020",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 14,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 24,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 10,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_1_img_7.png",
+      "page": 1,
+      "width": 170,
+      "height": 261
+    },
+    {
+      "filename": "page_1_img_8.png",
+      "page": 1,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_1_img_9.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_10.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_11.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 158,
+      "height": 154
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 108,
+      "height": 69
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 213,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 116,
+      "height": 49
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 207,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 22,
+      "height": 47
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 13,
+      "height": 35
+    }
+  ],
+  "created_at": "2026-07-17T16:13:47.735Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 14分\n\n---\n\n## 题目内容\n\n已知函数f（x）=\\frac{1}{3}x^3-x^2+x．（Ⅰ）求曲线y=f（x）的斜率为1的切线方程；（Ⅱ）当x∈[-2，4]时，求证：x-6≤f（x）≤x；（Ⅲ）设F（x）=|f（x）-（x+a）|（a∈R），记F（x）在区间[-2，4]上的最大值为M（a）．当M（a）最小时，求a的值．\n\n## 小题\n\n### 20(Ⅰ)\n\n求曲线y=f（x）的斜率为1的切线方程；\n\n**答案**: y=x-\\frac{4}{3}和y=x\n\n### 20(Ⅱ)\n\n当x∈[-2，4]时，求证：x-6≤f（x）≤x；\n\n**答案**: 证明略\n\n### 20(Ⅲ)\n\n设F（x）=|f（x）-（x+a）|（a∈R），记F（x）在区间[-2，4]上的最大值为M（a）．当M（a）最小时，求a的值．\n\n**答案**: a=2\n\n---\n\n## 参考答案\n\n（Ⅰ）y=x-\\frac{4}{3}和y=x；（Ⅱ）证明略；（Ⅲ）a=2\n\n",
+  "answer": "解：(1) 当a=1时，f(x)=x^2-2x+1=(x-1)^2，所以f(x)≥0恒成立，故f(x)的单调递增区间为[1,+∞)，单调递减区间为(-∞,1]。(2) f'(x)=2x-2a，令f'(x)=0得x=a。当a≤0时，f(x)在[0,2]上单调递增，最小值f(0)=1；当0<a<2时，f(x)在[0,a]递减，[a,2]递增，最小值f(a)=1-a^2；当a≥2时，f(x)在[0,2]上单调递减，最小值f(2)=5-4a。",
+  "analysis": "本题考查二次函数的单调性和含参最值问题。解题思路：(1)配方得顶点，直接得单调区间；(2)求导得对称轴，分类讨论对称轴与区间的位置关系。关键知识点：二次函数性质、导数与单调性、分类讨论思想。评分标准：(1)配方正确得2分，单调区间各1分；(2)求导正确得1分，分类讨论完整得4分，每种情况1分，最小值正确得1分。"
+}

@@ -1,0 +1,210 @@
+{
+  "uid": "physics_2022_beijing_018",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 9,
+  "knowledge_points": [
+    "匀强电场",
+    "牛顿第二定律",
+    "动能定理"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 387,
+      "height": 413
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 566,
+      "height": 289
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 564,
+      "height": 374
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 358,
+      "height": 257
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 282,
+      "height": 339
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 529,
+      "height": 284
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 355,
+      "height": 257
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 222,
+      "height": 289
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 481,
+      "height": 417
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 401,
+      "height": 458
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 722,
+      "height": 190
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 380,
+      "height": 323
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 275,
+      "height": 543
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 818,
+      "height": 154
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 651,
+      "height": 628
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 720,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 376,
+      "height": 261
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 383
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 381,
+      "height": 458
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:58:36.493Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 9分\n\n**知识点**: 匀强电场、牛顿第二定律、动能定理\n\n---\n\n## 题目内容\n\n如图所示，真空中平行金属板M、N之间距离为d，两板所加的电压为U。一质量为m、电荷量为q的带正电粒子从M板由静止释放。不计带电粒子的重力。\n（1）求带电粒子所受的静电力的大小F；\n（2）求带电粒子到达N板时的速度大小v；\n（3）若在带电粒子运动d/2距离时撤去所加电压，求该粒子从M板运动到N板经历的时间t。\n\n---\n\n## 参考答案\n\n（1）F=qU/d；（2）v=√(2qU/m)；（3）t=(3/2)√(md²/(qU))\n\n",
+  "answer": "解：设子弹质量为m，初速度为v0=800m/s，穿出木板后速度为v=400m/s，木板厚度为d=0.1m。根据动能定理，子弹克服阻力做功等于动能减少量：W=½mv0² - ½mv² = ½m(800²-400²)=½m(640000-160000)=½m×480000=240000m。阻力f=W/d=240000m/0.1=2.4×10^6 m N。由于m未知，但可求平均阻力大小。若已知m=0.01kg，则f=2.4×10^4 N。但题目未给质量，故答案用符号表示。通常题目会给出质量，假设m=10g=0.01kg，则f=24000N。故平均阻力大小为24000N。",
+  "analysis": "本题主要考查动能定理的应用。解题步骤：1. 明确初末动能；2. 根据动能定理求阻力做功；3. 由功的定义求平均阻力。评分标准：动能定理表达式正确得4分，计算过程正确得4分，结果正确得2分。注意：若题目未给质量，需说明。"
+}

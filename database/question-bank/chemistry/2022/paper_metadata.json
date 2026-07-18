@@ -1,0 +1,26 @@
+{
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2022,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 19,
+  "page_count": 0,
+  "image_count": 42,
+  "source_file": "2022年北京高考化学试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T17:00:18.434Z",
+  "quality_stats": {
+    "total": 19,
+    "by_type": {
+      "choice": 14,
+      "solve": 5
+    },
+    "avg_difficulty": "N/A",
+    "answer_completeness": "73.7",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

@@ -1,0 +1,68 @@
+{
+  "uid": "history_2020_beijing_006",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 7,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 558,
+      "height": 242
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 298,
+      "height": 214
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 238,
+      "height": 149
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 310,
+      "height": 158
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 331,
+      "height": 233
+    }
+  ],
+  "created_at": "2026-07-17T15:55:26.737Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n竹枝词是一种民众喜闻乐见的诗歌体裁。晚清竹枝词除描写官场百态、风土民情外，又增加了新的时代内容，出现了介绍外国风俗的《外国竹枝词》等。晚清竹枝词\n①是当时人们的记录，属于官方档案  ②属于文学作品，但是具备史料价值\n③关注社会新生事物，开阔大众眼界  ④引入西方文学风格，开启文学革命\n\n## 选项\n\nA. A. ①②\n\nB. B. ③④\n\nC. C. ①④\n\nD. D. ②③\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查雅典民主政治。伯里克利时期，雅典民主政治达到顶峰，公民大会是最高权力机构，所有成年男性公民均可参加。C项正确。A项错误，雅典民主是少数人的民主。B项错误，妇女、奴隶、外邦人无公民权。D项错误，雅典民主是直接民主。"
+}

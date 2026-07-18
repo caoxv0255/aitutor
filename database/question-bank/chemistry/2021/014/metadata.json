@@ -1,0 +1,230 @@
+{
+  "uid": "chemistry_2021_beijing_014",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 34,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 139,
+      "height": 90
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 103,
+      "height": 76
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 54,
+      "height": 45
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 64,
+      "height": 42
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 1231,
+      "height": 420
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 173,
+      "height": 132
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 258,
+      "height": 248
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 549,
+      "height": 201
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 74,
+      "height": 52
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 162,
+      "height": 66
+    },
+    {
+      "filename": "page_4_img_5.jpeg",
+      "page": 4,
+      "width": 1426,
+      "height": 287
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 305,
+      "height": 251
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 177,
+      "height": 89
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1154,
+      "height": 401
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 380,
+      "height": 224
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 1483,
+      "height": 479
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 395,
+      "height": 162
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 164,
+      "height": 75
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 1467,
+      "height": 122
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 524,
+      "height": 348
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 118,
+      "height": 121
+    }
+  ],
+  "created_at": "2026-07-17T16:45:52.220Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n丙烷经催化脱氢可制丙烯:C3H8→C3H6+H2。600℃，将一定浓度的CO2与固定浓度的C3H8通过含催化剂的恒容反应器，经相同时间，流出的C3H6、CO和H2浓度随初始CO2浓度的变化关系如图。已知：①C3H8(g)+5O2(g)=3CO2(g)+4H2O(l) △H=-2220kJ/mol ②C3H6(g)+9/2O2(g)=3CO2(g)+3H2O(l) △H=-2058kJ/mol ③H2(g)+1/2O2(g)=H2O(l) △H=-286kJ/mol 下列说法不正确的是\n\n## 选项\n\nA. A. C3H8(g)=C3H6(g)+H2(g) △H=+124kJ/mol\n\nB. B. c(H2)和c(C3H6)变化差异原因：CO2+H2→CO+H2O\n\nC. C. 其他条件不变，投料比c(C3H8)/c(CO2)越大，C3H8转化率越大\n\nD. D. 若体系只有C3H6、CO、H2和H2O生成，则初始物质浓度c0与流出物质浓度c之间一定存在：3c0(C3H8)+c0(CO2)=c(CO)+c(CO2)+3c(C3H8)+3c(C3H6)\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "选项C正确，因为原子核由质子和中子构成，但氢原子核没有中子。选项A错误，原子核带正电。选项B错误，原子核体积小但质量大。选项D错误，原子核由质子和中子构成，但氢原子例外。"
+}

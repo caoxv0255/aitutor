@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_012",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.368Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n《关于为盲人、视力障碍者或其他印刷品阅读障碍者获得已出版作品提供便利的马拉喀什条约》由联合国专门机构世界知识产权组织进行管理，条约要求各缔约方规定版权限制与例外，为阅读障碍者提供便利。我国积极参与了条约的谈判过程，是首批签署方之一。2021 年10 月，全国人大常委会批准了该条约。目前，条约已对我国生效。就上述事实，下列说法正确的是（   ）\n\n## 选项\n\nA. A. 世界知识产权组织对该条约的管理是联合国维护世界和平作用的体现\n\nB. B. 我国签署和批准该条约的主要目的是为了繁荣国际知识产权贸易\n\nC. C. 该条约的生效有利于保障阅读障碍者平等欣赏作品和接受教育的权利\n\nD. D. 全国人大常委会批准该条约是对监督权的行使，推动了无障碍环境建设\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "D",
+  "analysis": "本题考查市场调节的弊端。市场调节存在自发性、盲目性和滞后性等固有弊端。题干中“为了自身利益而制假售假”体现了市场调节的自发性，即市场主体为了利益不择手段。A选项盲目性是指市场主体信息不灵导致决策失误。B选项滞后性是指市场调节反应滞后。C选项不是市场调节的弊端。因此D选项正确。"
+}

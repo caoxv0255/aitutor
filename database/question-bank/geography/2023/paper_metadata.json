@@ -1,0 +1,30 @@
+{
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2023,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 23,
+  "source_file": "2023年北京高考地理试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T17:33:01.019Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 15,
+      "solve": 5
+    },
+    "avg_difficulty": "3.40",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [
+    "第2题题干较短",
+    "第4题题干较短",
+    "第5题题干较短",
+    "第13题题干较短",
+    "第14题题干较短"
+  ],
+  "issues": []
+}

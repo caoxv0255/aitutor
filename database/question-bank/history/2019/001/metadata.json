@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_001",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.189Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n在中国新疆乌鲁木齐南山矿区以及俄罗斯阿尔泰山北麓等地，出土了公元前7～前5世纪楚国生产的凤鸟纹刺绣丝绸。据此可以判断（  ）\n\n## 选项\n\nA. A．东周时期丝织品做工精良，远播西域地区\n\nB. B．楚国是中西交通起点，楚文化有明显西域特征\n\nC. C．汉代丝路开通之前，中原与西域没有交往\n\nD. D．东周时期楚国与西域交流广泛，生活方式趋同\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "A",
+  "analysis": "本题考查西周分封制。分封制下，周天子将土地和人民分给诸侯，诸侯享有世袭统治权，但需服从周天子命令，承担义务。选项A正确，因为分封制确立了周天子的天下共主地位。选项B错误，分封制下诸侯权力较大，但并非完全独立。选项C错误，分封制主要分封同姓亲族和功臣，并非所有贵族。选项D错误，分封制在春秋战国时期逐渐瓦解，并非一直延续。"
+}

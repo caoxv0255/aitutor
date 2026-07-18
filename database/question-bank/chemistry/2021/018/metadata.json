@@ -1,0 +1,230 @@
+{
+  "uid": "chemistry_2021_beijing_018",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 34,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 139,
+      "height": 90
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 103,
+      "height": 76
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 54,
+      "height": 45
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 64,
+      "height": 42
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 1231,
+      "height": 420
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 173,
+      "height": 132
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 258,
+      "height": 248
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 549,
+      "height": 201
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 74,
+      "height": 52
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 162,
+      "height": 66
+    },
+    {
+      "filename": "page_4_img_5.jpeg",
+      "page": 4,
+      "width": 1426,
+      "height": 287
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 305,
+      "height": 251
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 177,
+      "height": 89
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1154,
+      "height": 401
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 380,
+      "height": 224
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 1483,
+      "height": 479
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 395,
+      "height": 162
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 164,
+      "height": 75
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 1467,
+      "height": 122
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 524,
+      "height": 348
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 118,
+      "height": 121
+    }
+  ],
+  "created_at": "2026-07-17T16:45:52.224Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n铁黄是一种重要的化工产品。由生产钛白粉废渣制备铁黄的过程如下。\n资料：\ni.钛白粉废渣成分：主要为FeSO4·H2O，含少量TiOSO4和不溶物\nii.TiOSO4+(x+1)H2O⇌TiO2·xH2O↓+H2SO4\niii.0.1 mol/L Fe2+生成Fe(OH)2，开始沉淀时pH=6.3，完全沉淀时pH=8.3；0.1 mol/L Fe3+生成FeOOH，开始沉淀时pH=1.5，完全沉淀时pH=2.8\n（1）纯化\n①加入过量铁粉的目的是_______。\n②充分反应后，分离混合物的方法是_______。\n（2）制备晶种\n为制备高品质铁黄产品，需先制备少量铁黄晶种。过程及现象是：向一定浓度FeSO4溶液中加入氨水，产生白色沉淀，并很快变成灰绿色。滴加氨水至pH为6.0时开始通空气并记录pH变化(如图)。\n①产生白色沉淀的离子方程式是_______。\n②产生白色沉淀后的pH低于资料iii中的6.3。原因是：沉淀生成后c(Fe2+)_______0.1mol/L(填“＞”“=”或“＜”)。\n③0-t1时段，pH几乎不变；t1-t2时段，pH明显降低。结合方程式解释原因：_______。\n④pH≈4时制得铁黄晶种。若继续通入空气，t3后pH几乎不变，此时溶液中c(Fe2+)仍降低，但c(Fe3+)增加，且(Fe2+)降低量大于c(Fe3+)增加量。结合总方程式说明原因：_______。\n（3）产品纯度测定\n铁黄纯度可以通过产品的耗酸量确定。\nwg铁黄 →H2SO4加热溶解 →Na2C2O4溶液 溶液c →NaOH标准溶液滴定（酚酞）\n资料：Fe3++3C2O42-=Fe(C2O4)33-，Fe(C2O4)33-不与稀碱液反应\nNa2C2O4过量，会使测定结果_______(填“偏大”“偏小”或“不受影响”)。\n\n## 小题\n\n### 18(1)①\n\n加入过量铁粉的目的是_______。\n\n**答案**: \n\n### 18(1)②\n\n充分反应后，分离混合物的方法是_______。\n\n**答案**: \n\n### 18(2)①\n\n产生白色沉淀的离子方程式是_______。\n\n**答案**: \n\n### 18(2)②\n\n产生白色沉淀后的pH低于资料iii中的6.3。原因是：沉淀生成后c(Fe2+)_______0.1mol/L(填“＞”“=”或“＜”)。\n\n**答案**: \n\n### 18(2)③\n\n0-t1时段，pH几乎不变；t1-t2时段，pH明显降低。结合方程式解释原因：_______。\n\n**答案**: \n\n### 18(2)④\n\npH≈4时制得铁黄晶种。若继续通入空气，t3后pH几乎不变，此时溶液中c(Fe2+)仍降低，但c(Fe3+)增加，且(Fe2+)降低量大于c(Fe3+)增加量。结合总方程式说明原因：_______。\n\n**答案**: \n\n### 18(3)\n\nNa2C2O4过量，会使测定结果_______(填“偏大”“偏小”或“不受影响”)。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设生成氢气的质量为x。\nZn + H2SO4 → ZnSO4 + H2↑\n65g 2g\n13g x\n65/13 = 2/x\nx = 0.4g\n答：生成氢气0.4g。",
+  "analysis": "根据锌与稀硫酸反应的化学方程式，锌与氢气的质量比为65:2。13g锌生成0.4g氢气。评分标准：设未知数1分，写化学方程式1分，列比例式1分，计算结果1分，答1分。"
+}

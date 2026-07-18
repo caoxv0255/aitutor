@@ -1,0 +1,98 @@
+{
+  "uid": "math_2021_beijing_017",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 14,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 380,
+      "height": 359
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 453,
+      "height": 76
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 348,
+      "height": 541
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 347,
+      "height": 319
+    }
+  ],
+  "created_at": "2026-07-17T16:40:59.571Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 14分\n\n---\n\n## 题目内容\n\n已知正方体 ABCD-A1B1C1D1，点E为A1D1中点，直线B1C1交平面CDE于点F．\n（1）求证：点F为B1C1中点；\n（2）若点M为棱A1B1上一点，且二面角M-CF-E的余弦值为√5/3，求A1M/A1B1的值．\n\n## 小题\n\n### 17(1)\n\n求证：点F为B1C1中点\n\n**答案**: 略\n\n### 17(2)\n\n若点M为棱A1B1上一点，且二面角M-CF-E的余弦值为√5/3，求A1M/A1B1的值\n\n**答案**: 1/2\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设等比数列公比为q，则a2=a1q=2，a4=a1q^3=8，两式相除得q^2=4，q=±2。当q=2时，a1=1，S5=(1-2^5)/(1-2)=31；当q=-2时，a1=-1，S5=(-1)(1-(-2)^5)/(1-(-2)) = (-1)(1+32)/3 = -11。",
+  "analysis": "本题考查等比数列的通项与求和。先由已知条件求出首项和公比，再代入求和公式。注意公比可能有两个值。"
+}

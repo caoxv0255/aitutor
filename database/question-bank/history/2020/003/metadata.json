@@ -1,0 +1,68 @@
+{
+  "uid": "history_2020_beijing_003",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 7,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 558,
+      "height": 242
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 298,
+      "height": 214
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 238,
+      "height": 149
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 310,
+      "height": 158
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 331,
+      "height": 233
+    }
+  ],
+  "created_at": "2026-07-17T15:55:26.736Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n六部是中国古代重要的行政机构。以下对于六部的描述，按时间顺序排列正确的是\n①各自分署，直接对皇帝负责  ②隶属于中书省\n③隶属于尚书省  ④增设外务部等机构，六部之名渐废\n\n## 选项\n\nA. A. ③②①④\n\nB. B. ①③②④\n\nC. C. ②③①④\n\nD. D. ④②③①\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "B",
+  "analysis": "本题考查汉武帝加强中央集权的措施。汉武帝颁布“推恩令”，规定诸侯王死后，嫡长子继承王位，其他子弟分割部分土地为列侯，列侯归郡管辖。这样王国越分越小，中央集权加强。B项正确。A项“削藩”是汉景帝时期。C项“酎金律”是削弱诸侯经济实力。D项“左官律”是限制诸侯王任用官员。"
+}

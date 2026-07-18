@@ -1,0 +1,158 @@
+{
+  "uid": "biology_2021_beijing_020",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 454,
+      "height": 288
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 510,
+      "height": 377
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 353,
+      "height": 264
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 511,
+      "height": 211
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 432,
+      "height": 302
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 550,
+      "height": 168
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 274,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 498,
+      "height": 237
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 593,
+      "height": 305
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 720,
+      "height": 322
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1000,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 596,
+      "height": 427
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:47:31.018Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n玉米是我国重要农作物，研究种子发育的机理对培育高产优质的玉米新品种具有重要作用。\n\n## 小题\n\n### 20(1)\n\n玉米果穗上的每一个籽粒都是受精后发育而来。我国科学家发现了甲品系玉米，其自交后的果穗上出现严重干瘪且无发芽能力的籽粒，这种异常籽粒约占1/4。籽粒正常和干瘪这一对相对性状的遗传遵循孟德尔的________定律。上述果穗上的正常籽粒均发育为植株，自交后，有些植株果穗上有约1/4 干瘪籽粒，这些植株所占比例约为________。\n\n**答案**: 分离；2/3\n\n### 20(2)\n\n为阐明籽粒干瘪性状的遗传基础，研究者克隆出候选基因A/a。将A 基因导入到甲品系中，获得了转入单个A 基因的转基因玉米。假定转入的A 基因已插入a 基因所在染色体的非同源染色体上，请从下表中选择一种实验方案及对应的预期结果以证实“A 基因突变是导致籽粒干瘪的原因”________。\n\n**答案**: III；③\n\n### 20(3)\n\n现已确认A 基因突变是导致籽粒干瘪的原因，序列分析发现a 基因是A 基因中插入了一段DNA（见图1），使A 基因功能丧失。甲品系果穗上的正常籽粒发芽后，取其植株叶片，用图1 中的引物1、2 进行PCR 扩增，若出现目标扩增条带则可知相应植株的基因型为_________。\n\n**答案**: Aa\n\n### 20(4)\n\n为确定A 基因在玉米染色体上的位置，借助位置已知的M/m 基因进行分析。用基因型为mm 且籽粒正常的纯合子P 与基因型为MM 的甲品系杂交得F1，F1自交得F2。用M、m 基因的特异性引物，对F1植株果穗上干瘪籽粒（F2）胚组织的DNA 进行PCR 扩增，扩增结果有1、2、3 三种类型，如图2 所示。统计干瘪籽粒（F2）的数量，发现类型1最多、类型2较少、类型3极少。请解释类型3数量极少的原因________。\n\n**答案**: 类型3为双交换产物，发生概率极低\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）生产者  消费者  分解者  （2）食物链和食物网  （3）单向流动、逐级递减",
+  "analysis": "（1）生态系统的成分包括非生物的物质和能量、生产者、消费者、分解者。（2）营养结构是指食物链和食物网。（3）能量流动的特点是单向流动、逐级递减。评分标准：每空1分，共5分。"
+}

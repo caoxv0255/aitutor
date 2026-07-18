@@ -1,0 +1,206 @@
+{
+  "uid": "physics_2023_beijing_019",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 291,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 318,
+      "height": 249
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 287,
+      "height": 79
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 252,
+      "height": 258
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 320,
+      "height": 185
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 318,
+      "height": 152
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 306,
+      "height": 156
+    },
+    {
+      "filename": "page_3_img_4.jpeg",
+      "page": 3,
+      "width": 364,
+      "height": 295
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 364,
+      "height": 197
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 310,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 631,
+      "height": 406
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 283,
+      "height": 418
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 331,
+      "height": 281
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 277,
+      "height": 354
+    },
+    {
+      "filename": "page_6_img_5.png",
+      "page": 6,
+      "width": 268,
+      "height": 287
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 493,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 800,
+      "height": 728
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 331,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:19:31.586Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n2022年，我国阶段性建成并成功运行了“电磁撬”，创造了大质量电磁推进技术的世界最高速度纪录。一种两级导轨式电磁推进的原理如图所示。两平行长直金属导轨固定在水平面，导轨间垂直安放金属棒。金属棒可沿导轨无摩擦滑行，且始终与导轨接触良好，电流从一导轨流入，经过金属棒，再从另一导轨流回，图中电源未画出。导轨电流在两导轨间产生的磁场可视为匀强磁场，磁感应强度B与电流i的关系式为B=ki（k为常量）。金属棒被该磁场力推动。当金属棒由第一级区域进入第二级区域时，回路中的电流由I变为2I。已知两导轨内侧间距为L，每一级区域中金属棒被推进的距离均为s，金属棒的质量为m。求：\n（1）金属棒经过第一级区域时受到安培力的大小F；\n（2）金属棒经过第一、二级区域的加速度大小之比a1:a2；\n（3）金属棒从静止开始经过两级区域推进后的速度大小v。\n\n## 小题\n\n### 19(1)\n\n金属棒经过第一级区域时受到安培力的大小F；\n\n**答案**: F=kI²L\n\n### 19(2)\n\n金属棒经过第一、二级区域的加速度大小之比a1:a2；\n\n**答案**: a1:a2=1:4\n\n### 19(3)\n\n金属棒从静止开始经过两级区域推进后的速度大小v。\n\n**答案**: v=√(10kI²Ls/m)\n\n---\n\n## 参考答案\n\n（1）F=kI²L；（2）a1:a2=1:4；（3）v=√(10kI²Ls/m)\n\n",
+  "answer": "解：设小球质量为m，从A点静止释放，到达B点时的速度为v。根据机械能守恒定律：mgh=1/2 mv^2，得v=√(2gh)=√(2×10×5)=10m/s。在B点，小球做圆周运动，向心力由重力和支持力的合力提供：F_N - mg = mv^2/R，代入R=2m，得F_N = mg + mv^2/R = 0.5×10 + 0.5×100/2 = 5 + 25 = 30N。根据牛顿第三定律，小球对轨道的压力大小等于30N，方向竖直向下。评分标准：正确写出机械能守恒定律得2分，求出速度得2分，正确写出向心力公式得2分，求出支持力得2分，说明压力方向得2分。",
+  "analysis": "本题考察机械能守恒和圆周运动向心力。先由机械能守恒求B点速度，再由向心力公式求支持力，最后根据牛顿第三定律得压力。注意向心力来源。"
+}

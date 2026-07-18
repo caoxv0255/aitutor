@@ -1,0 +1,80 @@
+{
+  "uid": "chinese_2021_beijing_023",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 23,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:39:35.339Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第23题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n为庆祝中国共产党成立一百周年，班级要开展“缅怀革命先辈、点燃青春激情”的主题活动。如果让你参与策划，你会在活动中设计一个怎样的核心环节？请说说理由。要求：简要说明核心环节的内容，重点陈述理由。不超过150字。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）不闻爷娘唤女声，但闻燕山胡骑鸣啾啾。（2）万里赴戎机，关山度若飞。（3）朔气传金柝，寒光照铁衣。",
+  "analysis": "本题考查默写。注意“啾啾”“戎”“度”“柝”等字。评分标准：每空1分，共3分。"
+}

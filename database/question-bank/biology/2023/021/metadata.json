@@ -1,0 +1,168 @@
+{
+  "uid": "biology_2023_beijing_021",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 12,
+  "knowledge_points": [
+    "细胞增殖",
+    "DNA复制",
+    "基因敲除"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 547,
+      "height": 323
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 695,
+      "height": 549
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 351,
+      "height": 183
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 353,
+      "height": 276
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 440,
+      "height": 232
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 429,
+      "height": 136
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 585,
+      "height": 427
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 200,
+      "height": 199
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 245,
+      "height": 147
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 579,
+      "height": 236
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 552,
+      "height": 222
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1308,
+      "height": 838
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:22:55.922Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 12分\n\n**知识点**: 细胞增殖、DNA复制、基因敲除\n\n---\n\n## 题目内容\n\n变胖过程中，胰岛B 细胞会增加。增加的B 细胞可能源于自身分裂（途径I），也可能来自胰岛中干细胞的增殖、分化（途径Ⅱ）。科学家采用胸腺嘧啶类似物标记的方法，研究了L 基因缺失导致肥胖的模型小鼠IK 中新增B 细胞的来源。\n\n## 小题\n\n### 21(1)\n\nEdU 和BrdU 都是胸腺嘧啶类似物，能很快进入细胞并掺入正在复制的DNA 中，掺入DNA 的EdU 和BrdU 均能与___________互补配对，并可以被分别检测。未掺入的EdU 和BrdU 短时间内即被降解。\n\n**答案**: 腺嘌呤（A）\n\n### 21(2)\n\n将处于细胞周期不同阶段的细胞混合培养于多孔培养板中，各孔同时加入EdU，随后每隔一定时间向一组培养孔加入BrdU，再培养十几分钟后收集该组孔内全部细胞，检测双标记细胞占EdU 标记细胞的百分比（如图）。图中反映DNA 复制所需时长的是从___________点到___________点。\n\n**答案**: Q；R\n\n### 21(3)\n\n为研究变胖过程中B 细胞的增殖，需使用一批同时变胖的小鼠。为此，本实验使用诱导型基因敲除小鼠，即饲喂诱导物后小鼠的L 基因才会被敲除，形成小鼠IK。科学家利用以下实验材料制备小鼠IK：①纯合小鼠Lx：小鼠L 基因两侧已插入特异DNA 序列（x），但L 的功能正常；②Ce 酶基因：源自噬菌体，其编码的酶进入细胞核后作用于x，导致两个x 间的DNA 片段丢失；③Er 基因：编码的Er 蛋白位于细胞质，与Er 蛋白相连的物质的定位由Er 蛋白决定；④口服药T：小分子化合物，可诱导Er 蛋白进入细胞核。请完善制备小鼠IK 的技术路线：______________________→连接到表达载体→转入小鼠Lx→筛选目标小鼠→____________→获得小鼠IK。\n\n**答案**: 将Ce酶基因与Er基因融合；饲喂口服药T\n\n### 21(4)\n\n各种细胞DNA 复制所需时间基本相同，但途径I 的细胞周期时长（t1）是途径Ⅱ细胞周期时长（t2）的三倍以上。据此，科学家先用EdU 饲喂小鼠IK，t2时间后换用BrdU 饲喂，再过t2时间后检测B 细胞被标记的情况。研究表明，变胖过程中增加的B 细胞大多数来源于自身分裂，与之相应的检测结果应是_________________________。\n\n**答案**: 大多数B细胞只被EdU标记，而不被BrdU标记\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）基因突变 基因重组 染色体变异 （2）杂交育种 单倍体育种 诱变育种 基因工程育种",
+  "analysis": "可遗传变异来源有基因突变、基因重组和染色体变异。育种方法：杂交育种利用基因重组；单倍体育种利用染色体变异；诱变育种利用基因突变；基因工程育种利用基因重组。评分标准：每空1分，共6分。"
+}

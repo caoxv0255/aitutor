@@ -1,0 +1,126 @@
+{
+  "uid": "biology_2020_beijing_021",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [
+    "杂种优势",
+    "遗传育种",
+    "基因定位"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.376Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 12分\n\n**知识点**: 杂种优势、遗传育种、基因定位\n\n---\n\n## 题目内容\n\n遗传组成不同的两个亲本杂交所产生的杂种一代，产量等多个性状常优于双亲，这种现象称为杂种优势。获得具有杂种优势的杂合种子是提高水稻产量的重要途径。\n\n## 小题\n\n### 21(1)\n\n中国是最早种植水稻的国家，已有七千年以上历史。我国南方主要种植籼稻北方主要种植粳稻。籼稻和粳稻是由共同的祖先在不同生态环境中，经过长期的__________，进化形成的。\n\n**答案**: 自然选择\n\n### 21(2)\n\n将多个不同的籼稻、粳稻品种间进行两两杂交，获得三种类型F1（分别表示为籼-仙，籼-粳，粳-粳）。统计F1 的小花数、干重等性状的平均优势（数值越大，杂种优势越明显），结果如图1。可知籼-粳具有更强的杂种优势，说明两个杂交亲本的__________差异越大，以上性状的杂种优势越明显。\n\n**答案**: 遗传组成\n\n### 21(3)\n\n尽管籼-粳具有更强的杂种优势，但由部分配子不育，导致结实率低，从而制约籼-粳杂种优势的应用。研究发现，这种不育机制与位于非同源染色体上的两对基因（A1、A2 和B1、B2）有关。通常情况下，籼稻的基因型为A1A1B1B1 粳稻为A2A2B2B2。A1A2 杂合子所产生的含A2 的雌配子不育；B1B2 杂合子所产生的含B2 的雄配子不育。①根据上述机制，补充籼稻×粳稻产生F1 及F1 自交获得F2 的示意图，用以解释F 结实率低的原因。②为克服粗-粳杂种部分不育，研究者通过杂交、连续多代回交和筛选，培育出育性正常的籼-粳杂交种，过程如图2。通过图中虚线框内的连续多代回交，得到基因型A1A1B1B1 的粳稻。若籼稻作为连续回交的亲本，则不能得到基因型A2A2B2B2 的籼稻，原因是F1（A1A2B1B2）产生基因型为__________的配子不育。③在产量低的甲品系水稻中发现了A、B 基因的等位基因A3、B3（广亲和基因），含有广亲和基因的杂合子，雌雄配子均可育。请写出利用甲品系培育出育性正常的籼-粳杂交稻的流程。（用文字或图示作答均可）\n\n**答案**: ①示意图略（需体现F1基因型A1A2B1B2，F1自交时雌配子A2不育、雄配子B2不育，导致F2结实率低）；②A2B2；③将甲品系（A3A3B3B3）与籼稻（A1A1B1B1）杂交得F1（A1A3B1B3），再与粳稻（A2A2B2B2）杂交，筛选出基因型为A1A2B1B2且含有A3、B3的个体，自交获得育性正常的籼-粳杂交稻。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）基因突变 （2）染色体变异 （3）基因重组 （4）可遗传变异",
+  "analysis": "本题考查生物变异。解题思路：可遗传变异的来源有基因突变、基因重组和染色体变异。基因突变是DNA分子中碱基对的改变；基因重组发生在减数分裂过程中；染色体变异包括结构变异和数目变异。评分标准：每空1分，共4分。"
+}

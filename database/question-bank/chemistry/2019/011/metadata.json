@@ -1,0 +1,158 @@
+{
+  "uid": "chemistry_2019_beijing_011",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 16,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 196,
+      "height": 89
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 145,
+      "height": 164
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 121,
+      "height": 136
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 147,
+      "height": 147
+    },
+    {
+      "filename": "page_1_img_5.jpeg",
+      "page": 1,
+      "width": 134,
+      "height": 210
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 175,
+      "height": 168
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 221,
+      "height": 165
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 309,
+      "height": 247
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 22,
+      "height": 26
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 280,
+      "height": 278
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 80,
+      "height": 141
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 53,
+      "height": 37
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 249,
+      "height": 226
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 696,
+      "height": 177
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 473,
+      "height": 84
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 59,
+      "height": 37
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 446,
+      "height": 85
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 257,
+      "height": 173
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 228,
+      "height": 206
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 407,
+      "height": 172
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 454,
+      "height": 79
+    }
+  ],
+  "created_at": "2026-07-17T16:18:20.265Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 16分\n\n---\n\n## 题目内容\n\n化学小组实验探究SO2 与AgNO3 溶液的反应。\n\n## 小题\n\n### 11(1)①\n\n（1）实验一：用如图装置（夹持、加热仪器略）制备SO2，将足量SO2 通入AgNO3 溶液中，迅速反应，得到无色溶液A 和白色沉淀B。①浓H2SO4 与Cu 反应的化学方程式是     。\n\n**答案**: \n\n### 11(1)②\n\n②试剂a 是     。\n\n**答案**: \n\n### 11(2)①\n\n（2）对体系中有关物质性质分析得出：沉淀B 可能为Ag2SO3、Ag2SO4 或二者混合物。（资料：Ag2SO4 微溶于水；Ag2SO3 难溶于水）实验二：验证B 的成分①写出Ag2SO3 溶于氨水的离子方程式：     。\n\n**答案**: \n\n### 11(2)②\n\n②加入盐酸后沉淀D 大部分溶解，剩余少量沉淀F．推断D 中主要是BaSO3，进而推断B 中含有Ag2SO3．向滤液E 中加入一种试剂，可进一步证实B 中含有Ag2SO3．所用试剂及现象是     。\n\n**答案**: \n\n### 11(3)①\n\n（3）根据沉淀F 的存在，推测SO42﹣的产生有两个途径：途径1：实验一中，SO2 在AgNO3 溶液中被氧化生成Ag2SO4，随沉淀B 进入D。途径2：实验二中，SO32﹣被氧化为SO42﹣进入D。实验三：探究SO42﹣的产生途径①向溶液A 中滴入过量盐酸，产生白色沉淀，证明溶液中含有     ；取上层清液继续滴加BaCl2 溶液，未出现白色沉淀，可判断B 中不含Ag2SO4．做出判断的理由：     。\n\n**答案**: \n\n### 11(3)②\n\n②实验三的结论：     。\n\n**答案**: \n\n### 11(4)\n\n（4）实验一中SO2 与AgNO3 溶液反应的离子方程式是     。\n\n**答案**: \n\n### 11(5)\n\n（5）根据物质性质分析，SO2 与AgNO3 溶液应该可以发生氧化还原反应。将实验一所得混合物放置一段时间，有Ag 和SO42﹣生成。\n\n**答案**: \n\n### 11(6)\n\n（6）根据上述实验所得结论：     。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设需要氧化铁的质量为x。\nFe2O3 + 3CO → 2Fe + 3CO2\n160           112\nx              112t\n160/x = 112/112t，x = (160×112t)/112 = 160t\n答：需要氧化铁160吨。",
+  "analysis": "本题考查根据化学方程式的计算。解题思路：写出化学方程式，找出已知量和未知量，列比例式求解。关键知识点：相对分子质量（Fe2O3=160，Fe=56），化学方程式的书写。步骤：1.设未知量；2.写出化学方程式；3.标出相关物质的相对分子质量和已知量、未知量；4.列比例式；5.求解；6.答。评分标准：设未知数1分，化学方程式正确2分，比例式正确2分，计算结果正确1分，答1分，共7分。"
+}

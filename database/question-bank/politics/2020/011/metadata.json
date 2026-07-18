@@ -1,0 +1,107 @@
+{
+  "uid": "politics_2020_beijing_011",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "粮食安全",
+    "市场调节"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 229,
+      "height": 126
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 371,
+      "height": 234
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 650,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 82,
+      "height": 72
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 92,
+      "height": 84
+    },
+    {
+      "filename": "page_5_img_4.jpeg",
+      "page": 5,
+      "width": 95,
+      "height": 88
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 650,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 645,
+      "height": 348
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 264
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 218,
+      "height": 285
+    }
+  ],
+  "created_at": "2026-07-17T16:36:47.007Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 粮食安全、市场调节\n\n---\n\n## 题目内容\n\n国家建立粮食储备制度，通过粮食储备企业收储放储，保证国内粮食消费需求，调节粮食供求平衡稳定粮食市场价格，应对重大自然灾害或其他突发事件。下列说法正确的是（    ）\n\n## 选项\n\nA. A.国家增加粮食储备，可以提高农民的粮食供给弹性\n\nB. B.按照市场价格收储粮食，能促使种粮农民调整种植结构\n\nC. C.粮食储备企业权衡粮食储量和市场价格，提高种粮农民收入\n\nD. D.粮食储备企业收放储备粮，减少粮价波动，保证粮食价值稳定\n\n---\n\n## 参考答案\n\nB\n\n## 解析\n\nB正确。A错误，供给弹性不一定提高；C错误，不一定提高收入；D错误，不能保证价值稳定。\n\n",
+  "answer": "C",
+  "analysis": "本题考查按劳分配。按劳分配是社会主义公有制经济中个人消费品分配的基本原则。选项A错误，按劳分配只存在于公有制经济。选项B错误，按劳分配以劳动为尺度。选项C正确，按劳分配是社会主义分配原则。选项D错误，按劳分配是主体，但不是唯一。因此选C。"
+}

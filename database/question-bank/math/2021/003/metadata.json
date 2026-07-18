@@ -1,0 +1,98 @@
+{
+  "uid": "math_2021_beijing_003",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 380,
+      "height": 359
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 453,
+      "height": 76
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 348,
+      "height": 541
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 347,
+      "height": 319
+    }
+  ],
+  "created_at": "2026-07-17T16:40:59.559Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n设函数 f(x) 的定义域为 [0,1]，则“函数 f(x) 在 [0,1] 上单调递增”是“函数 f(x) 在 [0,1] 上的最大值为 f(1)”的\n\n## 选项\n\nA. 充分不必要条件\n\nB. 必要不充分条件\n\nC. 充分必要条件\n\nD. 既不充分也不必要条件\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "B",
+  "analysis": "本题考查三角函数的诱导公式。sin(π+α) = -sinα，所以sin(π+α) = -1/2，则sinα = 1/2。选项B正确。"
+}

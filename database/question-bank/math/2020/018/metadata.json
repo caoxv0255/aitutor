@@ -1,0 +1,92 @@
+{
+  "uid": "math_2020_beijing_018",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 14,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 566
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 964,
+      "height": 377
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 294,
+      "height": 271
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:26:53.818Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 14分\n\n---\n\n## 题目内容\n\n某校为举办甲、乙两项不同活动，分别设计了相应的活动方案：方案一、方案二。为了解该校学生对活动方案是否支持，对学生进行简单随机抽样，获得数据如下表：男生支持方案一200人，不支持400人；女生支持方案一300人，不支持100人；男生支持方案二350人，不支持250人；女生支持方案二150人，不支持250人。假设所有学生对活动方案是否支持相互独立。（Ⅰ）分别估计该校男生支持方案一的概率、该校女生支持方案一的概率；（Ⅱ）从该校全体男生中随机抽取2人，全体女生中随机抽取1人，估计这3人中恰有2人支持方案一的概率；（Ⅲ）将该校学生支持方案二的概率估计值记为p0。假设该校一年级有500名男生和300名女生，除一年级外其他年级学生支持方案二的概率估计值记为p1，试比较p0与p1的大小。（结论不要求证明）\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：...",
+  "analysis": "解题步骤：...评分标准：..."
+}

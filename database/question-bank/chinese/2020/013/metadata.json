@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_013",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.926Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列对这首诗的理解与赏析，不正确的一项是\n\n## 选项\n\nA. A.李白由江南农事春景联想到东鲁田地无人耕种，心生茫然之感。\n\nB. B.李白思念一双儿女，追忆昔日春游漫步的场景，不禁泪下如泉。\n\nC. C.这首诗叙事朴实，语言明白如话，亲切自然，堪称“天然去雕饰”。\n\nD. D.这首诗展现李白柔情的一面，其风格与《梦游天姥吟留别》不同。\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "B",
+  "analysis": "本题考查诗歌鉴赏。A项'沉舟侧畔千帆过'表达新事物必将取代旧事物的哲理；B项'无边落木萧萧下'描绘秋景，抒发悲凉之情；C项'长风破浪会有时'表达乐观自信；D项'山重水复疑无路'蕴含哲理。因此选B。"
+}

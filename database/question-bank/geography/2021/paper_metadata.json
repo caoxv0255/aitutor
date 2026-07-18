@@ -1,0 +1,24 @@
+{
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2021,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 23,
+  "source_file": "2021年北京高考地理试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:52:17.358Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 15,
+      "solve": 5
+    },
+    "avg_difficulty": "2.65",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

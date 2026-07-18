@@ -1,0 +1,78 @@
+{
+  "uid": "politics_2019_beijing_002",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 1,
+  "score": 4,
+  "knowledge_points": [
+    "文化载体",
+    "文化与社会",
+    "情感与饮食文化"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.000Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★☆☆☆☆\n\n**分值**: 4分\n\n**知识点**: 文化载体、文化与社会、情感与饮食文化\n\n---\n\n## 题目内容\n\n一碗妈妈做的炸酱面，是挥之不去的儿时记忆；一碗豆花，融溢着对外婆的深深思念；一碗羊肉泡馍，沉淀着浓浓的乡愁……食物温暖了胃，也温暖了心；味蕾会恋上食物，心会记起那个人。这说明（  ）\n\n## 选项\n\nA. A．食物所承载的文化是不断发展的\n\nB. B．情感与思念是饮食文化发展的源泉\n\nC. C．不同地区的饮食文化相互交流，不断融合\n\nD. D．一方水土养一方人，食物承载着家的温暖和故乡情怀\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n材料强调食物承载情感和乡愁，体现一方水土养一方人，D正确；A未体现发展；B错误，实践是源泉；C未体现交流融合。\n\n",
+  "answer": "C",
+  "analysis": "本题考查货币的职能。货币具有价值尺度、流通手段、支付手段、贮藏手段和世界货币五种职能。题目中“标价”是货币在执行价值尺度职能，即衡量商品价值的大小。A选项流通手段是指货币充当商品交换媒介，通常表现为一手交钱一手交货。B选项支付手段是指货币用于清偿债务、支付工资等，通常有赊账或延期支付。D选项贮藏手段是指货币被当作社会财富的一般代表保存起来。因此，标价属于价值尺度职能，C正确。"
+}

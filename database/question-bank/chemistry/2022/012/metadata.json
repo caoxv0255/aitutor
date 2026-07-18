@@ -1,0 +1,278 @@
+{
+  "uid": "chemistry_2022_beijing_012",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 42,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 103,
+      "height": 85
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 124,
+      "height": 54
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 131,
+      "height": 38
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 651,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 227,
+      "height": 173
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 116,
+      "height": 171
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 132,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 98,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 200,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 258,
+      "height": 118
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 383,
+      "height": 250
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 1260,
+      "height": 333
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 554,
+      "height": 205
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 390,
+      "height": 305
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_7.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1260,
+      "height": 397
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 674,
+      "height": 406
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 321,
+      "height": 401
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1260,
+      "height": 463
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 1137,
+      "height": 167
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 406,
+      "height": 474
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 807,
+      "height": 394
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 178,
+      "height": 58
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 877,
+      "height": 216
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 1242,
+      "height": 571
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:00:18.430Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n某MOFs多孔材料孔径大小和形状恰好将N2O4“固定”，能高选择性吸附NO2。废气中的NO2被吸附后，经处理能全部转化为HNO3。原理示意图如下。已知：2NO2(g) ⇌ N2O4(g) ΔH<0。下列说法不正确的是\n\n## 选项\n\nA. A. 温度升高时不利于NO2吸附\n\nB. B. 多孔材料“固定”N2O4，促进2NO2 ⇌ N2O4平衡正向移动\n\nC. C. 转化为HNO3的反应是2N2O4 + O2 + 2H2O = 4HNO3\n\nD. D. 每获得0.4mol HNO3时，转移电子的数目为6.02×10^22\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "A正确，根据物料守恒，c(Na+)=c(CO3^2-)+c(HCO3-)+c(H2CO3)；B错误，电荷守恒应为c(Na+)+c(H+)=2c(CO3^2-)+c(HCO3-)+c(OH-)；C错误，质子守恒应为c(OH-)=c(H+)+c(HCO3-)+2c(H2CO3)；D错误，Na2CO3溶液中CO3^2-水解，c(Na+)>2c(CO3^2-)。"
+}

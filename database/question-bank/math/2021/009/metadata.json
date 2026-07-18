@@ -1,0 +1,98 @@
+{
+  "uid": "math_2021_beijing_009",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 4,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 380,
+      "height": 359
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 453,
+      "height": 76
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 348,
+      "height": 541
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 347,
+      "height": 319
+    }
+  ],
+  "created_at": "2026-07-17T16:40:59.565Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★★☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n已知圆 C: x^2+y^2=4，直线 l: y=kx+m，则当 k 的值发生变化时，直线被圆 C 所截的弦长的最小值为1，则 m 的取值为\n\n## 选项\n\nA. ±2\n\nB. ±√2\n\nC. ±√3\n\nD. ±3\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "本题考查导数的几何意义。f(x)=x^2，f'(x)=2x，在x=1处的导数值为2，即切线斜率为2。又切点为(1,1)，切线方程为y-1=2(x-1)，即y=2x-1。选项A正确。"
+}

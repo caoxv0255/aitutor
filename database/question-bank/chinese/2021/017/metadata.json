@@ -1,0 +1,80 @@
+{
+  "uid": "chinese_2021_beijing_017",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:39:35.336Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n下列对文中加点词语的解说，不正确的一项是（   ）\n\n## 选项\n\nA. A. 父亲深奥体腔内部  深奥：深邃神秘\n\nB. B. 心灵吐诉需要节奏  吐诉：吐露、倾诉\n\nC. C. 管子的声音是峻拔的  峻拔：尖而细\n\nD. D. 杂乱的一切都融和了  融和：和谐\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "D",
+  "analysis": "本题考查修辞手法。A项“朔气传金柝”无夸张；B项“将军百战死”互文；C项“策勋十二转”夸张；D项“雄兔脚扑朔，雌兔眼迷离”比喻。故选D。"
+}

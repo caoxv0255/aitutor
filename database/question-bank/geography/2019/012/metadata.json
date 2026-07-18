@@ -1,0 +1,80 @@
+{
+  "uid": "geography_2019_beijing_012",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 36,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 586,
+      "height": 225
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 269,
+      "height": 265
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 313,
+      "height": 238
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 450,
+      "height": 177
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 366,
+      "height": 274
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 226,
+      "height": 167
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 320,
+      "height": 337
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 676,
+      "height": 516
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 423,
+      "height": 384
+    }
+  ],
+  "created_at": "2026-07-17T16:24:03.196Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 36分\n\n---\n\n## 题目内容\n\n中国与东南亚山水相连，人文相通，跨境合作不断深化。读图，回答下列问题。\n（1）说明图示区域地震多发的原因和主要危害。\n（2）阐述建立跨境经济合作区对当地减少贫困的积极作用。\n（3）分析老挝发展多种优质农产品的有利条件。\n（4）简述游客选择该时段出行的理由。\n\n## 小题\n\n### 12(1)\n\n说明图示区域地震多发的原因和主要危害。\n\n**答案**: \n\n### 12(2)\n\n阐述建立跨境经济合作区对当地减少贫困的积极作用。\n\n**答案**: \n\n### 12(3)\n\n分析老挝发展多种优质农产品的有利条件。\n\n**答案**: \n\n### 12(4)\n\n简述游客选择该时段出行的理由。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "答案：北京时间为10:00，伦敦时间为2:00。",
+  "analysis": "解题步骤：1. 北京位于东八区，伦敦位于零时区。2. 两地时区差为8。3. 北京比伦敦早8小时，所以伦敦时间=北京时间-8小时=10:00-8:00=2:00。评分标准：时区差计算正确得2分，时间计算正确得3分。"
+}

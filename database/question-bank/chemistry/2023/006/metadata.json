@@ -1,0 +1,272 @@
+{
+  "uid": "chemistry_2023_beijing_006",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 41,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1536,
+      "height": 349
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 215,
+      "height": 211
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 274,
+      "height": 274
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 476,
+      "height": 147
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 1125,
+      "height": 433
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 713,
+      "height": 291
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 1031,
+      "height": 516
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 396,
+      "height": 275
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 284,
+      "height": 189
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 940,
+      "height": 513
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 704,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 1247,
+      "height": 573
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 579,
+      "height": 447
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 626,
+      "height": 472
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 529,
+      "height": 468
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1187,
+      "height": 325
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 1260,
+      "height": 607
+    },
+    {
+      "filename": "page_8_img_4.png",
+      "page": 8,
+      "width": 488,
+      "height": 222
+    },
+    {
+      "filename": "page_8_img_5.png",
+      "page": 8,
+      "width": 187,
+      "height": 97
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 252,
+      "height": 128
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 273,
+      "height": 142
+    },
+    {
+      "filename": "page_9_img_4.png",
+      "page": 9,
+      "width": 1239,
+      "height": 329
+    },
+    {
+      "filename": "page_9_img_5.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_6.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_7.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 642,
+      "height": 519
+    },
+    {
+      "filename": "page_10_img_3.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_4.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.jpeg",
+      "page": 11,
+      "width": 552,
+      "height": 302
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:21:16.109Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列离子方程式与所给事实不相符的是\n\n## 选项\n\nA. A. Cl2制备84消毒液(主要成分是NaClO)：Cl2 + 2OH- = Cl- + ClO- + H2O\n\nB. B. 食醋去除水垢中的CaCO3：CaCO3 + 2H+ = Ca2+ + H2O + CO2↑\n\nC. C. 利用覆铜板制作印刷电路板：2Fe3+ + Cu = 2Fe2+ + Cu2+\n\nD. D. Na2S去除废水中的Hg2+：Hg2+ + S2- = HgS↓\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "B",
+  "analysis": "该题考查化学方程式的书写。A：铁在氧气中燃烧生成四氧化三铁，不是氧化铁，错误；B：氢气燃烧生成水，正确；C：镁燃烧生成氧化镁，但化学式应为MgO，且条件点燃，错误；D：高锰酸钾分解生成锰酸钾、二氧化锰和氧气，但未配平，错误。因此选B。"
+}

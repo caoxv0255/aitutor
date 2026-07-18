@@ -1,0 +1,107 @@
+{
+  "uid": "politics_2020_beijing_004",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "联系的观点",
+    "实践的特点"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 229,
+      "height": 126
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 371,
+      "height": 234
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 650,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 82,
+      "height": 72
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 92,
+      "height": 84
+    },
+    {
+      "filename": "page_5_img_4.jpeg",
+      "page": 5,
+      "width": 95,
+      "height": 88
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 650,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 645,
+      "height": 348
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 264
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 218,
+      "height": 285
+    }
+  ],
+  "created_at": "2026-07-17T16:36:47.001Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 联系的观点、实践的特点\n\n---\n\n## 题目内容\n\n“永定河，出西山，碧水环绕北京湾……”，永定河见证了北京城的发展历史。20世纪末，由于人口快速增长、全流域过度开发、气候变化等原因，永定河北京段基本干涸。如今，随着综合治理工程的推进和“引黄入京”生态补水的实施，北京段实现了全线通水，“卢沟晓月”美景重现。永定河治理工程的实施（    ）\n①实现了主次矛盾的转化，使永定河北京段由基本干涸到通水\n②改变了事物存在和发展的条件，用“远水”解了“近渴”\n③得益于统筹规划、协同治理，为人们创造了良好生态环境\n④体现了实践的能动性，说明生态修复是客观见之于主观的过程\n\n## 选项\n\nA. A.①②\n\nB. B.①④\n\nC. C.②③\n\nD. D.③④\n\n---\n\n## 参考答案\n\nC\n\n## 解析\n\n②③正确。①错误，主次矛盾转化不恰当；④错误，生态修复是主观见之于客观的过程。\n\n",
+  "answer": "D",
+  "analysis": "本题考查影响消费的因素。收入是消费的基础和前提，当前可支配收入、未来收入预期和收入差距都会影响消费水平。选项A错误，收入水平是主要因素。选项B错误，物价水平影响消费，但不是根本因素。选项C错误，消费心理影响消费行为。选项D正确，收入是消费的基础和前提。因此选D。"
+}

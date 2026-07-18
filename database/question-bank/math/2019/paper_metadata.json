@@ -1,0 +1,27 @@
+{
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2019,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 24,
+  "source_file": "2019年北京高考数学试卷（文科）（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:13:47.735Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 8,
+      "fill": 6,
+      "solve": 6
+    },
+    "avg_difficulty": "2.60",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

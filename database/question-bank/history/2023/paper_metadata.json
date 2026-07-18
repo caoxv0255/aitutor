@@ -1,0 +1,22 @@
+{
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2023,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 0,
+  "source_file": "2023年北京高考历史试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T15:29:55.991Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 15,
+      "solve": 5
+    },
+    "avg_difficulty": "N/A",
+    "answer_completeness": "75.0",
+    "analysis_completeness": "0.0"
+  }
+}

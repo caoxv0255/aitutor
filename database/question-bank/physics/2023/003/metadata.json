@@ -1,0 +1,206 @@
+{
+  "uid": "physics_2023_beijing_003",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 291,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 318,
+      "height": 249
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 287,
+      "height": 79
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 252,
+      "height": 258
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 320,
+      "height": 185
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 318,
+      "height": 152
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 306,
+      "height": 156
+    },
+    {
+      "filename": "page_3_img_4.jpeg",
+      "page": 3,
+      "width": 364,
+      "height": 295
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 364,
+      "height": 197
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 310,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 631,
+      "height": 406
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 283,
+      "height": 418
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 331,
+      "height": 281
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 277,
+      "height": 354
+    },
+    {
+      "filename": "page_6_img_5.png",
+      "page": 6,
+      "width": 268,
+      "height": 287
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 493,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 800,
+      "height": 728
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 331,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:19:31.570Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列核反应方程中括号内的粒子为中子的是（   ）\n\n## 选项\n\nA. A. 235U + n → 144Ba + 89Kr + ( )\n\nB. B. 238U → 234Th + ( )\n\nC. C. 14N + 4He → 17O + ( )\n\nD. D. 14C → 14N + ( )\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "B",
+  "analysis": "根据胡克定律F=kx，弹簧的劲度系数k=F/x=10N/0.05m=200N/m。选项B正确。"
+}

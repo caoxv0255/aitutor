@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_011",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "诗歌鉴赏"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.648Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 诗歌鉴赏\n\n---\n\n## 题目内容\n\n下列对诗句的分析，不正确的一项是\n\n## 选项\n\nA. A. 前六句写柏树枝繁叶茂、高大轩昂之态，表现出诗人的赞美之情。\n\nB. B. “岂知”两句写柏的衰败，“岁寒”两句写凋零，流露出惋惜之情。\n\nC. C. “客从何乡来”两句，诗人由病柏而想到故乡，抒发了思乡之情。\n\nD. D. 这首诗在结尾两句抒发胸臆，表达了世事无常、难以意料的感慨。\n\n---\n\n## 参考答案\n\nC\n\n## 解析\n\n“客从何乡来”两句写诗人伫立久吁怪，并非思乡，而是对病柏的感慨。\n\n",
+  "answer": "B",
+  "analysis": "本题考查诗歌鉴赏。'独坐幽篁里'中'独'字并非表现孤独凄凉，而是表现诗人与自然为伴的宁静淡泊心境。因此选B。"
+}

@@ -1,0 +1,92 @@
+{
+  "uid": "chinese_2023_beijing_011",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:14:51.015Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n阅读下面四则材料，按要求回答问题。\n①子曰：“君子疾没世而名不称焉。”\n②子曰：“君子病无能焉，不病人之不已知也。”\n③子曰：“君子病没世而名不称焉。吾道不行矣，吾何以自见于后世哉？”\n④先生（王阳明）曰：“为学大病在好名。……‘疾没世而名不称’，‘称’字去声读，亦‘声闻过情，君子耻之’之意。”\n（1）说明杨、王两种解读对“称”的读音和词义的理解有何不同。\n（2）用自己的话写出王阳明对①“君子疾没世而名不称焉”解读的大意。\n（3）在杨、王两种解读中任选一种，从上述材料中找出依据，简要解释其合理性。\n\n## 小题\n\n### 11(1)\n\n说明杨、王两种解读对“称”的读音和词义的理解有何不同。\n\n**答案**: \n\n### 11(2)\n\n用自己的话写出王阳明对①“君子疾没世而名不称焉”解读的大意。\n\n**答案**: \n\n### 11(3)\n\n在杨、王两种解读中任选一种，从上述材料中找出依据，简要解释其合理性。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）《钢铁是怎样炼成的》 保尔·柯察金（2分）\n（2）示例：保尔在双目失明、身体瘫痪的情况下，仍坚持文学创作，体现了钢铁般的意志。（2分）",
+  "analysis": "本题考查名著阅读。第一问填写书名和主人公；第二问需结合具体情节，突出人物精神品质。评分标准：每空1分；第二问需有情节和品质，缺一扣1分。"
+}

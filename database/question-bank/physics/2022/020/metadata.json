@@ -1,0 +1,210 @@
+{
+  "uid": "physics_2022_beijing_020",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 10,
+  "knowledge_points": [
+    "电磁感应",
+    "霍尔效应",
+    "地磁场"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 387,
+      "height": 413
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 566,
+      "height": 289
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 564,
+      "height": 374
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 358,
+      "height": 257
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 282,
+      "height": 339
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 529,
+      "height": 284
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 355,
+      "height": 257
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 222,
+      "height": 289
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 481,
+      "height": 417
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 401,
+      "height": 458
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 722,
+      "height": 190
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 380,
+      "height": 323
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 275,
+      "height": 543
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 818,
+      "height": 154
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 651,
+      "height": 628
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 720,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 376,
+      "height": 261
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 383
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 381,
+      "height": 458
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:58:36.495Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 10分\n\n**知识点**: 电磁感应、霍尔效应、地磁场\n\n---\n\n## 题目内容\n\n指南针是利用地磁场指示方向的装置，它的广泛使用促进了人们对地磁场的认识。现代科技可以实现对地磁场的精确测量。\n（1）如图1所示，两同学把一根长约10m的电线两端用其他导线连接一个电压表，迅速摇动这根电线。若电线中间位置的速度约10m/s，电压表的最大示数约2mV。粗略估算该处地磁场磁感应强度的大小B地；\n（2）如图2所示，一矩形金属薄片，其长为a，宽为b，厚为c。大小为I的恒定电流从电极P流入、从电极Q流出，当外加与薄片垂直的匀强磁场时，M、N两电极间产生的电压为U。已知薄片单位体积中导电的电子数为n，电子的电荷量为e。求磁感应强度的大小B；\n（3）假定（2）中的装置足够灵敏，可用来测量北京地区地磁场磁感应强度的大小和方向，请说明测量的思路。\n\n---\n\n## 参考答案\n\n（1）B地≈5×10⁻⁵T；（2）B=necU/I；（3）见解析\n\n",
+  "answer": "解：设物体质量为m，从高度h=5m处自由下落，与地面碰撞后反弹高度h'=3.2m。取竖直向下为正方向。落地前速度v1=√(2gh)=√(2×10×5)=10m/s，方向向下。反弹后速度v2=-√(2gh')=-√(2×10×3.2)=-8m/s，方向向上。动量变化Δp=mv2-mv1=m(-8-10)=-18m kg·m/s，大小18m，方向向上。若m=1kg，则Δp=18kg·m/s。根据动量定理，合外力冲量等于动量变化，地面对物体的冲量I=Δp=18N·s，方向向上。故地面对物体的冲量大小为18N·s。",
+  "analysis": "本题主要考查动量定理和自由落体运动。解题步骤：1. 求落地速度和反弹速度；2. 计算动量变化；3. 根据动量定理求冲量。评分标准：速度计算正确各得2分，动量变化计算正确得3分，冲量大小和方向正确得3分。注意：方向判断正确。"
+}

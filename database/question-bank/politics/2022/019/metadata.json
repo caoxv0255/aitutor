@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_019",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.374Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n今年以来，为稳定宏观经济和推动经济高质量发展，我国政府出台了一系列调控政策。 \n材料一  我国实施新的组合式税费支持政策，精准实施对中小微企业、个体工商户减税降费。2022 年全年预计退税减税约2.5 万亿元。 \n材料二  我国2022 年一般公共预算支出安排26.71 万亿元，比上年扩大2 万亿元以上。财政部门优化支出结构，优先支持已纳入国家“十四五”规划纲要、重点专项规划的重点项目，适度超前开展基础设施投资，加大对科技攻关、生态环保、基本民生、现代农业等领域及区域重大战略的支持力度。 \n材料三  4 月25 日，中国人民银行降低金融机构存款准备金率0.25 个百分点，向市场释放长期资金5300 亿元。5 月15 日，中国人民银行和中国银行保险监管委员会调整差别化住房信贷政策。政策出台后，多家银行下调首套房贷款利率。 \n（1）运用《经济与社会》知识，分析上述材料中的政策工具在稳定宏观经济和推动经济高质量发展方面如何发挥作用。 \n（2）当前，世界经济复苏面临严峻挑战。运用《当代国际政治与经济》知识，阐述中国宏观经济稳定对世界经济发展的意义。\n\n## 小题\n\n### 19(1)\n\n运用《经济与社会》知识，分析上述材料中的政策工具在稳定宏观经济和推动经济高质量发展方面如何发挥作用。\n\n**答案**: \n\n### 19(2)\n\n当前，世界经济复苏面临严峻挑战。运用《当代国际政治与经济》知识，阐述中国宏观经济稳定对世界经济发展的意义。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "①效率是公平的物质前提，公平是提高经济效率的保证。②初次分配和再分配都要兼顾效率与公平，既要提高效率，又要促进公平。③发展经济必须充分调动各方面的积极性，提高资源利用效率，同时要将收入差距控制在合理范围内，使发展成果惠及全体人民。④正确处理效率与公平的关系，既要反对平均主义，又要防止收入悬殊。",
+  "analysis": "本题考查效率与公平的关系。解题思路：先阐述二者关系，再说明如何兼顾。关键知识点：效率与公平的辩证关系、分配原则。评分标准：每点2分，共8分。答出关系得2分，兼顾原则得2分，具体措施得2分，反对两种倾向得2分。"
+}

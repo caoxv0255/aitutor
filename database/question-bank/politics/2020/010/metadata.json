@@ -1,0 +1,107 @@
+{
+  "uid": "politics_2020_beijing_010",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "全国人大",
+    "对外交往"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 229,
+      "height": 126
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 371,
+      "height": 234
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 650,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 82,
+      "height": 72
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 92,
+      "height": 84
+    },
+    {
+      "filename": "page_5_img_4.jpeg",
+      "page": 5,
+      "width": 95,
+      "height": 88
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 650,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 645,
+      "height": 348
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 264
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 218,
+      "height": 285
+    }
+  ],
+  "created_at": "2026-07-17T16:36:47.006Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 全国人大、对外交往\n\n---\n\n## 题目内容\n\n十三届全国人大二次会议以来，全国人大及其常委委员会部分工作如下，下列推断正确的是（    ）\n①全国人大与各国议会的职权相同，具有交往交流的基础\n②全国人大与各国议会的友好交往，有利于增进共识，促进合作\n③全国人大常委会作为国家权力机关，在高层外交中起到积极作用\n④全国人大服务党和国家外交大局，在对外交往中发挥着独特优势\n\n## 选项\n\nA. A.①③\n\nB. B.①④\n\nC. C.②③\n\nD. D.②④\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n②④正确。①错误，职权不同；③错误，全国人大常委会不是国家权力机关，全国人大才是。\n\n",
+  "answer": "B",
+  "analysis": "本题考查股票与债券的区别。股票是所有权凭证，债券是债务凭证。选项A错误，股票风险高于债券。选项B正确，股票代表所有权，债券代表债权。选项C错误，股票不能还本付息，债券到期还本付息。选项D错误，股票收益不确定，债券收益稳定。因此选B。"
+}

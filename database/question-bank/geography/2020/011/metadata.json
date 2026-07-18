@@ -1,0 +1,128 @@
+{
+  "uid": "geography_2020_beijing_011",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 309,
+      "height": 327
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 553,
+      "height": 167
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 435,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 440,
+      "height": 271
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 369,
+      "height": 275
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 553,
+      "height": 159
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 415,
+      "height": 323
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 540,
+      "height": 326
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 603,
+      "height": 131
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 553,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 488,
+      "height": 317
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 421,
+      "height": 297
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 552,
+      "height": 264
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 553,
+      "height": 377
+    },
+    {
+      "filename": "page_10_img_2.jpeg",
+      "page": 10,
+      "width": 600,
+      "height": 279
+    }
+  ],
+  "created_at": "2026-07-17T16:38:08.410Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n银西高铁（银川-西安北）途经陕甘宁三省区。经过7个月的铺轨作业，陕西段于2020年6月顺利完工。据此，完成下列小题。该段铁路（   ）\n\n## 选项\n\nA. 铺轨期间，西安正午太阳高度变小\n\nB. 位于温带，地处地势第二级阶梯\n\nC. 穿越秦岭山地，容易受到滑坡影响\n\nD. 途经黄河流域下游，多桥梁隧道\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "C",
+  "analysis": "世界主要气候类型中，热带雨林气候分布在赤道附近，全年高温多雨。C选项正确。A选项为热带草原气候，B选项为热带季风气候，D选项为热带沙漠气候。"
+}

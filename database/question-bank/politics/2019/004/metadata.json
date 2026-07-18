@@ -1,0 +1,78 @@
+{
+  "uid": "politics_2019_beijing_004",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 4,
+  "knowledge_points": [
+    "劳动教育",
+    "全面发展",
+    "价值观"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.001Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4分\n\n**知识点**: 劳动教育、全面发展、价值观\n\n---\n\n## 题目内容\n\n清扫街巷、修剪花木等社区劳动，果蔬种植、木工制作、机床操作等学农学工实践，“医生”“博物馆讲解员”等职业体验……丰富多彩的劳动教育课程，让同学们在不一样的学习中收获成长。开展劳动教育，旨在引导学生（  ）\n①了解社会，提高实践能力，实现全面发展\n②提高劳动技能，促进劳动力市场充分竞争\n③树立职业平等观，推动社会分工的细化\n④树立正确价值观，崇尚劳动，尊重劳动者\n\n## 选项\n\nA. A．①②\n\nB. B．①④\n\nC. C．②③\n\nD. D．③④\n\n---\n\n## 参考答案\n\nB\n\n## 解析\n\n劳动教育旨在促进学生全面发展，树立正确劳动价值观，①④正确；②③不是主要目的。\n\n",
+  "answer": "D",
+  "analysis": "本题考查价值规律的表现形式。价值规律的表现形式是价格围绕价值上下波动。A选项错误，因为价格与价值并不总是相等，受供求影响会偏离。B选项错误，因为价格波动不是无规律的，而是以价值为中心。C选项错误，因为价格波动是价值规律的表现形式，不是对价值规律的否定。D选项正确，价格围绕价值上下波动正是价值规律的表现形式。"
+}

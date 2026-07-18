@@ -1,0 +1,170 @@
+{
+  "uid": "math_2019_beijing_017",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 12,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 24,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 10,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_1_img_7.png",
+      "page": 1,
+      "width": 170,
+      "height": 261
+    },
+    {
+      "filename": "page_1_img_8.png",
+      "page": 1,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_1_img_9.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_10.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_11.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 158,
+      "height": 154
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 108,
+      "height": 69
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 213,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 116,
+      "height": 49
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 207,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 22,
+      "height": 47
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 13,
+      "height": 35
+    }
+  ],
+  "created_at": "2026-07-17T16:13:47.732Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 12分\n\n---\n\n## 题目内容\n\n改革开放以来，人们的支付方式发生了巨大转变．近年来，移动支付已成为主要支付方式之一．为了解某校学生上个月A，B两种移动支付方式的使用情况，从全校所有的1000名学生中随机抽取了100人，发现样本中A，B两种支付方式都不使用的有5人，样本中仅使用A和仅使用B的学生的支付金额分布情况如下：\\begin{array}{|c|c|c|} \\hline & \\text{不大于2000元} & \\text{大于2000元} \\\\ \\hline \\text{仅使用A} & 27人 & 3人 \\\\ \\hline \\text{仅使用B} & 24人 & 1人 \\\\ \\hline \\end{array}（Ⅰ）估计该校学生中上个月A，B两种支付方式都使用的人数；（Ⅱ）从样本仅使用B的学生中随机抽取1人，求该学生上个月支付金额大于2000元的概率；（Ⅲ）已知上个月样本学生的支付方式在本月没有变化．现从样本仅使用B的学生中随机抽查1人，发现他本月的支付金额大于2000元．结合（Ⅱ）的结果，能否认为样本仅使用B的学生中本月支付金额大于2000元的人数有变化？说明理由．\n\n## 小题\n\n### 17(Ⅰ)\n\n估计该校学生中上个月A，B两种支付方式都使用的人数；\n\n**答案**: 400人\n\n### 17(Ⅱ)\n\n从样本仅使用B的学生中随机抽取1人，求该学生上个月支付金额大于2000元的概率；\n\n**答案**: \\frac{1}{25}\n\n### 17(Ⅲ)\n\n已知上个月样本学生的支付方式在本月没有变化．现从样本仅使用B的学生中随机抽查1人，发现他本月的支付金额大于2000元．结合（Ⅱ）的结果，能否认为样本仅使用B的学生中本月支付金额大于2000元的人数有变化？说明理由．\n\n**答案**: 可以认为有变化，理由略\n\n---\n\n## 参考答案\n\n（Ⅰ）400人；（Ⅱ）\\frac{1}{25}；（Ⅲ）可以认为有变化，理由略\n\n",
+  "answer": "解：(1) f'(x)=3x^2-3，令f'(x)=0得x=±1，列表得f(x)在(-∞,-1)增，(-1,1)减，(1,+∞)增，所以极大值f(-1)=2，极小值f(1)=-2。(2) 由(1)知f(x)在[-2,2]上，f(-2)=-2，f(-1)=2，f(1)=-2，f(2)=2，所以最大值为2，最小值为-2。",
+  "analysis": "本题考查利用导数求函数极值和最值。解题思路：求导，令导数为零得驻点，列表判断单调性得极值；再比较区间端点与极值点函数值得最值。关键知识点：导数与单调性、极值、最值的关系。评分标准：(1)求导正确得2分，列表得2分，极值得2分；(2)计算端点值得2分，最值正确得2分。"
+}

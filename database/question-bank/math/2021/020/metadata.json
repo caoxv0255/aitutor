@@ -1,0 +1,98 @@
+{
+  "uid": "math_2021_beijing_020",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 15,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 380,
+      "height": 359
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 453,
+      "height": 76
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 348,
+      "height": 541
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 347,
+      "height": 319
+    }
+  ],
+  "created_at": "2026-07-17T16:40:59.572Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 15分\n\n---\n\n## 题目内容\n\n已知椭圆 E: x^2/a^2 + y^2/b^2 = 1 (a>b>0) 过点 A(0,-2)，以四个顶点围成的四边形面积为4√5．\n（1）求椭圆E的标准方程；\n（2）过点P(0,-3)的直线l斜率为k，交椭圆E于不同的两点B，C，直线AB，AC交y=-3于点M、N，若|PM|+|PN|≤15，求k的取值范围．\n\n## 小题\n\n### 20(1)\n\n求椭圆E的标准方程\n\n**答案**: x^2/5 + y^2/4 = 1\n\n### 20(2)\n\n过点P(0,-3)的直线l斜率为k，交椭圆E于不同的两点B，C，直线AB，AC交y=-3于点M、N，若|PM|+|PN|≤15，求k的取值范围\n\n**答案**: [-2, -1] ∪ [1, 2]\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设事件A为“第一次取到白球”，事件B为“第二次取到白球”。则P(A)=3/5，P(B|A)=2/4=1/2，所以P(AB)=P(A)P(B|A)=3/5×1/2=3/10。",
+  "analysis": "本题考查条件概率与乘法公式。第一次取到白球后，袋中剩余2白2黑，第二次取到白球的概率为1/2，相乘即得。"
+}

@@ -1,0 +1,168 @@
+{
+  "uid": "geography_2021_beijing_020",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [
+    "水体污染",
+    "环境保护",
+    "可持续发展"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 562,
+      "height": 270
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 291,
+      "height": 131
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 625,
+      "height": 148
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 469,
+      "height": 127
+    },
+    {
+      "filename": "page_2_img_4.jpeg",
+      "page": 2,
+      "width": 377,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 481,
+      "height": 259
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 493,
+      "height": 134
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 343,
+      "height": 349
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 518,
+      "height": 718
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 502,
+      "height": 311
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 560,
+      "height": 277
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 345,
+      "height": 187
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 335,
+      "height": 256
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 401,
+      "height": 253
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 222,
+      "height": 349
+    }
+  ],
+  "created_at": "2026-07-17T16:52:17.358Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 12分\n\n**知识点**: 水体污染、环境保护、可持续发展\n\n---\n\n## 题目内容\n\n图为洱海流域示意图。读图，回答下列问题。洱海流域面积约2565平方千米，2017年居住人口86万。该地农业生产涵盖种植、养殖和水产捕捞等，工业生产包括食品加工等，旅游业发展迅速。（1）说明洱海流域特征对水体污染的影响。居民老何从小在洱海边长大，他的就业与生活经历见证了洱海环境的变化。起初，他以打渔为生。1996年，洱海蓝藻暴发，当地渔政部门取缔了机动渔船，老何改行从事水产养殖。2003年，蓝藻再次暴发，按照退田、退塘等要求，老何再次改行，开起了客栈。近几年，他响应保护洱海生态环境的号召，拆掉了被划入“红线”范围内的客房。（2）概述老何经历三次改变所对应的洱海污染治理成效。2018年，在洱海湖滨地带实施生态修复与湿地工程，建设“洱海生态廊道”，其中12千米供游客参观体验，当地村民受聘负责生态廊道的管理和维护。（3）阐述洱海生态廊道的生态、经济和社会效益。\n\n## 小题\n\n### 20(1)\n\n说明洱海流域特征对水体污染的影响。\n\n**答案**: 流域面积大，人口多，生产生活污水排放多；农业、工业、旅游业活动产生污染物，易导致水体富营养化。\n\n### 20(2)\n\n概述老何经历三次改变所对应的洱海污染治理成效。\n\n**答案**: 第一次：取缔机动渔船，减少油污污染；第二次：退田退塘，减少农业污染；第三次：拆除红线内客房，减少生活污水排放。\n\n### 20(3)\n\n阐述洱海生态廊道的生态、经济和社会效益。\n\n**答案**: 生态效益：修复湿地，净化水质，保护生物多样性；经济效益：发展旅游业，增加就业和收入；社会效益：提高环保意识，改善人居环境。\n\n---\n\n## 参考答案\n\n（1）影响：流域面积大，人口多，生产生活污水排放多；农业、工业、旅游业活动产生污染物，易导致水体富营养化。（2）第一次：取缔机动渔船，减少油污污染；第二次：退田退塘，减少农业污染；第三次：拆除红线内客房，减少生活污水排放。（3）生态效益：修复湿地，净化水质，保护生物多样性；经济效益：发展旅游业，增加就业和收入；社会效益：提高环保意识，改善人居环境。\n\n## 解析\n\n（1）流域特征包括面积、人口、产业等，影响污染来源和程度。（2）三次改变对应不同治理措施。（3）生态廊道综合效益从生态、经济、社会三方面分析。\n\n",
+  "answer": "（1）亚洲、非洲、北美洲、南美洲、南极洲、欧洲、大洋洲。（2）亚洲面积最大，大洋洲面积最小。（3）赤道穿过非洲、亚洲、南美洲、大洋洲。",
+  "analysis": "本题考查七大洲名称、面积排序及赤道穿过的大洲。七大洲面积从大到小：亚非北南美，南极欧大洋。赤道穿过非洲、亚洲、南美洲、大洋洲。评分标准：每个大洲名称0.5分，共3.5分；面积最大最小1分；赤道穿过的大洲每个0.5分，共2分。"
+}

@@ -1,0 +1,278 @@
+{
+  "uid": "chemistry_2022_beijing_014",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 42,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 103,
+      "height": 85
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 124,
+      "height": 54
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 131,
+      "height": 38
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 651,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 227,
+      "height": 173
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 116,
+      "height": 171
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 132,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 98,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 200,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 258,
+      "height": 118
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 383,
+      "height": 250
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 1260,
+      "height": 333
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 554,
+      "height": 205
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 390,
+      "height": 305
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_7.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1260,
+      "height": 397
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 674,
+      "height": 406
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 321,
+      "height": 401
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1260,
+      "height": 463
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 1137,
+      "height": 167
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 406,
+      "height": 474
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 807,
+      "height": 394
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 178,
+      "height": 58
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 877,
+      "height": 216
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 1242,
+      "height": 571
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:00:18.431Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\nCO2捕获和转化可减少CO2排放并实现资源利用，原理如图1所示。反应①完成之后，以N2为载气，以恒定组成的N2、CH4混合气，以恒定流速通入反应器，单位时间流出气体各组分的物质的量随反应时间变化如图2所示。反应过程中始终未检测到CO2，在催化剂上有积碳。下列说法不正确的是\n\n## 选项\n\nA. A. 反应①为CaO+CO2=CaCO3；反应②为CaCO3+CH4 → CaO+2CO+2H2\n\nB. B. t1~t3，n(H2)比n(CO)多，且生成H2速率不变，可能有副反应CH4 → C+2H2\n\nC. C. t2时刻，副反应生成H2的速率大于反应②生成H2速率\n\nD. D. t3之后，生成CO的速率为0，是因为反应②不再发生\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "A错误，升高温度，正逆反应速率均增大；B正确，加入催化剂，同等程度改变正逆反应速率，平衡不移动；C错误，增大压强，平衡向气体体积减小的方向移动；D错误，增加反应物浓度，平衡正向移动，但K不变。"
+}

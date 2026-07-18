@@ -1,0 +1,78 @@
+{
+  "uid": "politics_2019_beijing_001",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 4,
+  "knowledge_points": [
+    "文化载体",
+    "文化独特性",
+    "文化继承与发展"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:50.999Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4分\n\n**知识点**: 文化载体、文化独特性、文化继承与发展\n\n---\n\n## 题目内容\n\n“刀把楼、北京结、天梯、鹰飞倒仰……”箭扣长城因其形如“满弓扣箭”得名，城楼和山崖融合在一起，残垣断壁，雄浑苍凉，别有一种深沉之美，是明代长城最险段之一。箭扣长城的修缮不求结构完整，而是保持其残缺状态，开发方式也将区别于其他传统景区。下列选项正确的是（  ）\n①箭扣长城作为长城文化载体，蕴含着丰富的历史文化信息\n②“箭扣之美”具有独特性，修缮和开发方案应量身打造\n③文化具有继承性，“箭扣之美”来自时间，越古老的文化越有价值\n④文化需要发展，只有旅游开发才能让长城文化“活”起来\n\n## 选项\n\nA. A．①②\n\nB. B．①④\n\nC. C．②③\n\nD. D．③④\n\n---\n\n## 参考答案\n\nA\n\n## 解析\n\n箭扣长城作为文化遗产，承载历史文化信息，①正确；其独特之美需要量身打造开发方案，②正确；文化价值不单纯取决于古老程度，③错误；文化发展途径多样，旅游开发不是唯一方式，④错误。\n\n",
+  "answer": "A",
+  "analysis": "本题考查商品的基本属性。商品是用于交换的劳动产品，具有使用价值和价值两个基本属性。A选项正确，因为商品必须同时具备使用价值和价值，缺一不可。B选项错误，因为商品的价值是凝结在商品中的无差别人类劳动，不是由使用价值决定的。C选项错误，因为商品交换本质上是劳动量的交换，使用价值是交换价值的物质承担者。D选项错误，因为商品的价值量由社会必要劳动时间决定，不是由个别劳动时间决定。"
+}

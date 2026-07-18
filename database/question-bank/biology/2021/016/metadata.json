@@ -1,0 +1,158 @@
+{
+  "uid": "biology_2021_beijing_016",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 454,
+      "height": 288
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 510,
+      "height": 377
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 353,
+      "height": 264
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 511,
+      "height": 211
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 432,
+      "height": 302
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 550,
+      "height": 168
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 274,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 498,
+      "height": 237
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 593,
+      "height": 305
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 720,
+      "height": 322
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1000,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 596,
+      "height": 427
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:47:31.016Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n新冠病毒（SARS-CoV-2）引起的疫情仍在一些国家和地区肆虐，接种疫苗是控制全球疫情的最有效手段。新冠病毒疫苗有多种，其中我国科学家已研发出的腺病毒载体重组新冠病毒疫苗（重组疫苗）是一种基因工程疫苗，其基本制备步骤是：将新冠病毒的S 基因连接到位于载体上的腺病毒基因组DNA 中，重组载体经扩增后转入特定动物细胞，进而获得重组腺病毒并制成疫苗。\n\n## 小题\n\n### 16(1)\n\n新冠病毒是RNA 病毒，一般先通过_______得到cDNA，经_______获取S 基因，酶切后再连接到载体。\n\n**答案**: 逆转录；PCR扩增\n\n### 16(2)\n\n重组疫苗中的S 基因应编码________。\n\n**答案**: A\n\n### 16(3)\n\n为保证安全性，制备重组疫苗时删除了腺病毒的某些基因，使其在人体中无法增殖，但重组疫苗仍然可以诱发人体产生针对新冠病毒的特异性免疫应答。该疫苗发挥作用的过程是：接种疫苗→________→_________→诱发特异性免疫反应。\n\n**答案**: 重组腺病毒进入细胞；S基因表达出S蛋白\n\n### 16(4)\n\n重组疫苗只需注射一针即可完成接种。数周后，接种者体内仍然能检测到重组腺病毒DNA，但其DNA不会整合到人的基因组中。请由此推测只需注射一针即可起到免疫保护作用的原因________。\n\n**答案**: 重组腺病毒DNA在细胞内持续表达出S蛋白，不断刺激机体产生免疫记忆\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）类囊体薄膜  [H]和ATP  （2）C3的还原  （3）光照强度  CO2浓度",
+  "analysis": "（1）光反应场所是类囊体薄膜，产物是[H]和ATP。（2）暗反应中C3被还原成有机物和C5。（3）影响光合作用的环境因素有光照强度、CO2浓度、温度等。评分标准：每空1分，共5分。"
+}

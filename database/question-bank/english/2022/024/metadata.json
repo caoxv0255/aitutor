@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_024",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 24,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.709Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第24题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nMy name is Alice. Early last year, I was troubled by an anxiety that crippled ( 削弱 ) my ability to do anything. I felt like a storm cloud hung over me. For almost a year I struggled on, constantly staring at this wall that faced me. My perfectionist tendencies were the main root of this: I wanted to be perfect at whatever I did, which obviously in life is not possible, but it consumed me. \nOne day, I attended a presentation by wildlife conservationist Grant Brown at my high school. His presentation not only awed and inspired me, but also helped emerge an inner desire to make a difference in the world. I joined a pre-presentation dinner with him and that smaller setting allowed me to slowly build up my courage to speak one-on-one with him—an idea that had seemed completely impossible. This first contact was where my story began. \nA month later, Brown invited me to attend the World Youth Wildlife Conference. Looking back, I now see that this would be the first in a series of timely opportunities that my old self would have let pass, but that this new and more confident Alice enthusiastically seized. Shortly after I received his invitation, applications to join the Youth for Nature and the Youth for Planet groups were sent around through my high school. I decided to commit to completing the applications, and soon I was a part of a growing global team of young people working to protect nature. Each of these new steps continued to grow my confidence. \nI am writing this just six months since my journey began and I’ve realised that my biggest obstacle ( 障碍 ) this whole time was myself. It was that voice in the back of my head telling me that one phrase that has stopped so many people from reaching their potential: I can’t. They say good things come to those who wait; I say: grab every opportunity with everything you have and be impatient. After all, nature does not require our patience, but our action. \n24. What was the main cause for Alice’s anxiety?\n\n## 选项\n\nA. A. Her inability to act her age.\n\nB. B. Her habit of consumption.\n\nC. C. Her desire to be perfect.\n\nD. D. Her lack of inspiration.\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "本题考查被动语态。主语the book与谓语write之间是被动关系，且由last year可知用一般过去时的被动语态，即was written。故选B。"
+}

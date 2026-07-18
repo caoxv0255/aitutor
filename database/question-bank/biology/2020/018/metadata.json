@@ -1,0 +1,126 @@
+{
+  "uid": "biology_2020_beijing_018",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [
+    "免疫",
+    "噬菌体",
+    "感染"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.374Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n**知识点**: 免疫、噬菌体、感染\n\n---\n\n## 题目内容\n\n细菌侵入宿主体内生长繁殖引起感染。铜绿假单胞菌（Pa）导致的感染多见于烧伤、创伤等受损部位。在Pa 感染部位常可检出大量丝状噬菌体（f）。\n\n## 小题\n\n### 18(1)\n\n在感染部位，吞噬细胞会发挥非特异性__________功能。\n\n**答案**: 免疫\n\n### 18(2)\n\nf 侵染Pa 并随Pa 的分裂传递给子细菌，但f 的增殖和释放不引起Pa 的裂解。为探讨f 与细菌感染的关系，研究者将等量的无f 侵染的Pa 菌株（P）和被f 侵染的Pa 菌株（P1）分别接种于小鼠伤口，结果如下表。由此可知，f 能__________Pa 引起的伤口感染。\n\n**答案**: 促进\n\n### 18(3)\n\n在上述研究的基础上，研究者利用f 的表面蛋白S 进一步展开实验，主要流程及结果见下图。①I~III 处理所需的实验材料应分别选用__________。（填选项前字母）A.P1 B.P C.灭活的f D.S E.生理盐水 ②另有研究发现，能抑制吞噬细胞的功能。试从分子与细胞水平解释实验组的感染率低于对照组的原因。\n\n**答案**: ①I: E, II: D, III: B；②实验组注射S蛋白，刺激机体产生抗S蛋白的抗体，抗体与f表面蛋白结合，阻止f侵染Pa，从而降低感染率\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）神经递质 （2）突触后膜 （3）电信号→化学信号→电信号 （4）兴奋或抑制",
+  "analysis": "本题考查神经调节。解题思路：突触前膜释放神经递质，作用于突触后膜，信号转换是电信号→化学信号→电信号。神经递质有兴奋性和抑制性两种。评分标准：每空1分，共4分。"
+}

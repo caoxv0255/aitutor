@@ -1,0 +1,146 @@
+{
+  "uid": "math_2023_beijing_021",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 15,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 20,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_7.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 458,
+      "height": 188
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 358,
+      "height": 424
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:16:16.064Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 15分\n\n---\n\n## 题目内容\n\n已知数列{an},{bn}的项数均为m(m>2)，且an,bn∈{1,2,…,m}，{an},{bn}的前n项和分别为An,Bn，并规定A0=B0=0．对于k∈{0,1,2,…,m}，定义rk = max{i | Bi ≤ Ak, i∈{0,1,2,…,m}}，其中max M表示数集M中最大的数.\n（1）若a1=2,a2=1,a3=3,b1=1,b2=3,b3=3，求r0,r1,r2,r3的值；\n（2）若a1≥b1，且rj+1 - rj ≤ 1, j=1,2,…,m-1，求rn；\n（3）证明：存在p,q,s,t∈{0,1,2,…,m}，满足p>q, s>t 使得Ap+Bt = Aq+Bs．\n\n## 小题\n\n### 21(1)\n\n若a1=2,a2=1,a3=3,b1=1,b2=3,b3=3，求r0,r1,r2,r3的值；\n\n**答案**: \n\n### 21(2)\n\n若a1≥b1，且rj+1 - rj ≤ 1, j=1,2,…,m-1，求rn；\n\n**答案**: \n\n### 21(3)\n\n证明：存在p,q,s,t∈{0,1,2,…,m}，满足p>q, s>t 使得Ap+Bt = Aq+Bs．\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：由题意，抛物线焦点在x轴上，设方程为y^2=2px(p>0)，焦点F(p/2,0)，准线x=-p/2，点M到焦点的距离等于到准线的距离，即|MF|=x_M+p/2=5，又x_M=4，所以4+p/2=5，解得p=2，所以抛物线方程为y^2=4x。",
+  "analysis": "本题考查抛物线的定义和标准方程。利用抛物线上点到焦点的距离等于到准线的距离，列出方程求出p。评分标准：正确设出方程得1分，写出焦点和准线得1分，利用定义列出方程得2分，求出p得1分。"
+}

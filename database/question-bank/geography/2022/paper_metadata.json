@@ -1,0 +1,27 @@
+{
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2022,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 23,
+  "source_file": "2022年北京高考地理试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T17:13:23.963Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 15,
+      "solve": 5
+    },
+    "avg_difficulty": "3.30",
+    "answer_completeness": "75.0",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "第15题题干较短",
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

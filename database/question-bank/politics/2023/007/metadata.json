@@ -1,0 +1,140 @@
+{
+  "uid": "politics_2023_beijing_007",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 19,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 660,
+      "height": 254
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 362,
+      "height": 233
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 593,
+      "height": 311
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 358,
+      "height": 226
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 458,
+      "height": 344
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 820,
+      "height": 410
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 173,
+      "height": 218
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 481,
+      "height": 667
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:31:26.577Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n2023年4月，“中国首次火星探测火星全球影像图”发布。借助这批影像，国际天文联合会根据相关规则，以中国的历史文化名村名镇命名了火星上的22个地理实体，杨柳青、古田、周庄、漠河等中国地名“刻印”在火星大地，基于上述材料，下列三段论推理违反“同一律”要求的是（   ）\n\n## 选项\n\nA. A. 所有的文化名镇都在地球，有的杨柳青是文化名镇，所以，所有的杨柳青都在地球\n\nB. B. 古田是历史名镇，古田是火星地理实体，所以有的火星地理实体是历史名镇\n\nC. C. 有的周庄不是地球地名，有的火星地名不是周庄，所以有的火星地名是地球地名\n\nD. D. 地球上的漠河是地名，火星上的漠河是地名，所以火星上的漠河是地球上的漠河\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "B",
+  "analysis": "本题考查生产与消费的关系。生产决定消费的对象、方式、质量和水平，并为消费创造动力。题干中“生产出新的产品”导致“消费需求增加”，体现了生产为消费创造动力，因此选项B正确。选项A消费反作用于生产，选项C分配与交换，选项D消费决定生产，均不符合题意。"
+}

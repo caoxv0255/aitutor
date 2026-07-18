@@ -1,0 +1,230 @@
+{
+  "uid": "chemistry_2021_beijing_017",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 34,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 139,
+      "height": 90
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 103,
+      "height": 76
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 54,
+      "height": 45
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 64,
+      "height": 42
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 1231,
+      "height": 420
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 173,
+      "height": 132
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 258,
+      "height": 248
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 549,
+      "height": 201
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 74,
+      "height": 52
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 162,
+      "height": 66
+    },
+    {
+      "filename": "page_4_img_5.jpeg",
+      "page": 4,
+      "width": 1426,
+      "height": 287
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 305,
+      "height": 251
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 177,
+      "height": 89
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1154,
+      "height": 401
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 380,
+      "height": 224
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 1483,
+      "height": 479
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 395,
+      "height": 162
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 164,
+      "height": 75
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 1467,
+      "height": 122
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 524,
+      "height": 348
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 118,
+      "height": 121
+    }
+  ],
+  "created_at": "2026-07-17T16:45:52.223Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n治疗抑郁症的药物帕罗西汀的合成路线如下。\n已知：\ni.R1CHO+CH2(COOH)2 →①吡啶，Δ②H+ R1CH=CHCOOH\nii.R2OH →CH3SO2Cl/三乙胺 R3OH/NaH→ R2OR3\n（1）A分子含有的官能团是_______。\n（2）已知：B为反式结构。下列有关B说法正确的是（填序号）_______。\na．核磁共振氢谱有5组峰\nb．能使酸性KMnO4溶液褪色\nc．存在2个六元环的酯类同分异构体\nd．存在含苯环和碳碳三键的羧酸类同分异构体\n（3）E→G的化学方程式是_______。\n（4）J分子中有3个官能团，包括1个酯基。J的结构简式是_______。\n（5）L的分子式为C7H6O3。L的结构简式是_______。\n（6）从黄樟素经过其同分异构体N可制备L。\n已知：\ni.R1CH=CHR2 →①O3②Zn/H2O R1CHO+R2CHO\nii. \n写出制备L时中间产物N、P、Q的结构简式：_______、_______、_______。\n异构化→N→P→Q→①水解②H+→L\n\n## 小题\n\n### 17(1)\n\nA分子含有的官能团是_______。\n\n**答案**: \n\n### 17(2)\n\n已知：B为反式结构。下列有关B说法正确的是（填序号）_______。\n\n**答案**: \n\n### 17(3)\n\nE→G的化学方程式是_______。\n\n**答案**: \n\n### 17(4)\n\nJ分子中有3个官能团，包括1个酯基。J的结构简式是_______。\n\n**答案**: \n\n### 17(5)\n\nL的分子式为C7H6O3。L的结构简式是_______。\n\n**答案**: \n\n### 17(6)\n\n写出制备L时中间产物N、P、Q的结构简式：_______、_______、_______。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设需要氯酸钾的质量为x。\n2KClO3 → 2KCl + 3O2↑\n245g 96g\nx 9.6g\n245/x = 96/9.6\nx = 24.5g\n答：需要氯酸钾24.5g。",
+  "analysis": "根据氯酸钾分解的化学方程式，氯酸钾与氧气的质量比为245:96。生成9.6g氧气需要24.5g氯酸钾。评分标准：设未知数1分，写化学方程式1分，列比例式1分，计算结果1分，答1分。"
+}

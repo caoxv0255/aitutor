@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_007",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.917Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列对句中“以”字的解释，不正确的一项是\n\n## 选项\n\nA. A.欲以伐四卿 以：凭借\n\nB. B.以汾水可以灌魏之安邑 以：用\n\nC. C.主何以臣之言告二子也 以：把、将\n\nD. D.子何以知之 以：依据\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "B",
+  "analysis": "本题考查文言虚词。A项'以'，前为介词'用'，后为连词'因为'；B项'而'均为表修饰的连词；C项'之'，前为代词，后为助词'的'；D项'于'，前为介词'在'，后为介词'比'。因此选B。"
+}

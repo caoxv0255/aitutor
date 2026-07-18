@@ -1,0 +1,237 @@
+{
+  "uid": "geography_2025_beijing_004",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2025,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "地球公转",
+    "昼夜长短",
+    "太阳方位"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 35,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 104,
+      "height": 134
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 1002,
+      "height": 212
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 495,
+      "height": 562
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 649,
+      "height": 386
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 664,
+      "height": 556
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 564,
+      "height": 310
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 601,
+      "height": 104
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 770,
+      "height": 325
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.jpeg",
+      "page": 10,
+      "width": 1378,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.jpeg",
+      "page": 11,
+      "width": 1378,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_3.jpeg",
+      "page": 11,
+      "width": 668,
+      "height": 549
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_12_img_2.jpeg",
+      "page": 12,
+      "width": 666,
+      "height": 380
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_2.png",
+      "page": 13,
+      "width": 797,
+      "height": 416
+    },
+    {
+      "filename": "page_14_img_1.png",
+      "page": 14,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_15_img_1.png",
+      "page": 15,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_15_img_2.jpeg",
+      "page": 15,
+      "width": 157,
+      "height": 175
+    },
+    {
+      "filename": "page_15_img_3.png",
+      "page": 15,
+      "width": 18,
+      "height": 20
+    },
+    {
+      "filename": "page_15_img_4.jpeg",
+      "page": 15,
+      "width": 181,
+      "height": 207
+    },
+    {
+      "filename": "page_16_img_1.png",
+      "page": 16,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_16_img_2.png",
+      "page": 16,
+      "width": 18,
+      "height": 20
+    },
+    {
+      "filename": "page_16_img_3.png",
+      "page": 16,
+      "width": 25,
+      "height": 32
+    },
+    {
+      "filename": "page_17_img_1.png",
+      "page": 17,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-18T04:13:25.887Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0"
+}

@@ -1,0 +1,25 @@
+{
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2024,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 18,
+  "source_file": "2024年北京高考历史试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T04:32:03.095Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 7,
+      "multi_choice": 8,
+      "solve": 5
+    },
+    "avg_difficulty": "3.25",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

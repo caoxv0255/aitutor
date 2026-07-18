@@ -1,0 +1,135 @@
+{
+  "uid": "history_2024_beijing_006",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2024,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "晚清外交",
+    "国际法",
+    "列强侵华"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 319,
+      "height": 323
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.jpeg",
+      "page": 10,
+      "width": 317,
+      "height": 472
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_14_img_1.png",
+      "page": 14,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_15_img_1.png",
+      "page": 15,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_16_img_1.png",
+      "page": 16,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-18T04:32:03.078Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0"
+}

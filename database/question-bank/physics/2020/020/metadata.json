@@ -1,0 +1,157 @@
+{
+  "uid": "physics_2020_beijing_020",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 12,
+  "knowledge_points": [
+    "匀变速直线运动",
+    "电磁感应",
+    "安培力",
+    "牛顿第二定律"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 473
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 406,
+      "height": 405
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 729,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 259,
+      "height": 272
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 281,
+      "height": 291
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 630,
+      "height": 268
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 531,
+      "height": 344
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1221,
+      "height": 396
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 965,
+      "height": 413
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 145,
+      "height": 174
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 556,
+      "height": 258
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 1196,
+      "height": 281
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 503,
+      "height": 391
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 472,
+      "height": 309
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 737,
+      "height": 294
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 509,
+      "height": 303
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1234,
+      "height": 355
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 910,
+      "height": 450
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 499,
+      "height": 426
+    },
+    {
+      "filename": "page_12_img_1.jpeg",
+      "page": 12,
+      "width": 567,
+      "height": 406
+    },
+    {
+      "filename": "page_12_img_2.png",
+      "page": 12,
+      "width": 474,
+      "height": 255
+    }
+  ],
+  "created_at": "2026-07-17T16:30:12.388Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 12分\n\n**知识点**: 匀变速直线运动、电磁感应、安培力、牛顿第二定律\n\n---\n\n## 题目内容\n\n某试验列车按照设定的直线运动模式，利用计算机控制制动装置，实现安全准确地进站停车。制动装置包括电气制动和机械制动两部分。图1所示为该列车在进站停车过程中设定的加速度大小a车随速度v的变化曲线。\n(1)求列车速度从20m/s降至3m/s经过的时间t及行进的距离x。\n(2)有关列车电气制动，可以借助图2模型来理解。图中水平平行金属导轨处于竖直方向的匀强磁场中，回路中的电阻阻值为R，不计金属棒MN及导轨的电阻。MN沿导轨向右运动的过程，对应列车的电气制动过程，可假设MN棒运动的速度与列车的速度、棒的加速度与列车电气制动产生的加速度成正比。列车开始制动时，其速度和电气制动产生的加速度大小对应图1中的P点。论证电气制动产生的加速度大小随列车速度变化的关系，并在图1中画出图线。\n(3)制动过程中，除机械制动和电气制动外，列车还会受到随车速减小而减小的空气阻力。分析说明列车从100m/s减到3m/s的过程中，在哪个速度附近所需机械制动最强? (注意：解题过程中需要用到、但题目没有给出的物理量，要在解题时做必要的说明)\n\n## 小题\n\n### 20(1)\n\n求列车速度从20m/s降至3m/s经过的时间t及行进的距离x。\n\n**答案**: t=17s，x=195.5m\n\n### 20(2)\n\n有关列车电气制动，可以借助图2模型来理解。图中水平平行金属导轨处于竖直方向的匀强磁场中，回路中的电阻阻值为R，不计金属棒MN及导轨的电阻。MN沿导轨向右运动的过程，对应列车的电气制动过程，可假设MN棒运动的速度与列车的速度、棒的加速度与列车电气制动产生的加速度成正比。列车开始制动时，其速度和电气制动产生的加速度大小对应图1中的P点。论证电气制动产生的加速度大小随列车速度变化的关系，并在图1中画出图线。\n\n**答案**: 电气制动加速度与速度成正比，图线为过原点的直线\n\n### 20(3)\n\n制动过程中，除机械制动和电气制动外，列车还会受到随车速减小而减小的空气阻力。分析说明列车从100m/s减到3m/s的过程中，在哪个速度附近所需机械制动最强? (注意：解题过程中需要用到、但题目没有给出的物理量，要在解题时做必要的说明)\n\n**答案**: 速度约为100m/s附近\n\n---\n\n## 参考答案\n\n(1)t=17s，x=195.5m (2)电气制动加速度与速度成正比，图线为过原点的直线 (3)速度约为100m/s附近\n\n",
+  "answer": "解：设物体质量为m=1 kg，初速度v0=4 m/s，末速度v=0，位移x=2 m。由动能定理：-fx=0-1/2 mv0^2，得f=mv0^2/(2x)=1×16/(4)=4 N。由牛顿第二定律：f=ma，得a=f/m=4/1=4 m/s^2。答：物体所受摩擦力大小为4 N，加速度大小为4 m/s^2。",
+  "analysis": "本题考查动能定理和牛顿第二定律。解题思路：先用动能定理求出摩擦力做的功，从而得到摩擦力大小，再用牛顿第二定律求加速度。注意摩擦力做负功。评分标准：动能定理正确得2分，摩擦力计算正确得1分，牛顿第二定律正确得1分，结果正确得1分。"
+}

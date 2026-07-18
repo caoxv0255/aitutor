@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_012",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "诗歌鉴赏"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.648Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 诗歌鉴赏\n\n---\n\n## 题目内容\n\n下列对这首诗的理解与赏析，正确的一项是\n\n## 选项\n\nA. A. 诗人善用比兴手法，此诗中的病柏与刘禹锡“病树前头万木春”有相同的寄托。\n\nB. B. 文似看山不喜平，此诗运用转笔形成了诗意的转折，其色调也从明朗转为黯淡。\n\nC. C. 杜甫借物抒怀，用柏树的“蟠据亦高大”之姿隐喻了当时藩镇的龙盘虎踞之势。\n\nD. D. 此诗情感复杂而深沉，既有对现实的不满，也有对未来的希望，可谓沉郁顿挫。\n\n---\n\n## 参考答案\n\nB\n\n## 解析\n\nA项寄托不同，刘禹锡表达乐观，杜甫表达感慨；C项“蟠据亦高大”并非隐喻藩镇；D项诗中未见对未来的希望。B项正确，诗歌前六句明朗，后转黯淡。\n\n",
+  "answer": "C",
+  "analysis": "本题考查诗歌内容理解。'深林人不知，明月来相照'以明月为知己，表现诗人高雅脱俗的情趣。C项'无人知晓的孤独'理解有误。因此选C。"
+}

@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_028",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 28,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:42:35.308Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第28题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nHundreds of scientists, writers and academics sounded a warning to humanity in an open letter published last December: Policymakers and the rest of us must engage openly with the risk of global collapse. Researchers in many areas have projected the widespread collapse as “a credible scenario(情景) this century”. A survey of scientists found that extreme weather events, food insecurity, and freshwater shortages might create global collapse. Of course, if you are a non-human species, collapse is well underway. The call for public engagement with the unthinkable is especially germane in this moment of still-uncontrolled pandemic and economic crises in the world's most technologically advanced nations. Not very long ago, it was also unthinkable that a virus would shut down nations and that safety nets would be proven so disastrously lacking in flexibility. The international scholars’ warning letter doesn't say exactly what collapse will look like or when it might happen. Collapseology, the study of collapse, is more concerned with identifying trends and with them the dangers of everyday civilization. Among the signatories(签署者) of the warning was Bob Johnson, the originator of the “ecological footprint” concept, which measures the total amount of environmental input needed to maintain a given lifestyle. With the current footprint of humanity, “it seems that global collapse is certain to happen in some form, possibly within a decade, certainly within this century,” Johnson said in an email. “Only if we discuss the consequences of our biophysical limits ” the December warning letter says, “can we have the hope to reduce their speed, severity and harm”. And yet messengers of the coming disturbance are likely to be ignored. We all want to hope things will turn out fine. As a poet wrote, Man is a victim of dope(麻醉品) In the incurable form of hope. The hundreds of scholars who signed the letter are intent(执着) on quieting hope that ignores preparedness. “Let's look directly into the issue of collapse,” they say, “and deal with the terrible possibilities of what we see there to make the best of a troubling future.”\n\n## 选项\n\nA. A. Scientific.\n\nB. B. Credible.\n\nC. C. Original.\n\nD. D. Relevant.\n\n## 小题\n\n### 28\n\n28. What does the underlined word “germane” in Paragraph 3 probably mean?\n\n**答案**: D\n\n### 29\n\n29. As for the public awareness of global collapse, the author is________.\n\n**答案**: A\n\n### 30\n\n30. What can we learn from this passage?\n\n**答案**: B\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "D",
+  "analysis": "本题考查倒装句。否定词“Not until”置于句首，主句需部分倒装。正常语序为“I realized”，倒装后为“did I realize”。A项无倒装；B项倒装错误；C项时态错误。故选D。"
+}

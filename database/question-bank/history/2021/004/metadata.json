@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_004",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:02.992Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n唐代以来，中国瓷器远销欧洲。明末“海禁”后，瓷器出口大幅减少，同时期日本学习中国制瓷技术，生产出色彩艳丽的伊万里瓷，在欧洲广受欢迎。清前期，景德镇出产的瓷器借鉴伊万里瓷的艺术设计，质优价廉，重新占领欧洲市场。中国瓷器再次畅销欧洲的原因是\n①制瓷技术保持世界领先  ②艺术设计注重借鉴创新\n③官营制瓷业占主导地位  ④国内民众购买力下降\n\n## 选项\n\nA. A. ①②\n\nB. B. ③④\n\nC. C. ①③\n\nD. D. ②④\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "D",
+  "analysis": "本题考查唐朝三省六部制。三省指中书省、门下省、尚书省，分别负责决策、审议和执行。选项A错误，中书省负责草拟政令。选项B错误，门下省负责审核政令。选项C错误，尚书省负责执行政令。选项D正确，三省相互制衡，有利于提高行政效率。"
+}

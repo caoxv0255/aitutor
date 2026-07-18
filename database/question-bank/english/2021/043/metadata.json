@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_043",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 43,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T15:57:51.390Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第43题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 5分\n\n---\n\n## 题目内容\n\n43. In addition to improving emotional health, what do you think are some other benefits of resolving an argument？ （In about 40 words）\n\n---\n\n## 参考答案\n\nResolving arguments can strengthen relationships, promote understanding, and prevent future conflicts. It also helps develop communication skills and fosters a more harmonious environment.\n\n",
+  "answer": "I agree that students should have part-time jobs. First, they can learn how to manage money. Second, they can gain work experience. Third, they can become more independent. However, they should not spend too much time on jobs and forget their studies. Balance is important.",
+  "analysis": "本题要求表达对兼职的看法。要点：同意或不同意，给出理由（学习理财、获得经验、培养独立性），注意平衡学习。时态用一般现在时。评分标准：观点明确2分，理由充分4分，语言准确3分，逻辑连贯1分。"
+}

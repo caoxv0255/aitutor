@@ -1,0 +1,54 @@
+{
+  "uid": "english_2020_beijing_007",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [
+    "七选五",
+    "上下文逻辑",
+    "主题句"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 161,
+      "height": 139
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 367,
+      "height": 311
+    }
+  ],
+  "created_at": "2026-07-17T16:28:33.926Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n**知识点**: 七选五、上下文逻辑、主题句\n\n---\n\n## 题目内容\n\n根据短文内容，从短文后的七个选项中选出能填入空白处的最佳选项。选项中有两项为多余选项。\n\nMany people think that positive thinking is mostly about keeping one's head in the sand and ignoring daily problems, trying to look optimistic. In reality it has more to do with the way an individual talks to himself. Self-talk is a constant stream of thoughts of a person, who is often unaware and uncertain of some events, phenomena, people, or even the person himself.   46   Meanwhile, positive thinking can help to stop negative self-talks and start to form a positive view on an issue. People who regularly practise positive thinking tend to solve problems more effectively. They are less exposed to stress caused by external factors. They tend to believe in themselves and in what they do.\n   47   People who think positively demonstrate increased life spans（寿命）, lower rates of depression and anxiety, better physical and psychological health, reduced risks of death from heart problems. Positive thinking also contributes to one's ability to deal with problems and hardships.\n   48   For example, researchers have found that in the case of a crisis accompanied by strong emotions, such as a natural disaster, positive thinking can provide a sort of buffer（缓冲作用）against depression and anxiety. Resilient（适应性强的）people who think positively tend to treat every problem as a challenge, a chance for improvement of any kind, or as an opportunity for personal growth. Pessimists, on the contrary, tend to perceive problems as a source of additional stress.   49   \nIn conclusion, positive thinking is a powerful and effective tool for dealing with hard times and improving the quality of one's life. It doesn't have anything to do with ignorant optimism when an individual refuses to notice a problem.   50   \nThinking in a positive, self-encouraging way brings about many benefits to one's physical and mental health.\n\nA. It doesn't cause any severe emotional discomfort, either.\nB. Negative self-talk damages self-confidence and decreases self-respect.\nC. It helps one to remain clear-headed and confident in difficult situations.\nD. Positive thinking has several beneficial effects on the body and the mind.\nE. As thinking changes, an individual's behaviour and habits change as well.\nF. They often offer a real alternative to the common and regular way of thinking.\nG. They often feel discouraged long before trying to solve the problem, even if small.\n\n## 选项\n\nA. A. It doesn't cause any severe emotional discomfort, either.\n\nB. B. Negative self-talk damages self-confidence and decreases self-respect.\n\nC. C. It helps one to remain clear-headed and confident in difficult situations.\n\nD. D. Positive thinking has several beneficial effects on the body and the mind.\n\nE. E. As thinking changes, an individual's behaviour and habits change as well.\n\nF. F. They often offer a real alternative to the common and regular way of thinking.\n\nG. G. They often feel discouraged long before trying to solve the problem, even if small.\n\n---\n\n## 参考答案\n\n46. B 47. D 48. C 49. G 50. A\n\n",
+  "answer": "（根据具体题目内容填写）",
+  "analysis": "（根据具体题目内容填写）"
+}

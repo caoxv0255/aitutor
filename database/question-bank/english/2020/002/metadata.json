@@ -1,0 +1,54 @@
+{
+  "uid": "english_2020_beijing_002",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 30,
+  "knowledge_points": [
+    "完形填空",
+    "上下文理解",
+    "词汇辨析"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 161,
+      "height": 139
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 367,
+      "height": 311
+    }
+  ],
+  "created_at": "2026-07-17T16:28:33.921Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 30分\n\n**知识点**: 完形填空、上下文理解、词汇辨析\n\n---\n\n## 题目内容\n\n阅读下面短文，掌握其大意，从每题所给的A、B、C、D四个选项中，选出最佳选项。\n\nMy faith in human nature has never been so great as it was last weekend after our family get-together in the town of Vail.\nOn Saturday, we all went to the market right in the middle of the town. Near the end, we all   11   at the fountain near the bridge, and the kids waded（蹚水）around in the fountain until we   12   This is one of the busiest walking streets.\nAfter we returned to the hotel late in the afternoon, my 7-year-old son Ponder   13   that nowhere could he find his backpack, which   14   his Gameboy and his watch. After a thorough   15   we determined that he must have left it at the fountain.\nPonder has never   16   anything. So we just take for granted that he needs no supervision（指导）for managing his   17   .\nHe was upset, not about the Gameboy, but about the watch. \"But Dad,\" he said, through massive   18   . \"they don't make that kind of watch anymore.\" We were all very   19   .\nOur dinner reservation was at a restaurant just on the other side of the bridge, so I   20   him that we would not only search the area around the fountain when we went back for dinner, but we would also find the police and ask them if the backpack had been   21   .\nAs we exited from the parking garage, we could see the fountain as we walked down the long staircase. I saw something black   22   there, but it was right next to a woman standing by the fountain, so I could not   23   what it was or if it was hers.\n\"See it, Dad?\" Ponder shouted. \"Don't get too   24   because that may not be it,\" I said. But that was it. It had been five or six hours since we left the fountain, and it was   25   there. There was no ID in it, and it looked like someone had looked through it and then set it right out where all could   26   it.\nI literally   27   when we reached it and it was his！Everyone in our party was blown away by this \"miracle（奇迹）\". In my wildest   28   . I would never have imagined that this could happen nowadays.\nWhat a charmed life, eh? I believe this was a perfect   29   for a child in losing something important…to lose it and feel the full   30   of that loss, and then to miraculously get it back.\n\n## 选项\n\nA. A. drove B. hiked C. met D. united\n\nB. A. landed B. left C. settled D. slept\n\nC. A. responded B. recognized C. realised D. recalled\n\nD. A. contained B. combined C. comprised D. covered\n\nE. A. preparation B. checkup C. revision D. search\n\nF. A. wasted B. lost C. sough D. deserted\n\nG. A. emotion B. time C. money D. stuff\n\nH. A. tears B. fists C. reliefs D. outbreaks\n\nI. A. hesitant B. curious C. sad D. eager\n\nJ. A. promised B. informed C. warned D. taught\n\nK. A. worn out B. caught up C. put ava D. turned in\n\nL. A. hiding B. sitting C. swinging D. flowing\n\nM. A. assess B. declare C. tell D. predict\n\nN. A. excited B. puzzled C. relaxed D. amused\n\nO. A. already B. even C. almost D. still\n\nP. A. take B. see C. touch D. protect\n\nQ. A. panicked B. exploded C. collapsed D. cried\n\nR. A. dreams B. claims C. efforts D. passions\n\nS. A. mode B. lesson C. option D. plot\n\nT. A. range B. pressure C. weight D. harvest\n\n---\n\n## 参考答案\n\n11. C 12. B 13. C 14. A 15. D 16. B 17. D 18. A 19. C 20. A 21. D 22. B 23. C 24. A 25. D 26. B 27. D 28. A 29. B 30. C\n\n",
+  "answer": "（根据具体题目内容填写）",
+  "analysis": "（根据具体题目内容填写）"
+}

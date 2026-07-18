@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_001",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 15,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.241Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 15分\n\n---\n\n## 题目内容\n\nI was always timid(羞怯的). Being new to the school made me even ____1____ , so it was surprising I’d ____2____ to anyone around me. Now I was paying the price﹣to write a five﹣page essay on “Why I Should Not Talk in Class”. That would take all night! After I got home, though. I took my time petting the cat﹣postponing the pain. When I finally sat down to ____3____, I began with the reasons Ms Black would want to hear. Talking kept me and my neighbours from ____4____. One paragraph down; now what? I chewed on my pencil. Aha! What if talking were the first step towards life as a criminal? Without the education I was throwing away, I’d turn to theft and go to prison. When I got out, people would say, “She used to talk in class.” The pages began ____5____. But when mum got home from work, I was still ____6____, “Five pages! That’s impossible!” “Well, you’d better get back to work,” she said. “and I want to read it when you’re through.” Soon after dinner, I handed the essay to mum. I half expected a____7____﹣at least an “I hope you’ve learned your lesson”. ____8____, mum laughed and laughed as she read. The next day, when Ms Black read the essay to the class, everyone laughed. I could ____9____ they weren’t making fun of me: they laughed because I had the power to tell a funny story. My____10____ still needed some nudging(激发), but I did learn I wasn’t shy in print.\n\n## 选项\n\nA. A. freer B. shyer C. calmer D. happier\n\nB. A. nod B. point C. listen D. chat\n\nC. A. weep B. rest C. write D. read\n\nD. A. learning B. playing C. planning D. laughing\n\nE. A. standing out B. flying by C. breaking up D. checking in\n\nF. A. celebrating B. longing C. complaining D. warning\n\nG. A. lecture B. reason C. reward D. solution\n\nH. A. Therefore B. Moreover C. Meanwhile D. Instead\n\nI. A. hope B. imagine C. tell D. predict\n\nJ. A. patience B. confidence C. tolerance D. independence\n\n## 小题\n\n### 1\n\nI was always timid. Being new to the school made me even ____1____\n\n**答案**: B\n\n### 2\n\nso it was surprising I’d ____2____ to anyone around me.\n\n**答案**: D\n\n### 3\n\nWhen I finally sat down to ____3____, I began with the reasons Ms Black would want to hear.\n\n**答案**: C\n\n### 4\n\nTalking kept me and my neighbours from ____4____.\n\n**答案**: A\n\n### 5\n\nThe pages began ____5____.\n\n**答案**: B\n\n### 6\n\nBut when mum got home from work, I was still ____6____, “Five pages! That’s impossible!”\n\n**答案**: C\n\n### 7\n\nI half expected a____7____﹣at least an “I hope you’ve learned your lesson”.\n\n**答案**: A\n\n### 8\n\n____8____, mum laughed and laughed as she read.\n\n**答案**: D\n\n### 9\n\nI could ____9____ they weren’t making fun of me\n\n**答案**: C\n\n### 10\n\nMy____10____ still needed some nudging\n\n**答案**: B\n\n---\n\n## 参考答案\n\n1. B 2. D 3. C 4. A 5. B 6. C 7. A 8. D 9. C 10. B\n\n",
+  "answer": "A",
+  "analysis": "本题考查冠词用法。第一空泛指‘一个有用的工具’，useful以辅音音素开头，故用a；第二空特指‘那个工具’，用the。因此选A。"
+}

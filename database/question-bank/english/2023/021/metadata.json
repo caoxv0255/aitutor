@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_021",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.244Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nThe International Olympic Committee(IOC)Young Leaders programme empowers talents to make a positive difference in their communities through sport. Twenty-five Young Leaders are being selected every two years for a four-year period. They promote the Olympic values, spreading the message of sport for good. To be an IOC Young Leader, you need to first complete the 4-Week Learning Sprint (冲刺). 4-Week Learning Sprint The 4-Week Learning Sprint, which will take place during November 2023, is a virtual learning programme. The sessions can be attended live or watched back after they are made available on the IOC channel. Each week, participants will be asked to complete a topic﹣specific reflection task. The 4-Week Learning Sprint is open to anyone, with the target audience aged between 20 and 28. After successfully completing the 4-Week Learning Sprint, you will need to submit a plan for a sport﹣based project, which you will work on if selected as an IOC Young Leader. Requirements for the Applicants •You have successfully completed the 4-Week Learning Sprint. •You have completed your high school studies •You have at least one year of work experience. •You have strong public speaking skills. •You are self-motivated and committed. •You are passionate about creating positive change in your community. •You are open to being coached and advised by experts and peers (同伴). •You are able to work with people from different backgrounds.\n\n## 选项\n\nA. A. create change in their community\n\nB. B. attend a virtual learning programme\n\nC. C. meet people from different backgrounds\n\nD. D. promote the IOC Young Leaders project\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "B",
+  "analysis": "本题考查动词短语辨析。A. 放弃；B. 提出；C. 推迟；D. 用完。句意‘他提出了一个解决这个问题的好主意’，故选B。"
+}

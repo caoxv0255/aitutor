@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_015",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 8,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.194Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 8分\n\n---\n\n## 题目内容\n\n承德避暑山庄是中国古代皇家园林的典范，始建于清康熙年间，分山区、平原区和湖区，集北国山岳、塞外草原、江南水乡风景于一园。宫殿建筑布局多为方形，以围墙和长廊构成封闭式整体。八座庙宇围绕在避暑山庄外，呈放射状布局，如众星捧月。外八庙既有汉式传统宫殿、府邸，又有佛教庙宇，分别呈现出蒙、藏、汉的建筑风格。\n分析避暑山庄园林建筑体现的中国传统政治和文化内涵。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）特点：皇权至上，中央集权，官僚政治，等级森严。（2）影响：积极方面：有利于多民族国家的统一和巩固，有利于社会安定和经济发展，有利于文化繁荣。消极方面：君主专制容易导致决策失误和腐败，中央集权过度压制地方活力，官僚政治效率低下。",
+  "analysis": "本题考查中国古代政治制度的特点和影响。解题思路：首先概括特点，然后从积极和消极两方面分析影响。关键知识点：君主专制中央集权制度的双重作用。评分标准：特点每点1分，共4分；积极影响每点1分，共3分；消极影响每点1分，共3分。"
+}

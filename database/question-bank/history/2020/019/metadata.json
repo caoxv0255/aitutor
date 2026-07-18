@@ -1,0 +1,68 @@
+{
+  "uid": "history_2020_beijing_019",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 7,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 558,
+      "height": 242
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 298,
+      "height": 214
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 238,
+      "height": 149
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 310,
+      "height": 158
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 331,
+      "height": 233
+    }
+  ],
+  "created_at": "2026-07-17T15:55:26.743Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n\"十三行\"\n材料一  1685年，清廷始开海禁。次年，仿明末\"牙行\"（向政府申请外贸特许经营权的贸易组织），开设\"洋货行\"，与洋商进行贸易。此后洋货行数目不断变化，但在广州俗称\"十三行\"。十三行的行商须为洋商提供住所，交易完成后，洋商限期离境。1757年，清廷将广州定为唯一的外贸商埠。\"豪商大贾，各以其土所宜（当地特产）相贸，得利不赀，故曰金山珠海、天子南库\"。\n材料二  1759年，清廷颁布《防范外夷规条》，规定洋商到广州后，应在指定寓所居住，由行商管束稽查。\"凡非开洋行之家，概不许寓歇。其买卖货物，必令行商经手方许交易。\"清廷还规定，外国商船到广州后，\"进口货物应纳税银，督令受货洋行商人，于夷船回帆时输纳（纳税）。至外洋夷船出口货物应纳税银，洋行保商为夷商代置货物时，随货扣清，先行完纳。\"《南京条约》签订后，十三行逐渐衰落。\n阅读材料，结合所学，评析十三行的兴衰。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）性质：资产阶级民主革命。（2）意义：推翻封建帝制，建立共和政体；促进民主思想传播；推动民族资本主义发展。",
+  "analysis": "本题考查辛亥革命性质与意义。性质是资产阶级民主革命。意义从政治、思想、经济三方面回答。评分标准：第一问1分，第二问3分。意义需答出三点，每点1分。"
+}

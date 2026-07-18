@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_017",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.243Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 填空题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\nNina has run marathons in 32 countries. All of her runs have a guiding purpose: to call attention ____17____ global water issues. Nina recently finished her year-long series of runs in Chicago, ____18____ thousands were attending a water conference.She called for action ____19____(address)the struggles of people around the world ____20____(face) “too little water or too dirty water”. Her efforts have encouraged others to take part by running through a global campaign called“Run Blue”.\n\n## 小题\n\n### 17\n\nto call attention ____17____ global water issues\n\n**答案**: to\n\n### 18\n\nin Chicago, ____18____ thousands were attending a water conference\n\n**答案**: where\n\n### 19\n\nShe called for action ____19____(address)the struggles\n\n**答案**: to address\n\n### 20\n\npeople around the world ____20____(face) “too little water or too dirty water”\n\n**答案**: facing\n\n---\n\n## 参考答案\n\n17. to 18. where 19. to address 20. facing\n\n",
+  "answer": "were playing",
+  "analysis": "本题考查过去进行时。根据语境‘when I called’表示过去某个时间点正在进行的动作，主语是复数，故填were playing。"
+}

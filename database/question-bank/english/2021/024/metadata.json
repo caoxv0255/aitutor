@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_024",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 24,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:42:35.308Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第24题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nI remember the day during our first week of class when we were informed about our semester（学期） project of volunteering at a non-profit organization．When the teacher introduced us to the different organizations that needed our help，my last choice was Operation Iraqi Children（OIC）．My first impression of the organization was that it was not going to make enough of a difference with the plans I had in mind．Then，an OIC representative gave us some details，which somewhat interested me．After doing some research， I believed that we could really do something for those kids．When I went online to the OIC website，I saw pictures of the Iraqi children．Their faces were so powerful in sending a message of their despair（绝望） and need that I joined this project without hesitation．We decided to collect as many school supplies as possible，and make them into kits——one kit，one child．The most rewarding day for our group was project day，when all the efforts we put into collecting the items finally came together．When I saw the various supplies we had collected，it hit me that every kit we were to build that day would eventually be in the hands of an Iraqi child．Over the past four months，I had never imagined how I would feel once our project was completed．While making the kits，I realized that I had lost sight of the true meaning behind it．I had only focused on the fact that it was another school project and one I wanted to get a good grade on．When the kits were completed，and ready to be sent overseas，the warm feeling I had was one I would never forget．In the beginning，I dared myself to make a difference in the life of another person．Now that our project is over，I realize that I have affected not only one life，but ten．With our efforts，ten young boys and girls will now be able to further their education．\n\n## 选项\n\nA. A. It would affect his/her initial plans.\n\nB. B. It would involve traveling overseas.\n\nC. C. It would not bring him/her a good grade.\n\nD. D. It would not live up to his/her expectations.\n\n## 小题\n\n### 24\n\n24. How did the author feel about joining the OIC project in the beginning？\n\n**答案**: D\n\n### 25\n\n25. What mainly helped the author change his/her attitude toward the project？\n\n**答案**: A\n\n### 26\n\n26. The author's OIC project group would help ten Iraqi children to________．\n\n**答案**: B\n\n### 27\n\n27. What can we conclude from this passage？\n\n**答案**: B\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "B",
+  "analysis": "本题考查虚拟语气。wish后的宾语从句用虚拟语气，表示与现在事实相反，谓语用一般过去时。主语是I，故填were。A项is为一般现在时；C项had been表示与过去事实相反；D项would be表示与将来事实相反。故选B。"
+}

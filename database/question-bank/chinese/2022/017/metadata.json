@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_017",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "散文理解"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.651Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 散文理解\n\n---\n\n## 题目内容\n\n下列对文章的理解与赏析，不正确的一项是\n\n## 选项\n\nA. A. 作者来到北京后并不是很快就适应了北京的生活。\n\nB. B. 作者用“搽了雪花膏”巧妙地传达了怀旧的情绪。\n\nC. C. 作者不止一次使用排比手法表达了对北京的深情。\n\nD. D. 作者因为没能参加“五四”运动而感到非常失落。\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n作者提到“没能赶上”但并未感到失落，而是表达遗憾和认同。\n\n",
+  "answer": "D",
+  "analysis": "本题考查句子翻译。'大兄何见事之晚乎'意思是'长兄你认清事物怎么这么晚呢'。D项正确。A项误将'见事'译为'看见事情'；B项误将'大兄'译为'大哥'；C项误将'之'译为'的'。因此选D。"
+}

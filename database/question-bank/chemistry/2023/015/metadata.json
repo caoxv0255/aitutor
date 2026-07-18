@@ -1,0 +1,272 @@
+{
+  "uid": "chemistry_2023_beijing_015",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 41,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1536,
+      "height": 349
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 215,
+      "height": 211
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 274,
+      "height": 274
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 476,
+      "height": 147
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 1125,
+      "height": 433
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 713,
+      "height": 291
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 1031,
+      "height": 516
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 396,
+      "height": 275
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 284,
+      "height": 189
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 940,
+      "height": 513
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 704,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 1247,
+      "height": 573
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 579,
+      "height": 447
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 626,
+      "height": 472
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 529,
+      "height": 468
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1187,
+      "height": 325
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 1260,
+      "height": 607
+    },
+    {
+      "filename": "page_8_img_4.png",
+      "page": 8,
+      "width": 488,
+      "height": 222
+    },
+    {
+      "filename": "page_8_img_5.png",
+      "page": 8,
+      "width": 187,
+      "height": 97
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 252,
+      "height": 128
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 273,
+      "height": 142
+    },
+    {
+      "filename": "page_9_img_4.png",
+      "page": 9,
+      "width": 1239,
+      "height": 329
+    },
+    {
+      "filename": "page_9_img_5.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_6.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_7.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 642,
+      "height": 519
+    },
+    {
+      "filename": "page_10_img_3.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_4.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.jpeg",
+      "page": 11,
+      "width": 552,
+      "height": 302
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:21:16.117Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n硫代硫酸盐是一类具有应用前景的浸金试剂。硫代硫酸根(S2O32-)可看作是SO42-中的一个O原子被S原子取代的产物。\n（1）基态S原子价层电子排布式是__________。\n（2）比较S原子和O原子的第一电离能大小，从原子结构的角度说明理由：____________________。\n（3）S2O32-空间结构是__________。\n（4）同位素示踪实验可证实S2O32-中两个S原子的化学环境不同，实验过程为Ag+→S2O32-→Ag2S+SO42-。过程ⅱ中，S2O32-断裂的只有硫硫键，若过程ⅰ所用试剂是Na232SO3和35S，过程ⅱ含硫产物是__________。\n（5）MgS2O3·6H2O的晶胞形状为长方体，边长分别为anm、bnm、cnm，结构如图所示。晶胞中的[Mg(H2O)6]2+个数为__________。已知MgS2O3·6H2O的摩尔质量是M g·mol-1，阿伏加德罗常数为NA，该晶体的密度为__________g·cm-3。(1nm=10-7cm)\n（6）浸金时，S2O32-作为配体可提供孤电子对与Au+形成[Au(S2O3)2]3-。分别判断S2O32-中的中心S原子和端基S原子能否做配位原子并说明理由：____________________。\n\n## 小题\n\n### 15(1)\n\n基态S原子价层电子排布式是__________。\n\n**答案**: 3s23p4\n\n### 15(2)\n\n比较S原子和O原子的第一电离能大小，从原子结构的角度说明理由：____________________。\n\n**答案**: O > S，因为O原子半径小于S原子，核电荷数更大，对电子吸引力更强\n\n### 15(3)\n\nS2O32-空间结构是__________。\n\n**答案**: 四面体形\n\n### 15(4)\n\n同位素示踪实验可证实S2O32-中两个S原子的化学环境不同，实验过程为Ag+→S2O32-→Ag2S+SO42-。过程ⅱ中，S2O32-断裂的只有硫硫键，若过程ⅰ所用试剂是Na232SO3和35S，过程ⅱ含硫产物是__________。\n\n**答案**: Ag235S和Na232SO4\n\n### 15(5)\n\nMgS2O3·6H2O的晶胞形状为长方体，边长分别为anm、bnm、cnm，结构如图所示。晶胞中的[Mg(H2O)6]2+个数为__________。已知MgS2O3·6H2O的摩尔质量是M g·mol-1，阿伏加德罗常数为NA，该晶体的密度为__________g·cm-3。(1nm=10-7cm)\n\n**答案**: 4；4M/(NA×a×b×c×10-21)\n\n### 15(6)\n\n浸金时，S2O32-作为配体可提供孤电子对与Au+形成[Au(S2O3)2]3-。分别判断S2O32-中的中心S原子和端基S原子能否做配位原子并说明理由：____________________。\n\n**答案**: 端基S原子可以做配位原子，因为端基S原子有孤电子对；中心S原子不能做配位原子，因为中心S原子没有孤电子对\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设需要碳酸钙的质量为x。\nCaCO3 + 2HCl = CaCl2 + H2O + CO2↑\n100 44\nx 8.8g\n100/44 = x/8.8g\nx = (100×8.8g)/44 = 20g\n答：需要碳酸钙20g。",
+  "analysis": "该题考查根据化学方程式的计算。解题步骤：1. 写出化学方程式并配平；2. 找出已知量和未知量；3. 列出比例式求解；4. 写出答案。关键知识点：化学方程式的计算依据是质量守恒定律，各物质质量比等于相对分子质量乘以化学计量数之比。评分标准：化学方程式正确得2分，比例式正确得2分，计算过程正确得2分，答案正确得2分，答得1分，共9分。"
+}

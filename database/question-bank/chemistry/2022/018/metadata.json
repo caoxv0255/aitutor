@@ -1,0 +1,278 @@
+{
+  "uid": "chemistry_2022_beijing_018",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 42,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 103,
+      "height": 85
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 124,
+      "height": 54
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 131,
+      "height": 38
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 651,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 227,
+      "height": 173
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 116,
+      "height": 171
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 132,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 98,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 200,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 258,
+      "height": 118
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 383,
+      "height": 250
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 1260,
+      "height": 333
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 554,
+      "height": 205
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 390,
+      "height": 305
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_7.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1260,
+      "height": 397
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 674,
+      "height": 406
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 321,
+      "height": 401
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1260,
+      "height": 463
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 1137,
+      "height": 167
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 406,
+      "height": 474
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 807,
+      "height": 394
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 178,
+      "height": 58
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 877,
+      "height": 216
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 1242,
+      "height": 571
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:00:18.433Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n白云石的主要化学成分为CaMg(CO3)2，还含有质量分数约为2.1%的Fe2O3和1.0%的SiO2。利用白云石制备高纯度的碳酸钙和氧化镁，流程示意图如下。\n已知：\n物质 Ksp\nCa(OH)2 5.5×10^-6\nMg(OH)2 5.6×10^-12\nCaCO3 3.4×10^-9\nMgCO3 6.8×10^-6\n（1）白云石矿样煅烧完全分解的化学方程式为___________。\n（2）NH4Cl用量对碳酸钙产品的影响如下表所示。\n备注：ⅰ、MO浸出率=(浸出的MO质量/煅烧得到的MO质量)×100%(M代表Ca或Mg)\nⅱ、CaCO3纯度计算值为滤液A中钙、镁全部以碳酸盐形式沉淀时计算出的产品中CaCO3纯度。\n①解释“浸钙”过程中主要浸出CaO的原因是___________。\n②沉钙反应的离子方程式为___________。\n③“浸钙”过程不适宜选用n(NH4Cl):n(CaO)的比例为___________。\n④产品中CaCO3纯度的实测值高于计算值的原因是___________。\n（3）“浸镁”过程中，取固体B与一定浓度的(NH4)2SO4溶液混合，充分反应后MgO的浸出率低于60%。加热蒸馏，MgO的浸出率随馏出液体积增大而增大，最终可达98.9%。从化学平衡的角度解释浸出率增大的原因是___________。\n（4）滤渣C中含有的物质是___________。\n（5）该流程中可循环利用的物质是___________。\n\n## 小题\n\n### 18(1)\n\n白云石矿样煅烧完全分解的化学方程式为___________。\n\n**答案**: CaMg(CO3)2 → CaO + MgO + 2CO2↑\n\n### 18(2)①\n\n解释“浸钙”过程中主要浸出CaO的原因是___________。\n\n**答案**: CaO的碱性比MgO强，更易与NH4Cl反应\n\n### 18(2)②\n\n沉钙反应的离子方程式为___________。\n\n**答案**: Ca2+ + CO32- = CaCO3↓\n\n### 18(2)③\n\n“浸钙”过程不适宜选用n(NH4Cl):n(CaO)的比例为___________。\n\n**答案**: 2.4:1\n\n### 18(2)④\n\n产品中CaCO3纯度的实测值高于计算值的原因是___________。\n\n**答案**: 部分Mg2+未沉淀，留在滤液中\n\n### 18(3)\n\n从化学平衡的角度解释浸出率增大的原因是___________。\n\n**答案**: 加热蒸馏，NH3逸出，促进MgO与NH4+反应平衡正向移动\n\n### 18(4)\n\n滤渣C中含有的物质是___________。\n\n**答案**: Fe2O3、SiO2\n\n### 18(5)\n\n该流程中可循环利用的物质是___________。\n\n**答案**: NH4Cl、CO2\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设平衡时HI的浓度为x mol/L。H2 + I2 ⇌ 2HI，起始浓度：H2 0.5mol/L，I2 0.5mol/L，转化浓度：H2和I2各减少x/2，HI增加x。平衡常数K=x^2/[(0.5-x/2)(0.5-x/2)]=49，解得x=0.7。答：平衡时HI的浓度为0.7mol/L。",
+  "analysis": "本题考察化学平衡计算。利用三段式，设转化浓度，代入平衡常数表达式求解。注意开平方。评分标准：正确列出三段式得2分，列出平衡常数表达式得1分，正确求解得1分，答案正确得1分。"
+}

@@ -1,0 +1,102 @@
+{
+  "uid": "physics_2019_beijing_001",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [
+    "简谐横波",
+    "波形图",
+    "质点振动方向"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 167,
+      "height": 104
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 215,
+      "height": 181
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 135,
+      "height": 136
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 161,
+      "height": 131
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 126,
+      "height": 124
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 415,
+      "height": 224
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 22,
+      "height": 48
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 144,
+      "height": 131
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 633,
+      "height": 166
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 169,
+      "height": 62
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 202,
+      "height": 141
+    }
+  ],
+  "created_at": "2026-07-17T16:16:55.690Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n**知识点**: 简谐横波、波形图、质点振动方向\n\n---\n\n## 题目内容\n\n一列简谐横波某时刻的波形如图所示，比较介质中的三个质点a、b、c，则（  ）\n\n## 选项\n\nA. A．此刻a的加速度最小\n\nB. B．此刻b的速度最小\n\nC. C．若波沿x轴正方向传播，此刻b向y轴正方向运动\n\nD. D．若波沿x轴负方向传播，a比c先回到平衡位置\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "题目未提供具体内容，无法给出解析。请提供题目。"
+}

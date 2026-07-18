@@ -1,0 +1,54 @@
+{
+  "uid": "english_2020_beijing_008",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 15,
+  "knowledge_points": [
+    "书面表达",
+    "应用文",
+    "电子邮件"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 161,
+      "height": 139
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 367,
+      "height": 311
+    }
+  ],
+  "created_at": "2026-07-17T16:28:33.927Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 15分\n\n**知识点**: 书面表达、应用文、电子邮件\n\n---\n\n## 题目内容\n\n假设你是红星中学高三学生李华。你们学校英语戏剧俱乐部外籍指导教师Jim因疫情滞留英国。复学在即，作为俱乐部负责人，你给Jim写一封电子邮件，请他推荐一名外籍指导教师，内容包括：\n1. 条件及要求；\n2. 表示感谢并提醒注意防护。\n注意：1. 词数不少于50；\n2. 开头和结尾已给出，不计入总词数。\n\nDear Jim,\n________________________________________________________________________________\n________________________________________________________________________________\n________________________________________________________________________________\n\nYours,\nLi Hua\n\n---\n\n## 参考答案\n\nDear Jim,\n\nI hope this email finds you well. As our school is about to resume, I'm writing to ask if you could recommend a foreign teacher to guide our English drama club. The candidate should be experienced in drama teaching and able to communicate effectively with students. We would appreciate it if he/she could start as soon as possible.\n\nThank you for your help! Please take good care of yourself and stay safe.\n\nYours,\nLi Hua\n\n",
+  "answer": "（根据具体题目内容填写）",
+  "analysis": "（根据具体题目内容填写）"
+}

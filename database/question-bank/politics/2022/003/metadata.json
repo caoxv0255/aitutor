@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_003",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.361Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n一百年来，中国共青团始终与党同心、跟党奋斗，团结带领广大团员青年把忠诚书写在党和人民事业中，把青春播撒在民族复兴的征程上，把光荣镌刻在历史行进的史册里。 \n时代各有不同 青春一脉相承 \n国家兴亡，匹夫有责。只有走十月革命的路，才能救中国! \n——共青团创始人之一张太雷表达的心声 \n把青春献给祖国! \n——社会主义革命和建设时期，广大团员青年喊出的响亮口号 \n团结起来，振兴中华! \n——改革开放和社会主义现代化建设新时期，广大团员青年发出的时代强音 \n请党放心，强国有我! \n——在庆祝中国共产党成立100 周年大会上，共青团员、少先队员代表响亮喊出的青春誓言 \n共青团的百年征程表明（   ） \n①为中华民族伟大复兴而奋斗是中国青年运动的主题 \n②共青团作为青年运动的先锋队，引领中国思想文化的发展方向 \n③党有号召、团有行动始终是一代代共青团员的政治信念 \n④奋斗是一场历史接力赛，精神传承是推动社会历史进步的根本动力\n\n## 选项\n\nA. A. ①③\n\nB. B. ①②\n\nC. C. ②④\n\nD. D. ②③\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "B",
+  "analysis": "本题考查影响价格的因素。价值决定价格，供求关系影响价格。题干中“供不应求”导致价格上涨，说明供求关系影响价格。A选项错误，因为价值是价格的基础，但价值不变时价格也可能因供求而波动。B选项正确，供不应求时，买方竞争，价格上涨。C选项错误，因为价格围绕价值波动，不会无限上涨。D选项错误，因为价格变动会影响供求，但题干强调的是供求对价格的影响。"
+}

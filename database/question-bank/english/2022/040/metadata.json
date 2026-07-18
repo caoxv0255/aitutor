@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_040",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 40,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.719Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第40题\n\n**题型**: 解答题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nTom, a 15-year-old inventor and entrepreneur (创业者), witnessed at his own school the widespread consumption of sugary drinks by kids. He knew there had to be a better portable drink solution and decided to innovate from something he saw in his own home: fruit infused (浸泡) water. \nTom watched his mum make healthy fruit infusions but then struggle for a take-along option. From observing his mum and from his desire to give kids better drink options, he came up with his original model for the Fun Bottle. “I wanted to come up with a healthy, natural way for people to drink when on the go. A big part of my mission is to get people of all ages off sugary drinks,” Tom explains. \nThe bottle is made with a strainer (滤网) that allows the great tastes and natural sugars of the various fruits and vegetables you choose to come through the water, without any of the seeds or skins flowing through. \nTom is proud of his design and excited to be selling the Fun Bottle on his website and in stores  but this 15-year-old is most proud of the opportunities that Fun Bottle presents to others. It helps to provide healthy alternatives to sugary drinks; and also Tom donates part of the profits to the Organisation for a Healthier Generation (OHG). \nTom has been awarded several prizes, but this teenage innovator remains humble. When asked what advice he’d give other entrepreneurial youth, he says, “Prepare and have your family’s support. It is important to know from the beginning that there are a lot of highs and lows, and there is no such thing as overnight success.” \n40. What did Tom witness at his own school?\n\n---\n\n## 参考答案\n\nTom witnessed the widespread consumption of sugary drinks by kids.\n\n",
+  "answer": "It is important for us to learn English well.",
+  "analysis": "本题考查句型It is + adj. + for sb. to do sth.。主语是‘我们学好英语’，用不定式短语，it作形式主语。评分标准：句式正确得2分，单词拼写正确得1分，共3分。"
+}

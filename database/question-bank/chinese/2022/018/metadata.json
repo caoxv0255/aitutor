@@ -1,0 +1,89 @@
+{
+  "uid": "chinese_2022_beijing_018",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [
+    "散文结构",
+    "作用分析"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.652Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n**知识点**: 散文结构、作用分析\n\n---\n\n## 题目内容\n\n作者在文章第六段中叙写了家乡的生活，请简要分析这部分内容在全文中的作用。\n\n---\n\n## 参考答案\n\n①通过对比家乡的秀丽与北京的豪放，突出北京的特点；②为下文写自己适应并爱上北京做铺垫；③丰富文章内容，表达对家乡的怀念。\n\n## 解析\n\n从对比、铺垫、情感等角度分析。\n\n",
+  "answer": "① 孙权劝学，吕蒙始学。② 鲁肃过寻阳，与蒙论议。③ 鲁肃大惊，赞蒙才略。④ 蒙曰'士别三日，即更刮目相待'。⑤ 鲁肃遂拜蒙母，结友而别。",
+  "analysis": "本题考查文言文内容概括。按事件发展顺序概括。评分标准：每点1分，共5分，意思对即可。"
+}

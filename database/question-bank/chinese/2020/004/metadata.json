@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_004",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.915Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n根据材料一和材料二，下列理解与推断，不正确的一项是\n\n## 选项\n\nA. A.玉兔号的远程遥操作没有借助“鹊桥”中继星。\n\nB. B.太阳升起时休眠的玉兔二号立即开始探测工作。\n\nC. C.为保护科学设备，玉兔号和玉兔二号都需要在月夜休眠。\n\nD. D.与玉兔号不同，玉兔二号不会受到来自地球的辐射干扰。\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "D",
+  "analysis": "本题考查文学常识。A项《左传》是编年体史书；B项《战国策》是国别体；C项《史记》是纪传体通史；D项正确，《汉书》是纪传体断代史。因此选D。"
+}

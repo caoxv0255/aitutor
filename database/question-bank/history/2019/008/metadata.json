@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_008",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.191Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n1972 年，中国致函联合国非殖民化特别委员会，指出“香港、澳门是被英国和葡萄牙当局占领的中国领土的一部分，解决香港、澳门问题完全是属于中国主权范围内的问题，根本不属于通常所谓‘殖民地’范畴”。联合国采纳了中国的立场。中国政府这一举措（  ）\n\n## 选项\n\nA. A．奠定了独立自主外交政策的基石\n\nB. B．掌握了解决港澳问题的主动权\n\nC. C．是“一国两制”的具体体现\n\nD. D．标志着香港和澳门回归祖国\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "B",
+  "analysis": "本题考查清朝军机处。军机处是清朝雍正帝为处理西北军务而设立，后成为辅助皇帝处理政务的中枢机构，军机大臣跪受笔录，军国大事由皇帝裁决。选项B正确。选项A错误，军机处并非正式中央机构。选项C错误，军机处提高了行政效率。选项D错误，军机处削弱了内阁权力，但并非取代。"
+}

@@ -1,0 +1,206 @@
+{
+  "uid": "physics_2023_beijing_010",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 291,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 318,
+      "height": 249
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 287,
+      "height": 79
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 252,
+      "height": 258
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 320,
+      "height": 185
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 318,
+      "height": 152
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 306,
+      "height": 156
+    },
+    {
+      "filename": "page_3_img_4.jpeg",
+      "page": 3,
+      "width": 364,
+      "height": 295
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 364,
+      "height": 197
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 310,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 631,
+      "height": 406
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 283,
+      "height": 418
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 331,
+      "height": 281
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 277,
+      "height": 354
+    },
+    {
+      "filename": "page_6_img_5.png",
+      "page": 6,
+      "width": 268,
+      "height": 287
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 493,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 800,
+      "height": 728
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 331,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:19:31.578Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n在太空实验室中可以利用匀速圆周运动测量小球质量。如图所示，不可伸长的轻绳一端固定于O点，另一端系一待测小球，使其绕O做匀速圆周运动，用力传感器测得绳上的拉力为F，用停表测得小球转过n圈所用的时间为t，用刻度尺测得O点到球心的距离为圆周运动的半径R。下列说法正确的是（  ）\n\n## 选项\n\nA. A. 圆周运动轨道可处于任意平面内\n\nB. B. 小球的质量为4π²FRt²/n²\n\nC. C. 若误将n-1圈记作n圈，则所得质量偏大\n\nD. D. 若测R时未计入小球半径，则所得质量偏小\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "C",
+  "analysis": "根据闭合电路欧姆定律I=E/(R+r)，当R增大时，I减小；内电压U内=Ir减小，路端电压U=E-U内增大。选项C正确。"
+}

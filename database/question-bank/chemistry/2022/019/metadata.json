@@ -1,0 +1,278 @@
+{
+  "uid": "chemistry_2022_beijing_019",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 42,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 103,
+      "height": 85
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 124,
+      "height": 54
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 131,
+      "height": 38
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 651,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 227,
+      "height": 173
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 116,
+      "height": 171
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 132,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 98,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 200,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 258,
+      "height": 118
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 383,
+      "height": 250
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 1260,
+      "height": 333
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 554,
+      "height": 205
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 390,
+      "height": 305
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_7.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1260,
+      "height": 397
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 674,
+      "height": 406
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 321,
+      "height": 401
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1260,
+      "height": 463
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 1137,
+      "height": 167
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 406,
+      "height": 474
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 807,
+      "height": 394
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 178,
+      "height": 58
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 877,
+      "height": 216
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 1242,
+      "height": 571
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:00:18.434Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n某小组同学探究不同条件下氯气与二价锰化合物的反应\n资料：i．Mn2+在一定条件下被Cl2或ClO-氧化成MnO2(棕黑色)、MnO42-(绿色)、MnO4-(紫色)。\nii．浓碱条件下，MnO4-可被OH-还原MnO42-。\niii．Cl2的氧化性与溶液的酸碱性无关，NaClO的氧化性随碱性增强而减弱。\n实验装置如图(夹持装置略)\n序号 物质a C中实验现象\n通入Cl2前 通入Cl2后\nI 水 得到无色溶液 产生棕黑色沉淀，且放置后不发生变化\nII 5%NaOH溶液 产生白色沉淀，在空气中缓慢变成棕黑色沉淀 棕黑色沉淀增多，放置后溶液变为紫色，仍有沉淀\nIII 40%NaOH溶液 产生白色沉淀，在空气中缓慢变成棕黑色沉淀 棕黑色沉淀增多，放置后溶液变为紫色，仍有沉淀\n（1）B中试剂是___________。\n（2）通入Cl2前，II、III中沉淀由白色变为黑色的化学方程式为___________。\n（3）对比实验I、II通入Cl2后的实验现象，对于二价锰化合物还原性的认识是___________。\n（4）根据资料ii，III中应得到绿色溶液，实验中得到紫色溶液，分析现象与资料不符的原因：\n原因一：可能是通入Cl2导致溶液的碱性减弱。\n原因二：可能是氧化剂过量，氧化剂将MnO42-氧化为MnO4-。\n①化学方程式表示可能导致溶液碱性减弱的原因___________，但通过实验测定溶液的碱性变化很小。\n②取III中放置后的1 mL悬浊液，加入4 mL40%NaOH溶液，溶液紫色迅速变为绿色，且绿色缓慢加深。溶液紫色变为绿色的离子方程式为___________，溶液绿色缓慢加深，原因是MnO2被___________(填“化学式”)氧化，可证明III的悬浊液中氧化剂过量；\n③取II中放置后的1 mL悬浊液，加入4 mL水，溶液紫色缓慢加深，发生的反应是___________。\n④从反应速率的角度，分析实验III未得到绿色溶液的可能原因___________。\n\n## 小题\n\n### 19(1)\n\nB中试剂是___________。\n\n**答案**: 饱和食盐水\n\n### 19(2)\n\n通入Cl2前，II、III中沉淀由白色变为黑色的化学方程式为___________。\n\n**答案**: 2Mn(OH)2 + O2 = 2MnO2 + 2H2O\n\n### 19(3)\n\n对比实验I、II通入Cl2后的实验现象，对于二价锰化合物还原性的认识是___________。\n\n**答案**: 在碱性条件下，Mn2+的还原性增强\n\n### 19(4)①\n\n化学方程式表示可能导致溶液碱性减弱的原因___________，但通过实验测定溶液的碱性变化很小。\n\n**答案**: Cl2 + 2NaOH = NaCl + NaClO + H2O\n\n### 19(4)②\n\n取III中放置后的1 mL悬浊液，加入4 mL40%NaOH溶液，溶液紫色迅速变为绿色，且绿色缓慢加深。溶液紫色变为绿色的离子方程式为___________，溶液绿色缓慢加深，原因是MnO2被___________(填“化学式”)氧化，可证明III的悬浊液中氧化剂过量；\n\n**答案**: 4MnO4- + 4OH- = 4MnO42- + O2↑ + 2H2O；ClO-\n\n### 19(4)③\n\n取II中放置后的1 mL悬浊液，加入4 mL水，溶液紫色缓慢加深，发生的反应是___________。\n\n**答案**: 3MnO42- + 2H2O = 2MnO4- + MnO2 + 4OH-\n\n### 19(4)④\n\n从反应速率的角度，分析实验III未得到绿色溶液的可能原因___________。\n\n**答案**: III中碱性更强，ClO-氧化性弱，生成MnO42-的速率慢，而MnO42-歧化生成MnO4-的速率快，因此直接观察到紫色。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设原溶液中FeBr2的物质的量为x mol。反应：2FeBr2 + 3Cl2 → 2FeCl3 + 2Br2，通入Cl2后，Cl2先氧化Fe2+，再氧化Br-。通入0.1mol Cl2时，溶液中一半Br-被氧化，说明Fe2+已完全氧化，且Br-被氧化一半。n(Fe2+)=x，n(Br-)=2x。氧化Fe2+消耗Cl2 x/2 mol，氧化一半Br-消耗Cl2 (2x/2)/2 = x/2 mol，总消耗Cl2 x/2 + x/2 = x = 0.1mol，所以x=0.1mol。原溶液浓度c=0.1mol/0.1L=1mol/L。答：原FeBr2溶液的浓度为1mol/L。",
+  "analysis": "本题考察氧化还原反应顺序及计算。Cl2先氧化Fe2+，后氧化Br-。根据通入Cl2的量与Br-被氧化一半的关系，列方程求解。评分标准：正确判断反应顺序得2分，列出关系式得2分，正确计算浓度得1分。"
+}

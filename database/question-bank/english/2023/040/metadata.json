@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_040",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 40,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 12,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.260Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第40题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 12分\n\n---\n\n## 题目内容\n\nHabit formation is the process by which behaviours become automatic. People develop countless habits as they explore the world, whether they are aware of them or not. Understanding how habits take shape may be helpful in changing bad habits. Habits are built through learning and repetition. A person is thought to develop a habit in the course of pursuing goals by beginning to associate certain cues(刺激) with behavioural responses that help meet the goal. Over time, thoughts of the behaviour and ultimately the behaviour itself are likely to be triggered(触发) by these cues. A “habit loop(环)” is a way of describing several related elements that produce habits. These elements are called the cue, the routine, and the reward. For example, stress could serve as a cue that one responds to by eating, which produces the reward﹣the reduction of stress. While a routine involves repeated behaviour, it’s not necessarily performed in response to a deep﹣rooted urge, as a habit is. Old habits can be difficult to shake, and healthy habits are often harder to develop. But through repetition, it’s possible to form new habits. The amount of time needed to build a habit will depend on multiple factors, including the individual and the intended behaviour. While you are able to pickup a new habit in a few weeks, it takes many months to build a healthy habit. Take some time to think about what leads to bad habits and re﹣evaluate what you get out of them (or don’t). Consider and keep in mind why you want to make a change, including how the change reflects your values.\n\n## 小题\n\n### 40\n\nHow are habits built?\n\n**答案**: Habits are built through learning and repetition.\n\n### 41\n\nIn what way is a routine different from a habit?\n\n**答案**: A routine involves repeated behaviour but is not necessarily performed in response to a deep-rooted urge, as a habit is.\n\n### 42\n\nPlease decide which part is false in the following statement, then underline it and explain why. Picking up a new habit takes a few week, while building a healthy habit takes a shorter time.\n\n**答案**: False part: \"while building a healthy habit takes a shorter time.\" Reason: The passage says it takes many months to build a healthy habit, which is longer than a few weeks.\n\n### 43\n\nWhat benefit(s) have you got from one of your good habits?(In about 40 words)\n\n**答案**: (Open answer)\n\n---\n\n## 参考答案\n\n40. Habits are built through learning and repetition. 41. A routine involves repeated behaviour but is not necessarily performed in response to a deep-rooted urge, as a habit is. 42. False part: \"while building a healthy habit takes a shorter time.\" Reason: The passage says it takes many months to build a healthy habit, which is longer than a few weeks. 43. (Open answer)\n\n",
+  "answer": "Dear Sir or Madam,\n\nI am writing to apply for the position of volunteer English teacher advertised in the newspaper. I am a college student majoring in English, and I have a good command of English. I have also participated in similar activities before, which makes me qualified for this job. I am confident that I can help students improve their English. I would be grateful if you could give me a chance.\n\nYours sincerely,\nLi Hua",
+  "analysis": "本题考查应用文写作。要求写一封申请信。需包含：自我介绍、申请原因、自身优势。注意格式：称呼、正文、结束语、签名。评分标准：内容完整（4分），语言准确（3分），格式正确（2分），连贯得体（1分）。"
+}

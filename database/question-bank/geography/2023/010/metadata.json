@@ -1,0 +1,167 @@
+{
+  "uid": "geography_2023_beijing_010",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "产业空间组织",
+    "工业集聚"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1133,
+      "height": 568
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 933,
+      "height": 616
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 853,
+      "height": 648
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 774,
+      "height": 387
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 1079,
+      "height": 803
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 1243,
+      "height": 627
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 616,
+      "height": 406
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 641,
+      "height": 542
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 1145,
+      "height": 742
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 645
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 540
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 1080,
+      "height": 1020
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 417,
+      "height": 756
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 1169,
+      "height": 800
+    }
+  ],
+  "created_at": "2026-07-17T17:33:01.009Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 产业空间组织、工业集聚\n\n---\n\n## 题目内容\n\n垂直化生产空间组织有利于园区（   ）\n①集约利用工业用地②降低厂房的建造成本③提高产业集群效率④辐射带动大湾区发展\n\n## 选项\n\nA. A. ①②\n\nB. B. ①③\n\nC. C. ②④\n\nD. D. ③④\n\n---\n\n## 参考答案\n\nB\n\n## 解析\n\n垂直化生产空间可集约利用土地，提高产业集群效率；但建造成本可能增加，辐射带动作用有限。\n\n",
+  "answer": "C",
+  "analysis": "四季划分：天文四季以节气为界，气候四季以气温为界。北半球春季为3-5月，夏季6-8月，秋季9-11月，冬季12-2月。选项C正确。"
+}

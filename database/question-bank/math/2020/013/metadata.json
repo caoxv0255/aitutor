@@ -1,0 +1,92 @@
+{
+  "uid": "math_2020_beijing_013",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 2,
+  "score": 5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 566
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 964,
+      "height": 377
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 294,
+      "height": 271
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:26:53.814Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 填空题\n\n**难度**: ★★☆☆☆\n\n**分值**: 5分\n\n---\n\n## 题目内容\n\n已知正方形ABCD的边长为2，点P满足 AP = 1/2 (AB + AC)，则 |PD| = _________；PB·PD = _________.\n\n---\n\n## 参考答案\n\n√5; -1\n\n",
+  "answer": "π/3",
+  "analysis": "解析：..."
+}

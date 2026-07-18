@@ -1,0 +1,107 @@
+{
+  "uid": "politics_2020_beijing_009",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "党的领导",
+    "脱贫攻坚"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 229,
+      "height": 126
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 371,
+      "height": 234
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 650,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 82,
+      "height": 72
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 92,
+      "height": 84
+    },
+    {
+      "filename": "page_5_img_4.jpeg",
+      "page": 5,
+      "width": 95,
+      "height": 88
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 650,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 645,
+      "height": 348
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 264
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 218,
+      "height": 285
+    }
+  ],
+  "created_at": "2026-07-17T16:36:47.004Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 党的领导、脱贫攻坚\n\n---\n\n## 题目内容\n\n在2020年3月的决战决胜脱贫攻坚座谈会上，有这样一组数据：全国共派出25.5万个驻村工作队、累计选派290多万名县级以上党政机关和国有企事业单位干部到村担任第一书记或驻村干部，目前在岗91.8万。派驻第一书记和驻村干部（    ）\n①可以发挥党员干部在脱贫攻坚中的骨干、带头和桥梁作用\n②有助于因时、因势、因户、因人精准施策、消除收入差距\n③更好发挥国家机关在脱贫攻坚中的监督作用，提升服务水平\n④强化基层党组织在脱贫攻坚中的作用，增强党的群众组织力\n\n## 选项\n\nA. A.①③\n\nB. B.①④\n\nC. C.②③\n\nD. D.②④\n\n---\n\n## 参考答案\n\nB\n\n## 解析\n\n①④正确。②错误，不能消除收入差距；③错误，驻村干部不一定是国家机关。\n\n",
+  "answer": "A",
+  "analysis": "本题考查商业银行的主要业务。商业银行的主要业务包括存款业务、贷款业务和结算业务。选项A正确，存款业务是基础业务。选项B错误，贷款业务是主体业务。选项C错误，结算业务是中间业务。选项D错误，代理业务是中间业务。因此选A。"
+}

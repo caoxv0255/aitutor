@@ -1,0 +1,92 @@
+{
+  "uid": "math_2020_beijing_010",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 4,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 566
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 964,
+      "height": 377
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 294,
+      "height": 271
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:26:53.812Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 选择题\n\n**难度**: ★★★★☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n2020年3月14日是全球首个国际圆周率日（π Day）。历史上，求圆周率π的方法有多种，与中国传统数学中的“割圆术”相似，数学家阿尔·卡西的方法是:当正整数n充分大时，计算单位圆的内接正6n边形的周长和外切正6n边形（各边均与圆相切的正6n边形）的周长，将它们的算术平均数作为2π的近似值，按照阿尔·卡西的方法，π的近似值的表达式是\n\n## 选项\n\nA. 3n sin(30°/n) + 3n tan(30°/n)\n\nB. 6n sin(30°/n) + 6n tan(30°/n)\n\nC. 3n sin(60°/n) + 3n tan(60°/n)\n\nD. 6n sin(60°/n) + 6n tan(60°/n)\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "C",
+  "analysis": "解析：..."
+}

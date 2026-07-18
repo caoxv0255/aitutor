@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_014",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.927Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列对诗句的分析，正确的一项是\n\n## 选项\n\nA. A.诗人先说“吴蚕已三眠”，后又说“别来向三年”，抒发了青春不再的痛苦之情。\n\nB. B.诗人先感慨“谁种龟阴田”，最后又说“因之汶阳川”，表达了归隐田园的志向。\n\nC. C.“南风吹归心，飞堕酒楼前”，这两句由金陵酒楼引发东鲁家园之思，过渡巧妙。\n\nD. D.“念此失次第，肝肠日忧煎”，意思是想到孩子们缺失父爱，诗人心中纷乱焦虑。\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "D",
+  "analysis": "本题考查诗歌手法。A项'问君能有几多愁'为设问；B项'感时花溅泪'为拟人；C项'大漠孤烟直'为白描；D项'欲渡黄河冰塞川'为象征，以自然险阻象征人生困境。因此选D。"
+}

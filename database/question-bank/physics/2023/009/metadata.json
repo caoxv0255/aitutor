@@ -1,0 +1,206 @@
+{
+  "uid": "physics_2023_beijing_009",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 291,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 318,
+      "height": 249
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 287,
+      "height": 79
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 252,
+      "height": 258
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 320,
+      "height": 185
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 318,
+      "height": 152
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 306,
+      "height": 156
+    },
+    {
+      "filename": "page_3_img_4.jpeg",
+      "page": 3,
+      "width": 364,
+      "height": 295
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 364,
+      "height": 197
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 310,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 631,
+      "height": 406
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 283,
+      "height": 418
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 331,
+      "height": 281
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 277,
+      "height": 354
+    },
+    {
+      "filename": "page_6_img_5.png",
+      "page": 6,
+      "width": 268,
+      "height": 287
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 493,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 800,
+      "height": 728
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 331,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:19:31.573Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n如图所示，光滑水平面上的正方形导线框，以某一初速度进入竖直向下的匀强磁场并最终完全穿出。线框的边长小于磁场宽度。下列说法正确的是（   ）\n\n## 选项\n\nA. A. 线框进磁场的过程中电流方向为顺时针方向\n\nB. B. 线框出磁场的过程中做匀减速直线运动\n\nC. C. 线框在进和出的两过程中产生的焦耳热相等\n\nD. D. 线框在进和出的两过程中通过导线横截面的电荷量相等\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "根据电场强度定义E=F/q，检验电荷所受电场力与电荷量成正比，比值恒定。选项A正确；选项B错误，电场强度由电场本身决定，与检验电荷无关；选项C错误，电场线方向是正电荷受力方向；选项D错误，电场强度是矢量。"
+}

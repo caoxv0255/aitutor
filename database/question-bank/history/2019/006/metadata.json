@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_006",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.190Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n1938 年初，中国共产党创建了晋察冀抗日根据地。下列表述正确的是，它（  ）\n\n## 选项\n\nA. A．是八路军正面战场的战区之一\n\nB. B．壮大了新四军的力量\n\nC. C．是抗战时期中共中央所在地\n\nD. D．是敌后战场的组成部分\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查元朝行省制度。元朝在地方实行行省制度，行省长官由中央任命，拥有行政、军事、财政等权力，但受中央节制。选项C正确。选项A错误，行省制度加强了中央集权。选项B错误，行省长官由中央直接任命。选项D错误，行省制度对后世影响深远，并非临时措施。"
+}

@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_023",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 23,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [
+    "微写作"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.656Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第23题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n**知识点**: 微写作\n\n---\n\n## 题目内容\n\n微写作\n请以“像一道闪电”为题目，写一段抒情文字或一首小诗。\n要求：感情真挚，语言生动，有感染力。按要求作答。不超过150 字。\n\n---\n\n## 参考答案\n\n示例：像一道闪电，划破沉寂的夜空，瞬间照亮我的世界。你是惊鸿一瞥，是刹那永恒，在我心中留下不灭的光。\n\n## 解析\n\n抒情或小诗，有感染力。\n\n",
+  "answer": "① 陈尧咨质问卖油翁时，卖油翁以'无他，但手熟尔'淡然回应。② 陈尧咨'忿然'时，卖油翁不慌不忙地展示酌油技艺。③ 表演结束后，卖油翁说'我亦无他，惟手熟尔'，再次强调观点。④ 陈尧咨由'忿然'转为'笑而遣之'，态度转变。",
+  "analysis": "本题考查细节描写分析。抓住关键动作、语言、神态描写。评分标准：每点1分，共4分，需结合文本。"
+}

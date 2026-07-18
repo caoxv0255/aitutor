@@ -1,0 +1,126 @@
+{
+  "uid": "biology_2020_beijing_005",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [
+    "有丝分裂",
+    "染色体变异",
+    "实验操作"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.367Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n**知识点**: 有丝分裂、染色体变异、实验操作\n\n---\n\n## 题目内容\n\n为探究干旱对根尖细胞有丝分裂的影响，用聚乙二醇溶液模拟干旱条件，处理白刺花的根尖，制片（压片法）后用显微镜观察染色体变异（畸变）的情况，细胞图像如图。相关叙述正确的是（    ）\n\n## 选项\n\nA. A.制片需经龙胆紫染色→漂洗→盐酸解离等步骤\n\nB. B.直接使用高倍物镜寻找分生区细胞来观察染色体\n\nC. C.染色体的形态表明该细胞正处于细胞分裂的间期\n\nD. D.观察结果表明该细胞染色体发生了变异（畸变）\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "B",
+  "analysis": "本题考查遗传定律。孟德尔分离定律的实质是等位基因随同源染色体的分开而分离。选项A：基因自由组合定律的实质是非同源染色体上的非等位基因自由组合；选项C：基因突变是DNA分子中碱基对的替换、增添或缺失；选项D：染色体变异包括结构变异和数目变异。因此B正确。"
+}

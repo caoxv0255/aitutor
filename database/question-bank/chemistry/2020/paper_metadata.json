@@ -1,0 +1,28 @@
+{
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2020,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 19,
+  "page_count": 0,
+  "image_count": 21,
+  "source_file": "2020年北京高考化学试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:31:53.304Z",
+  "quality_stats": {
+    "total": 19,
+    "by_type": {
+      "choice": 14,
+      "solve": 5
+    },
+    "avg_difficulty": "2.89",
+    "answer_completeness": "73.7",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "第5题题干较短",
+    "第6题题干较短",
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

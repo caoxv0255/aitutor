@@ -1,0 +1,134 @@
+{
+  "uid": "math_2022_beijing_021",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 15,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 568,
+      "height": 486
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 272,
+      "height": 203
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_5.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_6.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:55:27.411Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 15分\n\n---\n\n## 题目内容\n\n已知Q:a1,a2,…,ak为有穷整数数列．给定正整数m，若对任意的n∈{1,2,…,m}，在Q中存在ai,ai+1,…,ai+j (j≥0)，使得ai+ai+1+…+ai+j=n，则称Q为m-连续可表数列．\n（1）判断Q:2,1,4是否为5-连续可表数列？是否为6-连续可表数列？说明理由；\n（2）若Q:a1,a2,…,ak为8-连续可表数列，求证：k的最小值为4；\n（3）若Q:a1,a2,…,ak为20-连续可表数列，且a1+a2+…+ak<20，求证：k≥7．\n\n## 小题\n\n### 21(1)\n\n判断Q:2,1,4是否为5-连续可表数列？是否为6-连续可表数列？说明理由；\n\n**答案**: 是5-连续可表数列，不是6-连续可表数列\n\n### 21(2)\n\n若Q:a1,a2,…,ak为8-连续可表数列，求证：k的最小值为4；\n\n**答案**: 略\n\n### 21(3)\n\n若Q:a1,a2,…,ak为20-连续可表数列，且a1+a2+…+ak<20，求证：k≥7．\n\n**答案**: 略\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "见解析",
+  "analysis": "（1）当a=1时，f(x)=x²-2x+lnx，定义域(0,+∞)，f'(x)=2x-2+1/x=(2x²-2x+1)/x，分子判别式Δ=4-8=-4<0，故f'(x)>0恒成立，f(x)在(0,+∞)单调递增。\n（2）f'(x)=2x-2+a/x=(2x²-2x+a)/x，令g(x)=2x²-2x+a，对称轴x=1/2，g(0)=a，g(1/2)=a-1/2，g(1)=a，讨论a≤0时，g(x)≤0，f'(x)≤0，f(x)单调递减；0<a<1/2时，g(x)有两个零点，f(x)先增后减再增；a≥1/2时，g(x)≥0，f(x)单调递增。"
+}

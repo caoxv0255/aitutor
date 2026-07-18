@@ -1,0 +1,140 @@
+{
+  "uid": "politics_2023_beijing_002",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 19,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 660,
+      "height": 254
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 362,
+      "height": 233
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 593,
+      "height": 311
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 358,
+      "height": 226
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 458,
+      "height": 344
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 820,
+      "height": 410
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 173,
+      "height": 218
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 481,
+      "height": 667
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:31:26.571Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n在习近平新时代中国特色社会主义思想引领下，京津冀协同发展不断书写新篇章。\n三场京津冀协同发展座谈会，看中国的京津冀，看京津冀里的中国。\n◇2014年第一次座谈会召开之际，中国经济发展进入新常态。座谈会提出要把京津冀协同发展上升为国家战略。\n◇2019年第二次座谈会召开之际，我国社会主要矛盾已发生了事关全局的历史性变化，此次座谈会重点指向的正是解决发展不平衡不充分问题。\n◇2023年第三次座谈会召开之际，新时代进入新征程。此次座谈会明确“努力使京津冀成为中国式现代化建设的先行区，示范区”。\n对此，下列认识正确的是（   ）\n①时代变迁，认识发展，生产方式和社会发展是精神运动的载体\n②因时而动，循势而往，京津冀规划与国家发展进步同频共振\n③规划引领，区域协同，运用创新精神推动规划与发展的矛盾转化\n④先行示范，服务全局，以局部的大胆探索服务于整体的统筹发展\n\n## 选项\n\nA. A. ①③\n\nB. B. ①④\n\nC. C. ②③\n\nD. D. ②④\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查货币的职能。货币具有价值尺度、流通手段、支付手段、贮藏手段和世界货币五种职能。题干中“标价”体现了货币执行价值尺度职能，即衡量商品价值的大小。选项A流通手段是指货币充当商品交换媒介，选项B支付手段是指货币用于清偿债务、支付工资等，选项D贮藏手段是指货币退出流通领域作为财富保存。因此，正确答案是C。"
+}

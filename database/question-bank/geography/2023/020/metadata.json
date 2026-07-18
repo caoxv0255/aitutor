@@ -1,0 +1,168 @@
+{
+  "uid": "geography_2023_beijing_020",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 5,
+  "score": 9,
+  "knowledge_points": [
+    "城市绿地",
+    "城市空间",
+    "生态功能"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1133,
+      "height": 568
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 933,
+      "height": 616
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 853,
+      "height": 648
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 774,
+      "height": 387
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 1079,
+      "height": 803
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 1243,
+      "height": 627
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 616,
+      "height": 406
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 641,
+      "height": 542
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 1145,
+      "height": 742
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 645
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 540
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 1080,
+      "height": 1020
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 417,
+      "height": 756
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 1169,
+      "height": 800
+    }
+  ],
+  "created_at": "2026-07-17T17:33:01.018Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★★\n\n**分值**: 9分\n\n**知识点**: 城市绿地、城市空间、生态功能\n\n---\n\n## 题目内容\n\n小微绿地是斑块状散布在城市内部的开放空间。图示意我国不同区域小微绿地的探索和实践。读图，回答下列问题。\n城市功能区：商业区、居住区、工业区\n小微绿地特点：\n商业区：多位于商业街区入口或主要商店的门前空地，透视性好，花卉类植物造景与小雕塑结合，设置休息座椅、移动货亭等服务设施。\n居住区：利用社区闲置、零散空地，因地制宜、种植便于养护的乡土植物建有游乐、健身、社区文化展示等设施，可作为社区议事场所。\n工业区：在工业园区干道两侧或企业入口街角，选择除尘降噪效果好的乔、灌、草等植物多元增绿，并利用数字媒体墙等进行工业文化展示。\n结合实例，论述不同区域尺度合理利用小微绿地对拓展城市空间的意义。\n\n---\n\n## 参考答案\n\n小微绿地可提升城市生态功能，改善微气候，增加休闲空间，促进社区交流，展示工业文化，从而拓展城市空间的内涵和功能。\n\n## 解析\n\n本题为开放性论述题，需结合实例分析小微绿地的意义。\n\n",
+  "answer": "（1）北半球夏季（6-8月）气温高，冬季（12-2月）气温低。\n（2）纬度因素：低纬度太阳高度角大，气温高；高纬度太阳高度角小，气温低。\n（3）海陆因素：同纬度夏季陆地气温高于海洋，冬季海洋高于陆地。\n（4）地形因素：海拔高气温低，阳坡气温高于阴坡。",
+  "analysis": "气温分布受纬度、海陆、地形等因素影响。纬度是基本因素，海陆热力性质差异导致季节差异，地形影响局部气温。\n评分标准：每点2分，共8分。"
+}

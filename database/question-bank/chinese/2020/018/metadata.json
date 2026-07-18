@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_018",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.930Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列对文中加点词语的解说，不正确的一项是\n\n## 选项\n\nA. A.即完全密切吻合 即：就\n\nB. B.即勉强求适应 即：即使\n\nC. C.只是从乐曲节度中条理出“人的本性” 条理：分析整理\n\nD. D.从隔船隔壁他人家常絮语与小小龃龉中 龃龉：轻声细语\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查修辞手法。A项'何以解忧'为反问；B项'月明星稀'为对偶；C项'譬如朝露'为比喻；D项'青青子衿'为借代。因此选C。"
+}

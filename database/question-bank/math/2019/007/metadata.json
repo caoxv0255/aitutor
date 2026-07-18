@@ -1,0 +1,170 @@
+{
+  "uid": "math_2019_beijing_007",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 24,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 10,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_1_img_7.png",
+      "page": 1,
+      "width": 170,
+      "height": 261
+    },
+    {
+      "filename": "page_1_img_8.png",
+      "page": 1,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_1_img_9.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_10.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_11.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 158,
+      "height": 154
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 108,
+      "height": 69
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 213,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 116,
+      "height": 49
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 207,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 22,
+      "height": 47
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 13,
+      "height": 35
+    }
+  ],
+  "created_at": "2026-07-17T16:13:47.723Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 5分\n\n---\n\n## 题目内容\n\n在天文学中，天体的明暗程度可以用星等或亮度来描述．两颗星的星等与亮度满足m2-m1=\\frac{5}{2}\\lg\\frac{E1}{E2}，其中星等为mk的星的亮度为Ek（k=1，2）．已知太阳的星等是-26.7，天狼星的星等是-1.45，则太阳与天狼星的亮度的比值为（  ）\n\n## 选项\n\nA. 10^{10.1}\n\nB. 10.1\n\nC. lg10.1\n\nD. 10^{-10.1}\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "B",
+  "analysis": "本题考查概率计算。从1,2,3,4中任取两个不同的数，总共有C(4,2)=6种取法，和为5的有(1,4)和(2,3)共2种，概率为2/6=1/3，故选B。选项A、C、D错误。"
+}

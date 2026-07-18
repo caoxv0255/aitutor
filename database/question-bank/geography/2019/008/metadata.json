@@ -1,0 +1,80 @@
+{
+  "uid": "geography_2019_beijing_008",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 586,
+      "height": 225
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 269,
+      "height": 265
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 313,
+      "height": 238
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 450,
+      "height": 177
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 366,
+      "height": 274
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 226,
+      "height": 167
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 320,
+      "height": 337
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 676,
+      "height": 516
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 423,
+      "height": 384
+    }
+  ],
+  "created_at": "2026-07-17T16:24:03.192Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n该图体现（  ）\n\n## 选项\n\nA. 两种用地类型呈交错分布\n\nB. 两种地租变化率的差异小\n\nC. 商业用地向郊区持续扩展\n\nD. 农业用地受到政策的保护\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "D",
+  "analysis": "黄赤交角是黄道面与赤道面的夹角，目前约为23.5°。其大小决定了太阳直射点的移动范围。选项D正确。"
+}

@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_004",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.190Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n明万历十五年，顾宪成等人奏疏忤旨，神宗要求内阁拟票重罚。内阁首辅申时行等只拟罚俸，神宗震怒，令“还改票来!”申时行只得遵旨。这说明，明代内阁大学士（  ）\n\n## 选项\n\nA. A．仅作为侍从顾问，不参决政事\n\nB. B．万历年间开始参与军国大事决策\n\nC. C．按照皇帝的传谕来票拟和批红\n\nD. D．掌握票拟权力，但仍需服从君权\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "D",
+  "analysis": "本题考查隋唐科举制。科举制通过考试选拔官员，打破了世家大族垄断官场的局面，促进了社会阶层流动。选项D正确。选项A错误，科举制并非隋朝首创，隋文帝开始分科考试，隋炀帝设进士科。选项B错误，科举制扩大了统治基础。选项C错误，科举制以才学为标准，而非门第。"
+}

@@ -1,0 +1,50 @@
+{
+  "uid": "biology_2019_beijing_005",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 307,
+      "height": 221
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 171,
+      "height": 98
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 376,
+      "height": 233
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 464,
+      "height": 234
+    }
+  ],
+  "created_at": "2026-07-17T16:19:45.466Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\n为减少某自然水体中N、P含量过高给水生生态系统带来的不良影响，环保工作者拟利用当地原有水生植物净化水体。选择其中3种植物分别置于试验池中，90天后测定它们吸收N、P的量，结果见下表。植物种类 单位水体面积N吸收量（g/m2） 单位水体面积P吸收量（g/m2） 浮水植物a 22.30 1.70 浮水植物b 8.51 0.72 沉水植物c 14.61 2.22 结合表中数据，为达到降低该自然水体中N、P的最佳效果，推断应投放的两种植物及对该水体的生态影响是（  ）\n\n## 选项\n\nA. A．植物a和b，群落的水平结构将保持不变\n\nB. B．植物a和b，导致该水体中的食物链缩短\n\nC. C．植物a和c，这两种植物种群密度会增加\n\nD. D．植物a和c，群落中能量流动方向将改变\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "本题考查细胞分裂。有丝分裂过程中，DNA复制发生在间期，染色体数目加倍发生在后期（着丝粒分裂）。减数分裂中，DNA复制一次，细胞连续分裂两次，染色体数目减半发生在减数第一次分裂结束。选项A错误：有丝分裂后期染色体数目加倍。选项B错误：减数第一次分裂后期同源染色体分离，非同源染色体自由组合。选项C正确：减数第二次分裂后期着丝粒分裂，姐妹染色单体分离，染色体数目暂时加倍。选项D错误：有丝分裂中期染色体整齐排列在赤道板，但染色体数目未加倍。"
+}

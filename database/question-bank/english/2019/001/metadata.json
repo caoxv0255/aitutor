@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_001",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 2,
+  "score": 4.5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T16:15:25.214Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 填空题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4.5分\n\n---\n\n## 题目内容\n\nOn the first day of my first grade, I stood by the door with butterflies in my stomach. I ___1___(voice)my biggest concern to my mother. “How will I make friends?” She handed me advice. “Be yourself.” For the past 20 years. I have lived by these words. Soon I will graduate and become part of the real world. Nervously ___2___ (face) challenges. I know I will whisper to ___3___(I) the two simple words “Be yourself”.\n\n## 小题\n\n### 1(1)\n\nI ___1___(voice)my biggest concern to my mother.\n\n**答案**: voiced\n\n### 1(2)\n\nNervously ___2___ (face) challenges.\n\n**答案**: facing\n\n### 1(3)\n\nI know I will whisper to ___3___(I) the two simple words “Be yourself”.\n\n**答案**: myself\n\n---\n\n## 参考答案\n\n1. voiced; 2. facing; 3. myself\n\n",
+  "answer": "示例答案",
+  "analysis": "示例解析"
+}

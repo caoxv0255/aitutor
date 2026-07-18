@@ -1,0 +1,25 @@
+{
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2025,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 19,
+  "source_file": "2025年北京高考历史试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T04:36:54.578Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "multi_choice": 9,
+      "choice": 6,
+      "solve": 5
+    },
+    "avg_difficulty": "3.25",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

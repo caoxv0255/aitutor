@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_009",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.918Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n根据文意，下列理解和推断，不正确的一项是\n\n## 选项\n\nA. A.春秋时晋国的臣子智伯，一度掌控了晋国的大权，并不断扩张自己的势力范围。\n\nB. B.臣子絺疵见微知著，预见韩、魏必反，向智伯进言反被怀疑，只好求救于齐国。\n\nC. C.张孟谈用唇亡则齿寒的道理说服韩、魏二子，瓦解了智伯阵营，致使智氏灭族。\n\nD. D.韩、赵、魏分别得到了诸侯封号，瓜分了晋国的国土，历史的格局发生了改变。\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "D",
+  "analysis": "本题考查文言句式。A项判断句；B项被动句；C项宾语前置句；D项定语后置句，正常语序为'群臣侍殿上者'。因此选D。"
+}

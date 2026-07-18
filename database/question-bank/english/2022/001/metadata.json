@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_001",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 15,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.702Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 15分\n\n---\n\n## 题目内容\n\nOne Monday morning, while the children were enjoying “free play”, I stepped to the doorway of the classroom to take a break. Suddenly, I ____1____ a movement of the heavy wooden door. This was the very door I ____2____ guided the children through to ensure their safety from the bitter cold. I felt a chill (寒意) go through my body. \nMy legs carried me to that door, and I pushed it open. It was one of my kindergarteners who I thought was ____3____ that day. He had been dropped off at school late and was ____4____ to open the door. \nHe must have been waiting there for quite a while! Without a word, I rushed him to the hospital. He was treated for frostbite on his hands. He’d need time to ____5____ , and wouldn’t come for class the next day, I thought. \nThe next morning, one of the first to ____6____ was my little frostbitten boy. Not only did he run in with energy, but his ____7____ could be heard as loud as ever! I gave him a warm hug and told him how ____8____ I was to see him. His words have stayed with me all these years, “I knew you would open the door.” \nThat cold Monday morning, he waited a long, long while for adults to ____9____. To a child, every minute feels like forever. He didn’t attempt to walk back home; he waited and trusted. This five-year-old taught me a powerful lesson in _____10_____ .\n\n## 选项\n\nA. A. caused B. spotted C. checked D. imagined\n\nB. A. hesitantly B. randomly C. dizzily D. carefully\n\nC. A. angry B. absent C. special D. noisy\n\nD. A. courageous B. content C. unable D. unwilling\n\nE. A. recover B. play C. change D. wait\n\nF. A. settle B. gather C. arrive D. react\n\nG. A. sneeze B. weep C. complaint D. laughter\n\nH. A. lucky B. happy C. curious D. nervous\n\nI. A. show up B. pull up C. hold up D. line up\n\nJ. A. gratitude B. forgiveness C. faith D. kindness\n\n---\n\n## 参考答案\n\n1. B 2. D 3. B 4. C 5. A 6. C 7. D 8. B 9. A 10. C\n\n",
+  "answer": "B",
+  "analysis": "本题考查冠词用法。第一空泛指‘一个有用的工具’，useful以辅音音素开头，故用a；第二空‘在世界上’是固定短语in the world，故用the。因此选B。"
+}

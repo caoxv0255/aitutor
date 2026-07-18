@@ -1,0 +1,158 @@
+{
+  "uid": "biology_2021_beijing_019",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 454,
+      "height": 288
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 510,
+      "height": 377
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 353,
+      "height": 264
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 511,
+      "height": 211
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 432,
+      "height": 302
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 550,
+      "height": 168
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 274,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 498,
+      "height": 237
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 593,
+      "height": 305
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 720,
+      "height": 322
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1000,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 596,
+      "height": 427
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:47:31.018Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n学习以下材料，回答（1）~（4）题。光合产物如何进入叶脉中的筛管。高等植物体内的维管束负责物质的长距离运输，其中的韧皮部包括韧皮薄壁细胞、筛管及其伴胞等。筛管是光合产物的运输通道。光合产物以蔗糖的形式从叶肉细胞的细胞质移动到邻近的小叶脉，进入其中的筛管-伴胞复合体（SE-CC），再逐步汇入主叶脉运输到植物体其他部位。蔗糖进入SE-CC 有甲、乙两种方式。在甲方式中，叶肉细胞中蔗糖通过不同细胞间的胞间连丝即可进入SE-CC。胞间连丝是相邻细胞间穿过细胞壁的细胞质通道。在乙方式中，蔗糖自叶肉细胞至SE-CC 的运输（图1）可以分为3 个阶段：①叶肉细胞中的蔗糖通过胞间连丝运输到韧皮薄壁细胞；②韧皮薄壁细胞中的蔗糖由膜上的单向载体W 顺浓度梯度转运到SE-CC 附近的细胞外空间（包括细胞壁）中；③蔗糖从细胞外空间进入SE-CC 中，如图2 所示。SE-CC 的质膜上有“蔗糖-H+共运输载体”（SU 载体），SU 载体与H+泵相伴存在。胞内H+通过H+泵运输到细胞外空间，在此形成较高的H+浓度，SU 载体将H+和蔗糖同向转运进SE-CC 中。采用乙方式的植物，筛管中的蔗糖浓度远高于叶肉细胞。研究发现，叶片中SU 载体含量受昼夜节律、蔗糖浓度等因素的影响，呈动态变化。随着蔗糖浓度的提高，叶片中SU 载体减少，反之则增加。研究SU 载体含量的动态变化及调控机制，对于了解光合产物在植物体内的分配规律，进一步提高作物产量具有重要意义。\n\n## 小题\n\n### 19(1)\n\n在乙方式中，蔗糖经W 载体由韧皮薄壁细胞运输到细胞外空间的方式属于_________。由H+泵形成的_________有助于将蔗糖从细胞外空间转运进SE-CC 中。\n\n**答案**: 协助扩散（或易化扩散）；H+浓度梯度（或电化学梯度）\n\n### 19(2)\n\n与乙方式比，甲方式中蔗糖运输到SE-CC 的过程都是通过_________这一结构完成的。\n\n**答案**: 胞间连丝\n\n### 19(3)\n\n下列实验结果支持某种植物存在乙运输方式的有_________。\n\n**答案**: ABD\n\n### 19(4)\n\n除了具有为生物合成提供原料、为生命活动供能等作用之外，本文还介绍了蔗糖能调节SU 载体的含量，体现了蔗糖的__________功能。\n\n**答案**: 信号（或信息传递）\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）神经-体液-免疫  （2）促甲状腺激素释放激素  甲状腺激素  （3）负反馈",
+  "analysis": "（1）内环境稳态的调节机制是神经-体液-免疫调节网络。（2）下丘脑分泌促甲状腺激素释放激素（TRH）作用于垂体，垂体分泌促甲状腺激素（TSH）作用于甲状腺，甲状腺分泌甲状腺激素。（3）甲状腺激素分泌过多时，会抑制下丘脑和垂体的分泌活动，属于负反馈调节。评分标准：每空1分，共5分。"
+}

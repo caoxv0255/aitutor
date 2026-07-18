@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_024",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 24,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.247Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第24题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nSitting in the garden for my friend’s birthday. I felt a buzz (振动) in my pocket. My heart raced when I saw the email sender’s name. The email started off: “Dear Mr Green, thank you for your interest” and “the review process took longer than expected.” It ended with “We are sorry to inform you…”and my vision blurred (模糊). The position—measuring soil quality in the Sahara Desert as part of an undergraduate research programme — had felt like the answer I had spent years looking for. I had put so much time and emotional energy into applying and I thought the rejection meant the end of the road for my science career. So I was shocked when, not long after the email, Professor Mary Devon, who was running the programme, invited me to observe the work being done in her lab. I jumped at the chance, and a few weeks later I was equally shocked—and overjoyed—when she invited me to talk with her about potential projects I could pursue in her lab. What she proposed didn’t seem as exciting as the original project I had applied to, but I was going to give it my all. I found myself working with a robotics professor on techniques for collecting data from the desert remotely. That project, which I could complete from my sofa instead of in the burning heat of the desert, not only survived the lockdown but worked where traditional methods didn’t. In the end, I had a new scientific interest to pursue. When I applied to graduate school, I found three programmes promising to allow me to follow my desired research direction. And I applied with the same anxious excitement as before. When I was rejected from one that had seemed like a perfect fit, it was undoubtedly difficult. But this time I had the perspective (视角) to keep it from sending me into panic. It helped that in the end I was accepted into one of the other programmes I was also excited about. Rather than setting plans in stone, I’ve learned that sometimes I need to take the opportunities that are offered, even if they don’t sound perfect at the time, and make the most of them.\n\n## 选项\n\nA. A. Anxious.\n\nB. B. Angry.\n\nC. C. Surprised.\n\nD. D. Settled.\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "D",
+  "analysis": "本题考查倒装句。否定词‘Not until’置于句首时，主句需部分倒装。原句为‘I realized...’，倒装后为‘did I realize’，故选D。"
+}

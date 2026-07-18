@@ -1,0 +1,152 @@
+{
+  "uid": "chemistry_2020_beijing_004",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 129,
+      "height": 320
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 335,
+      "height": 232
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 284,
+      "height": 231
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 119,
+      "height": 299
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 1150,
+      "height": 452
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 949,
+      "height": 233
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 585,
+      "height": 296
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 403,
+      "height": 333
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1320,
+      "height": 349
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 781,
+      "height": 184
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 787,
+      "height": 95
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 1055,
+      "height": 188
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1051,
+      "height": 198
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1307,
+      "height": 79
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 438,
+      "height": 137
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1079,
+      "height": 219
+    }
+  ],
+  "created_at": "2026-07-17T16:31:53.290Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n已知：33As (砷)与P 为同族元素。下列说法不正确的是\n\n## 选项\n\nA. A. As 原子核外最外层有5 个电子\n\nB. B. AsH3 的电子式是 H:As:H\n\nC. C. 热稳定性：AsH3 < PH3\n\nD. D. 非金属性：As < Cl\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "D",
+  "analysis": "A选项错误，因为原子半径：Na>Mg>Al。B选项错误，因为非金属性：O>S>Se。C选项错误，因为稳定性：HF>HCl>HBr。D选项正确，因为金属性越强，最高价氧化物对应水化物的碱性越强，金属性：K>Na>Mg，所以碱性：KOH>NaOH>Mg(OH)2。"
+}

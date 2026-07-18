@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_018",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:03.006Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n辩论\n1787年美国制宪会议上，各州代表就“全国行政官”的人数和权力等问题展开激烈辩论。以下为6月1日—7月19日的发言节录：\n拉特里奇：赞成把行政权委托给一人，但不能赋予此人宣战和媾和的权力。\n谢尔曼：行政官只是把立法机构的意志付诸实施，这一人或数人，只有国会才能委任，且只对国会负责。\n伦道夫：坚决反对把行政权集于一人。这是君主制的胚胎，不要以英国政府为模本。为了维护全国行政官的独立，就应该由一人以上担任。\n威尔逊：全国行政官由一人担任。若立法、行政、司法相互独立，行政官就应拥有绝对否决权。\n巴特勒：赞成设立一人为行政官，但反对授予此人否决立法的全权。难道美国不会出现克伦威尔式人物？\n汉密尔顿：主张选举产生一位行政官，他应有权否决国会通过的法案。\n莫里斯：设立行政官的目标之一是控制国会。国会会抓住战争、入侵、动乱等时机扩权。因此需要一位行政官做人民的保护者，抵制由大人物和有钱人组成的国会。\n1787年宪法最终确立了总统制，但关于总统权力的争论还在继续。\n（1）各州代表关于设立“全国行政官”有哪几种观点？归纳其理由。\n（2）有学者在谈到18世纪英美政治体制时，认为美国总统是“没有君主制的国王”。结合史实，谈谈你对这句话的看法。\n\n## 小题\n\n### 18(1)\n\n各州代表关于设立“全国行政官”有哪几种观点？归纳其理由。\n\n**答案**: \n\n### 18(2)\n\n有学者在谈到18世纪英美政治体制时，认为美国总统是“没有君主制的国王”。结合史实，谈谈你对这句话的看法。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）特点：科举制以考试成绩为选官标准；分科考试；公开竞争。（2）影响：打破了世家大族垄断；扩大了统治基础；促进了社会流动；提高了官员素质；但后期僵化。",
+  "analysis": "本题考查科举制的特点和影响。解题思路：对比察举制和九品中正制，突出科举制的公平性。关键知识点：科举制是古代选官制度的重大变革。步骤：先答特点，再答影响。评分标准：特点4分，影响4分。"
+}

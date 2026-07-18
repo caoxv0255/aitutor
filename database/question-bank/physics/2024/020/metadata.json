@@ -1,0 +1,255 @@
+{
+  "uid": "physics_2024_beijing_020",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2024,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 0,
+  "knowledge_points": [
+    "电容器放电",
+    "安培力",
+    "牛顿第二定律"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 38,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 747,
+      "height": 170
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 718,
+      "height": 268
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 499,
+      "height": 283
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 491,
+      "height": 302
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 764,
+      "height": 358
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 656,
+      "height": 129
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 447,
+      "height": 364
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 370,
+      "height": 379
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 456,
+      "height": 258
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 1145,
+      "height": 273
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_12_img_2.png",
+      "page": 12,
+      "width": 945,
+      "height": 439
+    },
+    {
+      "filename": "page_12_img_3.png",
+      "page": 12,
+      "width": 481,
+      "height": 299
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_13_img_2.png",
+      "page": 13,
+      "width": 741,
+      "height": 172
+    },
+    {
+      "filename": "page_13_img_3.png",
+      "page": 13,
+      "width": 452,
+      "height": 381
+    },
+    {
+      "filename": "page_14_img_1.png",
+      "page": 14,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_15_img_1.png",
+      "page": 15,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_15_img_2.png",
+      "page": 15,
+      "width": 414,
+      "height": 260
+    },
+    {
+      "filename": "page_16_img_1.png",
+      "page": 16,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_16_img_2.png",
+      "page": 16,
+      "width": 293,
+      "height": 189
+    },
+    {
+      "filename": "page_16_img_3.png",
+      "page": 16,
+      "width": 193,
+      "height": 224
+    },
+    {
+      "filename": "page_16_img_4.png",
+      "page": 16,
+      "width": 258,
+      "height": 256
+    },
+    {
+      "filename": "page_17_img_1.png",
+      "page": 17,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_18_img_1.png",
+      "page": 18,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_18_img_2.png",
+      "page": 18,
+      "width": 739,
+      "height": 333
+    },
+    {
+      "filename": "page_19_img_1.png",
+      "page": 19,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-18T04:27:44.536Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0"
+}

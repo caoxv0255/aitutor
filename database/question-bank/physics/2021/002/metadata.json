@@ -1,0 +1,198 @@
+{
+  "uid": "physics_2021_beijing_002",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "光的折射",
+    "折射率",
+    "波长"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 28,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 256,
+      "height": 277
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 390,
+      "height": 228
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 449,
+      "height": 208
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 413,
+      "height": 223
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 810,
+      "height": 105
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 441,
+      "height": 262
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 316,
+      "height": 258
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 231,
+      "height": 304
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 301,
+      "height": 228
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 129,
+      "height": 310
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 506,
+      "height": 265
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1078,
+      "height": 213
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 525,
+      "height": 346
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 706,
+      "height": 395
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 437,
+      "height": 441
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 785,
+      "height": 283
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 478,
+      "height": 331
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 402,
+      "height": 238
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 678,
+      "height": 272
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:44:14.397Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 光的折射、折射率、波长\n\n---\n\n## 题目内容\n\n如图所示的平面内，光束a经圆心O射入半圆形玻璃砖，出射光为b、c两束单色光。下列说法正确的是（   ）\n\n## 选项\n\nA. A. 这是光的干涉现象\n\nB. B. 在真空中光束b的波长大于光束c的波长\n\nC. C. 玻璃砖对光束b的折射率大于对光束c的折射率\n\nD. D. 在玻璃砖中光束b的传播速度大于光束c的传播速度\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "本题考查加速度与速度的关系。加速度是描述速度变化快慢的物理量，加速度越大，速度变化越快，故C正确。加速度方向与速度变化量方向相同，但与速度方向无关，故A错误。加速度增大时，速度可能增大也可能减小，取决于加速度与速度方向是否相同，故B错误。速度为零时，加速度不一定为零，例如竖直上抛运动到最高点时，速度为零，加速度为g，故D错误。"
+}

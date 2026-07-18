@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_002",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 2,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "古籍价值"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.640Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第2题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 古籍价值\n\n---\n\n## 题目内容\n\n根据材料一，下列对古籍的理解与推断，不正确的一项是\n\n## 选项\n\nA. A. 古籍采用的纸张体现了古籍的文物价值。\n\nB. B. 中医古籍所记载的药方体现了文献价值。\n\nC. C. 艺术价值不只包括古籍版印工艺的价值。\n\nD. D. 古籍的其他价值都附着在其文献价值上。\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n材料一指出“文献价值是古籍的‘皮’，其他价值则是古籍的‘毛’”，说明其他价值附着在文献价值上，但并非所有其他价值都附着在文献价值上，例如文物价值可能独立存在。D项表述绝对化。\n\n",
+  "answer": "C",
+  "analysis": "本题考查字形。A项'锋芒必露'应为'锋芒毕露'；B项'妇儒皆知'应为'妇孺皆知'；C项正确；D项'家谕户晓'应为'家喻户晓'。因此选C。"
+}

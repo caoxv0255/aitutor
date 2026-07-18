@@ -1,0 +1,167 @@
+{
+  "uid": "geography_2021_beijing_019",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [
+    "旅游地理",
+    "城市功能区"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 562,
+      "height": 270
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 291,
+      "height": 131
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 625,
+      "height": 148
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 469,
+      "height": 127
+    },
+    {
+      "filename": "page_2_img_4.jpeg",
+      "page": 2,
+      "width": 377,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 481,
+      "height": 259
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 493,
+      "height": 134
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 343,
+      "height": 349
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 518,
+      "height": 718
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 502,
+      "height": 311
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 560,
+      "height": 277
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 345,
+      "height": 187
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 335,
+      "height": 256
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 401,
+      "height": 253
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 222,
+      "height": 349
+    }
+  ],
+  "created_at": "2026-07-17T16:52:17.357Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n**知识点**: 旅游地理、城市功能区\n\n---\n\n## 题目内容\n\n读图，回答下列问题。北京动物园目前展出的珍稀动物达500种、共5000余只。2021年五一国际劳动节5天假期，动物园共接待游客35.8万人。（1）说明2021年五一国际劳动节期间，北京动物园游客众多的主要原因。北京动物园南侧的西外南路交通便利，两侧曾是大型服装批发市场。随着城市功能的转变，2018年，北京金科新区的核心区在此诞生。通过改造原有楼宇，金科新区吸引金融科技、金融安全等相关企业进驻，推动金融与科技融合发展，促进区域联动。（2）简述在该地建设金科新区核心区的有利条件。\n\n## 小题\n\n### 19(1)\n\n说明2021年五一国际劳动节期间，北京动物园游客众多的主要原因。\n\n**答案**: 五一假期时间长；动物园动物种类多，吸引力强；交通便利；知名度高；家庭出游需求大等。\n\n### 19(2)\n\n简述在该地建设金科新区核心区的有利条件。\n\n**答案**: 交通便利；靠近动物园，人流量大；原有楼宇可改造，成本低；政策支持；位于城市中心，基础设施完善；科技人才丰富等。\n\n---\n\n## 参考答案\n\n（1）原因：五一假期时间长；动物园动物种类多，吸引力强；交通便利；知名度高；家庭出游需求大等。（2）有利条件：交通便利；靠近动物园，人流量大；原有楼宇可改造，成本低；政策支持；位于城市中心，基础设施完善；科技人才丰富等。\n\n## 解析\n\n（1）游客多与假期、动物园特色、交通等有关。（2）建设新区需考虑交通、成本、政策、基础设施等。\n\n",
+  "answer": "（1）A地：热带雨林气候，全年高温多雨；B地：地中海气候，夏季炎热干燥，冬季温和多雨。（2）A地纬度低，受赤道低气压带控制；B地位于中纬度大陆西岸，受副热带高气压带和西风带交替控制。",
+  "analysis": "本题考查气候类型判读及成因。根据气温和降水资料判断气候类型，再分析成因。评分标准：气候类型和特征各1分，共4分；成因2分。"
+}

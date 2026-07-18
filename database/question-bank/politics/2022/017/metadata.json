@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_017",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.371Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n【记忆】北京雨燕春天来到北京筑巢繁衍，夏末带着新生的小雨燕跨越中亚远赴非洲，待来年再准时飞回北京。古建筑上空北京雨燕飞舞的景象，是人们美好的记忆。 \n【两难】为了避免污损和破坏，古建筑的屋檐斗拱加装了防护网，却无意间把在此筑巢的北京雨燕挡在了“家门”外。既要避免古建筑受损，又要保证北京雨燕安居，成为难题。 \n【共生】在保护生物多样性理念指导和相关技术支持下，文物、园林绿化等相关部门密切配合,为北京雨燕在古建筑上留出“繁殖窗口”。同时，志愿者积极为北京雨燕搭建新家，帮助它们向现代建筑迁移筑巢。在多方呵护下，北京雨燕的种群正在恢复和壮大。雨燕和古建筑在城市中实现了和谐共生。 \n结合材料，运用《逻辑与思维》知识，说明北京雨燕保护是如何体现科学思维的。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "①消费对生产有重要的反作用，消费拉动经济增长、促进生产发展。②消费是生产的目的，生产出来的产品只有被消费了，其生产过程才算最终完成。③消费所形成的新的需要，对生产的调整和升级起着导向作用。④消费是生产的动力，一个新的消费热点的出现，往往能带动一个产业的出现和成长。⑤消费为生产创造出新的劳动力，能提高劳动力的质量，提高劳动者的生产积极性。",
+  "analysis": "本题考查消费对生产的反作用。解题思路：从消费是生产的目的、导向作用、动力、创造劳动力等角度回答。关键知识点：消费反作用的具体表现。评分标准：每点2分，共10分。答出消费反作用总论得2分，具体每点2分。"
+}

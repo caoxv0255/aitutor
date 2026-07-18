@@ -1,0 +1,126 @@
+{
+  "uid": "biology_2020_beijing_016",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 12,
+  "knowledge_points": [
+    "生态系统组成",
+    "种间关系",
+    "生态实验"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.373Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 12分\n\n**知识点**: 生态系统组成、种间关系、生态实验\n\n---\n\n## 题目内容\n\n北极圈附近的A 群岛由众多生态环境相似的岛屿组成，是许多海鸟的栖息地。一百多年以前，北极狐被引入到一些岛屿上定居。几十年后发现，无北极狐岛（W 岛）的植物群落无明显变化，而有北极狐岛（Y 岛）上较高的草本植物明显减少，苔藓增加。为分析北极狐的引入是否导致植物群落的变化，生态学家进行了相关研究。\n\n## 小题\n\n### 16(1)\n\nY 岛的生态系统由岛上所有的生物与__________共同组成，在此生态系统组成成分中，北极狐属于__________者。\n\n**答案**: 无机环境；消费\n\n### 16(2)\n\n研究者调查了若干Y 岛和W 岛的海鸟密度，统计结果如图。由图可知，Y 岛上的海鸟密度比W 岛__________。\n\n**答案**: 低\n\n### 16(3)\n\n进一步调查发现，Y 岛上单位面积的植物干重及土壤氮、磷含量均低于W 岛。研究者选择Y 岛上的若干代表性地块，通过施肥实验证明了Y 岛植物干重较低是由土壤肥力低所致。支持此结论的实验结果应为____________________________________________________________。\n\n**答案**: 施肥地块的植物干重显著高于未施肥地块\n\n### 16(4)\n\n综所述，请将下列选项排序以解释北极狐的引入导致的植物群落变化。A.岛屿土壤肥力降低 B.北极狐捕食海鸟 C.土壤中的鸟粪减少 D.海鸟数量减少 北极狐引入并定居→__________→__________→__________→__________→植物群落变化\n\n**答案**: B→D→C→A\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）细胞质基质和线粒体基质 （2）有氧呼吸第二阶段 （3）[H]和ATP （4）CO2浓度",
+  "analysis": "本题考查光合作用与细胞呼吸的综合。解题思路：根据图示，甲表示有氧呼吸第二阶段，场所是线粒体基质；乙表示光反应，产物是[H]和ATP；丙表示暗反应，CO2浓度影响暗反应速率。评分标准：每空1分，共4分。"
+}

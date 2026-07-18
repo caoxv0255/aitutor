@@ -1,0 +1,152 @@
+{
+  "uid": "chemistry_2020_beijing_016",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 129,
+      "height": 320
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 335,
+      "height": 232
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 284,
+      "height": 231
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 119,
+      "height": 299
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 1150,
+      "height": 452
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 949,
+      "height": 233
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 585,
+      "height": 296
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 403,
+      "height": 333
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1320,
+      "height": 349
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 781,
+      "height": 184
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 787,
+      "height": 95
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 1055,
+      "height": 188
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1051,
+      "height": 198
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1307,
+      "height": 79
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 438,
+      "height": 137
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1079,
+      "height": 219
+    }
+  ],
+  "created_at": "2026-07-17T16:31:53.301Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 12分\n\n---\n\n## 题目内容\n\n奥昔布宁是具有解痉和抗胆碱作用的药物。其合成路线如下：\n已知：\ni. \nii. \n(1)A是芳香族化合物，A分子中含氧官能团是 。\n(2)B→C的反应类型是 。\n(3)E的结构简式是 。\n(4)J→K的化学方程式是 。\n(5)已知：G、L和奥昔布宁的沸点均高于200℃，G和L发生反应合成奥昔布宁时，通过在70℃左右蒸出 (填物质名称)来促进反应。\n(6)奥昔布宁的结构简式是 。\n\n## 小题\n\n### 16(1)\n\nA是芳香族化合物，A分子中含氧官能团是 。\n\n**答案**: 羟基\n\n### 16(2)\n\nB→C的反应类型是 。\n\n**答案**: 取代反应\n\n### 16(3)\n\nE的结构简式是 。\n\n**答案**: CH≡CCH2OH\n\n### 16(4)\n\nJ→K的化学方程式是 。\n\n**答案**: CH3CH2CH2COCl + NH3 → CH3CH2CH2CONH2 + HCl\n\n### 16(5)\n\n已知：G、L和奥昔布宁的沸点均高于200℃，G和L发生反应合成奥昔布宁时，通过在70℃左右蒸出 (填物质名称)来促进反应。\n\n**答案**: 水\n\n### 16(6)\n\n奥昔布宁的结构简式是 。\n\n**答案**: C6H5CH(OH)C≡CCH2N(CH2CH3)2\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "见解析",
+  "analysis": "【答案】\n（1）N2O5\n（2）HNO3\n（3）NH3\n（4）NH3 + HNO3 = NH4NO3\n【解析】\n（1）X为N，最高正价为+5，最高价氧化物为N2O5。\n（2）最高价氧化物对应水化物为HNO3。\n（3）最低负价为-3，气态氢化物为NH3。\n（4）NH3与HNO3反应生成NH4NO3，化学方程式为NH3 + HNO3 = NH4NO3。"
+}

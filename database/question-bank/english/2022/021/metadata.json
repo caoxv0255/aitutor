@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_021",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.704Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nPeer ( 同伴 ) Assisted Study Sessions (PASS) is a peer-facilitated learning programme available to students enrolled ( 注册 ) in most core units of study in our business school. \nPASS involves weekly sessions where you work in groups to tackle specially prepared problem sets, based around a unit of study you’re enrolled in. \nPASS doesn’t re-teach or deliver new content. It’s an opportunity to deepen your understanding of the key points from lecture materials while you are applying your skills to solve problems. \nYou work interactively with your peers. As a peer group, you decide what is covered in each session. That way, PASS directly responds to your needs and feedback. \nRegistration in Term 2 will open at 9 am, 21 September 2022. \nWaiting lists \nIf a session is full, you can register for the waiting list. We will email you if a place becomes available or if a new session is to be held. \nWhen you are placed on a waiting list, we will email you a number which tells you where you are on the list. \nIf you are close to the front of the list, you have a good chance of gaining a place in the programme in the near future. \nDeregistering \nIf you miss two PASS sessions in a row, you will be deregistered and your place will be given to someone on the waiting list. Make sure you fill in the attendance sheet at each session to record your attendance. \nYou’ll be informed by email if you are being deregistered as a result of missing sessions. If you believe you have received the email in error, email the PASS office at passoffice@umbs. edu.. \n21. In PASS, students ________.\n\n## 选项\n\nA. A. attend new lectures\n\nB. B. decide their own schedules\n\nC. C. prepare problem sets in groups\n\nD. D. use their skills to solve problems\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查情景交际。A项‘没关系’；B项‘不客气’；C项‘我很抱歉听到这个消息’；D项‘祝你好运’。对方说考试没通过，应表示遗憾，故选C。"
+}

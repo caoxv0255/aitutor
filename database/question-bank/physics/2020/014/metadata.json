@@ -1,0 +1,155 @@
+{
+  "uid": "physics_2020_beijing_014",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 4,
+  "score": 3,
+  "knowledge_points": [
+    "曲线运动",
+    "空气阻力"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 473
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 406,
+      "height": 405
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 729,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 259,
+      "height": 272
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 281,
+      "height": 291
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 630,
+      "height": 268
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 531,
+      "height": 344
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1221,
+      "height": 396
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 965,
+      "height": 413
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 145,
+      "height": 174
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 556,
+      "height": 258
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 1196,
+      "height": 281
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 503,
+      "height": 391
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 472,
+      "height": 309
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 737,
+      "height": 294
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 509,
+      "height": 303
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1234,
+      "height": 355
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 910,
+      "height": 450
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 499,
+      "height": 426
+    },
+    {
+      "filename": "page_12_img_1.jpeg",
+      "page": 12,
+      "width": 567,
+      "height": 406
+    },
+    {
+      "filename": "page_12_img_2.png",
+      "page": 12,
+      "width": 474,
+      "height": 255
+    }
+  ],
+  "created_at": "2026-07-17T16:30:12.385Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 选择题\n\n**难度**: ★★★★☆\n\n**分值**: 3分\n\n**知识点**: 曲线运动、空气阻力\n\n---\n\n## 题目内容\n\n在无风的环境，某人在高处释放静止的篮球，篮球竖直下落；如果先让篮球以一定的角速度绕过球心的水平轴转动（如图）再释放，则篮球在向下掉落的过程中偏离竖直方向做曲线运动。其原因是，转动的篮球在运动过程中除受重力外，还受到空气施加的阻力f1和偏转力f2。这两个力与篮球速度v的关系大致为：f1=k1v^2，方向与篮球运动方向相反；f2=k2v，方向与篮球运动方向垂直。下列说法正确的是\n\n## 选项\n\nA. A.k1、k2是与篮球转动角速度无关的常量\n\nB. B.篮球可回到原高度且角速度与释放时的角速度相同\n\nC. C.人站得足够高，落地前篮球有可能向上运动\n\nD. D.释放条件合适，篮球有可能在空中持续一段水平直线运动\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "C",
+  "analysis": "本题考查功的计算。功等于力与位移在力的方向上的投影的乘积。选项A错误，因为力做功为零时，位移可能为零或力与位移垂直。选项B错误，因为负功表示力阻碍运动，不是方向相反。选项C正确，因为功是标量，但有正负。选项D错误，因为总功等于各力做功的代数和。"
+}

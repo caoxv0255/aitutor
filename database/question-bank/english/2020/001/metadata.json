@@ -1,0 +1,60 @@
+{
+  "uid": "english_2020_beijing_001",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 3,
+  "score": 15,
+  "knowledge_points": [
+    "语法填空",
+    "动词时态",
+    "形容词",
+    "连词",
+    "被动语态",
+    "非谓语动词",
+    "介词",
+    "名词复数",
+    "比较级"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 161,
+      "height": 139
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 367,
+      "height": 311
+    }
+  ],
+  "created_at": "2026-07-17T16:28:33.921Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 填空题\n\n**难度**: ★★★☆☆\n\n**分值**: 15分\n\n**知识点**: 语法填空、动词时态、形容词、连词、被动语态、非谓语动词、介词、名词复数、比较级\n\n---\n\n## 题目内容\n\n阅读下列短文，根据短文内容填空。在未给提示词的空白处仅填写1个适当的单词，在给出提示词的空白处用括号内所给词的正确形式填空。\n\nA\nOliver is a host of a TV programme on food. He says food   1   (play) a big role in his life. \"My mum was a great cook, and she'd sometimes let me have a try,\" he said. The first dish Oliver prepared for his family was fried chicken wings. He made it with his mum's help. Oliver says if you're   2   (luck) enough to have someone close to you who enjoys cooking, ask them   3   you can join in when it's possible.\n\nB\nSingle-use plastic bags are used at most a few times before they   4   (throw) away. It takes them hundreds of years   5   (break) down. Many of these bags end up in the ocean where larger ones can trop sea creatures, such as turtles and dolphins. Over time, the bags fall apart   6   countless tiny pieces, and fish cam accidentally eat some of them. Now, lots of   7  (country)and regions are taking action to ban the sale of such bags to stop people using them.\n\nC\nA piece of stone   8  (find) on a Dutch beach suggests that our extinct human relatives, known as Neanderthals, were cleverer than previously thought. The Neanderthals   9  （live）alongside human ancestors in Europe for tens of thousands of years, before dying out about 40, 000 years ago. They were much stronger than modern humans, but it's long been assumed that human ancestors were  10   （smart）than the Neanderthals. However, the stone tool made by Neanderthals suggests otherwise.\n\n## 小题\n\n### 1(1)\n\nHe says food   1   (play) a big role in his life.\n\n**答案**: plays\n\n### 1(2)\n\nOliver says if you're   2   (luck) enough to have someone close to you who enjoys cooking, ask them   3   you can join in when it's possible.\n\n**答案**: lucky; if/whether\n\n### 1(3)\n\nSingle-use plastic bags are used at most a few times before they   4   (throw) away.\n\n**答案**: are thrown\n\n### 1(4)\n\nIt takes them hundreds of years   5   (break) down.\n\n**答案**: to break\n\n### 1(5)\n\nOver time, the bags fall apart   6   countless tiny pieces, and fish cam accidentally eat some of them.\n\n**答案**: into\n\n### 1(6)\n\nNow, lots of   7  (country)and regions are taking action to ban the sale of such bags to stop people using them.\n\n**答案**: countries\n\n### 1(7)\n\nA piece of stone   8  (find) on a Dutch beach suggests that our extinct human relatives, known as Neanderthals, were cleverer than previously thought.\n\n**答案**: found\n\n### 1(8)\n\nThe Neanderthals   9  （live）alongside human ancestors in Europe for tens of thousands of years, before dying out about 40, 000 years ago.\n\n**答案**: lived\n\n### 1(9)\n\nThey were much stronger than modern humans, but it's long been assumed that human ancestors were  10   （smart）than the Neanderthals.\n\n**答案**: smarter\n\n---\n\n## 参考答案\n\n1. plays; 2. lucky; 3. if/whether; 4. are thrown; 5. to break; 6. into; 7. countries; 8. found; 9. lived; 10. smarter\n\n",
+  "answer": "（根据具体题目内容填写）",
+  "analysis": "（根据具体题目内容填写）"
+}

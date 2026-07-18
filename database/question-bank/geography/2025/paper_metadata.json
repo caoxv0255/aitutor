@@ -1,0 +1,27 @@
+{
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2025,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 35,
+  "source_file": "2025年北京高考地理试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T04:13:25.904Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 15,
+      "solve": 5
+    },
+    "avg_difficulty": "2.85",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [
+    "第5题题干较短",
+    "第10题题干较短"
+  ],
+  "issues": []
+}

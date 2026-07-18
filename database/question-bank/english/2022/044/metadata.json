@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_044",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 44,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 20,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.722Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第44题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 20分\n\n---\n\n## 题目内容\n\n假设你是红星中学高三学生李华。你打算邀请英国好友Jim 为你们班做一次关于英语写作的线上经验交流。请你用英文给他写一封电子邮件，内容包括： \n1．建议交流的具体内容及其原因； \n2．交流时间和其他相关事项。 \n注意：1．词数100 左右； \n2．开头和结尾已给出，不计入总词数。 \nDear Jim, \n____________________________________________________________________________________________\n____________________________________________________________________________________________\n____________________________________________________________________________________________\n____________________________________________________________________________________________\n___________________________________________________ \nYours, \nLi Hua\n\n---\n\n## 参考答案\n\nDear Jim,\n\nHow is everything going? I'm writing to invite you to give an online talk on English writing for our class. Since many of us struggle with organizing ideas and using proper vocabulary, we would be grateful if you could share your tips on essay structure and common expressions. The talk could be scheduled next Friday afternoon from 3 to 4 pm. Please let me know if you are available. Looking forward to your reply.\n\nYours,\nLi Hua\n\n",
+  "answer": "Not only does he speak English, but he also speaks French.",
+  "analysis": "本题考查倒装句。not only置于句首，句子部分倒装。评分标准：倒装结构正确得2分，but also连接正确得1分，共3分。"
+}

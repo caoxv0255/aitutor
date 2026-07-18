@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_020",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.931Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\n作者理解的音乐和美术分别包含哪些内容？请概括说明。(6分)\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）①开篇'对酒当歌'引出人生苦短的感慨；②接着'青青子衿'表达对贤才的渴望；③'明明如月'抒发求贤不得的忧思；④'月明星稀'以乌鹊南飞喻贤才择主；⑤结尾'周公吐哺'表明自己礼贤下士的决心。（2）全诗表达了诗人渴望招纳贤才、建功立业的雄心壮志。",
+  "analysis": "本题考查诗歌鉴赏。第（1）问需梳理情感脉络，每点1分；第（2）问主旨2分。语言表达1分。"
+}

@@ -1,0 +1,80 @@
+{
+  "uid": "chinese_2021_beijing_009",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:39:35.330Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n根据文意，下列理解与推断，不正确的一项是（   ）\n\n## 选项\n\nA. A. 韩非认为儒生没有用处只有害处，本文认为儒生很有用处，不应抛弃。\n\nB. B. 本文赞赏魏文侯向段干木扶轼致敬的做法，认为功劳很大，无法超越。\n\nC. C. 韩非认为留着狂谲、华士没有好处只有坏处，因而赞赏太公杀了他们。\n\nD. D. 本文认为狂谲、华士与段干木是同一类人，对保全国家没有什么用处。\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "A",
+  "analysis": "本题考查句子翻译。B项“大兄何见事之晚乎”应译为“长兄你认清事物怎么这么晚呢”；C项“蒙辞以军中多务”应译为“吕蒙用军中事务多来推辞”；D项“肃遂拜蒙母”应译为“鲁肃于是拜见吕蒙的母亲”。A项正确。"
+}

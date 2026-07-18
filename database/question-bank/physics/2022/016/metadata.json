@@ -1,0 +1,210 @@
+{
+  "uid": "physics_2022_beijing_016",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [
+    "自由落体运动",
+    "打点计时器",
+    "重力加速度测量"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 387,
+      "height": 413
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 566,
+      "height": 289
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 564,
+      "height": 374
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 358,
+      "height": 257
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 282,
+      "height": 339
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 529,
+      "height": 284
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 355,
+      "height": 257
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 222,
+      "height": 289
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 481,
+      "height": 417
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 401,
+      "height": 458
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 722,
+      "height": 190
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 380,
+      "height": 323
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 275,
+      "height": 543
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 818,
+      "height": 154
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 651,
+      "height": 628
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 720,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 376,
+      "height": 261
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 383
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 381,
+      "height": 458
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:58:36.492Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 填空题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n**知识点**: 自由落体运动、打点计时器、重力加速度测量\n\n---\n\n## 题目内容\n\n某同学利用自由落体运动测量重力加速度，实验装置如图1所示，打点计时器接在频率为50.0Hz的交流电源上。使重锤自由下落，打点计时器在随重锤下落的纸带上打下一系列点迹。挑出点迹清晰的一条纸带，依次标出计数点1，2，…，8，相邻计数点之间还有1个计时点。分别测出相邻计数点之间的距离x1,x2,…,x7，并求出打点2，3，…，7时对应的重锤的速度。在坐标纸上建立v-t坐标系，根据重锤下落的速度作出v-t图线并求重力加速度。\n（1）图2为纸带的一部分，打点3时，重锤下落的速度v3=______________m/s（结果保留3位有效数字）。\n（2）除点3外，其余各点速度对应的坐标点已在图3坐标系中标出，请在图中标出速度v3对应的坐标点，并作出v-t图线______________。\n（3）根据图3，实验测得的重力加速度g=______________m/s²（结果保留3位有效数字）。\n（4）某同学居家学习期间，注意到一水龙头距地面较高，而且发现通过调节水龙头阀门可实现水滴逐滴下落，并能控制相邻水滴开始下落的时间间隔，还能听到水滴落地时发出的清脆声音。于是他计划利用手机的秒表计时功能和刻度尺测量重力加速度。为准确测量，请写出需要测量的物理量及对应的测量方法。\n\n## 小题\n\n### 16(1)\n\n图2为纸带的一部分，打点3时，重锤下落的速度v3=______________m/s（结果保留3位有效数字）。\n\n**答案**: 1.15\n\n### 16(2)\n\n除点3外，其余各点速度对应的坐标点已在图3坐标系中标出，请在图中标出速度v3对应的坐标点，并作出v-t图线______________。\n\n**答案**: 见解析\n\n### 16(3)\n\n根据图3，实验测得的重力加速度g=______________m/s²（结果保留3位有效数字）。\n\n**答案**: 9.79\n\n### 16(4)\n\n某同学居家学习期间，注意到一水龙头距地面较高，而且发现通过调节水龙头阀门可实现水滴逐滴下落，并能控制相邻水滴开始下落的时间间隔，还能听到水滴落地时发出的清脆声音。于是他计划利用手机的秒表计时功能和刻度尺测量重力加速度。为准确测量，请写出需要测量的物理量及对应的测量方法。\n\n**答案**: 见解析\n\n---\n\n## 参考答案\n\n（1）1.15；（2）见解析；（3）9.79；（4）见解析\n\n",
+  "answer": "4",
+  "analysis": "根据自由落体运动公式h=½gt²，取g=10m/s²，h=80m，则t=√(2h/g)=√(160/10)=√16=4s。故答案为4s。"
+}

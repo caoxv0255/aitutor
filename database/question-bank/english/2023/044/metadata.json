@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_044",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 44,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 20,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.262Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第44题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 20分\n\n---\n\n## 题目内容\n\n假设你是红星中学高三学生李华。你的英国好友Jim 正在策划一次以“绿色北京”为主题的社团活动，他发来邮件询问你的建议。请你用英文给他回复，内容包括：(1)活动形式；(2)活动内容。注意：(1)词数100 左右；(2)开头和结尾已给出，不计入总词数。\n\n---\n\n## 参考答案\n\nDear Jim, I'm glad to hear that you are planning a club activity with the theme \"Green Beijing\". Here are my suggestions. As for the form, I recommend a combination of a lecture and a hands-on workshop. For the content, we could invite an environmental expert to give a talk on Beijing's green initiatives, such as the improvement of air quality and the expansion of green spaces. Then, participants can engage in a workshop where they create small potted plants or design posters promoting eco-friendly habits. This will not only raise awareness but also provide practical experience. I hope these ideas are helpful. Best wishes, Li Hua\n\n",
+  "answer": "I agree that students should be allowed to use smartphones at school. First, smartphones can be used as learning tools to search for information and access educational apps. Second, they help students stay connected with parents in emergencies. However, rules should be made to prevent misuse, such as banning phone use during class. In conclusion, with proper guidance, smartphones can benefit students' learning.",
+  "analysis": "本题考查议论文写作。要求表达观点并论证。需包含：明确观点、理由（至少两点）、让步或建议、结论。评分标准：观点明确（2分），论证充分（4分），语言准确（3分），结构清晰（1分）。"
+}

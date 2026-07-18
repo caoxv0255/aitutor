@@ -1,0 +1,273 @@
+{
+  "uid": "physics_2025_beijing_018",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2025,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 10,
+  "knowledge_points": [
+    "洛伦兹力",
+    "圆周运动",
+    "动量"
+  ],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 41,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 249,
+      "height": 356
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 1031,
+      "height": 292
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 377,
+      "height": 320
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 579,
+      "height": 302
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 408,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 510,
+      "height": 295
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 391,
+      "height": 304
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 333,
+      "height": 237
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 116,
+      "height": 243
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 418,
+      "height": 229
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 431,
+      "height": 239
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 556,
+      "height": 170
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 387,
+      "height": 298
+    },
+    {
+      "filename": "page_10_img_3.png",
+      "page": 10,
+      "width": 1145,
+      "height": 294
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 493,
+      "height": 239
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_12_img_2.png",
+      "page": 12,
+      "width": 1006,
+      "height": 312
+    },
+    {
+      "filename": "page_12_img_3.png",
+      "page": 12,
+      "width": 1124,
+      "height": 329
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_14_img_1.png",
+      "page": 14,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_15_img_1.png",
+      "page": 15,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_16_img_1.png",
+      "page": 16,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_16_img_2.jpeg",
+      "page": 16,
+      "width": 499,
+      "height": 454
+    },
+    {
+      "filename": "page_17_img_1.png",
+      "page": 17,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_17_img_2.png",
+      "page": 17,
+      "width": 491,
+      "height": 252
+    },
+    {
+      "filename": "page_18_img_1.png",
+      "page": 18,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_19_img_1.png",
+      "page": 19,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-18T04:34:25.877Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0"
+}

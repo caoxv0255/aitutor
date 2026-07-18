@@ -1,0 +1,152 @@
+{
+  "uid": "chemistry_2020_beijing_014",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 129,
+      "height": 320
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 335,
+      "height": 232
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 284,
+      "height": 231
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 119,
+      "height": 299
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 1150,
+      "height": 452
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 949,
+      "height": 233
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 585,
+      "height": 296
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 403,
+      "height": 333
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1320,
+      "height": 349
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 781,
+      "height": 184
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 787,
+      "height": 95
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 1055,
+      "height": 188
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1051,
+      "height": 198
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 1307,
+      "height": 79
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 438,
+      "height": 137
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1079,
+      "height": 219
+    }
+  ],
+  "created_at": "2026-07-17T16:31:53.300Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n某同学进行如下实验：\nI. 将NH4Cl固体加入试管中，并将湿润的pH试纸置于试管口，试管口略向下倾斜，对试管底部进行加热。试纸颜色变化：黄色→蓝色(pH≈10) →黄色→红色(pH≈2)；试管中部有白色固体附着。\nII. 将饱和NH4Cl溶液滴在pH试纸上。试纸颜色变化：黄色→橙黄色(pH≈5)。\n下列说法不正确的是\n\n## 选项\n\nA. A. 根据Ⅰ中试纸变蓝，说明NH4Cl发生了分解反应\n\nB. B. 根据Ⅰ中试纸颜色变化，说明氨气比氯化氢气体扩散速率快\n\nC. C. Ⅰ中试纸变成红色，是由于NH4Cl水解造成的\n\nD. D. 根据试管中部有白色固体附着，说明不宜用加热NH4Cl的方法制备NH3\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "B",
+  "analysis": "A选项错误，因为H2O分子间存在氢键，沸点高于H2S。B选项正确，因为NH3分子间存在氢键，而PH3分子间只有范德华力，所以NH3沸点高于PH3。C选项错误，因为HF分子间氢键最强，所以HF沸点高于HCl。D选项错误，因为CH4、SiH4、GeH4、SnH4均为分子晶体，无氢键，随分子量增大，范德华力增大，沸点升高，所以沸点：SnH4>GeH4>SiH4>CH4。"
+}

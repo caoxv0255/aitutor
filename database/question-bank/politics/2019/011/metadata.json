@@ -1,0 +1,78 @@
+{
+  "uid": "politics_2019_beijing_011",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [
+    "机器人使用",
+    "生产要素",
+    "市场需求"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.007Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n**知识点**: 机器人使用、生产要素、市场需求\n\n---\n\n## 题目内容\n\n中国是世界上最大规模使用工业机器人的国家。如图为关于“企业使用机器人的影响因素”的调查结果。\n\n下列说法正确的是（  ）\n①（1）表明劳动力成本的降低会促进机器人的使用\n②（2）表明工人流动性越低的企业越倾向于使用机器人\n③（3）表明产品市场的需求会影响生产要素的投入\n④（4）和（5）表明机器人暂时无法全面替代劳动力\n\n## 选项\n\nA. A．①②\n\nB. B．①③\n\nC. C．②④\n\nD. D．③④\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n（3）显示市场需求影响机器人使用，③正确；（4）（5）显示机器人无法完全替代，④正确；①错误，劳动力成本降低会减少机器人使用；②错误，工人流动性低的企业更少使用机器人。\n\n",
+  "answer": "B",
+  "analysis": "本题考查按劳分配。按劳分配是社会主义公有制经济中个人消费品分配的基本原则。在公有制经济中，如国有企业、集体企业，劳动者的工资、奖金、津贴属于按劳分配。A选项按生产要素分配包括按资本、技术、管理等要素分配。C选项按需分配是共产主义社会的分配原则。D选项平均分配不是我国分配制度。因此，B选项正确。"
+}

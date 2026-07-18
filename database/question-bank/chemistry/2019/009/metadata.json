@@ -1,0 +1,158 @@
+{
+  "uid": "chemistry_2019_beijing_009",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 12,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 22,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 196,
+      "height": 89
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 145,
+      "height": 164
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 121,
+      "height": 136
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 147,
+      "height": 147
+    },
+    {
+      "filename": "page_1_img_5.jpeg",
+      "page": 1,
+      "width": 134,
+      "height": 210
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 175,
+      "height": 168
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 221,
+      "height": 165
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 309,
+      "height": 247
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 22,
+      "height": 26
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 280,
+      "height": 278
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 80,
+      "height": 141
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 53,
+      "height": 37
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 249,
+      "height": 226
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 696,
+      "height": 177
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 473,
+      "height": 84
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 59,
+      "height": 37
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 446,
+      "height": 85
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 257,
+      "height": 173
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 228,
+      "height": 206
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 407,
+      "height": 172
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 454,
+      "height": 79
+    }
+  ],
+  "created_at": "2026-07-17T16:18:20.263Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 12分\n\n---\n\n## 题目内容\n\n化学小组用如下方法测定经处理后的废水中苯酚的含量（废水中不含干扰测定的物质）。Ⅰ、用已准确称量的KBrO3 固体配制一定体积的amol•L﹣1KBrO3 标准溶液；Ⅱ、取v1mL 上述溶液，加入过量KBr，加H2SO4 酸化，溶液颜色呈棕黄色；Ⅲ、向Ⅱ所得溶液中加入v2mL 废水；Ⅳ、向Ⅲ中加入过量KI；Ⅴ、用bmol•L﹣1Na2S2O3 标准溶液滴定Ⅳ中溶液至浅黄色时，滴加2 滴淀粉溶液，继续滴定至终点，共消耗Na2S2O3 溶液v3mL。已知：I2+2Na2S2O3═2NaI+Na2S4O6，Na2S2O3 和Na2S4O6 溶液颜色均为无色。\n\n## 小题\n\n### 9(1)\n\nⅠ中配制溶液用到的玻璃仪器有烧杯、玻璃棒、胶头滴管和     。\n\n**答案**: \n\n### 9(2)\n\nⅡ中发生反应的离子方程式是     。\n\n**答案**: \n\n### 9(3)\n\nⅢ中发生反应的化学方程式是     。\n\n**答案**: \n\n### 9(4)\n\nⅣ中加KI 前，溶液颜色须为黄色，原因是     。\n\n**答案**: \n\n### 9(5)\n\nKI 与KBrO3 物质的量关系为n（KI）≥6n（KBrO3）时，KI 一定过量，理由是     。\n\n**答案**: \n\n### 9(6)\n\nV 中滴定至终点的现象是     。\n\n**答案**: \n\n### 9(7)\n\n废水中苯酚的含量为     g•L﹣1 （苯酚摩尔质量：94g•mol﹣1）。\n\n**答案**: \n\n### 9(8)\n\n由于Br2 具有     性质，Ⅱ～Ⅳ中反应须在密闭容器中进行，否则会造成测定结果偏高。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设生成氢气的质量为x，生成氯化锌的质量为y。\nZn + 2HCl → ZnCl2 + H2↑\n65       136     2\n6.5g      y       x\n65/6.5g = 2/x，x = (2×6.5g)/65 = 0.2g\n65/6.5g = 136/y，y = (136×6.5g)/65 = 13.6g\n答：生成氢气0.2克，氯化锌13.6克。",
+  "analysis": "本题考查根据化学方程式的计算。解题思路：写出化学方程式，找出已知量和未知量，列比例式求解。关键知识点：相对原子质量（Zn=65，Cl=35.5，H=1），化学方程式的书写。步骤：1.设未知量；2.写出化学方程式；3.标出相关物质的相对分子质量和已知量、未知量；4.列比例式；5.求解；6.答。评分标准：设未知数1分，化学方程式正确2分，比例式正确2分，计算结果正确2分，答1分，共8分。"
+}

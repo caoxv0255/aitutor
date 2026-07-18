@@ -1,0 +1,103 @@
+{
+  "uid": "physics_2019_beijing_010",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 10,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 16,
+  "knowledge_points": [
+    "电磁感应",
+    "感应电动势",
+    "功率",
+    "焦耳热"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 167,
+      "height": 104
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 215,
+      "height": 181
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 135,
+      "height": 136
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 161,
+      "height": 131
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 126,
+      "height": 124
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 415,
+      "height": 224
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 22,
+      "height": 48
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 144,
+      "height": 131
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 633,
+      "height": 166
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 169,
+      "height": 62
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 202,
+      "height": 141
+    }
+  ],
+  "created_at": "2026-07-17T16:16:55.699Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第10题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 16分\n\n**知识点**: 电磁感应、感应电动势、功率、焦耳热\n\n---\n\n## 题目内容\n\n如图所示，垂直于纸面的匀强磁场磁感应强度为B．纸面内有一正方形均匀金属线框abcd，其边长为L，总电阻为R，ad边与磁场边界平行。从ad边刚进入磁场直至bc边刚要进入的过程中，线框在向左的拉力作用下以速度v匀速运动，求：\n（1）感应电动势的大小E；\n（2）拉力做功的功率P；\n（3）ab边产生的焦耳热Q。\n\n---\n\n## 参考答案\n\n（1）E=BLv；（2）P=B²L²v²/R；（3）Q=B²L³v/(4R)\n\n",
+  "answer": "解答过程略",
+  "analysis": "题目未提供具体内容，无法给出解析。请提供题目。"
+}

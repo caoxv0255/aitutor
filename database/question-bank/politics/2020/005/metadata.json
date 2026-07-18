@@ -1,0 +1,107 @@
+{
+  "uid": "politics_2020_beijing_005",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "矛盾观",
+    "价值观"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 229,
+      "height": 126
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 371,
+      "height": 234
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 650,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 82,
+      "height": 72
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 92,
+      "height": 84
+    },
+    {
+      "filename": "page_5_img_4.jpeg",
+      "page": 5,
+      "width": 95,
+      "height": 88
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 650,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 645,
+      "height": 348
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 264
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 218,
+      "height": 285
+    }
+  ],
+  "created_at": "2026-07-17T16:36:47.002Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 矛盾观、价值观\n\n---\n\n## 题目内容\n\n智能技术的应用越来越广，几乎渗透到生活的每一个角落。但对于很多老年人来说，扫码购物、网上办事、线上挂号等都难以适应，方便的智能应用反而给老年人的日常生活带来不便。对此，下列观点正确的是（    ）\n\n## 选项\n\nA. A.智能技术带来的“不便”，是违背科技发展规律的表现\n\nB. B.智能技术带的“便”与“不便”，说明矛盾斗争性是相对的\n\nC. C.智能技术被应用于生活的方方面面，逐渐成为矛盾主要方面\n\nD. D.智能技术的应用要注重价值考量，坚特科学精神与人文精神的统一\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\nD正确。A错误，不便不是违背规律；B错误，斗争性是绝对的；C错误，智能技术不是矛盾主要方面。\n\n",
+  "answer": "A",
+  "analysis": "本题考查生产与消费的关系。生产决定消费的对象、方式、质量和水平，并为消费创造动力。选项A正确，生产决定消费。选项B错误，消费对生产有反作用。选项C错误，消费是生产的目的。选项D错误，消费是生产的动力。因此选A。"
+}

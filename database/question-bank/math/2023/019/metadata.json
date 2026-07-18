@@ -1,0 +1,146 @@
+{
+  "uid": "math_2023_beijing_019",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 15,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 20,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_7.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 458,
+      "height": 188
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 358,
+      "height": 424
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:16:16.063Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 15分\n\n---\n\n## 题目内容\n\n已知椭圆E: x^2/a^2 + y^2/b^2 = 1 (a>b>0)离心率为√5/3，A、C分别是E的上、下顶点，B，D分别是E的左、右顶点，|AC|=4．\n（1）求E的方程；\n（2）设P为第一象限内E上的动点，直线PD与直线BC交于点M，直线PA与直线y=-2交于点N．求证：MN∥CD．\n\n## 小题\n\n### 19(1)\n\n求E的方程；\n\n**答案**: \n\n### 19(2)\n\n设P为第一象限内E上的动点，直线PD与直线BC交于点M，直线PA与直线y=-2交于点N．求证：MN∥CD．\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：圆C的圆心为(1,2)，半径r=2，圆心到直线l的距离d=|1-2+3|/√(1^2+(-1)^2)=2/√2=√2<2，所以直线与圆相交，弦长=2√(r^2-d^2)=2√(4-2)=2√2。",
+  "analysis": "本题考查直线与圆的位置关系及弦长公式。先求出圆心和半径，再计算圆心到直线的距离，比较距离与半径的关系，最后利用弦长公式求解。评分标准：正确求出圆心和半径得1分，求出距离得2分，判断位置关系得1分，求出弦长得1分。"
+}

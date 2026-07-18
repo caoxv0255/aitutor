@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_016",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 3,
+  "score": 8,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.929Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 填空题\n\n**难度**: ★★★☆☆\n\n**分值**: 8分\n\n---\n\n## 题目内容\n\n在横线处填写作品原句。(共8分) (1)《庄子》所描绘的大鹏形象富于浪漫色彩：“鹏之背，不知其几千里也； ， 。” (2)古人常常把酒吟诗，如苏轼在黄州赤壁“举酒属客， ， 。” (3)小张最近天天加班，早起晚睡。她借用《诗经》中的名句来调侃这种生活状态：“ ， 。” (4)在学校运动会上，你的同学竭尽全力却未能夺得冠军，他深感遗憾。你用王安石的话“ ， 。”来安慰他。\n\n## 小题\n\n### 16(1)\n\n《庄子》所描绘的大鹏形象富于浪漫色彩：“鹏之背，不知其几千里也； ， 。”\n\n**答案**: \n\n### 16(2)\n\n古人常常把酒吟诗，如苏轼在黄州赤壁“举酒属客， ， 。”\n\n**答案**: \n\n### 16(3)\n\n小张最近天天加班，早起晚睡。她借用《诗经》中的名句来调侃这种生活状态：“ ， 。”\n\n**答案**: \n\n### 16(4)\n\n在学校运动会上，你的同学竭尽全力却未能夺得冠军，他深感遗憾。你用王安石的话“ ， 。”来安慰他。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）君子博学而日参省乎己（2）则知明而行无过矣（3）锲而不舍（4）金石可镂",
+  "analysis": "本题考查名篇名句默写。注意易错字：博、参、省、知、锲、镂。每空1分，共4分。"
+}

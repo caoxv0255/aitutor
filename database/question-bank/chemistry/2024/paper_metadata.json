@@ -1,0 +1,26 @@
+{
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2024,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 19,
+  "page_count": 0,
+  "image_count": 70,
+  "source_file": "2024年北京高考化学试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T04:29:02.179Z",
+  "quality_stats": {
+    "total": 19,
+    "by_type": {
+      "choice": 14,
+      "solve": 5
+    },
+    "avg_difficulty": "3.42",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [
+    "第4题题干较短"
+  ],
+  "issues": []
+}

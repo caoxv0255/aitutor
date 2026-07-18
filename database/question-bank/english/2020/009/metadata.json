@@ -1,0 +1,54 @@
+{
+  "uid": "english_2020_beijing_009",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 20,
+  "knowledge_points": [
+    "书面表达",
+    "记叙文",
+    "图片描述"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 4,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 161,
+      "height": 139
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 367,
+      "height": 311
+    }
+  ],
+  "created_at": "2026-07-17T16:28:33.927Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 20分\n\n**知识点**: 书面表达、记叙文、图片描述\n\n---\n\n## 题目内容\n\n假设你是红星中学高三（1）班班长李华。居家学习期间，你们班开展了一次以“自律”为主题的调研活动。请根据以下四幅图的先后顺序，写一篇英文稿件，给你们学校英文网站投稿，记述你在本次活动中发现问题并解决问题的过程。\n注意：词数不少于60。\n提示词：自律 self-discipline\n\n（图片描述：图1：同学们在线上课，有的走神；图2：班长李华在统计调查结果；图3：李华组织线上班会讨论自律；图4：同学们认真学习的场景）\n\n---\n\n## 参考答案\n\nDuring the home-based learning period, our class conducted a survey on self-discipline. The results showed that many students lacked self-discipline and were easily distracted during online classes. As the monitor, I organized a class meeting to discuss the issue. We shared tips and set goals together. Gradually, everyone became more focused and self-disciplined. It was a valuable experience that helped us grow.\n\n",
+  "answer": "（根据具体题目内容填写）",
+  "analysis": "（根据具体题目内容填写）"
+}

@@ -1,0 +1,128 @@
+{
+  "uid": "english_2021_beijing_001",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 1.5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_6.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_7.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_8.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_9.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:42:35.303Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 1.5分\n\n---\n\n## 题目内容\n\nRecently，I took a trip home by train．I got a seat opposite a middle-aged man with sharp eyes，who kept____1____a young woman in a window seat with a little boy on her lap．The woman's eye fell on the man's face，and she immediately looked down and____2____her scarf．As the night wore on，people began to close their eyes，but the seats were so uncomfortable that only a very heavy sleeper could manage to get any____3____．The woman looked over at the man．He was still staring at her．She looked back at him with fire in her eyes．I was beginning to get____4____，too．The train moved on．The little boy was ____5____ awake on his mother's lap，but the woman dropped off to sleep．A moment later，he began to____6____the half-open window—one leg went over it．The man jumped up and ____7____the child just before he fell out．The____8____ woke up the woman．She seemed to be in____9____，and then reality dawned（显现）．“Your child has been looking for an opportunity to climb out of the window，”the man said as he gave the child back to her. ．“So I have been watching the whole time．”The woman was _____10_____，and so was I．\n\n## 选项\n\nA. A. guiding\n\nB. B. bothering\n\nC. C. watching\n\nD. D. monitoring\n\n## 小题\n\n### 1\n\n1. A. guiding B. bothering C. watching D. monitoring\n\n**答案**: C\n\n### 2\n\n2. A. adjusted B. changed C. packed D. waved\n\n**答案**: A\n\n### 3\n\n3. A. air B. joy C. space D. rest\n\n**答案**: D\n\n### 4\n\n4. A. nervous B. embarrassed C. angry D. disappointed\n\n**答案**: C\n\n### 5\n\n5. A. almost B. still C. hardly D. even\n\n**答案**: B\n\n### 6\n\n6. A. drag B. climb C. knock D. push\n\n**答案**: B\n\n### 7\n\n7. A. grabbed B. rocked C. touched D. picked\n\n**答案**: A\n\n### 8\n\n8. A. alarm B. quarrel C. risk D. noise\n\n**答案**: D\n\n### 9\n\n9. A. sorrow B. relief C. panic D. pain\n\n**答案**: C\n\n### 10\n\n10. A. astonished B. confused C. concerned D. inspired\n\n**答案**: A\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "本题考查冠词用法。第一空泛指“一个有趣的故事”，用不定冠词an；第二空“the story”特指前面提到的那个故事，用定冠词the。选项A正确。B项第一空a错误，因为interesting以元音音素开头；C项第二空a错误；D项第一空a错误。"
+}

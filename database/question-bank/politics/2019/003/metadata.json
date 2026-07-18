@@ -1,0 +1,78 @@
+{
+  "uid": "politics_2019_beijing_003",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 3,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 1,
+  "score": 4,
+  "knowledge_points": [
+    "文化体验",
+    "文化与旅游",
+    "文化传承"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.001Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第3题\n\n**题型**: 选择题\n\n**难度**: ★☆☆☆☆\n\n**分值**: 4分\n\n**知识点**: 文化体验、文化与旅游、文化传承\n\n---\n\n## 题目内容\n\n登滕王阁，看“落霞与孤鹜齐飞，秋水共长天一色”；游西湖，感受“水光潋滟晴方好，山色空蒙雨亦奇”。纵情山水之间，品味诗词之美，“跟着诗词去旅行”成为人们出游新选择。对此认识正确的是（  ）\n\n## 选项\n\nA. A．游历大好河山，感受诗词魅力，有助于深化文化体验\n\nB. B．以文塑旅，以旅彰文，传承诗词文化重在发掘其经济价值\n\nC. C．文化旅游的发展取决于人们的文化修养\n\nD. D．文化与旅游相结合是文化创新的根本途径\n\n---\n\n## 参考答案\n\nA\n\n## 解析\n\n诗词与旅游结合深化文化体验，A正确；传承文化重在社会价值而非经济价值，B错误；文化修养影响但非决定因素，C错误；文化创新的根本途径是社会实践，D错误。\n\n",
+  "answer": "B",
+  "analysis": "本题考查供求影响价格。当商品供不应求时，价格上涨；供过于求时，价格下跌。题目中“价格上涨”说明该商品供不应求，即需求大于供给。A选项错误，因为供过于求会导致价格下跌。C选项错误，因为生产扩大可能导致供给增加，但价格上涨的原因通常是需求增加或供给减少。D选项错误，因为需求减少会导致价格下跌。因此，B选项正确。"
+}

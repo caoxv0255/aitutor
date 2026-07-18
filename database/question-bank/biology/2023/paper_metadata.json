@@ -1,0 +1,24 @@
+{
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2023,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 21,
+  "page_count": 0,
+  "image_count": 23,
+  "source_file": "2023年北京高考生物试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T17:22:55.922Z",
+  "quality_stats": {
+    "total": 21,
+    "by_type": {
+      "choice": 15,
+      "solve": 6
+    },
+    "avg_difficulty": "2.52",
+    "answer_completeness": "71.4",
+    "analysis_completeness": "71.4"
+  },
+  "warnings": [],
+  "issues": []
+}

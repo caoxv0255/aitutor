@@ -1,0 +1,26 @@
+{
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2025,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 19,
+  "page_count": 0,
+  "image_count": 75,
+  "source_file": "2025年北京高考化学试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T04:35:42.663Z",
+  "quality_stats": {
+    "total": 19,
+    "by_type": {
+      "choice": 14,
+      "solve": 5
+    },
+    "avg_difficulty": "3.32",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [
+    "第3题题干较短"
+  ],
+  "issues": []
+}

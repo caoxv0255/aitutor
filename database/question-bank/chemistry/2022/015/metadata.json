@@ -1,0 +1,278 @@
+{
+  "uid": "chemistry_2022_beijing_015",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 42,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 103,
+      "height": 85
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 124,
+      "height": 54
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 131,
+      "height": 38
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 651,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 227,
+      "height": 173
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 116,
+      "height": 171
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 132,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 98,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 200,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 258,
+      "height": 118
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 383,
+      "height": 250
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 1260,
+      "height": 333
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 554,
+      "height": 205
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 390,
+      "height": 305
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_7.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1260,
+      "height": 397
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 674,
+      "height": 406
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 321,
+      "height": 401
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1260,
+      "height": 463
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 1137,
+      "height": 167
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 406,
+      "height": 474
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 807,
+      "height": 394
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 178,
+      "height": 58
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 877,
+      "height": 216
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 1242,
+      "height": 571
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:00:18.432Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n工业中可利用生产钛白的副产物FeSO4·7H2O和硫铁矿(FeS2)联合制备铁精粉(FexOy)和硫酸，实现能源及资源的有效利用。\n（1）FeSO4·7H2O结构示意图如图1。\n①Fe2+的价层电子排布式为___________。\n②H2O中O和SO42-中S均为sp3杂化，比较H2O中H-O-H键角和SO42-中O-S-O键角的大小并解释原因___________。\n③FeSO4·7H2O中H2O与Fe2+、H2O与SO42-的作用力类型分别是___________。\n（2）FeS2晶体的晶胞形状为立方体，边长为a nm，结构如图2。\n①距离Fe2+最近的阴离子有___________个。\n②FeS2的摩尔质量为120g·mol-1，阿伏加德罗常数为NA。该晶体的密度为___________g·cm-3。(1nm=10-9m)\n（3）FeSO4·7H2O加热脱水后生成FeSO4·H2O，再与FeS2在氧气中掺烧可联合制备铁精粉和硫酸。FeSO4·H2O分解和FeS2在氧气中燃烧的能量示意图如图3。利用FeS2作为FeSO4·H2O分解的燃料，从能源及资源利用的角度说明该工艺的优点___________。\n\n## 小题\n\n### 15(1)①\n\nFe2+的价层电子排布式为___________。\n\n**答案**: 3d6\n\n### 15(1)②\n\nH2O中O和SO42-中S均为sp3杂化，比较H2O中H-O-H键角和SO42-中O-S-O键角的大小并解释原因___________。\n\n**答案**: H2O中H-O-H键角小于SO42-中O-S-O键角；因为H2O中O原子有2对孤电子对，孤电子对排斥力大，键角小；SO42-中S原子无孤电子对，键角大。\n\n### 15(1)③\n\nFeSO4·7H2O中H2O与Fe2+、H2O与SO42-的作用力类型分别是___________。\n\n**答案**: 配位键、氢键\n\n### 15(2)①\n\n距离Fe2+最近的阴离子有___________个。\n\n**答案**: 6\n\n### 15(2)②\n\nFeS2的摩尔质量为120g·mol-1，阿伏加德罗常数为NA。该晶体的密度为___________g·cm-3。(1nm=10-9m)\n\n**答案**: 480/(NA·a^3×10^-21)\n\n### 15(3)\n\n利用FeS2作为FeSO4·H2O分解的燃料，从能源及资源利用的角度说明该工艺的优点___________。\n\n**答案**: FeS2燃烧放热为FeSO4·H2O分解提供能量，同时FeS2燃烧产物Fe2O3和SO2可用于制备铁精粉和硫酸，实现能源和资源的有效利用。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设需要浓硫酸的体积为V mL。稀释前后溶质质量不变：1.84 g/mL × V mL × 98% = 500 mL × 1.14 g/mL × 20%，解得V≈63.2 mL。答：需要63.2 mL浓硫酸。",
+  "analysis": "本题考察溶液稀释计算，关键利用稀释前后溶质质量不变。注意单位换算，浓硫酸密度1.84g/mL，质量分数98%；稀硫酸密度1.14g/mL，质量分数20%。计算时先求稀硫酸质量，再求浓硫酸体积。评分标准：公式正确得2分，计算过程正确得2分，结果正确得1分。"
+}

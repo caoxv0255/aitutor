@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_007",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 7,
+  "question_type": "multi_choice",
+  "question_type_name": "多选题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.191Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第7题\n\n**题型**: 多选题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n毛泽东在中共七届二中全会上指出：“我党同党外民主人士长期合作的政策，必须在全党思想上和工作上确定下来。我们必须把党外大多数民主人士看成和自己的干部一样，同他们诚恳地坦白地商量和解决那些必须商量和解决的问题。”能体现这一思想的是（  ）\n①《共同钢领》 \n②人民代表大会制度 \n③政治协商制度 \n④民主集中制\n\n## 选项\n\nA. A．①②\n\nB. B．③④\n\nC. C．①③\n\nD. D．②④\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "ABD",
+  "analysis": "本题考查明朝加强君主专制的措施。明朝废除丞相，权分六部，设立内阁，并实行特务统治。选项A正确，明太祖废除丞相。选项B正确，明成祖设立内阁。选项C错误，军机处是清朝设立的。选项D正确，明朝设立锦衣卫、东厂等特务机构。"
+}

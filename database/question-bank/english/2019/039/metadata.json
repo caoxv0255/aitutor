@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_039",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 39,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T15:41:22.526Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第39题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\n39. Taking advantage of the new technologies, scammer can______.\nA. aim at victims precisely\nB. damage databases easily\nC. start campaigns rapidly\nD. spread information widely\n\n## 选项\n\nA. A. aim at victims precisely\n\nB. B. damage databases easily\n\nC. C. start campaigns rapidly\n\nD. D. spread information widely\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "C",
+  "analysis": "选项A错误，因为...；选项B错误，因为...；选项C正确，因为...；选项D错误，因为..."
+}

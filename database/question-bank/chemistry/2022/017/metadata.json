@@ -1,0 +1,278 @@
+{
+  "uid": "chemistry_2022_beijing_017",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 42,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 103,
+      "height": 85
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 124,
+      "height": 54
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 131,
+      "height": 38
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 651,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 227,
+      "height": 173
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 116,
+      "height": 171
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 132,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 98,
+      "height": 172
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 200,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 258,
+      "height": 118
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 383,
+      "height": 250
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 1260,
+      "height": 333
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 554,
+      "height": 205
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 390,
+      "height": 305
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_5.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_6.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_7.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1260,
+      "height": 397
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 674,
+      "height": 406
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 321,
+      "height": 401
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1260,
+      "height": 463
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 1137,
+      "height": 167
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 406,
+      "height": 474
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 807,
+      "height": 394
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 178,
+      "height": 58
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 877,
+      "height": 216
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 1242,
+      "height": 571
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:00:18.433Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n碘番酸是一种口服造影剂，用于胆部X—射线检查。其合成路线如下：\n已知：R1COOH+R2COOH → R1COOR2 + H2O\n（1）A可发生银镜反应，A分子含有的官能团是___________。\n（2）B无支链，B的名称是___________。B的一种同分异构体，其核磁共振氢谱只有一组峰，结构简式是___________。\n（3）E为芳香族化合物，E→F的化学方程式是___________。\n（4）G中含有乙基，G的结构简式是___________。\n（5）碘番酸分子中的碘位于苯环上不相邻的碳原子上。碘番酸的相对分子质量为571，J的相对分子质量为193，碘番酸的结构简式是___________。\n（6）口服造影剂中碘番酸含量可用滴定分析法测定，步骤如下。\n步骤一：称取a mg口服造影剂，加入Zn粉、NaOH溶液，加热回流，将碘番酸中的碘完全转化为I-，冷却、洗涤、过滤，收集滤液。\n步骤二：调节滤液pH，用b mol·L-1 AgNO3标准溶液滴定至终点，消耗AgNO3溶液的体积为c mL。\n已知口服造影剂中不含其它含碘物质。计算口服造影剂中碘番酸的质量分数___________。\n\n## 小题\n\n### 17(1)\n\nA可发生银镜反应，A分子含有的官能团是___________。\n\n**答案**: 醛基\n\n### 17(2)\n\nB无支链，B的名称是___________。B的一种同分异构体，其核磁共振氢谱只有一组峰，结构简式是___________。\n\n**答案**: 正丁酸；CH3COOCH3\n\n### 17(3)\n\nE为芳香族化合物，E→F的化学方程式是___________。\n\n**答案**: \n\n### 17(4)\n\nG中含有乙基，G的结构简式是___________。\n\n**答案**: \n\n### 17(5)\n\n碘番酸分子中的碘位于苯环上不相邻的碳原子上。碘番酸的相对分子质量为571，J的相对分子质量为193，碘番酸的结构简式是___________。\n\n**答案**: \n\n### 17(6)\n\n计算口服造影剂中碘番酸的质量分数___________。\n\n**答案**: (571bc)/(3a)×100%\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设需要NaOH的质量为m g。n(HCl)=0.1L×0.1mol/L=0.01mol，HCl+NaOH→NaCl+H2O，需NaOH 0.01mol，m=0.01mol×40g/mol=0.4g。答：需要0.4g NaOH。",
+  "analysis": "本题考察中和反应计算。先求HCl物质的量，根据化学计量比求NaOH物质的量，再求质量。注意单位换算。评分标准：正确计算HCl物质的量得2分，正确计算NaOH质量得2分，答案正确得1分。"
+}

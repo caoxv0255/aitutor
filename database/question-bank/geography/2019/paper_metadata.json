@@ -1,0 +1,30 @@
+{
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2019,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 14,
+  "page_count": 0,
+  "image_count": 9,
+  "source_file": "2019年北京高考地理试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:24:03.199Z",
+  "quality_stats": {
+    "total": 14,
+    "by_type": {
+      "choice": 11,
+      "solve": 3
+    },
+    "avg_difficulty": "N/A",
+    "answer_completeness": "78.6",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "第4题题干较短",
+    "第7题题干较短",
+    "第8题题干较短",
+    "第11题题干较短",
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

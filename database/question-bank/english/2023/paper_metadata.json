@@ -1,0 +1,27 @@
+{
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 21,
+  "page_count": 0,
+  "image_count": 10,
+  "source_file": "2023年北京高考英语试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T17:17:56.262Z",
+  "quality_stats": {
+    "total": 21,
+    "by_type": {
+      "choice": 16,
+      "fill": 3,
+      "solve": 2
+    },
+    "avg_difficulty": "2.71",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

@@ -1,0 +1,107 @@
+{
+  "uid": "politics_2020_beijing_013",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [
+    "税收政策",
+    "增值税"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 229,
+      "height": 126
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 371,
+      "height": 234
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 650,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 82,
+      "height": 72
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 92,
+      "height": 84
+    },
+    {
+      "filename": "page_5_img_4.jpeg",
+      "page": 5,
+      "width": 95,
+      "height": 88
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 650,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 645,
+      "height": 348
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 264
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 218,
+      "height": 285
+    }
+  ],
+  "created_at": "2026-07-17T16:36:47.009Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n**知识点**: 税收政策、增值税\n\n---\n\n## 题目内容\n\n近年来，我国推出了一系列减税降费政策，对制造业增值税税率的有关调整如下表所示。\n时间 制造业增值税税率\n2018年5月1日 17%降至16%\n2019年4月1日 16%降至13%\n下列说法正确的是（    ）\n\n## 选项\n\nA. A.资本流出制造业加快，制造业的利润提高\n\nB. B.制造业上缴所得税增加，机器设备更新放缓\n\nC. C.消费者购买制造业生产的生活资料，可分享减税收益\n\nD. D.产品为卖方市场的制造业企业，所获减税收益较少\n\n---\n\n## 参考答案\n\nC\n\n## 解析\n\nC正确。A错误，减税不一定导致资本流出；B错误，增值税降低，所得税不一定增加；D错误，卖方市场企业可能获得更多收益。\n\n",
+  "answer": "A",
+  "analysis": "本题考查税收的特征。税收具有强制性、无偿性和固定性。选项A正确，税收具有强制性。选项B错误，税收具有无偿性。选项C错误，税收具有固定性。选项D错误，税收具有强制性。因此选A。"
+}

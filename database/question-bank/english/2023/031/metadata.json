@@ -1,0 +1,86 @@
+{
+  "uid": "english_2023_beijing_031",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 31,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:17:56.257Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第31题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nWhat is life? Like most great questions, this one is easy to ask but difficult to answer. The reason is simple: we know of just one type of life and it’s challenging to do science with a sample size of one. The field of artificial life-called ALife for short — is the systematic attempt to spell out life’s fundamental principles. Many of these practitioners, so-called ALifers, think that somehow making life is the surest way to really understand what life is. So far no one has convincingly made artificial life. This track record makes ALife a ripe target for criticism, such as declarations of the field’s doubtful scientific value. Alan Smith, a complexity scientist, is tired of such complaints. Asking about “the point” of ALife might be, well, missing the point entirely, he says. “The existence of a living system is not about the use of anything.” Alan says. “Some people ask me, ‘So what’s the worth of artificial life?’ Do you ever think, ‘What is the worth of your grandmother?’” As much as many ALifers hate emphasizing their research’s applications, the attempts to create artificial life could have practical payoffs. Artificial intelligence may be considered ALife’s cousin in that researchers in both fields are enamored by a concept called open-ended evolution (演化). This is the capacity for a system to create essentially endless complexity, to be a sort of “novelty generator”. The only system known to exhibit this is Earth’s biosphere. If the field of ALife manages to reproduce life’s endless “creativity” in some virtual model, those same principles could give rise to truly inventive machines. Compared with the developments of Al, advances in ALife are harder to recognize. One reason is that ALife is a field in which the central concept — life itself — is undefined. The lack of agreement among ALifers doesn’t help either. The result is a diverse line of projects that each advance along their unique paths. For better or worse, ALife mirrors the very subject it studies. Its muddled (混乱的) progression is a striking parallel (平行线) to the evolutionary struggles that have shaped Earth biosphere. Undefined and uncontrolled, ALife drives its followers to repurpose old ideas and generated novelty. It may be, of course, that these characteristics aren’t in any way surprising or singular. They may apply universally to all acts of evolution. Ultimately ALife may be nothing special. But even this dismissal suggests something：perhaps, just like life itself throughout the universe, the rise of ALife will prove unavoidable.\n\n## 选项\n\nA. A. supportive\n\nB. B. puzzled\n\nC. C. unconcerned\n\nD. D. doubtful\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "A",
+  "analysis": "本题考查时态。时间状语‘next week’表示将来，且‘plan’表示计划，用一般将来时，故选A。"
+}

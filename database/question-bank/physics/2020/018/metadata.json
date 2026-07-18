@@ -1,0 +1,155 @@
+{
+  "uid": "physics_2020_beijing_018",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 9,
+  "knowledge_points": [
+    "法拉第电磁感应定律",
+    "楞次定律"
+  ],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 21,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 473
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 406,
+      "height": 405
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 729,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 259,
+      "height": 272
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 281,
+      "height": 291
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 630,
+      "height": 268
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 531,
+      "height": 344
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1221,
+      "height": 396
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 965,
+      "height": 413
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 145,
+      "height": 174
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 556,
+      "height": 258
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 1196,
+      "height": 281
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 503,
+      "height": 391
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 472,
+      "height": 309
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 737,
+      "height": 294
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 509,
+      "height": 303
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1234,
+      "height": 355
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 910,
+      "height": 450
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 499,
+      "height": 426
+    },
+    {
+      "filename": "page_12_img_1.jpeg",
+      "page": 12,
+      "width": 567,
+      "height": 406
+    },
+    {
+      "filename": "page_12_img_2.png",
+      "page": 12,
+      "width": 474,
+      "height": 255
+    }
+  ],
+  "created_at": "2026-07-17T16:30:12.387Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 9分\n\n**知识点**: 法拉第电磁感应定律、楞次定律\n\n---\n\n## 题目内容\n\n如图甲所示，N=200匝的线圈(图中只画了2匝)，电阻r=2Ω，其两端与一个R=48Ω的电阻相连，线圈内有指向纸内方向的磁场。线圈中的磁通量按图乙所示规律变化。\n(1)判断通过电阻R的电流方向；\n(2)求线圈产生的感应电动势E；\n(3)求电阻R两端的电压U。\n\n## 小题\n\n### 18(1)\n\n判断通过电阻R的电流方向；\n\n**答案**: 电流方向由a到b\n\n### 18(2)\n\n求线圈产生的感应电动势E；\n\n**答案**: E=10V\n\n### 18(3)\n\n求电阻R两端的电压U。\n\n**答案**: U=9.6V\n\n---\n\n## 参考答案\n\n(1)电流方向由a到b (2)E=10V (3)U=9.6V\n\n",
+  "answer": "解：设地球质量为M，卫星质量为m，轨道半径为r，周期为T。由万有引力提供向心力：GMm/r^2=m(4π^2/T^2)r，得M=4π^2r^3/(GT^2)。答：地球质量M=4π^2r^3/(GT^2)。",
+  "analysis": "本题考查万有引力定律的应用。解题思路：卫星绕地球做匀速圆周运动，万有引力提供向心力，利用周期公式求解中心天体质量。评分标准：万有引力公式正确得2分，向心力公式正确得2分，结果正确得1分。"
+}

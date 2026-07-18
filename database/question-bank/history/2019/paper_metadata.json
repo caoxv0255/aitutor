@@ -1,0 +1,27 @@
+{
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 15,
+  "page_count": 0,
+  "image_count": 1,
+  "source_file": "2019年北京高考历史试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:21:09.195Z",
+  "quality_stats": {
+    "total": 15,
+    "by_type": {
+      "choice": 11,
+      "multi_choice": 1,
+      "solve": 3
+    },
+    "avg_difficulty": "3.07",
+    "answer_completeness": "80.0",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

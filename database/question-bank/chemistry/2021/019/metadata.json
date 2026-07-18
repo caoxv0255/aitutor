@@ -1,0 +1,230 @@
+{
+  "uid": "chemistry_2021_beijing_019",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 34,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 139,
+      "height": 90
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 103,
+      "height": 76
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 54,
+      "height": 45
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 64,
+      "height": 42
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 1231,
+      "height": 420
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 173,
+      "height": 132
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 258,
+      "height": 248
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 549,
+      "height": 201
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 74,
+      "height": 52
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 162,
+      "height": 66
+    },
+    {
+      "filename": "page_4_img_5.jpeg",
+      "page": 4,
+      "width": 1426,
+      "height": 287
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 305,
+      "height": 251
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 177,
+      "height": 89
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1154,
+      "height": 401
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 380,
+      "height": 224
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 1483,
+      "height": 479
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 395,
+      "height": 162
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 164,
+      "height": 75
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 1467,
+      "height": 122
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 524,
+      "height": 348
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 118,
+      "height": 121
+    }
+  ],
+  "created_at": "2026-07-17T16:45:52.225Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n某小组探究卤素参与的氧化还原反应，从电极反应角度分析物质氧化性和还原性的变化规律。\n（1）浓盐酸与MnO2混合加热生成氯气。氯气不再逸出时，固液混合物A中仍存在盐酸和MnO2。\n①反应的离子方程式是_______。\n②电极反应式：\ni.还原反应：MnO2+2e-+4H+=Mn2++2H2O\nii.氧化反应：_______。\n③根据电极反应式，分析A中仍存在盐酸和MnO2的原因。\ni.随c(H+)降低或c(Mn2+)浓度升高，MnO2氧化性减弱。\nii.随c(Cl-)降低，_______。\n④补充实验证实了③中的分析。\n实验操作 试剂 产物\nI 较浓H2SO4 有氯气\nII a 有氯气\nIII a+b 无氯气\na是_______，b是_______。\n（2）利用c(H+)浓度对MnO2氧化性的影响，探究卤素离子的还原性。相同浓度的KCl、KBr和KI溶液，能与MnO2反应所需的最低c(H+)由大到小的顺序是_______，从原子结构角度说明理由______________。\n（3）根据(1)中结论推测：酸性条件下，加入某种化合物可以提高溴的氧化性，将Mn2+氧化为MnO2。经实验证实了推测，该化合物是_______。\n（4）Ag分别与1mol·L1的盐酸、氢溴酸和氢碘酸混合，Ag只与氢碘酸发生置换反应，试解释原因：_______。\n（5）总结：物质氧化性和还原性变化的一般规律是_______。\n\n## 小题\n\n### 19(1)①\n\n反应的离子方程式是_______。\n\n**答案**: \n\n### 19(1)②\n\n氧化反应：_______。\n\n**答案**: \n\n### 19(1)③\n\n随c(Cl-)降低，_______。\n\n**答案**: \n\n### 19(1)④\n\na是_______，b是_______。\n\n**答案**: \n\n### 19(2)\n\n相同浓度的KCl、KBr和KI溶液，能与MnO2反应所需的最低c(H+)由大到小的顺序是_______，从原子结构角度说明理由______________。\n\n**答案**: \n\n### 19(3)\n\n该化合物是_______。\n\n**答案**: \n\n### 19(4)\n\nAg只与氢碘酸发生置换反应，试解释原因：_______。\n\n**答案**: \n\n### 19(5)\n\n物质氧化性和还原性变化的一般规律是_______。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设需要碳酸钙的质量为x。\nCaCO3 → CaO + CO2↑\n100g 56g\nx 28g\n100/x = 56/28\nx = 50g\n答：需要碳酸钙50g。",
+  "analysis": "根据碳酸钙分解的化学方程式，碳酸钙与氧化钙的质量比为100:56。生成28g氧化钙需要50g碳酸钙。评分标准：设未知数1分，写化学方程式1分，列比例式1分，计算结果1分，答1分。"
+}

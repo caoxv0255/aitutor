@@ -1,0 +1,68 @@
+{
+  "uid": "history_2020_beijing_001",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 7,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 558,
+      "height": 242
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 298,
+      "height": 214
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 238,
+      "height": 149
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 310,
+      "height": 158
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 331,
+      "height": 233
+    }
+  ],
+  "created_at": "2026-07-17T15:55:26.735Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n战国时期的曾侯乙墓出土了青铜冰鉴缶，鉴用来盛冰，缶用来盛食物。《周礼》记载，肉食珍馐与酒水都要用冰鉴保存，祭祀时也要使用冰鉴。冰鉴缶的使用\n\n## 选项\n\nA. A. 体现了战国时期严格的宗法制度\n\nB. B. 说明青铜铸造工艺开始成熟\n\nC. C. 展示出贵族的日常礼仪规范\n\nD. D. 标志着新兴地主阶级的崛起\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "本题考查西周分封制。分封制下，周天子将土地和人民分给诸侯，诸侯享有世袭统治权，但需服从周天子命令，承担义务。A项正确。B项错误，分封制下诸侯有独立性，但并非完全独立。C项错误，分封制以血缘关系为纽带，但并非唯一标准。D项错误，分封制主要目的是巩固周朝统治。"
+}

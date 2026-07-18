@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_009",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.192Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n古代希腊禁止妇女参加奥林匹克运动会，但有为妇女专设的运动会，城邦也很重视女子体育教育。这说明，古希腊（  ）\n\n## 选项\n\nA. A．奥运会缺乏公平竞争的体育精神\n\nB. B．妇女与男子拥有同样的政治权利\n\nC. C．奥运会导致城邦内部的阶级分裂\n\nD. D．妇女有权参与城邦社会文化生活\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "D",
+  "analysis": "本题考查中国古代选官制度。从世卿世禄制到察举制，再到九品中正制和科举制，选官标准从血缘门第逐渐转向才学。选项D正确。选项A错误，世卿世禄制以血缘为标准。选项B错误，察举制以品德和才能为标准。选项C错误，九品中正制以门第为标准。"
+}

@@ -1,0 +1,80 @@
+{
+  "uid": "chinese_2021_beijing_026",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 26,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:39:35.341Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第26题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n作文。瓜熟蒂落、羽翼丰满，这是草木鸟兽成熟的模样；但对我们而言，真正的成熟却不仅仅指身体的长成……请以“这，才是成熟的模样”为题目，写一篇记叙文。要求：思想健康；内容充实，有细节描写；语言流畅，书写清晰。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）出门看火伴，火伴皆惊忙：同行十二年，不知木兰是女郎。（2）雄兔脚扑朔，雌兔眼迷离；双兔傍地走，安能辨我是雄雌？",
+  "analysis": "本题考查默写。注意“火伴”“皆”“扑朔”“迷离”“傍”等字。评分标准：每句1分，共6分。"
+}

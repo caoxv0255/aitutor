@@ -1,0 +1,80 @@
+{
+  "uid": "chinese_2021_beijing_025",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 25,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:39:35.340Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第25题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n作文。每个人都生活在特定的时代，每个人在特定时代中的人生道路各不相同。在同一个时代，有人慨叹生不逢时，有人只愿安分随时，有人深感生逢其时、时不我待……请以“论生逢其时”为题目，写一篇议论文。要求：论点明确，论据充实，论证合理；语言流畅，书写清晰。不少于700字。将题目抄在答题卡上。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）开我东阁门，坐我西阁床。脱我战时袍，著我旧时裳。（2）当窗理云鬓，对镜帖花黄。",
+  "analysis": "本题考查默写。注意“著”“帖”等字。评分标准：每句1分，共4分。"
+}

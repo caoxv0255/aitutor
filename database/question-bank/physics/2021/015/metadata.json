@@ -1,0 +1,198 @@
+{
+  "uid": "physics_2021_beijing_015",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [
+    "游标卡尺读数",
+    "打点计时器",
+    "牛顿第二定律"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 28,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 256,
+      "height": 277
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 390,
+      "height": 228
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 449,
+      "height": 208
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 413,
+      "height": 223
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 810,
+      "height": 105
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 441,
+      "height": 262
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 316,
+      "height": 258
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 231,
+      "height": 304
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 301,
+      "height": 228
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 129,
+      "height": 310
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 506,
+      "height": 265
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1078,
+      "height": 213
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 525,
+      "height": 346
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 706,
+      "height": 395
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 437,
+      "height": 441
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 785,
+      "height": 283
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 478,
+      "height": 331
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 402,
+      "height": 238
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 678,
+      "height": 272
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:44:14.405Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n**知识点**: 游标卡尺读数、打点计时器、牛顿第二定律\n\n---\n\n## 题目内容\n\n物理实验一般都涉及实验目的、实验原理、实验仪器、实验方法、实验操作、数据分析等。例如：\n（1）实验仪器。用游标卡尺测某金属管的内径，示数如图1所示。则该金属管的内径为_______mm。\n（2）数据分析。打点计时器在随物体做匀变速直线运动的纸带上打点，其中一部分如图2所示，B、C、D为纸带上标出的连续3个计数点，相邻计数点之间还有4个计时点没有标出。打点计时器接在频率为50Hz的交流电源上。则打C点时，纸带运动的速度vC = ________m/s（结果保留小数点后两位）。\n（3）实验原理。图3为“探究加速度与力的关系”的实验装置示意图。认为桶和砂所受的重力等于使小车做匀加速直线运动的合力。实验中平衡了摩擦力后，要求桶和砂的总质量m比小车质量M小得多。请分析说明这个要求的理由。（     ）\n\n## 小题\n\n### 15(1)\n\n实验仪器。用游标卡尺测某金属管的内径，示数如图1所示。则该金属管的内径为_______mm。\n\n**答案**: 31.4\n\n### 15(2)\n\n数据分析。打点计时器在随物体做匀变速直线运动的纸带上打点，其中一部分如图2所示，B、C、D为纸带上标出的连续3个计数点，相邻计数点之间还有4个计时点没有标出。打点计时器接在频率为50Hz的交流电源上。则打C点时，纸带运动的速度vC = ________m/s（结果保留小数点后两位）。\n\n**答案**: 0.24\n\n### 15(3)\n\n实验原理。图3为“探究加速度与力的关系”的实验装置示意图。认为桶和砂所受的重力等于使小车做匀加速直线运动的合力。实验中平衡了摩擦力后，要求桶和砂的总质量m比小车质量M小得多。请分析说明这个要求的理由。（     ）\n\n**答案**: 见解析\n\n---\n\n## 参考答案\n\n（1）31.4mm；（2）0.24m/s；（3）见解析\n\n",
+  "answer": "（1）10m/s （2）5m",
+  "analysis": "本题考查匀变速直线运动规律。\n（1）根据速度公式v=v0+at，代入v0=0，a=2m/s^2，t=5s，得v=0+2×5=10m/s。\n（2）根据位移公式x=v0t+1/2 at^2，代入得x=0+1/2×2×5^2=25m。\n评分标准：每问5分，公式正确得3分，结果正确得2分。"
+}

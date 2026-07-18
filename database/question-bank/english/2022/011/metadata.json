@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_011",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 3,
+  "score": 4.5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.703Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 填空题\n\n**难度**: ★★★☆☆\n\n**分值**: 4.5分\n\n---\n\n## 题目内容\n\nHelen was walking down the street late ____11____ the evening, her arms filled with grocery bags. Focused on balancing the bags, she didn’t notice her wallet falling out of her pocket. As Helen walked on, she heard a man charging towards her. Fearful that he might have an intention ____12____ (harm) her, Helen started to run. Eventually, the man ____13____ (catch) up with her, and he was only trying to return her wallet!\n\n---\n\n## 参考答案\n\n11. in 12. to harm 13. caught\n\n",
+  "answer": "has been",
+  "analysis": "本题考查现在完成时。主语he是第三人称单数，且表示从过去某时开始一直持续到现在的状态，故用has been。"
+}

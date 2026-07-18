@@ -1,0 +1,140 @@
+{
+  "uid": "politics_2023_beijing_020",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 19,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 660,
+      "height": 254
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 362,
+      "height": 233
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 593,
+      "height": 311
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 358,
+      "height": 226
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 458,
+      "height": 344
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 820,
+      "height": 410
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 173,
+      "height": 218
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 481,
+      "height": 667
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:31:26.585Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n战略问题是一个政党、一个国家的根本性问题。\n在党的二十大报告中，多次强调“战略”：“中华民族伟大复兴战略全局”“全面建成社会主义现代化强国，总的战略安排是分两步走”“保持战略定力”“新的战略机遇”“作出科学完整的战略部署”“采取一系列战略性举措”……\n把握大趋势、下好“先手棋”，正是战略上的前瞻性思考，使我国在面对不确定性因素时能应对自如。\n我国的一系列重要战略：\n◆科教兴国战略。\n◆创新驱动发展战略。\n◆乡村振兴战略。\n◆……\n我国发展的诸多战略性有利条件：\n◆中国共产党的坚强领导。\n◆中国特色社会主义制度的显著优势。\n◆持续快速发展积累的坚实基础。\n◆长期稳定的社会环境。\n◆自信自强的精神力量。\n以材料中的一个重要战略为例，综合运用所学，分析上述战略性有利条件在全面建设社会主义现代化国家中是如何发挥作用的。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "①国家财政是促进社会公平、改善人民生活的物质保障。通过财政支出，如教育、医疗、社保等，缩小收入差距，保障人民生活。②国家财政具有促进资源合理配置的作用。通过财政支持基础设施建设、科技创新等，优化资源配置。③国家财政具有促进国民经济平稳运行的作用。通过扩张性或紧缩性财政政策，调节社会总供给与总需求，实现经济稳定增长。",
+  "analysis": "本题考查财政的作用。解题思路：从财政的三个作用分别阐述。关键知识点：财政促进社会公平、促进资源合理配置、促进经济平稳运行。步骤：分三点，每点先说明作用，再举例说明。"
+}

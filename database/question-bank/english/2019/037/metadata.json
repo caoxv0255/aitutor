@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_037",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 37,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T15:41:22.525Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第37题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\n37. What can we learn from Alice Moore’s story?\nA. Fame is a great thirst of the young.\nB. A youth is to be regarded with respect.\nC. Positive thinking and action result in success.\nD. Success means getting personal desires satisfied.\n\n## 选项\n\nA. A. Fame is a great thirst of the young.\n\nB. B. A youth is to be regarded with respect.\n\nC. C. Positive thinking and action result in success.\n\nD. D. Success means getting personal desires satisfied.\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "选项A正确，因为...；选项B错误，因为...；选项C错误，因为...；选项D错误，因为..."
+}

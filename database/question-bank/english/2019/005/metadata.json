@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_005",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 6,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T16:15:25.217Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 6分\n\n---\n\n## 题目内容\n\nWant to explore new cultures, meet new people and do something worthwhile at the same time? You can do all the three with Global Development Association(GDA). Whatever stage of life you’re at, wherever you go and whatever project you do in GDA, you’ll create positive changes in a poor and remote community(社区). We work with volunteers of all ages and backgrounds. Most of our volunteers are aged 17-24. Now we need volunteer managers aged 25-75. They are extremely important in the safe and effective running of our programmes. We have such roles as project managers, mountain leaders, and communication officers. Depending on which role you choose, you could help to increase a community’s access to safe drinking water, or help to protect valuable local cultures. You might also design an adventure challenge to train young volunteers. Not only will you help our young volunteers to develop personally, you’ll also learn new skills and increase your cultural awareness. You may have chances to meet new people who’ll become your lifelong friends. This summer we have both 4-week and 7-week programmes: Country Schedule 4-week programmes 7-week programmes Algeria 5 Jul.- 1Aug. 20Jun. -7Aug. Egypt 24 Jul-20 Aug. 19Jun.-6 Aug. Kenya 20 Jul.-16Aug. 18 Jun.-5 Aug. South Africa 2Aug.-29 Aug. 15 Jun.-2Aug. GDA ensures that volunteers work with community members and local project partners where our help is needed. All our projects aim to promote the development of poor and remote communities. There is no other chance like a GDA programme. Join us as a volunteer manager to develop your own skills while bringing benefits to the communities. Find out more about joining a GDA programme: Website: www.glodeve.org Email: humanresources@glodeve.org\n\n## 选项\n\nA. 31. A. To seek local partners. B. To take in young volunteers. C. To carry out programmes. D. To foster cultural awareness.\n\nB. 32. A. Egypt B. Algeria C. Kenya D. South Africa\n\nC. 33. A. explore new cultures B. protect the environment C. gain corporate benefit D. help communities in need\n\n## 小题\n\n### 31\n\nWhat is the main responsibility of volunteer managers?\n\n**答案**: C\n\n### 32\n\nThe programme beginning in August will operate in ______.\n\n**答案**: D\n\n### 33\n\nThe shared goal of GDA’s projects to ______.\n\n**答案**: D\n\n---\n\n## 参考答案\n\n31. C; 32. D; 33. D\n\n",
+  "answer": "B",
+  "analysis": "选项A错误，因为...；选项B正确，因为...；选项C错误，因为...；选项D错误，因为..."
+}

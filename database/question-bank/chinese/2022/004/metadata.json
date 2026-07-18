@@ -1,0 +1,89 @@
+{
+  "uid": "chinese_2022_beijing_004",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 4,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "古籍保护",
+    "人工智能"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.641Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第4题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 古籍保护、人工智能\n\n---\n\n## 题目内容\n\n根据材料一和材料二，下列理解与推断，正确的一项是\n\n## 选项\n\nA. A. 改善古籍的收藏条件属于原生性保护，可以保护其文物价值。\n\nB. B. 修补古籍的残损处属于再生性保护，意在保护其艺术价值。\n\nC. C. 实现古籍从“藏”“用”到“活”，只能依靠人工智能技术。\n\nD. D. 人工智能可以处理古籍，并能深入地挖掘出古籍蕴含的知识。\n\n---\n\n## 参考答案\n\nA\n\n## 解析\n\n材料二指出原生性保护指保护古籍文物本身，改善收藏条件属于原生性保护，可以保护文物价值。B项修补残损处属于原生性保护，而非再生性保护；C项“只能”过于绝对；D项人工智能可以处理古籍，但“深入挖掘知识”尚需后续工作。\n\n",
+  "answer": "D",
+  "analysis": "本题考查病句辨析。A项'通过……使……'缺主语，删去'通过'或'使'；B项'防止……不再'否定不当，删去'不'；C项'培养……水平'搭配不当，改为'提高……水平'；D项正确。因此选D。"
+}

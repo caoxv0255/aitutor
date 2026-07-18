@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_014",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 14,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 3,
+  "score": 4.5,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.703Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第14题\n\n**题型**: 填空题\n\n**难度**: ★★★☆☆\n\n**分值**: 4.5分\n\n---\n\n## 题目内容\n\nWhy do humans prefer some smells over others? One theory, increasingly ____14____ (support) by experts, suggests that smell preferences are learned. It’s easy to explain how we determine ____15____ smells are dangerous or not: we learn. This has been adopted to ensure easier detection of gas leaks. Gas naturally ____16____ (have) no recognisable smell. However, a strong smell is added so that we can raise the alarm when we detect the smell associated with danger.\n\n---\n\n## 参考答案\n\n14. supported 15. whether 16. has\n\n",
+  "answer": "to help",
+  "analysis": "本题考查非谓语动词。固定搭配be willing to do sth.意为‘愿意做某事’，故填to help。"
+}

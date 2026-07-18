@@ -1,0 +1,128 @@
+{
+  "uid": "geography_2020_beijing_017",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 309,
+      "height": 327
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 553,
+      "height": 167
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 435,
+      "height": 282
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 440,
+      "height": 271
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 369,
+      "height": 275
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 553,
+      "height": 159
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 415,
+      "height": 323
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 540,
+      "height": 326
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 603,
+      "height": 131
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 553,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 488,
+      "height": 317
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 421,
+      "height": 297
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 552,
+      "height": 264
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 553,
+      "height": 377
+    },
+    {
+      "filename": "page_10_img_2.jpeg",
+      "page": 10,
+      "width": 600,
+      "height": 279
+    }
+  ],
+  "created_at": "2026-07-17T16:38:08.418Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n2020年7月1日起，我国对孟加拉国的产品实施进口优惠政策。读下图，回答下列问题。\n孟加拉国被称为“水乡泽国”，当地农民因地制宜采用可以随水位变化的“漂浮菜园”，种植蔬菜、花卉等。\n（1）分析当地农民采用“漂浮菜园”种植方式的自然原因。\n吉大港以北沿岸地区是全球重要的拆船业集聚区之一。来自其他国家的报废船只被拆解后，回收的废钢是钢材生产的重要原料。\n（2）简述该地区形成拆船业集聚区的主要条件，列举拆船业带来的环境问题。\n2020年5月20日下午，热带风暴“安攀”在孟加拉国沿海登陆。下图为“安攀”登陆前的位置和中心气压值变化示意图。\n（3）概述“安攀”登陆前的移动方向和强度变化。\n\n## 小题\n\n### 17(1)\n\n分析当地农民采用“漂浮菜园”种植方式的自然原因。\n\n**答案**: \n\n### 17(2)\n\n简述该地区形成拆船业集聚区的主要条件，列举拆船业带来的环境问题。\n\n**答案**: \n\n### 17(3)\n\n概述“安攀”登陆前的移动方向和强度变化。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）甲：热带雨林气候 乙：地中海气候 丙：温带海洋性气候 丁：温带大陆性气候 （2）甲：全年高温多雨 乙：夏季炎热干燥，冬季温和多雨 丙：全年温和湿润 丁：冬冷夏热，降水较少",
+  "analysis": "根据气温曲线和降水量柱状图判断气候类型。甲图全年高温多雨，为热带雨林气候；乙图夏季炎热干燥、冬季温和多雨，为地中海气候；丙图全年温和湿润，为温带海洋性气候；丁图冬冷夏热、降水较少，为温带大陆性气候。"
+}

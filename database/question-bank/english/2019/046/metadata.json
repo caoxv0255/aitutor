@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_046",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 46,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T15:41:22.530Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第46题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\n根据短文内容，从短文后的七个选项中选出能填入空白处的最佳选项。选项中有两项为多余选项。\n\nMuch of the work in today’s world is accomplished(完成)in teams. Most people believe the best way to build a great team is to gather a group of the most talented individuals. ____46_____ Companies spend millions hiring top business people. Is their money well spent?\n\n___47___ They focused on football, basketball and baseball. The results are mixed For football and basketball, adding talented players to a team proves a good method, but only up to the point where 70% of the players are top talent; above that level, the team’s performance begins to decline. Interestingly, this trend isn’t evident in baseball. where additional individual talent keeps improving the team’s performance.\n\nTo explain this phenomenon, the researchers explored the degree to which a good performance by a team requires its members to coordinate(协调)their actions. ______48______ In baseball, the performance of individual players is less dependent on teammates. They conclude that when task interdependence is high, team performance will suffer when there is too much talent, while individual talent will have positive effects on team performance when task interdependence is lower. If a basketball star is, for example, trying to gain a high personal point total, he may take a shot himself when it would be better to pass the ball to a teammate, affecting the team’s performance. Young children learning to play team sports are often told, “There is no I in TEAM.” ___49___\n\nAnother possibility is that when there is a lot of talent on a team, some players may make less effort. Just as in a game of tug-of-war(拔河比赛), whenever a person is added, everyone else pulls the rope with less force.\n\n___50___ An A-team may require a balance-not just A players, but a few generous B players as well.\n\nA. It’s not a simple matter to determine the nature of talent.\nB. Sports team owners spend millions of dollars attracting top talent.\nC. The group interaction and its effect drew the researchers’ attention.\nD. Stars apparently do not follow this basic principle of sportsmanship.\nE. Several recent studies examined the role of talent in the sports world.\nF. Building up a dream team is more complex than simply hiring the best talent.\nG. This task interdependence distinguishes baseball from football and basketball.\n\n## 选项\n\nA. A. It’s not a simple matter to determine the nature of talent.\n\nB. B. Sports team owners spend millions of dollars attracting top talent.\n\nC. C. The group interaction and its effect drew the researchers’ attention.\n\nD. D. Stars apparently do not follow this basic principle of sportsmanship.\n\nE. E. Several recent studies examined the role of talent in the sports world.\n\nF. F. Building up a dream team is more complex than simply hiring the best talent.\n\nG. G. This task interdependence distinguishes baseball from football and basketball.\n\n## 小题\n\n### 46\n\nMost people believe the best way to build a great team is to gather a group of the most talented individuals. ____46_____ Companies spend millions hiring top business people.\n\n**答案**: B\n\n### 47\n\n___47___ They focused on football, basketball and baseball.\n\n**答案**: E\n\n### 48\n\nTo explain this phenomenon, the researchers explored the degree to which a good performance by a team requires its members to coordinate their actions. ______48______ In baseball, the performance of individual players is less dependent on teammates.\n\n**答案**: G\n\n### 49\n\nYoung children learning to play team sports are often told, “There is no I in TEAM.” ___49___\n\n**答案**: D\n\n### 50\n\n___50___ An A-team may require a balance-not just A players, but a few generous B players as well.\n\n**答案**: F\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "B",
+  "analysis": "选项A错误，因为...；选项B正确，因为...；选项C错误，因为...；选项D错误，因为..."
+}

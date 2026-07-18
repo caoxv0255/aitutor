@@ -1,0 +1,68 @@
+{
+  "uid": "history_2020_beijing_013",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 7,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 558,
+      "height": 242
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 298,
+      "height": 214
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 238,
+      "height": 149
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 310,
+      "height": 158
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 331,
+      "height": 233
+    }
+  ],
+  "created_at": "2026-07-17T15:55:26.741Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n19世纪70年代开始，俾斯麦制定政策，统一铁路管理，提高关税，抵制欧美廉价工业品和俄国廉价谷物的输入，得到大地主、大工业家的一致支持。德国的政策从\"铁和血\"转变为\"铁和谷\"。这一变化\n①体现出政府加强了对经济的干预  ②有利于德国工业化的推进\n③确立了优先发展农业的经济战略  ④结束了对外扩张的军国主义传统\n\n## 选项\n\nA. A. ①②\n\nB. B. ③④\n\nC. C. ②④\n\nD. D. ①③\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "A",
+  "analysis": "本题考查太平天国运动。1851年洪秀全发动金田起义，建立太平天国。A项正确。B项错误，定都天京是1853年。C项错误，天京事变是1856年。D项错误，失败是1864年。"
+}

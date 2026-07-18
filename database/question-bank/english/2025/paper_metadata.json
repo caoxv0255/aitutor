@@ -1,0 +1,25 @@
+{
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2025,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 11,
+  "page_count": 0,
+  "image_count": 20,
+  "source_file": "2025高考北京卷英语（解析版）.pdf",
+  "processing_time": "2026-07-18T03:42:21.042Z",
+  "quality_stats": {
+    "total": 11,
+    "by_type": {
+      "choice": 6,
+      "fill": 3,
+      "solve": 2
+    },
+    "avg_difficulty": "2.55",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

@@ -1,0 +1,32 @@
+{
+  "uid": "history_2019_beijing_005",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 5,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 4,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 1,
+  "images": [
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 251,
+      "height": 183
+    }
+  ],
+  "created_at": "2026-07-17T16:21:09.190Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第5题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 4分\n\n---\n\n## 题目内容\n\n为下表选取表名，最恰当的是（  ）\n名称 \n相关信息 \n开滦唐山煤矿 \n1878 年建，中国近代煤炭工业 \n北洋水师大沽船坞 \n1880 年建，北方最早的船舶修造厂 \n北洋银元局 \n1902 年建，位于天津，造币中心 \n京师自来水公司 \n1908 年建，北京第一座官营自来水厂\n\n## 选项\n\nA. A．京津冀地区晚清民族企业简表\n\nB. B．北京近代民族企业简表\n\nC. C．洋务运动时期北方企业简表\n\nD. D．近代民族资本主义企业简表\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "A",
+  "analysis": "本题考查宋朝加强中央集权的措施。宋太祖通过“杯酒释兵权”解除禁军将领兵权，并实行“更戍法”，使兵将分离，防止武将专权。选项A正确。选项B“三衙”是禁军管理机构，但统兵权归三衙，调兵权归枢密院。选项C“枢密院”掌管军政，但长官由文官担任。选项D“通判”是地方监察官，与兵权无关。"
+}

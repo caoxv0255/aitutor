@@ -1,0 +1,92 @@
+{
+  "uid": "chinese_2023_beijing_015",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "fill",
+  "question_type_name": "填空题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 11,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:14:51.017Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 填空题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n在横线处填写作品原句。\n（1）宋代爱国名将宗泽因朝廷掣肘，没有机会北渡黄河与金兵作战。相传他在临终之际慨叹壮志未酬，仍在吟咏杜甫《蜀相》中的名句“________________________，________________________”。\n（2）绍兴很多桥的命名都有典故。“题扇桥”相传是王羲之为卖扇老妪题扇的地方，“杏卖桥”则得名于陆游《临安春雨初霁》的诗句“________________________，________________________”。\n（3）古人对道德修养的追求可以达到高度审美化的境界。《论语》中“莫春者，春服既成，冠者五六人，童子六七人，浴乎沂，________________________，________________________”的场景便是生动的例子。\n（4）苏洵在《六国论》中将六国灭亡的原因归结为“弊在赂秦”，进而阐释说：“然则诸侯之地有限，暴秦之欲无厌，________________________，________________________”。\n\n---\n\n## 参考答案\n\n（1）出师未捷身先死，长使英雄泪满襟\n（2）小楼一夜听春雨，深巷明朝卖杏花\n（3）风乎舞雩，咏而归\n（4）奉之弥繁，侵之愈急\n\n",
+  "answer": "海内存知己，天涯若比邻",
+  "analysis": "本题考查名句默写。出自王勃《送杜少府之任蜀州》，注意‘涯’字写法。上下句需准确对应。"
+}

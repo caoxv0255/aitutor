@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_006",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 6,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 8,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T16:15:25.218Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第6题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 8分\n\n---\n\n## 题目内容\n\nAlice Moore is a teenager entrepreneur(创业者), who in May 2015 set up her business AilieCandy. By the time she was 13, her company was worth millions of dollars with the invention of a super-sweet treat that could save kids’ teeth, instead of destroying them. It all began when Moore visited a bank with her dad. On the outing, she was offered a candy bar. However, her dad reminded her that sugary treats were bad for her teeth. But Moore was sick of missing out on candies. So she desired to get round the warning, “Why can’t I make a healthy candy that’s good for my teeth so that my parents can’t say no to it?” With that in mind, Moore asked her dad if she could start her own candy company. He recommended that she do some research and talk to dentists about what a healthier candy would contain. With her dad’s permission, she spent the next two years researching online and conducting trials to get a recipe that was both tasty and tooth-friendly. She also approached dentists to learn more about teeth cleaning. Consequently, she succeeded in making a kind of candy only using natural sweeteners, which can reduce oral bacteria. Moore then used her savings to get her business of the ground. Afterwards, she and her father secured their first business meeting with a supermarket owner, who finally agreed to sell Moore’s product-Cancandy. As CanCandy’s success grows, so does Moore’s credibility as a young entrepreneur. Moore is enthusiastic about the candy she created, and she’s also positive about what the future might bring. She hopes that every kid can have a clean mouth and a broad smile. Meanwhile, with her parents’ help, Moore is generally able to live a normal teenage life. Although she founded her company early on in life, she wasn’t driven primarily by profit. Moore wants to use her unique talent to help others find their smiles. She donates 10% of AilicCandy’s profits to Big Smiles. With her talent and determination, it appears that the sky could be the limit for Alice Moore.\n\n## 选项\n\nA. 34. A. She argued with him. B. She tried to find a way out. C. She paid no attention. D. She chose to consult dentists.\n\nB. 35. A. It is beneficial to dental health. B. It is free of sweeteners. C. It is sweeter than other candies. D. It is produced to a dentists’ recipe.\n\nC. 36. A. To earn more money. B. To help others find smiles. C. To make herself stand out. D. To beat other candy companies.\n\nD. 37. A. Fame is a great thirst of the young. B. A youth is to be regarded with respect. C. Positive thinking and action result in success. D. Success means getting personal desires satisfied.\n\n## 小题\n\n### 34\n\nHow did Moore react to her dad’s warning?\n\n**答案**: B\n\n### 35\n\nWhat is special about CanCandy?\n\n**答案**: A\n\n### 36\n\nWhat does Moore expect from her business?\n\n**答案**: B\n\n### 37\n\nWhat can we learn from Alice Moore’s story?\n\n**答案**: C\n\n---\n\n## 参考答案\n\n34. B; 35. A; 36. B; 37. C\n\n",
+  "answer": "C",
+  "analysis": "选项A错误，因为...；选项B错误，因为...；选项C正确，因为...；选项D错误，因为..."
+}

@@ -1,0 +1,168 @@
+{
+  "uid": "geography_2023_beijing_017",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [
+    "气候特征",
+    "岛屿成因",
+    "农业发展"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1133,
+      "height": 568
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 933,
+      "height": 616
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 853,
+      "height": 648
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 774,
+      "height": 387
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 1079,
+      "height": 803
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 1243,
+      "height": 627
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 616,
+      "height": 406
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 641,
+      "height": 542
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 1145,
+      "height": 742
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 645
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 540
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 1080,
+      "height": 1020
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 417,
+      "height": 756
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 1169,
+      "height": 800
+    }
+  ],
+  "created_at": "2026-07-17T17:33:01.016Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 12分\n\n**知识点**: 气候特征、岛屿成因、农业发展\n\n---\n\n## 题目内容\n\n近年来，中国在农业领域为巴哈马国提供相关技术支持。读图，回答下列问题。\n（1）概述拿骚的气候特征。\n（2）简述卡特岛的形态特征，并说出图中所示的风对该岛形成所起的作用。\n巴哈马农业发展缓慢。2018年种植业和渔业总产值占国内生产总值的0.9%。可用于耕作的土地约占国土面积的0.8%，土层薄，以石灰土壤为主，农业面临多种自然灾害威胁。\n（3）说明巴哈马提高农业发展水平的主要途径。\n\n## 小题\n\n### 17(1)\n\n概述拿骚的气候特征。\n\n**答案**: 全年高温，降水丰富，分干湿季。\n\n### 17(2)\n\n简述卡特岛的形态特征，并说出图中所示的风对该岛形成所起的作用。\n\n**答案**: 形态特征：岛屿狭长，呈东北-西南走向。作用：盛行风（东北信风）携带泥沙堆积，形成岛屿。\n\n### 17(3)\n\n说明巴哈马提高农业发展水平的主要途径。\n\n**答案**: 加强农业基础设施建设；改良土壤；发展节水农业；引进优良品种；加强农业科技投入；发展生态农业等。\n\n---\n\n## 参考答案\n\n（1）全年高温，降水丰富，分干湿季。\n（2）形态特征：岛屿狭长，呈东北-西南走向。作用：盛行风（东北信风）携带泥沙堆积，形成岛屿。\n（3）主要途径：加强农业基础设施建设；改良土壤；发展节水农业；引进优良品种；加强农业科技投入；发展生态农业等。\n\n## 解析\n\n本题考查气候特征、岛屿成因及农业发展。\n\n",
+  "answer": "（1）H=90°-|φ-δ|，其中φ为当地纬度，δ为太阳直射点纬度。\n（2）北京（40°N）夏至日正午太阳高度角：H=90°-|40°-23.5°|=73.5°。\n（3）冬至日正午太阳高度角：H=90°-|40°-(-23.5°)|=26.5°。",
+  "analysis": "正午太阳高度角计算公式：H=90°-|φ-δ|。夏至日δ=23.5°N，冬至日δ=23.5°S。代入北京纬度40°N计算即可。\n评分标准：公式正确2分，计算正确各2分，共6分。"
+}

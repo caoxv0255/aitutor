@@ -1,0 +1,206 @@
+{
+  "uid": "physics_2023_beijing_013",
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 30,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 291,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 293,
+      "height": 187
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 318,
+      "height": 249
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 287,
+      "height": 79
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 252,
+      "height": 258
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 320,
+      "height": 185
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 318,
+      "height": 152
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 306,
+      "height": 156
+    },
+    {
+      "filename": "page_3_img_4.jpeg",
+      "page": 3,
+      "width": 364,
+      "height": 295
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 364,
+      "height": 197
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 310,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 631,
+      "height": 406
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 283,
+      "height": 418
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 331,
+      "height": 281
+    },
+    {
+      "filename": "page_6_img_4.png",
+      "page": 6,
+      "width": 277,
+      "height": 354
+    },
+    {
+      "filename": "page_6_img_5.png",
+      "page": 6,
+      "width": 268,
+      "height": 287
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 493,
+      "height": 462
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 800,
+      "height": 728
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 331,
+      "height": 291
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:19:31.581Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n如图所示，在磁感应强度大小为B、方向垂直纸面向外的匀强磁场中，固定一内部真空且内壁光滑的圆柱形薄壁绝缘管道，其轴线与磁场垂直。管道横截面半径为a，长度为l（l>>a）。带电粒子束持续以某一速度v沿轴线进入管道，粒子在磁场力作用下经过一段圆弧垂直打到管壁上，与管壁发生弹性碰撞，多次碰撞后从另一端射出，单位时间进入管道的粒子数为n，粒子电荷量为+q，不计粒子的重力、粒子间的相互作用，下列说法不正确的是（  ）\n\n## 选项\n\nA. A. 粒子在磁场中运动的圆弧半径为a\n\nB. B. 粒子质量为Bqa/v\n\nC. C. 管道内等效电流为nqπa²v\n\nD. D. 粒子束对管道的平均作用力大小为Bnql\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "根据理想变压器电压比U1/U2=n1/n2，输入电压U1=220V，n1/n2=10，则输出电压U2=22V。选项A正确。"
+}

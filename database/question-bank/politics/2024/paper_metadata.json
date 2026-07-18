@@ -1,0 +1,24 @@
+{
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2024,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 21,
+  "page_count": 0,
+  "image_count": 21,
+  "source_file": "2024年北京高考政治试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T04:33:16.969Z",
+  "quality_stats": {
+    "total": 21,
+    "by_type": {
+      "choice": 15,
+      "solve": 6
+    },
+    "avg_difficulty": "3.33",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

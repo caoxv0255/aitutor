@@ -1,0 +1,98 @@
+{
+  "uid": "history_2021_beijing_020",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 12,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 785,
+      "height": 400
+    },
+    {
+      "filename": "page_1_img_3.jpeg",
+      "page": 1,
+      "width": 522,
+      "height": 463
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 366,
+      "height": 464
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 1033,
+      "height": 738
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:49:03.007Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n考古与历史\n材料一  金石学以古代青铜器和石刻为研究对象。司马迁写《史记》时曾遍访古迹，晋唐时期发现的石鼓等古物，也受到当时学者的关注。北宋时期，金石学成为专门的学问，金石学家希望通过研究古器物“明其制度”“正其文字”“补经传之阙亡”。清代金石考据之风更盛，在鉴别、分类及文字考证等方面多有成就。\n材料二  19世纪末20世纪初，以田野调查和发掘为特征的近代考古学在欧美建立。20世纪20年代，田野考古方法引入中国，以殷墟发掘为代表的近代考古发现促成其与金石学的结合，形成了中国考古学。新中国成立以来，考古学取得令世人瞩目的成就。“我们的工作是以考古资料来阐明中国古代文明”，建设“中国气派”的考古学成为新时代的使命。\n材料三  中国考古百年成就（部分成果）示意图\n（1）简要说明中国考古学对金石学的继承与发展。\n（2）依据材料三，结合所学，任选3个视角，简述考古成果对历史研究的贡献。\n\n## 小题\n\n### 20(1)\n\n简要说明中国考古学对金石学的继承与发展。\n\n**答案**: \n\n### 20(2)\n\n依据材料三，结合所学，任选3个视角，简述考古成果对历史研究的贡献。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）背景：英国资产阶级革命后，议会与国王斗争；1688年光荣革命；1689年《权利法案》颁布。（2）特点：君主立宪制；议会主权；国王统而不治；责任内阁制。",
+  "analysis": "本题考查英国君主立宪制的背景和特点。解题思路：从革命过程和法律文件分析。关键知识点：《权利法案》是确立君主立宪制的关键。步骤：先答背景，再答特点。评分标准：背景4分，特点4分。"
+}

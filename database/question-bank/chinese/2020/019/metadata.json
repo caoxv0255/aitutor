@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_019",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.930Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列对文章的理解与赏析，不正确的一项是\n\n## 选项\n\nA. A.作者自幼年起的各种声音记忆，使其日后从直觉上更加容易理解伟大优美的乐曲。\n\nB. B.以小银匠、小木匠、小媳妇为例，文章意在说明制作者在制作过程中需全神贯注。\n\nC. C.作者多年流亡转徙，积累了错综繁复的人生经验，其审美眼光不同于普通人。\n\nD. D.作者充分调动感官来捕捉平凡生活之美，并借助生动的细节使之重现于纸上。\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "A",
+  "analysis": "本题考查诗歌内容理解。A项'对酒当歌'表达及时行乐，实则抒发求贤若渴之情；B项'青青子衿'引用《诗经》表达对贤才的思念；C项'呦呦鹿鸣'表达礼遇贤才；D项'周公吐哺'表达虚心纳贤。因此选A。"
+}

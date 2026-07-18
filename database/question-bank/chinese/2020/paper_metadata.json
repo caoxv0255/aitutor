@@ -1,0 +1,27 @@
+{
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 24,
+  "page_count": 0,
+  "image_count": 2,
+  "source_file": "2020年北京高考语文试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:25:33.933Z",
+  "quality_stats": {
+    "total": 24,
+    "by_type": {
+      "choice": 12,
+      "solve": 11,
+      "fill": 1
+    },
+    "avg_difficulty": "3.29",
+    "answer_completeness": "50.0",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

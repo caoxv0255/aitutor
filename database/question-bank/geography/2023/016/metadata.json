@@ -1,0 +1,168 @@
+{
+  "uid": "geography_2023_beijing_016",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 16,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [
+    "农业区位",
+    "水污染",
+    "生态治理"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1133,
+      "height": 568
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 933,
+      "height": 616
+    },
+    {
+      "filename": "page_2_img_3.jpeg",
+      "page": 2,
+      "width": 853,
+      "height": 648
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 774,
+      "height": 387
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 1079,
+      "height": 803
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 1243,
+      "height": 627
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 616,
+      "height": 406
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 641,
+      "height": 542
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 1145,
+      "height": 742
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 645
+    },
+    {
+      "filename": "page_7_img_3.jpeg",
+      "page": 7,
+      "width": 1080,
+      "height": 540
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 1080,
+      "height": 1020
+    },
+    {
+      "filename": "page_8_img_3.jpeg",
+      "page": 8,
+      "width": 417,
+      "height": 756
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 1169,
+      "height": 800
+    }
+  ],
+  "created_at": "2026-07-17T17:33:01.015Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第16题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 12分\n\n**知识点**: 农业区位、水污染、生态治理\n\n---\n\n## 题目内容\n\n某校中学生赴蛇鱼川流域进行野外研学。左图为该流域示意图，右图为某同学撰写考察报告。读图，回答下列问题。\n任务一、寻访中华蜜蜂谷\n（1）阐述该流域发展养蜂产业的优势区位。\n任务二、探究水环境变化\n查阅文献，获取到图中采样点河水氮含量监测数据，如表所示。\n采样日期：2月25日、4月25日、7月2日、8月15日、9月10日、10月21日\n氮含量（毫克/升）：3.4、3.2、5.8、13.9、11.8、8.8\n（2）绘制统计图。概括采样点河水氮含量的变化特征，并说明理由。\n任务三、调研流域生态治理\n以“清水下山、净水入库”为目标，当地对蛇鱼川流域开展生态治理。\n（3）在甲、乙两地中任选其一，从保护水质的角度列举该地应采取的治理措施。\n\n## 小题\n\n### 16(1)\n\n阐述该流域发展养蜂产业的优势区位。\n\n**答案**: 蜜源植物丰富；生态环境优良；劳动力充足；政策支持等。\n\n### 16(2)\n\n绘制统计图。概括采样点河水氮含量的变化特征，并说明理由。\n\n**答案**: 统计图略。变化特征：氮含量先降后升再降，夏季最高。理由：夏季农业施肥多，且降水多，地表径流携带氮进入河流。\n\n### 16(3)\n\n在甲、乙两地中任选其一，从保护水质的角度列举该地应采取的治理措施。\n\n**答案**: 选甲地：植树造林，减少水土流失；控制农业化肥使用；建设污水处理设施等。选乙地：加强工业废水处理；建设湿地净化系统；加强水质监测等。\n\n---\n\n## 参考答案\n\n（1）优势区位：蜜源植物丰富；生态环境优良；劳动力充足；政策支持等。\n（2）统计图略。变化特征：氮含量先降后升再降，夏季最高。理由：夏季农业施肥多，且降水多，地表径流携带氮进入河流。\n（3）选甲地：植树造林，减少水土流失；控制农业化肥使用；建设污水处理设施等。选乙地：加强工业废水处理；建设湿地净化系统；加强水质监测等。\n\n## 解析\n\n本题综合考查区域发展、环境监测与治理。\n\n",
+  "answer": "（1）A：春分日；B：夏至日；C：秋分日；D：冬至日。\n（2）6月22日前后；北回归线；23.5°N。\n（3）春分日或秋分日；全球昼夜等长。\n（4）北半球昼长夜短，纬度越高昼越长，北极圈内极昼。",
+  "analysis": "（1）根据地球公转位置判断：A为春分（3月21日），B为夏至（6月22日），C为秋分（9月23日），D为冬至（12月22日）。\n（2）夏至日太阳直射北回归线，日期6月22日前后。\n（3）春分和秋分太阳直射赤道，全球昼夜等长。\n（4）夏至日北半球昼最长夜最短，纬度越高昼越长，北极圈内出现极昼。\n评分标准：每空1分，共8分。"
+}

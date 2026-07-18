@@ -1,0 +1,140 @@
+{
+  "uid": "politics_2023_beijing_017",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 19,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 660,
+      "height": 254
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 362,
+      "height": 233
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 593,
+      "height": 311
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 358,
+      "height": 226
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 458,
+      "height": 344
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 820,
+      "height": 410
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 173,
+      "height": 218
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 481,
+      "height": 667
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:31:26.584Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n“儿童散学归来早，忙趁东风放纸鸢。”北京扎燕风筝以燕子为造型，通过拟人化的手法，创造出一个和谐的燕子家族——肥燕、瘦燕、比翼燕、半瘦燕、小燕、雏燕，具有独特的文化魅力。\n许多人致力于扎燕风筝文化的传承与创新，其中王某独创的雏燕风筝广受欢迎。\n◇在学校的劳动课上，有老师使用王某的作品讲解风筝的画法和扎法，在老师的悉心指导下，每个同学都制作了自己的“雏燕”。\n◇一直致力于推广扎燕风筝文化的张某购买了王某最新版雏燕风筝，将其拆解后又重新组装，并将这一过程拍成视频在网络上发布，引发网友广泛关注，吸引了很多人加入到扎燕风筝的创作中来。但有人指出，这样将别人独创的风等公开讲解，可能涉嫌侵犯著作权。\n结合材料，运用《法律与生活》知识，谈谈在中华优秀传统文化传承与创新中，法律规定著作权并对其加以限制的意义。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "①生产决定消费，生产为消费创造动力。要大力发展生产力，提高经济发展水平。②收入是消费的基础和前提。要增加居民收入，完善社会保障体系，提高居民消费信心。③物价水平影响消费。要加强宏观调控，稳定物价。④消费心理和消费观念影响消费。要引导居民树立正确的消费观，理性消费。",
+  "analysis": "本题考查影响消费水平的因素及提高消费水平的措施。解题思路：从生产、收入、物价、消费心理等角度分析。关键知识点：生产决定消费、收入是消费的前提、物价影响消费、消费心理。步骤：分点阐述，每个因素对应一条措施。"
+}

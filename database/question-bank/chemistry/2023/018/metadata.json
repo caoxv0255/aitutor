@@ -1,0 +1,272 @@
+{
+  "uid": "chemistry_2023_beijing_018",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 41,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 1536,
+      "height": 349
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 215,
+      "height": 211
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 274,
+      "height": 274
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 476,
+      "height": 147
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 1125,
+      "height": 433
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 713,
+      "height": 291
+    },
+    {
+      "filename": "page_3_img_3.png",
+      "page": 3,
+      "width": 1031,
+      "height": 516
+    },
+    {
+      "filename": "page_3_img_4.png",
+      "page": 3,
+      "width": 396,
+      "height": 275
+    },
+    {
+      "filename": "page_3_img_5.png",
+      "page": 3,
+      "width": 284,
+      "height": 189
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 940,
+      "height": 513
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 704,
+      "height": 358
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 1247,
+      "height": 573
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 579,
+      "height": 447
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 626,
+      "height": 472
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 529,
+      "height": 468
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1187,
+      "height": 325
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 1260,
+      "height": 607
+    },
+    {
+      "filename": "page_8_img_4.png",
+      "page": 8,
+      "width": 488,
+      "height": 222
+    },
+    {
+      "filename": "page_8_img_5.png",
+      "page": 8,
+      "width": 187,
+      "height": 97
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 252,
+      "height": 128
+    },
+    {
+      "filename": "page_9_img_3.png",
+      "page": 9,
+      "width": 273,
+      "height": 142
+    },
+    {
+      "filename": "page_9_img_4.png",
+      "page": 9,
+      "width": 1239,
+      "height": 329
+    },
+    {
+      "filename": "page_9_img_5.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_6.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_7.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 642,
+      "height": 519
+    },
+    {
+      "filename": "page_10_img_3.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_4.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.jpeg",
+      "page": 11,
+      "width": 552,
+      "height": 302
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T17:21:16.119Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n以银锰精矿(主要含Ag2S、MnS、FeS2)和氧化锰矿(主要含MnO2)为原料联合提取银和锰的一种流程示意图如下。已知：酸性条件下，MnO2的氧化性强于Fe3+。\n（1）“浸锰”过程是在H2SO4溶液中使矿石中的锰元素浸出，同时去除FeS2，有利于后续银的浸出：矿石中的银以Ag2S的形式残留于浸锰渣中。\n①“浸锰”过程中，发生反应MnS+2H+=Mn2++H2S↑，则可推断：Ksp(MnS)__________(填“>”或“<”)Ksp(Ag2S)。\n②在H2SO4溶液中，银锰精矿中的FeS2和氧化锰矿中的MnO2发生反应，则浸锰液中主要的金属阳离子有__________。\n（2）“浸银”时，使用过量FeCl3、HCl和CaCl2的混合液作为浸出剂，将Ag2S中的银以[AgCl2]-形式浸出。\n①将“浸银”反应的离子方程式补充完整：__________。\nFe3+ + Ag2S + _____ + _____ → [AgCl2]- + S + _____\n②结合平衡移动原理，解释浸出剂中Cl-、H+的作用：____________________。\n（3）“沉银”过程中需要过量的铁粉作为还原剂。\n①该步反应的离子方程式有______________________________。\n②一定温度下，Ag的沉淀率随反应时间的变化如图所示。解释t分钟后Ag的沉淀率逐渐减小的原因：______________。\n（4）结合“浸锰”过程，从两种矿石中各物质利用的角度，分析联合提取银和锰的优势：________。\n\n## 小题\n\n### 18(1)\n\n“浸锰”过程是在H2SO4溶液中使矿石中的锰元素浸出，同时去除FeS2，有利于后续银的浸出：矿石中的银以Ag2S的形式残留于浸锰渣中。\n①“浸锰”过程中，发生反应MnS+2H+=Mn2++H2S↑，则可推断：Ksp(MnS)__________(填“>”或“<”)Ksp(Ag2S)。\n②在H2SO4溶液中，银锰精矿中的FeS2和氧化锰矿中的MnO2发生反应，则浸锰液中主要的金属阳离子有__________。\n\n**答案**: ①>；②Mn2+、Fe3+\n\n### 18(2)\n\n“浸银”时，使用过量FeCl3、HCl和CaCl2的混合液作为浸出剂，将Ag2S中的银以[AgCl2]-形式浸出。\n①将“浸银”反应的离子方程式补充完整：__________。\nFe3+ + Ag2S + _____ + _____ → [AgCl2]- + S + _____\n②结合平衡移动原理，解释浸出剂中Cl-、H+的作用：____________________。\n\n**答案**: ①2Fe3+ + Ag2S + 4Cl- + 2H+ → 2[AgCl2]- + S + 2Fe2+ + H2S↑；②Cl-与Ag+形成配合物，降低Ag+浓度，使平衡正向移动；H+与S2-结合生成H2S，降低S2-浓度，使平衡正向移动\n\n### 18(3)\n\n“沉银”过程中需要过量的铁粉作为还原剂。\n①该步反应的离子方程式有______________________________。\n②一定温度下，Ag的沉淀率随反应时间的变化如图所示。解释t分钟后Ag的沉淀率逐渐减小的原因：______________。\n\n**答案**: ①Fe + 2[AgCl2]- → Fe2+ + 2Ag + 4Cl-；Fe + 2Fe3+ → 3Fe2+；②t分钟后，Fe粉表面被Ag覆盖，反应速率减慢，且生成的Ag可能被氧化\n\n### 18(4)\n\n结合“浸锰”过程，从两种矿石中各物质利用的角度，分析联合提取银和锰的优势：________。\n\n**答案**: 同时提取银和锰，提高资源利用率；利用MnO2的氧化性去除FeS2，减少后续除杂步骤\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）NaOH + HCl = NaCl + H2O；（2）酚酞溶液；（3）当滴入最后一滴盐酸时，溶液由红色变为无色，且半分钟内不恢复。",
+  "analysis": "该题考查中和反应实验。解题思路：氢氧化钠与盐酸反应生成氯化钠和水；用酚酞指示剂判断反应终点；终点时溶液由红色变为无色。关键知识点：中和反应放热，但该实验不要求。评分标准：每空2分，共6分。"
+}

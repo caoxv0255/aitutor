@@ -1,0 +1,126 @@
+{
+  "uid": "biology_2020_beijing_019",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [
+    "光合作用",
+    "基因工程",
+    "D1蛋白"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 16,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 393,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 271,
+      "height": 166
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 217,
+      "height": 221
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 336,
+      "height": 243
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 363,
+      "height": 347
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 475,
+      "height": 115
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 493,
+      "height": 116
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 233,
+      "height": 263
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 451,
+      "height": 318
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 334,
+      "height": 228
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 494,
+      "height": 279
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 198,
+      "height": 242
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 351,
+      "height": 305
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 344,
+      "height": 285
+    },
+    {
+      "filename": "page_10_img_1.jpeg",
+      "page": 10,
+      "width": 400,
+      "height": 186
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 417,
+      "height": 335
+    }
+  ],
+  "created_at": "2026-07-17T16:33:34.375Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 12分\n\n**知识点**: 光合作用、基因工程、D1蛋白\n\n---\n\n## 题目内容\n\n阅读以下材料，回答（1）~（4）题。创建D1 合成新途径，提高植物光合效率。植物细胞中叶绿体是进行光合作用的场所，高温或强光常抑制光合作用过程，导致作物严重减产。光合复合体PSII 是光反应中吸收、传递并转化光能的一个重要场所，D1 是PSII 的核心蛋白。高温或强光会造成叶绿体内活性氧（ROS）的大量累积。相对于组成PSII 的其他蛋白，D1 对ROS 尤为敏感，极易受到破坏。损伤的D1 可不断被新合成的D1 取代，使PSII 得以修复。因此，D1 在叶绿体中的合成效率直接影响PSII 的修复，进而影响光合效率。叶绿体为半自主性的细胞器，具有自身的基因组和遗传信息表达系统。叶绿体中的蛋白一部分由叶绿体基因编码，一部分由核基因编码。核基因编码的叶绿体蛋白在N 端的转运肽引导下进入叶绿体。编码D1 的基因psbA 位于叶绿体基因组，叶绿体中积累的ROS 也会显著抑制psbA mRNA 的翻译过程，导致PSII 修复效率降低。如何提高高温或强光下PSII 的修复效率，进而提高作物的光合效率和产量，是长期困扰这一领城科学家的问题。近期我国科学家克隆了拟南芥叶绿体中的基因psbA，并将psbA 与编码转运肽的DNA 片段连接，构建融合基因，再与高温响应的启动子连接，导入拟南芥和水稻细胞的核基因组中。检测表明，与野生型相比，转基因植物中D1 的mRNA 和蛋白在常温下有所增加，高温下大幅增加；在高温下，PSII 的光能利用能力也显著提高。在南方育种基地进行的田间实验结果表明，与野生型相比，转基因水稻的二氧化碳同化速率、地上部分生物量（干重）均有大幅提高，增产幅度在8.1%~21.0%之间。该研究通过基因工程手段，在拟南芥和水稻中补充了一条由高温响应启动子驱动的D1 合成途径，从而建立了植物细胞D1 合成的“双途径”机制，具有重要的理论意义与应用价值。随着溫室效应的加剧，全球气候变暖造成的高温胁迫日益成为许多地区粮食生产的严重威胁，该研究为这一问题提供了解决方案。\n\n## 小题\n\n### 19(1)\n\n光合作用的__________反应在叶绿体类囊体膜上进行，类囊体膜上的蛋白与__________形成的复合体吸收、传递并转化光能。\n\n**答案**: 光；色素\n\n### 19(2)\n\n运用文中信息解释高温导致D1 不足的原因。\n\n**答案**: 高温导致活性氧（ROS）大量累积，ROS抑制psbA mRNA的翻译，使D1合成减少；同时D1对ROS敏感，易被破坏。\n\n### 19(3)\n\n若从物质和能量的角度分析，选用高温响应的启动子驱动psbA 基因表达的优点是：__________\n\n**答案**: 高温时启动子启动表达，合成D1，避免在常温下浪费物质和能量\n\n### 19(4)\n\n对文中转基因植物细胞D1 合成“双途径”的理解，正确的叙述包括__________。A.细胞原有的和补充的psbA 基因位于细胞不同的部位 B.细胞原有的和补充的D1 的mRNA 转录场所不同 C.细胞原有的和补充的D1 在不同部位的核糖体上翻译 D.细胞原有的和补充的D1 发挥作用的场所不同 E.细胞原有的和补充的D1 发挥的作用不同\n\n**答案**: ABC\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）促甲状腺激素释放激素 （2）甲状腺激素 （3）反馈调节 （4）代谢",
+  "analysis": "本题考查激素调节。解题思路：下丘脑分泌TRH，垂体分泌TSH，甲状腺分泌甲状腺激素。甲状腺激素过多会抑制下丘脑和垂体，属于负反馈调节。甲状腺激素促进新陈代谢。评分标准：每空1分，共4分。"
+}

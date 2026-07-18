@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_001",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "古籍界定"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.639Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 古籍界定\n\n---\n\n## 题目内容\n\n根据材料一，下列不属于古籍的一项是\n\n## 选项\n\nA. A. 《三国志史传》散页（刊刻于明代，2018 年发现于日内瓦图书馆）\n\nB. B. 《韩柳文研究法》（林纾，1914 年铅印本，研究韩愈、柳宗元古文的著作）\n\nC. C. 《秦妇吟》残卷（唐·韦庄，1900 年发现于敦煌藏经洞）\n\nD. D. 《春秋左传》（明代刻本，记载春秋时期历史的史书）\n\n---\n\n## 参考答案\n\nB\n\n## 解析\n\n根据材料一，古籍的界定包括1911年以前、以中国古代传统文化为主要内容等。林纾的《韩柳文研究法》是1914年铅印本，晚于1911年，因此不属于古籍。\n\n",
+  "answer": "A",
+  "analysis": "本题考查字音。A项全部正确；B项'锲而不舍'应读qiè；C项'鲜为人知'应读xiǎn；D项'气冲斗牛'应读dǒu。因此选A。"
+}

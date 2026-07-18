@@ -1,0 +1,26 @@
+{
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2019,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 8,
+  "page_count": 0,
+  "image_count": 4,
+  "source_file": "2019年北京高考生物试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:19:45.469Z",
+  "quality_stats": {
+    "total": 8,
+    "by_type": {
+      "choice": 5,
+      "solve": 3
+    },
+    "avg_difficulty": "3.50",
+    "answer_completeness": "62.5",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

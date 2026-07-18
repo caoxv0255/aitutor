@@ -1,0 +1,168 @@
+{
+  "uid": "biology_2023_beijing_019",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2023,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 14,
+  "knowledge_points": [
+    "遗传育种",
+    "基因分离定律",
+    "雄性不育"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 547,
+      "height": 323
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 695,
+      "height": 549
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 351,
+      "height": 183
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 353,
+      "height": 276
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 440,
+      "height": 232
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 429,
+      "height": 136
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 585,
+      "height": 427
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 200,
+      "height": 199
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 245,
+      "height": 147
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 579,
+      "height": 236
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.jpeg",
+      "page": 8,
+      "width": 552,
+      "height": 222
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 1308,
+      "height": 838
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:22:55.921Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 14分\n\n**知识点**: 遗传育种、基因分离定律、雄性不育\n\n---\n\n## 题目内容\n\n二十大报告提出“种业振兴行动”。油菜是重要的油料作物，筛选具有优良性状的育种材料并探究相应遗传机制，对创制高产优质新品种意义重大。\n\n## 小题\n\n### 19(1)\n\n我国科学家用诱变剂处理野生型油菜（绿叶），获得了新生叶黄化突变体（黄化叶）。突变体与野生型杂交，结果如图甲，其中隐性性状是___________。\n\n**答案**: 黄化叶\n\n### 19(2)\n\n科学家克隆出导致新生叶黄化的基因，与野生型相比，它在DNA 序列上有一个碱基对改变，导致突变基因上出现了一个限制酶B 的酶切位点（如图乙）。据此，检测F2基因型的实验步骤为：提取基因组DNA→PCR→回收扩增产物→___________→电泳。F2中杂合子电泳条带数目应为___________条。\n\n**答案**: 用限制酶B处理；3\n\n### 19(3)①\n\n油菜雄性不育品系A 作为母本与可育品系R 杂交，获得杂交油菜种子S（杂合子），使杂交油菜的大规模种植成为可能。品系A1 育性正常，其他性状与A 相同，A 与A1 杂交，子一代仍为品系A，由此可大量繁殖A。在大量繁殖A 的过程中，会因其他品系花粉的污染而导致A 不纯，进而影响种子S 的纯度，导致油菜籽减产。油菜新生叶黄化表型易辨识，且对产量没有显著影响。科学家设想利用新生叶黄化性状来提高种子S 的纯度。育种过程中首先通过一系列操作，获得了新生叶黄化的A1，利用黄化A1 生产种子S 的育种流程见图丙。图丙中，A 植株的绿叶雄性不育子代与黄化A1 杂交，筛选出的黄化A 植株占子一代总数的比例约为_______________。\n\n**答案**: 1/2\n\n### 19(3)②\n\n为减少因花粉污染导致的种子S 纯度下降，简单易行的田间操作用____________________________。\n\n**答案**: 在开花前拔除黄化A1植株（或及时去除黄化A1的花序）\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）生产者 消费者 分解者 非生物的物质和能量 （2）食物链和食物网 （3）物质循环 能量流动 信息传递",
+  "analysis": "生态系统的组成成分包括非生物的物质和能量、生产者、消费者、分解者。营养结构是食物链和食物网。生态系统的功能是物质循环、能量流动和信息传递。评分标准：每空1分，共6分。"
+}

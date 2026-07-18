@@ -1,0 +1,27 @@
+{
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2021,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 11,
+  "page_count": 0,
+  "image_count": 17,
+  "source_file": "2021年北京高考英语试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:42:35.314Z",
+  "quality_stats": {
+    "total": 11,
+    "by_type": {
+      "choice": 6,
+      "fill": 3,
+      "solve": 2
+    },
+    "avg_difficulty": "2.82",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

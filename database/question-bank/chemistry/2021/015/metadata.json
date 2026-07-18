@@ -1,0 +1,230 @@
+{
+  "uid": "chemistry_2021_beijing_015",
+  "subject": "chemistry",
+  "subject_name": "化学",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 15,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 34,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 139,
+      "height": 90
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 103,
+      "height": 76
+    },
+    {
+      "filename": "page_1_img_4.jpeg",
+      "page": 1,
+      "width": 54,
+      "height": 45
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 64,
+      "height": 42
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 1231,
+      "height": 420
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 173,
+      "height": 132
+    },
+    {
+      "filename": "page_3_img_1.jpeg",
+      "page": 3,
+      "width": 258,
+      "height": 248
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 549,
+      "height": 201
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 74,
+      "height": 52
+    },
+    {
+      "filename": "page_4_img_4.png",
+      "page": 4,
+      "width": 162,
+      "height": 66
+    },
+    {
+      "filename": "page_4_img_5.jpeg",
+      "page": 4,
+      "width": 1426,
+      "height": 287
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 305,
+      "height": 251
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 177,
+      "height": 89
+    },
+    {
+      "filename": "page_5_img_4.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1154,
+      "height": 401
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 380,
+      "height": 224
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 1483,
+      "height": 479
+    },
+    {
+      "filename": "page_7_img_4.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 395,
+      "height": 162
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 164,
+      "height": 75
+    },
+    {
+      "filename": "page_8_img_4.jpeg",
+      "page": 8,
+      "width": 1467,
+      "height": 122
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 524,
+      "height": 348
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 118,
+      "height": 121
+    }
+  ],
+  "created_at": "2026-07-17T16:45:52.221Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第15题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n环氧乙烷(，简称EO)是一种重要的工业原料和消毒剂。由乙烯经电解制备EO的原理示意图如下。\n（1）①阳极室产生Cl2后发生的反应有：_______、CH2=CH2+HClO→HOCH2CH2Cl。\n②结合电极反应式说明生成溶液a的原理_______。\n（2）一定条件下，反应物按一定流速通过该装置。\n电解效率η和选择性S的定义：\nη(B)= n(B)生成所用的电子/n(通过电极的电子)×100%\nS(B)= n(B)生成所用的乙烯/n(转化的乙烯)×100%\n①若η(EO)=100%，则溶液b的溶质为_______。\n②当乙烯完全消耗时，测得η(EO)≈70%，S(EO)≈97%，推测η(EO)≈70%的原因：\nI.阳极有H2O放电\nII.阳极有乙烯放电\nIII.阳极室流出液中含有Cl2和HClO\n……\ni.检验电解产物，推测I不成立。需要检验的物质是_______。\nii.假设没有生成EO的乙烯全部在阳极放电生成CO2，η(CO2)≈_______%。经检验阳极放电产物没有CO2。\niii.实验证实推测III成立，所用试剂及现象是_______。\n可选试剂：AgNO3溶液、KI溶液、淀粉溶液、品红溶液。\n\n## 小题\n\n### 15(1)①\n\n阳极室产生Cl2后发生的反应有：_______、CH2=CH2+HClO→HOCH2CH2Cl。\n\n**答案**: \n\n### 15(1)②\n\n结合电极反应式说明生成溶液a的原理_______。\n\n**答案**: \n\n### 15(2)①\n\n若η(EO)=100%，则溶液b的溶质为_______。\n\n**答案**: \n\n### 15(2)②i\n\n检验电解产物，推测I不成立。需要检验的物质是_______。\n\n**答案**: \n\n### 15(2)②ii\n\n假设没有生成EO的乙烯全部在阳极放电生成CO2，η(CO2)≈_______%。经检验阳极放电产物没有CO2。\n\n**答案**: \n\n### 15(2)②iii\n\n实验证实推测III成立，所用试剂及现象是_______。可选试剂：AgNO3溶液、KI溶液、淀粉溶液、品红溶液。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "解：设需要氧气的质量为x。\n2H2 + O2 → 2H2O\n4g 32g\n10g x\n4/10 = 32/x\nx = 80g\n答：需要氧气80g。",
+  "analysis": "根据化学方程式计算，氢气与氧气反应生成水，质量比为4:32=1:8。10g氢气需要氧气80g。评分标准：设未知数1分，写化学方程式1分，列比例式1分，计算结果1分，答1分。"
+}

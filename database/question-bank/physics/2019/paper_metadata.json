@@ -1,0 +1,26 @@
+{
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2019,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 12,
+  "page_count": 0,
+  "image_count": 12,
+  "source_file": "2019年北京高考物理试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:16:55.701Z",
+  "quality_stats": {
+    "total": 12,
+    "by_type": {
+      "choice": 8,
+      "solve": 4
+    },
+    "avg_difficulty": "3.67",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "0.0"
+  },
+  "warnings": [
+    "解析完整性较低: 0.0%"
+  ],
+  "issues": []
+}

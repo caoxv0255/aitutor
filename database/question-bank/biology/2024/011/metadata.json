@@ -1,0 +1,279 @@
+{
+  "uid": "biology_2024_beijing_011",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2024,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [
+    "胚胎干细胞",
+    "动物细胞培养",
+    "胚胎移植"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 42,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 504,
+      "height": 354
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 250,
+      "height": 100
+    },
+    {
+      "filename": "page_4_img_3.png",
+      "page": 4,
+      "width": 322,
+      "height": 173
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 995,
+      "height": 248
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 811,
+      "height": 484
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_11_img_2.jpeg",
+      "page": 11,
+      "width": 463,
+      "height": 344
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_12_img_2.jpeg",
+      "page": 12,
+      "width": 827,
+      "height": 415
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_13_img_2.jpeg",
+      "page": 13,
+      "width": 903,
+      "height": 348
+    },
+    {
+      "filename": "page_14_img_1.png",
+      "page": 14,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_14_img_2.png",
+      "page": 14,
+      "width": 344,
+      "height": 187
+    },
+    {
+      "filename": "page_14_img_3.png",
+      "page": 14,
+      "width": 239,
+      "height": 185
+    },
+    {
+      "filename": "page_15_img_1.png",
+      "page": 15,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_15_img_2.png",
+      "page": 15,
+      "width": 246,
+      "height": 187
+    },
+    {
+      "filename": "page_15_img_3.png",
+      "page": 15,
+      "width": 246,
+      "height": 155
+    },
+    {
+      "filename": "page_15_img_4.png",
+      "page": 15,
+      "width": 736,
+      "height": 153
+    },
+    {
+      "filename": "page_16_img_1.png",
+      "page": 16,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_16_img_2.png",
+      "page": 16,
+      "width": 246,
+      "height": 155
+    },
+    {
+      "filename": "page_16_img_3.png",
+      "page": 16,
+      "width": 736,
+      "height": 153
+    },
+    {
+      "filename": "page_17_img_1.png",
+      "page": 17,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_17_img_2.jpeg",
+      "page": 17,
+      "width": 587,
+      "height": 187
+    },
+    {
+      "filename": "page_17_img_3.jpeg",
+      "page": 17,
+      "width": 466,
+      "height": 187
+    },
+    {
+      "filename": "page_18_img_1.png",
+      "page": 18,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_18_img_2.png",
+      "page": 18,
+      "width": 1022,
+      "height": 430
+    },
+    {
+      "filename": "page_19_img_1.png",
+      "page": 19,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_19_img_2.png",
+      "page": 19,
+      "width": 1195,
+      "height": 175
+    },
+    {
+      "filename": "page_20_img_1.png",
+      "page": 20,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_20_img_2.png",
+      "page": 20,
+      "width": 1195,
+      "height": 175
+    },
+    {
+      "filename": "page_21_img_1.png",
+      "page": 21,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_22_img_1.png",
+      "page": 22,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-18T04:30:44.274Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0"
+}

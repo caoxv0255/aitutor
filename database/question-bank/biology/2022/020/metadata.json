@@ -1,0 +1,188 @@
+{
+  "uid": "biology_2022_beijing_020",
+  "subject": "biology",
+  "subject_name": "生物",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 20,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 27,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 314,
+      "height": 331
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 219,
+      "height": 248
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 410,
+      "height": 181
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 234,
+      "height": 191
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 370,
+      "height": 260
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.png",
+      "page": 6,
+      "width": 490,
+      "height": 361
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.png",
+      "page": 7,
+      "width": 611,
+      "height": 295
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 149,
+      "height": 113
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 305,
+      "height": 269
+    },
+    {
+      "filename": "page_8_img_3.png",
+      "page": 8,
+      "width": 515,
+      "height": 184
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 490,
+      "height": 272
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_2.png",
+      "page": 10,
+      "width": 353,
+      "height": 324
+    },
+    {
+      "filename": "page_11_img_1.png",
+      "page": 11,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_11_img_2.png",
+      "page": 11,
+      "width": 224,
+      "height": 226
+    },
+    {
+      "filename": "page_11_img_3.png",
+      "page": 11,
+      "width": 649,
+      "height": 367
+    },
+    {
+      "filename": "page_12_img_1.png",
+      "page": 12,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_13_img_1.png",
+      "page": 13,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T15:59:06.052Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第20题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n人体细胞因表面有可被巨噬细胞识别的“自体”标志蛋白C，从而免于被吞噬。某些癌细胞表面存在大量的蛋白C，更易逃脱吞噬作用。研究者以蛋白C 为靶点，构建了可感应群体密度而裂解的细菌菌株，拟用于制备治疗癌症的“智能炸弹”。\n（1）引起群体感应的信号分子A 是一种脂质小分子，通常以_______的方式进出细胞。细胞内外的A 随细菌密度的增加而增加，A 积累至一定浓度时才与胞内受体结合，调控特定基因表达，表现出细菌的群体响应。\n（2）研究者将A 分子合成酶基因、A 受体基因及可使细菌裂解的L 蛋白基因同时转入大肠杆菌，制成AL菌株。培养的AL 菌密度变化如图1。其中，AL 菌密度骤降的原因是：AL 菌密度增加引起A 积累至临界浓度并与受体结合，_______。\n（3）蛋白K 能与蛋白C 特异性结合并阻断其功能。研究者将K 基因转入AL 菌，制成ALK 菌株，以期用于肿瘤治疗。为验证ALK 菌能产生蛋白K，应以_______菌株裂解的上清液为对照进行实验。请从下列选项中选取所需材料与试剂的序号，完善实验组的方案。\n实验材料与试剂：①ALK 菌裂解的上清液②带荧光标记的K 的抗体③带荧光标记的C 的抗体④肿瘤细胞\n实验步骤：先加入_______保温后漂洗，再加入_______保温后漂洗，检测荧光强度。\n（4）研究者向下图2 所示小鼠左侧肿瘤内注射ALK 菌后，发现ALK 菌只存在于该侧瘤内，两周内即观察到双侧肿瘤生长均受到明显抑制。而向瘤内单独注射蛋白K 或AL 菌，对肿瘤无明显抑制作用。请应用免疫学原理解释“智能炸弹”ALK 菌能有效抑制对侧肿瘤生长的原因_______。\n\n## 小题\n\n### 20(1)\n\n引起群体感应的信号分子A 是一种脂质小分子，通常以_______的方式进出细胞。细胞内外的A 随细菌密度的增加而增加，A 积累至一定浓度时才与胞内受体结合，调控特定基因表达，表现出细菌的群体响应。\n\n**答案**: \n\n### 20(2)\n\n研究者将A 分子合成酶基因、A 受体基因及可使细菌裂解的L 蛋白基因同时转入大肠杆菌，制成AL菌株。培养的AL 菌密度变化如图1。其中，AL 菌密度骤降的原因是：AL 菌密度增加引起A 积累至临界浓度并与受体结合，_______。\n\n**答案**: \n\n### 20(3)\n\n蛋白K 能与蛋白C 特异性结合并阻断其功能。研究者将K 基因转入AL 菌，制成ALK 菌株，以期用于肿瘤治疗。为验证ALK 菌能产生蛋白K，应以_______菌株裂解的上清液为对照进行实验。请从下列选项中选取所需材料与试剂的序号，完善实验组的方案。\n实验材料与试剂：①ALK 菌裂解的上清液②带荧光标记的K 的抗体③带荧光标记的C 的抗体④肿瘤细胞\n实验步骤：先加入_______保温后漂洗，再加入_______保温后漂洗，检测荧光强度。\n\n**答案**: \n\n### 20(4)\n\n研究者向下图2 所示小鼠左侧肿瘤内注射ALK 菌后，发现ALK 菌只存在于该侧瘤内，两周内即观察到双侧肿瘤生长均受到明显抑制。而向瘤内单独注射蛋白K 或AL 菌，对肿瘤无明显抑制作用。请应用免疫学原理解释“智能炸弹”ALK 菌能有效抑制对侧肿瘤生长的原因_______。\n\n**答案**: \n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）血浆 组织液 淋巴 （2）内环境稳态 （3）神经-体液-免疫调节",
+  "analysis": "内环境包括血浆、组织液和淋巴。内环境稳态是指内环境的化学成分和理化性质保持相对稳定的状态，调节机制是神经-体液-免疫调节网络。评分标准：每空1分，共6分。"
+}

@@ -1,0 +1,128 @@
+{
+  "uid": "politics_2022_beijing_021",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 21,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 17,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.png",
+      "page": 3,
+      "width": 548,
+      "height": 355
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 488,
+      "height": 303
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 391,
+      "height": 552
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 539,
+      "height": 465
+    },
+    {
+      "filename": "page_7_img_3.png",
+      "page": 7,
+      "width": 186,
+      "height": 98
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 475,
+      "height": 146
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.png",
+      "page": 9,
+      "width": 243,
+      "height": 161
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:12:02.376Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第21题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n中华民族是守正创新的民族，有着守正创新的传统。 \n“守正”和“创新”都曾在我国古代文献中多次出现，如西汉司马迁在《史记》中使用了“循法守正”，南北朝魏收在《魏书》中使用了“革弊创新”。 \n习近平总书记曾在多个场合强调要“守正创新”，如2022 年 1 月在一次重要讲话中指出，我们要“准确把握时代大势，勇于站在人类发展前沿，聆听人民心声，回应现实需要，坚持解放思想、实事求是、守正创新”。 习近平新时代中国特色社会主义思想是一个系统完整、逻辑严密、相互贯通的思想理论体系。这一思想坚持和发展了马克思主义，根据新的实践，在经济、政治、文化、社会、生态文明等领域，都提出了许多标志性引领性的新思想新观点新论断，实现了马克思主义中国化新的飞跃。 \n结合材料，综合运用所学，阐述习近平新时代中国特色社会主义思想是如何坚持守正创新的。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "①坚持公有制为主体、多种所有制经济共同发展的基本经济制度，为社会主义市场经济提供制度基础。②坚持按劳分配为主体、多种分配方式并存的分配制度，兼顾效率与公平。③坚持市场调节与宏观调控相结合，发挥市场在资源配置中的决定性作用，同时更好发挥政府作用。④坚持共同富裕的根本目标，让发展成果惠及全体人民。⑤坚持对外开放的基本国策，积极参与经济全球化。",
+  "analysis": "本题考查社会主义市场经济的基本特征。解题思路：从所有制、分配制度、市场与政府关系、共同富裕、对外开放等方面回答。关键知识点：基本经济制度、分配制度、宏观调控、共同富裕。评分标准：每点2分，共10分。答出基本经济制度得2分，分配制度得2分，市场与政府关系得2分，共同富裕得2分，对外开放得2分。"
+}

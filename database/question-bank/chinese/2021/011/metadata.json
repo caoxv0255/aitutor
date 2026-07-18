@@ -1,0 +1,80 @@
+{
+  "uid": "chinese_2021_beijing_011",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 11,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 0,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 9,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:39:35.332Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第11题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 0分\n\n---\n\n## 题目内容\n\n阅读下面《论语》中的文字，回答问题。子曰：“由也！女闻六言六蔽矣乎？”对曰：“未也。”“居！吾语女。好仁不好学，其蔽也愚；好知不好学，其蔽也荡；好信不好学，其蔽也贼；好直不好学，其蔽也绞；好勇不好学，其蔽也乱；好刚不好学，其蔽也狂。”（《阳货》）孔子为什么把学习与道德修养联系在一起？请从“六言六蔽”中任选两个，用自己的话加以解释。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）开我东阁门，坐我西阁床。脱我战时袍，著我旧时裳。（2）当窗理云鬓，对镜帖花黄。",
+  "analysis": "本题考查默写。注意“著”“帖”等字。评分标准：每句1分，共4分。"
+}

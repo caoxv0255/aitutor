@@ -1,0 +1,24 @@
+{
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 15,
+  "page_count": 0,
+  "image_count": 8,
+  "source_file": "2019年北京高考政治试卷（原卷版）.pdf",
+  "processing_time": "2026-07-17T16:22:51.011Z",
+  "quality_stats": {
+    "total": 15,
+    "by_type": {
+      "choice": 12,
+      "solve": 3
+    },
+    "avg_difficulty": "2.20",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

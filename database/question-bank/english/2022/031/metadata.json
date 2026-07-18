@@ -1,0 +1,86 @@
+{
+  "uid": "english_2022_beijing_031",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 31,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:57:04.715Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第31题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\nQuantum ( 量子 ) computers have been on my mind a lot lately. A friend has been sending me articles on how quantum computers might help solve some of the biggest challenges we face as humans. I’ve also had exchanges with two quantum-computing experts. One is computer scientist Chris Johnson who I see as someone who helps keep the field honest. The other is physicist Philip Taylor. \nFor decades, quantum computing has been little more than a laboratory curiosity. Now, big tech companies have invested in quantum computing, as have many smaller ones. According to Business Weekly, quantum machines could help us “cure cancer, and even take steps to turn climate change in the opposite direction.” This is the sort of hype ( 炒作 ) that annoys Johnson. He worries that researchers are making promises they can’t keep. “What’s new,” Johnson wrote, “is that millions of dollars are now potentially available to quantum computing researchers.” \nAs quantum computing attracts more attention and funding, researchers may mislead investors, journalists, the public and, worst of all, themselves about their work’s potential. If researchers can’t keep their promises, excitement might give way to doubt, disappointment and anger, Johnson warns. Lots of other technologies have gone through stages of excitement. But something about quantum computing makes it especially prone to hype, Johnson suggests, perhaps because “‘quantum’ stands for something cool you shouldn’t be able to understand.” \nAnd that brings me back to Taylor, who suggested that I read his book Q for Quantum. \nAfter I read the book, Taylor patiently answered my questions about it. He also answered my questions about PyQuantum, the firm he co-founded in 2016. Taylor shares Johnson’s concerns about hype, but he says those concerns do not apply to PyQuantum. \nThe company, he says, is closer than any other firm “by a very large margin ( 幅度 )” to building a “useful” quantum computer, one that “solves an impactful problem that we would not have been able to solve otherwise.” He adds, “People will naturally discount my opinions, but I have spent a lot of time quantitatively comparing what we are doing with others.” \nCould PyQuantum really be leading all the competition “by a wide margin”, as Taylor claims? I don’t know. I’m certainly not going to advise my friend or anyone else to invest in quantum computers. But I trust Taylor, just as I trust Johnson. \n31. Regarding Johnson’s concerns, the author feels ________.\n\n## 选项\n\nA. A. sympathetic\n\nB. B. unconcerned\n\nC. C. doubtful\n\nD. D. excited\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "B",
+  "analysis": "本题考查形容词辨析。A项‘可获得的’；B项‘可接受的’；C项‘舒适的’；D项‘令人惊奇的’。句意：这个价格是可以接受的。故选B。"
+}

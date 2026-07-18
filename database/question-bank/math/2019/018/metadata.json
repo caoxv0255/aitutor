@@ -1,0 +1,170 @@
+{
+  "uid": "math_2019_beijing_018",
+  "subject": "math",
+  "subject_name": "数学",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 18,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 14,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": true,
+  "image_count": 24,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 10,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_2.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_3.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_4.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_5.png",
+      "page": 1,
+      "width": 12,
+      "height": 29
+    },
+    {
+      "filename": "page_1_img_6.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_1_img_7.png",
+      "page": 1,
+      "width": 170,
+      "height": 261
+    },
+    {
+      "filename": "page_1_img_8.png",
+      "page": 1,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_1_img_9.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_10.png",
+      "page": 1,
+      "width": 20,
+      "height": 18
+    },
+    {
+      "filename": "page_1_img_11.png",
+      "page": 1,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 158,
+      "height": 154
+    },
+    {
+      "filename": "page_2_img_4.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_5.png",
+      "page": 2,
+      "width": 10,
+      "height": 20
+    },
+    {
+      "filename": "page_2_img_6.png",
+      "page": 2,
+      "width": 108,
+      "height": 69
+    },
+    {
+      "filename": "page_2_img_7.png",
+      "page": 2,
+      "width": 213,
+      "height": 228
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 13,
+      "height": 35
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 116,
+      "height": 49
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 207,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 22,
+      "height": 46
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 22,
+      "height": 47
+    },
+    {
+      "filename": "page_5_img_3.png",
+      "page": 5,
+      "width": 13,
+      "height": 35
+    }
+  ],
+  "created_at": "2026-07-17T16:13:47.734Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第18题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 14分\n\n---\n\n## 题目内容\n\n如图，在四棱锥P-ABCD中，PA⊥平面ABCD，底面ABCD为菱形，E为CD的中点．（Ⅰ）求证：BD⊥平面PAC；（Ⅱ）若∠ABC＝60°，求证：平面PAB⊥平面PAE；（Ⅲ）棱PB上是否存在点F，使得CF∥平面PAE？说明理由．\n\n## 小题\n\n### 18(Ⅰ)\n\n求证：BD⊥平面PAC；\n\n**答案**: 证明略\n\n### 18(Ⅱ)\n\n若∠ABC＝60°，求证：平面PAB⊥平面PAE；\n\n**答案**: 证明略\n\n### 18(Ⅲ)\n\n棱PB上是否存在点F，使得CF∥平面PAE？说明理由．\n\n**答案**: 存在，F为PB中点\n\n---\n\n## 参考答案\n\n（Ⅰ）证明略；（Ⅱ）证明略；（Ⅲ）存在，F为PB中点\n\n",
+  "answer": "解：(1) 连接AC交BD于O，连接EO，因为ABCD是正方形，所以O为AC中点，又E为PC中点，所以EO∥PA，且EO⊂平面EDB，PA⊄平面EDB，所以PA∥平面EDB。(2) 因为PD⊥平面ABCD，所以PD⊥BC，又BC⊥CD，所以BC⊥平面PCD，所以BC⊥DE。在等腰直角三角形PCD中，E为PC中点，所以DE⊥PC，所以DE⊥平面PBC，所以平面EDB⊥平面PBC。",
+  "analysis": "本题考查线面平行和面面垂直的判定。解题思路：(1)利用三角形中位线证线线平行，得线面平行；(2)先证线面垂直，再证面面垂直。关键知识点：线面平行判定定理、线面垂直判定定理、面面垂直判定定理。评分标准：(1)正确连接辅助线得2分，证出线线平行得2分，得结论得2分；(2)证出BC⊥DE得2分，证出DE⊥PC得2分，得结论得2分。"
+}

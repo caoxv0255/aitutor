@@ -1,0 +1,78 @@
+{
+  "uid": "politics_2019_beijing_009",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 9,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 4,
+  "knowledge_points": [
+    "绿色发展",
+    "公民权利",
+    "环境影响评价"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 8,
+  "images": [
+    {
+      "filename": "page_1_img_1.jpeg",
+      "page": 1,
+      "width": 290,
+      "height": 174
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 565,
+      "height": 168
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 311,
+      "height": 199
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 411,
+      "height": 157
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 602,
+      "height": 171
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 492,
+      "height": 221
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 567,
+      "height": 231
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 295,
+      "height": 157
+    }
+  ],
+  "created_at": "2026-07-17T16:22:51.006Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第9题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 4分\n\n**知识点**: 绿色发展、公民权利、环境影响评价\n\n---\n\n## 题目内容\n\n北京轨道交通11号线西段（冬奥支线）工程环境影响评价第一次公示\n    时间：2019﹣03﹣20\n    根据《中华人民共和国环境保护法》《中华人民共和国环境影响评价法》《环境影响评价公众参与办法》（生态环境部令第4号）《关于发布＜环境影响评价公众参与办法＞配套文件的公告》（生态环境部公告2018年第48号）等相关规定，现对北京轨道交通11号线西段（冬奥支线）工程环境影响评价公众参与相关信息进行第一次公示，具体如下：\n    ……\n关于环境影响评价公示，下列观点合理的是（  ）\n①对重大项目进行环境影响评价是贯彻绿色发展理念的体现\n②让公众参与环境影响评价是政府简政放权的新举措\n③依法公示维护了公民的知情权、参与权、表达权、监督权\n④这一做法顺应社会发展的要求，扩大了基层民主的范围\n\n## 选项\n\nA. A．①③\n\nB. B．①④\n\nC. C．②③\n\nD. D．②④\n\n---\n\n## 参考答案\n\nA\n\n## 解析\n\n环境影响评价体现绿色发展，①正确；公示保障公民权利，③正确；②错误，简政放权不涉及；④错误，基层民主范围未扩大。\n\n",
+  "answer": "A",
+  "analysis": "本题考查就业的意义。就业是民生之本，对整个社会生产和发展具有重要意义。A选项正确，就业使得劳动力与生产资料相结合，生产出社会所需要的物质财富和精神财富。B选项错误，就业不是唯一的收入来源，还有投资收益等。C选项错误，就业有利于实现自身价值，但并非根本目的。D选项错误，就业促进人的全面发展，但表述不全面。"
+}

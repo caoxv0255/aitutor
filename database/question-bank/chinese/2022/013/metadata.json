@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_013",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 13,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [
+    "诗歌意象"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.649Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第13题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n**知识点**: 诗歌意象\n\n---\n\n## 题目内容\n\n咏物诗注重通过意象表达主题，这首诗中的主要意象有哪些？分别说明这些意象有何意蕴。\n\n---\n\n## 参考答案\n\n主要意象有：病柏、丹凤、鸱鸮。病柏象征唐朝国势衰微；丹凤象征贤才，哀鸣象征贤才失志；鸱鸮象征小人得志，穿穴象征破坏。\n\n## 解析\n\n通过意象的对比，表达对国家命运的忧虑和对小人当道的愤慨。\n\n",
+  "answer": "① 开篇以'唧唧复唧唧'的织机声起兴，引出木兰停机叹息。② 通过'问女何所思'的问答，揭示木兰代父从军的缘由。③ 运用排比'东市买骏马……'铺陈出征准备，渲染紧张气氛。④ 以'旦辞……暮宿……'的句式表现行军神速和思亲之情。⑤ 结尾以双兔比喻，赞美木兰女扮男装的机智。",
+  "analysis": "本题考查写作手法。从叙事结构、修辞手法、人物塑造等方面分析。评分标准：每点1分，共5分，答出任意5点即可。"
+}

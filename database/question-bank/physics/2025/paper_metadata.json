@@ -1,0 +1,25 @@
+{
+  "subject": "physics",
+  "subject_name": "物理",
+  "year": 2025,
+  "province": "beijing",
+  "exam_level": "gaokao",
+  "question_count": 20,
+  "page_count": 0,
+  "image_count": 41,
+  "source_file": "2025年北京高考物理试卷（解析版）.pdf",
+  "processing_time": "2026-07-18T04:34:25.880Z",
+  "quality_stats": {
+    "total": 20,
+    "by_type": {
+      "choice": 14,
+      "fill": 2,
+      "solve": 4
+    },
+    "avg_difficulty": "3.35",
+    "answer_completeness": "100.0",
+    "analysis_completeness": "100.0"
+  },
+  "warnings": [],
+  "issues": []
+}

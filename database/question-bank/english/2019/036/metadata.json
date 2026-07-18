@@ -1,0 +1,38 @@
+{
+  "uid": "english_2019_beijing_036",
+  "subject": "english",
+  "subject_name": "英语",
+  "year": 2019,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 36,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 2,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 130,
+      "height": 166
+    },
+    {
+      "filename": "page_11_img_1.jpeg",
+      "page": 11,
+      "width": 539,
+      "height": 391
+    }
+  ],
+  "created_at": "2026-07-17T15:41:22.525Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第36题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 2分\n\n---\n\n## 题目内容\n\n36. What does Moore expect from her business?\nA. To earn more money.\nB. To help others find smiles.\nC. To make herself stand out.\nD. To beat other candy companies.\n\n## 选项\n\nA. A. To earn more money.\n\nB. B. To help others find smiles.\n\nC. C. To make herself stand out.\n\nD. D. To beat other candy companies.\n\n---\n\n## 参考答案\n\nB\n\n",
+  "answer": "D",
+  "analysis": "选项A错误，因为...；选项B错误，因为...；选项C错误，因为...；选项D正确，因为..."
+}

@@ -1,0 +1,88 @@
+{
+  "uid": "chinese_2022_beijing_019",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 3,
+  "score": 6,
+  "knowledge_points": [
+    "句子赏析"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 10,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_10_img_1.png",
+      "page": 10,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T16:54:03.653Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★☆☆\n\n**分值**: 6分\n\n**知识点**: 句子赏析\n\n---\n\n## 题目内容\n\n请结合文章内容，分析结尾画线句的内涵及表达效果。\n\n---\n\n## 参考答案\n\n画线句“我只是一粒蒲公英的种子……长长的根须”内涵：作者自比蒲公英，表达自己从南方来到北京，在北京扎根成长，融入北京。表达效果：运用比喻，生动形象地表达了作者对北京的深厚感情和归属感。\n\n## 解析\n\n从修辞和情感角度分析。\n\n",
+  "answer": "① 侧面描写：通过鲁肃的惊叹'卿今者才略，非复吴下阿蒙'，侧面表现吕蒙的进步之大。② 对比手法：将吕蒙'吴下阿蒙'的过去与'才略'惊人的现在对比，突出学习的效果。③ 语言描写：孙权劝学、吕蒙答语等，生动展现人物性格。",
+  "analysis": "本题考查写作手法分析。从侧面描写、对比、语言描写等角度分析。评分标准：每点2分，共6分，需结合文本分析。"
+}

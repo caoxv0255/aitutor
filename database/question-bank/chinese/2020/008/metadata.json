@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_008",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 8,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.918Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第8题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下列对文中语句的理解，不正确的一项是\n\n## 选项\n\nA. A.是非反而何 这种情况不是要造反又是什么呢\n\nB. B.臣见其视臣而趋疾 我看到他们一见到我就快步走开了\n\nC. C.为之期日而遣之 为此确定了具体日子后送走了他\n\nD. D.襄子将卒犯其前 赵襄子将最后攻击智伯军的正面\n\n---\n\n## 参考答案\n\nD\n\n",
+  "answer": "C",
+  "analysis": "本题考查词类活用。A项'军'名词作动词，驻军；B项'翼'名词作状语，像翅膀一样；C项'善'形容词作动词，与……交好；D项'道'名词作动词，取道。因此选C。"
+}

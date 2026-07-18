@@ -1,0 +1,164 @@
+{
+  "uid": "geography_2022_beijing_012",
+  "subject": "geography",
+  "subject_name": "地理",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 12,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 23,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 1140,
+      "height": 486
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 956,
+      "height": 671
+    },
+    {
+      "filename": "page_2_img_3.png",
+      "page": 2,
+      "width": 1260,
+      "height": 284
+    },
+    {
+      "filename": "page_2_img_4.jpeg",
+      "page": 2,
+      "width": 884,
+      "height": 648
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 465,
+      "height": 220
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 1124,
+      "height": 472
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_2.png",
+      "page": 4,
+      "width": 565,
+      "height": 331
+    },
+    {
+      "filename": "page_4_img_3.jpeg",
+      "page": 4,
+      "width": 958,
+      "height": 609
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 443,
+      "height": 341
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 933,
+      "height": 526
+    },
+    {
+      "filename": "page_6_img_3.jpeg",
+      "page": 6,
+      "width": 1260,
+      "height": 653
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 827,
+      "height": 704
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 841,
+      "height": 845
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 1240,
+      "height": 1484
+    }
+  ],
+  "created_at": "2026-07-17T17:13:23.955Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第12题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n下图是某陶瓷企业集团的新产品开发历程及区位变化示意图。读图完成下面小题。据图推断，该企业集团（   ）\n\n## 选项\n\nA. 新产品生产部门持续向中心城区转移年代\n\nB. 工艺品陶瓷设计对技术依赖程度低\n\nC. 创新设计与研发推动了产品高端化\n\nD. 带动当地进入城镇化成熟或后期阶段\n\n---\n\n## 参考答案\n\nC\n\n",
+  "answer": "A",
+  "analysis": "人口增长模式中，原始型高出生率、高死亡率、低自然增长率；传统型高出生率、低死亡率、高自然增长率；现代型低出生率、低死亡率、低自然增长率。选项A正确，现代型主要分布在发达国家。选项B错误，传统型出现在发展中国家。选项C错误，原始型出现在原始社会。选项D错误，我国已进入现代型。"
+}

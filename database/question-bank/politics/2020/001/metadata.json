@@ -1,0 +1,107 @@
+{
+  "uid": "politics_2020_beijing_001",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 2,
+  "score": 3,
+  "knowledge_points": [
+    "文化传承与创新",
+    "文化产业"
+  ],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 229,
+      "height": 126
+    },
+    {
+      "filename": "page_2_img_1.jpeg",
+      "page": 2,
+      "width": 371,
+      "height": 234
+    },
+    {
+      "filename": "page_4_img_1.jpeg",
+      "page": 4,
+      "width": 27,
+      "height": 27
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 650,
+      "height": 174
+    },
+    {
+      "filename": "page_5_img_1.jpeg",
+      "page": 5,
+      "width": 82,
+      "height": 72
+    },
+    {
+      "filename": "page_5_img_2.jpeg",
+      "page": 5,
+      "width": 80,
+      "height": 71
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 92,
+      "height": 84
+    },
+    {
+      "filename": "page_5_img_4.jpeg",
+      "page": 5,
+      "width": 95,
+      "height": 88
+    },
+    {
+      "filename": "page_6_img_1.jpeg",
+      "page": 6,
+      "width": 650,
+      "height": 157
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 645,
+      "height": 348
+    },
+    {
+      "filename": "page_9_img_1.jpeg",
+      "page": 9,
+      "width": 394,
+      "height": 264
+    },
+    {
+      "filename": "page_9_img_2.jpeg",
+      "page": 9,
+      "width": 218,
+      "height": 285
+    }
+  ],
+  "created_at": "2026-07-17T16:36:46.999Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★☆☆☆\n\n**分值**: 3分\n\n**知识点**: 文化传承与创新、文化产业\n\n---\n\n## 题目内容\n\n博物馆是保护和传承人类文明的重要殿堂，是连接过去、现在、未来的桥梁。北京拥有故宫、国家博物馆等综合性博物馆，自然、天文等专门博物馆，钱币、戏曲等内容专精的博物馆以及众多的名人故居。依托丰富的博物馆资源，北京市提出要建设布局合理、展陈丰富、特色鲜明的“博物馆之城”。打造“博物馆之城”（    ）\n①旨在恢复传统文化，增加文化的积累\n②可推动博物馆之间的交流互通，实现文化趋同\n③能为人们创造有意义的文化体验，带动文化产业发展\n④有利于发挥北京历史文化资源优势，助力文化中心建设\n\n## 选项\n\nA. A.①②\n\nB. B.①④\n\nC. C.②③\n\nD. D.③④\n\n---\n\n## 参考答案\n\nD\n\n## 解析\n\n③④正确。①错误，恢复传统文化不是目的，且增加积累表述不准确；②错误，文化趋同说法错误。\n\n",
+  "answer": "A",
+  "analysis": "本题考查商品的基本属性。商品是用于交换的劳动产品，具有使用价值和价值两个基本属性。选项A正确，因为商品必须同时具备使用价值和价值。选项B错误，因为商品不一定有使用价值（如假冒伪劣商品），但必须有价值。选项C错误，因为商品的价值是凝结在商品中的无差别人类劳动，不是使用价值。选项D错误，因为商品交换本质上是劳动量的交换。因此选A。"
+}

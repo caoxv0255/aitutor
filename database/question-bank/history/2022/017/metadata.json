@@ -1,0 +1,104 @@
+{
+  "uid": "history_2022_beijing_017",
+  "subject": "history",
+  "subject_name": "历史",
+  "year": 2022,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 17,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 12,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 13,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_1_img_2.jpeg",
+      "page": 1,
+      "width": 857,
+      "height": 761
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_2_img_2.png",
+      "page": 2,
+      "width": 301,
+      "height": 359
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 953,
+      "height": 515
+    },
+    {
+      "filename": "page_6_img_3.png",
+      "page": 6,
+      "width": 1039,
+      "height": 530
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_8_img_1.png",
+      "page": 8,
+      "width": 2,
+      "height": 2
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 2,
+      "height": 2
+    }
+  ],
+  "created_at": "2026-07-17T17:10:28.922Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第17题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 12分\n\n---\n\n## 题目内容\n\n毛泽东思想的独创性\n在革命斗争中，以毛泽东同志为主要代表的中国共产党人，把马克思列宁主义基本原理同中国具体实际相结合，对经过艰苦探索、付出巨大牺牲积累的一系列独创性经验作了理论概括……创立了毛泽东思想，为夺取新民主主义革命胜利指明了正确方向。\n毛泽东同志提出把马克思列宁主义基本原理同中国具体实际进行“第二次结合”，以毛泽东同志为主要代表的中国共产党人，结合新的实际丰富和发展毛泽东思想，提出关于社会主义建设的一系列重要思想……这些独创性理论成果至今仍有重要指导意义。\n——《中共中央关于党的百年奋斗重大成就和历史经验的决议》（2021 年11 月11 日）\n阅读材料并结合所学，从新民主主义革命（1919—1949）、社会主义建设（1956—1978）两个时期中各选一个实例，阐述毛泽东思想的独创性。\n要求：观点正确，史论结合，论证充分，逻辑清晰。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "（1）英国：1689年《权利法案》；美国：1787年宪法；法国：1875年宪法；德国：1871年宪法。（2）英国：君主立宪制；美国：总统制共和制；法国：议会制共和制；德国：君主立宪制。（3）特点：代议制民主，法律至上，分权制衡。",
+  "analysis": "本题考查近代西方民主政治的确立。解题思路：首先列举各国确立民主政治的法律文献，然后说明政体类型，最后总结共同特点。评分标准：第（1）问每点1分，共4分；第（2）问每点1分，共4分；第（3）问2分。"
+}

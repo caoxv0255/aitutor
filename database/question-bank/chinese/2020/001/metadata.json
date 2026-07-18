@@ -1,0 +1,38 @@
+{
+  "uid": "chinese_2020_beijing_001",
+  "subject": "chinese",
+  "subject_name": "语文",
+  "year": 2020,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 1,
+  "question_type": "choice",
+  "question_type_name": "选择题",
+  "difficulty": 3,
+  "score": 3,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 2,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 164,
+      "height": 60
+    },
+    {
+      "filename": "page_7_img_1.jpeg",
+      "page": 7,
+      "width": 27,
+      "height": 27
+    }
+  ],
+  "created_at": "2026-07-17T16:25:33.914Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第1题\n\n**题型**: 选择题\n\n**难度**: ★★★☆☆\n\n**分值**: 3分\n\n---\n\n## 题目内容\n\n根据材料一，下列表述正确的一项是\n\n## 选项\n\nA. A.嫦娥四号是人类历史上首个在艾特肯盆地着陆的探测器。\n\nB. B.月背更接近月球的最原始面貌，因此更有利于天文观测。\n\nC. C.嫦娥四号造访月背前，人类对月背的地形地貌一无所知。\n\nD. D.“地月拉格朗日L2点”处于地球与月球之间的固定位置。\n\n---\n\n## 参考答案\n\nA\n\n",
+  "answer": "A",
+  "analysis": "本题考查字音字形。A项全部正确；B项'殒身不恤'应为'陨身不恤'；C项'长歌当哭'的'当'应读dàng；D项'桀骜'应为'桀骜'。因此选A。"
+}

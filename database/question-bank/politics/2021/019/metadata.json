@@ -1,0 +1,134 @@
+{
+  "uid": "politics_2021_beijing_019",
+  "subject": "politics",
+  "subject_name": "政治",
+  "year": 2021,
+  "province": "beijing",
+  "province_name": "北京",
+  "exam_level": "gaokao",
+  "question_number": 19,
+  "question_type": "solve",
+  "question_type_name": "解答题",
+  "difficulty": 4,
+  "score": 10,
+  "knowledge_points": [],
+  "has_image": true,
+  "has_formula": false,
+  "image_count": 18,
+  "images": [
+    {
+      "filename": "page_1_img_1.png",
+      "page": 1,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_1.png",
+      "page": 2,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_2_img_2.jpeg",
+      "page": 2,
+      "width": 226,
+      "height": 137
+    },
+    {
+      "filename": "page_3_img_1.png",
+      "page": 3,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_3_img_2.jpeg",
+      "page": 3,
+      "width": 125,
+      "height": 136
+    },
+    {
+      "filename": "page_3_img_3.jpeg",
+      "page": 3,
+      "width": 128,
+      "height": 136
+    },
+    {
+      "filename": "page_4_img_1.png",
+      "page": 4,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_4_img_2.jpeg",
+      "page": 4,
+      "width": 244,
+      "height": 220
+    },
+    {
+      "filename": "page_5_img_1.png",
+      "page": 5,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_5_img_2.png",
+      "page": 5,
+      "width": 650,
+      "height": 434
+    },
+    {
+      "filename": "page_5_img_3.jpeg",
+      "page": 5,
+      "width": 513,
+      "height": 159
+    },
+    {
+      "filename": "page_6_img_1.png",
+      "page": 6,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_6_img_2.jpeg",
+      "page": 6,
+      "width": 313,
+      "height": 272
+    },
+    {
+      "filename": "page_7_img_1.png",
+      "page": 7,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_7_img_2.jpeg",
+      "page": 7,
+      "width": 448,
+      "height": 147
+    },
+    {
+      "filename": "page_8_img_1.jpeg",
+      "page": 8,
+      "width": 330,
+      "height": 252
+    },
+    {
+      "filename": "page_8_img_2.png",
+      "page": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
+      "filename": "page_9_img_1.png",
+      "page": 9,
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "created_at": "2026-07-17T16:50:38.168Z",
+  "source_file": "PDF解析",
+  "parsing_version": "v1.0",
+  "content": "# 第19题\n\n**题型**: 解答题\n\n**难度**: ★★★★☆\n\n**分值**: 10分\n\n---\n\n## 题目内容\n\n在开放的、相互促进的国内国际双循环的新发展格局下，中国将更加积极地参与国际分工，更加有效地融入全球价值链。\n全球价值链是指将生产过程分布在两个以上的国家，一国企业专注于特定环节，不生产整个产品。不同国家参与全球价值链的类型可以分为四种：初级产品、初级制造业、先进制造业与服务业、创新活动。参与全球价值链有助于国内资源整合和经济循环，从而促进就业和收入增长。\n全球价值链参与类型通常受四方面因素的影响：\n◇  地理位置：地理区位、互联互通条件\n◇  要素禀赋：资本、劳动力、自然资源、技术\n◇  市场规模：国内市场、国外市场\n◇  制度质量：合同执行、产权保护、标准认证\n1990年至今，中国的全球价值链参与类型从初级制造业攀升至先进制造业与服务业。从以上四方面因素中任选两个，谈谈哪些有针对性的政策措施有助于我国融入更先进的全球价值链。\n\n---\n\n## 参考答案\n\n暂无\n\n",
+  "answer": "①国家运用经济手段、法律手段和必要的行政手段，实现宏观调控的目标。②经济手段：通过财政政策和货币政策调节经济。③法律手段：通过经济立法和司法规范市场秩序。④行政手段：通过行政命令、指示等强制措施调节经济。",
+  "analysis": "本题考查宏观调控的手段。解题思路：先总述三种手段，再分别解释经济手段、法律手段和行政手段的具体内容。评分标准：总述1分，每个手段1.5分，共6分。"
+}
