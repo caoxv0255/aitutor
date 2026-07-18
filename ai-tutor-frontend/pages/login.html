@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI tutor - 登录</title>
+    <style id="theme-vars">
+{
+  "color": {
+    "primary": {
+      "aitutor-primary-900": {
+        "hex": "#660f13",
+        "opacity": "1"
+      },
+      "aitutor-primary-800": {
+        "hex": "#7a1014",
+        "opacity": "1"
+      },
+      "aitutor-primary-700": {
+        "hex": "#941218",
+        "opacity": "1"
+      },
+      "aitutor-primary-600": {
+        "hex": "#b8151b",
+        "opacity": "1"
+      },
+      "aitutor-primary-500": {
+        "hex": "#d71920",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-primary-400": {
+        "hex": "#f36b6b",
+        "opacity": "1"
+      },
+      "aitutor-primary-300": {
+        "hex": "#ffa0a0",
+        "opacity": "1"
+      },
+      "aitutor-primary-200": {
+        "hex": "#ffc5c5",
+        "opacity": "1"
+      },
+      "aitutor-primary-100": {
+        "hex": "#ffe0e0",
+        "opacity": "1"
+      },
+      "aitutor-primary-50": {
+        "hex": "#fff1f1",
+        "opacity": "1"
+      }
+    },
+    "success": {
+      "aitutor-success-900": {
+        "hex": "#022c22",
+        "opacity": "1"
+      },
+      "aitutor-success-800": {
+        "hex": "#064e3b",
+        "opacity": "1"
+      },
+      "aitutor-success-700": {
+        "hex": "#065f46",
+        "opacity": "1"
+      },
+      "aitutor-success-600": {
+        "hex": "#047857",
+        "opacity": "1"
+      },
+      "aitutor-success-500": {
+        "hex": "#059669",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-success-400": {
+        "hex": "#34d399",
+        "opacity": "1"
+      },
+      "aitutor-success-300": {
+        "hex": "#6ee7b7",
+        "opacity": "1"
+      },
+      "aitutor-success-200": {
+        "hex": "#a7f3d0",
+        "opacity": "1"
+      },
+      "aitutor-success-100": {
+        "hex": "#d1fae5",
+        "opacity": "1"
+      },
+      "aitutor-success-50": {
+        "hex": "#ecfdf5",
+        "opacity": "1"
+      }
+    },
+    "info": {
+      "aitutor-info-900": {
+        "hex": "#082f49",
+        "opacity": "1"
+      },
+      "aitutor-info-800": {
+        "hex": "#0c4a6e",
+        "opacity": "1"
+      },
+      "aitutor-info-700": {
+        "hex": "#075985",
+        "opacity": "1"
+      },
+      "aitutor-info-600": {
+        "hex": "#0369a1",
+        "opacity": "1"
+      },
+      "aitutor-info-500": {
+        "hex": "#0284c7",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-info-400": {
+        "hex": "#38bdf8",
+        "opacity": "1"
+      },
+      "aitutor-info-300": {
+        "hex": "#7dd3fc",
+        "opacity": "1"
+      },
+      "aitutor-info-200": {
+        "hex": "#bae6fd",
+        "opacity": "1"
+      },
+      "aitutor-info-100": {
+        "hex": "#e0f2fe",
+        "opacity": "1"
+      },
+      "aitutor-info-50": {
+        "hex": "#f0f9ff",
+        "opacity": "1"
+      }
+    },
+    "dark": {
+      "background": {
+        "hex": "#0f1117",
+        "opacity": "1"
+      },
+      "surface-dim": {
+        "hex": "#12141c",
+        "opacity": "1"
+      },
+      "surface": {
+        "hex": "#1a1d27",
+        "opacity": "1"
+      },
+      "color-surface-container-low": {
+        "hex": "#1a1d27",
+        "opacity": "1"
+      },
+      "surface-container-high": {
+        "hex": "#2a2d38",
+        "opacity": "1"
+      },
+      "color-surface-variant": {
+        "hex": "#2a2d38",
+        "opacity": "1"
+      },
+      "color-border": {
+        "hex": "#2a2d38",
+        "opacity": "1"
+      },
+      "color-on-surface-variant": {
+        "hex": "#64748b",
+        "opacity": "1"
+      },
+      "foreground": {
+        "hex": "#e8ecf1",
+        "opacity": "1"
+      },
+      "inverse-surface": {
+        "hex": "#f1f5f9",
+        "opacity": "1",
+        "isPrimary": true
+      }
+    },
+    "warning": {
+      "aitutor-warning-900": {
+        "hex": "#78350f",
+        "opacity": "1"
+      },
+      "aitutor-warning-800": {
+        "hex": "#92400e",
+        "opacity": "1"
+      },
+      "aitutor-warning-700": {
+        "hex": "#b45309",
+        "opacity": "1"
+      },
+      "aitutor-warning-600": {
+        "hex": "#d97706",
+        "opacity": "1"
+      },
+      "aitutor-warning-500": {
+        "hex": "#f59e0b",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-warning-400": {
+        "hex": "#fbbf24",
+        "opacity": "1"
+      },
+      "aitutor-warning-300": {
+        "hex": "#fcd34d",
+        "opacity": "1"
+      },
+      "aitutor-warning-200": {
+        "hex": "#fde68a",
+        "opacity": "1"
+      },
+      "aitutor-warning-100": {
+        "hex": "#fef3c7",
+        "opacity": "1"
+      },
+      "aitutor-warning-50": {
+        "hex": "#fffbeb",
+        "opacity": "1"
+      }
+    },
+    "aitutor-error": {
+      "aitutor-error-900": {
+        "hex": "#7f1d1d",
+        "opacity": "1"
+      },
+      "aitutor-error-800": {
+        "hex": "#991b1b",
+        "opacity": "1"
+      },
+      "aitutor-error-700": {
+        "hex": "#b91c1c",
+        "opacity": "1"
+      },
+      "aitutor-error-600": {
+        "hex": "#dc2626",
+        "opacity": "1"
+      },
+      "aitutor-error-500": {
+        "hex": "#ef4444",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-error-400": {
+        "hex": "#f87171",
+        "opacity": "1"
+      },
+      "aitutor-error-300": {
+        "hex": "#fca5a5",
+        "opacity": "1"
+      },
+      "aitutor-error-200": {
+        "hex": "#fecaca",
+        "opacity": "1"
+      },
+      "aitutor-error-100": {
+        "hex": "#fee2e2",
+        "opacity": "1"
+      },
+      "aitutor-error-50": {
+        "hex": "#fef2f2",
+        "opacity": "1"
+      }
+    },
+    "error": {
+      "error": {
+        "hex": "#dc2626",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "error-foreground": {
+        "hex": "#ffffff",
+        "opacity": "1"
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "font-display": "'DM Sans', 'Noto Sans SC', sans-serif",
+      "font-heading": "'DM Sans', 'Noto Sans SC', sans-serif",
+      "font-body": "'Noto Sans SC', 'DM Sans', sans-serif",
+      "font-mono": "'DM Sans', monospace",
+      "font-family-base": "'Noto Sans SC', 'DM Sans', sans-serif"
+    },
+    "size": {
+      "font-size-display": "56px",
+      "font-size-h1": "40px",
+      "font-size-h2": "32px",
+      "font-size-h3": "24px",
+      "font-size-h4": "20px",
+      "font-size-body": "16px",
+      "font-size-lead": "18px",
+      "font-size-caption": "12px",
+      "font-size-eyebrow": "11px",
+      "font-size-mono": "14px",
+      "type-display-sm": "40px",
+      "type-heading-sm": "24px",
+      "type-body-md": "16px",
+      "type-body-sm": "14px"
+    },
+    "weight": {
+      "font-weight-display": "700",
+      "font-weight-h1": "700",
+      "font-weight-h2": "600",
+      "font-weight-h3": "600",
+      "font-weight-h4": "600",
+      "font-weight-body": "400",
+      "font-weight-lead": "400",
+      "font-weight-caption": "400",
+      "font-weight-eyebrow": "600",
+      "font-weight-mono": "400"
+    },
+    "lineHeight": {
+      "line-height-display": "1.1",
+      "line-height-h1": "1.2",
+      "line-height-h2": "1.25",
+      "line-height-h3": "1.3",
+      "line-height-h4": "1.4",
+      "line-height-body": "1.6",
+      "line-height-lead": "1.7",
+      "line-height-caption": "1.5",
+      "line-height-eyebrow": "1.4",
+      "line-height-mono": "1.6"
+    }
+  },
+  "shadow": {
+    "shadow-1·Card": {
+      "layers": [
+        {
+          "xOffset": "0px",
+          "yOffset": "1px",
+          "blur": "2px",
+          "spread": "0px",
+          "color": {
+            "hex": "#000000",
+            "opacity": ".06"
+          }
+        },
+        {
+          "xOffset": "0px",
+          "yOffset": "1px",
+          "blur": "1px",
+          "spread": "0px",
+          "color": {
+            "hex": "#000000",
+            "opacity": ".04"
+          }
+        }
+      ]
+    },
+    "shadow-2·Card Hover": {
+      "xOffset": "0px",
+      "yOffset": "4px",
+      "blur": "8px",
+      "spread": "-2px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".10"
+      }
+    },
+    "shadow-3·Float": {
+      "xOffset": "0px",
+      "yOffset": "8px",
+      "blur": "24px",
+      "spread": "-8px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".18"
+      }
+    },
+    "shadow-4·Modal": {
+      "xOffset": "0px",
+      "yOffset": "16px",
+      "blur": "40px",
+      "spread": "-12px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".24"
+      }
+    },
+    "shadow-5·Overlay": {
+      "xOffset": "0px",
+      "yOffset": "24px",
+      "blur": "60px",
+      "spread": "-20px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".30"
+      }
+    }
+  },
+  "radius": {
+    "radius-sm": "8px",
+    "radius-md": "14px",
+    "radius-lg": "16px",
+    "radius-pill": "9999px",
+    "radius-full": "9999px"
+  },
+  "spacing": {
+    "space-1": "4px",
+    "space-2": "8px",
+    "space-3": "12px",
+    "space-4": "16px",
+    "space-5": "24px",
+    "space-6": "32px",
+    "space-7": "48px",
+    "space-8": "64px"
+  },
+  "size": {
+    "size-button-sm": "32px",
+    "size-button-md": "40px",
+    "size-button-lg": "48px",
+    "size-input-height": "40px",
+    "size-icon-sm": "16px",
+    "size-icon-md": "24px",
+    "size-icon-lg": "32px"
+  }
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-primary-50: #fff1f1;
+    --color-primary-100: #ffe1e2;
+    --color-primary-200: #ffc7c9;
+    --color-primary-300: #ffa0a4;
+    --color-primary-400: #ff686d;
+    --color-primary-500: #d71920;
+    --color-primary-600: #b8151b;
+    --color-primary-700: #941218;
+    --color-primary-800: #7a1014;
+    --color-primary-900: #660f13;
+    --color-success-50: #ecfdf5;
+    --color-success-100: #d1fae5;
+    --color-success-200: #a7f3d0;
+    --color-success-300: #6ee7b7;
+    --color-success-400: #34d399;
+    --color-success-500: #059669;
+    --color-success-600: #047857;
+    --color-success-700: #065f46;
+    --color-success-800: #064e3b;
+    --color-success-900: #022c22;
+    --color-warning-50: #fffbeb;
+    --color-warning-100: #fef3c7;
+    --color-warning-200: #fde68a;
+    --color-warning-300: #fcd34d;
+    --color-warning-400: #fbbf24;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+    --color-warning-800: #92400e;
+    --color-warning-900: #78350f;
+    --color-error-50: #fef2f2;
+    --color-error-100: #fee2e2;
+    --color-error-200: #fecaca;
+    --color-error-300: #fca5a5;
+    --color-error-400: #f87171;
+    --color-error-500: #ef4444;
+    --color-error-600: #dc2626;
+    --color-error-700: #b91c1c;
+    --color-error-800: #991b1b;
+    --color-error-900: #7f1d1d;
+    --color-info-50: #f0f9ff;
+    --color-info-100: #e0f2fe;
+    --color-info-200: #bae6fd;
+    --color-info-300: #7dd3fc;
+    --color-info-400: #38bdf8;
+    --color-info-500: #0284c7;
+    --color-info-600: #0369a1;
+    --color-info-700: #075985;
+    --color-info-800: #0c4a6e;
+    --color-info-900: #082f49;
+    --color-severe-50: #fff7ed;
+    --color-severe-100: #ffedd5;
+    --color-severe-200: #fed7aa;
+    --color-severe-300: #fdba74;
+    --color-severe-400: #fb923c;
+    --color-severe-500: #f97316;
+    --color-severe-600: #ea580c;
+    --color-severe-700: #c2410c;
+    --color-creative-50: #f5f3ff;
+    --color-creative-100: #ede9fe;
+    --color-creative-200: #ddd6fe;
+    --color-creative-300: #c4b5fd;
+    --color-creative-400: #a78bfa;
+    --color-creative-500: #8b5cf6;
+    --color-creative-600: #7c3aed;
+    --color-surface: #ffffff;
+    --color-surface-secondary: #f8f9fb;
+    --color-surface-tertiary: #f1f5f9;
+    --color-surface-dark: #1a1d27;
+    --color-surface-darker: #12141c;
+    --color-surface-code: #1e293b;
+    --color-surface-container-high: #2a2d38;
+    --color-overlay: #000000;
+    --color-foreground: #0f172a;
+    --color-foreground-secondary: #475569;
+    --color-foreground-muted: #94a3b8;
+    --color-border: #e2e8f0;
+    --color-border-light: #f1f5f9;
+    --shadow-primary-glow: 0 2px 8px rgba(215,25,32,0.25);
+    --shadow-primary-glow-md: 0 4px 12px rgba(215,25,32,0.25);
+    --shadow-primary-glow-lg: 0 6px 20px rgba(215,25,32,0.35);
+    --shadow-creative-glow: 0 8px 24px rgba(124,58,237,0.12);
+    --shadow-glow-warning: 0 4px 16px rgba(245,158,11,0.35);
+    --shadow-glow-warning-sm: 0 3px 10px rgba(245,158,11,0.3);
+    --shadow-glow-error: 0 4px 12px rgba(239,68,68,0.3);
+    --shadow-glow-error-sm: 0 3px 10px rgba(239,68,68,0.3);
+    --shadow-glow-success: 0 3px 10px rgba(5,150,105,0.3);
+    --font-display: 'DM Sans', 'Noto Sans SC', sans-serif;
+    --font-sans: 'Noto Sans SC', 'DM Sans', sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 16px;
+    --radius-pill: 9999px;
+    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-hover: 0 4px 8px -2px rgb(0 0 0 / 0.10);
+    --color-on-dark: #f8fafc;
+    --color-subject-chinese: #d71920;
+    --color-subject-math: #2563eb;
+    --color-subject-english: #7c3aed;
+    --color-subject-physics: #0284c7;
+    --color-subject-chemistry: #059669;
+    --color-subject-biology: #16a34a;
+    --shadow-float: 0 8px 24px -8px rgb(0 0 0 / 0.18);
+  }
+  @layer base {
+    body { background: var(--color-surface); color: var(--color-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+      <!-- Full-Page Split Layout -->
+      <div class="min-h-screen flex flex-col lg:flex-row">
+
+        <!-- ========== LEFT: Brand Showcase (hidden on mobile) ========== -->
+        <div class="hidden lg:flex lg:w-1/2 bg-surface-dark relative overflow-hidden flex-col justify-between p-12 xl:p-16">
+          <!-- Decorative gradient glows -->
+          <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary-500/20 blur-[120px] pointer-events-none"></div>
+          <div class="absolute bottom-0 -right-24 w-[420px] h-[420px] rounded-full bg-primary-500/10 blur-[100px] pointer-events-none"></div>
+          <div class="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-info-500/10 blur-[80px] pointer-events-none"></div>
+
+          <!-- Decorative geometric shapes -->
+          <div class="absolute top-20 right-20 w-16 h-16 rounded-2xl border border-white/10 rotate-12 pointer-events-none"></div>
+          <div class="absolute bottom-32 left-16 w-10 h-10 rounded-full bg-primary-500/30 pointer-events-none"></div>
+          <div class="absolute top-1/2 right-12 w-24 h-24 rounded-full border border-white/5 pointer-events-none"></div>
+          <div class="absolute bottom-48 right-32 w-6 h-6 rounded-sm bg-surface/10 rotate-45 pointer-events-none"></div>
+          <div class="absolute top-40 left-1/3 w-3 h-3 rounded-full bg-warning-500/40 pointer-events-none"></div>
+
+          <!-- Grid pattern overlay -->
+          <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+          <!-- Top: Logo area -->
+          <div class="relative z-10 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-primary-500 flex items-center justify-center shadow-lg">
+              <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+            </div>
+            <span class="text-white text-lg font-semibold tracking-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI tutor</span>
+          </div>
+
+          <!-- Center: Hero content -->
+          <div class="relative z-10">
+            <h1 class="text-white font-bold leading-[1.15] mb-6" style="font-size:clamp(36px,4vw,52px); font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all; overflow-wrap:break-word;">
+              AI tutor
+            </h1>
+            <p class="text-white/70 text-lg leading-relaxed max-w-md mb-10" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+              以人工智能赋能个性化学习，为每一位学习者定制专属成长路径，让知识获取更高效、更智能。
+            </p>
+
+            <!-- Feature highlights -->
+              <div class="flex flex-col gap-4 max-w-sm">
+              <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-lg bg-primary-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="brain-circuit" class="w-[18px] h-[18px] text-primary-400"></i>
+                </div>
+                <div>
+                  <p class="text-white font-medium text-sm" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI 智能诊断</p>
+                  <p class="text-white/50 text-sm mt-0.5" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">精准定位知识薄弱点</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-lg bg-success-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="target" class="w-[18px] h-[18px] text-success-400"></i>
+                </div>
+                <div>
+                  <p class="text-white font-medium text-sm" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">个性化学习路径</p>
+                  <p class="text-white/50 text-sm mt-0.5" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">量身定制高效学习方案</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-lg bg-info-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="trending-up" class="w-[18px] h-[18px] text-info-400"></i>
+                </div>
+                <div>
+                  <p class="text-white font-medium text-sm" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">实时进度追踪</p>
+                  <p class="text-white/50 text-sm mt-0.5" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">可视化掌握学习成长轨迹</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom: Copyright -->
+          <div class="relative z-10 flex items-center justify-between">
+            <p class="text-white/30 text-xs" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">© 2026 AI tutor. All rights reserved.</p>
+            <div class="flex items-center gap-4">
+              <a href="#" class="text-white/30 hover:text-white/60 transition-colors">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+              </a>
+              <a href="#" class="text-white/30 hover:text-white/60 transition-colors">
+                <i data-lucide="file-text" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========== RIGHT: Login Form ========== -->
+        <div class="w-full lg:w-1/2 flex flex-col bg-surface min-h-screen">
+          <!-- Back home link (top) -->
+          <div class="flex justify-start p-5 sm:p-8">
+            <a href="./index.html" data-dom-id="back-home" class="inline-flex items-center gap-1.5 text-sm text-foreground-secondary hover:text-primary-500 transition-colors group" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+              <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"></i>
+              返回首页
+            </a>
+          </div>
+
+          <!-- Centered form container -->
+          <div class="flex-1 flex items-center justify-center px-6 sm:px-8 pb-12 -mt-8">
+            <div class="w-full max-w-[400px]">
+
+              <!-- Mobile logo (only shown on small screens) -->
+              <div class="lg:hidden flex items-center justify-center gap-3 mb-8">
+                <div class="w-10 h-10 rounded-xl bg-primary-500 flex items-center justify-center shadow-md">
+                  <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-foreground text-lg font-semibold tracking-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI tutor</span>
+              </div>
+
+              <!-- Title block -->
+              <div class="mb-8">
+                <h2 class="text-[28px] font-bold text-foreground mb-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all;">欢迎回来</h2>
+                <p class="text-foreground-secondary text-[15px]" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">登录继续你的学习之旅</p>
+              </div>
+
+              <!-- Tab Switcher -->
+              <div class="flex bg-surface-tertiary rounded-[10px] p-1 mb-6" role="tablist">
+                <button id="tab-phone" type="button" role="tab" aria-selected="true" data-tab-target="panel-phone" class="login-tab flex-1 h-9 text-sm font-medium rounded-[8px] bg-surface text-foreground shadow-sm transition-all" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                  手机号登录
+                </button>
+                <button id="tab-password" type="button" role="tab" aria-selected="false" data-tab-target="panel-password" class="login-tab flex-1 h-9 text-sm font-medium rounded-[8px] text-foreground-secondary hover:text-foreground transition-all" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                  账号密码登录
+                </button>
+              </div>
+
+              <!-- ===== Panel 1: Phone Login ===== -->
+              <div id="panel-phone" class="login-panel space-y-4" role="tabpanel">
+                <!-- Phone input -->
+                <div class="space-y-1.5">
+                  <label class="block text-sm font-medium text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">手机号</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                      <i data-lucide="smartphone" class="w-[18px] h-[18px] text-foreground-muted"></i>
+                    </div>
+                    <input type="tel" id="phone-input" placeholder="请输入手机号" maxlength="11"
+                      class="w-full h-10 pl-10 pr-3.5 rounded-[8px] border border-border bg-surface text-foreground text-sm placeholder:text-foreground-muted focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 focus:outline-none transition-all"
+                      style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                  </div>
+                  <p id="phone-error" class="hidden text-xs text-error-500 flex items-center gap-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                    <i data-lucide="alert-circle" class="w-3 h-3"></i>
+                    <span>请输入正确的手机号</span>
+                  </p>
+                </div>
+
+                <!-- Verification code input -->
+                <div class="space-y-1.5">
+                  <label class="block text-sm font-medium text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">验证码</label>
+                  <div class="flex gap-2">
+                    <div class="relative flex-1">
+                      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                        <i data-lucide="shield" class="w-[18px] h-[18px] text-foreground-muted"></i>
+                      </div>
+                      <input type="text" id="code-input" placeholder="请输入验证码" maxlength="6"
+                        class="w-full h-10 pl-10 pr-3.5 rounded-[8px] border border-border bg-surface text-foreground text-sm placeholder:text-foreground-muted focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 focus:outline-none transition-all"
+                        style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                    </div>
+                    <button type="button" id="get-code-btn" class="h-10 px-4 shrink-0 rounded-[8px] border border-primary-500 text-primary-500 text-sm font-medium hover:bg-primary-50 transition-colors whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                      获取验证码
+                    </button>
+                  </div>
+                  <p id="code-error" class="hidden text-xs text-error-500 flex items-center gap-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                    <i data-lucide="alert-circle" class="w-3 h-3"></i>
+                    <span>请输入验证码</span>
+                  </p>
+                </div>
+
+                <!-- Login button -->
+                <button type="button" data-dom-id="login-submit" data-panel="phone" class="login-btn w-full h-12 mt-2 rounded-[14px] bg-primary-500 text-white text-[15px] font-semibold hover:bg-primary-600 active:scale-[0.99] transition-all shadow-[0_1px_2px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_8px_rgba(215,25,32,0.25)] inline-flex items-center justify-center gap-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
+                  <span class="login-btn-text">登录</span>
+                  <span class="login-btn-loading hidden items-center gap-2">
+                    <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    登录中...
+                  </span>
+                </button>
+              </div>
+
+              <!-- ===== Panel 2: Password Login ===== -->
+              <div id="panel-password" class="login-panel hidden space-y-4" role="tabpanel">
+                <!-- Account input -->
+                <div class="space-y-1.5">
+                  <label class="block text-sm font-medium text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">账号</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                      <i data-lucide="user" class="w-[18px] h-[18px] text-foreground-muted"></i>
+                    </div>
+                    <input type="text" id="account-input" placeholder="请输入账号/邮箱"
+                      class="w-full h-10 pl-10 pr-3.5 rounded-[8px] border border-border bg-surface text-foreground text-sm placeholder:text-foreground-muted focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 focus:outline-none transition-all"
+                      style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                  </div>
+                  <p id="account-error" class="hidden text-xs text-error-500 flex items-center gap-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                    <i data-lucide="alert-circle" class="w-3 h-3"></i>
+                    <span>请输入账号</span>
+                  </p>
+                </div>
+
+                <!-- Password input -->
+                <div class="space-y-1.5">
+                  <label class="block text-sm font-medium text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">密码</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                      <i data-lucide="lock" class="w-[18px] h-[18px] text-foreground-muted"></i>
+                    </div>
+                    <input type="password" id="password-input" placeholder="请输入密码"
+                      class="w-full h-10 pl-10 pr-11 rounded-[8px] border border-border bg-surface text-foreground text-sm placeholder:text-foreground-muted focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 focus:outline-none transition-all"
+                      style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                    <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-foreground-muted hover:text-foreground-secondary transition-colors">
+                      <i id="eye-open" data-lucide="eye" class="w-[18px] h-[18px]"></i>
+                      <i id="eye-closed" data-lucide="eye-off" class="w-[18px] h-[18px] hidden"></i>
+                    </button>
+                  </div>
+                  <p id="password-error" class="hidden text-xs text-error-500 flex items-center gap-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                    <i data-lucide="alert-circle" class="w-3 h-3"></i>
+                    <span>请输入密码</span>
+                  </p>
+                </div>
+
+                <!-- Remember me + Forgot password -->
+                <div class="flex items-center justify-between pt-1">
+                  <label class="flex items-center gap-2 cursor-pointer select-none group">
+                    <input type="checkbox" id="remember-me" class="w-4 h-4 rounded-[4px] border-border text-primary-500 focus:ring-primary-500/20 accent-primary-500 cursor-pointer">
+                    <span class="text-sm text-foreground-secondary group-hover:text-foreground transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">记住我</span>
+                  </label>
+                  <a href="#" class="text-sm text-primary-500 hover:text-primary-600 transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">忘记密码？</a>
+                </div>
+
+                <!-- Login button -->
+                <button type="button" data-dom-id="login-submit" data-panel="password" class="login-btn w-full h-12 mt-1 rounded-[14px] bg-primary-500 text-white text-[15px] font-semibold hover:bg-primary-600 active:scale-[0.99] transition-all shadow-[0_1px_2px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_8px_rgba(215,25,32,0.25)] inline-flex items-center justify-center gap-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
+                  <span class="login-btn-text">登录</span>
+                  <span class="login-btn-loading hidden items-center gap-2">
+                    <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    登录中...
+                  </span>
+                </button>
+              </div>
+
+              <!-- Divider "或" -->
+              <div class="flex items-center gap-4 my-6">
+                <div class="flex-1 h-px bg-border-light"></div>
+                <span class="text-xs text-foreground-muted shrink-0" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">或</span>
+                <div class="flex-1 h-px bg-border-light"></div>
+              </div>
+
+              <!-- Third-party login -->
+              <div class="flex items-center justify-center gap-4">
+                <button type="button" aria-label="微信登录" class="w-11 h-11 rounded-full bg-success-500 flex items-center justify-center text-white hover:bg-success-600 hover:shadow-[0_4px_8px_rgba(5,150,105,0.3)] transition-all">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+                </button>
+                <button type="button" aria-label="QQ登录" class="w-11 h-11 rounded-full bg-info-500 flex items-center justify-center text-white hover:bg-info-600 hover:shadow-[0_4px_8px_rgba(2,132,199,0.3)] transition-all">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M21.395 15.035a39.548 39.548 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a38.97 38.97 0 0 0-.802 2.264c-1.021 3.283-.69 4.543-.434 4.543.408 0 1.449-1.527 1.449-1.527 0 .904.466 2.091 1.491 2.957-.393.122-.872.309-1.19.554-.283.218-.25.453-.201.552.212.426 3.609.272 4.502-.129.004-.009.249-.124.16-.072 1.072.299 2.424.472 3.617.472 1.193 0 2.545-.173 3.618-.472l.16.072c.892.401 4.289.555 4.502.129.048-.099.082-.334-.201-.552a4.184 4.184 0 0 0-1.19-.554c1.025-.866 1.491-2.053 1.491-2.957 0 0 1.041 1.527 1.449 1.527.256 0 .587-1.26-.434-4.544z"/></svg>
+                </button>
+              </div>
+
+              <!-- Register link -->
+              <p class="text-center text-sm text-foreground-secondary mt-8" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                还没有账号？
+                <a href="./register.html" class="text-primary-500 font-medium hover:text-primary-600 transition-colors">立即注册</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        (function() {
+          // ---- Tab Switching ----
+          var tabs = document.querySelectorAll('.login-tab');
+          var panels = document.querySelectorAll('.login-panel');
+
+          function activateTab(targetId) {
+            tabs.forEach(function(t) {
+              var isTarget = t.getAttribute('data-tab-target') === targetId;
+              t.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+              if (isTarget) {
+                t.classList.add('bg-surface', 'text-foreground', 'shadow-sm');
+                t.classList.remove('text-foreground-secondary');
+              } else {
+                t.classList.remove('bg-surface', 'text-foreground', 'shadow-sm');
+                t.classList.add('text-foreground-secondary');
+              }
+            });
+            panels.forEach(function(p) {
+              if (p.id === targetId) {
+                p.classList.remove('hidden');
+              } else {
+                p.classList.add('hidden');
+              }
+            });
+            // Clear error states on switch
+            document.querySelectorAll('[id$="-error"]').forEach(function(e) { e.classList.add('hidden'); });
+            document.querySelectorAll('#panel-phone input, #panel-password input').forEach(function(inp) {
+              inp.classList.remove('border-error-500');
+              inp.classList.add('border-border');
+            });
+          }
+
+          tabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+              activateTab(tab.getAttribute('data-tab-target'));
+            });
+          });
+
+          // ---- Password Visibility Toggle ----
+          var togglePwd = document.getElementById('toggle-password');
+          var pwdInput = document.getElementById('password-input');
+          var eyeOpen = document.getElementById('eye-open');
+          var eyeClosed = document.getElementById('eye-closed');
+
+          togglePwd.addEventListener('click', function() {
+            var isPwd = pwdInput.type === 'password';
+            pwdInput.type = isPwd ? 'text' : 'password';
+            eyeOpen.classList.toggle('hidden', isPwd);
+            eyeClosed.classList.toggle('hidden', !isPwd);
+          });
+
+          // ---- Verification Code Countdown ----
+          var getCodeBtn = document.getElementById('get-code-btn');
+          var countdownTimer = null;
+
+          getCodeBtn.addEventListener('click', function() {
+            if (getCodeBtn.disabled) return;
+            var phoneInput = document.getElementById('phone-input');
+            var phone = phoneInput.value.trim();
+            var phoneError = document.getElementById('phone-error');
+            var phoneReg = /^1[3-9]\d{9}$/;
+
+            if (!phoneReg.test(phone)) {
+              phoneInput.classList.remove('border-border');
+              phoneInput.classList.add('border-error-500');
+              phoneError.classList.remove('hidden');
+              phoneInput.focus();
+              return;
+            }
+            phoneInput.classList.remove('border-error-500');
+            phoneInput.classList.add('border-border');
+            phoneError.classList.add('hidden');
+
+            var seconds = 60;
+            getCodeBtn.disabled = true;
+            getCodeBtn.classList.add('opacity-60', 'cursor-not-allowed');
+            getCodeBtn.classList.remove('hover:bg-primary-50');
+            getCodeBtn.textContent = seconds + 's 后重发';
+
+            countdownTimer = setInterval(function() {
+              seconds--;
+              if (seconds <= 0) {
+                clearInterval(countdownTimer);
+                getCodeBtn.disabled = false;
+                getCodeBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+                getCodeBtn.classList.add('hover:bg-primary-50');
+                getCodeBtn.textContent = '获取验证码';
+              } else {
+                getCodeBtn.textContent = seconds + 's 后重发';
+              }
+            }, 1000);
+          });
+
+          // Clear error state on input
+          ['phone-input', 'code-input', 'account-input', 'password-input'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            el.addEventListener('input', function() {
+              var errId = id.replace('-input', '-error');
+              var errEl = document.getElementById(errId);
+              if (errEl) errEl.classList.add('hidden');
+              el.classList.remove('border-error-500');
+              el.classList.add('border-border');
+            });
+          });
+
+          // ---- Login Submit (simulate success -> redirect to dashboard) ----
+          var loginBtns = document.querySelectorAll('.login-btn');
+          loginBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              var panel = btn.getAttribute('data-panel');
+              var valid = true;
+
+              if (panel === 'phone') {
+                var phoneInp = document.getElementById('phone-input');
+                var codeInp = document.getElementById('code-input');
+                var phoneErr = document.getElementById('phone-error');
+                var codeErr = document.getElementById('code-error');
+                var phoneReg = /^1[3-9]\d{9}$/;
+
+                if (!phoneReg.test(phoneInp.value.trim())) {
+                  phoneInp.classList.remove('border-border');
+                  phoneInp.classList.add('border-error-500');
+                  phoneErr.classList.remove('hidden');
+                  valid = false;
+                }
+                if (!codeInp.value.trim() || codeInp.value.trim().length < 4) {
+                  codeInp.classList.remove('border-border');
+                  codeInp.classList.add('border-error-500');
+                  codeErr.classList.remove('hidden');
+                  valid = false;
+                }
+              } else if (panel === 'password') {
+                var accInp = document.getElementById('account-input');
+                var pwdInp = document.getElementById('password-input');
+                var accErr = document.getElementById('account-error');
+                var pwdErr = document.getElementById('password-error');
+
+                if (!accInp.value.trim()) {
+                  accInp.classList.remove('border-border');
+                  accInp.classList.add('border-error-500');
+                  accErr.classList.remove('hidden');
+                  valid = false;
+                }
+                if (!pwdInp.value.trim()) {
+                  pwdInp.classList.remove('border-border');
+                  pwdInp.classList.add('border-error-500');
+                  pwdErr.classList.remove('hidden');
+                  valid = false;
+                }
+              }
+
+              if (!valid) return;
+
+              // Simulate login loading
+              btn.disabled = true;
+              btn.classList.add('opacity-80', 'cursor-wait');
+              var btnText = btn.querySelector('.login-btn-text');
+              var btnLoading = btn.querySelector('.login-btn-loading');
+              if (btnText) btnText.classList.add('hidden');
+              if (btnLoading) { btnLoading.classList.remove('hidden'); btnLoading.classList.add('inline-flex'); }
+
+              setTimeout(function() {
+                window.location.href = './dashboard.html';
+              }, 900);
+            });
+          });
+        })();
+      </script>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

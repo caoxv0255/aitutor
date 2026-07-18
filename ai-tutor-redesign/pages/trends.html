@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考试趋势分析 — AI Tutor</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/tokens.css">
+    <script type="module" src="../assets/core/app.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <script type="module" src="../assets/modules/charts/chart-wrapper.js"></script>
+</head>
+<body>
+    <div class="layout">
+        <header class="navbar">
+            <a class="navbar__logo" href="home.html">
+                <span class="navbar__logo-icon">AI</span>
+                <span>AI Tutor</span>
+            </a>
+            <nav class="navbar__links">
+                <a class="navbar__link" href="home.html">首页</a>
+                <a class="navbar__link" href="dashboard.html">学习驾驶舱</a>
+                <a class="navbar__link" href="exam-simulation.html">模拟考场</a>
+                <a class="navbar__link" href="wrong-book.html">错题本</a>
+                <a class="navbar__link" href="ai-tutor-chat.html">AI讲题</a>
+                <a class="navbar__link navbar__link--active" href="trends.html">趋势分析</a>
+            </nav>
+            <div class="navbar__actions">
+                <div class="input-wrap" style="display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); background-color: var(--bg2); border-radius: var(--radius-md);">
+                    <i data-lucide="map-pin" style="width: 16px; height: 16px; color: var(--muted);"></i>
+                    <input type="text" placeholder="选择省份" readonly style="background: transparent; border: none; outline: none; font-size: var(--fs-sm); color: var(--ink);">
+                    <i data-lucide="chevron-down" style="width: 16px; height: 16px; color: var(--muted);"></i>
+                </div>
+                <button class="navbar__theme-btn" id="theme-toggle" title="切换主题">
+                    <svg id="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+                <button class="navbar__hamburger" aria-label="菜单">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="layout__main">
+            <div class="layout__content">
+                <div class="page-header">
+                    <div class="page-header__info">
+                        <h1 class="page-header__title">考试趋势分析</h1>
+                        <p class="page-header__subtitle">追踪学习进度，发现薄弱环节</p>
+                    </div>
+                    <div class="page-header__actions">
+                        <select id="subject-filter" class="form-select" style="padding: var(--sp-2) var(--sp-4); border-radius: var(--radius-md); border: 1px solid var(--rule); background-color: var(--bg); color: var(--ink); font-size: var(--fs-sm);">
+                            <option value="all">全部学科</option>
+                            <option value="math">数学</option>
+                            <option value="physics">物理</option>
+                            <option value="chemistry">化学</option>
+                            <option value="english">英语</option>
+                            <option value="chinese">语文</option>
+                        </select>
+                        <select id="time-filter" class="form-select" style="padding: var(--sp-2) var(--sp-4); border-radius: var(--radius-md); border: 1px solid var(--rule); background-color: var(--bg); color: var(--ink); font-size: var(--fs-sm);">
+                            <option value="month">近30天</option>
+                            <option value="quarter">近90天</option>
+                            <option value="year">近一年</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-1 lg:grid-3 gap-6" style="margin-bottom: var(--sp-6);">
+                    <div class="card stat-card">
+                        <div class="stat-card__icon" style="background: var(--accent-bg); color: var(--accent);">
+                            <i data-lucide="trending-up"></i>
+                        </div>
+                        <div class="stat-card__content">
+                            <span class="stat-card__number" id="total-exams">0</span>
+                            <span class="stat-card__label">考试次数</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-card__icon" style="background: var(--accent3-bg); color: var(--accent3);">
+                            <i data-lucide="target"></i>
+                        </div>
+                        <div class="stat-card__content">
+                            <span class="stat-card__number" id="avg-score">0</span>
+                            <span class="stat-card__label">平均分数</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-card__icon" style="background: var(--accent-bg); color: var(--accent);">
+                            <i data-lucide="activity"></i>
+                        </div>
+                        <div class="stat-card__content">
+                            <span class="stat-card__number" id="improvement">0</span>
+                            <span class="stat-card__label">进步幅度</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-1 lg:grid-2 gap-6" style="margin-bottom: var(--sp-6);">
+                    <div class="card" style="padding: var(--sp-5);">
+                        <h3 class="fs-lg fw-semibold" style="color: var(--ink); margin-bottom: var(--sp-4);">分数趋势</h3>
+                        <div id="score-trend-chart" style="height: 300px; width: 100%;"></div>
+                    </div>
+                    <div class="card" style="padding: var(--sp-5);">
+                        <h3 class="fs-lg fw-semibold" style="color: var(--ink); margin-bottom: var(--sp-4);">各科对比</h3>
+                        <div id="subject-compare-chart" style="height: 300px; width: 100%;"></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-1 lg:grid-2 gap-6" style="margin-bottom: var(--sp-6);">
+                    <div class="card" style="padding: var(--sp-5);">
+                        <h3 class="fs-lg fw-semibold" style="color: var(--ink); margin-bottom: var(--sp-4);">知识点掌握变化</h3>
+                        <div id="knowledge-trend-chart" style="height: 300px; width: 100%;"></div>
+                    </div>
+                    <div class="card" style="padding: var(--sp-5);">
+                        <h3 class="fs-lg fw-semibold" style="color: var(--ink); margin-bottom: var(--sp-4);">能力维度分析</h3>
+                        <div id="ability-radar-chart" style="height: 300px; width: 100%;"></div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding: var(--sp-5);">
+                    <h3 class="fs-lg fw-semibold" style="color: var(--ink); margin-bottom: var(--sp-4);">考试记录</h3>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>考试名称</th>
+                                    <th>学科</th>
+                                    <th>分数</th>
+                                    <th>排名</th>
+                                    <th>日期</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="exam-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <nav class="bottom-nav">
+        <a class="bottom-nav__item" href="home.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>首页</span>
+        </a>
+        <a class="bottom-nav__item" href="exam-simulation.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>做题</span>
+        </a>
+        <a class="bottom-nav__item" href="wrong-book.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+            <span>错题</span>
+        </a>
+        <a class="bottom-nav__item" href="ai-tutor-chat.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>AI讲题</span>
+        </a>
+        <a class="bottom-nav__item bottom-nav__item--active" href="trends.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+            <span>趋势</span>
+        </a>
+    </nav>
+    <div class="bottom-nav-spacer"></div>
+
+    <style>
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--sp-6);
+            flex-wrap: wrap;
+            gap: var(--sp-4);
+        }
+
+        .page-header__title {
+            font-size: var(--fs-xl);
+            font-weight: 700;
+            color: var(--ink);
+            margin: 0 0 var(--sp-1);
+        }
+
+        .page-header__subtitle {
+            font-size: var(--fs-base);
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .page-header__actions {
+            display: flex;
+            gap: var(--sp-3);
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-4);
+            padding: var(--sp-5);
+        }
+
+        .stat-card__icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .stat-card__number {
+            font-size: var(--fs-2xl);
+            font-weight: 700;
+            color: var(--ink);
+            font-family: var(--font-mono);
+            display: block;
+        }
+
+        .stat-card__label {
+            font-size: var(--fs-sm);
+            color: var(--muted);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: var(--sp-3);
+            text-align: left;
+            border-bottom: 1px solid var(--rule);
+            font-size: var(--fs-sm);
+        }
+
+        .data-table th {
+            font-weight: 600;
+            color: var(--muted);
+            background-color: var(--bg2);
+        }
+
+        .data-table tbody tr:hover {
+            background-color: var(--bg2);
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: var(--sp-2);
+                font-size: var(--fs-xs);
+            }
+        }
+    </style>
+
+    <script type="module">
+    import { ChartWrapper } from '../assets/modules/charts/chart-wrapper.js';
+
+    const examData = [
+        { name: '月考一', subject: '数学', score: 85, rank: 15, date: '2024-09-15' },
+        { name: '月考二', subject: '数学', score: 92, rank: 12, date: '2024-10-20' },
+        { name: '期中考试', subject: '数学', score: 88, rank: 18, date: '2024-11-10' },
+        { name: '月考三', subject: '数学', score: 95, rank: 8, date: '2024-12-05' },
+        { name: '月考四', subject: '数学', score: 98, rank: 5, date: '2025-01-15' },
+        { name: '月考五', subject: '数学', score: 91, rank: 10, date: '2025-02-20' },
+        { name: '月考一', subject: '物理', score: 78, rank: 22, date: '2024-09-15' },
+        { name: '月考二', subject: '物理', score: 85, rank: 18, date: '2024-10-20' },
+        { name: '期中考试', subject: '物理', score: 82, rank: 20, date: '2024-11-10' },
+        { name: '月考三', subject: '物理', score: 88, rank: 15, date: '2024-12-05' },
+        { name: '月考四', subject: '物理', score: 92, rank: 12, date: '2025-01-15' },
+        { name: '月考五', subject: '物理', score: 89, rank: 14, date: '2025-02-20' },
+    ];
+
+    let currentSubject = 'all';
+    let currentTime = 'month';
+
+    document.getElementById('subject-filter').addEventListener('change', function(e) {
+        currentSubject = e.target.value;
+        renderCharts();
+        renderTable();
+        updateStats();
+    });
+
+    document.getElementById('time-filter').addEventListener('change', function(e) {
+        currentTime = e.target.value;
+        renderCharts();
+        renderTable();
+        updateStats();
+    });
+
+    function getFilteredData() {
+        let filtered = examData;
+        if (currentSubject !== 'all') {
+            const subjectMap = { math: '数学', physics: '物理', chemistry: '化学', english: '英语', chinese: '语文' };
+            filtered = filtered.filter(e => e.subject === subjectMap[currentSubject]);
+        }
+        
+        const now = new Date();
+        let daysAgo = 30;
+        if (currentTime === 'quarter') daysAgo = 90;
+        if (currentTime === 'year') daysAgo = 365;
+        
+        const cutoff = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+        return filtered.filter(e => new Date(e.date) >= cutoff);
+    }
+
+    function updateStats() {
+        const data = getFilteredData();
+        document.getElementById('total-exams').textContent = data.length;
+        
+        if (data.length > 0) {
+            const avg = Math.round(data.reduce((sum, e) => sum + e.score, 0) / data.length);
+            document.getElementById('avg-score').textContent = avg;
+            
+            const first = data[0].score;
+            const last = data[data.length - 1].score;
+            const improvement = last - first;
+            const el = document.getElementById('improvement');
+            el.textContent = (improvement >= 0 ? '+' : '') + improvement;
+            el.style.color = improvement >= 0 ? 'var(--accent)' : 'var(--accent2)';
+        } else {
+            document.getElementById('avg-score').textContent = '0';
+            document.getElementById('improvement').textContent = '0';
+        }
+    }
+
+    function renderCharts() {
+        const data = getFilteredData();
+        
+        const dates = [...new Set(data.map(e => e.date))].sort();
+        const subjectScores = {};
+        data.forEach(e => {
+            if (!subjectScores[e.subject]) subjectScores[e.subject] = {};
+            subjectScores[e.subject][e.date] = e.score;
+        });
+
+        const series = Object.keys(subjectScores).map(subject => ({
+            name: subject,
+            data: dates.map(date => subjectScores[subject][date] || null)
+        }));
+
+        new ChartWrapper('score-trend-chart').render({
+            chartType: 'line',
+            title: '分数变化趋势',
+            xAxisData: dates.map(d => d.slice(5)),
+            yAxisName: '分数',
+            series: series.length > 0 ? series : [{ name: '分数', data: [85, 92, 88, 95, 98, 91] }],
+            smooth: true
+        });
+
+        const subjectAvg = {};
+        data.forEach(e => {
+            if (!subjectAvg[e.subject]) subjectAvg[e.subject] = { sum: 0, count: 0 };
+            subjectAvg[e.subject].sum += e.score;
+            subjectAvg[e.subject].count++;
+        });
+
+        const barData = Object.entries(subjectAvg).map(([name, stats]) => ({
+            name,
+            value: Math.round(stats.sum / stats.count)
+        }));
+
+        new ChartWrapper('subject-compare-chart').render({
+            chartType: 'bar',
+            title: '各科平均分数对比',
+            xAxisData: barData.map(d => d.name),
+            yAxisName: '平均分',
+            series: [{ name: '平均分', data: barData.map(d => d.value) }]
+        });
+
+        new ChartWrapper('knowledge-trend-chart').render({
+            chartType: 'line',
+            title: '知识点掌握度变化',
+            xAxisData: ['导数', '三角函数', '概率统计', '立体几何', '解析几何', '数列'],
+            yAxisName: '掌握度(%)',
+            series: [
+                { name: '第1个月', data: [65, 70, 55, 60, 50, 75] },
+                { name: '第2个月', data: [72, 78, 62, 68, 58, 82] },
+                { name: '第3个月', data: [85, 85, 75, 78, 72, 88] }
+            ]
+        });
+
+        new ChartWrapper('ability-radar-chart').render({
+            chartType: 'radar',
+            title: '能力维度分析',
+            indicator: [
+                { name: '基础知识', max: 100 },
+                { name: '综合应用', max: 100 },
+                { name: '解题速度', max: 100 },
+                { name: '准确率', max: 100 },
+                { name: '创新思维', max: 100 },
+                { name: '应试技巧', max: 100 }
+            ],
+            legendData: ['当前水平', '目标水平'],
+            series: [
+                { name: '当前水平', value: [85, 72, 68, 80, 65, 75] },
+                { name: '目标水平', value: [95, 85, 80, 90, 80, 88] }
+            ]
+        });
+    }
+
+    function renderTable() {
+        const data = getFilteredData();
+        const tbody = document.getElementById('exam-table-body');
+        
+        tbody.innerHTML = data.map(e => `
+            <tr>
+                <td>${e.name}</td>
+                <td><span class="tag tag--primary">${e.subject}</span></td>
+                <td style="font-weight: 600; color: ${e.score >= 90 ? 'var(--accent)' : e.score >= 60 ? 'var(--ink)' : 'var(--accent2)'};">${e.score}</td>
+                <td>${e.rank} / 50</td>
+                <td>${e.date}</td>
+                <td><button class="btn btn--ghost btn--sm" onclick="navigateTo('ai-tutor-chat.html')">分析</button></td>
+            </tr>
+        `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        lucide.createIcons();
+        updateStats();
+        renderCharts();
+        renderTable();
+    });
+    </script>
+</body>
+</html>

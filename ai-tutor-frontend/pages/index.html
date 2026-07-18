@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI tutor - 首页</title>
+    <style id="theme-vars">
+{
+  "color": {
+    "primary": {
+      "aitutor-primary-900": {
+        "hex": "#660f13",
+        "opacity": "1"
+      },
+      "aitutor-primary-800": {
+        "hex": "#7a1014",
+        "opacity": "1"
+      },
+      "aitutor-primary-700": {
+        "hex": "#941218",
+        "opacity": "1"
+      },
+      "aitutor-primary-600": {
+        "hex": "#b8151b",
+        "opacity": "1"
+      },
+      "aitutor-primary-500": {
+        "hex": "#d71920",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-primary-400": {
+        "hex": "#f36b6b",
+        "opacity": "1"
+      },
+      "aitutor-primary-300": {
+        "hex": "#ffa0a0",
+        "opacity": "1"
+      },
+      "aitutor-primary-200": {
+        "hex": "#ffc5c5",
+        "opacity": "1"
+      },
+      "aitutor-primary-100": {
+        "hex": "#ffe0e0",
+        "opacity": "1"
+      },
+      "aitutor-primary-50": {
+        "hex": "#fff1f1",
+        "opacity": "1"
+      }
+    },
+    "success": {
+      "aitutor-success-900": {
+        "hex": "#022c22",
+        "opacity": "1"
+      },
+      "aitutor-success-800": {
+        "hex": "#064e3b",
+        "opacity": "1"
+      },
+      "aitutor-success-700": {
+        "hex": "#065f46",
+        "opacity": "1"
+      },
+      "aitutor-success-600": {
+        "hex": "#047857",
+        "opacity": "1"
+      },
+      "aitutor-success-500": {
+        "hex": "#059669",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-success-400": {
+        "hex": "#34d399",
+        "opacity": "1"
+      },
+      "aitutor-success-300": {
+        "hex": "#6ee7b7",
+        "opacity": "1"
+      },
+      "aitutor-success-200": {
+        "hex": "#a7f3d0",
+        "opacity": "1"
+      },
+      "aitutor-success-100": {
+        "hex": "#d1fae5",
+        "opacity": "1"
+      },
+      "aitutor-success-50": {
+        "hex": "#ecfdf5",
+        "opacity": "1"
+      }
+    },
+    "info": {
+      "aitutor-info-900": {
+        "hex": "#082f49",
+        "opacity": "1"
+      },
+      "aitutor-info-800": {
+        "hex": "#0c4a6e",
+        "opacity": "1"
+      },
+      "aitutor-info-700": {
+        "hex": "#075985",
+        "opacity": "1"
+      },
+      "aitutor-info-600": {
+        "hex": "#0369a1",
+        "opacity": "1"
+      },
+      "aitutor-info-500": {
+        "hex": "#0284c7",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-info-400": {
+        "hex": "#38bdf8",
+        "opacity": "1"
+      },
+      "aitutor-info-300": {
+        "hex": "#7dd3fc",
+        "opacity": "1"
+      },
+      "aitutor-info-200": {
+        "hex": "#bae6fd",
+        "opacity": "1"
+      },
+      "aitutor-info-100": {
+        "hex": "#e0f2fe",
+        "opacity": "1"
+      },
+      "aitutor-info-50": {
+        "hex": "#f0f9ff",
+        "opacity": "1"
+      }
+    },
+    "dark": {
+      "background": {
+        "hex": "#0f1117",
+        "opacity": "1"
+      },
+      "surface-dim": {
+        "hex": "#12141c",
+        "opacity": "1"
+      },
+      "surface": {
+        "hex": "#1a1d27",
+        "opacity": "1"
+      },
+      "color-surface-container-low": {
+        "hex": "#1a1d27",
+        "opacity": "1"
+      },
+      "surface-container-high": {
+        "hex": "#2a2d38",
+        "opacity": "1"
+      },
+      "color-surface-variant": {
+        "hex": "#2a2d38",
+        "opacity": "1"
+      },
+      "color-border": {
+        "hex": "#2a2d38",
+        "opacity": "1"
+      },
+      "color-on-surface-variant": {
+        "hex": "#64748b",
+        "opacity": "1"
+      },
+      "foreground": {
+        "hex": "#e8ecf1",
+        "opacity": "1"
+      },
+      "inverse-surface": {
+        "hex": "#f1f5f9",
+        "opacity": "1",
+        "isPrimary": true
+      }
+    },
+    "warning": {
+      "aitutor-warning-900": {
+        "hex": "#78350f",
+        "opacity": "1"
+      },
+      "aitutor-warning-800": {
+        "hex": "#92400e",
+        "opacity": "1"
+      },
+      "aitutor-warning-700": {
+        "hex": "#b45309",
+        "opacity": "1"
+      },
+      "aitutor-warning-600": {
+        "hex": "#d97706",
+        "opacity": "1"
+      },
+      "aitutor-warning-500": {
+        "hex": "#f59e0b",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-warning-400": {
+        "hex": "#fbbf24",
+        "opacity": "1"
+      },
+      "aitutor-warning-300": {
+        "hex": "#fcd34d",
+        "opacity": "1"
+      },
+      "aitutor-warning-200": {
+        "hex": "#fde68a",
+        "opacity": "1"
+      },
+      "aitutor-warning-100": {
+        "hex": "#fef3c7",
+        "opacity": "1"
+      },
+      "aitutor-warning-50": {
+        "hex": "#fffbeb",
+        "opacity": "1"
+      }
+    },
+    "aitutor-error": {
+      "aitutor-error-900": {
+        "hex": "#7f1d1d",
+        "opacity": "1"
+      },
+      "aitutor-error-800": {
+        "hex": "#991b1b",
+        "opacity": "1"
+      },
+      "aitutor-error-700": {
+        "hex": "#b91c1c",
+        "opacity": "1"
+      },
+      "aitutor-error-600": {
+        "hex": "#dc2626",
+        "opacity": "1"
+      },
+      "aitutor-error-500": {
+        "hex": "#ef4444",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-error-400": {
+        "hex": "#f87171",
+        "opacity": "1"
+      },
+      "aitutor-error-300": {
+        "hex": "#fca5a5",
+        "opacity": "1"
+      },
+      "aitutor-error-200": {
+        "hex": "#fecaca",
+        "opacity": "1"
+      },
+      "aitutor-error-100": {
+        "hex": "#fee2e2",
+        "opacity": "1"
+      },
+      "aitutor-error-50": {
+        "hex": "#fef2f2",
+        "opacity": "1"
+      }
+    },
+    "error": {
+      "error": {
+        "hex": "#dc2626",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "error-foreground": {
+        "hex": "#ffffff",
+        "opacity": "1"
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "font-display": "'DM Sans', 'Noto Sans SC', sans-serif",
+      "font-heading": "'DM Sans', 'Noto Sans SC', sans-serif",
+      "font-body": "'Noto Sans SC', 'DM Sans', sans-serif",
+      "font-mono": "'DM Sans', monospace",
+      "font-family-base": "'Noto Sans SC', 'DM Sans', sans-serif"
+    },
+    "size": {
+      "font-size-display": "56px",
+      "font-size-h1": "40px",
+      "font-size-h2": "32px",
+      "font-size-h3": "24px",
+      "font-size-h4": "20px",
+      "font-size-body": "16px",
+      "font-size-lead": "18px",
+      "font-size-caption": "12px",
+      "font-size-eyebrow": "11px",
+      "font-size-mono": "14px",
+      "type-display-sm": "40px",
+      "type-heading-sm": "24px",
+      "type-body-md": "16px",
+      "type-body-sm": "14px"
+    },
+    "weight": {
+      "font-weight-display": "700",
+      "font-weight-h1": "700",
+      "font-weight-h2": "600",
+      "font-weight-h3": "600",
+      "font-weight-h4": "600",
+      "font-weight-body": "400",
+      "font-weight-lead": "400",
+      "font-weight-caption": "400",
+      "font-weight-eyebrow": "600",
+      "font-weight-mono": "400"
+    },
+    "lineHeight": {
+      "line-height-display": "1.1",
+      "line-height-h1": "1.2",
+      "line-height-h2": "1.25",
+      "line-height-h3": "1.3",
+      "line-height-h4": "1.4",
+      "line-height-body": "1.6",
+      "line-height-lead": "1.7",
+      "line-height-caption": "1.5",
+      "line-height-eyebrow": "1.4",
+      "line-height-mono": "1.6"
+    }
+  },
+  "shadow": {
+    "shadow-1·Card": {
+      "layers": [
+        {
+          "xOffset": "0px",
+          "yOffset": "1px",
+          "blur": "2px",
+          "spread": "0px",
+          "color": {
+            "hex": "#000000",
+            "opacity": ".06"
+          }
+        },
+        {
+          "xOffset": "0px",
+          "yOffset": "1px",
+          "blur": "1px",
+          "spread": "0px",
+          "color": {
+            "hex": "#000000",
+            "opacity": ".04"
+          }
+        }
+      ]
+    },
+    "shadow-2·Card Hover": {
+      "xOffset": "0px",
+      "yOffset": "4px",
+      "blur": "8px",
+      "spread": "-2px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".10"
+      }
+    },
+    "shadow-3·Float": {
+      "xOffset": "0px",
+      "yOffset": "8px",
+      "blur": "24px",
+      "spread": "-8px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".18"
+      }
+    },
+    "shadow-4·Modal": {
+      "xOffset": "0px",
+      "yOffset": "16px",
+      "blur": "40px",
+      "spread": "-12px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".24"
+      }
+    },
+    "shadow-5·Overlay": {
+      "xOffset": "0px",
+      "yOffset": "24px",
+      "blur": "60px",
+      "spread": "-20px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".30"
+      }
+    }
+  },
+  "radius": {
+    "radius-sm": "8px",
+    "radius-md": "14px",
+    "radius-lg": "16px",
+    "radius-pill": "9999px",
+    "radius-full": "9999px"
+  },
+  "spacing": {
+    "space-1": "4px",
+    "space-2": "8px",
+    "space-3": "12px",
+    "space-4": "16px",
+    "space-5": "24px",
+    "space-6": "32px",
+    "space-7": "48px",
+    "space-8": "64px"
+  },
+  "size": {
+    "size-button-sm": "32px",
+    "size-button-md": "40px",
+    "size-button-lg": "48px",
+    "size-input-height": "40px",
+    "size-icon-sm": "16px",
+    "size-icon-md": "24px",
+    "size-icon-lg": "32px"
+  }
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-primary-50: #fff1f1;
+    --color-primary-100: #ffe1e2;
+    --color-primary-200: #ffc7c9;
+    --color-primary-300: #ffa0a4;
+    --color-primary-400: #ff686d;
+    --color-primary-500: #d71920;
+    --color-primary-600: #b8151b;
+    --color-primary-700: #941218;
+    --color-primary-800: #7a1014;
+    --color-primary-900: #660f13;
+    --color-success-50: #ecfdf5;
+    --color-success-100: #d1fae5;
+    --color-success-200: #a7f3d0;
+    --color-success-300: #6ee7b7;
+    --color-success-400: #34d399;
+    --color-success-500: #059669;
+    --color-success-600: #047857;
+    --color-success-700: #065f46;
+    --color-success-800: #064e3b;
+    --color-success-900: #022c22;
+    --color-warning-50: #fffbeb;
+    --color-warning-100: #fef3c7;
+    --color-warning-200: #fde68a;
+    --color-warning-300: #fcd34d;
+    --color-warning-400: #fbbf24;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+    --color-warning-800: #92400e;
+    --color-warning-900: #78350f;
+    --color-error-50: #fef2f2;
+    --color-error-100: #fee2e2;
+    --color-error-200: #fecaca;
+    --color-error-300: #fca5a5;
+    --color-error-400: #f87171;
+    --color-error-500: #ef4444;
+    --color-error-600: #dc2626;
+    --color-error-700: #b91c1c;
+    --color-error-800: #991b1b;
+    --color-error-900: #7f1d1d;
+    --color-info-50: #f0f9ff;
+    --color-info-100: #e0f2fe;
+    --color-info-200: #bae6fd;
+    --color-info-300: #7dd3fc;
+    --color-info-400: #38bdf8;
+    --color-info-500: #0284c7;
+    --color-info-600: #0369a1;
+    --color-info-700: #075985;
+    --color-info-800: #0c4a6e;
+    --color-info-900: #082f49;
+    --color-severe-50: #fff7ed;
+    --color-severe-100: #ffedd5;
+    --color-severe-200: #fed7aa;
+    --color-severe-300: #fdba74;
+    --color-severe-400: #fb923c;
+    --color-severe-500: #f97316;
+    --color-severe-600: #ea580c;
+    --color-severe-700: #c2410c;
+    --color-creative-50: #f5f3ff;
+    --color-creative-100: #ede9fe;
+    --color-creative-200: #ddd6fe;
+    --color-creative-300: #c4b5fd;
+    --color-creative-400: #a78bfa;
+    --color-creative-500: #8b5cf6;
+    --color-creative-600: #7c3aed;
+    --color-surface: #ffffff;
+    --color-surface-secondary: #f8f9fb;
+    --color-surface-tertiary: #f1f5f9;
+    --color-surface-dark: #1a1d27;
+    --color-surface-darker: #12141c;
+    --color-surface-code: #1e293b;
+    --color-surface-container-high: #2a2d38;
+    --color-overlay: #000000;
+    --color-foreground: #0f172a;
+    --color-foreground-secondary: #475569;
+    --color-foreground-muted: #94a3b8;
+    --color-border: #e2e8f0;
+    --color-border-light: #f1f5f9;
+    --shadow-primary-glow: 0 2px 8px rgba(215,25,32,0.25);
+    --shadow-primary-glow-md: 0 4px 12px rgba(215,25,32,0.25);
+    --shadow-primary-glow-lg: 0 6px 20px rgba(215,25,32,0.35);
+    --shadow-creative-glow: 0 8px 24px rgba(124,58,237,0.12);
+    --shadow-glow-warning: 0 4px 16px rgba(245,158,11,0.35);
+    --shadow-glow-warning-sm: 0 3px 10px rgba(245,158,11,0.3);
+    --shadow-glow-error: 0 4px 12px rgba(239,68,68,0.3);
+    --shadow-glow-error-sm: 0 3px 10px rgba(239,68,68,0.3);
+    --shadow-glow-success: 0 3px 10px rgba(5,150,105,0.3);
+    --font-display: 'DM Sans', 'Noto Sans SC', sans-serif;
+    --font-sans: 'Noto Sans SC', 'DM Sans', sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 16px;
+    --radius-pill: 9999px;
+    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-hover: 0 4px 8px -2px rgb(0 0 0 / 0.10);
+    --color-on-dark: #f8fafc;
+    --color-subject-chinese: #d71920;
+    --color-subject-math: #2563eb;
+    --color-subject-english: #7c3aed;
+    --color-subject-physics: #0284c7;
+    --color-subject-chemistry: #059669;
+    --color-subject-biology: #16a34a;
+    --shadow-float: 0 8px 24px -8px rgb(0 0 0 / 0.18);
+  }
+  @layer base {
+    body { background: var(--color-surface); color: var(--color-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+      <!-- ========== 顶部导航栏 ========== -->
+      <header class="sticky top-0 z-50 w-full bg-surface border-b border-border-light">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+          <!-- Logo -->
+          <a href="#" class="flex items-center gap-2.5 shrink-0">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-sm tracking-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</span>
+            <span class="text-lg font-semibold text-foreground hidden sm:inline" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI tutor</span>
+          </a>
+
+          <!-- 桌面端导航链接 -->
+          <ul class="hidden md:flex items-center gap-1 lg:gap-2">
+            <li><a href="./index.html" class="px-3 py-2 rounded-lg text-sm font-medium text-primary-500 bg-primary-50">首页</a></li>
+            <li><a href="./exam-simulation.html" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary transition-colors">考试练习</a></li>
+            <li><a href="./tutor.html" data-dom-id="nav-tutor" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary transition-colors">AI导师</a></li>
+            <li><a href="./dashboard.html" data-dom-id="nav-dashboard" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary transition-colors">学情分析</a></li>
+            <li><a href="#" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary transition-colors">更多</a></li>
+          </ul>
+
+          <!-- 登录/注册按钮 -->
+          <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+            <a href="./login.html" data-dom-id="nav-login" class="hidden sm:inline-flex items-center px-4 h-9 rounded-lg text-sm font-medium text-foreground hover:text-foreground hover:bg-surface-tertiary transition-colors">登录</a>
+            <a href="./login.html" class="inline-flex items-center px-4 h-9 rounded-lg text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 transition-colors shadow-sm">免费注册</a>
+            <!-- 移动端菜单按钮 -->
+            <button type="button" class="md:hidden inline-flex items-center justify-center h-9 w-9 rounded-lg text-foreground-secondary hover:bg-surface-tertiary" aria-label="菜单">
+              <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      <!-- ========== Hero 区域 ========== -->
+      <section class="relative overflow-hidden bg-gradient-to-br from-surface-secondary via-surface to-surface-secondary">
+        <!-- 装饰性背景元素 -->
+        <div class="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[480px] h-[480px] rounded-full bg-primary-50 opacity-60 blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[400px] h-[400px] rounded-full bg-primary-50 opacity-40 blur-3xl pointer-events-none"></div>
+
+        <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <!-- 左侧文字区 -->
+            <div class="flex flex-col items-start">
+              <!-- 标签 -->
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-50 text-primary-500 text-xs font-semibold mb-6 whitespace-nowrap" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                <span>Hybrid RAG · 中高考智能辅导</span>
+              </div>
+
+              <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-bold leading-[1.1] text-foreground tracking-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all; overflow-wrap:break-word;">
+                AI 驱动的<br>
+                <span class="text-primary-500">中高考</span>智能辅导
+              </h1>
+
+              <p class="mt-5 sm:mt-6 text-base sm:text-lg text-foreground-secondary leading-relaxed max-w-xl" style="font-family:'Noto Sans SC','DM Sans',sans-serif; line-height:1.7;">
+                基于 Hybrid RAG 架构，精准诊断知识薄弱点，个性化规划学习路径。让每一位学生都拥有专属的 AI 导师，高效备战中高考。
+              </p>
+
+              <!-- CTA 按钮组 -->
+              <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                <a href="./login.html" data-dom-id="hero-cta" class="inline-flex items-center justify-center gap-2 px-7 h-12 rounded-xl text-base font-semibold text-white bg-primary-500 hover:bg-primary-600 transition-all shadow-primary-glow-md hover:shadow-primary-glow-lg w-full sm:w-auto">
+                  <span>开始学习</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="inline-flex items-center justify-center gap-2 px-7 h-12 rounded-xl text-base font-medium text-foreground bg-surface border border-border-light hover:border-border hover:bg-surface-tertiary transition-all w-full sm:w-auto">
+                  <i data-lucide="play-circle" class="w-4 h-4 text-primary-500"></i>
+                  <span>了解更多</span>
+                </a>
+              </div>
+
+              <!-- 信任标志 -->
+              <div class="mt-10 flex items-center gap-5 text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                <div class="flex items-center gap-1.5 whitespace-nowrap">
+                  <i data-lucide="shield-check" class="w-4 h-4 text-success-500"></i>
+                  <span>数据安全保障</span>
+                </div>
+                <div class="h-4 w-px bg-border-light"></div>
+                <div class="flex items-center gap-1.5 whitespace-nowrap">
+                  <i data-lucide="users" class="w-4 h-4 text-success-500"></i>
+                  <span>50万+ 学生在用</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 右侧 AI 对话装饰卡片 -->
+            <div class="relative w-full max-w-lg mx-auto lg:mx-0 lg:ml-auto">
+              <!-- 主卡片 -->
+              <div class="relative bg-surface rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.08)] border border-border-light overflow-hidden">
+                <!-- 卡片头部 -->
+                <div class="flex items-center gap-3 px-5 py-4 border-b border-border-light bg-surface-secondary">
+                  <div class="flex gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-error-400"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-warning-400"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-success-500"></span>
+                  </div>
+                  <div class="flex items-center gap-2 ml-2">
+                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-md bg-primary-500 text-white text-xs font-bold">AI</span>
+                    <span class="text-sm font-medium text-foreground">AI 导师</span>
+                    <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-success-50 text-success-500 text-[10px] font-semibold whitespace-nowrap">
+                      <span class="w-1.5 h-1.5 rounded-full bg-success-500 animate-pulse"></span>在线
+                    </span>
+                  </div>
+                </div>
+
+                <!-- 对话内容 -->
+                <div class="p-5 space-y-4 bg-surface">
+                  <!-- 用户消息 -->
+                  <div class="flex justify-end">
+                    <div class="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-tr-md bg-primary-500 text-white text-sm" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                      老师，这道二次函数题怎么解？
+                    </div>
+                  </div>
+
+                  <!-- AI 回复 -->
+                  <div class="flex items-start gap-2.5">
+                    <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary-500 text-white text-xs font-bold mt-0.5">AI</span>
+                    <div class="max-w-[85%] space-y-2.5">
+                      <div class="px-4 py-3 rounded-2xl rounded-tl-md bg-surface-tertiary text-sm text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif; line-height:1.6;">
+                        好的！这道题考查的是二次函数的性质。我们先看公式：
+                      </div>
+                      <!-- 数学公式示意块 -->
+                      <div class="px-4 py-3 rounded-xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                        <div class="flex items-center gap-2 text-sm text-foreground-secondary mb-2">
+                          <i data-lucide="sigma" class="w-4 h-4 text-primary-500"></i>
+                          <span class="text-xs font-mono">解题公式</span>
+                        </div>
+                        <div class="font-mono text-[15px] text-foreground tracking-wide" style="font-family:'DM Sans',monospace;">
+                          f(x) = ax<sup>2</sup> + bx + c
+                        </div>
+                        <div class="mt-2 font-mono text-[13px] text-foreground-secondary" style="font-family:'DM Sans',monospace;">
+                          Δ = b<sup>2</sup> − 4ac &gt; 0
+                        </div>
+                        <div class="mt-1 h-0.5 w-16 bg-gradient-to-r from-primary-500 to-transparent rounded-full"></div>
+                      </div>
+                      <div class="px-4 py-3 rounded-2xl rounded-tl-md bg-surface-tertiary text-sm text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif; line-height:1.6;">
+                        由 Δ &gt; 0 可知抛物线与 x 轴有两个交点，结合顶点坐标公式即可求出最值。
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 正在输入指示 -->
+                  <div class="flex items-start gap-2.5">
+                    <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary-500 text-white text-xs font-bold mt-0.5">AI</span>
+                    <div class="px-4 py-3 rounded-2xl rounded-tl-md bg-surface-tertiary flex items-center gap-1.5">
+                      <span class="w-2 h-2 rounded-full bg-foreground-muted animate-bounce" style="animation-delay:0ms"></span>
+                      <span class="w-2 h-2 rounded-full bg-foreground-muted animate-bounce" style="animation-delay:150ms"></span>
+                      <span class="w-2 h-2 rounded-full bg-foreground-muted animate-bounce" style="animation-delay:300ms"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 输入框 -->
+                <div class="px-5 py-3 border-t border-border-light bg-surface">
+                  <div class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-tertiary border border-border-light">
+                    <i data-lucide="camera" class="w-4 h-4 text-foreground-muted"></i>
+                    <span class="text-sm text-foreground-muted truncate">输入问题或拍照搜题…</span>
+                    <button class="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-lg bg-primary-500 text-white shrink-0">
+                      <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 浮动小卡片 - 知识掌握度 -->
+              <div class="absolute -left-4 sm:-left-8 top-8 sm:top-12 bg-surface rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-border-light px-4 py-3 hidden sm:block">
+                <div class="flex items-center gap-3">
+                  <div class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-success-50">
+                    <i data-lucide="trending-up" class="w-5 h-5 text-success-500"></i>
+                  </div>
+                  <div>
+                    <div class="text-xs text-foreground-secondary whitespace-nowrap">知识掌握度</div>
+                    <div class="text-sm font-bold text-success-500">+23% 本周</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 浮动小卡片 - 连续学习 -->
+              <div class="absolute -right-2 sm:-right-6 bottom-16 sm:bottom-20 bg-surface rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-border-light px-4 py-3 hidden sm:block">
+                <div class="flex items-center gap-3">
+                  <div class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-warning-50">
+                    <i data-lucide="flame" class="w-5 h-5 text-warning-500"></i>
+                  </div>
+                  <div>
+                    <div class="text-xs text-foreground-secondary whitespace-nowrap">连续学习</div>
+                    <div class="text-sm font-bold text-warning-500">15 天</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 核心功能卡片区 ========== -->
+      <section class="py-16 sm:py-20 lg:py-24 bg-surface">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <!-- 标题区 -->
+          <div class="text-center max-w-2xl mx-auto">
+            <span class="inline-block text-xs font-semibold text-primary-500 tracking-wider uppercase mb-3" style="font-family:'DM Sans',sans-serif;">Core Features</span>
+            <h2 class="text-3xl sm:text-[32px] font-bold text-foreground leading-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all;">
+              六大核心功能，<span class="text-primary-500">全方位</span>助力学习
+            </h2>
+            <p class="mt-4 text-base text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+              融合前沿 AI 技术与教育科学，为学生提供智能、高效、个性化的学习体验
+            </p>
+          </div>
+
+          <!-- 功能卡片网格 -->
+          <div class="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            <!-- 卡片1: AI智能答疑 -->
+            <div class="group p-6 sm:p-7 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-primary-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary-500 mb-5 group-hover:bg-primary-500 group-hover:text-white transition-colors duration-300">
+                <i data-lucide="message-square-more" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-foreground mb-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI 智能答疑</h3>
+              <p class="text-sm text-foreground-secondary leading-relaxed line-clamp-3" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">SSE 流式对话，实时解析题目。支持多轮追问，如同身边有一位耐心的私人家教。</p>
+            </div>
+
+            <!-- 卡片2: 知识图谱诊断 -->
+            <div class="group p-6 sm:p-7 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-primary-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-info-50 text-info-500 mb-5 group-hover:bg-info-500 group-hover:text-white transition-colors duration-300">
+                <i data-lucide="network" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-foreground mb-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">知识图谱诊断</h3>
+              <p class="text-sm text-foreground-secondary leading-relaxed line-clamp-3" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">可视化知识依赖网络，精准定位薄弱点。追根溯源找到知识盲区，避免盲目刷题。</p>
+            </div>
+
+            <!-- 卡片3: 拍照搜题 -->
+            <div class="group p-6 sm:p-7 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-primary-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-success-50 text-success-500 mb-5 group-hover:bg-success-500 group-hover:text-white transition-colors duration-300">
+                <i data-lucide="camera" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-foreground mb-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">拍照搜题</h3>
+              <p class="text-sm text-foreground-secondary leading-relaxed line-clamp-3" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">一拍即得，秒出详细解析。OCR 识别准确率高达 99%，手写体、公式也能精准识别。</p>
+            </div>
+
+            <!-- 卡片4: SM-2间隔复习 -->
+            <div class="group p-6 sm:p-7 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-primary-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-warning-50 text-warning-500 mb-5 group-hover:bg-warning-500 group-hover:text-white transition-colors duration-300">
+                <i data-lucide="brain" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-foreground mb-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">SM-2 间隔复习</h3>
+              <p class="text-sm text-foreground-secondary leading-relaxed line-clamp-3" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">基于科学记忆曲线算法，在最佳遗忘临界点推送复习内容，花更少时间记牢更多知识。</p>
+            </div>
+
+            <!-- 卡片5: 智能组卷 -->
+            <div class="group p-6 sm:p-7 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-primary-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-error-50 text-error-500 mb-5 group-hover:bg-error-500 group-hover:text-white transition-colors duration-300">
+                <i data-lucide="file-spreadsheet" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-foreground mb-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">智能组卷</h3>
+              <p class="text-sm text-foreground-secondary leading-relaxed line-clamp-3" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">根据学情画像个性化出题，针对薄弱点强化训练。难度梯度科学，告别题海战术。</p>
+            </div>
+
+            <!-- 卡片6: 学情仪表盘 -->
+            <div class="group p-6 sm:p-7 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-primary-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-creative-50 text-creative-600 mb-5 group-hover:bg-creative-600 group-hover:text-white transition-colors duration-300">
+                <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-foreground mb-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">学情仪表盘</h3>
+              <p class="text-sm text-foreground-secondary leading-relaxed line-clamp-3" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">多维度数据可视化，各学科掌握度一目了然。进步轨迹清晰可见，让学习效果可量化。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 数据飞轮区 ========== -->
+      <section class="py-16 sm:py-20 bg-surface-secondary relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary-50 opacity-50 blur-3xl"></div>
+        </div>
+
+        <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="inline-block text-xs font-semibold text-primary-500 tracking-wider uppercase mb-3" style="font-family:'DM Sans',sans-serif;">By the Numbers</span>
+            <h2 class="text-3xl sm:text-[32px] font-bold text-foreground leading-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all;">
+              数据驱动，<span class="text-primary-500">实力</span>见证
+            </h2>
+            <p class="mt-4 text-base text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+              海量学习数据沉淀，持续优化 AI 模型，形成越用越精准的数据飞轮
+            </p>
+          </div>
+
+          <!-- 数据统计网格 -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div class="text-center p-6 sm:p-8 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-500 whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">10万<span class="text-2xl sm:text-3xl">+</span></div>
+              <div class="mt-3 text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">精选题库</div>
+              <div class="mt-1 text-xs text-foreground-muted line-clamp-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">覆盖中高考全部考点</div>
+            </div>
+
+            <div class="text-center p-6 sm:p-8 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-500 whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">98<span class="text-2xl sm:text-3xl">%</span></div>
+              <div class="mt-3 text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">知识点覆盖</div>
+              <div class="mt-1 text-xs text-foreground-muted line-clamp-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">六大学科考纲全涵盖</div>
+            </div>
+
+            <div class="text-center p-6 sm:p-8 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-500 whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">300<span class="text-2xl sm:text-3xl">万+</span></div>
+              <div class="mt-3 text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">累计答疑</div>
+              <div class="mt-1 text-xs text-foreground-muted line-clamp-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">AI 秒级响应学生提问</div>
+            </div>
+
+            <div class="text-center p-6 sm:p-8 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-500 whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">25<span class="text-2xl sm:text-3xl">分</span></div>
+              <div class="mt-3 text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">平均提分</div>
+              <div class="mt-1 text-xs text-foreground-muted line-clamp-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">持续使用三个月效果</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 学科入口区 ========== -->
+      <section class="py-16 sm:py-20 lg:py-24 bg-surface">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+            <div>
+              <span class="inline-block text-xs font-semibold text-primary-500 tracking-wider uppercase mb-3" style="font-family:'DM Sans',sans-serif;">Subjects</span>
+              <h2 class="text-3xl sm:text-[32px] font-bold text-foreground leading-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all;">
+                选择你的<span class="text-primary-500">学科</span>
+              </h2>
+              <p class="mt-3 text-base text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">覆盖中高考六大学科，分科精准备考</p>
+            </div>
+            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary-500 hover:text-primary-600 transition-colors shrink-0 whitespace-nowrap">
+              查看全部学科
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+
+          <!-- 学科卡片网格 -->
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
+            <!-- 语文 -->
+            <a href="#" class="group flex flex-col items-center p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-primary-50 to-white border border-primary-100 hover:shadow-[0_8px_24px_rgba(215,25,32,0.12)] hover:border-primary-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.06)] text-primary-500 mb-4 group-hover:scale-110 transition-transform duration-300">
+                <i data-lucide="book-open" class="w-7 h-7"></i>
+              </div>
+              <span class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">语文</span>
+              <span class="mt-1 text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">阅读 · 写作</span>
+            </a>
+
+            <!-- 数学 -->
+            <a href="#" class="group flex flex-col items-center p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-info-50 to-white border border-info-100 hover:shadow-[0_8px_24px_rgba(2,132,199,0.12)] hover:border-info-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.06)] text-info-500 mb-4 group-hover:scale-110 transition-transform duration-300">
+                <i data-lucide="calculator" class="w-7 h-7"></i>
+              </div>
+              <span class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">数学</span>
+              <span class="mt-1 text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">代数 · 几何</span>
+            </a>
+
+            <!-- 英语 -->
+            <a href="#" class="group flex flex-col items-center p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-success-50 to-white border border-success-100 hover:shadow-[0_8px_24px_rgba(5,150,105,0.12)] hover:border-success-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.06)] text-success-500 mb-4 group-hover:scale-110 transition-transform duration-300">
+                <i data-lucide="languages" class="w-7 h-7"></i>
+              </div>
+              <span class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">英语</span>
+              <span class="mt-1 text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">词汇 · 语法</span>
+            </a>
+
+            <!-- 物理 -->
+            <a href="#" class="group flex flex-col items-center p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-warning-50 to-white border border-warning-100 hover:shadow-[0_8px_24px_rgba(245,158,11,0.12)] hover:border-warning-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.06)] text-warning-500 mb-4 group-hover:scale-110 transition-transform duration-300">
+                <i data-lucide="atom" class="w-7 h-7"></i>
+              </div>
+              <span class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">物理</span>
+              <span class="mt-1 text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">力学 · 电磁</span>
+            </a>
+
+            <!-- 化学 -->
+            <a href="#" class="group flex flex-col items-center p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-error-50 to-white border border-error-100 hover:shadow-[0_8px_24px_rgba(239,68,68,0.12)] hover:border-error-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.06)] text-error-500 mb-4 group-hover:scale-110 transition-transform duration-300">
+                <i data-lucide="flask-conical" class="w-7 h-7"></i>
+              </div>
+              <span class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">化学</span>
+              <span class="mt-1 text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">反应 · 实验</span>
+            </a>
+
+            <!-- 生物 -->
+            <a href="#" class="group flex flex-col items-center p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-creative-50 to-white border border-creative-100 hover:shadow-creative-glow hover:border-creative-200 transition-all duration-300 hover:-translate-y-1">
+              <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.06)] text-creative-600 mb-4 group-hover:scale-110 transition-transform duration-300">
+                <i data-lucide="dna" class="w-7 h-7"></i>
+              </div>
+              <span class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">生物</span>
+              <span class="mt-1 text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">细胞 · 遗传</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 底部 CTA 区 ========== -->
+      <section class="relative py-16 sm:py-20 lg:py-24 bg-surface-dark overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute top-0 left-1/4 w-[400px] h-[400px] rounded-full bg-primary-500 opacity-[0.08] blur-3xl"></div>
+          <div class="absolute bottom-0 right-1/4 w-[300px] h-[300px] rounded-full bg-primary-500 opacity-[0.06] blur-3xl"></div>
+          <!-- 网格纹理 -->
+          <div class="absolute inset-0 opacity-[0.03]" style="background-image:linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px); background-size:40px 40px;"></div>
+        </div>
+
+        <div class="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/10 text-white/80 text-xs font-medium mb-6 whitespace-nowrap">
+            <i data-lucide="rocket" class="w-3.5 h-3.5"></i>
+            <span>立即开始，免费体验</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl lg:text-[44px] font-bold text-white leading-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all;">
+            开启你的<span class="text-primary-400">智能学习</span>之旅
+          </h2>
+
+          <p class="mt-5 text-base sm:text-lg text-white/60 leading-relaxed max-w-2xl mx-auto" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+            加入 50 万+ 优秀学生的行列，让 AI 成为你中高考路上最得力的学习伙伴。注册即享 7 天免费体验。
+          </p>
+
+          <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <a href="#" class="inline-flex items-center justify-center gap-2 px-8 h-12 rounded-xl text-base font-semibold text-white bg-primary-500 hover:bg-primary-600 transition-all shadow-[0_4px_16px_rgba(215,25,32,0.4)] hover:shadow-[0_6px_24px_rgba(215,25,32,0.5)] w-full sm:w-auto">
+              <span>免费开始使用</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="inline-flex items-center justify-center gap-2 px-8 h-12 rounded-xl text-base font-medium text-white/80 bg-surface/5 border border-white/10 hover:bg-surface/10 hover:text-white transition-all w-full sm:w-auto">
+              <span>预约演示</span>
+            </a>
+          </div>
+
+          <!-- 信任小字 -->
+          <p class="mt-6 text-xs text-white/40" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+            无需信用卡 · 7天免费体验 · 随时可取消
+          </p>
+        </div>
+      </section>
+
+      <!-- ========== Footer ========== -->
+      <footer class="bg-surface-darker border-t border-white/5">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
+            <!-- 品牌信息 -->
+            <div class="col-span-2 md:col-span-1">
+              <a href="#" class="flex items-center gap-2.5 mb-4">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-lg" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</span>
+                <span class="text-lg font-semibold text-white" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI tutor</span>
+              </a>
+              <p class="text-sm text-white/50 leading-relaxed line-clamp-3 max-w-xs" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                AI 驱动的中高考智能辅导平台，基于 Hybrid RAG 架构为学生提供个性化学习方案。
+              </p>
+              <!-- 社交图标 -->
+              <div class="mt-5 flex items-center gap-2">
+                <a href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-surface/5 text-white/50 hover:bg-surface/10 hover:text-white transition-colors" aria-label="微信">
+                  <i data-lucide="message-circle" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-surface/5 text-white/50 hover:bg-surface/10 hover:text-white transition-colors" aria-label="微博">
+                  <i data-lucide="at-sign" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-surface/5 text-white/50 hover:bg-surface/10 hover:text-white transition-colors" aria-label="GitHub">
+                  <i data-lucide="github" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- 产品 -->
+            <div>
+              <h4 class="text-sm font-semibold text-white mb-4" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">产品</h4>
+              <ul class="space-y-3">
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">AI 智能答疑</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">知识图谱诊断</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">拍照搜题</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">智能组卷</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">学情分析</a></li>
+              </ul>
+            </div>
+
+            <!-- 资源 -->
+            <div>
+              <h4 class="text-sm font-semibold text-white mb-4" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">资源</h4>
+              <ul class="space-y-3">
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">使用指南</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">学习方法</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">真题解析</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">常见问题</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">更新日志</a></li>
+              </ul>
+            </div>
+
+            <!-- 公司 -->
+            <div>
+              <h4 class="text-sm font-semibold text-white mb-4" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">公司</h4>
+              <ul class="space-y-3">
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">关于我们</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">加入我们</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">隐私政策</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">服务条款</a></li>
+                <li><a href="#" class="text-sm text-white/50 hover:text-white transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">联系我们</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 底部版权信息 -->
+          <div class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p class="text-xs text-white/40 text-center sm:text-left" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+              © 2025 AI tutor. All rights reserved.
+            </p>
+            <div class="flex items-center gap-4 text-xs text-white/40" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+              <a href="#" class="hover:text-white/60 transition-colors whitespace-nowrap">京ICP备XXXXXXXX号</a>
+              <span class="hidden sm:inline">·</span>
+              <a href="#" class="hover:text-white/60 transition-colors whitespace-nowrap">京公网安备 XXXXXXXXXXX号</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

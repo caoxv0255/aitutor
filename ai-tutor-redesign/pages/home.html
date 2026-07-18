@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor - 首页</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/tokens.css">
+    <script type="module" src="../assets/core/app.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+    <section class="hero">
+        <h1 class="hero__title">AI驱动的个性化学习诊断</h1>
+        <p class="hero__subtitle">基于 Hybrid RAG 架构，为每位考生定制专属提分路径</p>
+        <div class="hero__actions">
+            <button class="btn btn--primary btn--lg" onclick="navigateTo('dashboard.html')">立即开始</button>
+            <button class="btn btn--ghost btn--lg" onclick="navigateTo('exam-simulation.html')">查看预测卷</button>
+        </div>
+    </section>
+
+    <nav class="tabs">
+        <div class="tabs__container">
+            <button class="tabs__tab tabs__tab--active" onclick="switchTab('home')">总览</button>
+            <button class="tabs__tab" onclick="switchTab('exam')">预测卷</button>
+            <button class="tabs__tab" onclick="switchTab('report')">样例报告</button>
+        </div>
+    </nav>
+
+    <main class="content">
+        <div class="stat-cards">
+            <div class="stat-card">
+                <div class="stat-card__number">10万+</div>
+                <div class="stat-card__label">覆盖考点</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__number">98.6%</div>
+                <div class="stat-card__label">预测准确率</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__number">87%</div>
+                <div class="stat-card__label">平均提分</div>
+            </div>
+        </div>
+
+        <div class="feature-cards">
+            <div class="feature-card" onclick="navigateTo('wrong-book.html')">
+                <div class="feature-card__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                </div>
+                <div class="feature-card__title">错题诊断</div>
+                <div class="feature-card__desc">拍照上传，AI自动归类分析，生成薄弱点图谱</div>
+            </div>
+
+            <div class="feature-card" onclick="navigateTo('exam-simulation.html')">
+                <div class="feature-card__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                </div>
+                <div class="feature-card__title">个性化预测卷</div>
+                <div class="feature-card__desc">基于薄弱知识点，智能生成专属训练试卷</div>
+            </div>
+
+            <div class="feature-card" onclick="navigateTo('ai-tutor-chat.html')">
+                <div class="feature-card__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <div class="feature-card__title">AI深度讲题</div>
+                <div class="feature-card__desc">输入题目，AI逐步拆解，举一反三推荐变式题</div>
+            </div>
+        </div>
+
+        <div class="trust-section">
+            <span class="trust-section__label">可信证据</span>
+            <div class="trust-section__tags">
+                <span class="tag tag--success">教育部试点项目</span>
+                <span class="tag tag--info">覆盖31省份</span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <span class="footer__copyright">&copy; 2026 AI Tutor</span>
+            <div class="footer__links">
+                <a href="#" class="footer__link">隐私政策</a>
+                <a href="#" class="footer__link">用户协议</a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="bottom-nav-spacer"></div>
+
+    <script>
+        function checkLoginState() {
+            var loginStr = localStorage.getItem('aitutor_login');
+            if (!loginStr) {
+                return null;
+            }
+            try {
+                var user = JSON.parse(loginStr);
+                if (user.expiresAt && Date.now() > user.expiresAt) {
+                    localStorage.removeItem('aitutor_login');
+                    return null;
+                }
+                return user;
+            } catch(e) {
+                localStorage.removeItem('aitutor_login');
+                return null;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('aitutor_login');
+            window.location.href = 'login.html';
+        }
+
+        function navigateTo(href) {
+            var target = href.split('?')[0].split('#')[0].replace(/\\/g, '/').split('/').pop();
+            var current = window.location.pathname.split('/').pop() || 'home.html';
+            if (target === current) return;
+            
+            var loading = document.createElement('div');
+            loading.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center';
+            loading.innerHTML = '<div style="color:white;font-size:20px">加载中...</div>';
+            document.body.appendChild(loading);
+            
+            setTimeout(function() {
+                window.location.href = target;
+            }, 300);
+        }
+
+        function switchTab(tab) {
+            var tabs = document.querySelectorAll('.tabs__tab');
+            tabs.forEach(function(t) {
+                t.classList.remove('tabs__tab--active');
+            });
+            event.target.classList.add('tabs__tab--active');
+            
+            if (tab === 'exam') {
+                navigateTo('exam-simulation.html');
+            } else if (tab === 'report') {
+                navigateTo('home-report.html');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var user = checkLoginState();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

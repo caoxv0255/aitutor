@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI tutor - 考试练习</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-primary-50: #fff1f1;
+    --color-primary-100: #ffe1e2;
+    --color-primary-200: #ffc7c9;
+    --color-primary-300: #ffa0a4;
+    --color-primary-400: #ff686d;
+    --color-primary-500: #d71920;
+    --color-primary-600: #b8151b;
+    --color-primary-700: #941218;
+    --color-primary-800: #7a1014;
+    --color-primary-900: #660f13;
+    --color-surface: #ffffff;
+    --color-surface-secondary: #f8f9fb;
+    --color-surface-tertiary: #f1f5f9;
+    --color-foreground: #0f172a;
+    --color-foreground-secondary: #475569;
+    --color-border: #e2e8f0;
+    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-hover: 0 4px 8px -2px rgb(0 0 0 / 0.10);
+  }
+    </style>
+</head>
+<body class="min-h-screen bg-surface">
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-surface border-b border-border">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+            <a href="./index.html" class="flex items-center gap-2.5">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-sm">AI</span>
+                <span class="text-lg font-semibold text-foreground">AI tutor</span>
+            </a>
+            <ul class="hidden md:flex items-center gap-2">
+                <li><a href="./index.html" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary">首页</a></li>
+                <li><a href="./exam-simulation.html" class="px-3 py-2 rounded-lg text-sm font-medium text-primary-500 bg-primary-50">考试练习</a></li>
+                <li><a href="./tutor.html" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary">AI导师</a></li>
+                <li><a href="./dashboard.html" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary">学情分析</a></li>
+            </ul>
+            <a href="./login.html" class="inline-flex items-center px-4 h-9 rounded-lg text-sm font-medium text-white bg-primary-500 hover:bg-primary-600">登录</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">考试练习</h1>
+            <p class="mt-2 text-foreground-secondary">选择试卷进行模拟练习，提升考试能力</p>
+        </div>
+
+        <!-- Paper List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Paper Card 1 -->
+            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年全国甲卷数学</h3>
+                        <p class="text-sm text-foreground-secondary">高考真题</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 120分钟</span>
+                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 22题</span>
+                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 150分</span>
+                </div>
+                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
+            </div>
+
+            <!-- Paper Card 2 -->
+            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-info-50 text-info-500">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年全国乙卷语文</h3>
+                        <p class="text-sm text-foreground-secondary">高考真题</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 150分钟</span>
+                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 22题</span>
+                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 150分</span>
+                </div>
+                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
+            </div>
+
+            <!-- Paper Card 3 -->
+            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-success-50 text-success-500">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年全国甲卷英语</h3>
+                        <p class="text-sm text-foreground-secondary">高考真题</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 120分钟</span>
+                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 86题</span>
+                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 150分</span>
+                </div>
+                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
+            </div>
+
+            <!-- Paper Card 4 -->
+            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-warning-50 text-warning-500">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年新高考I卷物理</h3>
+                        <p class="text-sm text-foreground-secondary">高考真题</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 75分钟</span>
+                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 16题</span>
+                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 100分</span>
+                </div>
+                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
+            </div>
+
+            <!-- Paper Card 5 -->
+            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-error-50 text-error-500">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年新高考I卷化学</h3>
+                        <p class="text-sm text-foreground-secondary">高考真题</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 75分钟</span>
+                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 16题</span>
+                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 100分</span>
+                </div>
+                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
+            </div>
+
+            <!-- Paper Card 6 -->
+            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-creative-50 text-creative-600">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年新高考I卷生物</h3>
+                        <p class="text-sm text-foreground-secondary">高考真题</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 75分钟</span>
+                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 24题</span>
+                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 100分</span>
+                </div>
+                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
+            </div>
+        </div>
+    </main>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

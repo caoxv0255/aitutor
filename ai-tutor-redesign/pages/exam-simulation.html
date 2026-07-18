@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟考场 — AI Tutor</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/tokens.css">
+    <script type="module" src="../assets/core/app.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+    <div class="layout">
+        <header class="navbar">
+            <a class="navbar__logo" href="home.html">
+                <span class="navbar__logo-icon">AI</span>
+                <span>AI Tutor</span>
+            </a>
+            <nav class="navbar__links">
+                <a class="navbar__link" href="home.html">首页</a>
+                <a class="navbar__link" href="dashboard.html">学习驾驶舱</a>
+                <a class="navbar__link navbar__link--active" href="exam-simulation.html">模拟考场</a>
+                <a class="navbar__link" href="wrong-book.html">错题本</a>
+                <a class="navbar__link" href="ai-tutor-chat.html">AI讲题</a>
+                <a class="navbar__link" href="learning-journey.html">学习旅程</a>
+            </nav>
+            <div class="navbar__actions">
+                <div class="input-wrap" style="display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); background-color: var(--bg2); border-radius: var(--radius-md);">
+                    <i data-lucide="map-pin" style="width: 16px; height: 16px; color: var(--muted);"></i>
+                    <input type="text" placeholder="选择省份" readonly style="background: transparent; border: none; outline: none; font-size: var(--fs-sm); color: var(--ink);">
+                    <i data-lucide="chevron-down" style="width: 16px; height: 16px; color: var(--muted);"></i>
+                </div>
+                <button class="navbar__theme-btn" id="theme-toggle" title="切换主题">
+                    <svg id="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+                <button class="navbar__hamburger" aria-label="菜单">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="layout__main">
+            <section class="exam-header">
+                <div class="exam-header__left">
+                    <span class="tag tag--primary">数学</span>
+                    <h2 class="exam-header__title">2026年高考数学预测卷 #3</h2>
+                </div>
+                <div class="exam-header__center">
+                    <i data-lucide="clock" style="color: var(--accent2);"></i>
+                    <span id="exam-timer" class="exam-header__timer">01:23:45</span>
+                </div>
+                <div class="exam-header__right">
+                    <button class="btn btn--ghost" onclick="pauseExam()">
+                        <i data-lucide="pause"></i>
+                        暂停
+                    </button>
+                    <button class="btn btn--secondary" onclick="submitExam()">
+                        交卷
+                    </button>
+                </div>
+            </section>
+
+            <div class="layout__content exam-layout">
+                <div class="exam-layout__left">
+                    <div class="question-nav">
+                        <button class="question-nav__btn" onclick="goToQuestion(1)">1</button>
+                        <button class="question-nav__btn" onclick="goToQuestion(2)">2</button>
+                        <button class="question-nav__btn" onclick="goToQuestion(3)">3</button>
+                        <button class="question-nav__btn" onclick="goToQuestion(4)">4</button>
+                        <button class="question-nav__btn" onclick="goToQuestion(5)">5</button>
+                        <button class="question-nav__btn" onclick="goToQuestion(6)">6</button>
+                        <button class="question-nav__btn" onclick="goToQuestion(7)">7</button>
+                        <button class="question-nav__btn" onclick="goToQuestion(8)">8</button>
+                        <button class="question-nav__btn" onclick="goToQuestion(9)">9</button>
+                        <button class="question-nav__btn" onclick="goToQuestion(10)">10</button>
+                        <span class="question-nav__ellipsis">...</span>
+                        <button class="question-nav__btn" onclick="goToQuestion(25)">25</button>
+                    </div>
+
+                    <div class="card exam-card">
+                        <div class="exam-card__header">
+                            <h3 class="exam-card__number">第12题</h3>
+                            <span class="tag tag--warning">中等</span>
+                            <span class="tag tag--default">5分</span>
+                        </div>
+
+                        <div class="exam-card__body">
+                            <p class="exam-card__text">已知函数 f(x) = x³ - 3x² + 2，求 f(x) 在区间 [-1, 2] 上的最大值与最小值。</p>
+                        </div>
+
+                        <div class="exam-card__formula">
+                            <code class="font-mono">f(x) = x³ - 3x² + 2 | x ∈ [-1, 2]</code>
+                            <code class="font-mono">f'(x) = 3x² - 6x = 3x(x - 2)</code>
+                        </div>
+
+                        <div class="exam-card__options">
+                            <label class="option-item">
+                                <input type="radio" name="answer" value="A">
+                                <span class="option-item__letter">A</span>
+                                <span class="option-item__text">最大值 2，最小值 -2</span>
+                            </label>
+                            <label class="option-item">
+                                <input type="radio" name="answer" value="B">
+                                <span class="option-item__letter">B</span>
+                                <span class="option-item__text">最大值 2，最小值 -10/27</span>
+                            </label>
+                            <label class="option-item">
+                                <input type="radio" name="answer" value="C">
+                                <span class="option-item__letter">C</span>
+                                <span class="option-item__text">最大值 0，最小值 -2</span>
+                            </label>
+                            <label class="option-item">
+                                <input type="radio" name="answer" value="D">
+                                <span class="option-item__letter">D</span>
+                                <span class="option-item__text">最大值 2，最小值 0</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exam-layout__right">
+                    <div class="card answer-sheet">
+                        <h3 class="answer-sheet__title">答题卡</h3>
+                        <div class="answer-sheet__grid">
+                            <div class="answer-sheet__cell answer-sheet__cell--answered" onclick="goToQuestion(1)">1</div>
+                            <div class="answer-sheet__cell answer-sheet__cell--answered" onclick="goToQuestion(2)">2</div>
+                            <div class="answer-sheet__cell answer-sheet__cell--answered" onclick="goToQuestion(3)">3</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(4)">4</div>
+                            <div class="answer-sheet__cell answer-sheet__cell--answered" onclick="goToQuestion(5)">5</div>
+                            <div class="answer-sheet__cell answer-sheet__cell--answered" onclick="goToQuestion(6)">6</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(7)">7</div>
+                            <div class="answer-sheet__cell answer-sheet__cell--answered" onclick="goToQuestion(8)">8</div>
+                            <div class="answer-sheet__cell answer-sheet__cell--answered" onclick="goToQuestion(9)">9</div>
+                            <div class="answer-sheet__cell answer-sheet__cell--answered" onclick="goToQuestion(10)">10</div>
+                            <div class="answer-sheet__cell answer-sheet__cell--answered" onclick="goToQuestion(11)">11</div>
+                            <div class="answer-sheet__cell answer-sheet__cell--current" onclick="goToQuestion(12)">12</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(13)">13</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(14)">14</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(15)">15</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(16)">16</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(17)">17</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(18)">18</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(19)">19</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(20)">20</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(21)">21</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(22)">22</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(23)">23</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(24)">24</div>
+                            <div class="answer-sheet__cell" onclick="goToQuestion(25)">25</div>
+                        </div>
+                        <div class="answer-sheet__stats">
+                            <div class="answer-sheet__stat">
+                                <span class="answer-sheet__stat-dot answer-sheet__stat-dot--answered"></span>
+                                <span>已答 <strong>11</strong>/25</span>
+                            </div>
+                            <div class="answer-sheet__stat">
+                                <span class="answer-sheet__stat-dot answer-sheet__stat-dot--unanswered"></span>
+                                <span>未答 <strong>14</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card marked-list">
+                        <div class="marked-list__header">
+                            <i data-lucide="flag" style="color: var(--accent3);"></i>
+                            <h3 class="marked-list__title">标记回顾</h3>
+                        </div>
+                        <div class="marked-list__items">
+                            <div class="marked-item" onclick="goToQuestion(7)">
+                                <span class="tag tag--default">Q7</span>
+                                <span class="marked-item__text">三角函数</span>
+                                <i data-lucide="chevron-right" style="color: var(--muted);"></i>
+                            </div>
+                            <div class="marked-item" onclick="goToQuestion(15)">
+                                <span class="tag tag--default">Q15</span>
+                                <span class="marked-item__text">导数应用</span>
+                                <i data-lucide="chevron-right" style="color: var(--muted);"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <nav class="bottom-nav">
+        <a class="bottom-nav__item" href="home.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>首页</span>
+        </a>
+        <a class="bottom-nav__item bottom-nav__item--active" href="exam-simulation.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>做题</span>
+        </a>
+        <a class="bottom-nav__item" href="wrong-book.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>
+            <span>错题</span>
+        </a>
+        <a class="bottom-nav__item" href="ai-tutor-chat.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>AI讲题</span>
+        </a>
+        <a class="bottom-nav__item" href="dashboard.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>我的</span>
+        </a>
+    </nav>
+    <div class="bottom-nav-spacer"></div>
+
+    <style>
+        .exam-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--sp-3) var(--sp-6);
+            background-color: var(--bg);
+            border-bottom: 1px solid var(--rule);
+            flex-wrap: wrap;
+            gap: var(--sp-4);
+        }
+
+        .exam-header__left {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+        }
+
+        .exam-header__title {
+            font-size: var(--fs-lg);
+            font-weight: 600;
+            color: var(--ink);
+            margin: 0;
+        }
+
+        .exam-header__center {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+        }
+
+        .exam-header__timer {
+            font-size: var(--fs-xl);
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--accent2);
+            letter-spacing: 0.04em;
+        }
+
+        .exam-header__right {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+        }
+
+        .exam-layout {
+            display: flex;
+            gap: var(--sp-6);
+            padding: var(--sp-6);
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .exam-layout__left {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-4);
+        }
+
+        .exam-layout__right {
+            width: 280px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-4);
+        }
+
+        .question-nav {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            overflow-x: auto;
+            padding-bottom: var(--sp-1);
+            scrollbar-width: none;
+        }
+
+        .question-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .question-nav__btn {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            padding: 0;
+            font-size: var(--fs-sm);
+            color: var(--muted);
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-sm);
+            background-color: var(--bg);
+            flex-shrink: 0;
+            transition: all var(--transition-fast);
+        }
+
+        .question-nav__btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .question-nav__ellipsis {
+            color: var(--muted);
+            flex-shrink: 0;
+            padding: 0 var(--sp-1);
+        }
+
+        .exam-card {
+            background-color: var(--bg);
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-lg);
+            padding: var(--sp-6);
+        }
+
+        .exam-card__header {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            flex-wrap: wrap;
+            margin-bottom: var(--sp-4);
+        }
+
+        .exam-card__number {
+            font-size: var(--fs-lg);
+            font-weight: 600;
+            color: var(--ink);
+            margin: 0;
+        }
+
+        .exam-card__body {
+            margin-bottom: var(--sp-4);
+        }
+
+        .exam-card__text {
+            font-size: var(--fs-base);
+            line-height: 1.8;
+            color: var(--ink);
+            margin: 0;
+        }
+
+        .exam-card__formula {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-1);
+            padding: var(--sp-4);
+            background-color: var(--bg2);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--rule);
+            margin-bottom: var(--sp-5);
+            font-size: var(--fs-sm);
+            color: var(--ink);
+        }
+
+        .exam-card__options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-3);
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-4);
+            padding: var(--sp-4);
+            background-color: var(--bg2);
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: border-color var(--transition-fast);
+        }
+
+        .option-item:hover {
+            border-color: var(--accent);
+        }
+
+        .option-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+
+        .option-item__letter {
+            font-weight: 600;
+            color: var(--ink);
+            min-width: 24px;
+        }
+
+        .option-item__text {
+            flex: 1;
+            min-width: 0;
+            font-size: var(--fs-base);
+            color: var(--ink);
+        }
+
+        .answer-sheet {
+            background-color: var(--bg);
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-lg);
+            padding: var(--sp-5);
+        }
+
+        .answer-sheet__title {
+            font-size: var(--fs-base);
+            font-weight: 600;
+            color: var(--ink);
+            margin: 0 0 var(--sp-3);
+        }
+
+        .answer-sheet__grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--sp-2);
+            margin-bottom: var(--sp-4);
+        }
+
+        .answer-sheet__cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            background-color: var(--bg2);
+            color: var(--ink);
+            font-size: var(--fs-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .answer-sheet__cell:hover {
+            background-color: var(--bg3);
+        }
+
+        .answer-sheet__cell--answered {
+            background-color: var(--accent);
+            color: #ffffff;
+        }
+
+        .answer-sheet__cell--current {
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .answer-sheet__stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: var(--sp-3);
+            border-top: 1px solid var(--rule);
+        }
+
+        .answer-sheet__stat {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-size: var(--fs-sm);
+            color: var(--muted);
+        }
+
+        .answer-sheet__stat strong {
+            color: var(--ink);
+        }
+
+        .answer-sheet__stat-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .answer-sheet__stat-dot--answered {
+            background-color: var(--accent);
+        }
+
+        .answer-sheet__stat-dot--unanswered {
+            background-color: var(--bg3);
+        }
+
+        .marked-list {
+            background-color: var(--bg);
+            border: 1px solid var(--rule);
+            border-radius: var(--radius-lg);
+            padding: var(--sp-5);
+        }
+
+        .marked-list__header {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            margin-bottom: var(--sp-3);
+        }
+
+        .marked-list__title {
+            font-size: var(--fs-base);
+            font-weight: 600;
+            color: var(--ink);
+            margin: 0;
+        }
+
+        .marked-list__items {
+            display: flex;
+            flex-direction: column;
+            gap: var(--sp-2);
+        }
+
+        .marked-item {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-3);
+            padding: var(--sp-3);
+            background-color: var(--bg2);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .marked-item:hover {
+            background-color: var(--bg3);
+        }
+
+        .marked-item__text {
+            flex: 1;
+            min-width: 0;
+            font-size: var(--fs-base);
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 768px) {
+            .exam-header {
+                padding: var(--sp-3);
+            }
+
+            .exam-layout {
+                padding: var(--sp-3);
+                flex-direction: column;
+            }
+
+            .exam-layout__right {
+                width: 100%;
+            }
+
+            .exam-header__timer {
+                font-size: var(--fs-lg);
+            }
+        }
+    </style>
+
+    <script>
+        function pauseExam() {
+            showToast('考试已暂停');
+        }
+
+        function submitExam() {
+            if (confirm('确定要交卷吗？还有14道题未作答。')) {
+                navigateTo('home-report.html');
+            }
+        }
+
+        function goToQuestion(num) {
+            showToast('跳转到第 ' + num + ' 题');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

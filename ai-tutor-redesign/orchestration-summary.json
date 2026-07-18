@@ -1,0 +1,129 @@
+{
+  "designSource": {
+    "operatingMode": "library-bound",
+    "libraryIdentity": {
+      "name": "ai-tutor-design",
+      "id": null,
+      "version": null,
+      "scope": "workspace",
+      "path": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor",
+      "versionSource": null
+    },
+    "brandPrefix": "aitutor",
+    "cssFilePath": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\colors_and_type.css",
+    "componentsCssPath": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components.css",
+    "designDecisionSummary": "Dark-first dashboard theme. Primary #d71920 red. DM Sans + Noto Sans SC. Radius 8/14/16/9999px. 4px spacing grid. 5-level shadows. Chinese-first voice.",
+    "forbiddenInventedComponents": [],
+    "allowedComponents": ["button", "navigation", "card", "tag", "input", "stat-card"],
+    "styleConstraints": {
+      "radiusMax": 16,
+      "spacingBase": 4,
+      "fontSizeBody": 16,
+      "controlHeightDefault": 40
+    }
+  },
+  "project": {
+    "name": "AI Tutor 前端重设计",
+    "deviceType": "desktop",
+    "styleContinuityAnchors": {
+      "colorSystem": "Dark background #0f1117, surface #1a1d27, border #2a2d38. Primary red #d71920 for CTA/emphasis. Blue #2563eb secondary accent.",
+      "shapeSystem": "Radius 8px compact controls, 14px standard cards, 16px large surfaces, 9999px pill tags.",
+      "typographySystem": "DM Sans Latin display/headings, Noto Sans SC Chinese CJK body. Scale 56/40/32/24/20/16/14/12/11px.",
+      "spacingSystem": "4px grid (4/8/12/16/24/32/48/64). Page margin 24px, card padding 24px, section gap 32px.",
+      "componentLanguage": "Dark bordered cards with hover lift, pill-shaped buttons/tags, backdrop-blur navigation.",
+      "surfaceAndDepth": "5-level shadow scale. Static cards use border-first. Floating layers use deeper elevation.",
+      "interactionTone": "Hover translateY(-3px) on cards. Red focus glow on inputs. Smooth transitions."
+    },
+    "generationTree": {
+      "nodes": [
+        { "id": "page-home", "type": "leaf", "status": "planned" },
+        { "id": "page-home-exam", "type": "leaf", "status": "planned", "stateRole": "derived", "derivedFromHtmlSrc": "pages/home.html", "stateGroupId": "sg-home-tabs" },
+        { "id": "page-home-report", "type": "leaf", "status": "planned", "stateRole": "derived", "derivedFromHtmlSrc": "pages/home.html", "stateGroupId": "sg-home-tabs" },
+        { "id": "page-dashboard", "type": "leaf", "status": "planned" }
+      ]
+    }
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "nodeId": "page-home",
+      "title": "首页",
+      "pageIndex": 1,
+      "htmlSrc": "pages/home.html",
+      "pageType": "showcase",
+      "stateRole": "base",
+      "stateGroupId": "sg-home-tabs",
+      "componentPlan": [
+        { "slug": "navigation", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\navigation.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-navigation.html" },
+        { "slug": "button", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\button.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-button.html" },
+        { "slug": "card", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\card.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-card.html" },
+        { "slug": "tag", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\tag.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-tag.html" },
+        { "slug": "stat-card", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\stat-card.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-stat-card.html" }
+      ]
+    },
+    {
+      "slug": "home-exam",
+      "nodeId": "page-home-exam",
+      "title": "首页 - 预测卷",
+      "pageIndex": 2,
+      "htmlSrc": "pages/home-exam.html",
+      "pageType": "showcase",
+      "stateRole": "derived",
+      "baseStatePageId": "page-home",
+      "stateGroupId": "sg-home-tabs",
+      "mutableRegions": ["#tab-content"],
+      "componentPlan": [
+        { "slug": "navigation", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\navigation.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-navigation.html" },
+        { "slug": "card", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\card.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-card.html" },
+        { "slug": "tag", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\tag.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-tag.html" },
+        { "slug": "button", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\button.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-button.html" }
+      ]
+    },
+    {
+      "slug": "home-report",
+      "nodeId": "page-home-report",
+      "title": "首页 - 样例报告",
+      "pageIndex": 3,
+      "htmlSrc": "pages/home-report.html",
+      "pageType": "showcase",
+      "stateRole": "derived",
+      "baseStatePageId": "page-home",
+      "stateGroupId": "sg-home-tabs",
+      "mutableRegions": ["#tab-content"],
+      "componentPlan": [
+        { "slug": "navigation", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\navigation.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-navigation.html" },
+        { "slug": "card", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\card.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-card.html" }
+      ]
+    },
+    {
+      "slug": "dashboard",
+      "nodeId": "page-dashboard",
+      "title": "学习驾驶舱",
+      "pageIndex": 4,
+      "htmlSrc": "pages/dashboard.html",
+      "pageType": "information-dense",
+      "componentPlan": [
+        { "slug": "navigation", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\navigation.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-navigation.html" },
+        { "slug": "stat-card", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\stat-card.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-stat-card.html" },
+        { "slug": "card", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\card.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-card.html" },
+        { "slug": "tag", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\tag.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-tag.html" },
+        { "slug": "button", "contractKind": "compact-json", "contractFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\components\\button.json", "previewFile": "d:\\Desktop\\aitutor\\.design_library\\ai-tutor\\preview\\component-button.html" }
+      ]
+    }
+  ],
+  "visibleWiring": [
+    { "from": "page-home", "to": "page-dashboard", "label": "进入学习驾驶舱", "domId": "nav-dashboard" }
+  ],
+  "hiddenWiring": [
+    { "from": "page-home", "to": "page-dashboard", "label": "立即开始", "domId": "cta-start" },
+    { "from": "page-home-exam", "to": "page-dashboard", "label": "进入学习驾驶舱", "domId": "nav-dashboard" },
+    { "from": "page-home-exam", "to": "page-dashboard", "label": "立即开始", "domId": "cta-start" },
+    { "from": "page-home-report", "to": "page-dashboard", "label": "进入学习驾驶舱", "domId": "nav-dashboard" },
+    { "from": "page-home-report", "to": "page-home", "label": "切换到总览Tab", "domId": "tab-home" },
+    { "from": "page-home", "to": "page-home-exam", "label": "切换到预测卷Tab", "domId": "tab-exam" },
+    { "from": "page-home", "to": "page-home-report", "label": "切换到样例报告Tab", "domId": "tab-report" },
+    { "from": "page-home-exam", "to": "page-home", "label": "切换到总览Tab", "domId": "tab-home" },
+    { "from": "page-home-report", "to": "page-home-exam", "label": "切换到预测卷Tab", "domId": "tab-exam" },
+    { "from": "page-dashboard", "to": "page-home", "label": "返回首页", "domId": "nav-home" }
+  ]
+}

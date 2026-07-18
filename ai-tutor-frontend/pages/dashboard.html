@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI tutor - 学习仪表盘</title>
+    <style id="theme-vars">
+{
+  "color": {
+    "primary": {
+      "aitutor-primary-900": {
+        "hex": "#660f13",
+        "opacity": "1"
+      },
+      "aitutor-primary-800": {
+        "hex": "#7a1014",
+        "opacity": "1"
+      },
+      "aitutor-primary-700": {
+        "hex": "#941218",
+        "opacity": "1"
+      },
+      "aitutor-primary-600": {
+        "hex": "#b8151b",
+        "opacity": "1"
+      },
+      "aitutor-primary-500": {
+        "hex": "#d71920",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-primary-400": {
+        "hex": "#f36b6b",
+        "opacity": "1"
+      },
+      "aitutor-primary-300": {
+        "hex": "#ffa0a0",
+        "opacity": "1"
+      },
+      "aitutor-primary-200": {
+        "hex": "#ffc5c5",
+        "opacity": "1"
+      },
+      "aitutor-primary-100": {
+        "hex": "#ffe0e0",
+        "opacity": "1"
+      },
+      "aitutor-primary-50": {
+        "hex": "#fff1f1",
+        "opacity": "1"
+      }
+    },
+    "success": {
+      "aitutor-success-900": {
+        "hex": "#022c22",
+        "opacity": "1"
+      },
+      "aitutor-success-800": {
+        "hex": "#064e3b",
+        "opacity": "1"
+      },
+      "aitutor-success-700": {
+        "hex": "#065f46",
+        "opacity": "1"
+      },
+      "aitutor-success-600": {
+        "hex": "#047857",
+        "opacity": "1"
+      },
+      "aitutor-success-500": {
+        "hex": "#059669",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-success-400": {
+        "hex": "#34d399",
+        "opacity": "1"
+      },
+      "aitutor-success-300": {
+        "hex": "#6ee7b7",
+        "opacity": "1"
+      },
+      "aitutor-success-200": {
+        "hex": "#a7f3d0",
+        "opacity": "1"
+      },
+      "aitutor-success-100": {
+        "hex": "#d1fae5",
+        "opacity": "1"
+      },
+      "aitutor-success-50": {
+        "hex": "#ecfdf5",
+        "opacity": "1"
+      }
+    },
+    "info": {
+      "aitutor-info-900": {
+        "hex": "#082f49",
+        "opacity": "1"
+      },
+      "aitutor-info-800": {
+        "hex": "#0c4a6e",
+        "opacity": "1"
+      },
+      "aitutor-info-700": {
+        "hex": "#075985",
+        "opacity": "1"
+      },
+      "aitutor-info-600": {
+        "hex": "#0369a1",
+        "opacity": "1"
+      },
+      "aitutor-info-500": {
+        "hex": "#0284c7",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-info-400": {
+        "hex": "#38bdf8",
+        "opacity": "1"
+      },
+      "aitutor-info-300": {
+        "hex": "#7dd3fc",
+        "opacity": "1"
+      },
+      "aitutor-info-200": {
+        "hex": "#bae6fd",
+        "opacity": "1"
+      },
+      "aitutor-info-100": {
+        "hex": "#e0f2fe",
+        "opacity": "1"
+      },
+      "aitutor-info-50": {
+        "hex": "#f0f9ff",
+        "opacity": "1"
+      }
+    },
+    "dark": {
+      "background": {
+        "hex": "#0f1117",
+        "opacity": "1"
+      },
+      "surface-dim": {
+        "hex": "#12141c",
+        "opacity": "1"
+      },
+      "surface": {
+        "hex": "#1a1d27",
+        "opacity": "1"
+      },
+      "color-surface-container-low": {
+        "hex": "#1a1d27",
+        "opacity": "1"
+      },
+      "surface-container-high": {
+        "hex": "#2a2d38",
+        "opacity": "1"
+      },
+      "color-surface-variant": {
+        "hex": "#2a2d38",
+        "opacity": "1"
+      },
+      "color-border": {
+        "hex": "#2a2d38",
+        "opacity": "1"
+      },
+      "color-on-surface-variant": {
+        "hex": "#64748b",
+        "opacity": "1"
+      },
+      "foreground": {
+        "hex": "#e8ecf1",
+        "opacity": "1"
+      },
+      "inverse-surface": {
+        "hex": "#f1f5f9",
+        "opacity": "1",
+        "isPrimary": true
+      }
+    },
+    "warning": {
+      "aitutor-warning-900": {
+        "hex": "#78350f",
+        "opacity": "1"
+      },
+      "aitutor-warning-800": {
+        "hex": "#92400e",
+        "opacity": "1"
+      },
+      "aitutor-warning-700": {
+        "hex": "#b45309",
+        "opacity": "1"
+      },
+      "aitutor-warning-600": {
+        "hex": "#d97706",
+        "opacity": "1"
+      },
+      "aitutor-warning-500": {
+        "hex": "#f59e0b",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-warning-400": {
+        "hex": "#fbbf24",
+        "opacity": "1"
+      },
+      "aitutor-warning-300": {
+        "hex": "#fcd34d",
+        "opacity": "1"
+      },
+      "aitutor-warning-200": {
+        "hex": "#fde68a",
+        "opacity": "1"
+      },
+      "aitutor-warning-100": {
+        "hex": "#fef3c7",
+        "opacity": "1"
+      },
+      "aitutor-warning-50": {
+        "hex": "#fffbeb",
+        "opacity": "1"
+      }
+    },
+    "aitutor-error": {
+      "aitutor-error-900": {
+        "hex": "#7f1d1d",
+        "opacity": "1"
+      },
+      "aitutor-error-800": {
+        "hex": "#991b1b",
+        "opacity": "1"
+      },
+      "aitutor-error-700": {
+        "hex": "#b91c1c",
+        "opacity": "1"
+      },
+      "aitutor-error-600": {
+        "hex": "#dc2626",
+        "opacity": "1"
+      },
+      "aitutor-error-500": {
+        "hex": "#ef4444",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "aitutor-error-400": {
+        "hex": "#f87171",
+        "opacity": "1"
+      },
+      "aitutor-error-300": {
+        "hex": "#fca5a5",
+        "opacity": "1"
+      },
+      "aitutor-error-200": {
+        "hex": "#fecaca",
+        "opacity": "1"
+      },
+      "aitutor-error-100": {
+        "hex": "#fee2e2",
+        "opacity": "1"
+      },
+      "aitutor-error-50": {
+        "hex": "#fef2f2",
+        "opacity": "1"
+      }
+    },
+    "error": {
+      "error": {
+        "hex": "#dc2626",
+        "opacity": "1",
+        "isPrimary": true
+      },
+      "error-foreground": {
+        "hex": "#ffffff",
+        "opacity": "1"
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "font-display": "'DM Sans', 'Noto Sans SC', sans-serif",
+      "font-heading": "'DM Sans', 'Noto Sans SC', sans-serif",
+      "font-body": "'Noto Sans SC', 'DM Sans', sans-serif",
+      "font-mono": "'DM Sans', monospace",
+      "font-family-base": "'Noto Sans SC', 'DM Sans', sans-serif"
+    },
+    "size": {
+      "font-size-display": "56px",
+      "font-size-h1": "40px",
+      "font-size-h2": "32px",
+      "font-size-h3": "24px",
+      "font-size-h4": "20px",
+      "font-size-body": "16px",
+      "font-size-lead": "18px",
+      "font-size-caption": "12px",
+      "font-size-eyebrow": "11px",
+      "font-size-mono": "14px",
+      "type-display-sm": "40px",
+      "type-heading-sm": "24px",
+      "type-body-md": "16px",
+      "type-body-sm": "14px"
+    },
+    "weight": {
+      "font-weight-display": "700",
+      "font-weight-h1": "700",
+      "font-weight-h2": "600",
+      "font-weight-h3": "600",
+      "font-weight-h4": "600",
+      "font-weight-body": "400",
+      "font-weight-lead": "400",
+      "font-weight-caption": "400",
+      "font-weight-eyebrow": "600",
+      "font-weight-mono": "400"
+    },
+    "lineHeight": {
+      "line-height-display": "1.1",
+      "line-height-h1": "1.2",
+      "line-height-h2": "1.25",
+      "line-height-h3": "1.3",
+      "line-height-h4": "1.4",
+      "line-height-body": "1.6",
+      "line-height-lead": "1.7",
+      "line-height-caption": "1.5",
+      "line-height-eyebrow": "1.4",
+      "line-height-mono": "1.6"
+    }
+  },
+  "shadow": {
+    "shadow-1·Card": {
+      "layers": [
+        {
+          "xOffset": "0px",
+          "yOffset": "1px",
+          "blur": "2px",
+          "spread": "0px",
+          "color": {
+            "hex": "#000000",
+            "opacity": ".06"
+          }
+        },
+        {
+          "xOffset": "0px",
+          "yOffset": "1px",
+          "blur": "1px",
+          "spread": "0px",
+          "color": {
+            "hex": "#000000",
+            "opacity": ".04"
+          }
+        }
+      ]
+    },
+    "shadow-2·Card Hover": {
+      "xOffset": "0px",
+      "yOffset": "4px",
+      "blur": "8px",
+      "spread": "-2px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".10"
+      }
+    },
+    "shadow-3·Float": {
+      "xOffset": "0px",
+      "yOffset": "8px",
+      "blur": "24px",
+      "spread": "-8px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".18"
+      }
+    },
+    "shadow-4·Modal": {
+      "xOffset": "0px",
+      "yOffset": "16px",
+      "blur": "40px",
+      "spread": "-12px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".24"
+      }
+    },
+    "shadow-5·Overlay": {
+      "xOffset": "0px",
+      "yOffset": "24px",
+      "blur": "60px",
+      "spread": "-20px",
+      "color": {
+        "hex": "#000000",
+        "opacity": ".30"
+      }
+    }
+  },
+  "radius": {
+    "radius-sm": "8px",
+    "radius-md": "14px",
+    "radius-lg": "16px",
+    "radius-pill": "9999px",
+    "radius-full": "9999px"
+  },
+  "spacing": {
+    "space-1": "4px",
+    "space-2": "8px",
+    "space-3": "12px",
+    "space-4": "16px",
+    "space-5": "24px",
+    "space-6": "32px",
+    "space-7": "48px",
+    "space-8": "64px"
+  },
+  "size": {
+    "size-button-sm": "32px",
+    "size-button-md": "40px",
+    "size-button-lg": "48px",
+    "size-input-height": "40px",
+    "size-icon-sm": "16px",
+    "size-icon-md": "24px",
+    "size-icon-lg": "32px"
+  }
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-primary-50: #fff1f1;
+    --color-primary-100: #ffe1e2;
+    --color-primary-200: #ffc7c9;
+    --color-primary-300: #ffa0a4;
+    --color-primary-400: #ff686d;
+    --color-primary-500: #d71920;
+    --color-primary-600: #b8151b;
+    --color-primary-700: #941218;
+    --color-primary-800: #7a1014;
+    --color-primary-900: #660f13;
+    --color-success-50: #ecfdf5;
+    --color-success-100: #d1fae5;
+    --color-success-200: #a7f3d0;
+    --color-success-300: #6ee7b7;
+    --color-success-400: #34d399;
+    --color-success-500: #059669;
+    --color-success-600: #047857;
+    --color-success-700: #065f46;
+    --color-success-800: #064e3b;
+    --color-success-900: #022c22;
+    --color-warning-50: #fffbeb;
+    --color-warning-100: #fef3c7;
+    --color-warning-200: #fde68a;
+    --color-warning-300: #fcd34d;
+    --color-warning-400: #fbbf24;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+    --color-warning-800: #92400e;
+    --color-warning-900: #78350f;
+    --color-error-50: #fef2f2;
+    --color-error-100: #fee2e2;
+    --color-error-200: #fecaca;
+    --color-error-300: #fca5a5;
+    --color-error-400: #f87171;
+    --color-error-500: #ef4444;
+    --color-error-600: #dc2626;
+    --color-error-700: #b91c1c;
+    --color-error-800: #991b1b;
+    --color-error-900: #7f1d1d;
+    --color-info-50: #f0f9ff;
+    --color-info-100: #e0f2fe;
+    --color-info-200: #bae6fd;
+    --color-info-300: #7dd3fc;
+    --color-info-400: #38bdf8;
+    --color-info-500: #0284c7;
+    --color-info-600: #0369a1;
+    --color-info-700: #075985;
+    --color-info-800: #0c4a6e;
+    --color-info-900: #082f49;
+    --color-severe-50: #fff7ed;
+    --color-severe-100: #ffedd5;
+    --color-severe-200: #fed7aa;
+    --color-severe-300: #fdba74;
+    --color-severe-400: #fb923c;
+    --color-severe-500: #f97316;
+    --color-severe-600: #ea580c;
+    --color-severe-700: #c2410c;
+    --color-creative-50: #f5f3ff;
+    --color-creative-100: #ede9fe;
+    --color-creative-200: #ddd6fe;
+    --color-creative-300: #c4b5fd;
+    --color-creative-400: #a78bfa;
+    --color-creative-500: #8b5cf6;
+    --color-creative-600: #7c3aed;
+    --color-surface: #ffffff;
+    --color-surface-secondary: #f8f9fb;
+    --color-surface-tertiary: #f1f5f9;
+    --color-surface-dark: #1a1d27;
+    --color-surface-darker: #12141c;
+    --color-surface-code: #1e293b;
+    --color-surface-container-high: #2a2d38;
+    --color-overlay: #000000;
+    --color-foreground: #0f172a;
+    --color-foreground-secondary: #475569;
+    --color-foreground-muted: #94a3b8;
+    --color-border: #e2e8f0;
+    --color-border-light: #f1f5f9;
+    --shadow-primary-glow: 0 2px 8px rgba(215,25,32,0.25);
+    --shadow-primary-glow-md: 0 4px 12px rgba(215,25,32,0.25);
+    --shadow-primary-glow-lg: 0 6px 20px rgba(215,25,32,0.35);
+    --shadow-creative-glow: 0 8px 24px rgba(124,58,237,0.12);
+    --shadow-glow-warning: 0 4px 16px rgba(245,158,11,0.35);
+    --shadow-glow-warning-sm: 0 3px 10px rgba(245,158,11,0.3);
+    --shadow-glow-error: 0 4px 12px rgba(239,68,68,0.3);
+    --shadow-glow-error-sm: 0 3px 10px rgba(239,68,68,0.3);
+    --shadow-glow-success: 0 3px 10px rgba(5,150,105,0.3);
+    --font-display: 'DM Sans', 'Noto Sans SC', sans-serif;
+    --font-sans: 'Noto Sans SC', 'DM Sans', sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 16px;
+    --radius-pill: 9999px;
+    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-hover: 0 4px 8px -2px rgb(0 0 0 / 0.10);
+    --color-on-dark: #f8fafc;
+    --color-subject-chinese: #d71920;
+    --color-subject-math: #2563eb;
+    --color-subject-english: #7c3aed;
+    --color-subject-physics: #0284c7;
+    --color-subject-chemistry: #059669;
+    --color-subject-biology: #16a34a;
+    --shadow-float: 0 8px 24px -8px rgb(0 0 0 / 0.18);
+  }
+  @layer base {
+    body { background: var(--color-surface); color: var(--color-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main class="min-h-screen bg-surface-secondary">
+      <!-- ========== 移动端顶部栏（仅移动端显示） ========== -->
+      <header class="lg:hidden sticky top-0 z-40 flex items-center justify-between h-14 px-4 bg-surface border-b border-border-light">
+        <div class="flex items-center gap-2">
+          <button type="button" id="mobile-menu-btn" class="inline-flex items-center justify-center h-9 w-9 rounded-lg text-foreground-secondary hover:bg-surface-tertiary" aria-label="菜单">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-sm" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</span>
+          <span class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI tutor</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="inline-flex items-center justify-center h-9 w-9 rounded-lg text-foreground-secondary hover:bg-surface-tertiary relative">
+            <i data-lucide="bell" class="w-5 h-5"></i>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary-500"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- ========== 侧边栏遮罩（移动端） ========== -->
+      <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+
+      <!-- ========== 左侧边栏 ========== -->
+      <aside id="sidebar" class="fixed top-0 left-0 z-50 h-screen w-60 bg-surface border-r border-border-light flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 md:w-[72px] lg:w-60">
+        <!-- Logo 区 -->
+        <div class="flex items-center gap-2.5 h-16 px-5 border-b border-border-light md:justify-center md:px-0 lg:px-5 lg:justify-start">
+          <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-lg" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</span>
+          <span class="text-lg font-semibold text-foreground hidden md:hidden lg:inline truncate" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI tutor</span>
+        </div>
+
+        <!-- 导航菜单 -->
+        <nav class="flex-1 px-3 py-4 overflow-y-auto no-scrollbar">
+          <ul class="space-y-1">
+            <!-- 仪表盘（当前） -->
+            <li>
+              <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white bg-primary-500 shadow-[0_2px_8px_rgba(215,25,32,0.25)] md:justify-center md:px-0 lg:px-3 lg:justify-start">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i>
+                <span class="truncate hidden md:hidden lg:inline">仪表盘</span>
+              </a>
+            </li>
+            <!-- AI导师 -->
+            <li>
+              <a href="tutor.html" data-dom-id="sidebar-tutor" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground transition-colors md:justify-center md:px-0 lg:px-3 lg:justify-start">
+                <i data-lucide="message-square-more" class="w-5 h-5 shrink-0"></i>
+                <span class="truncate hidden md:hidden lg:inline">AI导师</span>
+              </a>
+            </li>
+            <!-- 错题本 -->
+            <li>
+              <a href="wrong-book.html" data-dom-id="sidebar-wrongbook" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground transition-colors md:justify-center md:px-0 lg:px-3 lg:justify-start">
+                <i data-lucide="book-x" class="w-5 h-5 shrink-0"></i>
+                <span class="truncate hidden md:hidden lg:inline">错题本</span>
+              </a>
+            </li>
+            <!-- 间隔复习 -->
+            <li>
+              <a href="review.html" data-dom-id="sidebar-review" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground transition-colors md:justify-center md:px-0 lg:px-3 lg:justify-start">
+                <i data-lucide="brain" class="w-5 h-5 shrink-0"></i>
+                <span class="truncate hidden md:hidden lg:inline">间隔复习</span>
+              </a>
+            </li>
+            <!-- 我的报告 -->
+            <li>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground transition-colors md:justify-center md:px-0 lg:px-3 lg:justify-start">
+                <i data-lucide="file-text" class="w-5 h-5 shrink-0"></i>
+                <span class="truncate hidden md:hidden lg:inline">我的报告</span>
+              </a>
+            </li>
+            <!-- 学习路径 -->
+            <li>
+              <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground transition-colors md:justify-center md:px-0 lg:px-3 lg:justify-start">
+                <i data-lucide="route" class="w-5 h-5 shrink-0"></i>
+                <span class="truncate hidden md:hidden lg:inline">学习路径</span>
+              </a>
+            </li>
+            <!-- 知识图谱 -->
+            <li>
+              <a href="mastery.html" data-dom-id="sidebar-mastery" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground transition-colors md:justify-center md:px-0 lg:px-3 lg:justify-start">
+                <i data-lucide="network" class="w-5 h-5 shrink-0"></i>
+                <span class="truncate hidden md:hidden lg:inline">知识图谱</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- 底部用户区 -->
+        <div class="px-3 py-3 border-t border-border-light">
+          <div class="flex items-center gap-3 px-2 py-2 rounded-xl md:justify-center md:px-0 lg:px-2 lg:justify-between group cursor-pointer hover:bg-surface-tertiary transition-colors">
+            <div class="flex items-center gap-3 min-w-0 md:justify-center">
+              <div class="relative shrink-0">
+                <div class="h-9 w-9 rounded-full bg-gradient-to-br from-primary-500 to-primary-400 flex items-center justify-center text-white font-semibold text-sm" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">张</div>
+                <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-success-500 border-2 border-white"></span>
+              </div>
+              <div class="min-w-0 hidden md:hidden lg:block">
+                <div class="text-sm font-semibold text-foreground truncate" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">张小明</div>
+                <div class="text-xs text-foreground-secondary truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">初三 · 学霸模式</div>
+              </div>
+            </div>
+            <button class="hidden md:hidden lg:inline-flex h-8 w-8 items-center justify-center rounded-lg text-foreground-muted hover:text-primary-500 hover:bg-primary-50 transition-colors shrink-0" aria-label="退出登录">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ========== 右侧主内容区 ========== -->
+      <div class="lg:ml-60 md:ml-[72px] min-h-screen">
+        <div class="px-4 sm:px-6 lg:px-8 py-5 lg:py-8 max-w-[1600px] mx-auto">
+
+          <!-- ===== 顶部标题栏 ===== -->
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
+            <div class="min-w-0">
+              <!-- 面包屑 -->
+              <div class="flex items-center gap-1.5 text-xs text-foreground-secondary mb-1.5" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                <a href="index.html" class="hover:text-primary-500 transition-colors">首页</a>
+                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                <span class="text-foreground font-medium">学习仪表盘</span>
+              </div>
+              <h1 class="text-2xl sm:text-[28px] font-bold text-foreground leading-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all;">学习仪表盘</h1>
+              <p class="mt-1 text-sm text-foreground-secondary truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">你好，张小明！今天也要加油哦 💪</p>
+            </div>
+            <!-- 日期选择器 -->
+            <div class="flex items-center gap-2 shrink-0">
+              <button class="inline-flex items-center gap-2 px-3.5 h-10 rounded-xl bg-surface border border-border-light text-sm text-foreground hover:border-border hover:bg-surface-tertiary transition-colors whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                <i data-lucide="calendar" class="w-4 h-4 text-foreground-secondary"></i>
+                <span>2025年7月</span>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-foreground-muted"></i>
+              </button>
+              <button class="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-surface border border-border-light text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground transition-colors relative">
+                <i data-lucide="bell" class="w-[18px] h-[18px]"></i>
+                <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary-500"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ===== 今日摘要横条 ===== -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5">
+            <!-- 今日待复习 -->
+            <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
+                <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">今日待复习</div>
+                <div class="flex items-baseline gap-1 mt-0.5">
+                  <span class="text-2xl font-bold text-primary-500 whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">12</span>
+                  <span class="text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">题</span>
+                </div>
+              </div>
+            </div>
+            <!-- 掌握度 -->
+            <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-success-50 text-success-500">
+                <i data-lucide="target" class="w-5 h-5"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">掌握度</div>
+                <div class="flex items-baseline gap-1 mt-0.5">
+                  <span class="text-2xl font-bold text-success-500 whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">68</span>
+                  <span class="text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">%</span>
+                </div>
+              </div>
+            </div>
+            <!-- 连续打卡 -->
+            <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-warning-50 text-warning-500">
+                <i data-lucide="flame" class="w-5 h-5"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">连续打卡</div>
+                <div class="flex items-baseline gap-1 mt-0.5">
+                  <span class="text-2xl font-bold text-warning-500 whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">7</span>
+                  <span class="text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">天</span>
+                </div>
+              </div>
+            </div>
+            <!-- 本周学习时长 -->
+            <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-info-50 text-info-500">
+                <i data-lucide="clock" class="w-5 h-5"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">本周学习</div>
+                <div class="flex items-baseline gap-1 mt-0.5">
+                  <span class="text-2xl font-bold text-info-500 whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">8.5</span>
+                  <span class="text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">小时</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== KPI 卡片行 ===== -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5">
+            <!-- 总练习题数 -->
+            <div class="p-5 rounded-2xl bg-gradient-to-br from-white to-surface-secondary border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-shadow">
+              <div class="flex items-start justify-between mb-3">
+                <div class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-50 text-primary-500">
+                  <i data-lucide="pen-tool" class="w-[18px] h-[18px]"></i>
+                </div>
+                <span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-success-50 text-success-500 text-[11px] font-semibold whitespace-nowrap">
+                  <i data-lucide="trending-up" class="w-3 h-3"></i>+12%
+                </span>
+              </div>
+              <div class="text-3xl font-bold text-foreground whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">1,248</div>
+              <div class="mt-1.5 text-sm text-foreground-secondary truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">总练习题数</div>
+            </div>
+            <!-- 正确率 -->
+            <div class="p-5 rounded-2xl bg-gradient-to-br from-white to-surface-secondary border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-shadow">
+              <div class="flex items-start justify-between mb-3">
+                <div class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-success-50 text-success-500">
+                  <i data-lucide="check-circle-2" class="w-[18px] h-[18px]"></i>
+                </div>
+                <span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-success-50 text-success-500 text-[11px] font-semibold whitespace-nowrap">
+                  <i data-lucide="trending-up" class="w-3 h-3"></i>+3%
+                </span>
+              </div>
+              <div class="text-3xl font-bold text-foreground whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">76<span class="text-xl">%</span></div>
+              <div class="mt-1.5 text-sm text-foreground-secondary truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">做题正确率</div>
+            </div>
+            <!-- 本月提分 -->
+            <div class="p-5 rounded-2xl bg-gradient-to-br from-white to-surface-secondary border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-shadow">
+              <div class="flex items-start justify-between mb-3">
+                <div class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-warning-50 text-warning-500">
+                  <i data-lucide="award" class="w-[18px] h-[18px]"></i>
+                </div>
+                <span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-success-50 text-success-500 text-[11px] font-semibold whitespace-nowrap">
+                  <i data-lucide="trending-up" class="w-3 h-3"></i>进步
+                </span>
+              </div>
+              <div class="text-3xl font-bold text-primary-500 whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">+12<span class="text-xl">分</span></div>
+              <div class="mt-1.5 text-sm text-foreground-secondary truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">本月提分</div>
+            </div>
+            <!-- 排名 -->
+            <div class="p-5 rounded-2xl bg-gradient-to-br from-white to-surface-secondary border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-shadow">
+              <div class="flex items-start justify-between mb-3">
+                <div class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-info-50 text-info-500">
+                  <i data-lucide="trophy" class="w-[18px] h-[18px]"></i>
+                </div>
+                <span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-info-50 text-info-500 text-[11px] font-semibold whitespace-nowrap">
+                  TOP 15%
+                </span>
+              </div>
+              <div class="text-3xl font-bold text-foreground whitespace-nowrap leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">85<span class="text-xl">%</span></div>
+              <div class="mt-1.5 text-sm text-foreground-secondary truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">超越同学</div>
+            </div>
+          </div>
+
+          <!-- ===== 图表区域（2列） ===== -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5 mb-5">
+            <!-- 左：掌握度雷达图 -->
+            <div class="p-5 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">知识掌握度</h3>
+                  <p class="text-xs text-foreground-secondary mt-0.5 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">六大学科维度掌握情况</p>
+                </div>
+                <div class="flex items-center gap-1 text-xs">
+                  <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-primary-50 text-primary-500 whitespace-nowrap">
+                    <span class="w-2 h-2 rounded-sm bg-primary-500"></span>掌握度
+                  </span>
+                </div>
+              </div>
+              <!-- 雷达图 SVG -->
+              <div class="relative w-full flex items-center justify-center py-2">
+                <svg viewBox="0 0 320 300" class="w-full max-w-[320px]" xmlns="http://www.w3.org/2000/svg">
+                  <!-- 背景六边形网格（4层） -->
+                  <!-- 最外层 100% -->
+                  <polygon points="160,25 283,95 283,205 160,275 37,205 37,95" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+                  <!-- 75% -->
+                  <polygon points="160,56 252,109 252,191 160,244 68,191 68,109" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+                  <!-- 50% -->
+                  <polygon points="160,88 222,123 222,177 160,212 98,177 98,123" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+                  <!-- 25% -->
+                  <polygon points="160,119 191,137 191,163 160,181 129,163 129,137" fill="none" stroke="#f1f5f9" stroke-width="1"/>
+                  <!-- 轴线 -->
+                  <line x1="160" y1="150" x2="160" y2="25" stroke="var(--color-border)" stroke-width="1"/>
+                  <line x1="160" y1="150" x2="283" y2="95" stroke="var(--color-border)" stroke-width="1"/>
+                  <line x1="160" y1="150" x2="283" y2="205" stroke="var(--color-border)" stroke-width="1"/>
+                  <line x1="160" y1="150" x2="160" y2="275" stroke="var(--color-border)" stroke-width="1"/>
+                  <line x1="160" y1="150" x2="37" y2="205" stroke="var(--color-border)" stroke-width="1"/>
+                  <line x1="160" y1="150" x2="37" y2="95" stroke="var(--color-border)" stroke-width="1"/>
+
+                  <!-- 数据多边形（函数68%、几何52%、代数82%、概率75%、数列45%、三角函数60%） -->
+                  <!-- 顶点顺序: 顶(函数) 右上(几何) 右下(代数) 底(概率) 左下(数列) 左上(三角函数) -->
+                  <!-- 计算各点坐标：中心(160,150)，半径125，按百分比缩放 -->
+                  <!-- 函数(顶): angle=-90°, (160,150-125*0.68) = (160,65) -->
+                  <!-- 几何(右上): angle=-30°, (160+125*0.52*cos(-30°), 150+125*0.52*sin(-30°)) = (160+56.3, 150-32.5) = (216,118) -->
+                  <!-- 代数(右下): angle=30°, (160+125*0.82*cos(30°), 150+125*0.82*sin(30°)) = (160+88.9, 150+51.3) = (249,201) -->
+                  <!-- 概率(底): angle=90°, (160,150+125*0.75) = (160,244) -->
+                  <!-- 数列(左下): angle=150°, (160+125*0.45*cos(150°), 150+125*0.45*sin(150°)) = (160-48.7, 150+28.1) = (111,178) -->
+                  <!-- 三角函数(左上): angle=210°, (160+125*0.60*cos(210°), 150+125*0.60*sin(210°)) = (160-64.9, 150-37.5) = (95,113) -->
+                  <polygon points="160,65 216,118 249,201 160,244 111,178 95,113" fill="rgba(215,25,32,0.12)" stroke="var(--color-primary-500)" stroke-width="2" stroke-linejoin="round"/>
+                  <!-- 数据点 -->
+                  <circle cx="160" cy="65" r="4" fill="var(--color-primary-500)" stroke="#fff" stroke-width="2"/>
+                  <circle cx="216" cy="118" r="4" fill="var(--color-primary-500)" stroke="#fff" stroke-width="2"/>
+                  <circle cx="249" cy="201" r="4" fill="var(--color-primary-500)" stroke="#fff" stroke-width="2"/>
+                  <circle cx="160" cy="244" r="4" fill="var(--color-primary-500)" stroke="#fff" stroke-width="2"/>
+                  <circle cx="111" cy="178" r="4" fill="var(--color-primary-500)" stroke="#fff" stroke-width="2"/>
+                  <circle cx="95" cy="113" r="4" fill="var(--color-primary-500)" stroke="#fff" stroke-width="2"/>
+
+                  <!-- 维度标签 -->
+                  <!-- 函数(顶) -->
+                  <text x="160" y="15" text-anchor="middle" class="fill-foreground text-[12px] font-medium" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">函数</text>
+                  <text x="160" y="55" text-anchor="middle" class="fill-primary-500 text-[11px] font-bold" style="font-family:'DM Sans',sans-serif;">68%</text>
+                  <!-- 几何(右上) -->
+                  <text x="295" y="92" text-anchor="start" class="fill-foreground text-[12px] font-medium" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">几何</text>
+                  <text x="268" y="108" text-anchor="start" class="fill-primary-500 text-[11px] font-bold" style="font-family:'DM Sans',sans-serif;">52%</text>
+                  <!-- 代数(右下) -->
+                  <text x="295" y="210" text-anchor="start" class="fill-foreground text-[12px] font-medium" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">代数</text>
+                  <text x="268" y="224" text-anchor="start" class="fill-success-500 text-[11px] font-bold" style="font-family:'DM Sans',sans-serif;">82%</text>
+                  <!-- 概率(底) -->
+                  <text x="160" y="295" text-anchor="middle" class="fill-foreground text-[12px] font-medium" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">概率</text>
+                  <text x="160" y="260" text-anchor="middle" class="fill-success-500 text-[11px] font-bold" style="font-family:'DM Sans',sans-serif;">75%</text>
+                  <!-- 数列(左下) -->
+                  <text x="25" y="210" text-anchor="end" class="fill-foreground text-[12px] font-medium" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">数列</text>
+                  <text x="52" y="224" text-anchor="end" class="fill-error-500 text-[11px] font-bold" style="font-family:'DM Sans',sans-serif;">45%</text>
+                  <!-- 三角函数(左上) -->
+                  <text x="25" y="92" text-anchor="end" class="fill-foreground text-[12px] font-medium" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">三角函数</text>
+                  <text x="52" y="108" text-anchor="end" class="fill-primary-500 text-[11px] font-bold" style="font-family:'DM Sans',sans-serif;">60%</text>
+
+                  <!-- 中心文字 -->
+                  <text x="160" y="146" text-anchor="middle" class="fill-foreground-secondary text-[11px]" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">综合掌握度</text>
+                  <text x="160" y="168" text-anchor="middle" class="fill-primary-500 text-[22px] font-bold" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">68%</text>
+                </svg>
+              </div>
+            </div>
+
+            <!-- 右：近7天学习时长柱状图 -->
+            <div class="p-5 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">近7天学习时长</h3>
+                  <p class="text-xs text-foreground-secondary mt-0.5 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">本周累计 14.0 小时，日均 2.0h</p>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-primary-50 text-primary-500 text-xs whitespace-nowrap">
+                  <i data-lucide="bar-chart-3" class="w-3 h-3"></i>小时
+                </span>
+              </div>
+              <!-- 柱状图 -->
+              <div class="pt-4 pb-2">
+                <!-- Y轴刻度+柱子区域 -->
+                <div class="flex items-end gap-2 sm:gap-3 h-[200px] relative">
+                  <!-- Y轴参考线 -->
+                  <div class="absolute inset-0 flex flex-col justify-between pointer-events-none" style="padding-bottom:28px;">
+                    <div class="border-t border-dashed border-border-light w-full"></div>
+                    <div class="border-t border-dashed border-border-light w-full"></div>
+                    <div class="border-t border-dashed border-border-light w-full"></div>
+                    <div class="border-t border-dashed border-border-light w-full"></div>
+                    <div class="w-full"></div>
+                  </div>
+                  <!-- Y轴标签 -->
+                  <div class="flex flex-col justify-between h-[172px] text-[10px] text-foreground-muted text-right pr-1 shrink-0" style="font-family:'DM Sans',sans-serif;">
+                    <span>4h</span>
+                    <span>3h</span>
+                    <span>2h</span>
+                    <span>1h</span>
+                    <span>0</span>
+                  </div>
+                  <!-- 柱子区域 -->
+                  <div class="flex-1 flex items-end justify-between gap-1 sm:gap-2 relative z-10 h-[172px]">
+                    <!-- 周一 1.2h (30%) -->
+                    <div class="flex-1 flex flex-col items-center gap-1.5 justify-end h-full group">
+                      <span class="text-[10px] font-semibold text-foreground-secondary opacity-0 group-hover:opacity-100 transition-opacity" style="font-family:'DM Sans',sans-serif;">1.2h</span>
+                      <div class="w-full max-w-[32px] rounded-t-md bg-gradient-to-t from-primary-500 to-primary-400 hover:from-primary-600 hover:to-primary-500 transition-all cursor-pointer" style="height:30%;"></div>
+                    </div>
+                    <!-- 周二 2.0h (50%) -->
+                    <div class="flex-1 flex flex-col items-center gap-1.5 justify-end h-full group">
+                      <span class="text-[10px] font-semibold text-foreground-secondary opacity-0 group-hover:opacity-100 transition-opacity" style="font-family:'DM Sans',sans-serif;">2.0h</span>
+                      <div class="w-full max-w-[32px] rounded-t-md bg-gradient-to-t from-primary-500 to-primary-400 hover:from-primary-600 hover:to-primary-500 transition-all cursor-pointer" style="height:50%;"></div>
+                    </div>
+                    <!-- 周三 0.5h (12.5%) -->
+                    <div class="flex-1 flex flex-col items-center gap-1.5 justify-end h-full group">
+                      <span class="text-[10px] font-semibold text-foreground-secondary opacity-0 group-hover:opacity-100 transition-opacity" style="font-family:'DM Sans',sans-serif;">0.5h</span>
+                      <div class="w-full max-w-[32px] rounded-t-md bg-gradient-to-t from-primary-500 to-primary-400 hover:from-primary-600 hover:to-primary-500 transition-all cursor-pointer" style="height:12.5%;"></div>
+                    </div>
+                    <!-- 周四 1.8h (45%) -->
+                    <div class="flex-1 flex flex-col items-center gap-1.5 justify-end h-full group">
+                      <span class="text-[10px] font-semibold text-foreground-secondary opacity-0 group-hover:opacity-100 transition-opacity" style="font-family:'DM Sans',sans-serif;">1.8h</span>
+                      <div class="w-full max-w-[32px] rounded-t-md bg-gradient-to-t from-primary-500 to-primary-400 hover:from-primary-600 hover:to-primary-500 transition-all cursor-pointer" style="height:45%;"></div>
+                    </div>
+                    <!-- 周五 2.5h (62.5%) -->
+                    <div class="flex-1 flex flex-col items-center gap-1.5 justify-end h-full group">
+                      <span class="text-[10px] font-semibold text-foreground-secondary opacity-0 group-hover:opacity-100 transition-opacity" style="font-family:'DM Sans',sans-serif;">2.5h</span>
+                      <div class="w-full max-w-[32px] rounded-t-md bg-gradient-to-t from-primary-500 to-primary-400 hover:from-primary-600 hover:to-primary-500 transition-all cursor-pointer" style="height:62.5%;"></div>
+                    </div>
+                    <!-- 周六 3.2h (80%) -->
+                    <div class="flex-1 flex flex-col items-center gap-1.5 justify-end h-full group">
+                      <span class="text-[10px] font-semibold text-foreground-secondary opacity-0 group-hover:opacity-100 transition-opacity" style="font-family:'DM Sans',sans-serif;">3.2h</span>
+                      <div class="w-full max-w-[32px] rounded-t-md bg-gradient-to-t from-primary-500 to-primary-300 hover:from-primary-600 hover:to-primary-500 transition-all cursor-pointer shadow-[0_-2px_8px_rgba(215,25,32,0.2)]" style="height:80%;"></div>
+                    </div>
+                    <!-- 周日 2.8h (70%) -->
+                    <div class="flex-1 flex flex-col items-center gap-1.5 justify-end h-full group">
+                      <span class="text-[10px] font-semibold text-foreground-secondary opacity-0 group-hover:opacity-100 transition-opacity" style="font-family:'DM Sans',sans-serif;">2.8h</span>
+                      <div class="w-full max-w-[32px] rounded-t-md bg-gradient-to-t from-primary-500 to-primary-400 hover:from-primary-600 hover:to-primary-500 transition-all cursor-pointer" style="height:70%;"></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- X轴标签 -->
+                <div class="flex mt-2">
+                  <div class="w-[24px] sm:w-[28px] shrink-0"></div>
+                  <div class="flex-1 flex justify-between gap-1 sm:gap-2 text-[11px] text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                    <span class="flex-1 text-center">周一</span>
+                    <span class="flex-1 text-center">周二</span>
+                    <span class="flex-1 text-center">周三</span>
+                    <span class="flex-1 text-center">周四</span>
+                    <span class="flex-1 text-center">周五</span>
+                    <span class="flex-1 text-center text-primary-500 font-semibold">周六</span>
+                    <span class="flex-1 text-center">周日</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== 知识掌握度热力图 ===== -->
+          <div class="p-5 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] mb-5">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">知识掌握度热力图</h3>
+                <p class="text-xs text-foreground-secondary mt-0.5 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">近两周各知识点掌握情况，颜色越深表示掌握越好</p>
+              </div>
+              <!-- 图例 -->
+              <div class="flex items-center gap-1.5 text-[11px] text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                <span>薄弱</span>
+                <div class="flex gap-0.5">
+                  <span class="w-3 h-3 rounded-sm bg-error-500"></span>
+                  <span class="w-3 h-3 rounded-sm bg-error-300"></span>
+                  <span class="w-3 h-3 rounded-sm bg-warning-200"></span>
+                  <span class="w-3 h-3 rounded-sm bg-success-200"></span>
+                  <span class="w-3 h-3 rounded-sm bg-success-500"></span>
+                </div>
+                <span>掌握</span>
+              </div>
+            </div>
+            <!-- 热力图网格 3行×14列 -->
+            <div class="overflow-x-auto no-scrollbar">
+              <div class="min-w-[560px]">
+                <!-- 列标题（日期） -->
+                <div class="flex gap-1.5 mb-1.5 ml-16">
+                  <div class="flex-1 grid grid-cols-14 gap-1.5" style="display:grid;grid-template-columns:repeat(14,1fr);">
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/1</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/2</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/3</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/4</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/5</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/6</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/7</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/8</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/9</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/10</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/11</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/12</div>
+                    <div class="text-center text-[10px] text-foreground-muted" style="font-family:'DM Sans',sans-serif;">7/13</div>
+                    <div class="text-center text-[10px] text-primary-500 font-semibold" style="font-family:'DM Sans',sans-serif;">今日</div>
+                  </div>
+                </div>
+                <!-- 行：函数 -->
+                <div class="flex items-center gap-1.5 mb-1.5">
+                  <div class="w-14 text-xs text-foreground-secondary text-right shrink-0 pr-1 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">函数</div>
+                  <div class="flex-1 grid gap-1.5" style="display:grid;grid-template-columns:repeat(14,1fr);">
+                    <div class="aspect-square rounded-[3px] bg-error-300 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-warning-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-300 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-warning-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-warning-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-warning-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-warning-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all ring-2 ring-primary-500 ring-offset-1"></div>
+                  </div>
+                </div>
+                <!-- 行：几何 -->
+                <div class="flex items-center gap-1.5 mb-1.5">
+                  <div class="w-14 text-xs text-foreground-secondary text-right shrink-0 pr-1 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">几何</div>
+                  <div class="flex-1 grid gap-1.5" style="display:grid;grid-template-columns:repeat(14,1fr);">
+                    <div class="aspect-square rounded-[3px] bg-error-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-300 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-300 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-warning-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-300 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-300 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-warning-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-300 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-warning-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-300 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-warning-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-error-300 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all ring-2 ring-primary-500 ring-offset-1"></div>
+                  </div>
+                </div>
+                <!-- 行：代数 -->
+                <div class="flex items-center gap-1.5">
+                  <div class="w-14 text-xs text-foreground-secondary text-right shrink-0 pr-1 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">代数</div>
+                  <div class="flex-1 grid gap-1.5" style="display:grid;grid-template-columns:repeat(14,1fr);">
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-200 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all"></div>
+                    <div class="aspect-square rounded-[3px] bg-success-500 hover:ring-2 hover:ring-primary-500 hover:ring-offset-1 cursor-pointer transition-all ring-2 ring-primary-500 ring-offset-1"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 flex items-center gap-2 text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+              <i data-lucide="info" class="w-3.5 h-3.5"></i>
+              <span class="truncate">几何和函数部分存在薄弱点，建议优先复习</span>
+            </div>
+          </div>
+
+          <!-- ===== 下方双列：最近练习 + 待复习任务 ===== -->
+          <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 lg:gap-5">
+            <!-- 最近练习列表（占2列） -->
+            <div class="xl:col-span-2 p-5 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">最近练习</h3>
+                  <p class="text-xs text-foreground-secondary mt-0.5 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">最近的做题记录</p>
+                </div>
+                <a href="wrong-book.html" class="inline-flex items-center gap-1 text-xs font-medium text-primary-500 hover:text-primary-600 transition-colors shrink-0 whitespace-nowrap">
+                  查看全部
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+              <!-- 表格 -->
+              <div class="overflow-x-auto -mx-2 no-scrollbar">
+                <table class="w-full min-w-[560px]">
+                  <thead>
+                    <tr class="border-b border-border-light">
+                      <th class="text-left text-xs font-medium text-foreground-secondary pb-3 pl-2 pr-3" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">题目</th>
+                      <th class="text-left text-xs font-medium text-foreground-secondary pb-3 px-3 whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">学科</th>
+                      <th class="text-left text-xs font-medium text-foreground-secondary pb-3 px-3 whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">难度</th>
+                      <th class="text-left text-xs font-medium text-foreground-secondary pb-3 px-3 whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">结果</th>
+                      <th class="text-right text-xs font-medium text-foreground-secondary pb-3 pl-3 pr-2 whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">时间</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-border-light hover:bg-surface-tertiary/50 transition-colors">
+                      <td class="py-3 pl-2 pr-3 min-w-[200px]">
+                        <div class="text-sm text-foreground line-clamp-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">已知二次函数 f(x)=ax²+bx+c 的图像过点(1,0)，且对任意x满足f(2-x)=f(2+x)，求a,b,c关系</div>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-info-50 text-info-500 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">数学</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-warning-100 text-warning-600 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">中等</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center gap-1 text-success-500 text-xs font-semibold whitespace-nowrap">
+                          <i data-lucide="check-circle-2" class="w-4 h-4"></i>正确
+                        </span>
+                      </td>
+                      <td class="py-3 pl-3 pr-2 text-right whitespace-nowrap">
+                        <span class="text-xs text-foreground-muted" style="font-family:'DM Sans',sans-serif;">10分钟前</span>
+                      </td>
+                    </tr>
+                    <tr class="border-b border-border-light hover:bg-surface-tertiary/50 transition-colors">
+                      <td class="py-3 pl-2 pr-3 min-w-[200px]">
+                        <div class="text-sm text-foreground line-clamp-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">如图，在△ABC中，AB=AC，∠BAC=120°，D为BC中点，DE⊥AB于E，若AE=2，求BC的长</div>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-info-50 text-info-500 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">数学</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-error-100 text-error-600 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">困难</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center gap-1 text-error-500 text-xs font-semibold whitespace-nowrap">
+                          <i data-lucide="x-circle" class="w-4 h-4"></i>错误
+                        </span>
+                      </td>
+                      <td class="py-3 pl-3 pr-2 text-right whitespace-nowrap">
+                        <span class="text-xs text-foreground-muted" style="font-family:'DM Sans',sans-serif;">25分钟前</span>
+                      </td>
+                    </tr>
+                    <tr class="border-b border-border-light hover:bg-surface-tertiary/50 transition-colors">
+                      <td class="py-3 pl-2 pr-3 min-w-[200px]">
+                        <div class="text-sm text-foreground line-clamp-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">解方程：x² - 5x + 6 = 0，并写出两根之和与两根之积</div>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-info-50 text-info-500 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">数学</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-success-100 text-success-500 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">简单</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center gap-1 text-success-500 text-xs font-semibold whitespace-nowrap">
+                          <i data-lucide="check-circle-2" class="w-4 h-4"></i>正确
+                        </span>
+                      </td>
+                      <td class="py-3 pl-3 pr-2 text-right whitespace-nowrap">
+                        <span class="text-xs text-foreground-muted" style="font-family:'DM Sans',sans-serif;">1小时前</span>
+                      </td>
+                    </tr>
+                    <tr class="border-b border-border-light hover:bg-surface-tertiary/50 transition-colors">
+                      <td class="py-3 pl-2 pr-3 min-w-[200px]">
+                        <div class="text-sm text-foreground line-clamp-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">某批次产品次品率为5%，现从中随机抽取3件，求恰好有1件次品的概率</div>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-info-50 text-info-500 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">数学</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-warning-100 text-warning-600 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">中等</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center gap-1 text-success-500 text-xs font-semibold whitespace-nowrap">
+                          <i data-lucide="check-circle-2" class="w-4 h-4"></i>正确
+                        </span>
+                      </td>
+                      <td class="py-3 pl-3 pr-2 text-right whitespace-nowrap">
+                        <span class="text-xs text-foreground-muted" style="font-family:'DM Sans',sans-serif;">今天 09:20</span>
+                      </td>
+                    </tr>
+                    <tr class="border-b border-border-light hover:bg-surface-tertiary/50 transition-colors">
+                      <td class="py-3 pl-2 pr-3 min-w-[200px]">
+                        <div class="text-sm text-foreground line-clamp-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">等差数列{aₙ}中，a₃=7，a₅+a₇=26，求通项公式aₙ及前n项和Sₙ</div>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-info-50 text-info-500 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">数学</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-error-100 text-error-600 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">困难</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center gap-1 text-error-500 text-xs font-semibold whitespace-nowrap">
+                          <i data-lucide="x-circle" class="w-4 h-4"></i>错误
+                        </span>
+                      </td>
+                      <td class="py-3 pl-3 pr-2 text-right whitespace-nowrap">
+                        <span class="text-xs text-foreground-muted" style="font-family:'DM Sans',sans-serif;">昨天 20:15</span>
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-surface-tertiary/50 transition-colors">
+                      <td class="py-3 pl-2 pr-3 min-w-[200px]">
+                        <div class="text-sm text-foreground line-clamp-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">在Rt△ABC中，∠C=90°，sinA=3/5，求cosB的值</div>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-info-50 text-info-500 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">数学</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-success-100 text-success-500 text-xs font-medium whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">简单</span>
+                      </td>
+                      <td class="py-3 px-3 whitespace-nowrap">
+                        <span class="inline-flex items-center gap-1 text-success-500 text-xs font-semibold whitespace-nowrap">
+                          <i data-lucide="check-circle-2" class="w-4 h-4"></i>正确
+                        </span>
+                      </td>
+                      <td class="py-3 pl-3 pr-2 text-right whitespace-nowrap">
+                        <span class="text-xs text-foreground-muted" style="font-family:'DM Sans',sans-serif;">昨天 18:40</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 待复习任务卡片（占1列） -->
+            <div class="xl:col-span-1">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">待复习任务</h3>
+                  <p class="text-xs text-foreground-secondary mt-0.5 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">基于记忆曲线智能安排</p>
+                </div>
+                <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-primary-500 text-white text-xs font-bold whitespace-nowrap" style="font-family:'DM Sans',sans-serif;">12</span>
+              </div>
+              <div class="space-y-3">
+                <!-- 复习卡片1 -->
+                <div class="p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] hover:border-primary-200 transition-all">
+                  <div class="flex items-start justify-between mb-2">
+                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-error-100 text-error-600 text-[11px] font-semibold whitespace-nowrap">
+                      <i data-lucide="alert-circle" class="w-3 h-3"></i>紧急
+                    </div>
+                    <span class="text-xs text-foreground-muted whitespace-nowrap" style="font-family:'DM Sans',sans-serif;">今天到期</span>
+                  </div>
+                  <h4 class="text-sm font-semibold text-foreground line-clamp-2 leading-snug" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">等腰三角形性质与判定</h4>
+                  <p class="mt-1.5 text-xs text-foreground-secondary line-clamp-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">上次错误率较高，需重点回顾"三线合一"性质应用</p>
+                  <div class="mt-3 flex items-center justify-between">
+                    <div class="flex items-center gap-1 text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                      <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                      <span>预计 8 分钟</span>
+                    </div>
+                    <a href="review.html" data-dom-id="dash-to-review" class="inline-flex items-center gap-1 px-3 h-8 rounded-lg bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium transition-colors shrink-0 whitespace-nowrap">
+                      开始复习
+                      <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- 复习卡片2 -->
+                <div class="p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] hover:border-primary-200 transition-all">
+                  <div class="flex items-start justify-between mb-2">
+                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-warning-100 text-warning-600 text-[11px] font-semibold whitespace-nowrap">
+                      <i data-lucide="refresh-cw" class="w-3 h-3"></i>复习
+                    </div>
+                    <span class="text-xs text-foreground-muted whitespace-nowrap" style="font-family:'DM Sans',sans-serif;">明天到期</span>
+                  </div>
+                  <h4 class="text-sm font-semibold text-foreground line-clamp-2 leading-snug" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">二次函数图像与性质</h4>
+                  <p class="mt-1.5 text-xs text-foreground-secondary line-clamp-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">顶点坐标公式、对称轴方程、开口方向与系数关系</p>
+                  <div class="mt-3 flex items-center justify-between">
+                    <div class="flex items-center gap-1 text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                      <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                      <span>预计 12 分钟</span>
+                    </div>
+                    <a href="review.html" class="inline-flex items-center gap-1 px-3 h-8 rounded-lg bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium transition-colors shrink-0 whitespace-nowrap">
+                      开始复习
+                      <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- 复习卡片3 -->
+                <div class="p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] hover:border-primary-200 transition-all">
+                  <div class="flex items-start justify-between mb-2">
+                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-info-100 text-info-500 text-[11px] font-semibold whitespace-nowrap">
+                      <i data-lucide="layers" class="w-3 h-3"></i>巩固
+                    </div>
+                    <span class="text-xs text-foreground-muted whitespace-nowrap" style="font-family:'DM Sans',sans-serif;">3天后到期</span>
+                  </div>
+                  <h4 class="text-sm font-semibold text-foreground line-clamp-2 leading-snug" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">等差数列通项与求和</h4>
+                  <p class="mt-1.5 text-xs text-foreground-secondary line-clamp-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">aₙ=a₁+(n-1)d 及 Sₙ=n(a₁+aₙ)/2 公式应用</p>
+                  <div class="mt-3 flex items-center justify-between">
+                    <div class="flex items-center gap-1 text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                      <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                      <span>预计 10 分钟</span>
+                    </div>
+                    <a href="review.html" class="inline-flex items-center gap-1 px-3 h-8 rounded-lg bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium transition-colors shrink-0 whitespace-nowrap">
+                      开始复习
+                      <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 查看全部复习任务 -->
+              <a href="review.html" class="mt-3 flex items-center justify-center gap-1 w-full py-2.5 rounded-xl border border-dashed border-border-light text-sm text-foreground-secondary hover:text-primary-500 hover:border-primary-500 hover:bg-primary-50 transition-colors whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                查看全部 12 项任务
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- 底部间距 -->
+          <div class="h-6"></div>
+        </div>
+      </div>
+
+      <!-- 移动端菜单切换脚本 -->
+      <script>
+        (function(){
+          var btn = document.getElementById('mobile-menu-btn');
+          var sidebar = document.getElementById('sidebar');
+          var overlay = document.getElementById('sidebar-overlay');
+          if (btn && sidebar && overlay) {
+            btn.addEventListener('click', function(){
+              sidebar.classList.toggle('-translate-x-full');
+              overlay.classList.toggle('hidden');
+            });
+            overlay.addEventListener('click', function(){
+              sidebar.classList.add('-translate-x-full');
+              overlay.classList.add('hidden');
+            });
+          }
+        })();
+      </script>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
