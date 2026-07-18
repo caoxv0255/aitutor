@@ -59,3 +59,6 @@ Desktop.ini
 graphrag_workspace/
 
 database/textbooks/
+
+temp_convert_*.ps1
+scripts/temp_convert_*.ps1
