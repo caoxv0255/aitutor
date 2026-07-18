@@ -20,6 +20,7 @@
     "sync:watch": "node scripts/sync-knowledge.js watch"
   },
   "dependencies": {
+    "@playwright/test": "^1.61.1",
     "axios": "^1.16.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.6",
@@ -35,18 +36,20 @@
     "pdf-parse": "^2.4.5",
     "pdfkit": "^0.19.1",
     "pg": "^8.13.0",
+    "sharp": "^0.34.5",
     "word-extractor": "^1.0.4",
     "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@vitest/coverage-v8": "^4.1.10",
     "eslint": "^9.39.4",
     "eslint-plugin-prettier": "^5.5.6",
     "gitnexus": "^1.6.5",
     "jimp": "^1.6.1",
     "prettier": "^3.8.3",
     "qrcode": "^1.5.4",
-    "sharp": "^0.34.5",
+    "supertest": "^7.2.2",
     "vitest": "^4.1.8"
   }
 }

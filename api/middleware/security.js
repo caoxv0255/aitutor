@@ -1,9 +1,86 @@
 import { JSDOM } from 'jsdom';
 import createDOMPurify from 'dompurify';
 import { errorResponse } from '../utils/response.js';
+import { logger } from '../core/logger.js';
 
 const window = new JSDOM('').window;
 const purify = createDOMPurify(window);
+
+const MAX_BODY_SIZE = {
+  default: 1 * 1024 * 1024,
+  vision: 50 * 1024 * 1024,
+  batch: 5 * 1024 * 1024,
+};
+
+const AUDIT_ACTIONS = [
+  'login',
+  'register',
+  'generate_paper',
+  'submit_exam',
+  'update_prefs',
+  'change_password',
+];
+
+export function bodySizeLimiter(req, res, next) {
+  let limit = MAX_BODY_SIZE.default;
+  
+  if (req.path.includes('/vision/')) {
+    limit = MAX_BODY_SIZE.vision;
+  } else if (req.path.includes('/batch') || req.path.includes('/generate')) {
+    limit = MAX_BODY_SIZE.batch;
+  }
+  
+  let received = 0;
+  const chunks = [];
+  
+  req.on('data', (chunk) => {
+    received += chunk.length;
+    chunks.push(chunk);
+    
+    if (received > limit) {
+      req.destroy();
+    }
+  });
+  
+  req.on('end', () => {
+    req.body = Buffer.concat(chunks);
+    next();
+  });
+  
+  req.on('error', () => {
+    res.status(413).json(errorResponse('请求体大小超过限制'));
+  });
+}
+
+export function auditMiddleware(req, res, next) {
+  const action = extractAction(req);
+  
+  if (AUDIT_ACTIONS.includes(action)) {
+    const user = req.user?.email || 'anonymous';
+    const details = {
+      method: req.method,
+      path: req.path,
+      ip: req.ip,
+    };
+    
+    logger.audit(action, user, details);
+  }
+  
+  next();
+}
+
+function extractAction(req) {
+  const { path } = req;
+  
+  if (path.includes('/login')) return 'login';
+  if (path.includes('/register')) return 'register';
+  if (path.includes('/generate-paper')) return 'generate_paper';
+  if (path.includes('/exam-session/submit')) return 'submit_exam';
+  if (path.includes('/user-prefs')) return 'update_prefs';
+  if (path.includes('/reset-password') || path.includes('/change-password')) return 'change_password';
+  
+  return null;
+}
 
 export function sanitizeInput(obj) {
   if (typeof obj === 'string') {

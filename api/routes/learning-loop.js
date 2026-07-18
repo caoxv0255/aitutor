@@ -33,21 +33,21 @@ const AGE_INIT_SQL = `LOAD 'age'; SET search_path = ag_catalog, "$user", public;
 
 /** 基础分数更新增量 */
 const DELTA = {
-  CORRECT_NO_HINT: 0.15,
-  CORRECT_WITH_HINT: 0.05,
-  INCORRECT: -0.2,
+  CORRECT_NO_HINT: 15,
+  CORRECT_WITH_HINT: 5,
+  INCORRECT: -20,
 };
 
 /** 涟漪效应增量（远小于直接反馈） */
 const RIPPLE = {
-  UPWARD_BOOST: 0.02, // 向上巩固：掌握当前 → 奖励前置
-  DOWNWARD_PENALTY: -0.05, // 向下预警：当前薄弱 → 惩罚后置
+  UPWARD_BOOST: 2, // 向上巩固：掌握当前 → 奖励前置
+  DOWNWARD_PENALTY: -5, // 向下预警：当前薄弱 → 惩罚后置
 };
 
 /** 涟漪触发阈值 */
 const RIPPLE_THRESHOLD = {
-  UPWARD_MIN: 0.8, // 得分后 ≥ 0.8 才触发向上巩固
-  DOWNWARD_MAX: 0.4, // 得分后 ≤ 0.4 才触发向下预警
+  UPWARD_MIN: 80, // 得分后 ≥ 80 才触发向上巩固
+  DOWNWARD_MAX: 40, // 得分后 ≤ 40 才触发向下预警
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -197,10 +197,9 @@ async function processSingleFeedback(client, feedback) {
          VALUES ($1, $2, $3, 0, 0, NOW())
          ON CONFLICT (user_email, knowledge_point_id)
          DO UPDATE SET
-           mastery_score = LEAST(1.0, student_knowledge_mastery.mastery_score + $3),
+           mastery_score = LEAST(100, student_knowledge_mastery.mastery_score + $3),
            updated_at = NOW()`,
-        [userEmail, preId, RIPPLE.UPWARD_BOOST]
-      );
+        [userEmail, preId, RIPPLE.UPWARD_BOOST]);
       rippleResults.upward.push({ id: preId, delta: RIPPLE.UPWARD_BOOST });
     }
   }
@@ -216,10 +215,9 @@ async function processSingleFeedback(client, feedback) {
          VALUES ($1, $2, $3, 0, 0, NOW())
          ON CONFLICT (user_email, knowledge_point_id)
          DO UPDATE SET
-           mastery_score = GREATEST(0.0, student_knowledge_mastery.mastery_score + $3),
+           mastery_score = GREATEST(0, student_knowledge_mastery.mastery_score + $3),
            updated_at = NOW()`,
-        [userEmail, postId, RIPPLE.DOWNWARD_PENALTY]
-      );
+        [userEmail, postId, RIPPLE.DOWNWARD_PENALTY]);
       rippleResults.downward.push({ id: postId, delta: RIPPLE.DOWNWARD_PENALTY });
     }
   }

@@ -18,6 +18,7 @@ import { visionChatCompletion, safeParseLLMJson } from '../../services/llm.js';
 import { ingestQuestion } from './rag-search.js';
 import { successResponse, errorResponse } from '../utils/response.js';
 import { authMiddleware } from '../core/auth.js';
+import sharp from 'sharp';
 
 const router = express.Router();
 
@@ -137,6 +138,44 @@ const SUBJECT_MAP = {
 // 核心解析函数
 // ─────────────────────────────────────────────────────────────────────────────
 
+async function preprocessImage(imageBase64, options = {}) {
+  const { brightness = 0, contrast = 0, rotate = 0, sharpen = false } = options;
+  
+  try {
+    const imageBuffer = Buffer.from(imageBase64, 'base64');
+    
+    let pipeline = sharp(imageBuffer)
+      .rotate(rotate)
+      .resize({
+        width: 1200,
+        height: 1600,
+        fit: sharp.fit.inside,
+        withoutEnlargement: true
+      });
+    
+    if (brightness !== 0) {
+      pipeline = pipeline.modulate({ brightness: 1 + brightness / 100 });
+    }
+    
+    if (contrast !== 0) {
+      pipeline = pipeline.modulate({ saturation: 1 + contrast / 100 });
+    }
+    
+    if (sharpen) {
+      pipeline = pipeline.sharpen();
+    }
+    
+    pipeline = pipeline.gamma()
+      .normalise();
+    
+    const processedBuffer = await pipeline.toBuffer();
+    return processedBuffer.toString('base64');
+  } catch (error) {
+    console.error(`[VisionParse] 图像预处理失败: ${error.message}`);
+    return imageBase64;
+  }
+}
+
 /**
  * 解析图片为结构化题目数据
  *
@@ -147,6 +186,10 @@ const SUBJECT_MAP = {
  * @returns {Promise<object>} 解析结果
  */
 async function parseImageToQuestion(imageBase64, userHint = {}) {
+  if (userHint.preprocess !== false) {
+    imageBase64 = await preprocessImage(imageBase64, userHint.preprocessOptions || {});
+  }
+
   // ── Step 1: 调用 Vision LLM ──
   const llmResult = await visionChatCompletion(VISION_SYSTEM_PROMPT, VISION_USER_PROMPT, imageBase64, {
     model: VISION_MODEL,

@@ -107,17 +107,28 @@ async function initTables(pool) {
     CREATE TABLE IF NOT EXISTS wrong_questions (
       id SERIAL PRIMARY KEY,
       user_email VARCHAR(255) NOT NULL,
-      data TEXT NOT NULL,
+      data TEXT,
+      content TEXT,
       subject_code VARCHAR(20),
       knowledge_point_id VARCHAR(20),
+      knowledge_point_name VARCHAR(100),
       difficulty INTEGER,
       question_id INTEGER,
+      question_type VARCHAR(30),
       is_correct INTEGER DEFAULT 0,
       exam_level VARCHAR(10),
       user_answer TEXT,
       correct_answer TEXT,
+      error_analysis TEXT,
+      error_types TEXT,
+      error_category VARCHAR(30),
       session_id VARCHAR(50),
-      timestamp TIMESTAMPTZ DEFAULT NOW()
+      reviewed INTEGER DEFAULT 0,
+      review_count INTEGER DEFAULT 0,
+      analysis_note TEXT,
+      timestamp TIMESTAMPTZ DEFAULT NOW(),
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     CREATE TABLE IF NOT EXISTS reports (
@@ -404,7 +415,7 @@ async function initTables(pool) {
       id SERIAL PRIMARY KEY,
       user_email VARCHAR(255) NOT NULL,
       knowledge_point_id VARCHAR(20) NOT NULL,
-      mastery_score NUMERIC(4,2) DEFAULT 0 CHECK (mastery_score BETWEEN 0 AND 1),
+      mastery_score NUMERIC(5,2) DEFAULT 0 CHECK (mastery_score BETWEEN 0 AND 100),
       attempt_count INTEGER DEFAULT 0,
       correct_count INTEGER DEFAULT 0,
       last_practice_at TIMESTAMPTZ,
@@ -433,6 +444,86 @@ async function initTables(pool) {
       new_ease NUMERIC(4,2),
       next_review_at TIMESTAMPTZ,
       created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
+    -- 用户完整档案表（学习辅助系统核心）
+    CREATE TABLE IF NOT EXISTS user_profiles (
+      id SERIAL PRIMARY KEY,
+      user_email VARCHAR(255) UNIQUE NOT NULL,
+      grade_code VARCHAR(20),
+      province_code VARCHAR(20) REFERENCES provinces(code),
+      exam_level VARCHAR(10),
+      target_score INTEGER,
+      study_hours_per_day INTEGER DEFAULT 2,
+      weak_subjects TEXT DEFAULT '[]',
+      preferences JSONB DEFAULT '{}',
+      initialized BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
+    -- 用户选科关系表（新高考选科模式）
+    CREATE TABLE IF NOT EXISTS user_subjects (
+      id SERIAL PRIMARY KEY,
+      user_email VARCHAR(255) NOT NULL,
+      subject_code VARCHAR(20) NOT NULL REFERENCES subjects(code),
+      is_main BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      UNIQUE(user_email, subject_code)
+    );
+
+    -- 错题分类原因表（错误类型标签）
+    CREATE TABLE IF NOT EXISTS wrong_question_categories (
+      id SERIAL PRIMARY KEY,
+      code VARCHAR(30) UNIQUE NOT NULL,
+      name VARCHAR(50) NOT NULL,
+      description TEXT,
+      icon VARCHAR(50),
+      sort_order INTEGER DEFAULT 0,
+      is_active INTEGER DEFAULT 1
+    );
+
+    -- 学习计划表
+    CREATE TABLE IF NOT EXISTS learning_plans (
+      id SERIAL PRIMARY KEY,
+      user_email VARCHAR(255) NOT NULL,
+      plan_type VARCHAR(20) DEFAULT 'custom',
+      plan_title VARCHAR(200) NOT NULL,
+      subject_code VARCHAR(20),
+      description TEXT,
+      plan_data TEXT,
+      target_knowledge_points TEXT DEFAULT '[]',
+      tasks JSONB DEFAULT '[]',
+      start_date DATE,
+      end_date DATE,
+      duration VARCHAR(20),
+      completion_rate NUMERIC(4,2) DEFAULT 0,
+      completed_tasks INTEGER DEFAULT 0,
+      total_tasks INTEGER DEFAULT 0,
+      status VARCHAR(20) DEFAULT 'active',
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
+    -- 学习任务表
+    CREATE TABLE IF NOT EXISTS learning_tasks (
+      id SERIAL PRIMARY KEY,
+      plan_id INTEGER REFERENCES learning_plans(id) ON DELETE CASCADE,
+      user_email VARCHAR(255) NOT NULL,
+      task_type VARCHAR(20) NOT NULL,
+      subject_code VARCHAR(20),
+      knowledge_point_id VARCHAR(20),
+      title VARCHAR(200) NOT NULL,
+      description TEXT,
+      target_count INTEGER DEFAULT 1,
+      completed_count INTEGER DEFAULT 0,
+      duration_minutes INTEGER,
+      status VARCHAR(20) DEFAULT 'pending',
+      priority INTEGER DEFAULT 3,
+      due_date DATE,
+      completed_at TIMESTAMPTZ,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
     );
   `);
 
@@ -532,6 +623,34 @@ async function initTables(pool) {
     CREATE INDEX IF NOT EXISTS idx_srs_log_kp ON srs_review_log(knowledge_point_id);
     CREATE INDEX IF NOT EXISTS idx_srs_log_created ON srs_review_log(created_at);
     CREATE INDEX IF NOT EXISTS idx_srs_log_user_kp ON srs_review_log(user_email, knowledge_point_id);
+
+    -- 用户档案索引
+    CREATE INDEX IF NOT EXISTS idx_user_profiles_email ON user_profiles(user_email);
+    CREATE INDEX IF NOT EXISTS idx_user_profiles_province ON user_profiles(province_code);
+    CREATE INDEX IF NOT EXISTS idx_user_profiles_exam_level ON user_profiles(exam_level);
+    CREATE INDEX IF NOT EXISTS idx_user_profiles_initialized ON user_profiles(initialized);
+
+    -- 用户选科索引
+    CREATE INDEX IF NOT EXISTS idx_user_subjects_user ON user_subjects(user_email);
+    CREATE INDEX IF NOT EXISTS idx_user_subjects_subject ON user_subjects(subject_code);
+    CREATE INDEX IF NOT EXISTS idx_user_subjects_user_subject ON user_subjects(user_email, subject_code);
+
+    -- 错题分类索引
+    CREATE INDEX IF NOT EXISTS idx_wrong_question_categories_code ON wrong_question_categories(code);
+    CREATE INDEX IF NOT EXISTS idx_wrong_question_categories_active ON wrong_question_categories(is_active);
+
+    -- 学习计划索引
+    CREATE INDEX IF NOT EXISTS idx_learning_plans_user ON learning_plans(user_email);
+    CREATE INDEX IF NOT EXISTS idx_learning_plans_status ON learning_plans(status);
+    CREATE INDEX IF NOT EXISTS idx_learning_plans_date ON learning_plans(start_date);
+    CREATE INDEX IF NOT EXISTS idx_learning_plans_type ON learning_plans(plan_type);
+
+    -- 学习任务索引
+    CREATE INDEX IF NOT EXISTS idx_learning_tasks_plan ON learning_tasks(plan_id);
+    CREATE INDEX IF NOT EXISTS idx_learning_tasks_user ON learning_tasks(user_email);
+    CREATE INDEX IF NOT EXISTS idx_learning_tasks_status ON learning_tasks(status);
+    CREATE INDEX IF NOT EXISTS idx_learning_tasks_due ON learning_tasks(due_date);
+    CREATE INDEX IF NOT EXISTS idx_learning_tasks_subject ON learning_tasks(subject_code);
   `);
 
   // 教材知识点扩展列（幂等迁移，IF NOT EXISTS 语法）
@@ -545,6 +664,10 @@ async function initTables(pool) {
     `ALTER TABLE knowledge_points ADD COLUMN IF NOT EXISTS tags TEXT DEFAULT '[]'`,
     `ALTER TABLE exam_papers ADD COLUMN IF NOT EXISTS math_type VARCHAR(10)`,
     `ALTER TABLE exam_papers ADD COLUMN IF NOT EXISTS paper_type VARCHAR(30)`,
+    `ALTER TABLE wrong_questions ADD COLUMN IF NOT EXISTS error_category VARCHAR(30)`,
+    `ALTER TABLE wrong_questions ADD COLUMN IF NOT EXISTS analysis_note TEXT`,
+    `ALTER TABLE wrong_questions ADD COLUMN IF NOT EXISTS reviewed INTEGER DEFAULT 0`,
+    `ALTER TABLE wrong_questions ADD COLUMN IF NOT EXISTS review_count INTEGER DEFAULT 0`,
   ];
   for (const sql of alterStatements) {
     try {
@@ -618,6 +741,17 @@ async function seedReferenceData(pool) {
       ('grade_10', '高一', 'gaokao', 4),
       ('grade_11', '高二', 'gaokao', 5),
       ('grade_12', '高三', 'gaokao', 6)
+    ON CONFLICT (code) DO NOTHING;
+
+    INSERT INTO wrong_question_categories (code, name, description, icon, sort_order) VALUES
+      ('concept', '概念不清', '对基本概念、定义理解不透彻', 'brain', 1),
+      ('calculation', '计算失误', '计算过程中出现错误', 'calculator', 2),
+      ('misread', '审题偏差', '理解题意时出现偏差', 'eye', 3),
+      ('method', '方法不当', '解题方法选择不合适', 'lightbulb', 4),
+      ('careless', '粗心大意', '因疏忽导致的错误', 'alert-circle', 5),
+      ('time', '时间不足', '考试时间紧张导致未完成', 'clock', 6),
+      ('knowledge', '知识漏洞', '相关知识点掌握不牢固', 'book-open', 7),
+      ('other', '其他原因', '其他未分类的错误原因', 'more-horizontal', 8)
     ON CONFLICT (code) DO NOTHING;
   `);
 }

@@ -2,11 +2,95 @@ import { getDb } from '../core/db.js';
 import { cacheWrapper, CACHE_CONFIG } from '../utils/cache.js';
 import { successResponse, errorResponse } from '../utils/response.js';
 
+function generateChartData(data) {
+  const years = [...new Set(data.papers.map(p => p.year))].sort((a, b) => a - b);
+  
+  const questionTypes = [...new Set(data.question_types.map(t => t.question_type))];
+  const typeByYearData = questionTypes.map(type => ({
+    name: type,
+    type: 'line',
+    data: years.map(year => {
+      const entry = data.question_types_by_year[year]?.[type];
+      return entry?.count || 0;
+    })
+  }));
+  
+  const difficultyLevels = [1, 2, 3, 4, 5];
+  const diffByYearData = difficultyLevels.map(level => ({
+    name: `${level}星`,
+    type: 'bar',
+    data: years.map(year => {
+      const entry = data.difficulty_distribution_by_year[year]?.[level];
+      return entry?.count || 0;
+    })
+  }));
+  
+  const difficultyTrend = years.map(year => {
+    const papersInYear = data.papers.filter(p => p.year === year);
+    if (papersInYear.length === 0) return 0;
+    return papersInYear.reduce((sum, p) => sum + parseFloat(p.difficulty_avg || 0), 0) / papersInYear.length;
+  });
+  
+  const knowledgeScores = data.top_knowledge_points.map(kp => ({
+    name: kp.knowledge_point_name,
+    value: parseFloat(kp.total_frequency)
+  }));
+
+  return {
+    question_type_trend: {
+      title: '题型分布变化趋势',
+      xAxis: { type: 'category', data: years.map(y => y.toString()) },
+      yAxis: { type: 'value', name: '题目数量' },
+      series: typeByYearData
+    },
+    difficulty_distribution: {
+      title: '难度系数分布',
+      xAxis: { type: 'category', data: years.map(y => y.toString()) },
+      yAxis: { type: 'value', name: '题目数量' },
+      series: diffByYearData
+    },
+    difficulty_trend: {
+      title: '难度系数变化曲线',
+      xAxis: { type: 'category', data: years.map(y => y.toString()) },
+      yAxis: { type: 'value', name: '平均难度', min: 1, max: 5 },
+      series: [{
+        name: '平均难度',
+        type: 'line',
+        smooth: true,
+        data: difficultyTrend.map(d => d.toFixed(2))
+      }]
+    },
+    knowledge_point_ranking: {
+      title: '高频知识点排名',
+      series: [{
+        type: 'pie',
+        radius: ['40%', '70%'],
+        data: knowledgeScores
+      }]
+    },
+    paper_stats: {
+      title: '试卷统计',
+      xAxis: { type: 'category', data: years.map(y => y.toString()) },
+      yAxis: [{ type: 'value', name: '题目数' }, { type: 'value', name: '总分' }],
+      series: [
+        { name: '题目数', type: 'bar', yAxisIndex: 0, data: years.map(year => {
+          const p = data.papers.find(p => p.year === year);
+          return p?.question_count || 0;
+        })},
+        { name: '总分', type: 'line', yAxisIndex: 1, data: years.map(year => {
+          const p = data.papers.find(p => p.year === year);
+          return p?.total_score || 0;
+        })}
+      ]
+    }
+  };
+}
+
 export async function getProvinceTrends(req, res) {
   const { code } = req.params;
-  const { subject, years = 5, start_year, end_year } = req.query;
+  const { subject, years = 5, start_year, end_year, exam_level = 'gaokao' } = req.query;
 
-  const cacheKey = `province_trends_${code}_${subject || 'all'}_${years}_${start_year || 'default'}_${end_year || 'default'}`;
+  const cacheKey = `province_trends_${code}_${exam_level}_${subject || 'all'}_${years}_${start_year || 'default'}_${end_year || 'default'}`;
   
   try {
     const { data: trends, cached } = await cacheWrapper(cacheKey, async () => {
@@ -30,10 +114,10 @@ export async function getProvinceTrends(req, res) {
       let paperQuery = `
         SELECT year, subject, question_count, total_score, difficulty_avg, COUNT(*) as paper_count
         FROM exam_papers
-        WHERE province_code = $1 AND year BETWEEN $2 AND $3
+        WHERE province_code = $1 AND year BETWEEN $2 AND $3 AND exam_level = $4
       `;
-      let paperParams = [code, startYear, endYear];
-      let paramIdx = 4;
+      let paperParams = [code, startYear, endYear, exam_level];
+      let paramIdx = 5;
       if (subject) {
         paperParams.push(subject);
         paperQuery += ` AND subject = $${paramIdx++}`;
@@ -48,10 +132,10 @@ export async function getProvinceTrends(req, res) {
                SUM(pk.total_score) as total_score
         FROM province_knowledge_stats pk
         LEFT JOIN knowledge_points kp ON pk.knowledge_point_id = kp.id
-        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3
+        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3 AND pk.exam_level = $4
       `;
-      let knowledgeParams = [code, startYear, endYear];
-      paramIdx = 4;
+      let knowledgeParams = [code, startYear, endYear, exam_level];
+      paramIdx = 5;
       if (subject) {
         knowledgeParams.push(subject);
         knowledgeQuery += ` AND pk.subject = $${paramIdx++}`;
@@ -64,10 +148,10 @@ export async function getProvinceTrends(req, res) {
         SELECT eq.question_type, COUNT(*) as count, AVG(eq.difficulty) as avg_difficulty, AVG(eq.score) as avg_score
         FROM exam_questions eq
         JOIN exam_papers ep ON eq.paper_id = ep.id
-        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3
+        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3 AND ep.exam_level = $4
       `;
-      let typeParams = [code, startYear, endYear];
-      paramIdx = 4;
+      let typeParams = [code, startYear, endYear, exam_level];
+      paramIdx = 5;
       if (subject) {
         typeParams.push(subject);
         typeQuery += ` AND ep.subject = $${paramIdx++}`;
@@ -80,10 +164,10 @@ export async function getProvinceTrends(req, res) {
         SELECT ep.year, ep.subject, eq.question_type, COUNT(*) as count, AVG(eq.difficulty) as avg_difficulty, AVG(eq.score) as avg_score
         FROM exam_questions eq
         JOIN exam_papers ep ON eq.paper_id = ep.id
-        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3
+        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3 AND ep.exam_level = $4
       `;
-      let typeByYearParams = [code, startYear, endYear];
-      paramIdx = 4;
+      let typeByYearParams = [code, startYear, endYear, exam_level];
+      paramIdx = 5;
       if (subject) {
         typeByYearParams.push(subject);
         typeByYearQuery += ` AND ep.subject = $${paramIdx++}`;
@@ -96,10 +180,10 @@ export async function getProvinceTrends(req, res) {
         SELECT eq.difficulty, COUNT(*) as count, AVG(eq.score) as avg_score
         FROM exam_questions eq
         JOIN exam_papers ep ON eq.paper_id = ep.id
-        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3
+        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3 AND ep.exam_level = $4
       `;
-      let diffParams = [code, startYear, endYear];
-      paramIdx = 4;
+      let diffParams = [code, startYear, endYear, exam_level];
+      paramIdx = 5;
       if (subject) {
         diffParams.push(subject);
         diffQuery += ` AND ep.subject = $${paramIdx++}`;
@@ -112,10 +196,10 @@ export async function getProvinceTrends(req, res) {
         SELECT ep.year, ep.subject, eq.difficulty, COUNT(*) as count, AVG(eq.score) as avg_score
         FROM exam_questions eq
         JOIN exam_papers ep ON eq.paper_id = ep.id
-        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3
+        WHERE ep.province_code = $1 AND ep.year BETWEEN $2 AND $3 AND ep.exam_level = $4
       `;
-      let diffByYearParams = [code, startYear, endYear];
-      paramIdx = 4;
+      let diffByYearParams = [code, startYear, endYear, exam_level];
+      paramIdx = 5;
       if (subject) {
         diffByYearParams.push(subject);
         diffByYearQuery += ` AND ep.subject = $${paramIdx++}`;
@@ -129,10 +213,10 @@ export async function getProvinceTrends(req, res) {
                SUM(pk.frequency) as total_frequency, AVG(pk.avg_difficulty) as avg_difficulty
         FROM province_knowledge_stats pk
         LEFT JOIN knowledge_points kp ON pk.knowledge_point_id = kp.id
-        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3
+        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3 AND pk.exam_level = $4
       `;
-      let topKnowledgeParams = [code, startYear, endYear];
-      paramIdx = 4;
+      let topKnowledgeParams = [code, startYear, endYear, exam_level];
+      paramIdx = 5;
       if (subject) {
         topKnowledgeParams.push(subject);
         topKnowledgeQuery += ` AND pk.subject = $${paramIdx++}`;
@@ -151,7 +235,7 @@ export async function getProvinceTrends(req, res) {
         difficulty_distribution: diffRows,
         difficulty_distribution_by_year: groupByYearAndSubject(diffByYearRows),
         top_knowledge_points: topKnowledgeRows,
-        summary: generateSummary(province, papersRows, knowledgeRows, typeRows),
+        summary: generateSummary(province, papersRows, knowledgeRows, typeRows, exam_level),
         cached: false
       };
     }, CACHE_CONFIG.LONG_TTL);
@@ -160,7 +244,9 @@ export async function getProvinceTrends(req, res) {
       return res.status(404).json(errorResponse('省份不存在'));
     }
 
-    res.json(successResponse({ ...trends, cached }, '获取省份趋势成功'));
+    const chartData = generateChartData(trends);
+
+    res.json(successResponse({ ...trends, cached, charts: chartData }, '获取省份趋势成功'));
   } catch (error) {
     console.error('获取省份趋势失败:', error.message);
     res.status(500).json(errorResponse('获取省份趋势失败'));
@@ -239,9 +325,10 @@ function groupByYearAndSubject(rows) {
   return grouped;
 }
 
-function generateSummary(province, papers, knowledge, types) {
+function generateSummary(province, papers, knowledge, types, examLevel) {
+  const examLabel = examLevel === 'zhongkao' ? '中考' : '高考';
   const summary = {
-    title: `${province.name}高考命题趋势分析`,
+    title: `${province.name}${examLabel}命题趋势分析`,
     highlights: [],
     recommendations: []
   };

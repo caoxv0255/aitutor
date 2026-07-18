@@ -11,8 +11,15 @@ services:
       - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY}
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
       - PORT=3000
+      - DATABASE_URL=postgresql://aitutor:aitutor_password@db:5432/aitutor_db
+      - REDIS_URL=redis://redis:6379
     volumes:
       - app-data:/app/database
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"]
@@ -20,6 +27,62 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    networks:
+      - aitutor-network
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    environment:
+      - POSTGRES_DB=aitutor_db
+      - POSTGRES_USER=aitutor
+      - POSTGRES_PASSWORD=aitutor_password
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --lc-collate=C --lc-ctype=C
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aitutor -d aitutor_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    networks:
+      - aitutor-network
+    command: >
+      postgres
+      -c shared_preload_libraries='age,vector'
+      -c max_locks_per_transaction=64
+      -c work_mem=64MB
+      -c maintenance_work_mem=512MB
+      -c effective_cache_size=4GB
+      -c synchronous_commit=off
+      -c log_min_duration_statement=5000
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redisdata:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    networks:
+      - aitutor-network
 
 volumes:
   app-data:
+  pgdata:
+  redisdata:
+
+networks:
+  aitutor-network:
+    driver: bridge

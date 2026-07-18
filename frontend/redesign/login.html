@@ -455,19 +455,19 @@
         <i data-lucide="layout-dashboard" style="width:20px;height:20px;"></i>
         <span>驾驶舱</span>
       </a>
-      <a href="exam.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+      <a href="exam-simulation.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
         <i data-lucide="file-text" style="width:20px;height:20px;"></i>
         <span>考场</span>
       </a>
-      <a href="wrong.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+      <a href="wrong-book.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
         <i data-lucide="book-x" style="width:20px;height:20px;"></i>
         <span>错题本</span>
       </a>
-      <a href="ai.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+      <a href="ai-tutor-chat.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
         <i data-lucide="bot" style="width:20px;height:20px;"></i>
         <span>AI讲题</span>
       </a>
-      <a href="path.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
+      <a href="learning-journey.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--color-on-surface-variant);font-size:10px;">
         <i data-lucide="map" style="width:20px;height:20px;"></i>
         <span>旅程</span>
       </a>
@@ -631,7 +631,7 @@
           setTimeout(function() {
             setLoading(btn, false);
             btn.textContent = '登 录';
-            window.location.href = 'dashboard.html';
+            checkInitialization();
           }, 1200);
         }
       });
@@ -678,15 +678,39 @@
           setTimeout(function() {
             setLoading(btn, false);
             btn.textContent = '注 册';
-            window.location.href = 'dashboard.html';
+            checkInitialization();
           }, 1200);
         }
       });
 
       /* ── Guest Login ── */
       document.querySelector('[data-dom-id="btn-guest"]').addEventListener('click', function() {
-        window.location.href = 'dashboard.html';
+        checkInitialization();
       });
+
+      /* ── Check Initialization ── */
+      async function checkInitialization() {
+        var token = localStorage.getItem('aitutor_token');
+        if (!token) {
+          window.location.href = 'dashboard.html';
+          return;
+        }
+
+        try {
+          var response = await fetch('/api/user/profile', {
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          var result = await response.json();
+          if (result.success && result.data && result.data.initialized) {
+            window.location.href = 'dashboard.html';
+          } else {
+            window.location.href = 'onboarding.html';
+          }
+        } catch (error) {
+          console.error('Check initialization error:', error);
+          window.location.href = 'dashboard.html';
+        }
+      }
 
       /* ── Theme Toggle ── */
       var themeToggle = document.getElementById('themeToggle');

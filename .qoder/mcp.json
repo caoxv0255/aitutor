@@ -1,13 +1,10 @@
 {
   "mcpServers": {
     "obsidian": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "obsidian-mcp-server@latest"],
-      "env": {
-        "MCP_TRANSPORT_TYPE": "stdio",
-        "MCP_LOG_LEVEL": "info",
-        "OBSIDIAN_API_KEY": "e59da59ec99165d2f02b550d3e8f7825f6ad85570d0a7fb9022d8011eee79836"
+      "type": "http",
+      "url": "http://127.0.0.1:27123/mcp/",
+      "headers": {
+        "Authorization": "Bearer 32fc3ca1890097538cc75e39b7c590e17dc8cbee420f22364842dde7aff42835"
       }
     }
   }

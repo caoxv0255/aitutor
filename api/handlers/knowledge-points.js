@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { KEYWORD_MAP, resolveSubjectName, matchWeakPoint, findWeakKPIds } from '../utils/subjectMap.js';
 import { errorResponse, successResponse } from '../utils/response.js';
+import { CacheService } from '../services/cacheService.js';
 
 export default async function handler(req, res) {
   const email = req.user.email;
@@ -10,6 +11,12 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     const { subject, level, source, include_content } = req.query;
+    
+    if (!source) {
+      const { data, cached } = await CacheService.getKnowledgePoints(pool, subject, level, include_content);
+      return res.json({ ...data, cached });
+    }
+    
     let query = 'SELECT * FROM knowledge_points';
     const params = [];
     const conditions = [];
@@ -23,7 +30,6 @@ export default async function handler(req, res) {
       conditions.push(`level = $${paramIdx++}`);
       params.push(level);
     }
-    // 按数据来源过滤：source=textbook 表示有教材内容的知识点
     if (source === 'textbook') {
       conditions.push(`content IS NOT NULL AND content != ''`);
     } else if (source === 'seed') {
@@ -44,7 +50,6 @@ export default async function handler(req, res) {
       } catch {
         subtopics = [];
       }
-      // 默认截断 content 为前 200 字（避免大响应），include_content=full 时返回完整内容
       const content = include_content === 'full'
         ? r.content
         : (r.content ? r.content.slice(0, 200) + (r.content.length > 200 ? '...' : '') : null);

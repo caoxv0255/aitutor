@@ -88,13 +88,13 @@ function toQualityScore(isCorrect, timeSpentMs) {
 /**
  * 计算复习优先级分数
  *
- * @param {number} masteryScore - 掌握度 0-1
+ * @param {number} masteryScore - 掌握度 0-100
  * @param {Date|null} nextReviewAt - 计划复习时间
  * @param {Date} now - 当前时间
  * @returns {number} 优先级分数（越高越需要复习）
  */
 function calculatePriority(masteryScore, nextReviewAt, now) {
-  const masteryWeight = 1 - masteryScore; // 掌握度越低，权重越高
+  const masteryWeight = 1 - (masteryScore / 100); // 掌握度越低，权重越高
 
   let overdueFactor = 0;
   if (nextReviewAt) {
@@ -184,7 +184,7 @@ router.get('/daily-tasks', authMiddleware, async (req, res) => {
     // 统计摘要
     const stats = {
       total_due: tasks.filter((t) => t.is_overdue).length,
-      total_weak: tasks.filter((t) => t.mastery_score < 0.4).length,
+      total_weak: tasks.filter((t) => t.mastery_score < 40).length,
       avg_priority:
         tasks.length > 0 ? parseFloat((tasks.reduce((s, t) => s + t.priority, 0) / tasks.length).toFixed(3)) : 0,
     };

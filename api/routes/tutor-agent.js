@@ -35,7 +35,7 @@ const AGE_INIT_SQL = `
 `;
 
 /** 掌握度阈值：低于此值的前置节点标记为"薄弱" */
-const MASTERY_THRESHOLD = 0.6;
+const MASTERY_THRESHOLD = 60;
 
 /** LLM 推理默认模型 */
 const TUTOR_MODEL = 'qwen-plus';
@@ -319,7 +319,7 @@ function buildStreamMetadata(promptContext) {
   const strongNames = prerequisites.filter((p) => !p.is_weak).map((p) => p.name);
 
   let teachingDepth;
-  if (weakPrereqs.some((p) => p.mastery_score !== null && p.mastery_score < 0.3)) {
+  if (weakPrereqs.some((p) => p.mastery_score !== null && p.mastery_score < 30)) {
     teachingDepth = 'review_only';
   } else if (weakPrereqs.length > 0) {
     teachingDepth = 'guided_review';
@@ -330,7 +330,7 @@ function buildStreamMetadata(promptContext) {
   const summary =
     weakPrereqs.length > 0
       ? `你在「${currentTopic}」的前置知识中仍有 ${weakPrereqs.length} 个薄弱点，需要先补齐基础。`
-      : currentMastery !== null && currentMastery >= 0.7
+      : currentMastery !== null && currentMastery >= 70
         ? `你在「${currentTopic}」上已掌握良好，可以继续深入学习。`
         : `你在「${currentTopic}」上的学习仍在进行中，AI 导师将为你提供引导。`;
 

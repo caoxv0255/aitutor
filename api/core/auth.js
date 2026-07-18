@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { errorResponse } from '../utils/response.js';
+import { createErrorResponse, ErrorCode } from '../utils/errorCodes.js';
+import { AuthError } from '../middleware/errorHandler.js';
 
 const DEFAULT_SECRETS = [
   'your-secret-key-here-please-change-in-production',
@@ -26,21 +27,58 @@ export function validateJWTSecret() {
   }
 }
 
-export function authMiddleware(req, res, next) {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json(errorResponse('请先登录'));
-    }
+export function generateToken(payload, expiresIn = '7d') {
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
+}
 
-    try {
-        const token = authHeader.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-            return res.status(401).json(errorResponse('登录已过期，请重新登录'));
-        }
-        return res.status(401).json(errorResponse('认证失败，请重新登录'));
+export function verifyToken(token) {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      throw new AuthError('登录已过期，请重新登录', ErrorCode.AUTH_TOKEN_EXPIRED);
     }
+    throw new AuthError('认证失败，请重新登录', ErrorCode.AUTH_INVALID_TOKEN);
+  }
+}
+
+export function authMiddleware(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json(createErrorResponse(ErrorCode.AUTH_NOT_LOGIN));
+  }
+
+  try {
+    const token = authHeader.split(' ')[1];
+    const decoded = verifyToken(token);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    if (error.errorCode === ErrorCode.AUTH_TOKEN_EXPIRED) {
+      return res.status(401).json(createErrorResponse(ErrorCode.AUTH_TOKEN_EXPIRED));
+    }
+    return res.status(401).json(createErrorResponse(ErrorCode.AUTH_INVALID_TOKEN));
+  }
+}
+
+export function requireRole(roles) {
+  return (req, res, next) => {
+    const userRole = req.user?.role;
+    if (!userRole || !roles.includes(userRole)) {
+      return res.status(403).json(createErrorResponse(ErrorCode.AUTH_PERMISSION_DENIED));
+    }
+    next();
+  };
+}
+
+export function requireAdmin(req, res, next) {
+  return requireRole(['admin'])(req, res, next);
+}
+
+export function requireTeacher(req, res, next) {
+  return requireRole(['teacher', 'admin'])(req, res, next);
+}
+
+export function requireStudent(req, res, next) {
+  return requireRole(['student', 'teacher', 'admin'])(req, res, next);
 }

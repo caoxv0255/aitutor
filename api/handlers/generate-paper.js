@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   const subjectName = resolveSubjectName(subject) || subject;
 
   const wrongQuestionsResult = await pool.query(
-    'SELECT id, data, timestamp FROM wrong_questions WHERE user_email = $1 ORDER BY timestamp DESC',
+    'SELECT id, knowledge_point_id, knowledge_point_name, content, data, timestamp FROM wrong_questions WHERE user_email = $1 ORDER BY timestamp DESC',
     [email]
   );
   const wrongQuestions = wrongQuestionsResult.rows;

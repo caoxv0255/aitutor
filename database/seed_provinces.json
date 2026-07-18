@@ -59,9 +59,9 @@
     "code": "henan",
     "name": "河南",
     "exam_type": "gaokao",
-    "paper_type": "national_a",
+    "paper_type": "national_b",
     "region": "central",
-    "description": "使用全国甲卷，题型规范，注重基础知识和综合应用"
+    "description": "使用全国乙卷，题型规范，注重基础知识和综合应用"
   },
   {
     "code": "sichuan",
@@ -115,49 +115,137 @@
     "code": "liaoning",
     "name": "辽宁",
     "exam_type": "gaokao",
-    "paper_type": "new_gaokao_i",
+    "paper_type": "new_gaokao_ii",
     "region": "northeast",
-    "description": "使用新高考I卷，注重综合应用能力"
+    "description": "使用新高考II卷，注重综合应用能力"
   },
   {
     "code": "chongqing",
     "name": "重庆",
     "exam_type": "gaokao",
-    "paper_type": "new_gaokao_i",
+    "paper_type": "new_gaokao_ii",
     "region": "west",
-    "description": "使用新高考I卷，重视基础知识和创新思维"
+    "description": "使用新高考II卷，重视基础知识和创新思维"
   },
   {
-    "code": "national_i",
-    "name": "全国新高考I卷",
+    "code": "jiangxi",
+    "name": "江西",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "national",
-    "description": "多省使用，注重综合应用和创新思维"
+    "region": "east",
+    "description": "使用新高考I卷，注重基础知识和综合应用"
   },
   {
-    "code": "national_ii",
-    "name": "全国新高考II卷",
+    "code": "hainan",
+    "name": "海南",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_ii",
-    "region": "national",
-    "description": "多省使用，题型规范，注重基础知识"
+    "region": "south",
+    "description": "使用新高考II卷，注重综合应用能力"
   },
   {
-    "code": "national_a",
-    "name": "全国甲卷",
-    "exam_type": "gaokao",
-    "paper_type": "national_a",
-    "region": "national",
-    "description": "传统高考省份使用，题型稳定，难度适中"
-  },
-  {
-    "code": "national_b",
-    "name": "全国乙卷",
+    "code": "shanxi",
+    "name": "山西",
     "exam_type": "gaokao",
     "paper_type": "national_b",
-    "region": "national",
-    "description": "传统高考省份使用，注重基础知识和综合应用"
+    "region": "north",
+    "description": "使用全国乙卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "yunnan",
+    "name": "云南",
+    "exam_type": "gaokao",
+    "paper_type": "national_b",
+    "region": "south",
+    "description": "使用全国乙卷，题型规范，注重基础知识"
+  },
+  {
+    "code": "xinjiang",
+    "name": "新疆",
+    "exam_type": "gaokao",
+    "paper_type": "national_b",
+    "region": "west",
+    "description": "使用全国乙卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "xizang",
+    "name": "西藏",
+    "exam_type": "gaokao",
+    "paper_type": "national_b",
+    "region": "west",
+    "description": "使用全国乙卷，题型规范，注重基础知识"
+  },
+  {
+    "code": "neimenggu",
+    "name": "内蒙古",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "north",
+    "description": "使用全国甲卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "ningxia",
+    "name": "宁夏",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "north",
+    "description": "使用全国甲卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "qinghai",
+    "name": "青海",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "west",
+    "description": "使用全国甲卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "gansu",
+    "name": "甘肃",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "west",
+    "description": "使用全国甲卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "shaanxi",
+    "name": "陕西",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "west",
+    "description": "使用全国甲卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "guizhou",
+    "name": "贵州",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "south",
+    "description": "使用全国甲卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "guangxi",
+    "name": "广西",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "south",
+    "description": "使用全国甲卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "heilongjiang",
+    "name": "黑龙江",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "northeast",
+    "description": "使用全国甲卷，注重基础知识和综合应用"
+  },
+  {
+    "code": "jilin",
+    "name": "吉林",
+    "exam_type": "gaokao",
+    "paper_type": "national_a",
+    "region": "northeast",
+    "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
     "code": "beijing_zhongkao",

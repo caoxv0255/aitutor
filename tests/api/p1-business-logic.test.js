@@ -249,6 +249,39 @@ describe('P1-5: generate-paper.js division-by-zero and score fixes', () => {
   });
 });
 
+describe('P1-5b: calculateDistribution time-scaling covers all tiers', () => {
+  it('should scale hard questions up when timeLimit is large (timeFactor > 1.2)', async () => {
+    const { calculateDistribution } = await import('../../api/handlers/generate-paper.js');
+
+    // Base distribution at difficulty 4.5, standard 120 min: easy=3, medium=6, hard=11
+    const base = calculateDistribution(4.5, 120, 10);
+
+    // Large time limit should scale ALL tiers (easy, medium, hard) up by ~1.2x.
+    const extended = calculateDistribution(4.5, 180, 10);
+
+    expect(extended.easy).toBeGreaterThanOrEqual(base.easy);
+    expect(extended.medium).toBeGreaterThanOrEqual(base.medium);
+    // Regression guard: hard must also scale up — previously hard was left unchanged.
+    expect(extended.hard).toBeGreaterThan(base.hard);
+  });
+
+  it('should scale hard questions down when timeLimit is small (timeFactor < 0.8)', async () => {
+    const { calculateDistribution } = await import('../../api/handlers/generate-paper.js');
+
+    const base = calculateDistribution(4.5, 120, 10);
+    const reduced = calculateDistribution(4.5, 60, 10);
+
+    expect(reduced.hard).toBeLessThanOrEqual(base.hard);
+  });
+
+  it('total should equal easy + medium + hard + fill(4) + solution(3)', async () => {
+    const { calculateDistribution } = await import('../../api/handlers/generate-paper.js');
+
+    const dist = calculateDistribution(3.5, 180, 10);
+    expect(dist.total).toBe(dist.easy + dist.medium + dist.hard + 4 + 3);
+  });
+});
+
 describe('P1-6: exam-session.js security hardening', () => {
   it('should use crypto.randomUUID for session ID', async () => {
     const fs = await import('fs');
