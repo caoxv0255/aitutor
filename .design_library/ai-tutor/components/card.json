@@ -1,0 +1,38 @@
+{
+  "slug": "card",
+  "schemaVersion": 2,
+  "name": "Card",
+  "category": "containers",
+  "sourceKind": "from-scratch",
+  "confidence": "medium",
+  "semanticTypeCandidates": [
+    { "name": "Card", "evidence": "universal container for dashboard tiles, report sections, wrong-question items" }
+  ],
+  "variantDimensions": [
+    { "name": "variant", "values": ["default", "interactive"] }
+  ],
+  "representativeVariants": [
+    {
+      "name": "Default",
+      "traits": { "bg": "var(--surface)", "border": "1px solid var(--border)", "radius": "var(--radius)", "padding": "var(--space-6)" },
+      "whySelected": "Base card style used throughout dashboard and report pages",
+      "childrenDigest": "heading + body text"
+    },
+    {
+      "name": "Interactive",
+      "traits": { "bg": "var(--surface)", "border": "1px solid var(--border)", "radius": "var(--radius)", "hoverBorder": "var(--accent)", "hoverTransform": "translateY(-3px)", "cursor": "pointer" },
+      "whySelected": "Clickable card with hover effect for navigation entries",
+      "childrenDigest": "icon + heading + description"
+    }
+  ],
+  "anatomy": [
+    { "part": "icon", "role": "optional visual indicator", "required": false },
+    { "part": "heading", "role": "card title", "required": true },
+    { "part": "body", "role": "content area", "required": false }
+  ],
+  "structurePatterns": ["<div> with flex/grid children"],
+  "usageHints": { "priorityHint": "core", "density": "normal" },
+  "doNotInvent": ["card with image header", "card with footer actions"],
+  "unknowns": [],
+  "keyInsightSeed": "Dark card with border, hover lift, used for dashboard tiles"
+}

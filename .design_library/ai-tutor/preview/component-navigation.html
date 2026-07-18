@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigation — AI Tutor</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+<style>
+/* Page scaffold — NOT extracted */
+body { margin: 0; padding: var(--space-3); background: var(--color-background); font-family: var(--font-body); color: var(--color-on-surface); }
+.row { display: flex; align-items: center; width: 100%; margin-bottom: var(--space-2); }
+.label { min-width: 92px; font-size: var(--font-size-eyebrow); font-weight: var(--font-weight-eyebrow); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-muted-foreground); flex-shrink: 0; }
+.divider { border: none; border-top: 1px solid var(--color-outline); margin: var(--space-4) 0; }
+
+/* @component-css-start */
+.navbar { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 var(--space-5); background: rgba(11,11,13,.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--color-border); width: 100%; box-sizing: border-box; }
+.navbar--compact { padding: 0 var(--space-3); }
+.navbar-logo { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h2); color: #ffffff; white-space: nowrap; text-decoration: none; }
+.navbar-links { display: flex; align-items: center; gap: var(--space-5); list-style: none; margin: 0; padding: 0; }
+.navbar-link { font-size: var(--font-size-body); font-weight: var(--font-weight-body); color: rgba(255,255,255,.72); text-decoration: none; white-space: nowrap; transition: filter .15s; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); }
+.navbar-link:hover { filter: brightness(1.2); }
+.navbar-link.active { color: #ffffff; font-weight: var(--font-weight-h4); }
+.navbar-actions { display: flex; align-items: center; gap: var(--space-3); }
+.navbar-btn { display: inline-flex; align-items: center; padding: var(--space-2) var(--space-4); background: var(--color-primary); color: var(--color-on-primary); font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-h4); border: none; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; transition: background .15s; }
+.navbar-btn:hover { background: var(--color-primary-hover); }
+.navbar-hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: none; border: none; color: rgba(255,255,255,.72); cursor: pointer; border-radius: var(--radius-sm); transition: filter .15s; flex-shrink: 0; }
+.navbar-hamburger:hover { filter: brightness(1.2); }
+/* @component-css-end */
+</style>
+</head>
+<body>
+<div class="row"><span class="label">桌面端</span></div>
+<div class="row">
+  <header class="navbar">
+    <a class="navbar-logo" href="#">AI Tutor</a>
+    <ul class="navbar-links">
+      <li><a class="navbar-link active" href="#">首页</a></li>
+      <li><a class="navbar-link" href="#">预测卷</a></li>
+      <li><a class="navbar-link" href="#">错题本</a></li>
+      <li><a class="navbar-link" href="#">AI讲题</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="navbar-btn">开始学习</button>
+    </div>
+  </header>
+</div>
+<hr class="divider">
+<div class="row"><span class="label">移动端</span></div>
+<div class="row">
+  <header class="navbar navbar--compact">
+    <a class="navbar-logo" href="#">AI Tutor</a>
+    <div class="navbar-actions">
+      <button class="navbar-hamburger" aria-label="菜单"><i data-lucide="menu" style="width:24px;height:24px;display:inline-block"></i></button>
+    </div>
+  </header>
+</div>
+<script>lucide.createIcons();</script>
+</body>
+</html>

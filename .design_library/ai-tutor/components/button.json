@@ -1,0 +1,44 @@
+{
+  "slug": "button",
+  "schemaVersion": 2,
+  "name": "Button",
+  "category": "actions",
+  "sourceKind": "from-scratch",
+  "confidence": "medium",
+  "semanticTypeCandidates": [
+    { "name": "Button", "evidence": "action trigger across all pages" }
+  ],
+  "variantDimensions": [
+    { "name": "variant", "values": ["primary", "ghost"] },
+    { "name": "size", "values": ["sm", "md", "lg"] }
+  ],
+  "representativeVariants": [
+    {
+      "name": "Primary MD",
+      "traits": { "variant": "primary", "size": "md", "bg": "var(--accent)", "color": "#fff", "radius": "var(--radius-pill)" },
+      "whySelected": "Most used CTA style across dashboard and exam pages",
+      "childrenDigest": "text label only"
+    },
+    {
+      "name": "Ghost MD",
+      "traits": { "variant": "ghost", "size": "md", "bg": "transparent", "color": "var(--muted)", "border": "1px solid var(--border)", "radius": "var(--radius-pill)" },
+      "whySelected": "Secondary action style used alongside primary buttons",
+      "childrenDigest": "text label only"
+    },
+    {
+      "name": "Primary LG",
+      "traits": { "variant": "primary", "size": "lg", "bg": "var(--accent)", "color": "#fff", "radius": "var(--radius-pill)", "padding": "14px 28px" },
+      "whySelected": "Hero section CTA with larger touch target",
+      "childrenDigest": "text label, emoji prefix"
+    }
+  ],
+  "anatomy": [
+    { "part": "label", "role": "text content", "required": true },
+    { "part": "icon", "role": "optional prefix/suffix icon", "required": false }
+  ],
+  "structurePatterns": ["<button>", "<a> as button"],
+  "usageHints": { "priorityHint": "core", "density": "normal" },
+  "doNotInvent": ["toggle button", "icon-only button", "loading state"],
+  "unknowns": [],
+  "keyInsightSeed": "Primary red for CTA, ghost for secondary, pill shape standard"
+}

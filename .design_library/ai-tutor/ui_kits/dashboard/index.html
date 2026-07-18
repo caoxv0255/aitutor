@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Tutor - UI Kit Dashboard</title>
+  <link rel="stylesheet" href="../../colors_and_type.css" />
+  <link rel="stylesheet" href="../../components.css" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body { background: var(--background); color: var(--foreground); font-family: var(--font-body); min-height: 100vh; }
+
+    .uikit-shell { width: 100%; max-width: 1184px; margin: 0 auto; overflow: hidden; }
+    .uikit-main { min-width: 0; }
+    .uikit-toolbar { display: flex; align-items: center; gap: var(--space-3); min-width: 0; flex-wrap: wrap; }
+    .uikit-responsive-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-5); }
+    .uikit-truncate { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .uikit-nowrap { white-space: nowrap; flex-shrink: 0; }
+
+    .dashboard-page { padding: 0; min-height: 100vh; }
+    .page-content { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-6); }
+    .page-header { display: flex; flex-direction: column; gap: var(--space-3); }
+    .page-title { font-family: var(--font-heading); font-size: var(--font-size-h2); font-weight: var(--font-weight-h2); line-height: var(--line-height-h2); color: var(--color-on-surface); word-break: keep-all; overflow-wrap: break-word; }
+    .page-subtitle { font-family: var(--font-body); font-size: var(--font-size-lead); font-weight: var(--font-weight-lead); line-height: var(--line-height-lead); color: var(--color-on-surface-variant); }
+
+    .stats-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
+    .section-header { font-family: var(--font-heading); font-size: var(--font-size-h3); font-weight: var(--font-weight-h3); line-height: var(--line-height-h3); color: var(--color-on-surface); word-break: keep-all; overflow-wrap: break-word; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+    .card-interactive[data-component="card"] { width: auto; }
+
+    .subject-tags-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .search-bar-col { max-width: 480px; }
+    .cta-row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+
+    .recent-section { display: flex; flex-direction: column; gap: var(--space-4); }
+    .recent-list { display: flex; flex-direction: column; gap: var(--space-3); }
+    .recent-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-sm); min-width: 0; }
+    .recent-item-title { flex: 1; min-width: 0; font-size: var(--font-size-body); color: var(--color-on-surface); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .recent-item-meta { font-size: var(--font-size-caption); color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+
+    .progress-section { display: flex; flex-direction: column; gap: var(--space-4); }
+    .progress-bar-track { width: 100%; height: 8px; background: var(--color-surface-container); border-radius: var(--radius-pill); overflow: hidden; }
+    .progress-bar-fill { height: 100%; border-radius: var(--radius-pill); }
+    .progress-item { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+    .progress-label { font-size: var(--font-size-body); color: var(--color-on-surface); white-space: nowrap; flex-shrink: 0; min-width: 48px; }
+    .progress-track-wrap { flex: 1; min-width: 80px; }
+    .progress-value { font-size: var(--font-size-caption); color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+    .fill80 { width: 80%; }
+    .fill65 { width: 65%; }
+    .fill52 { width: 52%; }
+    .fill41 { width: 41%; }
+    .fill90 { width: 90%; }
+
+    .two-col-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--space-5); }
+
+    .empty-card { padding: var(--space-8); text-align: center; color: var(--muted); font-size: var(--font-size-body); }
+
+    @media (max-width: 900px) {
+      .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .feature-grid { grid-template-columns: minmax(0, 1fr); }
+      .two-col-layout { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .stats-row { grid-template-columns: minmax(0, 1fr); }
+      .page-content { padding: var(--space-4); }
+      .navbar-links { display: none; }
+      .cta-row { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    /* ── Navigation ── */
+    function NavBar() {
+      const [active, setActive] = useState('dashboard');
+      const links = [
+        { key: 'dashboard', label: '学习中心' },
+        { key: 'wrong', label: '错题本' },
+        { key: 'report', label: '学习报告' },
+        { key: 'exam', label: '模拟考试' },
+      ];
+      return (
+        <header className="navbar" data-component="navigation" data-layout-guard="uikit-v1">
+          <a href="#" className="navbar-logo">AI Tutor</a>
+          <nav>
+            <ul className="navbar-links">
+              {links.map(l => (
+                <li key={l.key}>
+                  <a
+                    href="#"
+                    className={'navbar-link' + (active === l.key ? ' active' : '')}
+                    onClick={e => { e.preventDefault(); setActive(l.key); }}
+                  >{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="navbar-actions">
+            <button className="navbar-btn">升级会员</button>
+            <button className="navbar-hamburger">
+              <i data-lucide="menu" style={{width:22,height:22,display:'inline-block'}}></i>
+            </button>
+          </div>
+        </header>
+      );
+    }
+
+    /* ── Search ── */
+    function SearchBar() {
+      return (
+        <div className="search-bar-col" data-component="input">
+          <div className="input-wrap">
+            <i data-lucide="search" className="icon" style={{width:'var(--size-icon-md)',height:'var(--size-icon-md)',display:'inline-block',color:'var(--muted)'}}></i>
+            <input type="text" placeholder="搜索知识点、题目或课程..." />
+          </div>
+        </div>
+      );
+    }
+
+    /* ── Stat Cards ── */
+    function StatCards() {
+      const stats = [
+        { number: '128', label: '错题总数', change: '+12 本周', accent: false },
+        { number: '78', label: '综合得分', change: '+5 较上周', accent: true },
+        { number: '32', label: '已生成报告', change: '+3 本月', accent: false },
+        { number: '15', label: '薄弱知识点', change: '-2 已攻克', accent: false },
+      ];
+      return (
+        <div className="stats-row">
+          {stats.map((s, i) => (
+            <div key={i} className={'stat-card' + (s.accent ? ' stat-card--accent' : '')} data-component="stat-card">
+              <span className="stat-card__number">{s.number}</span>
+              <span className="stat-card__label">{s.label}</span>
+              <span className="stat-card__change">{s.change}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    /* ── Subject Tags ── */
+    function SubjectTags() {
+      const tags = [
+        { label: '数学', cls: 'tag--primary' },
+        { label: '物理', cls: 'tag--info' },
+        { label: '化学', cls: 'tag--success' },
+        { label: '英语', cls: 'tag--blue' },
+        { label: '语文', cls: 'tag--default' },
+        { label: '生物', cls: 'tag--success' },
+        { label: '历史', cls: 'tag--info' },
+        { label: '地理', cls: 'tag--default' },
+      ];
+      return (
+        <div className="subject-tags-row" data-component="tag">
+          {tags.map((t, i) => (
+            <span key={i} className={'tag ' + t.cls}>{t.label}</span>
+          ))}
+        </div>
+      );
+    }
+
+    /* ── Feature Cards ── */
+    function FeatureCards() {
+      const features = [
+        { icon: 'book-open', title: '错题本', desc: '自动收集错题，智能归类薄弱知识点，针对性练习提升' },
+        { icon: 'bar-chart-3', title: '学习报告', desc: '每周生成学习分析报告，多维度评估备考进度' },
+        { icon: 'file-text', title: '模拟考试', desc: '真实考场模拟，限时训练，即时批改与解析' },
+        { icon: 'brain', title: '智能推荐', desc: '基于薄弱点精准推送练习题，高效查漏补缺' },
+        { icon: 'target', title: '知识点扫描', desc: '快速扫描各科知识掌握程度，生成薄弱清单' },
+        { icon: 'graduation-cap', title: '高考冲刺', desc: '考前强化训练，重点突破高频考点与易错题型' },
+      ];
+      return (
+        <div className="feature-grid">
+          {features.map((f, i) => (
+            <div key={i} className="card-interactive" data-component="card">
+              <div className="card-icon" style={{color:'var(--color-primary)'}}>
+                <i data-lucide={f.icon} style={{width:'var(--size-icon-lg)',height:'var(--size-icon-lg)',display:'inline-block'}}></i>
+              </div>
+              <div className="card-heading">{f.title}</div>
+              <div className="card-desc">{f.desc}</div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    /* ── Progress ── */
+    function ProgressBars() {
+      const items = [
+        { label: '数学', fill: 'fill80', color: 'var(--aitutor-primary-500)', val: '80%' },
+        { label: '物理', fill: 'fill65', color: 'var(--aitutor-info-500)', val: '65%' },
+        { label: '化学', fill: 'fill52', color: 'var(--aitutor-success-500)', val: '52%' },
+        { label: '英语', fill: 'fill90', color: 'var(--aitutor-blue-500)', val: '90%' },
+        { label: '语文', fill: 'fill41', color: 'var(--aitutor-warning-500)', val: '41%' },
+      ];
+      return (
+        <div className="progress-section">
+          {items.map((p, i) => (
+            <div key={i} className="progress-item">
+              <span className="progress-label uikit-truncate">{p.label}</span>
+              <div className="progress-track-wrap">
+                <div className="progress-bar-track">
+                  <div className={'progress-bar-fill ' + p.fill} style={{background: p.color}}></div>
+                </div>
+              </div>
+              <span className="progress-value">{p.val}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    /* ── Recent Activity ── */
+    function RecentActivity() {
+      const items = [
+        { title: '二次函数求最值 — 数学', meta: '2分钟前', tag: '数学', tagCls: 'tag--primary' },
+        { title: '牛顿第二定律综合题 — 物理', meta: '15分钟前', tag: '物理', tagCls: 'tag--info' },
+        { title: '氧化还原反应方程式配平', meta: '1小时前', tag: '化学', tagCls: 'tag--success' },
+        { title: '完形填空专项训练 Set 3', meta: '2小时前', tag: '英语', tagCls: 'tag--blue' },
+        { title: '圆锥曲线椭圆方程推导', meta: '昨天', tag: '数学', tagCls: 'tag--primary' },
+        { title: '电场强度叠加计算', meta: '昨天', tag: '物理', tagCls: 'tag--info' },
+      ];
+      return (
+        <div className="recent-list">
+          {items.map((it, i) => (
+            <div key={i} className="recent-item">
+              <span className="uikit-truncate" style={{flex:1,minWidth:0}}>{it.title}</span>
+              <span className={'tag ' + it.tagCls} style={{flexShrink:0}}>{it.tag}</span>
+              <span className="recent-item-meta">{it.meta}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    /* ── Buttons Section ── */
+    function ButtonShowcase() {
+      return (
+        <div className="cta-row" data-component="button">
+          <button className="btn primary lg">开始今日练习</button>
+          <button className="btn ghost md">查看学习报告</button>
+          <button className="btn ghost md" disabled>暂无可用考试</button>
+          <button className="btn ghost sm">更多功能</button>
+        </div>
+      );
+    }
+
+    /* ── Main App ── */
+    function App() {
+      return (
+        <div className="dashboard-page">
+          <NavBar />
+          <div className="uikit-shell" data-layout-guard="uikit-v1">
+            <main className="uikit-main" style={{padding: 0}}>
+              <div className="page-content">
+                {/* Header + Search */}
+                <div className="page-header">
+                  <div className="page-title">学习中心</div>
+                  <div className="page-subtitle">早上好，同学！今天是你备考的第 47 天，继续加油。</div>
+                </div>
+
+                <div className="uikit-toolbar">
+                  <SearchBar />
+                  <SubjectTags />
+                </div>
+
+                <ButtonShowcase />
+
+                {/* Stats */}
+                <StatCards />
+
+                {/* Two column: Progress + Recent */}
+                <div className="two-col-layout">
+                  <div className="card" data-component="card" style={{width:'auto'}}>
+                    <div className="card-heading">各科掌握进度</div>
+                    <ProgressBars />
+                  </div>
+                  <div className="card" data-component="card" style={{width:'auto'}}>
+                    <div className="card-heading">最近练习</div>
+                    <RecentActivity />
+                  </div>
+                </div>
+
+                {/* Feature Grid */}
+                <div>
+                  <div className="section-header" style={{marginBottom:'var(--space-4)'}}>学习工具</div>
+                  <FeatureCards />
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    lucide.createIcons();
+  </script>
+</body>
+</html>

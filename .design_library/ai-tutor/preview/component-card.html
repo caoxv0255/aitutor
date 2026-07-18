@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Card — AI Tutor</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  /* Page scaffold — NOT extracted */
+  body { margin: 0; padding: var(--space-3); background: var(--color-background); font-family: var(--font-body); color: var(--color-on-surface); }
+  .specimen { max-width: 960px; margin: 0 auto; }
+  .header { margin-bottom: var(--space-4); }
+  .stage { display: flex; flex-direction: column; gap: var(--space-3); }
+  .story { display: flex; flex-direction: column; gap: var(--space-2); }
+  .rail { display: flex; gap: var(--space-4); flex-wrap: wrap; align-items: stretch; }
+  .story-label { font-family: var(--font-body); font-size: var(--font-size-caption); font-weight: var(--font-weight-eyebrow); color: var(--color-muted-foreground); text-transform: uppercase; letter-spacing: 0.08em; }
+  .divider { border: none; border-top: 1px solid var(--color-outline); margin: var(--space-3) 0; }
+
+  /* @component-css-start */
+  /* Component definitions — extracted to components.css by deterministic script */
+  .card { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); }
+  .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); word-break: keep-all; overflow-wrap: break-word; }
+  .card-body { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+  .card-interactive { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); width: 260px; flex-shrink: 0; box-shadow: var(--shadow-1); cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
+  .card-interactive:hover { border-color: var(--color-primary); transform: translateY(-3px); box-shadow: var(--shadow-2); }
+  .card-interactive .card-icon { width: var(--size-icon-lg); height: var(--size-icon-lg); flex-shrink: 0; color: var(--color-primary); }
+  .card-interactive .card-heading { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); color: var(--color-on-surface); }
+  .card-interactive .card-desc { font-family: var(--font-body); font-size: var(--font-size-body); font-weight: var(--font-weight-body); line-height: var(--line-height-body); color: var(--color-on-surface-variant); }
+  /* @component-css-end */
+</style>
+</head>
+<body>
+<div class="specimen">
+  <div class="header">
+    <span class="story-label">Card</span>
+  </div>
+  <div class="stage">
+    <!-- Scene 1: Default cards -->
+    <div class="story">
+      <span class="story-label">默认卡片</span>
+      <div class="rail">
+        <div class="card" data-evidence-sample="Default">
+          <div class="card-heading">我的错题本</div>
+          <div class="card-body">记录和分析你的错题，帮助针对性复习薄弱知识点。</div>
+        </div>
+        <div class="card" data-evidence-sample="Default">
+          <div class="card-heading">薄弱点分析</div>
+          <div class="card-body">智能检测知识盲区，生成个性化提升方案。</div>
+        </div>
+        <div class="card" data-evidence-sample="Default">
+          <div class="card-heading">学习路径</div>
+          <div class="card-body">根据你的水平和目标，规划高效的学习路线。</div>
+        </div>
+      </div>
+    </div>
+    <hr class="divider">
+    <!-- Scene 2: Interactive cards -->
+    <div class="story">
+      <span class="story-label">交互卡片</span>
+      <div class="rail">
+        <div class="card-interactive" data-evidence-sample="Interactive">
+          <img class="card-icon" src="https://cdn.jsdelivr.net/npm/lucide-static@1.8.0/icons/book-open.svg" width="32" height="32" alt="book-open">
+          <div class="card-heading">我的错题本</div>
+          <div class="card-desc">查看全部错题记录与解析</div>
+        </div>
+        <div class="card-interactive" data-evidence-sample="Interactive">
+          <img class="card-icon" src="https://cdn.jsdelivr.net/npm/lucide-static@1.8.0/icons/target.svg" width="32" height="32" alt="target">
+          <div class="card-heading">薄弱点分析</div>
+          <div class="card-desc">进入薄弱知识专项训练</div>
+        </div>
+        <div class="card-interactive" data-evidence-sample="Interactive">
+          <img class="card-icon" src="https://cdn.jsdelivr.net/npm/lucide-static@1.8.0/icons/map.svg" width="32" height="32" alt="map">
+          <div class="card-heading">学习路径</div>
+          <div class="card-desc">定制你的专属学习计划</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

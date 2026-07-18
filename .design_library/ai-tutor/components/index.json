@@ -1,0 +1,64 @@
+{
+  "components": [
+    {
+      "slug": "button",
+      "name": "Button",
+      "category": "actions",
+      "sourceKind": "from-scratch",
+      "confidence": "medium",
+      "variantCount": 3,
+      "priorityHint": "core",
+      "keyInsightSeed": "Primary red for CTA, ghost for secondary, pill shape standard"
+    },
+    {
+      "slug": "card",
+      "name": "Card",
+      "category": "containers",
+      "sourceKind": "from-scratch",
+      "confidence": "medium",
+      "variantCount": 2,
+      "priorityHint": "core",
+      "keyInsightSeed": "Dark card with border, hover lift, used for dashboard tiles"
+    },
+    {
+      "slug": "input",
+      "name": "Input",
+      "category": "forms",
+      "sourceKind": "from-scratch",
+      "confidence": "medium",
+      "variantCount": 2,
+      "priorityHint": "core",
+      "keyInsightSeed": "Dark input field with focus border glow, search and text variants"
+    },
+    {
+      "slug": "navigation",
+      "name": "Navigation",
+      "category": "layout",
+      "sourceKind": "from-scratch",
+      "confidence": "medium",
+      "variantCount": 2,
+      "priorityHint": "core",
+      "keyInsightSeed": "Sticky top nav with backdrop blur, hamburger for mobile"
+    },
+    {
+      "slug": "tag",
+      "name": "Tag",
+      "category": "display",
+      "sourceKind": "from-scratch",
+      "confidence": "medium",
+      "variantCount": 2,
+      "priorityHint": "support",
+      "keyInsightSeed": "Subject and knowledge-point pill tags with color coding"
+    },
+    {
+      "slug": "stat-card",
+      "name": "StatCard",
+      "category": "data-display",
+      "sourceKind": "from-scratch",
+      "confidence": "medium",
+      "variantCount": 2,
+      "priorityHint": "core",
+      "keyInsightSeed": "Large number display with label, used for dashboard metrics"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "slug": "stat-card",
+  "schemaVersion": 2,
+  "name": "StatCard",
+  "category": "data-display",
+  "sourceKind": "from-scratch",
+  "confidence": "medium",
+  "semanticTypeCandidates": [
+    { "name": "MetricCard", "evidence": "dashboard stats (错题总数, 已生成报告, 薄弱知识点), report score displays" }
+  ],
+  "variantDimensions": [
+    { "name": "variant", "values": ["default", "accent"] }
+  ],
+  "representativeVariants": [
+    {
+      "name": "Default",
+      "traits": { "bg": "var(--surface)", "border": "1px solid var(--border)", "radius": "var(--radius)", "padding": "20px", "textAlign": "center" },
+      "whySelected": "Standard metric card for dashboard overview stats",
+      "childrenDigest": "large number + label"
+    },
+    {
+      "name": "Accent",
+      "traits": { "bg": "accent-soft", "border": "2px solid var(--accent)", "radius": "var(--radius)", "textAlign": "center" },
+      "whySelected": "Highlighted stat card for key metrics or scan CTA",
+      "childrenDigest": "large number + label + action"
+    }
+  ],
+  "anatomy": [
+    { "part": "number", "role": "large metric value", "required": true },
+    { "part": "label", "role": "metric description", "required": true },
+    { "part": "change", "role": "trend indicator", "required": false }
+  ],
+  "structurePatterns": ["<div> with centered flex layout"],
+  "usageHints": { "priorityHint": "core", "density": "normal" },
+  "doNotInvent": ["chart stat card", "progress stat card", "icon stat card"],
+  "unknowns": [],
+  "keyInsightSeed": "Large number display with label, used for dashboard metrics"
+}

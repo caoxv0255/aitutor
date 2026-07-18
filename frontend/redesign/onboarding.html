@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初始化设置 — AI Tutor</title>
+    <style id="theme-vars">
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+:root {
+  --aitutor-primary-50: #fff1f1;
+  --aitutor-primary-100: #ffe0e0;
+  --aitutor-primary-200: #ffc5c5;
+  --aitutor-primary-300: #ffa0a0;
+  --aitutor-primary-400: #f36b6b;
+  --aitutor-primary-500: #d71920;
+  --aitutor-primary-600: #b8151b;
+  --aitutor-primary-700: #941218;
+  --aitutor-primary-800: #7a1014;
+  --aitutor-primary-900: #660f13;
+  --aitutor-blue-50: #eff6ff;
+  --aitutor-blue-100: #dbeafe;
+  --aitutor-blue-200: #bfdbfe;
+  --aitutor-blue-300: #93c5fd;
+  --aitutor-blue-400: #60a5fa;
+  --aitutor-blue-500: #2563eb;
+  --aitutor-blue-600: #1d4ed8;
+  --aitutor-blue-700: #1e40af;
+  --aitutor-blue-800: #1e3a8a;
+  --aitutor-blue-900: #172554;
+  --aitutor-success-50: #ecfdf5;
+  --aitutor-success-100: #d1fae5;
+  --aitutor-success-200: #a7f3d0;
+  --aitutor-success-300: #6ee7b7;
+  --aitutor-success-400: #34d399;
+  --aitutor-success-500: #059669;
+  --aitutor-success-600: #047857;
+  --aitutor-warning-50: #fffbeb;
+  --aitutor-warning-100: #fef3c7;
+  --aitutor-warning-200: #fde68a;
+  --aitutor-warning-300: #fcd34d;
+  --aitutor-warning-400: #fbbf24;
+  --aitutor-warning-500: #f59e0b;
+  --aitutor-error-50: #fef2f2;
+  --aitutor-error-100: #fee2e2;
+  --aitutor-error-200: #fecaca;
+  --aitutor-error-300: #fca5a5;
+  --aitutor-error-400: #f87171;
+  --aitutor-error-500: #ef4444;
+  --aitutor-error-600: #dc2626;
+
+  --primary: var(--aitutor-primary-500); --primary-hover: var(--aitutor-primary-600); --primary-foreground: #ffffff;
+  --secondary: var(--aitutor-blue-500); --secondary-hover: var(--aitutor-blue-600); --secondary-foreground: #ffffff;
+  --accent: var(--aitutor-primary-500); --accent-hover: var(--aitutor-primary-600); --accent-foreground: #ffffff;
+  --background: #f8f9fa; --foreground: #1a1a2e; --muted: #94a3b8; --muted-foreground: #64748b;
+  --border: #e2e8f0; --ring: var(--aitutor-primary-500);
+  --error: var(--aitutor-error-600); --error-foreground: #ffffff; --success: var(--aitutor-success-600); --warning: var(--aitutor-warning-600);
+  --surface: #ffffff; --surface-dim: #f1f5f9; --surface-container-lowest: #f8f9fa;
+  --surface-container-low: #f1f5f9; --surface-container: #e8ecf1; --surface-container-high: #dfe4ea; --surface-container-highest: #d5dae1;
+  --inverse-surface: #1a1a2e; --inverse-on-surface: #f1f5f9;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --link: var(--aitutor-blue-600); --card-bg: var(--surface);
+
+  --font-display: 'DM Sans', 'Noto Sans SC', sans-serif; --font-heading: 'DM Sans', 'Noto Sans SC', sans-serif;
+  --font-body: 'Noto Sans SC', 'DM Sans', sans-serif; --font-mono: 'DM Sans', monospace;
+  --font-size-display: 56px; --font-size-h1: 40px; --font-size-h2: 32px; --font-size-h3: 24px;
+  --font-size-h4: 20px; --font-size-body: 16px; --font-size-lead: 18px; --font-size-caption: 12px;
+  --font-size-eyebrow: 11px; --font-size-mono: 14px;
+  --font-weight-display: 700; --font-weight-h1: 700; --font-weight-h2: 600; --font-weight-h3: 600;
+  --font-weight-h4: 600; --font-weight-body: 400; --font-weight-lead: 400; --font-weight-caption: 400;
+  --font-weight-eyebrow: 600; --font-weight-mono: 400;
+  --line-height-display: 1.1; --line-height-h1: 1.2; --line-height-h2: 1.25; --line-height-h3: 1.3;
+  --line-height-h4: 1.4; --line-height-body: 1.6; --line-height-lead: 1.7; --line-height-caption: 1.5;
+  --line-height-eyebrow: 1.4; --line-height-mono: 1.6;
+
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+
+  --size-button-sm: 32px; --size-button-md: 40px; --size-button-lg: 48px;
+  --size-input-height: 40px; --size-icon-sm: 16px; --size-icon-md: 24px; --size-icon-lg: 32px;
+
+  --radius-sm: 8px; --radius-md: 14px; --radius-lg: 16px; --radius-pill: 9999px;
+
+  --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04);
+  --shadow-2: 0 4px 8px -2px rgba(0,0,0,.10);
+  --shadow-3: 0 8px 24px -8px rgba(0,0,0,.18);
+  --shadow-4: 0 16px 40px -12px rgba(0,0,0,.24);
+  --shadow-5: 0 24px 60px -20px rgba(0,0,0,.30);
+
+  --color-background: var(--bg); --color-foreground: var(--fg);
+  --color-surface: var(--surface); --color-surface-dim: var(--surface-dim);
+  --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-primary: var(--accent); --color-primary-hover: var(--accent-hover);
+  --color-on-primary: #ffffff; --color-primary-container: var(--aitutor-primary-50);
+  --color-on-primary-container: var(--aitutor-primary-900);
+  --color-secondary: var(--aitutor-blue-100); --color-secondary-container: var(--aitutor-blue-50);
+  --color-on-secondary-container: var(--aitutor-blue-900);
+  --color-outline: var(--rule); --color-outline-variant: var(--aitutor-blue-100); --color-border: var(--rule);
+  --color-success: var(--aitutor-success-600); --color-warning: var(--aitutor-warning-600);
+  --color-error: var(--aitutor-error-600); --color-info: var(--aitutor-info-600);
+  --radius-full: 9999px; --type-display-sm: 40px; --type-heading-sm: 24px;
+  --type-body-md: 16px; --type-body-sm: 14px; --font-family-base: var(--font-body);
+}
+
+.dark {
+  --background: #0f1117; --foreground: #e8ecf1; --surface: #1a1d27; --surface-dim: #12141c;
+  --surface-container-lowest: #0f1117; --surface-container-low: #1a1d27;
+  --surface-container: #22252f; --surface-container-high: #2a2d38; --surface-container-highest: #33374a;
+  --inverse-surface: #f1f5f9; --inverse-on-surface: #1a1a2e;
+  --muted: #64748b; --muted-foreground: #94a3b8; --border: #2a2d38;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --card-bg: var(--surface);
+  --color-background: var(--bg); --color-foreground: var(--fg); --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim); --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container); --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high); --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-outline: var(--rule); --color-outline-variant: #2a2d38;
+  --color-border: var(--rule);
+}
+
+.aitutor-display { font-family: var(--font-display); font-size: 3.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); letter-spacing: -0.02em; }
+.aitutor-h1 { font-family: var(--font-heading); font-size: 2.5rem; font-weight: var(--font-weight-h1); line-height: var(--line-height-h1); }
+.aitutor-h2 { font-family: var(--font-heading); font-size: 2rem; font-weight: var(--font-weight-h2); line-height: var(--line-height-h2); }
+.aitutor-h3 { font-family: var(--font-heading); font-size: 1.5rem; font-weight: var(--font-weight-h3); line-height: var(--line-height-h3); }
+.aitutor-h4 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); }
+.aitutor-body { font-family: var(--font-body); font-size: 1rem; font-weight: var(--font-weight-body); line-height: var(--line-height-body); }
+.aitutor-lead { font-family: var(--font-body); font-size: 1.125rem; font-weight: var(--font-weight-lead); line-height: var(--line-height-lead); }
+.aitutor-caption { font-family: var(--font-body); font-size: 0.75rem; font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); }
+.aitutor-eyebrow { font-family: var(--font-body); font-size: 0.6875rem; font-weight: var(--font-weight-eyebrow); line-height: var(--line-height-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+      .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: var(--font-body); font-weight: var(--font-weight-body); white-space: nowrap; cursor: pointer; border: none; border-radius: var(--radius-pill); transition: background .15s, border-color .15s, opacity .15s; flex-shrink: 0; }
+      .btn.primary { background: var(--accent); color: var(--primary-foreground); }
+      .btn.primary:hover { background: var(--accent-hover); }
+      .btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+      .btn.ghost:hover { background: var(--color-surface-container-low); }
+      .btn.sm { height: var(--size-button-sm); padding: 0 var(--space-4); font-size: var(--font-size-caption); min-width: var(--size-button-sm); }
+      .btn.md { height: var(--size-button-md); padding: 0 var(--space-5); font-size: var(--font-size-body); min-width: var(--size-button-md); }
+      .btn.lg { height: var(--size-button-lg); padding: 0 28px; font-size: var(--font-size-lead); min-width: var(--size-button-lg); }
+      .btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+      .input-field { display: flex; align-items: center; height: var(--size-input-height); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0 var(--space-3); font-family: var(--font-body); font-size: var(--font-size-body); color: var(--color-on-surface); outline: none; transition: border-color .15s; width: 100%; min-width: 120px; }
+      .input-field:focus { border-color: var(--color-primary); }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <nav class="navbar" style="position:sticky;top:0;z-index:50;">
+      <div style="max-width:1280px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;">
+        <a class="navbar-logo" href="home.html">AI Tutor</a>
+        <div class="navbar-actions">
+          <button class="navbar-hamburger" id="themeToggle" aria-label="切换主题">
+            <i data-lucide="moon" style="width:20px;height:20px;"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 60px);padding:var(--space-5) var(--space-4);">
+      <div style="width:100%;max-width:560px;">
+        <div style="text-align:center;margin-bottom:var(--space-7);">
+          <h1 class="aitutor-h2" style="color:var(--color-on-surface);margin:0 0 var(--space-2);">欢迎使用 AI Tutor</h1>
+          <p class="aitutor-body" style="color:var(--color-on-surface-variant);margin:0;">请完成初始化设置，以便为您提供个性化学习体验</p>
+        </div>
+
+        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-7);box-shadow:var(--shadow-3);">
+          <div style="display:flex;align-items:center;justify-content:center;gap:var(--space-2);margin-bottom:var(--space-7);">
+            <div class="step-indicator" data-step="1">
+              <span class="step-num">1</span>
+              <span class="step-label">年级</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-indicator" data-step="2">
+              <span class="step-num">2</span>
+              <span class="step-label">地区</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-indicator" data-step="3">
+              <span class="step-num">3</span>
+              <span class="step-label">选科</span>
+            </div>
+          </div>
+
+          <div id="step-content">
+            <div class="step-panel active" id="step-1">
+              <div style="text-align:center;margin-bottom:var(--space-6);">
+                <div style="width:80px;height:80px;background:var(--color-primary-container);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto var(--space-4);">
+                  <i data-lucide="graduation-cap" style="width:40px;height:40px;color:var(--color-primary);"></i>
+                </div>
+                <h2 class="aitutor-h3" style="color:var(--color-on-surface);margin:0 0 var(--space-2);">选择年级</h2>
+                <p class="aitutor-body" style="color:var(--color-on-surface-variant);margin:0;">请选择您当前的年级，以便为您匹配相应的学习内容</p>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);">
+                <button class="grade-card" data-value="grade_10">
+                  <div style="font-size:2rem;font-weight:600;color:var(--color-primary);margin-bottom:var(--space-1);">高一</div>
+                  <div style="font-size:var(--font-size-caption);color:var(--color-on-surface-variant);">Grade 10</div>
+                </button>
+                <button class="grade-card" data-value="grade_11">
+                  <div style="font-size:2rem;font-weight:600;color:var(--color-primary);margin-bottom:var(--space-1);">高二</div>
+                  <div style="font-size:var(--font-size-caption);color:var(--color-on-surface-variant);">Grade 11</div>
+                </button>
+                <button class="grade-card" data-value="grade_12">
+                  <div style="font-size:2rem;font-weight:600;color:var(--color-primary);margin-bottom:var(--space-1);">高三</div>
+                  <div style="font-size:var(--font-size-caption);color:var(--color-on-surface-variant);">Grade 12</div>
+                </button>
+              </div>
+            </div>
+
+            <div class="step-panel" id="step-2">
+              <div style="text-align:center;margin-bottom:var(--space-6);">
+                <div style="width:80px;height:80px;background:var(--color-primary-container);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto var(--space-4);">
+                  <i data-lucide="map-pin" style="width:40px;height:40px;color:var(--color-primary);"></i>
+                </div>
+                <h2 class="aitutor-h3" style="color:var(--color-on-surface);margin:0 0 var(--space-2);">选择地区</h2>
+                <p class="aitutor-body" style="color:var(--color-on-surface-variant);margin:0;">请选择您所在的省份，以便为您提供本地化的考试信息</p>
+              </div>
+              <div style="max-height:320px;overflow-y:auto;padding-right:var(--space-2);">
+                <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);" id="province-list">
+                </div>
+              </div>
+            </div>
+
+            <div class="step-panel" id="step-3">
+              <div style="text-align:center;margin-bottom:var(--space-6);">
+                <div style="width:80px;height:80px;background:var(--color-primary-container);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto var(--space-4);">
+                  <i data-lucide="book-open" style="width:40px;height:40px;color:var(--color-primary);"></i>
+                </div>
+                <h2 class="aitutor-h3" style="color:var(--color-on-surface);margin:0 0 var(--space-2);">选择学科</h2>
+                <p class="aitutor-body" style="color:var(--color-on-surface-variant);margin:0;">请选择您的选科组合（新高考3+1+2模式）</p>
+              </div>
+              <div style="margin-bottom:var(--space-4);">
+                <div style="font-size:var(--font-size-body);font-weight:500;color:var(--color-on-surface);margin-bottom:var(--space-2);">必选科目（语文、数学、英语）</div>
+                <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
+                  <span class="tag tag--success">语文</span>
+                  <span class="tag tag--success">数学</span>
+                  <span class="tag tag--success">英语</span>
+                </div>
+              </div>
+              <div style="margin-bottom:var(--space-4);">
+                <div style="font-size:var(--font-size-body);font-weight:500;color:var(--color-on-surface);margin-bottom:var(--space-2);">首选科目（物理/历史，必选1门）</div>
+                <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
+                  <button class="subject-card" data-code="physics" data-is-main="true">物理</button>
+                  <button class="subject-card" data-code="history" data-is-main="true">历史</button>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:var(--font-size-body);font-weight:500;color:var(--color-on-surface);margin-bottom:var(--space-2);">再选科目（从以下4门中选2门）</div>
+                <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
+                  <button class="subject-card" data-code="chemistry" data-is-main="false">化学</button>
+                  <button class="subject-card" data-code="biology" data-is-main="false">生物</button>
+                  <button class="subject-card" data-code="politics" data-is-main="false">政治</button>
+                  <button class="subject-card" data-code="geography" data-is-main="false">地理</button>
+                </div>
+              </div>
+              <div style="margin-top:var(--space-4);padding:var(--space-4);background:var(--color-surface-container-low);border-radius:var(--radius-md);">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <span class="aitutor-caption" style="color:var(--color-on-surface-variant);">已选科目</span>
+                  <span class="aitutor-caption" style="color:var(--color-primary);font-weight:600;" id="selected-count">0/6</span>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2);" id="selected-subjects"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;margin-top:var(--space-7);">
+            <button class="btn ghost md" id="prev-btn" style="display:none;">上一步</button>
+            <button class="btn primary md" id="next-btn">下一步</button>
+            <button class="btn primary md" id="submit-btn" style="display:none;">完成</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <style>
+      .navbar { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 var(--space-5); background: var(--color-surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--color-border); width: 100%; box-sizing: border-box; }
+      .navbar-logo { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h2); color: var(--color-on-surface); white-space: nowrap; text-decoration: none; }
+      .navbar-hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: none; border: none; color: var(--color-on-surface-variant); cursor: pointer; border-radius: var(--radius-sm); transition: filter .15s; flex-shrink: 0; }
+
+      .step-indicator { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); }
+      .step-indicator .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--color-surface-container-high); color: var(--color-on-surface-variant); display: flex; align-items: center; justify-content: center; font-size: var(--font-size-body); font-weight: 600; transition: all .2s; }
+      .step-indicator.active .step-num { background: var(--color-primary); color: var(--color-on-primary); }
+      .step-indicator.done .step-num { background: var(--color-success); color: #fff; }
+      .step-indicator .step-label { font-size: var(--font-size-caption); color: var(--color-on-surface-variant); }
+      .step-indicator.active .step-label, .step-indicator.done .step-label { color: var(--color-on-surface); font-weight: 500; }
+      .step-line { width: 40px; height: 2px; background: var(--color-surface-container-high); transition: background .2s; }
+      .step-line.active { background: var(--color-primary); }
+
+      .step-panel { display: none; }
+      .step-panel.active { display: block; animation: fadeIn .3s ease-out; }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+      .grade-card { padding: var(--space-4) var(--space-2); background: var(--color-surface-container-low); border: 2px solid transparent; border-radius: var(--radius-md); cursor: pointer; transition: all .2s; text-align: center; }
+      .grade-card:hover { border-color: var(--color-primary); }
+      .grade-card.selected { background: var(--color-primary-container); border-color: var(--color-primary); }
+
+      .province-tag { padding: var(--space-2) var(--space-4); background: var(--color-surface-container-low); border: 1px solid var(--color-border); border-radius: var(--radius-pill); font-size: var(--font-size-body); color: var(--color-on-surface); cursor: pointer; transition: all .2s; }
+      .province-tag:hover { border-color: var(--color-primary); }
+      .province-tag.selected { background: var(--color-primary); color: var(--color-on-primary); border-color: var(--color-primary); }
+
+      .subject-card { padding: var(--space-3) var(--space-5); background: var(--color-surface-container-low); border: 2px solid transparent; border-radius: var(--radius-md); font-size: var(--font-size-body); font-weight: 500; color: var(--color-on-surface); cursor: pointer; transition: all .2s; }
+      .subject-card:hover { border-color: var(--color-primary); }
+      .subject-card.selected { background: var(--color-primary-container); border-color: var(--color-primary); color: var(--color-primary); }
+
+      .tag { display: inline-flex; align-items: center; height: 24px; padding: 0 var(--space-3); border-radius: var(--radius-pill); font-size: 12px; font-weight: 600; white-space: nowrap; line-height: 1; min-width: 24px; flex-shrink: 0; }
+      .tag--default { background: var(--color-surface); border: 1px solid var(--color-outline); color: var(--color-on-surface); }
+      .tag--success { background: var(--aitutor-success-50); color: var(--aitutor-success-700); border: 1px solid var(--aitutor-success-200); }
+    </style>
+
+    <script>
+    (function() {
+      'use strict';
+
+      var currentStep = 1;
+      var maxSteps = 3;
+      var formData = {
+        grade_code: null,
+        province_code: null,
+        subjects: []
+      };
+
+      var provinces = [
+        { code: 'beijing', name: '北京' },
+        { code: 'shanghai', name: '上海' },
+        { code: 'tianjin', name: '天津' },
+        { code: 'chongqing', name: '重庆' },
+        { code: 'hebei', name: '河北' },
+        { code: 'shanxi', name: '山西' },
+        { code: 'inner_mongolia', name: '内蒙古' },
+        { code: 'liaoning', name: '辽宁' },
+        { code: 'jilin', name: '吉林' },
+        { code: 'heilongjiang', name: '黑龙江' },
+        { code: 'jiangsu', name: '江苏' },
+        { code: 'zhejiang', name: '浙江' },
+        { code: 'anhui', name: '安徽' },
+        { code: 'fujian', name: '福建' },
+        { code: 'jiangxi', name: '江西' },
+        { code: 'shandong', name: '山东' },
+        { code: 'henan', name: '河南' },
+        { code: 'hubei', name: '湖北' },
+        { code: 'hunan', name: '湖南' },
+        { code: 'guangdong', name: '广东' },
+        { code: 'guangxi', name: '广西' },
+        { code: 'hainan', name: '海南' },
+        { code: 'sichuan', name: '四川' },
+        { code: 'guizhou', name: '贵州' },
+        { code: 'yunnan', name: '云南' },
+        { code: 'tibet', name: '西藏' },
+        { code: 'shaanxi', name: '陕西' },
+        { code: 'gansu', name: '甘肃' },
+        { code: 'qinghai', name: '青海' },
+        { code: 'ningxia', name: '宁夏' },
+        { code: 'xinjiang', name: '新疆' },
+        { code: 'hong_kong', name: '香港' },
+        { code: 'macao', name: '澳门' },
+        { code: 'taiwan', name: '台湾' }
+      ];
+
+      var subjectNames = {
+        chinese: '语文',
+        math: '数学',
+        english: '英语',
+        physics: '物理',
+        history: '历史',
+        chemistry: '化学',
+        biology: '生物',
+        politics: '政治',
+        geography: '地理'
+      };
+
+      function renderProvinces() {
+        var list = document.getElementById('province-list');
+        provinces.forEach(function(p) {
+          var tag = document.createElement('button');
+          tag.className = 'province-tag';
+          tag.textContent = p.name;
+          tag.dataset.code = p.code;
+          tag.addEventListener('click', function() {
+            selectProvince(p.code);
+          });
+          list.appendChild(tag);
+        });
+      }
+
+      function selectGrade(value) {
+        formData.grade_code = value;
+        document.querySelectorAll('.grade-card').forEach(function(card) {
+          card.classList.toggle('selected', card.dataset.value === value);
+        });
+        updateButtons();
+      }
+
+      function selectProvince(code) {
+        formData.province_code = code;
+        document.querySelectorAll('.province-tag').forEach(function(tag) {
+          tag.classList.toggle('selected', tag.dataset.code === code);
+        });
+        updateButtons();
+      }
+
+      function toggleSubject(code, isMain) {
+        var index = formData.subjects.findIndex(function(s) { return s.code === code; });
+        if (index >= 0) {
+          formData.subjects.splice(index, 1);
+        } else {
+          var mainCount = formData.subjects.filter(function(s) { return s.is_main; }).length;
+          var subCount = formData.subjects.filter(function(s) { return !s.is_main; }).length;
+          if (isMain && mainCount >= 1) {
+            var existingMain = formData.subjects.find(function(s) { return s.is_main; });
+            if (existingMain) {
+              var idx = formData.subjects.findIndex(function(s) { return s.code === existingMain.code; });
+              if (idx >= 0) formData.subjects.splice(idx, 1);
+            }
+          }
+          if (!isMain && subCount >= 2) return;
+          formData.subjects.push({ code: code, is_main: isMain });
+        }
+        updateSubjectCards();
+        updateSelectedSubjects();
+        updateButtons();
+      }
+
+      function updateSubjectCards() {
+        document.querySelectorAll('.subject-card').forEach(function(card) {
+          var code = card.dataset.code;
+          var selected = formData.subjects.some(function(s) { return s.code === code; });
+          card.classList.toggle('selected', selected);
+        });
+      }
+
+      function updateSelectedSubjects() {
+        var container = document.getElementById('selected-subjects');
+        container.innerHTML = '';
+        var fixedSubjects = ['chinese', 'math', 'english'].map(function(code) {
+          return { code: code, is_main: true };
+        });
+        var allSubjects = fixedSubjects.concat(formData.subjects);
+        allSubjects.forEach(function(s) {
+          var tag = document.createElement('span');
+          tag.className = 'tag tag--default';
+          tag.textContent = subjectNames[s.code];
+          container.appendChild(tag);
+        });
+        document.getElementById('selected-count').textContent = allSubjects.length + '/6';
+      }
+
+      function updateStepIndicators() {
+        for (var i = 1; i <= maxSteps; i++) {
+          var indicator = document.querySelector('.step-indicator[data-step="' + i + '"]');
+          indicator.classList.remove('active', 'done');
+          if (i < currentStep) {
+            indicator.classList.add('done');
+          } else if (i === currentStep) {
+            indicator.classList.add('active');
+          }
+          var line = indicator.nextElementSibling;
+          if (line && line.classList.contains('step-line')) {
+            line.classList.toggle('active', i < currentStep);
+          }
+        }
+      }
+
+      function updateButtons() {
+        var prevBtn = document.getElementById('prev-btn');
+        var nextBtn = document.getElementById('next-btn');
+        var submitBtn = document.getElementById('submit-btn');
+
+        prevBtn.style.display = currentStep > 1 ? 'block' : 'none';
+
+        if (currentStep === maxSteps) {
+          nextBtn.style.display = 'none';
+          submitBtn.style.display = 'block';
+        } else {
+          nextBtn.style.display = 'block';
+          submitBtn.style.display = 'none';
+        }
+
+        var canProceed = false;
+        if (currentStep === 1) {
+          canProceed = !!formData.grade_code;
+        } else if (currentStep === 2) {
+          canProceed = !!formData.province_code;
+        } else if (currentStep === 3) {
+          var mainCount = formData.subjects.filter(function(s) { return s.is_main; }).length;
+          var subCount = formData.subjects.filter(function(s) { return !s.is_main; }).length;
+          canProceed = mainCount === 1 && subCount >= 2;
+        }
+
+        (currentStep === maxSteps ? submitBtn : nextBtn).disabled = !canProceed;
+      }
+
+      function goToStep(step) {
+        document.querySelectorAll('.step-panel').forEach(function(panel) {
+          panel.classList.remove('active');
+        });
+        document.getElementById('step-' + step).classList.add('active');
+        currentStep = step;
+        updateStepIndicators();
+        updateButtons();
+      }
+
+      function nextStep() {
+        if (currentStep < maxSteps) {
+          goToStep(currentStep + 1);
+        }
+      }
+
+      function prevStep() {
+        if (currentStep > 1) {
+          goToStep(currentStep - 1);
+        }
+      }
+
+      async function submitForm() {
+        var btn = document.getElementById('submit-btn');
+        btn.textContent = '提交中...';
+        btn.disabled = true;
+
+        try {
+          var token = localStorage.getItem('aitutor_token');
+          if (!token) {
+            alert('请先登录');
+            window.location.href = 'login.html';
+            return;
+          }
+
+          var response = await fetch('/api/user/initialize', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+              grade_code: formData.grade_code,
+              province_code: formData.province_code,
+              subjects: formData.subjects,
+              target_score: 600,
+              study_hours_per_day: 2
+            })
+          });
+
+          var result = await response.json();
+          if (result.success) {
+            localStorage.setItem('aitutor_initialized', 'true');
+            window.location.href = 'dashboard.html';
+          } else {
+            alert(result.message || '初始化失败');
+          }
+        } catch (error) {
+          console.error('Submit error:', error);
+          alert('网络错误，请稍后重试');
+        } finally {
+          btn.textContent = '完成';
+          btn.disabled = false;
+        }
+      }
+
+      document.querySelectorAll('.grade-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+          selectGrade(card.dataset.value);
+        });
+      });
+
+      document.querySelectorAll('.subject-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+          toggleSubject(card.dataset.code, card.dataset.is_main === 'true');
+        });
+      });
+
+      document.getElementById('next-btn').addEventListener('click', nextStep);
+      document.getElementById('prev-btn').addEventListener('click', prevStep);
+      document.getElementById('submit-btn').addEventListener('click', submitForm);
+
+      renderProvinces();
+      updateStepIndicators();
+      updateButtons();
+
+      var themeToggle = document.getElementById('themeToggle');
+      function updateThemeIcon() {
+        var isDark = document.documentElement.classList.contains('dark');
+        var icon = themeToggle.querySelector('i');
+        if (icon) {
+          icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+      themeToggle.addEventListener('click', function() {
+        var html = document.documentElement;
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          html.classList.add('light');
+          localStorage.setItem('aitutor-theme', 'light');
+        } else {
+          html.classList.remove('light');
+          html.classList.add('dark');
+          localStorage.setItem('aitutor-theme', 'dark');
+        }
+        updateThemeIcon();
+      });
+      (function() {
+        var saved = localStorage.getItem('aitutor-theme');
+        if (saved) {
+          document.documentElement.classList.remove('light', 'dark');
+          document.documentElement.classList.add(saved);
+        }
+        updateThemeIcon();
+      })();
+
+    })();
+    </script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

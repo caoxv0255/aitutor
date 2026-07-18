@@ -1,0 +1,37 @@
+{
+  "slug": "input",
+  "schemaVersion": 2,
+  "name": "Input",
+  "category": "forms",
+  "sourceKind": "from-scratch",
+  "confidence": "medium",
+  "semanticTypeCandidates": [
+    { "name": "TextField", "evidence": "search bars, question input, login forms" }
+  ],
+  "variantDimensions": [
+    { "name": "variant", "values": ["default", "search"] }
+  ],
+  "representativeVariants": [
+    {
+      "name": "Default",
+      "traits": { "bg": "var(--bg)", "border": "1px solid var(--border)", "radius": "var(--radius-sm)", "focusBorder": "var(--accent)", "color": "var(--fg)" },
+      "whySelected": "Standard text input for login, registration, question entry",
+      "childrenDigest": "label + text input"
+    },
+    {
+      "name": "Search",
+      "traits": { "bg": "var(--bg)", "border": "1px solid var(--border)", "radius": "var(--radius-pill)", "prependIcon": "search" },
+      "whySelected": "Search variant used in knowledge point and question search",
+      "childrenDigest": "search icon + text input"
+    }
+  ],
+  "anatomy": [
+    { "part": "label", "role": "field label", "required": true },
+    { "part": "field", "role": "input element", "required": true }
+  ],
+  "structurePatterns": ["<div.form-group> containing <label> + <input>"],
+  "usageHints": { "priorityHint": "core", "density": "normal" },
+  "doNotInvent": ["textarea", "select dropdown", "input with validation message"],
+  "unknowns": [],
+  "keyInsightSeed": "Dark input field with focus border glow, search and text variants"
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "tag",
+  "schemaVersion": 2,
+  "name": "Tag",
+  "category": "display",
+  "sourceKind": "from-scratch",
+  "confidence": "medium",
+  "semanticTypeCandidates": [
+    { "name": "Badge", "evidence": "subject labels, difficulty badges, knowledge point tags" }
+  ],
+  "variantDimensions": [
+    { "name": "variant", "values": ["default", "colored"] }
+  ],
+  "representativeVariants": [
+    {
+      "name": "Default",
+      "traits": { "bg": "var(--bg)", "border": "1px solid var(--border)", "radius": "var(--radius-pill)", "fontSize": "12px", "fontWeight": "600" },
+      "whySelected": "Neutral tag for knowledge point and topic labels",
+      "childrenDigest": "text label"
+    },
+    {
+      "name": "Colored",
+      "traits": { "bg": "accent-soft color", "color": "accent color", "border": "accent border", "radius": "var(--radius-pill)", "fontSize": "12px" },
+      "whySelected": "Color-coded tags for subjects (math=red, physics=orange, etc.)",
+      "childrenDigest": "text label"
+    }
+  ],
+  "anatomy": [
+    { "part": "label", "role": "tag text", "required": true }
+  ],
+  "structurePatterns": ["<span> pill element"],
+  "usageHints": { "priorityHint": "support", "density": "normal" },
+  "doNotInvent": ["removable tag", "icon tag", "clickable tag with link"],
+  "unknowns": [],
+  "keyInsightSeed": "Subject and knowledge-point pill tags with color coding"
+}

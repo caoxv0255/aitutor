@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考试趋势分析 — AI Tutor</title>
+    <style id="theme-vars">
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+:root {
+  --aitutor-primary-50: #fff1f1;
+  --aitutor-primary-100: #ffe0e0;
+  --aitutor-primary-200: #ffc5c5;
+  --aitutor-primary-300: #ffa0a0;
+  --aitutor-primary-400: #f36b6b;
+  --aitutor-primary-500: #d71920;
+  --aitutor-primary-600: #b8151b;
+  --aitutor-primary-700: #941218;
+  --aitutor-primary-800: #7a1014;
+  --aitutor-primary-900: #660f13;
+  --aitutor-blue-50: #eff6ff;
+  --aitutor-blue-100: #dbeafe;
+  --aitutor-blue-200: #bfdbfe;
+  --aitutor-blue-300: #93c5fd;
+  --aitutor-blue-400: #60a5fa;
+  --aitutor-blue-500: #2563eb;
+  --aitutor-blue-600: #1d4ed8;
+  --aitutor-blue-700: #1e40af;
+  --aitutor-blue-800: #1e3a8a;
+  --aitutor-blue-900: #172554;
+  --aitutor-success-50: #ecfdf5;
+  --aitutor-success-100: #d1fae5;
+  --aitutor-success-200: #a7f3d0;
+  --aitutor-success-300: #6ee7b7;
+  --aitutor-success-400: #34d399;
+  --aitutor-success-500: #059669;
+  --aitutor-success-600: #047857;
+  --aitutor-warning-50: #fffbeb;
+  --aitutor-warning-100: #fef3c7;
+  --aitutor-warning-200: #fde68a;
+  --aitutor-warning-300: #fcd34d;
+  --aitutor-warning-400: #fbbf24;
+  --aitutor-warning-500: #f59e0b;
+  --aitutor-error-50: #fef2f2;
+  --aitutor-error-100: #fee2e2;
+  --aitutor-error-200: #fecaca;
+  --aitutor-error-300: #fca5a5;
+  --aitutor-error-400: #f87171;
+  --aitutor-error-500: #ef4444;
+  --aitutor-error-600: #dc2626;
+
+  --primary: var(--aitutor-primary-500); --primary-hover: var(--aitutor-primary-600); --primary-foreground: #ffffff;
+  --secondary: var(--aitutor-blue-500); --secondary-hover: var(--aitutor-blue-600); --secondary-foreground: #ffffff;
+  --accent: var(--aitutor-primary-500); --accent-hover: var(--aitutor-primary-600); --accent-foreground: #ffffff;
+  --background: #f8f9fa; --foreground: #1a1a2e; --muted: #94a3b8; --muted-foreground: #64748b;
+  --border: #e2e8f0; --ring: var(--aitutor-primary-500);
+  --error: var(--aitutor-error-600); --error-foreground: #ffffff; --success: var(--aitutor-success-600); --warning: var(--aitutor-warning-600);
+  --surface: #ffffff; --surface-dim: #f1f5f9; --surface-container-lowest: #f8f9fa;
+  --surface-container-low: #f1f5f9; --surface-container: #e8ecf1; --surface-container-high: #dfe4ea; --surface-container-highest: #d5dae1;
+  --inverse-surface: #1a1a2e; --inverse-on-surface: #f1f5f9;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --link: var(--aitutor-blue-600); --card-bg: var(--surface);
+
+  --font-display: 'DM Sans', 'Noto Sans SC', sans-serif; --font-heading: 'DM Sans', 'Noto Sans SC', sans-serif;
+  --font-body: 'Noto Sans SC', 'DM Sans', sans-serif; --font-mono: 'DM Sans', monospace;
+  --font-size-display: 56px; --font-size-h1: 40px; --font-size-h2: 32px; --font-size-h3: 24px;
+  --font-size-h4: 20px; --font-size-body: 16px; --font-size-lead: 18px; --font-size-caption: 12px;
+  --font-size-eyebrow: 11px; --font-size-mono: 14px;
+  --font-weight-display: 700; --font-weight-h1: 700; --font-weight-h2: 600; --font-weight-h3: 600;
+  --font-weight-h4: 600; --font-weight-body: 400; --font-weight-lead: 400; --font-weight-caption: 400;
+  --font-weight-eyebrow: 600; --font-weight-mono: 400;
+  --line-height-display: 1.1; --line-height-h1: 1.2; --line-height-h2: 1.25; --line-height-h3: 1.3;
+  --line-height-h4: 1.4; --line-height-body: 1.6; --line-height-lead: 1.7; --line-height-caption: 1.5;
+  --line-height-eyebrow: 1.4; --line-height-mono: 1.6;
+
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+
+  --size-button-sm: 32px; --size-button-md: 40px; --size-button-lg: 48px;
+  --size-input-height: 40px; --size-icon-sm: 16px; --size-icon-md: 24px; --size-icon-lg: 32px;
+
+  --radius-sm: 8px; --radius-md: 14px; --radius-lg: 16px; --radius-pill: 9999px;
+
+  --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04);
+  --shadow-2: 0 4px 8px -2px rgba(0,0,0,.10);
+  --shadow-3: 0 8px 24px -8px rgba(0,0,0,.18);
+  --shadow-4: 0 16px 40px -12px rgba(0,0,0,.24);
+  --shadow-5: 0 24px 60px -20px rgba(0,0,0,.30);
+
+  --color-background: var(--bg); --color-foreground: var(--fg);
+  --color-surface: var(--surface); --color-surface-dim: var(--surface-dim);
+  --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-primary: var(--accent); --color-primary-hover: var(--accent-hover);
+  --color-on-primary: #ffffff; --color-primary-container: var(--aitutor-primary-50);
+  --color-on-primary-container: var(--aitutor-primary-900);
+  --color-secondary: var(--aitutor-blue-100); --color-secondary-container: var(--aitutor-blue-50);
+  --color-on-secondary-container: var(--aitutor-blue-900);
+  --color-outline: var(--rule); --color-outline-variant: var(--aitutor-blue-100); --color-border: var(--rule);
+  --color-success: var(--aitutor-success-600); --color-warning: var(--aitutor-warning-600);
+  --color-error: var(--aitutor-error-600); --color-info: var(--aitutor-info-600);
+  --radius-full: 9999px; --type-display-sm: 40px; --type-heading-sm: 24px;
+  --type-body-md: 16px; --type-body-sm: 14px; --font-family-base: var(--font-body);
+}
+
+.dark {
+  --background: #0f1117; --foreground: #e8ecf1; --surface: #1a1d27; --surface-dim: #12141c;
+  --surface-container-lowest: #0f1117; --surface-container-low: #1a1d27;
+  --surface-container: #22252f; --surface-container-high: #2a2d38; --surface-container-highest: #33374a;
+  --inverse-surface: #f1f5f9; --inverse-on-surface: #1a1a2e;
+  --muted: #64748b; --muted-foreground: #94a3b8; --border: #2a2d38;
+  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --card-bg: var(--surface);
+  --color-background: var(--bg); --color-foreground: var(--fg); --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim); --color-surface-variant: var(--surface-container-high);
+  --color-surface-container: var(--surface-container); --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high); --color-surface-container-highest: var(--surface-container-highest);
+  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
+  --color-muted-foreground: var(--muted); --color-outline: var(--rule); --color-outline-variant: #2a2d38;
+  --color-border: var(--rule);
+}
+
+.aitutor-display { font-family: var(--font-display); font-size: 3.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); letter-spacing: -0.02em; }
+.aitutor-h1 { font-family: var(--font-heading); font-size: 2.5rem; font-weight: var(--font-weight-h1); line-height: var(--line-height-h1); }
+.aitutor-h2 { font-family: var(--font-heading); font-size: 2rem; font-weight: var(--font-weight-h2); line-height: var(--line-height-h2); }
+.aitutor-h3 { font-family: var(--font-heading); font-size: 1.5rem; font-weight: var(--font-weight-h3); line-height: var(--line-height-h3); }
+.aitutor-h4 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); }
+.aitutor-body { font-family: var(--font-body); font-size: 1rem; font-weight: var(--font-weight-body); line-height: var(--line-height-body); }
+.aitutor-lead { font-family: var(--font-body); font-size: 1.125rem; font-weight: var(--font-weight-lead); line-height: var(--line-height-lead); }
+.aitutor-caption { font-family: var(--font-body); font-size: 0.75rem; font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); }
+.aitutor-eyebrow { font-family: var(--font-body); font-size: 0.6875rem; font-weight: var(--font-weight-eyebrow); line-height: var(--line-height-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .navbar { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 var(--space-5); background: var(--color-surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--color-border); width: 100%; box-sizing: border-box; }
+      .navbar-logo { font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-h2); color: var(--color-on-surface); white-space: nowrap; text-decoration: none; }
+      .navbar-links { display: flex; align-items: center; gap: var(--space-5); list-style: none; margin: 0; padding: 0; }
+      .navbar-link { font-size: var(--font-size-body); font-weight: var(--font-weight-body); color: var(--color-on-surface-variant); text-decoration: none; white-space: nowrap; transition: filter .15s; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); }
+      .navbar-link:hover { filter: brightness(1.2); }
+      .navbar-link.active { color: var(--color-on-surface); font-weight: var(--font-weight-h4); }
+      .navbar-hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: none; border: none; color: var(--color-on-surface-variant); cursor: pointer; border-radius: var(--radius-sm); transition: filter .15s; flex-shrink: 0; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: var(--font-body); font-weight: var(--font-weight-body); white-space: nowrap; cursor: pointer; border: none; border-radius: var(--radius-pill); transition: background .15s, border-color .15s, opacity .15s; flex-shrink: 0; }
+      .btn.primary { background: var(--accent); color: var(--primary-foreground); }
+      .btn.primary:hover { background: var(--accent-hover); }
+      .btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+      .btn.ghost:hover { background: var(--color-surface-container-low); }
+      .btn.sm { height: var(--size-button-sm); padding: 0 var(--space-4); font-size: var(--font-size-caption); min-width: var(--size-button-sm); }
+      .btn.md { height: var(--size-button-md); padding: 0 var(--space-5); font-size: var(--font-size-body); min-width: var(--size-button-md); }
+      .card { background: var(--color-card); border: 1px solid var(--color-outline); border-radius: var(--radius-md); padding: var(--space-5); box-shadow: var(--shadow-1); }
+      .tag { display: inline-flex; align-items: center; height: 24px; padding: 0 var(--space-3); border-radius: var(--radius-pill); font-size: 12px; font-weight: 600; white-space: nowrap; line-height: 1; min-width: 24px; flex-shrink: 0; }
+      .tag--default { background: var(--color-surface); border: 1px solid var(--color-outline); color: var(--color-on-surface); }
+      .tag--primary { background: var(--aitutor-primary-50); color: var(--aitutor-primary-700); border: 1px solid var(--aitutor-primary-200); }
+      .tag--success { background: var(--aitutor-success-50); color: var(--aitutor-success-700); border: 1px solid var(--aitutor-success-200); }
+      .tag--warning { background: var(--aitutor-warning-50); color: var(--aitutor-warning-700); border: 1px solid var(--aitutor-warning-200); }
+      .chart-container { width: 100%; height: 300px; }
+      @media (max-width: 768px) { .chart-container { height: 250px; } }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <nav class="navbar" style="position:sticky;top:0;z-index:50;">
+      <div style="max-width:1280px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;">
+        <a class="navbar-logo" href="home.html">AI Tutor</a>
+        <ul class="navbar-links hidden md:flex">
+          <li><a class="navbar-link" href="dashboard.html">学习驾驶舱</a></li>
+          <li><a class="navbar-link active" href="trends-analysis.html">考试趋势</a></li>
+          <li><a class="navbar-link" href="wrong-book.html">错题本</a></li>
+          <li><a class="navbar-link" href="ai-tutor-chat.html">AI讲题</a></li>
+        </ul>
+        <div class="navbar-actions">
+          <button class="navbar-hamburger" id="themeToggle" aria-label="切换主题">
+            <i data-lucide="moon" style="width:20px;height:20px;"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main style="max-width:1280px;margin:0 auto;width:100%;padding:var(--space-6) var(--space-4);">
+      <div style="margin-bottom:var(--space-6);">
+        <h1 class="aitutor-h2" style="color:var(--color-on-surface);margin:0 0 var(--space-2);">考试趋势分析</h1>
+        <p class="aitutor-body" style="color:var(--color-on-surface-variant);margin:0;">分析近3-5年考试命题趋势，掌握考试方向</p>
+      </div>
+
+      <div class="card" style="margin-bottom:var(--space-6);">
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:center;">
+          <div style="flex:1;min-width:200px;">
+            <div style="font-size:var(--font-size-caption);color:var(--color-on-surface-variant);margin-bottom:var(--space-1);">考试类型</div>
+            <select id="examLevel" class="input-field">
+              <option value="gaokao">高考</option>
+              <option value="zhongkao">中考</option>
+            </select>
+          </div>
+          <div style="flex:1;min-width:200px;">
+            <div style="font-size:var(--font-size-caption);color:var(--color-on-surface-variant);margin-bottom:var(--space-1);">省份</div>
+            <select id="province" class="input-field">
+              <option value="beijing">北京</option>
+              <option value="shanghai">上海</option>
+              <option value="guangdong">广东</option>
+              <option value="zhejiang">浙江</option>
+              <option value="jiangsu">江苏</option>
+              <option value="shandong">山东</option>
+              <option value="henan">河南</option>
+              <option value="hubei">湖北</option>
+              <option value="sichuan">四川</option>
+            </select>
+          </div>
+          <div style="flex:1;min-width:200px;">
+            <div style="font-size:var(--font-size-caption);color:var(--color-on-surface-variant);margin-bottom:var(--space-1);">学科</div>
+            <select id="subject" class="input-field">
+              <option value="math">数学</option>
+              <option value="chinese">语文</option>
+              <option value="english">英语</option>
+              <option value="physics">物理</option>
+              <option value="chemistry">化学</option>
+              <option value="biology">生物</option>
+              <option value="history">历史</option>
+              <option value="geography">地理</option>
+              <option value="politics">政治</option>
+            </select>
+          </div>
+          <div style="flex:0 0 auto;">
+            <button class="btn primary md" id="searchBtn">查询</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="summary-card" class="card" style="margin-bottom:var(--space-6);display:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4);">
+          <h2 class="aitutor-h3" style="color:var(--color-on-surface);margin:0;" id="summary-title">趋势分析</h2>
+          <div style="display:flex;gap:var(--space-2);" id="summary-tags"></div>
+        </div>
+        <p class="aitutor-body" style="color:var(--color-on-surface);margin:0 0 var(--space-4);" id="summary-overview"></p>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);" id="summary-findings"></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin-bottom:var(--space-6);">
+        <div class="card">
+          <h3 class="aitutor-h4" style="color:var(--color-on-surface);margin:0 0 var(--space-4);">题型分布趋势</h3>
+          <div id="typeTrendChart" class="chart-container"></div>
+        </div>
+        <div class="card">
+          <h3 class="aitutor-h4" style="color:var(--color-on-surface);margin:0 0 var(--space-4);">难度系数变化</h3>
+          <div id="difficultyChart" class="chart-container"></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin-bottom:var(--space-6);">
+        <div class="card">
+          <h3 class="aitutor-h4" style="color:var(--color-on-surface);margin:0 0 var(--space-4);">高频知识点</h3>
+          <div id="knowledgeChart" class="chart-container"></div>
+        </div>
+        <div class="card">
+          <h3 class="aitutor-h4" style="color:var(--color-on-surface);margin:0 0 var(--space-4);">题型占比</h3>
+          <div id="typePieChart" class="chart-container"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="aitutor-h4" style="color:var(--color-on-surface);margin:0 0 var(--space-4);">专家点评</h3>
+        <div id="expert-comments"></div>
+      </div>
+    </main>
+
+    <script>
+    (function() {
+      'use strict';
+
+      var typeTrendChart, difficultyChart, knowledgeChart, typePieChart;
+
+      function initCharts() {
+        typeTrendChart = echarts.init(document.getElementById('typeTrendChart'));
+        difficultyChart = echarts.init(document.getElementById('difficultyChart'));
+        knowledgeChart = echarts.init(document.getElementById('knowledgeChart'));
+        typePieChart = echarts.init(document.getElementById('typePieChart'));
+
+        window.addEventListener('resize', function() {
+          typeTrendChart.resize();
+          difficultyChart.resize();
+          knowledgeChart.resize();
+          typePieChart.resize();
+        });
+      }
+
+      async function fetchTrends() {
+        var examLevel = document.getElementById('examLevel').value;
+        var province = document.getElementById('province').value;
+        var subject = document.getElementById('subject').value;
+
+        var btn = document.getElementById('searchBtn');
+        btn.disabled = true;
+        btn.textContent = '查询中...';
+
+        try {
+          var response = await fetch(`/api/trends/province/${province}?subject=${subject}&exam_level=${examLevel}&years=5`);
+          var result = await response.json();
+
+          if (result.success && result.data) {
+            renderSummary(result.data);
+            renderCharts(result.data);
+            await fetchExpertSummary(province, subject, examLevel);
+          }
+        } catch (error) {
+          console.error('Fetch trends error:', error);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = '查询';
+        }
+      }
+
+      function renderSummary(data) {
+        var card = document.getElementById('summary-card');
+        card.style.display = 'block';
+
+        document.getElementById('summary-title').textContent = data.summary?.title || '趋势分析';
+        document.getElementById('summary-overview').textContent = data.summary?.overview || '';
+
+        var tagsContainer = document.getElementById('summary-tags');
+        tagsContainer.innerHTML = '';
+        (data.summary?.tags || []).forEach(function(tag) {
+          var span = document.createElement('span');
+          span.className = 'tag tag--default';
+          span.textContent = tag;
+          tagsContainer.appendChild(span);
+        });
+
+        var findingsContainer = document.getElementById('summary-findings');
+        findingsContainer.innerHTML = '';
+        (data.summary?.highlights || []).forEach(function(finding) {
+          var div = document.createElement('div');
+          div.style.padding = 'var(--space-3)';
+          div.style.background = 'var(--color-surface-container-low)';
+          div.style.borderRadius = 'var(--radius-sm)';
+          div.style.fontSize = 'var(--font-size-body)';
+          div.style.color = 'var(--color-on-surface)';
+          div.innerHTML = '<i data-lucide="check-circle" style="width:16px;height:16px;margin-right:var(--space-2);color:var(--color-success);"></i>' + finding;
+          findingsContainer.appendChild(div);
+        });
+
+        lucide.createIcons();
+      }
+
+      function renderCharts(data) {
+        renderTypeTrendChart(data.question_types_by_year);
+        renderDifficultyChart(data.difficulty_distribution_by_year);
+        renderKnowledgeChart(data.top_knowledge_points);
+        renderTypePieChart(data.question_types);
+      }
+
+      function renderTypeTrendChart(typeByYear) {
+        var years = Object.keys(typeByYear).sort();
+        var types = [...new Set(Object.values(typeByYear).flat().map(t => t.question_type))];
+
+        var series = types.map(function(type) {
+          return {
+            name: type,
+            type: 'line',
+            smooth: true,
+            data: years.map(function(year) {
+              var yearData = typeByYear[year];
+              var found = yearData && yearData.find(function(t) { return t.question_type === type; });
+              return found ? found.count : 0;
+            })
+          };
+        });
+
+        typeTrendChart.setOption({
+          tooltip: { trigger: 'axis' },
+          legend: { data: types, bottom: 0 },
+          grid: { left: '3%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
+          xAxis: { type: 'category', data: years },
+          yAxis: { type: 'value' },
+          series: series
+        });
+      }
+
+      function renderDifficultyChart(diffByYear) {
+        var years = Object.keys(diffByYear).sort();
+        var diffLevels = [1, 2, 3, 4, 5];
+
+        var series = diffLevels.map(function(level) {
+          return {
+            name: '难度' + level,
+            type: 'line',
+            smooth: true,
+            data: years.map(function(year) {
+              var yearData = diffByYear[year];
+              var found = yearData && yearData.find(function(d) { return d.difficulty === level; });
+              return found ? found.count : 0;
+            })
+          };
+        });
+
+        difficultyChart.setOption({
+          tooltip: { trigger: 'axis' },
+          legend: { data: diffLevels.map(function(l) { return '难度' + l; }), bottom: 0 },
+          grid: { left: '3%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
+          xAxis: { type: 'category', data: years },
+          yAxis: { type: 'value' },
+          series: series
+        });
+      }
+
+      function renderKnowledgeChart(points) {
+        var names = points.slice(0, 10).map(function(p) { return p.knowledge_point_name || '未知'; });
+        var frequencies = points.slice(0, 10).map(function(p) { return p.total_frequency || p.frequency || 0; });
+
+        knowledgeChart.setOption({
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+          grid: { left: '3%', right: '4%', bottom: '3%', top: '10%', containLabel: true },
+          xAxis: { type: 'category', data: names, axisLabel: { rotate: 30 } },
+          yAxis: { type: 'value' },
+          series: [{
+            type: 'bar',
+            data: frequencies,
+            itemStyle: { borderRadius: [4, 4, 0, 0] }
+          }]
+        });
+      }
+
+      function renderTypePieChart(types) {
+        var data = types.slice(0, 8).map(function(t) {
+          return {
+            value: t.count,
+            name: t.question_type
+          };
+        });
+
+        typePieChart.setOption({
+          tooltip: { trigger: 'item' },
+          legend: { bottom: 0, orient: 'horizontal' },
+          series: [{
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            itemStyle: { borderRadius: 8, borderColor: 'var(--color-surface)', borderWidth: 2 },
+            label: { show: false },
+            emphasis: { label: { show: true, fontSize: 14, fontWeight: 'bold' } },
+            labelLine: { show: false },
+            data: data
+          }]
+        });
+      }
+
+      async function fetchExpertSummary(province, subject, examLevel) {
+        try {
+          var response = await fetch(`/api/trends/expert-summary?province=${province}&subject=${subject}&exam_level=${examLevel}`);
+          var result = await response.json();
+
+          if (result.success && result.data) {
+            renderExpertComments(result.data);
+          }
+        } catch (error) {
+          console.error('Fetch expert summary error:', error);
+        }
+      }
+
+      function renderExpertComments(data) {
+        var container = document.getElementById('expert-comments');
+        container.innerHTML = '';
+
+        (data.expert_comments || []).forEach(function(comment) {
+          var card = document.createElement('div');
+          card.style.display = 'flex';
+          card.style.gap = 'var(--space-4)';
+          card.style.padding = 'var(--space-4)';
+          card.style.background = 'var(--color-surface-container-low)';
+          card.style.borderRadius = 'var(--radius-md)';
+          card.style.marginBottom = 'var(--space-3)';
+
+          var avatar = document.createElement('div');
+          avatar.style.width = '48px';
+          avatar.style.height = '48px';
+          avatar.style.borderRadius = '50%';
+          avatar.style.background = 'var(--color-primary-container)';
+          avatar.style.display = 'flex';
+          avatar.style.alignItems = 'center';
+          avatar.style.justifyContent = 'center';
+          avatar.style.flexShrink = '0';
+          avatar.innerHTML = '<i data-lucide="user" style="width:24px;height:24px;color:var(--color-primary);"></i>';
+
+          var content = document.createElement('div');
+          content.style.flex = '1';
+
+          var header = document.createElement('div');
+          header.style.display = 'flex';
+          header.style.alignItems = 'center';
+          header.style.justifyContent = 'space-between';
+          header.style.marginBottom = 'var(--space-2)';
+
+          var expertName = document.createElement('div');
+          expertName.style.fontSize = 'var(--font-size-body)';
+          expertName.style.fontWeight = '600';
+          expertName.style.color = 'var(--color-on-surface)';
+          expertName.textContent = comment.expert;
+
+          var rating = document.createElement('div');
+          rating.style.display = 'flex';
+          for (var i = 0; i < comment.rating; i++) {
+            rating.innerHTML += '<i data-lucide="star" style="width:14px;height:14px;color:var(--aitutor-warning-500);fill:var(--aitutor-warning-500);"></i>';
+          }
+
+          header.appendChild(expertName);
+          header.appendChild(rating);
+
+          var text = document.createElement('div');
+          text.style.fontSize = 'var(--font-size-body)';
+          text.style.color = 'var(--color-on-surface-variant)';
+          text.style.lineHeight = 'var(--line-height-body)';
+          text.textContent = comment.content;
+
+          content.appendChild(header);
+          content.appendChild(text);
+
+          card.appendChild(avatar);
+          card.appendChild(content);
+
+          container.appendChild(card);
+        });
+
+        lucide.createIcons();
+      }
+
+      document.getElementById('searchBtn').addEventListener('click', fetchTrends);
+
+      initCharts();
+      fetchTrends();
+
+      var themeToggle = document.getElementById('themeToggle');
+      function updateThemeIcon() {
+        var isDark = document.documentElement.classList.contains('dark');
+        var icon = themeToggle.querySelector('i');
+        if (icon) {
+          icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+      themeToggle.addEventListener('click', function() {
+        var html = document.documentElement;
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          html.classList.add('light');
+          localStorage.setItem('aitutor-theme', 'light');
+        } else {
+          html.classList.remove('light');
+          html.classList.add('dark');
+          localStorage.setItem('aitutor-theme', 'dark');
+        }
+        updateThemeIcon();
+        setTimeout(function() {
+          typeTrendChart && typeTrendChart.resize();
+          difficultyChart && difficultyChart.resize();
+          knowledgeChart && knowledgeChart.resize();
+          typePieChart && typePieChart.resize();
+        }, 100);
+      });
+      (function() {
+        var saved = localStorage.getItem('aitutor-theme');
+        if (saved) {
+          document.documentElement.classList.remove('light', 'dark');
+          document.documentElement.classList.add(saved);
+        }
+        updateThemeIcon();
+      })();
+
+    })();
+    </script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

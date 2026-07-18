@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Button — AI Tutor</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+body { margin: 0; padding: var(--space-3); background: var(--color-background); font-family: var(--font-body); color: var(--color-on-surface); }
+.label { font-size: var(--font-size-eyebrow); font-weight: var(--font-weight-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-on-surface-variant); width: 92px; flex-shrink: 0; }
+.row { display: flex; gap: var(--space-3); align-items: center; margin-bottom: var(--space-2); flex-wrap: wrap; }
+.divider { border: none; border-top: 1px solid var(--border); margin: var(--space-3) 0; }
+
+/* @component-css-start */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); font-family: var(--font-body); font-weight: var(--font-weight-body); white-space: nowrap; cursor: pointer; border: none; border-radius: var(--radius-pill); transition: background .15s, border-color .15s, opacity .15s; flex-shrink: 0; }
+.btn.primary { background: var(--accent); color: var(--primary-foreground); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn.ghost:hover { background: var(--color-surface-container-low); }
+.btn.sm { height: var(--size-button-sm); padding: 0 var(--space-4); font-size: var(--font-size-caption); min-width: var(--size-button-sm); }
+.btn.md { height: var(--size-button-md); padding: 0 var(--space-5); font-size: var(--font-size-body); min-width: var(--size-button-md); }
+.btn.lg { height: var(--size-button-lg); padding: 0 28px; font-size: var(--font-size-lead); min-width: var(--size-button-lg); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+/* @component-css-end */
+</style>
+</head>
+<body>
+<div class="row"><span class="label">主要</span>
+  <button class="btn primary sm">开始学习</button>
+  <button class="btn primary md" data-evidence-sample="Primary MD">开始学习</button>
+  <button class="btn primary lg" data-evidence-sample="Primary LG">开始学习</button>
+</div>
+<div class="row"><span class="label">次要</span>
+  <button class="btn ghost sm">取消</button>
+  <button class="btn ghost md" data-evidence-sample="Ghost MD">取消</button>
+  <button class="btn ghost lg">取消</button>
+</div>
+<hr class="divider">
+<div class="row"><span class="label">已禁用</span>
+  <button class="btn primary md" disabled>提交答案</button>
+  <button class="btn ghost md" disabled>稍后再说</button>
+</div>
+</body>
+</html>

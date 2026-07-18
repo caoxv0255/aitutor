@@ -1,0 +1,38 @@
+{
+  "slug": "navigation",
+  "schemaVersion": 2,
+  "name": "Navigation",
+  "category": "layout",
+  "sourceKind": "from-scratch",
+  "confidence": "medium",
+  "semanticTypeCandidates": [
+    { "name": "NavBar", "evidence": "sticky top navigation present on every page" }
+  ],
+  "variantDimensions": [
+    { "name": "variant", "values": ["desktop", "mobile"] }
+  ],
+  "representativeVariants": [
+    {
+      "name": "Desktop",
+      "traits": { "height": "60px", "bg": "rgba(11,11,13,.92)", "backdropFilter": "blur(16px)", "borderBottom": "1px solid var(--border)", "display": "flex", "justifyContent": "space-between", "position": "sticky" },
+      "whySelected": "Primary navigation pattern across all pages",
+      "childrenDigest": "logo + nav links + action button"
+    },
+    {
+      "name": "Mobile",
+      "traits": { "height": "60px", "bg": "rgba(11,11,13,.92)", "backdropFilter": "blur(16px)", "hamburgerMenu": true },
+      "whySelected": "Compact mobile layout with hamburger toggle",
+      "childrenDigest": "logo + hamburger icon"
+    }
+  ],
+  "anatomy": [
+    { "part": "logo", "role": "brand mark", "required": true },
+    { "part": "nav-links", "role": "navigation items", "required": true },
+    { "part": "action", "role": "optional CTA in nav", "required": false }
+  ],
+  "structurePatterns": ["<header> with flex layout"],
+  "usageHints": { "priorityHint": "core", "density": "compact" },
+  "doNotInvent": ["sidebar nav", "breadcrumb nav", "tab nav"],
+  "unknowns": [],
+  "keyInsightSeed": "Sticky top nav with backdrop blur, hamburger for mobile"
+}

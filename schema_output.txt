@@ -1,0 +1,665 @@
+﻿[dotenv@17.3.1] injecting env (20) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+✅ PostgreSQL 数据库连接池初始化成功
+================================================================================
+数据库表结构概览
+================================================================================
+
+## exam_levels
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('exam_levels_id_seq'::regclass)
+  code                           character varying(20) NOT NULL
+  name                           character varying(50) NOT NULL
+  sort_order                     integer              NULL DEFAULT 0
+  is_active                      integer              NULL DEFAULT 1
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  exam_levels_code_key
+  exam_levels_pkey
+
+
+## exam_papers
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('exam_papers_id_seq'::regclass)
+  province_code                  character varying(20) NULL
+  year                           integer              NOT NULL
+  subject                        character varying(20) NOT NULL
+  exam_level                     character varying(10) NOT NULL
+  paper_file_path                character varying(500) NULL
+  question_count                 integer              NULL
+  total_score                    integer              NULL
+  difficulty_avg                 numeric              NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+  math_type                      character varying(20) NULL
+  paper_type                     character varying(30) NULL
+
+外键:
+  province_code → provinces.code
+
+索引:
+  exam_papers_pkey
+  idx_exam_papers_composite
+  idx_exam_papers_composite2
+  idx_exam_papers_exam_level
+  idx_exam_papers_province
+  idx_exam_papers_subject
+  idx_exam_papers_year
+  uk_exam_papers
+
+
+## exam_questions
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('exam_questions_id_seq'::regclass)
+  paper_id                       integer              NULL
+  question_number                integer              NOT NULL
+  question_type                  character varying(20) NOT NULL
+  stem                           text                 NOT NULL
+  options                        text                 NULL
+  answer                         text                 NULL
+  analysis                       text                 NULL
+  knowledge_points               text                 NULL
+  difficulty                     integer              NULL
+  ability_tags                   text                 NULL
+  score                          numeric              NULL
+  subject_code                   character varying(20) NULL
+  province_code                  character varying(20) NULL
+  year                           integer              NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+  question_uid                   character varying(64) NULL
+  has_image                      boolean              NULL DEFAULT false
+  has_formula                    boolean              NULL DEFAULT false
+  raw_image_path                 character varying(500) NULL
+  image_descriptions             text                 NULL
+  latex_formulas                 text                 NULL
+  formula_semantics              text                 NULL
+  semantic_description           text                 NULL
+  solution_description           text                 NULL
+  physics_structure              jsonb                NULL DEFAULT '{}'::jsonb
+  chemistry_structure            jsonb                NULL DEFAULT '{}'::jsonb
+  math_structure                 jsonb                NULL DEFAULT '{}'::jsonb
+  file_path                      character varying(500) NULL
+
+外键:
+  paper_id → exam_papers.id
+
+索引:
+  exam_questions_pkey
+  idx_exam_questions_difficulty
+  idx_exam_questions_has_formula
+  idx_exam_questions_has_image
+  idx_exam_questions_paper
+  idx_exam_questions_paper_number
+  idx_exam_questions_province
+  idx_exam_questions_subject
+  idx_exam_questions_type
+  idx_exam_questions_uid
+  idx_exam_questions_uid_unique
+  idx_exam_questions_year
+
+
+## exam_sessions
+------------------------------------------------------------
+列:
+  id                             character varying(50) NOT NULL
+  user_email                     character varying(255) NOT NULL
+  subject                        character varying(20) NOT NULL
+  province_code                  character varying(20) NULL
+  time_limit                     integer              NULL DEFAULT 120
+  question_count                 integer              NULL DEFAULT 0
+  status                         character varying(20) NULL DEFAULT 'active'::character varying
+  accuracy                       numeric              NULL
+  score                          integer              NULL DEFAULT 0
+  total_score                    integer              NULL DEFAULT 0
+  correct_count                  integer              NULL DEFAULT 0
+  started_at                     timestamp with time zone NULL DEFAULT now()
+  completed_at                   timestamp with time zone NULL
+
+索引:
+  exam_sessions_pkey
+  idx_exam_sessions_status
+  idx_exam_sessions_subject
+  idx_exam_sessions_user
+  idx_exam_sessions_user_status
+
+
+## grades
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('grades_id_seq'::regclass)
+  code                           character varying(20) NOT NULL
+  name                           character varying(50) NOT NULL
+  level                          character varying(20) NOT NULL
+  sort_order                     integer              NULL DEFAULT 0
+  is_active                      integer              NULL DEFAULT 1
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  grades_code_key
+  grades_pkey
+
+
+## knowledge_points
+------------------------------------------------------------
+列:
+  id                             character varying(20) NOT NULL
+  subject                        character varying(50) NOT NULL
+  name                           character varying(100) NOT NULL
+  subtopics                      text                 NULL DEFAULT '[]'::text
+  difficulty                     integer              NULL DEFAULT 3
+  frequency                      character varying(20) NULL DEFAULT 'medium'::character varying
+  description                    text                 NULL
+  level                          character varying(20) NULL DEFAULT 'gaokao'::character varying
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+  module                         character varying(200) NULL
+  textbook                       character varying(100) NULL
+  volume                         character varying(50) NULL
+  volume_code                    character varying(10) NULL
+  content                        text                 NULL
+  source                         character varying(200) NULL
+  tags                           text                 NULL DEFAULT '[]'::text
+
+索引:
+  idx_knowledge_points_level
+  idx_knowledge_points_subject
+  idx_knowledge_points_subject_level
+  knowledge_points_pkey
+
+
+## personalized_papers
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('personalized_papers_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  subject                        character varying(50) NOT NULL
+  data                           text                 NOT NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  personalized_papers_pkey
+
+
+## practice_records
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('practice_records_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  question_id                    integer              NULL
+  subject_code                   character varying(20) NULL
+  knowledge_point_id             character varying(20) NULL
+  difficulty                     integer              NULL
+  is_correct                     integer              NULL DEFAULT 0
+  user_answer                    text                 NULL
+  correct_answer                 text                 NULL
+  time_spent_ms                  integer              NULL
+  session_id                     character varying(50) NULL
+  exam_level                     character varying(10) NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+外键:
+  question_id → exam_questions.id
+  session_id → exam_sessions.id
+
+索引:
+  idx_practice_records_is_correct
+  idx_practice_records_kp
+  idx_practice_records_subject
+  idx_practice_records_timestamp
+  idx_practice_records_user
+  idx_practice_records_user_subject
+  practice_records_pkey
+
+
+## province_knowledge_stats
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('province_knowledge_stats_id_seq'::regclass)
+  province_code                  character varying(20) NULL
+  year                           integer              NOT NULL
+  subject                        character varying(20) NOT NULL
+  knowledge_point_id             character varying(20) NULL
+  frequency                      integer              NULL DEFAULT 0
+  avg_difficulty                 numeric              NULL
+  total_score                    integer              NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+外键:
+  province_code → provinces.code
+
+索引:
+  idx_province_knowledge_stats_composite
+  idx_province_knowledge_stats_kp
+  province_knowledge_stats_pkey
+  uk_province_knowledge_stats
+
+
+## provinces
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('provinces_id_seq'::regclass)
+  code                           character varying(20) NOT NULL
+  name                           character varying(50) NOT NULL
+  exam_type                      character varying(20) NOT NULL
+  paper_type                     character varying(50) NULL
+  region                         character varying(20) NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  idx_provinces_code
+  idx_provinces_exam_type
+  idx_provinces_region
+  provinces_code_key
+  provinces_pkey
+
+
+## question_formulas
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('question_formulas_id_seq'::regclass)
+  question_id                    integer              NULL
+  latex                          text                 NOT NULL
+  semantic_description           text                 NULL
+  formula_type                   character varying(30) NULL
+  sort_order                     integer              NULL DEFAULT 0
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+外键:
+  question_id → exam_questions.id
+
+索引:
+  idx_question_formulas_question
+  question_formulas_pkey
+
+
+## question_images
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('question_images_id_seq'::regclass)
+  question_id                    integer              NULL
+  image_type                     character varying(20) NULL DEFAULT 'figure'::character varying
+  file_path                      character varying(500) NOT NULL
+  semantic_description           text                 NULL
+  caption                        text                 NULL
+  width                          integer              NULL
+  height                         integer              NULL
+  sort_order                     integer              NULL DEFAULT 0
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+外键:
+  question_id → exam_questions.id
+
+索引:
+  idx_question_images_question
+  idx_question_images_type
+  question_images_pkey
+
+
+## question_knowledge_points
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('question_knowledge_points_id_seq'::regclass)
+  question_id                    integer              NOT NULL
+  knowledge_point_id             character varying(20) NOT NULL
+  relevance_score                numeric              NULL DEFAULT 1.00
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+外键:
+  question_id → exam_questions.id
+  knowledge_point_id → knowledge_points.id
+
+索引:
+  idx_question_kp_kp
+  idx_question_kp_question
+  question_knowledge_points_pkey
+  question_knowledge_points_question_id_knowledge_point_id_key
+
+
+## question_types
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('question_types_id_seq'::regclass)
+  code                           character varying(30) NOT NULL
+  name                           character varying(50) NOT NULL
+  category                       character varying(20) NOT NULL DEFAULT 'general'::character varying
+  has_options                    integer              NULL DEFAULT 0
+  sort_order                     integer              NULL DEFAULT 0
+  is_active                      integer              NULL DEFAULT 1
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  question_types_code_key
+  question_types_pkey
+
+
+## question_vectors
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('question_vectors_id_seq'::regclass)
+  question_id                    integer              NULL
+  question_uid                   character varying(64) NULL
+  subject_code                   character varying(20) NULL
+  question_type                  character varying(30) NULL
+  difficulty                     integer              NULL
+  q_embedding                    USER-DEFINED         NULL
+  s_embedding                    USER-DEFINED         NULL
+  k_embedding                    USER-DEFINED         NULL
+  a_embedding                    USER-DEFINED         NULL
+  q_text                         text                 NULL
+  s_text                         text                 NULL
+  k_text                         text                 NULL
+  a_text                         text                 NULL
+  metadata                       jsonb                NULL DEFAULT '{}'::jsonb
+  created_at                     timestamp with time zone NULL DEFAULT now()
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+
+外键:
+  question_id → exam_questions.id
+
+索引:
+  idx_question_vectors_difficulty
+  idx_question_vectors_question_id
+  idx_question_vectors_subject
+  idx_question_vectors_type
+  idx_question_vectors_uid
+  idx_qv_a
+  idx_qv_a_embedding_hnsw
+  idx_qv_k
+  idx_qv_k_embedding_hnsw
+  idx_qv_q
+  idx_qv_q_embedding_hnsw
+  idx_qv_qid
+  idx_qv_s
+  idx_qv_s_embedding_hnsw
+  idx_qv_subject
+  idx_qv_type
+  question_vectors_pkey
+  question_vectors_question_id_key
+
+
+## rag_questions
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('rag_questions_id_seq'::regclass)
+  content                        text                 NOT NULL
+  embedding                      USER-DEFINED         NULL
+  knowledge_point_id             character varying(20) NULL
+  subject_code                   character varying(20) NULL
+  difficulty                     integer              NULL
+  question_type                  character varying(30) NULL
+  source_paper_id                integer              NULL
+  metadata                       jsonb                NULL DEFAULT '{}'::jsonb
+  created_at                     timestamp with time zone NULL DEFAULT now()
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  idx_rag_questions_difficulty
+  idx_rag_questions_embedding_hnsw
+  idx_rag_questions_kp
+  idx_rag_questions_kp_subject
+  idx_rag_questions_subject
+  idx_rag_questions_type
+  rag_questions_pkey
+
+
+## reports
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('reports_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  data                           text                 NOT NULL
+  subject_code                   character varying(20) NULL
+  score                          numeric              NULL
+  difficulty                     integer              NULL
+  knowledge_point_id             character varying(20) NULL
+  timestamp                      timestamp with time zone NULL DEFAULT now()
+
+索引:
+  idx_reports_subject
+  idx_reports_timestamp
+  idx_reports_user
+  reports_pkey
+
+
+## similar_questions
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('similar_questions_id_seq'::regclass)
+  report_id                      integer              NOT NULL
+  user_email                     character varying(255) NOT NULL
+  data                           text                 NOT NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+外键:
+  report_id → reports.id
+
+索引:
+  similar_questions_pkey
+
+
+## srs_review_log
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('srs_review_log_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  knowledge_point_id             character varying(20) NOT NULL
+  is_correct                     boolean              NOT NULL
+  time_spent_ms                  integer              NULL DEFAULT 0
+  review_quality                 integer              NULL
+  old_mastery                    numeric              NULL
+  new_mastery                    numeric              NULL
+  old_interval                   integer              NULL
+  new_interval                   integer              NULL
+  old_ease                       numeric              NULL
+  new_ease                       numeric              NULL
+  next_review_at                 timestamp with time zone NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  idx_srs_log_created
+  idx_srs_log_kp
+  idx_srs_log_user
+  idx_srs_log_user_kp
+  srs_review_log_pkey
+
+
+## student_knowledge_mastery
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('student_knowledge_mastery_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  knowledge_point_id             character varying(20) NOT NULL
+  mastery_score                  numeric              NULL DEFAULT 0
+  attempt_count                  integer              NULL DEFAULT 0
+  correct_count                  integer              NULL DEFAULT 0
+  last_practice_at               timestamp with time zone NULL
+  next_review_at                 timestamp with time zone NULL
+  ease_factor                    numeric              NULL DEFAULT 2.5
+  interval_days                  integer              NULL DEFAULT 0
+  last_reviewed_at               timestamp with time zone NULL
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  idx_skm_kp
+  idx_skm_next_review
+  idx_skm_score
+  idx_skm_user
+  idx_skm_user_kp
+  idx_skm_user_score
+  student_knowledge_mastery_pkey
+  student_knowledge_mastery_user_email_knowledge_point_id_key
+
+
+## subjects
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('subjects_id_seq'::regclass)
+  code                           character varying(20) NOT NULL
+  name                           character varying(50) NOT NULL
+  category                       character varying(20) NOT NULL DEFAULT 'general'::character varying
+  sort_order                     integer              NULL DEFAULT 0
+  is_active                      integer              NULL DEFAULT 1
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  subjects_code_key
+  subjects_name_key
+  subjects_pkey
+
+
+## task_metrics
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('task_metrics_id_seq'::regclass)
+  task_id                        integer              NOT NULL
+  processing_time_ms             integer              NULL
+  model                          character varying(50) NULL
+  prompt_version                 character varying(20) NULL
+  quality_score                  integer              NULL DEFAULT 0
+  is_fallback                    integer              NULL DEFAULT 0
+  token_prompt                   integer              NULL DEFAULT 0
+  token_completion               integer              NULL DEFAULT 0
+  token_total                    integer              NULL DEFAULT 0
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+外键:
+  task_id → task_queue.id
+
+索引:
+  idx_task_metrics_model
+  idx_task_metrics_quality
+  idx_task_metrics_task
+  task_metrics_pkey
+
+
+## task_queue
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('task_queue_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  subject                        character varying(50) NOT NULL
+  grade                          character varying(50) NOT NULL
+  image_data                     text                 NOT NULL
+  status                         character varying(20) NULL DEFAULT 'pending'::character varying
+  result                         text                 NULL
+  retry_count                    integer              NULL DEFAULT 0
+  created_at                     timestamp with time zone NULL DEFAULT now()
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  idx_task_queue_status
+  idx_task_queue_user
+  task_queue_pkey
+
+
+## user_badges
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('user_badges_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  badge_id                       character varying(50) NOT NULL
+  earned_at                      timestamp with time zone NULL DEFAULT now()
+
+索引:
+  idx_user_badges_user
+  user_badges_pkey
+  user_badges_user_email_badge_id_key
+
+
+## user_checkins
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('user_checkins_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  checkin_date                   date                 NOT NULL
+  streak_days                    integer              NULL DEFAULT 1
+
+索引:
+  idx_user_checkins_user
+  user_checkins_pkey
+  user_checkins_user_email_checkin_date_key
+
+
+## user_points
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('user_points_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  points                         integer              NOT NULL
+  reason                         character varying(200) NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  idx_user_points_user
+  user_points_pkey
+
+
+## user_province_prefs
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('user_province_prefs_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  exam_level                     character varying(10) NOT NULL
+  province_code                  character varying(20) NULL
+  target_score                   integer              NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+
+外键:
+  province_code → provinces.code
+
+索引:
+  idx_user_province_prefs_user
+  user_province_prefs_pkey
+  user_province_prefs_user_email_exam_level_key
+
+
+## users
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('users_id_seq'::regclass)
+  email                          character varying(255) NOT NULL
+  password                       character varying(255) NOT NULL
+  grade                          character varying(50) NOT NULL
+  province                       character varying(20) NULL
+  exam_level                     character varying(10) NULL
+  created_at                     timestamp with time zone NULL DEFAULT now()
+  updated_at                     timestamp with time zone NULL DEFAULT now()
+
+索引:
+  users_email_key
+  users_pkey
+
+
+## wrong_questions
+------------------------------------------------------------
+列:
+  id                             integer              NOT NULL DEFAULT nextval('wrong_questions_id_seq'::regclass)
+  user_email                     character varying(255) NOT NULL
+  data                           text                 NOT NULL
+  subject_code                   character varying(20) NULL
+  knowledge_point_id             character varying(20) NULL
+  difficulty                     integer              NULL
+  question_id                    integer              NULL
+  is_correct                     integer              NULL DEFAULT 0
+  exam_level                     character varying(10) NULL
+  user_answer                    text                 NULL
+  correct_answer                 text                 NULL
+  session_id                     character varying(50) NULL
+  timestamp                      timestamp with time zone NULL DEFAULT now()
+
+索引:
+  idx_wrong_questions_difficulty
+  idx_wrong_questions_kp
+  idx_wrong_questions_session
+  idx_wrong_questions_subject
+  idx_wrong_questions_timestamp
+  idx_wrong_questions_user
+  idx_wrong_questions_user_subject
+  wrong_questions_pkey
+
+
