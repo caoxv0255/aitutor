@@ -38,6 +38,10 @@ const OUTPUT_DIR = path.join(DATABASE_DIR, 'extracted');
 const EXAM_V5_ROOT = process.env.EXAM_V5_ROOT
   || '/home/cx/exam-extract-v5';
 const PYTHON_BIN = process.env.PYTHON_BIN || 'python';
+// .doc → .docx 转换目录（LibreOffice headless 已转换产物）
+// .doc 路径会自动 fallback 到这里的同名 .docx
+const DOC_CONVERTED_DIR = process.env.DOC_CONVERTED_DIR
+  || '/tmp/lo_converted';
 
 // === CLI 参数 ===
 const argv = process.argv.slice(2);
@@ -70,7 +74,27 @@ async function main() {
   // 1) 扫描 docx / doc
   console.log(`\n[1/3] scanning ${DATABASE_DIR} for .docx / .doc ...`);
   const allDocx = await scanDir(DATABASE_DIR, /\.(docx|doc)$/i);
-  console.log(`  found ${allDocx.length} files`);
+  console.log(`  found ${allDocx.length} files (raw .docx + .doc)`);
+
+  // .doc fallback 到 DOC_CONVERTED_DIR 里的同名 .docx
+  const docFallbackMap = new Map();  // original .doc path -> converted .docx path
+  let docCount = 0, docxCount = 0, fallbackCount = 0, missingFallback = 0;
+  for (const p of allDocx) {
+    if (p.toLowerCase().endsWith('.doc')) {
+      docCount++;
+      const base = path.basename(p);
+      const convertedPath = path.join(DOC_CONVERTED_DIR, base.replace(/\.doc$/i, '.docx'));
+      if (fs.existsSync(convertedPath)) {
+        docFallbackMap.set(p, convertedPath);
+        fallbackCount++;
+      } else {
+        missingFallback++;
+      }
+    } else {
+      docxCount++;
+    }
+  }
+  console.log(`  breakdown: ${docxCount} .docx, ${docCount} .doc (${fallbackCount} fallback to DOC_CONVERTED_DIR, ${missingFallback} no conversion)`);
 
   // 过滤 only pattern
   let docxList = allDocx;
@@ -83,14 +107,16 @@ async function main() {
   if (LIMIT > 0) {
     docxList = docxList.slice(0, LIMIT);
   }
-
   // 2) 算 paper_id + 文件名
+  // .doc 用 DOC_CONVERTED_DIR 的 docx 路径（已转换），保持 paper_id 跟原 .doc 文件名一致
   const tasks = docxList.map(absPath => {
-    const fileName = makeFileName(absPath);
+    const fileName = makeFileName(absPath);  // 用原路径 sha16
+    const effectivePath = docFallbackMap.get(absPath) || absPath;
     return {
-      absPath,
+      absPath,                                     // 给 Python 提取用（可能是 docx 或 doc）
+      effectivePath,                                // 实际传 Python 的路径（fallback 后的）
       relPath: path.relative(DATABASE_DIR, absPath),
-      paperId: path.parse(absPath).name,  // docx.stem 作 paper_id
+      paperId: path.parse(absPath).name,           // 跟原 .doc 文件名一致
       outPath: path.join(OUTPUT_DIR, fileName),
       fileName,
     };
@@ -115,11 +141,13 @@ async function main() {
   const elapsed = (Date.now() - t0) / 1000;
 
   // 4) 统计
-  const ok = results.filter(r => r.ok);
+  const ok = results.filter(r => r.ok && !r.skipped);
+  const skipped = results.filter(r => r.skipped);
   const fail = results.filter(r => !r.ok);
   console.log(`\n[3/3] done in ${elapsed.toFixed(1)}s  (${(tasks.length / elapsed).toFixed(2)} files/s)`);
-  console.log(`  ok:   ${ok.length}`);
-  console.log(`  fail: ${fail.length}`);
+  console.log(`  ok:      ${ok.length}`);
+  console.log(`  skipped: ${skipped.length}  (0 questions — 讲义/单题/空白)`);
+  console.log(`  fail:    ${fail.length}`);
   if (fail.length > 0) {
     console.log(`\n  failed files (first 10):`);
     for (const f of fail.slice(0, 10)) {
@@ -177,13 +205,14 @@ function makeFileName(absPath) {
 }
 
 async function extractOne(task) {
-  const { absPath, outPath, paperId } = task;
+  const { effectivePath, outPath, paperId } = task;
   try {
     await execFileP(PYTHON_BIN, [
       '-m', 'exam_extract_v5.cli',
-      'extract', absPath,
+      'extract', effectivePath,  // 用 effective path（fallback 后）
       '-o', outPath,
       '--paper-id', paperId,
+      '--require-questions',  // 讲义过滤：0 questions exit 2 (skipped)
     ], {
       cwd: EXAM_V5_ROOT,
       env: {
@@ -195,9 +224,14 @@ async function extractOne(task) {
     });
     return { ...task, ok: true };
   } catch (e) {
-    // 完整 traceback（不截断 mtef 之外的行）
+    // exit code 2 + stderr "skipped:" = 讲义，标记 skipped
+    const stderr = e.stderr || '';
+    const stdout = e.stdout || '';
+    if ((e.code === 2 || /exit code 2/.test(e.message)) && /skipped:/.test(stderr + stdout)) {
+      return { ...task, ok: true, skipped: true };  // ok=true 但 skipped
+    }
+    // 真实 fail
     const raw = e.stderr || e.stdout || e.message || 'unknown';
-    // 只过滤 mtef DEBUG 噪音，保留真实错误
     const cleaned = raw.split('\n')
       .filter(l => l && !l.includes('(DEBUG)MTEF'))
       .join('\n')
