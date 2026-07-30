@@ -62,3 +62,7 @@ database/textbooks/
 
 temp_convert_*.ps1
 scripts/temp_convert_*.ps1
+
+# exam-extract-v5 output (Phase 1+ 提取结果, ~3000+ JSON, 重新跑会覆盖)
+database/extracted/*.json
+!database/extracted/manifest.json
