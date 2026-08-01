@@ -18,11 +18,14 @@ class ApiError extends Error {
   }
 }
 
+// 用 import.meta.url 算 mock 绝对路径, 避免 services/ vs mock/ 不同级
+const MOCK_BASE = new URL('./mock/', import.meta.url).href;
+
 async function loadMock(name) {
-  const url = `./mock/${name}.json`;
+  const url = `${MOCK_BASE}${name}.json`;
   const res = await fetch(url);
   if (!res.ok) {
-    throw new ApiError(`Mock ${name} 加载失败: ${res.status}`, res.status, null);
+    throw new ApiError(`Mock ${name} 加载失败: ${res.status} (url: ${url})`, res.status, null);
   }
   const data = await res.json();
   if (MOCK_DELAY_MS > 0) {
