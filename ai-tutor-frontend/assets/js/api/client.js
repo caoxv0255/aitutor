@@ -78,6 +78,17 @@ async function realFetch(method, path, body, opts = {}) {
 }
 
 function shouldUseMock() {
+  // 优先级: URL ?mock=true > LS aitutor.useMock > USE_MOCK_OVERRIDE > 常量 USE_MOCK
+  try {
+    if (typeof window !== 'undefined' && window.location && window.location.search) {
+      const p = new URLSearchParams(window.location.search);
+      if (p.has('mock')) return p.get('mock') !== 'false';
+    }
+    if (typeof localStorage !== 'undefined') {
+      const ls = localStorage.getItem('aitutor.useMock');
+      if (ls !== null) return ls === 'true' || ls === '1';
+    }
+  } catch (_) {}
   if (USE_MOCK_OVERRIDE !== null) return USE_MOCK_OVERRIDE;
   return USE_MOCK;
 }
