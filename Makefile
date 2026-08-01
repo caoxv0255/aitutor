@@ -17,6 +17,9 @@ test:  ## 跑 Contract Test (39 端点, F2 完成)
 contract:  ## Contract Test 同 test
 	node tests/contract.test.js
 
+e2e:  ## 跑 Playwright E2E (F2 完成, demo.spec.js)
+	node node_modules/@playwright/test/cli.js test tests/e2e/
+
 push:  ## 一键推 uibe + GitHub (GH_TOKEN env)
 	bash scripts/automation/push_all.sh
 

@@ -34,6 +34,7 @@
     <p>F1 Foundation 验证页 — Service Layer + Design Token + Mock 已就绪</p>
     <div class="actions">
       <button class="ait-btn ait-btn-primary" id="btn-load">加载 dashboard (Mock)</button>
+      <button class="ait-btn ait-btn-outline" id="btn-mock">Mock 模式: 开</button>
       <button class="ait-btn ait-btn-outline" id="btn-theme">切换暗色主题</button>
     </div>
   </div>
@@ -93,6 +94,17 @@
       toast.error(e.message);
     }
   };
+
+
+  // 3.5 USE_MOCK toggle
+  let mockOn = localStorage.getItem('aitutor.useMock') !== 'false';
+  document.getElementById('btn-mock').onclick = () => {
+    mockOn = !mockOn;
+    localStorage.setItem('aitutor.useMock', mockOn ? 'true' : 'false');
+    document.getElementById('btn-mock').textContent = 'Mock 模式: ' + (mockOn ? '开' : '关');
+    toast.info('Mock 已' + (mockOn ? '开启' : '关闭') + ' (刷新生效)');
+  };
+  document.getElementById('btn-mock').textContent = 'Mock 模式: ' + (mockOn ? '开' : '关');
 
   // 2. 暗色主题切换
   document.getElementById('btn-theme').onclick = () => {
