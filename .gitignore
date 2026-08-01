@@ -84,6 +84,48 @@ scripts/__pycache__/
 playwright-report/
 test-results/
 
-# temp scripts
+# Python 测试 / 静态分析 / 格式 缓存
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Node 测试 / 格式
+.nyc_output/
+.eslintcache
+.stylelintcache
+.parcel-cache
+.cache/
+
+# 临时 / 调试
+temp_convert_*.py
+temp_convert_*.ps1
 scripts/temp_convert_*.py
 scripts/temp_convert_*.ps1
+
+# 数据提取 (build artifact, 不入 git, manifest 保留)
+database/extracted/**/*.json
+!database/extracted/manifest.json
+
+# 通用 build / log
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# OS
+.fseventsd/
+.Trashes~
+ehthumbs.db
+ehthumbs_vista.db
+
+# IDE / Editor
+.cursor/
+.windsurf/
+.continue/
+.aider*
+*.swp
+*.swo
