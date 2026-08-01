@@ -66,3 +66,24 @@ scripts/temp_convert_*.ps1
 # exam-extract-v5 output (Phase 1+ 提取结果, ~3000+ JSON, 重新跑会覆盖)
 database/extracted/*.json
 !database/extracted/manifest.json
+
+# aitutor RAG v0.5 输出 (1,711 schema v5, 170 MB; 在 manifest 索引)
+database/rag_build/*.json
+database/rag_build/exports/**/*.bulk.jsonl
+database/rag_build/exports/rag/*.jsonl
+database/rag_build/exports/kg/**/*.csv
+!database/rag_build/aitutor_rag_manifest.json
+!database/rag_build/MANIFEST.csv
+!database/rag_build/exports/es/*.bulk.jsonl  # ES bulk (5 个有数据, 4 个 0 字节)
+!database/manifest.csv
+!database/高考真题/2026年6月全国高考/历年高考真题合集/MANIFEST.csv
+
+# RAG 临时 / 缓存
+scripts/__pycache__/
+.ai/
+playwright-report/
+test-results/
+
+# temp scripts
+scripts/temp_convert_*.py
+scripts/temp_convert_*.ps1
