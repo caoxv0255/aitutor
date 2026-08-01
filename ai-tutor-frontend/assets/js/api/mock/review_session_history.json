@@ -1,0 +1,26 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "sess_001",
+      "subject": "数学",
+      "started_at": "2026-07-30T10:00:00Z",
+      "ended_at": "2026-07-30T10:45:00Z",
+      "score": 85
+    },
+    {
+      "id": "sess_002",
+      "subject": "物理",
+      "started_at": "2026-07-29T14:00:00Z",
+      "ended_at": "2026-07-29T14:52:00Z",
+      "score": 78
+    },
+    {
+      "id": "sess_003",
+      "subject": "化学",
+      "started_at": "2026-07-28T09:00:00Z",
+      "ended_at": "2026-07-28T09:38:00Z",
+      "score": 92
+    }
+  ]
+}

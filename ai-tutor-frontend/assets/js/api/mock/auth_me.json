@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "user": {
+    "id": "u_demo_001",
+    "email": "demo@aitutor.cn",
+    "name": "演示学生",
+    "grade": "高三",
+    "province": "北京",
+    "avatar": "D"
+  }
+}

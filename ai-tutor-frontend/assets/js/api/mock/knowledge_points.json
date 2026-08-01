@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "kp_001",
+      "name": "集合的交集运算",
+      "subject": "数学",
+      "difficulty": 2
+    },
+    {
+      "id": "kp_002",
+      "name": "函数的单调性",
+      "subject": "数学",
+      "difficulty": 3
+    },
+    {
+      "id": "kp_003",
+      "name": "导数应用",
+      "subject": "数学",
+      "difficulty": 4
+    }
+  ]
+}

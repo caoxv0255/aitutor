@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "data": {
+    "id": "ingest_demo_001",
+    "embedding_dims": 1536,
+    "status": "completed"
+  }
+}

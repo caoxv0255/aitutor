@@ -1,0 +1,34 @@
+{
+  "success": true,
+  "data": {
+    "period_days": 30,
+    "trend": [
+      {
+        "date": "2026-07-01",
+        "score": 65,
+        "questions": 5
+      },
+      {
+        "date": "2026-07-08",
+        "score": 72,
+        "questions": 8
+      },
+      {
+        "date": "2026-07-15",
+        "score": 78,
+        "questions": 10
+      },
+      {
+        "date": "2026-07-22",
+        "score": 82,
+        "questions": 10
+      },
+      {
+        "date": "2026-07-29",
+        "score": 85,
+        "questions": 10
+      }
+    ],
+    "improvement": 0.31
+  }
+}

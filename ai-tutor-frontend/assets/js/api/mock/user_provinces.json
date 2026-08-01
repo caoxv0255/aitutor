@@ -1,0 +1,47 @@
+{
+  "success": true,
+  "data": [
+    {
+      "code": "beijing",
+      "name": "北京",
+      "exam_level": "高考",
+      "exam_papers_count": 345
+    },
+    {
+      "code": "shanghai",
+      "name": "上海",
+      "exam_level": "高考",
+      "exam_papers_count": 380
+    },
+    {
+      "code": "tianjin",
+      "name": "天津",
+      "exam_level": "高考",
+      "exam_papers_count": 364
+    },
+    {
+      "code": "jiangsu",
+      "name": "江苏",
+      "exam_level": "高考",
+      "exam_papers_count": 360
+    },
+    {
+      "code": "zhejiang",
+      "name": "浙江",
+      "exam_level": "高考",
+      "exam_papers_count": 478
+    },
+    {
+      "code": "shandong",
+      "name": "山东",
+      "exam_level": "高考",
+      "exam_papers_count": 400
+    },
+    {
+      "code": "henan",
+      "name": "河南",
+      "exam_level": "高考",
+      "exam_papers_count": 378
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+/* tailwind-theme.css — Tailwind 4 @theme 注入, 引用 tokens.css
+ * 颜色/字体/阴影/圆角 全部来自 tokens. 布局 (flex/grid/spacing) 由 Tailwind 提供.
+ */
+
+@import './tokens.css';
+
+@theme {
+  /* 颜色 (引用 tokens.css) */
+  --color-primary-50: var(--aitutor-primary-50);
+  --color-primary-100: var(--aitutor-primary-100);
+  --color-primary-200: var(--aitutor-primary-200);
+  --color-primary-300: var(--aitutor-primary-300);
+  --color-primary-400: var(--aitutor-primary-400);
+  --color-primary-500: var(--aitutor-primary-500);
+  --color-primary-600: var(--aitutor-primary-600);
+  --color-primary-700: var(--aitutor-primary-700);
+  --color-primary-800: var(--aitutor-primary-800);
+  --color-primary-900: var(--aitutor-primary-900);
+
+  --color-blue-50: var(--aitutor-blue-50);
+  --color-blue-100: var(--aitutor-blue-100);
+  --color-blue-200: var(--aitutor-blue-200);
+  --color-blue-300: var(--aitutor-blue-300);
+  --color-blue-400: var(--aitutor-blue-400);
+  --color-blue-500: var(--aitutor-blue-500);
+  --color-blue-600: var(--aitutor-blue-600);
+  --color-blue-700: var(--aitutor-blue-700);
+  --color-blue-800: var(--aitutor-blue-800);
+  --color-blue-900: var(--aitutor-blue-900);
+
+  --color-success-50: var(--aitutor-success-50);
+  --color-success-100: var(--aitutor-success-100);
+  --color-success-200: var(--aitutor-success-200);
+  --color-success-300: var(--aitutor-success-300);
+  --color-success-400: var(--aitutor-success-400);
+  --color-success-500: var(--aitutor-success-500);
+  --color-success-600: var(--aitutor-success-600);
+  --color-success-700: var(--aitutor-success-700);
+  --color-success-800: var(--aitutor-success-800);
+  --color-success-900: var(--aitutor-success-900);
+
+  --color-info-50: var(--aitutor-info-50);
+  --color-info-100: var(--aitutor-info-100);
+  --color-info-200: var(--aitutor-info-200);
+  --color-info-300: var(--aitutor-info-300);
+  --color-info-400: var(--aitutor-info-400);
+  --color-info-500: var(--aitutor-info-500);
+  --color-info-600: var(--aitutor-info-600);
+  --color-info-700: var(--aitutor-info-700);
+  --color-info-800: var(--aitutor-info-800);
+  --color-info-900: var(--aitutor-info-900);
+
+  --color-warning-50: var(--aitutor-warning-50);
+  --color-warning-100: var(--aitutor-warning-100);
+  --color-warning-200: var(--aitutor-warning-200);
+  --color-warning-300: var(--aitutor-warning-300);
+  --color-warning-400: var(--aitutor-warning-400);
+  --color-warning-500: var(--aitutor-warning-500);
+  --color-warning-600: var(--aitutor-warning-600);
+  --color-warning-700: var(--aitutor-warning-700);
+  --color-warning-800: var(--aitutor-warning-800);
+  --color-warning-900: var(--aitutor-warning-900);
+
+  --color-error-50: var(--aitutor-error-50);
+  --color-error-100: var(--aitutor-error-100);
+  --color-error-200: var(--aitutor-error-200);
+  --color-error-300: var(--aitutor-error-300);
+  --color-error-400: var(--aitutor-error-400);
+  --color-error-500: var(--aitutor-error-500);
+  --color-error-600: var(--aitutor-error-600);
+  --color-error-700: var(--aitutor-error-700);
+  --color-error-800: var(--aitutor-error-800);
+  --color-error-900: var(--aitutor-error-900);
+
+  /* 语义色 (semantic aliases) */
+  --color-primary: var(--aitutor-primary-500);
+  --color-primary-hover: var(--aitutor-primary-600);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--aitutor-blue-500);
+  --color-secondary-hover: var(--aitutor-blue-600);
+  --color-secondary-foreground: #ffffff;
+  --color-accent: var(--aitutor-primary-500);
+  --color-accent-hover: var(--aitutor-primary-600);
+  --color-accent-foreground: #ffffff;
+  --color-success: var(--aitutor-success-600);
+  --color-success-foreground: #ffffff;
+  --color-warning: var(--aitutor-warning-600);
+  --color-warning-foreground: #ffffff;
+  --color-error: var(--aitutor-error-600);
+  --color-error-foreground: #ffffff;
+  --color-info: var(--aitutor-info-600);
+  --color-info-foreground: #ffffff;
+
+  /* 表面 (Surface) */
+  --color-background: var(--background, #f8f9fa);
+  --color-foreground: var(--foreground, #1a1a2e);
+  --color-surface: #ffffff;
+  --color-surface-dim: #f1f5f9;
+  --color-surface-container-lowest: #f8f9fa;
+  --color-surface-container-low: #f1f5f9;
+  --color-surface-container: #e8ecf1;
+  --color-surface-container-high: #dfe4ea;
+  --color-surface-container-highest: #d5dae1;
+  --color-card: #ffffff;
+  --color-on-surface: #1a1a2e;
+  --color-on-surface-variant: #64748b;
+  --color-muted: #94a3b8;
+  --color-muted-foreground: #64748b;
+  --color-border: #e2e8f0;
+  --color-outline: #e2e8f0;
+  --color-outline-variant: #dbeafe;
+  --color-ring: var(--aitutor-primary-500);
+  --color-inverse-surface: #1a1a2e;
+  --color-inverse-on-surface: #f1f5f9;
+
+  /* 字体 */
+  --font-display: 'DM Sans', 'Noto Sans SC', system-ui, sans-serif;
+  --font-heading: 'DM Sans', 'Noto Sans SC', system-ui, sans-serif;
+  --font-body: 'Noto Sans SC', 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Sans', 'JetBrains Mono', monospace;
+  --font-family-base: var(--font-body);
+
+  /* 字号 */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+  --text-5xl: 3.5rem;
+
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* 阴影 */
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.04);
+  --shadow-2: 0 4px 8px -2px rgba(0, 0, 0, 0.10);
+  --shadow-3: 0 8px 24px -8px rgba(0, 0, 0, 0.18);
+  --shadow-4: 0 16px 40px -12px rgba(0, 0, 0, 0.24);
+  --shadow-5: 0 24px 60px -20px rgba(0, 0, 0, 0.30);
+  --shadow-primary: 0 8px 32px rgba(215, 25, 32, 0.15);
+  --shadow-primary-hover: 0 12px 40px rgba(215, 25, 32, 0.25);
+
+  /* 间距 */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 32px;
+  --spacing-7: 48px;
+  --spacing-8: 64px;
+
+  /* 动画 */
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-pulse-slow: pulse 3s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

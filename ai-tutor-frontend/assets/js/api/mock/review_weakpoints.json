@@ -1,0 +1,26 @@
+{
+  "success": true,
+  "data": [
+    {
+      "topic": "数列综合",
+      "subject": "数学",
+      "wrong_count": 8,
+      "accuracy": 0.62,
+      "priority": "high"
+    },
+    {
+      "topic": "圆锥曲线",
+      "subject": "数学",
+      "wrong_count": 6,
+      "accuracy": 0.65,
+      "priority": "medium"
+    },
+    {
+      "topic": "电磁感应",
+      "subject": "物理",
+      "wrong_count": 5,
+      "accuracy": 0.7,
+      "priority": "medium"
+    }
+  ]
+}

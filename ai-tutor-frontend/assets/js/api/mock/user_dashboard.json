@@ -1,0 +1,53 @@
+{
+  "success": true,
+  "data": {
+    "name": "演示学生",
+    "email": "demo@aitutor.cn",
+    "grade": "高三",
+    "province": "北京",
+    "exam_type": "高考",
+    "join_date": "2025-09-01",
+    "stats": {
+      "questions_solved": 248,
+      "questions_correct": 189,
+      "accuracy": 0.762,
+      "weak_points_count": 12,
+      "study_days": 47,
+      "total_hours": 86.5
+    },
+    "recent_sessions": [
+      {
+        "id": "s1",
+        "subject": "数学",
+        "score": 85,
+        "date": "2026-07-30"
+      },
+      {
+        "id": "s2",
+        "subject": "物理",
+        "score": 78,
+        "date": "2026-07-29"
+      },
+      {
+        "id": "s3",
+        "subject": "化学",
+        "score": 92,
+        "date": "2026-07-28"
+      }
+    ],
+    "today_missions": [
+      {
+        "id": "m1",
+        "title": "完成 10 道数学题",
+        "progress": 0.4,
+        "type": "questions"
+      },
+      {
+        "id": "m2",
+        "title": "复习错题本",
+        "progress": 0.0,
+        "type": "review"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "data": [
+    {
+      "qid": "q_2024_math_bj_01",
+      "subject": "数学",
+      "composite_similarity": 0.93,
+      "stem": "集合 A ∩ B 题目",
+      "answer": "B",
+      "vector_breakdown": {
+        "q": 0.95,
+        "s": 0.91
+      }
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "success": true,
+  "data": {
+    "subject": "数学",
+    "overall": 0.72,
+    "by_topic": [
+      {
+        "topic": "集合运算",
+        "mastery": 0.85,
+        "questions_done": 28,
+        "accuracy": 0.89
+      },
+      {
+        "topic": "函数与导数",
+        "mastery": 0.68,
+        "questions_done": 45,
+        "accuracy": 0.71
+      },
+      {
+        "topic": "三角函数",
+        "mastery": 0.74,
+        "questions_done": 32,
+        "accuracy": 0.78
+      },
+      {
+        "topic": "数列",
+        "mastery": 0.62,
+        "questions_done": 25,
+        "accuracy": 0.65
+      },
+      {
+        "topic": "立体几何",
+        "mastery": 0.78,
+        "questions_done": 38,
+        "accuracy": 0.82
+      },
+      {
+        "topic": "解析几何",
+        "mastery": 0.65,
+        "questions_done": 30,
+        "accuracy": 0.7
+      },
+      {
+        "topic": "概率统计",
+        "mastery": 0.7,
+        "questions_done": 22,
+        "accuracy": 0.75
+      }
+    ],
+    "weak_points": [
+      {
+        "topic": "数列",
+        "mastery": 0.62,
+        "recommendation": "建议复习等差数列求和公式"
+      }
+    ]
+  }
+}

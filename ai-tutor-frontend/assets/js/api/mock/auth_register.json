@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "token": "mock-jwt-token-newuser",
+  "user": {
+    "id": "u_new_002",
+    "email": "new@aitutor.cn",
+    "name": "新用户",
+    "grade": "高二",
+    "province": null,
+    "avatar": "新"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "success": true,
+  "data": {
+    "nodes": [
+      {
+        "id": "kp_001",
+        "name": "集合运算",
+        "mastery": 0.85
+      },
+      {
+        "id": "kp_002",
+        "name": "函数",
+        "mastery": 0.68
+      },
+      {
+        "id": "kp_003",
+        "name": "导数",
+        "mastery": 0.72
+      }
+    ],
+    "edges": [
+      {
+        "from": "kp_001",
+        "to": "kp_002",
+        "weight": 0.5
+      },
+      {
+        "from": "kp_002",
+        "to": "kp_003",
+        "weight": 0.9
+      }
+    ]
+  }
+}

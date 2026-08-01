@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "data": {
+    "id": "rpt_20260730_math",
+    "subject": "数学",
+    "date": "2026-07-30",
+    "score": 85,
+    "total": 10,
+    "correct": 8,
+    "wrong_questions": [
+      {
+        "id": "q_5",
+        "stem": "错题5的题干...",
+        "user_answer": "A",
+        "correct": "C"
+      },
+      {
+        "id": "q_8",
+        "stem": "错题8的题干...",
+        "user_answer": "B",
+        "correct": "D"
+      }
+    ],
+    "knowledge_points": [
+      "数列",
+      "解析几何"
+    ],
+    "recommendations": [
+      "复习等差数列求和",
+      "加强圆锥曲线计算"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "token": "mock-jwt-token-eyJhbGciOiJIUzI1NiJ9.demo",
+  "user": {
+    "id": "u_demo_001",
+    "email": "demo@aitutor.cn",
+    "name": "演示学生",
+    "grade": "高三",
+    "province": "北京",
+    "avatar": "D"
+  },
+  "expires_in": 86400
+}

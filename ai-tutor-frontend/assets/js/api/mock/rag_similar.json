@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "data": [
+    {
+      "qid": "q_2023_math_bj_01",
+      "subject": "数学",
+      "year": 2023,
+      "similarity": 0.89,
+      "stem": "类似题: 集合 M ∩ N",
+      "answer": "B",
+      "knowledge_points": [
+        "集合运算"
+      ]
+    },
+    {
+      "qid": "q_2022_math_bj_01",
+      "subject": "数学",
+      "year": 2022,
+      "similarity": 0.82,
+      "stem": "类似题: 集合关系",
+      "answer": "C",
+      "knowledge_points": [
+        "集合运算"
+      ]
+    }
+  ]
+}

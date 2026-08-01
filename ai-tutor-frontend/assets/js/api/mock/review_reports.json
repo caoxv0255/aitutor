@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "rpt_20260730_math",
+      "subject": "数学",
+      "date": "2026-07-30",
+      "score": 85,
+      "total": 10,
+      "correct": 8,
+      "duration_minutes": 45
+    },
+    {
+      "id": "rpt_20260729_phys",
+      "subject": "物理",
+      "date": "2026-07-29",
+      "score": 78,
+      "total": 10,
+      "correct": 7,
+      "duration_minutes": 52
+    },
+    {
+      "id": "rpt_20260728_chem",
+      "subject": "化学",
+      "date": "2026-07-28",
+      "score": 92,
+      "total": 10,
+      "correct": 9,
+      "duration_minutes": 38
+    }
+  ],
+  "total": 12
+}

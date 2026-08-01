@@ -1,0 +1,74 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "q_2024_math_bj_01",
+      "subject": "数学",
+      "year": 2024,
+      "province": "北京",
+      "type": "单选",
+      "difficulty": 3,
+      "stem": "已知集合 A = {1, 2, 3}, B = {2, 3, 4}, 则 A ∩ B = ?",
+      "options": [
+        {
+          "label": "A",
+          "text": "{1, 2, 3, 4}"
+        },
+        {
+          "label": "B",
+          "text": "{2, 3}"
+        },
+        {
+          "label": "C",
+          "text": "{1, 4}"
+        },
+        {
+          "label": "D",
+          "text": "{1}"
+        }
+      ],
+      "answer": "B",
+      "analysis": "A ∩ B 是两集合的公共元素, 即 {2, 3}.",
+      "knowledge_points": [
+        "集合运算"
+      ],
+      "source": "2024年北京高考数学(空白卷)"
+    },
+    {
+      "id": "q_2024_phys_bj_01",
+      "subject": "物理",
+      "year": 2024,
+      "province": "北京",
+      "type": "单选",
+      "difficulty": 4,
+      "stem": "一个物体从静止开始做匀加速直线运动, 5秒末速度为10m/s, 则加速度为?",
+      "options": [
+        {
+          "label": "A",
+          "text": "0.5 m/s²"
+        },
+        {
+          "label": "B",
+          "text": "1.0 m/s²"
+        },
+        {
+          "label": "C",
+          "text": "2.0 m/s²"
+        },
+        {
+          "label": "D",
+          "text": "5.0 m/s²"
+        }
+      ],
+      "answer": "C",
+      "analysis": "a = Δv/Δt = 10/5 = 2.0 m/s².",
+      "knowledge_points": [
+        "匀变速直线运动"
+      ],
+      "source": "2024年北京高考物理(解析卷)"
+    }
+  ],
+  "total": 248,
+  "page": 1,
+  "page_size": 20
+}

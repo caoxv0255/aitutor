@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "sug_1",
+      "title": "复习集合运算",
+      "reason": "最近 3 次练习准确率 < 70%",
+      "estimated_time": 30
+    },
+    {
+      "id": "sug_2",
+      "title": "做数列综合题",
+      "reason": "等差数列是高频考点",
+      "estimated_time": 45
+    }
+  ]
+}

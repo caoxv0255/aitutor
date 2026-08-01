@@ -1,0 +1,24 @@
+{
+  "success": true,
+  "data": {
+    "task_id": "vt_demo_001",
+    "status": "completed",
+    "content": "$$x^2 + y^2 = r^2$$\n\n已知 $A = \\{1, 2, 3\\}$, 求 $A \\cap B$",
+    "questions": [
+      {
+        "id": "parsed_q_1",
+        "subject": "数学",
+        "stem": "已知 A = {1,2,3}, B = {2,3,4}, 则 A ∩ B = ?",
+        "options": [
+          "{1,2,3,4}",
+          "{2,3}",
+          "{1,4}",
+          "{1}"
+        ],
+        "answer": "{2,3}"
+      }
+    ],
+    "confidence": 0.94,
+    "duration_ms": 3200
+  }
+}

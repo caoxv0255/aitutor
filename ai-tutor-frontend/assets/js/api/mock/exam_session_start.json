@@ -1,0 +1,263 @@
+{
+  "success": true,
+  "data": {
+    "session_id": "sess_demo_20260801_001",
+    "subject": "数学",
+    "mode": "exam",
+    "total_questions": 10,
+    "duration_minutes": 60,
+    "started_at": "2026-08-01T16:00:00Z",
+    "questions": [
+      {
+        "id": "q_1",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 1: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      },
+      {
+        "id": "q_2",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 2: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      },
+      {
+        "id": "q_3",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 3: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      },
+      {
+        "id": "q_4",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 4: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      },
+      {
+        "id": "q_5",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 5: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      },
+      {
+        "id": "q_6",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 6: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      },
+      {
+        "id": "q_7",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 7: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      },
+      {
+        "id": "q_8",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 8: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      },
+      {
+        "id": "q_9",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 9: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      },
+      {
+        "id": "q_10",
+        "subject": "数学",
+        "year": 2024,
+        "type": "单选",
+        "stem": "示例题 10: 关于... 的问题",
+        "options": [
+          {
+            "label": "A",
+            "text": "选项A"
+          },
+          {
+            "label": "B",
+            "text": "选项B"
+          },
+          {
+            "label": "C",
+            "text": "选项C"
+          },
+          {
+            "label": "D",
+            "text": "选项D"
+          }
+        ]
+      }
+    ]
+  }
+}

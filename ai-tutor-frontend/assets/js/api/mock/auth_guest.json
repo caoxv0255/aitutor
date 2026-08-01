@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "token": "mock-jwt-guest-temp",
+  "user": {
+    "id": "guest_001",
+    "email": "guest@temp",
+    "name": "游客",
+    "grade": "高三",
+    "province": null,
+    "is_guest": true,
+    "avatar": "游"
+  }
+}

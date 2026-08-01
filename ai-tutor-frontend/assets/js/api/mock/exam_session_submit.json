@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "data": {
+    "session_id": "sess_demo_20260801_001",
+    "total_questions": 10,
+    "correct_count": 8,
+    "wrong_count": 2,
+    "score": 80,
+    "accuracy": 0.8,
+    "submitted_at": "2026-08-01T17:00:00Z",
+    "duration_seconds": 3600,
+    "results": [
+      {
+        "question_id": "q_1",
+        "user_answer": "B",
+        "correct_answer": "B",
+        "is_correct": true
+      },
+      {
+        "question_id": "q_2",
+        "user_answer": "A",
+        "correct_answer": "C",
+        "is_correct": false
+      }
+    ]
+  }
+}

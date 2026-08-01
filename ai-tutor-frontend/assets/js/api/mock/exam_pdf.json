@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "data": {
+    "url": "/api/exam-pdf/download/2024_math_bj.pdf",
+    "expires_at": "2026-08-02T16:00:00Z"
+  }
+}

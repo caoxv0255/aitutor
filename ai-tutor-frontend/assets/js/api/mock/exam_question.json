@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "data": {
+    "id": "q_2024_math_bj_01",
+    "subject": "数学",
+    "year": 2024,
+    "province": "北京",
+    "type": "单选",
+    "difficulty": 3,
+    "stem": "已知集合 A = {1, 2, 3}, B = {2, 3, 4}, 则 A ∩ B = ?",
+    "options": [
+      {
+        "label": "A",
+        "text": "{1, 2, 3, 4}"
+      },
+      {
+        "label": "B",
+        "text": "{2, 3}"
+      },
+      {
+        "label": "C",
+        "text": "{1, 4}"
+      },
+      {
+        "label": "D",
+        "text": "{1}"
+      }
+    ],
+    "answer": "B",
+    "analysis": "A ∩ B 是两集合的公共元素, 即 {2, 3}.",
+    "knowledge_points": [
+      "集合运算"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "data": {
+    "answer": "集合的交集是指同时属于两个集合的所有元素组成的集合. 符号是 ∩, 例如 A = {1,2,3}, B = {2,3,4}, 则 A ∩ B = {2,3}.",
+    "session_id": "chat_demo_001",
+    "sources": [
+      {
+        "qid": "q_2024_math_bj_01",
+        "similarity": 0.95
+      }
+    ]
+  }
+}

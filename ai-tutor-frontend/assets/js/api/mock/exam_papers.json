@@ -1,0 +1,26 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "p_2024_math_bj",
+      "subject": "数学",
+      "year": 2024,
+      "province": "北京",
+      "version": "原卷"
+    },
+    {
+      "id": "p_2024_math_bj_jx",
+      "subject": "数学",
+      "year": 2024,
+      "province": "北京",
+      "version": "解析"
+    },
+    {
+      "id": "p_2024_phys_bj",
+      "subject": "物理",
+      "year": 2024,
+      "province": "北京",
+      "version": "原卷"
+    }
+  ]
+}

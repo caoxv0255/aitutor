@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "data": {
+    "id": "kp_001",
+    "name": "集合的交集运算",
+    "subject": "数学",
+    "mastery": 0.85,
+    "questions_count": 28,
+    "correct_count": 25,
+    "related_kps": [
+      "kp_002",
+      "kp_003"
+    ]
+  }
+}

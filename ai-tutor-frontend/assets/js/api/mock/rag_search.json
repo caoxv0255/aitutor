@@ -1,0 +1,32 @@
+{
+  "success": true,
+  "data": [
+    {
+      "qid": "q_2024_math_bj_01",
+      "subject": "数学",
+      "year": 2024,
+      "province": "北京",
+      "stem": "已知集合 A = {1, 2, 3}, B = {2, 3, 4}, 则 A ∩ B = ?",
+      "answer": "B",
+      "analysis": "A ∩ B 是两集合的公共元素",
+      "similarity": 0.95,
+      "knowledge_points": [
+        "集合运算"
+      ]
+    },
+    {
+      "qid": "q_2023_math_bj_01",
+      "subject": "数学",
+      "year": 2023,
+      "province": "北京",
+      "stem": "已知集合 M = {0, 1, 2}, N = {1, 2, 3}, 则 M ∩ N = ?",
+      "answer": "B",
+      "analysis": "公共元素为 1, 2",
+      "similarity": 0.87,
+      "knowledge_points": [
+        "集合运算"
+      ]
+    }
+  ],
+  "total": 2
+}
