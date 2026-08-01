@@ -11,8 +11,11 @@ help:  ## 显示帮助
 lint:  ## Python + JS lint
 	bash scripts/automation/lint.sh
 
-test:  ## 跑 Playwright + Contract Test (F5 阶段)
-	@echo "TODO: F5 阶段实现 (Playwright + Contract Test)"
+test:  ## 跑 Contract Test (39 端点, F2 完成)
+	node tests/contract.test.js
+
+contract:  ## Contract Test 同 test
+	node tests/contract.test.js
 
 push:  ## 一键推 uibe + GitHub (GH_TOKEN env)
 	bash scripts/automation/push_all.sh

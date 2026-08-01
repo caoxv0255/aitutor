@@ -1,4 +1,4 @@
-// api/client.js — fetch wrapper, token 管理, 401 重定向, mock toggle.
+// api/client.js — fetch wrapper, token 管理, 401 重定向, mock toggle, retry/timeout.
 // 所有 page 调 services, services 调 client, client 调真实 /api/* 或 mock/*.json.
 
 import { USE_MOCK, USE_MOCK_OVERRIDE, MOCK_DELAY_MS } from './USE_MOCK.js';
@@ -8,6 +8,9 @@ import { toast } from '../toast.js';
 const API_BASE = '';  // 同源
 const TOKEN_KEY = 'aitutor.token';
 const USER_KEY = 'aitutor.user';
+const DEFAULT_TIMEOUT_MS = 10000;
+const MAX_RETRIES = 3;
+const RETRY_BACKOFF_MS = 600;  // 1st: 600ms, 2nd: 1200ms, 3rd: 1800ms
 
 class ApiError extends Error {
   constructor(message, status, body) {
@@ -35,46 +38,79 @@ async function loadMock(name) {
 }
 
 async function realFetch(method, path, body, opts = {}) {
-  const headers = { 'Content-Type': 'application/json', ...opts.headers };
-  const token = getToken();
-  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const timeoutMs = opts.timeout ?? DEFAULT_TIMEOUT_MS;
+  const maxAttempts = (opts.retry ?? 0) + 1;
+  let lastErr = null;
 
-  const url = API_BASE + path;
-  const init = { method, headers };
-  if (body !== undefined && body !== null) {
-    init.body = typeof body === 'string' ? body : JSON.stringify(body);
-  }
-  let res;
-  try {
-    res = await fetch(url, init);
-  } catch (e) {
-    throw new ApiError('网络错误: ' + e.message, 0, null);
-  }
-
-  if (res.status === 401) {
-    clearToken();
-    localStorage.removeItem(USER_KEY);
-    if (!opts.silent) {
-      toast.error('登录已过期, 请重新登录');
-      setTimeout(() => { window.location.href = '/login.html'; }, 1000);
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    if (attempt > 1) {
+      // backoff: 600ms * (attempt-1)
+      await new Promise(r => setTimeout(r, RETRY_BACKOFF_MS * (attempt - 1)));
     }
-    throw new ApiError('未登录或登录已过期', 401, null);
-  }
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
 
-  let data = null;
-  const text = await res.text();
-  if (text) {
-    try { data = JSON.parse(text); } catch { data = text; }
-  }
+    const headers = { 'Content-Type': 'application/json', ...opts.headers };
+    const token = getToken();
+    if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  if (!res.ok) {
-    const msg = (data && data.message) || (data && data.error) || `${res.status} ${res.statusText}`;
-    if (!opts.silent) {
-      toast.error(msg);
+    const url = API_BASE + path;
+    const init = { method, headers, signal: controller.signal };
+    if (body !== undefined && body !== null) {
+      init.body = typeof body === 'string' ? body : JSON.stringify(body);
     }
-    throw new ApiError(msg, res.status, data);
+
+    try {
+      const res = await fetch(url, init);
+      clearTimeout(timer);
+
+      // 401: 不重试, 立即清 token + 跳登录
+      if (res.status === 401) {
+        clearToken();
+        localStorage.removeItem(USER_KEY);
+        if (!opts.silent) {
+          toast.error('登录已过期, 请重新登录');
+          setTimeout(() => { window.location.href = '/login.html'; }, 1000);
+        }
+        throw new ApiError('未登录或登录已过期', 401, null);
+      }
+
+      // 5xx + 0 (网络错误): 重试
+      if (res.status === 0 || (res.status >= 500 && res.status < 600)) {
+        if (attempt < maxAttempts) continue;
+        throw new ApiError(`服务器错误 (${res.status})`, res.status, null);
+      }
+
+      let data = null;
+      const text = await res.text();
+      if (text) {
+        try { data = JSON.parse(text); } catch { data = text; }
+      }
+
+      if (!res.ok) {
+        const msg = (data && data.message) || (data && data.error) || `${res.status} ${res.statusText}`;
+        if (!opts.silent) {
+          toast.error(msg);
+        }
+        throw new ApiError(msg, res.status, data);
+      }
+      return data;
+    } catch (e) {
+      clearTimeout(timer);
+      lastErr = e;
+      // AbortError (timeout) 或 fetch reject: 重试
+      if (e.name === 'AbortError') {
+        lastErr = new ApiError(`请求超时 (${timeoutMs}ms)`, 0, null);
+        if (attempt < maxAttempts) continue;
+        throw lastErr;
+      }
+      if (e instanceof ApiError && e.status === 401) throw e;  // 401 不重试
+      if (e instanceof TypeError && attempt < maxAttempts) continue;  // fetch 失败
+      if (e instanceof ApiError && e.status >= 500 && attempt < maxAttempts) continue;
+      throw e;
+    }
   }
-  return data;
+  throw lastErr ?? new ApiError('未知错误', 0, null);
 }
 
 function shouldUseMock() {
@@ -102,4 +138,4 @@ export async function request(method, path, body, opts = {}) {
   return realFetch(method, path, body, opts);
 }
 
-export { ApiError, TOKEN_KEY, USER_KEY, API_BASE };
+export { ApiError, TOKEN_KEY, USER_KEY, API_BASE, DEFAULT_TIMEOUT_MS, MAX_RETRIES };
