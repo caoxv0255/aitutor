@@ -1,33 +1,48 @@
-# aitutor Milestones — v0.5.0-dev 基线 (2026-08-01)
+# aitutor Milestones — v0.6.0-dev 基线 (2026-08-04)
 
-> **基线 Tag**: `v0.5.0-dev` — RAG pipeline + Frontend F1 Foundation 完.
-> **下一阶段**: Frontend F2-F6 迁移 + RAG 接入 + GraphRAG 重建.
+> **基线 Tag**: `v0.6.0-dev` — Frontend F2 完 + RAG P3 端到端 (Ollama + pgvector 768 dim).
+> **下一阶段**: F3 Feature Migration (10 page) + 推 GitHub mirror.
 > **GitHub Mirror**: 等 credentials 后同步 (`gh` CLI / PAT).
 
 ---
 
-## v0.5.0-dev (当前, 2026-08-01)
+## v0.5.0-dev (2026-08-01, 历史基线)
 
 ### ✅ Done
 - [x] **Extraction** (题库分析项目): 3,819 docx → 3,120 schema v5 ok + 699 fail (.doc 老格式)
 - [x] **RAG Pipeline v0.5**: 1,711 schema v5 → 0 失败 + 0 timeout
-  - 排除 2026 + paper_type=网络/其他 + .doc 老格式
-  - per-docx timeout 30s
-  - cross-source dedup (历年合集 + 31 省跨源重复去重)
-  - ingest to GraphRAG (converted_markdown + jsonl + gaokao_all.txt, +772 md / +17,569 chunks)
-- [x] **Frontend F1 Foundation** (ai-tutor-frontend/):
-  - Design Token 60 颜色 + Tailwind 4 theme 注入 (保留 Tailwind, 不重做)
-  - 7 Service Layer (auth/user/exam/rag/knowledge/review/vision) + 37 mock JSON
-  - 5 CSS + 12 JS + 1 demo page
-  - SPEC.md + PLAN.md v0.2 (整合用户反馈: 6 阶段, Service Layer, Mock, Contract Test, Vision Epic, Freeze)
-- [x] **.gitignore 完整** (RAG 大文件 / 测试缓存 / IDE / OS)
-- [x] **Tag v0.5.0-dev** (基线)
+- [x] **Frontend F1 Foundation** (ai-tutor-frontend/): 5 CSS + 12 JS + 1 demo
+- [x] **.gitignore 完整** (RAG / 测试缓存 / IDE / OS)
+- [x] **Tag v0.5.0-dev**
+
+---
+
+## v0.6.0-dev (当前, 2026-08-04)
+
+### ✅ Done
+- [x] **F1.17 demo bug fix** (mock lazy check + stat placeholder + dark theme)
+- [x] **F2 Service Layer 强化** (F2.1 + F2.3 + F2.4-2.6 全部完):
+  - client.js retry (5xx+network, 3 次) + timeout (10s) + silent opt
+  - **Contract Test 39/39 全过** (7 services 全部端点)
+  - Playwright E2E 2/2 (mock dashboard + 真实 API 失败)
+  - USE_MOCK toggle UI (LS 持久化)
+  - demo index.html (mock 模式 + 暗色主题 + 4 stat 卡片)
+- [x] **automation**: Makefile + scripts/automation/ (push_all + lint + install_hooks) + git hooks
+- [x] **P3 RAG ingest pipeline** (Ollama + pgvector 768 dim):
+  - 1,711 schema v5 → rag_questions (~17k 题, 估 18 min ingest)
+  - pgvector 官方容器 (pgvector/pgvector:pg15) + migration 005
+  - Ollama nomic-embed-text (137MB) 调 /api/embeddings
+  - embedding.js 加 ollama provider (3 选 1: local/ollama/remote)
+  - 内容 + 子题都 ingest, content_hash dedup, 进度跟踪
+  - similarity search 验证 (cosine <=>, sim 0.82-0.88 同主题)
+- [x] **docs/P3_RAG_INGEST.md** (P3 完整流程留档)
+- [x] **tag v0.6.0-dev** (新基线)
 
 ### 📊 数据
-- **代码量**: 28 commits (24 RAG + 4 新)
-- **RAG 产物**: 1,711 unique schema v5 (170 MB 本地, 不入 git)
-- **GraphRAG 接入**: 8,723 md + 17,861 jsonl chunks
-- **F1 验证**: 17/17 DoD pass
+- **代码量**: ~30 commits + 1 tag (v0.5.0-dev) + 1 tag (v0.6.0-dev) + automation
+- **RAG**: 1,711 schema v5 → GraphRAG (8,723 md / 17,861 chunks) + pgvector (~17k 题, 768 dim)
+- **Frontend**: F1 Foundation + F2 Service Layer 完
+- **Tests**: Contract 39/39, E2E 2/2, lint 0 错
 
 ---
 
@@ -82,11 +97,15 @@
 
 ---
 
-## v0.7 (远期, GraphRAG 重建 + RAG 接入后端)
+## v0.7 (远期, GraphRAG 重建 + AGE+pgvector 自定义镜像 + RAG 完整接入)
 
-- [ ] RAG ingest 1,711 schema v5 → pgvector (rag_questions 表)
+- [ ] RAG ingest 完整: 1,711 schema v5 → pgvector (进行中, P3 v0.6)
+- [x] ~~pgvector 官方镜像 (P3 选了, B 路径)~~
+- [ ] Apache AGE + pgvector 自定义镜像 (A1, 15 min build)
+- [ ] knowledge_point_id 反查关联 (KP map)
+- [ ] difficulty 字段从 quality.confidence 推
+- [ ] ivfflat → HNSW 索引切换 (10K+ 后)
 - [ ] GraphRAG CLI 重建 gaokao_all 索引 (LLM 限速, ~30 小时)
-- [ ] neo4j 知识图谱导入 (kg/*.csv)
 - [ ] ES bulk 导入 (es/*.bulk.jsonl, 修 export_all bug)
 - [ ] frontend/ 观察 2-3 周后归档
 
@@ -109,8 +128,9 @@
 |-----|------|------|
 | `v0.5.0-dev` | RAG pipeline + Frontend F1 基线 | 2026-08-01 |
 | `v0.5.0` | v0.5 正式 (稳定 RAG + GraphRAG 接入) | TBD |
-| `v0.6.0` | Frontend 完整迁移 + ai-tutor-frontend/ 主前端 | TBD |
-| `v0.7.0` | GraphRAG + RAG 后端接入 | TBD |
+| `v0.6.0-dev` | Frontend F2 + RAG P3 端到端 (Ollama + pgvector 768 dim) | 2026-08-04 |
+| `v0.6.0` | v0.6 正式 (Frontend F1-F3 + P3) | TBD |
+| `v0.7.0` | GraphRAG + AGE + RAG 后端完整 | TBD |
 | `v1.0.0` | Release | TBD |
 
 ---
