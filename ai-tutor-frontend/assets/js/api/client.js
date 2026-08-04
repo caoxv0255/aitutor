@@ -5,7 +5,19 @@ import { USE_MOCK, USE_MOCK_OVERRIDE, MOCK_DELAY_MS } from './USE_MOCK.js';
 import { getToken, clearToken } from '../auth.js';
 import { toast } from '../toast.js';
 
-const API_BASE = '';  // 同源
+// API_BASE: 跨域后端地址 (开发时 python http server 8000 + node server 3002)
+// 生产部署同源时设 '' 即可
+// 优先级: meta[name=api-base] > localStorage.aitutor.apiBase > 同源 ''
+function getApiBase() {
+  try {
+    const meta = document.querySelector('meta[name="api-base"]');
+    if (meta?.content) return meta.content;
+    const ls = localStorage.getItem('aitutor.apiBase');
+    if (ls) return ls;
+  } catch (_) {}
+  return '';
+}
+const API_BASE = getApiBase();
 const TOKEN_KEY = 'aitutor.token';
 const USER_KEY = 'aitutor.user';
 const DEFAULT_TIMEOUT_MS = 10000;
