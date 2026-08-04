@@ -5,19 +5,26 @@ import { USE_MOCK, USE_MOCK_OVERRIDE, MOCK_DELAY_MS } from './USE_MOCK.js';
 import { getToken, clearToken } from '../auth.js';
 import { toast } from '../toast.js';
 
-// API_BASE: 跨域后端地址 (开发时 python http server 8000 + node server 3002)
-// 生产部署同源时设 '' 即可
-// 优先级: meta[name=api-base] > localStorage.aitutor.apiBase > 同源 ''
+// API_BASE: 跨域后端地址
+// 优先级: meta[name=api-base] > localStorage.aitutor.apiBase > 默认 'http://localhost:3002' (dev)
+// 生产部署时: 改默认 '' 即可, 或设 LS: localStorage.setItem('aitutor.apiBase', '')
 function getApiBase() {
+  let base = '';
   try {
     const meta = document.querySelector('meta[name="api-base"]');
-    if (meta?.content) return meta.content;
-    const ls = localStorage.getItem('aitutor.apiBase');
-    if (ls) return ls;
-  } catch (_) {}
-  return '';
+    if (meta?.content) base = meta.content;
+    else {
+      const ls = localStorage.getItem('aitutor.apiBase');
+      if (ls) base = ls;
+      else base = 'http://localhost:3002';  // dev 默认
+    }
+  } catch (_) {
+    base = 'http://localhost:3002';
+  }
+  return base;
 }
 const API_BASE = getApiBase();
+console.log(`[client.js] API_BASE = ${API_BASE || '(同源)'}`);
 const TOKEN_KEY = 'aitutor.token';
 const USER_KEY = 'aitutor.user';
 const DEFAULT_TIMEOUT_MS = 10000;
