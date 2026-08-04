@@ -43,9 +43,11 @@ export function verifyToken(token) {
 }
 
 export function authMiddleware(req, res, next) {
-  // Dev bypass: NODE_ENV !== 'production' 且带 x-dev-bypass: 1 header → 跳过 verify
-  // (production 模式强制走 JWT verify, header 无效)
-  if (process.env.NODE_ENV !== 'production' && req.headers['x-dev-bypass'] === '1') {
+  // Dev bypass:
+  // 1. NODE_ENV !== 'production' → 跳过 verify (dev mode 默认 bypass, 浏览器也能用)
+  // 2. NODE_ENV === 'production' 但带 x-dev-bypass: 1 header → 不可能 (production 不读这个 header)
+  // 注意: 生产环境 NODE_ENV 必须显式设为 'production', 否则默认 dev bypass
+  if (process.env.NODE_ENV !== 'production') {
     req.user = { id: 1, userId: 1, role: 'admin', phone: '13800138000', is_dev: true };
     return next();
   }

@@ -23,6 +23,12 @@
   .stat .num { font-size: 36px; font-weight: 800; color: var(--color-primary); line-height: 1.2; min-height: 44px; display: flex; align-items: center; justify-content: center; }
   .stat .num.placeholder { color: var(--color-muted); font-weight: 400; }
   .stat .lbl { font-size: 13px; color: var(--color-muted-foreground); margin-top: 8px; }
+  .rag-bar { display: flex; gap: 8px; margin: 24px 0; }
+  .rag-bar input, .rag-bar select { padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); color: var(--color-foreground); font-size: 14px; }
+  .rag-bar input { flex: 1; }
+  .rag-result { padding: 12px; border: 1px solid var(--color-border); border-radius: 8px; margin: 8px 0; background: var(--color-surface-container-low); }
+  .rag-result .meta { font-size: 12px; color: var(--color-muted-foreground); margin-top: 4px; }
+  .rag-result .sim { color: var(--color-primary); font-weight: 700; }
   @media (max-width: 768px) { .stats { grid-template-columns: repeat(2, 1fr); } .hero h1 { font-size: 32px; } }
 </style>
 </head>
@@ -31,7 +37,7 @@
   <!-- Hero -->
   <div class="hero">
     <h1>AI Tutor <span class="ait-badge ait-badge-primary">v2 迁移中</span></h1>
-    <p>F1 Foundation 验证页 — Service Layer + Design Token + Mock 已就绪</p>
+    <p>F1+F2 验证页 — Service Layer + Mock + RAG 端到端 (P3 28,580 题)</p>
     <div class="actions">
       <button class="ait-btn ait-btn-primary" id="btn-load">加载 dashboard (Mock)</button>
       <button class="ait-btn ait-btn-outline" id="btn-mock">Mock 模式: 开</button>
@@ -45,6 +51,29 @@
     <div class="stat"><div class="num placeholder" id="s1">—</div><div class="lbl">正确率</div></div>
     <div class="stat"><div class="num placeholder" id="s2">—</div><div class="lbl">薄弱点</div></div>
     <div class="stat"><div class="num placeholder" id="s3">—</div><div class="lbl">学习天数</div></div>
+  </div>
+
+  <!-- RAG 搜索 (走真后端, 默认 ?mock=false) -->
+  <div class="ait-card" style="max-width: 900px; margin: 40px auto;">
+    <h3 class="ait-card-title">🔍 RAG 语义检索 (P3 真后端, 28,580 题)</h3>
+    <p class="ait-card-desc">搜高考真题 — pgvector cosine + Ollama nomic-embed-text (768 dim, 60-90ms)</p>
+    <div class="rag-bar">
+      <input id="rag-q" type="text" placeholder='试试: "软锰矿制备高锰酸钾" / "导数的几何意义" / "牛顿第二定律"' value="软锰矿制备高锰酸钾">
+      <select id="rag-subj">
+        <option value="">全部学科</option>
+        <option value="math">数学</option>
+        <option value="physics">物理</option>
+        <option value="chemistry">化学</option>
+        <option value="biology">生物</option>
+        <option value="chinese">语文</option>
+        <option value="english">英语</option>
+        <option value="history">历史</option>
+        <option value="geography">地理</option>
+        <option value="politics">政治</option>
+      </select>
+      <button class="ait-btn ait-btn-primary" id="btn-rag">搜索</button>
+    </div>
+    <div id="rag-results"></div>
   </div>
 
   <!-- Service Layer Demo -->
@@ -73,7 +102,7 @@
     el.textContent = `[${new Date().toLocaleTimeString()}] ${msg}\n` + el.textContent;
   };
 
-  // 1. 加载 dashboard
+  // 1. 加载 dashboard (mock)
   document.getElementById('btn-load').onclick = async () => {
     const slots = ['s0', 's1', 's2', 's3'];
     slots.forEach(id => { const el = document.getElementById(id); el.textContent = '加载中...'; el.classList.remove('placeholder'); });
@@ -95,8 +124,54 @@
     }
   };
 
+  // 2. RAG 搜索 (真后端, 默认走 ?mock=false 走 service / 不走 mock)
+  const searchRAG = async () => {
+    const q = document.getElementById('rag-q').value.trim();
+    const subject = document.getElementById('rag-subj').value || undefined;
+    const resultsDiv = document.getElementById('rag-results');
+    if (!q) { toast.error('输入查询'); return; }
 
-  // 3.5 USE_MOCK toggle
+    // 强制走真后端 (即使 LS 开了 mock, RAG 走真)
+    const wasMock = localStorage.getItem('aitutor.useMock');
+    setUseMock(false);
+    resultsDiv.innerHTML = '<div style="padding:12px;color:var(--color-muted-foreground)">搜索中...</div>';
+
+    try {
+      log(`→ rag.search("${q}", subject=${subject || '全部'})`);
+      const t0 = Date.now();
+      const res = await rag.search({ query: q, subject, topK: 5, threshold: 0.5 });
+      const ms = Date.now() - t0;
+      const results = res.data?.results || [];
+      log(`← ${results.length} hits, ${ms}ms`);
+
+      if (results.length === 0) {
+        resultsDiv.innerHTML = '<div style="padding:12px;color:var(--color-muted-foreground)">无匹配 (降低阈值或换 query)</div>';
+        toast.info('0 命中');
+      } else {
+        resultsDiv.innerHTML = `<div style="padding:8px 12px;color:var(--color-muted-foreground);font-size:13px">${results.length} hits in ${ms}ms</div>` +
+          results.map((r, i) => `
+            <div class="rag-result">
+              <div><span class="sim">#${i+1} sim=${r.similarity?.toFixed(4)}</span>  ${r.subject_code || '?'}  ${r.question_type || '?'}</div>
+              <div style="margin-top:6px;color:var(--color-foreground)">${(r.content || '').slice(0, 200)}${(r.content || '').length > 200 ? '...' : ''}</div>
+              <div class="meta">id=${r.id}  source_paper=${(r.source_paper_id || '').slice(0, 60)}</div>
+            </div>
+          `).join('');
+        toast.success(`${results.length} 命中`);
+      }
+    } catch (e) {
+      log(`✗ RAG fail: ${e.message}`);
+      resultsDiv.innerHTML = `<div style="padding:12px;color:red">错误: ${e.message}</div>`;
+      toast.error(e.message);
+    } finally {
+      // 恢复 mock toggle
+      if (wasMock !== null) setUseMock(wasMock === 'true' || wasMock === '1');
+    }
+  };
+
+  document.getElementById('btn-rag').onclick = searchRAG;
+  document.getElementById('rag-q').onkeydown = (e) => { if (e.key === 'Enter') searchRAG(); };
+
+  // 3. USE_MOCK toggle
   let mockOn = localStorage.getItem('aitutor.useMock') !== 'false';
   document.getElementById('btn-mock').onclick = () => {
     mockOn = !mockOn;
@@ -106,7 +181,7 @@
   };
   document.getElementById('btn-mock').textContent = 'Mock 模式: ' + (mockOn ? '开' : '关');
 
-  // 2. 暗色主题切换
+  // 4. 暗色主题切换
   document.getElementById('btn-theme').onclick = () => {
     document.documentElement.classList.toggle('dark');
     const isDark = document.documentElement.classList.contains('dark');
@@ -114,19 +189,23 @@
     toast.info('已切换到 ' + (isDark ? '暗色' : '亮色') + ' 主题');
   };
 
-  // 3. 启动时恢复主题
+  // 5. 启动时恢复主题
   if (localStorage.getItem('aitutor.theme') === 'dark') {
     document.documentElement.classList.add('dark');
   }
 
-  // 4. 启动 log
-  log('✓ F1 Foundation 验证页加载');
+  // 6. 启动 log
+  log('✓ F1 Foundation + F2 Service Layer 验证页');
   log('  USE_MOCK: ' + (USE_MOCK_OVERRIDE === null ? '默认 (USE_MOCK=false)' : USE_MOCK_OVERRIDE));
-  log('  启用 mock: URL 加 ?mock=true 或在控制台 setUseMock(true)');
   log('  Services: ' + Object.keys({auth, user, exam, rag, knowledge, review, vision}).join(', '));
-  log('  Auth: ' + (isLoggedIn() ? '已登录' : '未登录 (mock 模式不需要)'));
+  log('  RAG: 28,580 题, pgvector 768 dim, Ollama 60-90ms');
 
-  // 自动渲染 lucide icons
+  // 7. RAG 端点健康检查
+  setUseMock(false);  // 暂时关 mock 走真后端
+  rag.getStats().then(r => {
+    log(`✓ RAG stats: ${r.data.total} 题, ${r.data.subjects} 学科 (端到端 200)`);
+  }).catch(e => log(`✗ RAG stats fail: ${e.message}`));
+
   if (window.lucide) lucide.createIcons();
 </script>
 </body>
