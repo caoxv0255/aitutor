@@ -349,21 +349,27 @@ async function initTables(pool) {
 
     -- 方案B：微观向量检索表（题库语义索引）
     -- knowledge_point_id 为逻辑外键，关联方案A Apache AGE 中的 KnowledgePoint.id
+    -- 向量维度: 768 (Ollama nomic-embed-text, 替代原 DashScope text-embedding-v3 1536)
     CREATE TABLE IF NOT EXISTS rag_questions (
       id SERIAL PRIMARY KEY,
       content TEXT NOT NULL,
-      embedding vector(1536),
+      content_hash VARCHAR(64) UNIQUE,  -- SHA-256 of content (dedup), 跟 migration 005 同步
+      embedding vector(768),
       knowledge_point_id VARCHAR(20),
       subject_code VARCHAR(20),
       difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
       question_type VARCHAR(30),
-      source_paper_id INTEGER,
+      source_paper_id VARCHAR(255),     -- schema v5 file name (改 VARCHAR 兼容长路径)
+      source_year INTEGER,
+      source_region VARCHAR(50),
+      source_subject VARCHAR(50),
       metadata JSONB DEFAULT '{}',
       created_at TIMESTAMPTZ DEFAULT NOW(),
       updated_at TIMESTAMPTZ DEFAULT NOW()
     );
 
     -- 多模态知识对象：四向量检索表（Q/S/K/A 向量）
+    -- 维度统一 768
     CREATE TABLE IF NOT EXISTS question_vectors (
       id SERIAL PRIMARY KEY,
       question_id INTEGER UNIQUE REFERENCES exam_questions(id) ON DELETE CASCADE,
@@ -371,10 +377,10 @@ async function initTables(pool) {
       subject_code VARCHAR(20),
       question_type VARCHAR(30),
       difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
-      q_embedding vector(1536),
-      s_embedding vector(1536),
-      k_embedding vector(1536),
-      a_embedding vector(1536),
+      q_embedding vector(768),
+      s_embedding vector(768),
+      k_embedding vector(768),
+      a_embedding vector(768),
       q_text TEXT,
       s_text TEXT,
       k_text TEXT,
