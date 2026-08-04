@@ -63,11 +63,16 @@
   <div class="ait-card" style="max-width: 900px; margin: 40px auto;">
     <h3 class="ait-card-title">🔍 RAG 语义检索 (P3 真后端, 28,580 题)</h3>
     <p class="ait-card-desc">搜高考真题 — pgvector cosine + Ollama nomic-embed-text (768 dim, 60-90ms)</p>
+    <p class="ait-card-desc" style="background:var(--color-warning-bg,#fff3cd);padding:8px 12px;border-radius:6px;margin-top:8px">
+      <strong>💡 提示</strong>: 28,580 题学科分布不均 (生物 4597 vs 数学 1614), <strong>不选学科易跑偏</strong>.
+      短 query (1-2 字) + 不选学科 → 排名靠 sim 排序, 不保证学科对.
+      推荐: 选学科 (默认数学) + 输入关键词 (≥3 字效果更好).
+    </p>
     <div class="rag-bar">
-      <input id="rag-q" type="text" placeholder='试试: "软锰矿制备高锰酸钾" / "导数的几何意义" / "牛顿第二定律"' value="软锰矿制备高锰酸钾">
+      <input id="rag-q" type="text" placeholder='试试: "导数" / "牛顿第二定律" / "软锰矿制备高锰酸钾"' value="导数">
       <select id="rag-subj">
-        <option value="">全部学科</option>
-        <option value="math">数学</option>
+        <option value="">全部学科 (不选易跑偏)</option>
+        <option value="math" selected>数学</option>
         <option value="physics">物理</option>
         <option value="chemistry">化学</option>
         <option value="biology">生物</option>
