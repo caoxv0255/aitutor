@@ -248,3 +248,5 @@ MIT License
 ## 联系方式
 
 - GitHub Issues: https://github.com/caoxv0255/aitutor/issues
+
+AI Agent 体系见 `.ai/` 目录（架构 / 决策 / runbook / known-bugs）。
