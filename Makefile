@@ -34,6 +34,25 @@ push-gh:  ## 只推 GitHub (GH_TOKEN env)
 rag:  ## 跑 RAG 流水线 (1,711 schema v5)
 	cd database && python3 ../题库分析/scripts/run_pipeline.py
 
+start-pgvector:  ## 启 pgvector/pgvector:pg15 容器 (P3 RAG)
+	bash scripts/start_pgvector.sh
+
+ingest-pgvector:  ## P3: schema v5 → rag_questions (Ollama nomic-embed-text 768 dim)
+	@echo "=== P3 RAG ingest ==="
+	@echo "需要: ollama + nomic-embed-text (ollama pull nomic-embed-text)"
+	@echo "需要: pgvector container running (make start-pgvector)"
+	@echo ""
+	python3 scripts/ingest_rag_to_pgvector.py
+
+ingest-pgvector-dry:  ## P3 dry-run: 5 文件验证 (估速度)
+	python3 scripts/ingest_rag_to_pgvector.py --limit 5
+
+stop-pgvector:  ## 停 pgvector 容器
+	docker rm -f pgvector-test 2>&1 || true
+
+test-embedding:  ## 测 embedding service 端到端 (Node, 3 provider)
+	node scripts/test_embedding.mjs
+
 dev:  ## 启动后端 (F5+)
 	npm run dev
 
