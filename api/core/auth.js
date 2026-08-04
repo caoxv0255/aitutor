@@ -43,6 +43,13 @@ export function verifyToken(token) {
 }
 
 export function authMiddleware(req, res, next) {
+  // Dev bypass: NODE_ENV !== 'production' 且带 x-dev-bypass: 1 header → 跳过 verify
+  // (production 模式强制走 JWT verify, header 无效)
+  if (process.env.NODE_ENV !== 'production' && req.headers['x-dev-bypass'] === '1') {
+    req.user = { id: 1, userId: 1, role: 'admin', phone: '13800138000', is_dev: true };
+    return next();
+  }
+
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json(createErrorResponse(ErrorCode.AUTH_NOT_LOGIN));

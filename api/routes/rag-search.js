@@ -78,11 +78,16 @@ export async function ingestQuestion(questionData) {
   const pool = await getDb();
   const result = await pool.query(
     `INSERT INTO rag_questions
-       (content, embedding, knowledge_point_id, subject_code, difficulty, question_type, source_paper_id, metadata)
-     VALUES ($1, $2::vector, $3, $4, $5, $6, $7, $8)
+       (content, content_hash, embedding, knowledge_point_id, subject_code, difficulty, question_type, source_paper_id, metadata)
+     VALUES ($1, $2, $3::vector, $4, $5, $6, $7, $8, $9)
+     ON CONFLICT (content_hash) DO UPDATE SET
+       embedding = EXCLUDED.embedding,
+       updated_at = NOW()
      RETURNING id`,
     [
       content,
+      // SHA-256 of content (dedup, 跟 migration 005 一致)
+      (await import('node:crypto')).createHash('sha256').update(content).digest('hex'),
       `[${embedding.join(',')}]`,
       knowledge_point_id || null,
       subject_code || null,
