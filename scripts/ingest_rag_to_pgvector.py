@@ -25,8 +25,8 @@ import requests
 # ===== config =====
 SCHEMA_DIR = Path("/home/cx/aitutor/database/rag_build")
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
-EMBED_MODEL = os.environ.get("EMBED_MODEL", "bge-large-zh")  # v0.7 默认改 bge (1024 dim, 中文 better)
-EMBED_DIM = 1024  # bge-large-zh 固定 (跟 migration 006 vector(1024) 配)
+EMBED_MODEL = os.environ.get("EMBED_MODEL", "bge-m3")  # v0.7: bge-m3 (1024 dim, BAAI 多语言, 中文 OK)
+EMBED_DIM = 1024  # bge-m3 固定 (跟 migration 006 vector(1024) 配)
 DB_DSN = os.environ.get("DATABASE_URL", "postgresql://zhiqui:***@localhost:5433/zhiqui_review")
 
 # 学科中文 → 英文代码 (用于 schema v5)

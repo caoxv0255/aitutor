@@ -26,10 +26,12 @@ const EMBEDDING_PROVIDER = process.env.EMBEDDING_PROVIDER || 'remote';
 const EMBEDDING_API_KEY = process.env.EMBEDDING_API_KEY || process.env.DASHSCOPE_API_KEY || '';
 
 // 各 provider 默认 endpoint + model + dim
-// v0.7: ollama 默认改 bge-large-zh (1024 dim, 中文 better), 跟 migration 006 配
+// v0.7: ollama 默认改 bge-m3 (1024 dim, BAAI 多语言, 中文 OK), 跟 migration 006 配
+//   备选: shaw/dmeta-embedding-zh (768 dim, 中文专化, 不用改 schema 但 768 → 不匹配)
+//   备选: mxbai-embed-large (1024 dim, 英文优)
 const PROVIDER_DEFAULTS = {
   local:  { base_url: 'http://localhost:8000/v1',   model: 'shibing624/text2vec-base-chinese', dim: 768  },
-  ollama: { base_url: 'http://localhost:11434',     model: 'bge-large-zh',                      dim: 1024 },
+  ollama: { base_url: 'http://localhost:11434',     model: 'bge-m3',                             dim: 1024 },
   remote: { base_url: 'https://dashscope.aliyuncs.com/compatible-mode/v1', model: 'text-embedding-v3', dim: 1536 },
 };
 

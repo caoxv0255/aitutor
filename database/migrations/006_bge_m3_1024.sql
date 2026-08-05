@@ -1,5 +1,5 @@
--- database/migrations/006_bge_large_zh_1024.sql
--- 切换 embedding model: nomic-embed-text (768) -> bge-large-zh (1024)
+-- database/migrations/006_bge_m3_1024.sql
+-- 切换 embedding model: nomic-embed-text (768) -> bge-m3 (1024)
 -- 中文 + LaTeX 精度提升, 50k+ 数据更准
 -- ⚠️ DESTRUCTIVE: 改 column dim 需 truncate (旧 768 跟新 1024 不兼容)
 
