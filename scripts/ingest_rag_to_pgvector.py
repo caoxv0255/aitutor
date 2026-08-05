@@ -86,7 +86,7 @@ def extract_questions_from_schema(schema: dict, file_name: str) -> list:
 
     for q in paper.get("questions", []):
         stem = q.get("stem", "")
-        if not stem or len(stem.strip()) < 10:
+        if not stem or len(stem.strip()) < 5:  # 改 10 → 5 (高考题部分短)
             continue
         # 主题: difficulty 用 quality.confidence * 5 (0.0~1.0 → 1~5) 暂时不用, schema 无 quality 直接 None
         quality_dict = q.get("quality") or {}
@@ -110,13 +110,15 @@ def extract_questions_from_schema(schema: dict, file_name: str) -> list:
                 "quality": quality_dict,
             },
         })
-        # 子题
+        # 子题: content 加 [parent_id] 前缀避免 dedup 误伤 (sub stem 跟 parent 摘要重复会被 SHA-256 干掉)
+        parent_qid = q.get("question_id", "")
         for sq in q.get("sub_questions", []):
             sq_stem = sq.get("stem", "")
-            if not sq_stem or len(sq_stem.strip()) < 10:
+            if not sq_stem or len(sq_stem.strip()) < 5:  # 短 stem 改 5
                 continue
+            # prefix 让 dedup 不误伤 (同一 sub_questions stem 跨文件仍同题, 跨题不同 prefix)
             result.append({
-                "content": sq_stem,
+                "content": f"[子题·{parent_qid}] {sq_stem}",
                 "knowledge_point_id": None,
                 "subject_code": subject_code,
                 "difficulty": None,
@@ -128,11 +130,33 @@ def extract_questions_from_schema(schema: dict, file_name: str) -> list:
                 "metadata": {
                     "sub_question_id": sq.get("sub_question_id"),
                     "sub_no": sq.get("sub_no"),
-                    "parent_question_id": q.get("question_id"),
+                    "parent_question_id": parent_qid,
                     "answer": sq.get("answer"),
                     "analysis": sq.get("analysis"),
                 },
             })
+
+    # shared_materials: 3,764 段, 入库 (改 type='material' 区分)
+    for sm in paper.get("shared_materials", []):
+        sm_content = sm.get("content", "") or ""
+        if not sm_content or len(sm_content.strip()) < 20:  # 短材料跳过
+            continue
+        result.append({
+            "content": f"[材料·{paper.get('metadata', {}).get('subject', '')}] {sm_content[:1500]}",  # truncate 1.5k 避免超长
+            "knowledge_point_id": None,
+            "subject_code": subject_code,
+            "difficulty": None,
+            "question_type": "shared_material",
+            "source_paper_id": file_name,
+            "source_year": source_year,
+            "source_region": source_region,
+            "source_subject": source_subject_zh,
+            "metadata": {
+                "material_id": sm.get("material_id"),
+                "type": sm.get("type"),
+                "title": sm.get("title"),
+            },
+        })
     return result
 
 
