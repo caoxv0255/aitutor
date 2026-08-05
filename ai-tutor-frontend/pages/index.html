@@ -84,6 +84,15 @@
       </select>
       <button class="ait-btn ait-btn-primary" id="btn-rag">搜索</button>
     </div>
+    <div class="rag-quickpick" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;margin-bottom:8px">
+      <span style="font-size:12px;color:var(--color-muted-foreground);align-self:center;margin-right:4px">🚀 快速入口 (高考题常用 synonym, 28k 题里精准命中):</span>
+      <button class="ait-btn ait-btn-outline quickpick" data-q="极值" data-s="math" style="font-size:12px;padding:4px 10px">导数题·极值 (math)</button>
+      <button class="ait-btn ait-btn-outline quickpick" data-q="切线" data-s="math" style="font-size:12px;padding:4px 10px">导数题·切线 (math)</button>
+      <button class="ait-btn ait-btn-outline quickpick" data-q="单调" data-s="math" style="font-size:12px;padding:4px 10px">导数题·单调 (math)</button>
+      <button class="ait-btn ait-btn-outline quickpick" data-q="椭圆" data-s="math" style="font-size:12px;padding:4px 10px">解析几何·椭圆 (math)</button>
+      <button class="ait-btn ait-btn-outline quickpick" data-q="牛顿" data-s="physics" style="font-size:12px;padding:4px 10px">力学·牛顿 (physics)</button>
+      <button class="ait-btn ait-btn-outline quickpick" data-q="软锰矿" data-s="chemistry" style="font-size:12px;padding:4px 10px">化学·软锰矿 (chemistry)</button>
+    </div>
     <div id="rag-results"></div>
   </div>
 
@@ -181,6 +190,17 @@
 
   document.getElementById('btn-rag').onclick = searchRAG;
   document.getElementById('rag-q').onkeydown = (e) => { if (e.key === 'Enter') searchRAG(); };
+
+  // Quick-pick 按钮 (synonym 快速入口, 让 28k 题精度可感)
+  document.querySelectorAll('.quickpick').forEach((btn) => {
+    btn.onclick = () => {
+      const q = btn.dataset.q;
+      const s = btn.dataset.s;
+      document.getElementById('rag-q').value = q;
+      if (s) document.getElementById('rag-subj').value = s;
+      searchRAG();
+    };
+  });
 
   // 3. USE_MOCK toggle
   let mockOn = localStorage.getItem('aitutor.useMock') !== 'false';
