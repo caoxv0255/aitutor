@@ -1,8 +1,33 @@
-# aitutor Milestones — v0.6.0-dev 基线 (2026-08-04)
+# aitutor Milestones — v0.7.0-dev 基线 (2026-08-05)
 
 > **基线 Tag**: `v0.6.0-dev` — Frontend F2 完 + RAG P3 端到端 (Ollama + pgvector 768 dim).
 > **下一阶段**: F3 Feature Migration (10 page) + 推 GitHub mirror.
-> **GitHub Mirror**: 等 credentials 后同步 (`gh` CLI / PAT).
+> **GitHub Mirror**: 等 credentials 后同步 (`gh` CLI / PAT).  
+
+---
+
+
+
+## v0.7.0-dev (当前, 2026-08-05)
+
+### ✅ Done
+- [x] **Frontend F2** 全部完成 (F2.1-F2.7: client retry/timeout + Contract 39/39 + Playwright 2/2 + USE_MOCK toggle + 6 个 quick-pick synonym 入口)
+- [x] **P3 RAG ingest v2** (28,580 → 47,538 题入库, +66% via sub_q prefix + shared_materials + 短 stem)
+- [x] **W2 bge-m3 中文 embedding** (nomic 768 → bge 1024, BAAI 多语言, 中文学术精度提升)
+- [x] **W4 HNSW 索引** (ivfflat → hnsw m=16 ef=64, recall ~98%)
+- [x] **W7 difficulty 反查** (int(quality.confidence * 5) + 1, 1-5 整数)
+- [x] **RAG v3 ingest bge-m3** (39,551 题入库, 1,712/1,712 文件 done, 0 fail)
+- [x] **HTTP 端到端** (4 端点 + dev bypass auth + quick-pick 100% 学科精确)
+- [x] **3 remote 同步** (origin + uibe + localtest 全部 ahead=0 behind=0)
+- [x] **tag v0.7.0-dev**
+
+### 📊 数据
+- RAG: 28,580 → 47,538 (v2) → 39,551 (v3 bge, 17% 降因 Ollama 500 多)
+- 维度: 768 (nomic) → 1024 (bge-m3)
+- 索引: ivfflat → HNSW
+- 3 remote 全部同步, 50 commits + 2 tag (v0.6.0-dev + v0.7.0-dev)
+- Frontend: 39/39 contract + 2/2 e2e + lint 0 错
+
 
 ---
 
