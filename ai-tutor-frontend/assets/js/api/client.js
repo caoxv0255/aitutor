@@ -27,7 +27,7 @@ const API_BASE = getApiBase();
 console.log(`[client.js] API_BASE = ${API_BASE || '(同源)'}`);
 const TOKEN_KEY = 'aitutor.token';
 const USER_KEY = 'aitutor.user';
-const DEFAULT_TIMEOUT_MS = 10000;
+const DEFAULT_TIMEOUT_MS = 30000;  // v0.7: bge 1024 慢, 默认 10s 不够, 改 30s
 const MAX_RETRIES = 3;
 const RETRY_BACKOFF_MS = 600;  // 1st: 600ms, 2nd: 1200ms, 3rd: 1800ms
 
