@@ -25,8 +25,8 @@ import requests
 # ===== config =====
 SCHEMA_DIR = Path("/home/cx/aitutor/database/rag_build")
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
-EMBED_MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")
-EMBED_DIM = 768  # nomic-embed-text 固定
+EMBED_MODEL = os.environ.get("EMBED_MODEL", "bge-large-zh")  # v0.7 默认改 bge (1024 dim, 中文 better)
+EMBED_DIM = 1024  # bge-large-zh 固定 (跟 migration 006 vector(1024) 配)
 DB_DSN = os.environ.get("DATABASE_URL", "postgresql://zhiqui:***@localhost:5433/zhiqui_review")
 
 # 学科中文 → 英文代码 (用于 schema v5)
@@ -88,9 +88,12 @@ def extract_questions_from_schema(schema: dict, file_name: str) -> list:
         stem = q.get("stem", "")
         if not stem or len(stem.strip()) < 5:  # 改 10 → 5 (高考题部分短)
             continue
-        # 主题: difficulty 用 quality.confidence * 5 (0.0~1.0 → 1~5) 暂时不用, schema 无 quality 直接 None
+        # W7: difficulty 从 quality.confidence 推 (0.0-1.0 → 1-5)
         quality_dict = q.get("quality") or {}
-        difficulty = None  # 1-5 整数, schema v5 没这字段, 后续从 quality.confidence 推
+        qconf = quality_dict.get("confidence") if isinstance(quality_dict, dict) else None
+        difficulty = None
+        if isinstance(qconf, (int, float)) and 0 <= qconf <= 1:
+            difficulty = max(1, min(5, int(qconf * 5) + 1))  # 0→1, 0.2→2, 0.4→3, 0.6→4, 0.8→5
         result.append({
             "content": stem,
             "knowledge_point_id": None,  # 后续从 KP 关联
