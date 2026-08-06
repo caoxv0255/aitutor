@@ -97,7 +97,46 @@ res.subscribe(({ data, loading, error }) => {
 
 ---
 
-## 3. Verification Pattern
+## 3. Page Shell Adapter Contract
+
+F3 migration 包含两层:
+
+### Layer 1: Data Integration Contract (全局)
+
+适用所有 page:
+
+- Service Envelope (2.1)
+- Mock Convention (2.3)
+- useAsyncResource (2.4)
+- ErrorBoundary (2.4)
+- Contract Test (4 / Verification)
+
+### Layer 2: Shell Adapter (页面选一)
+
+每个 page 必须选一个 layout adapter, **不强制全局 shell**:
+
+| Adapter | Pages | Sidebar pattern |
+|---|---|---|
+| **Dashboard Shell** | dashboard, mastery | `fixed w-60` global + `lg:ml-60 md:ml-[72px]` page offset |
+| **Workspace Shell** | tutor | self-contained aside inside flex `<main>` |
+| **Hybrid Shell** | wrong-book | `fixed md:sticky`, 变 sticky, 不同宽度 |
+| **Immersive Shell** | vision, review | 无 sidebar, 单列 `flex-col` |
+
+### Slice 1 / 2 验证范围
+
+- **Slice 1**: Dashboard Shell (dashboard.html) ✅
+- **Slice 2**: Dashboard Shell (mastery.html) ← 同一 adapter 复用, 验证 template 可复制
+
+### 为什么是 adapter 不是 contract
+
+- Contract = 全局强制 (所有 page 必须遵循)
+- Adapter = 局部选择 (每个 page 选一个)
+- Shell 4 种差异源自**产品 UX 决策** (chat workspace 需要 2 列, photo capture 需要沉浸), 不是 bug
+- 未来 page 增加, 可能加新 adapter (e.g. `FullscreenShell`, `PrintShell`), 这是健康的, 不应被视为违反 F3
+
+---
+
+## 4. Verification Pattern
 
 每个 F3 slice **必须** 通过这 3 层验证:
 
@@ -111,7 +150,7 @@ res.subscribe(({ data, loading, error }) => {
 
 ---
 
-## 4. Lessons Learned
+## 5. Lessons Learned
 
 ### 已解决
 
@@ -126,7 +165,7 @@ res.subscribe(({ data, loading, error }) => {
 
 ---
 
-## 5. Non-goals
+## 6. Non-goals
 
 **不要**做 (本 slice 范围内):
 
@@ -138,9 +177,9 @@ res.subscribe(({ data, loading, error }) => {
 
 ---
 
-## 6. Next Step
+## 7. Next Step
 
-**Slice 2** 候选: `tutor.html` (AI 导师) 或 `wrong-book.html` (错题本)。
+**Slice 2** 候选: `mastery.html` (知识掌握页, Dashboard Shell Adapter)。
 
 执行时:
 
