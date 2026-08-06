@@ -897,7 +897,7 @@
             </div>`;
             }
 
-            // ===== 渲染：列表 =====
+            // ===== 渲染：列表 (含 mastery client filter, D21) =====
             function renderList(list) {
               const listEl = document.getElementById('wb-list');
               if (!listEl) return;
@@ -905,16 +905,23 @@
                 listEl.innerHTML = '<div class="bg-surface rounded-[14px] border border-border p-10 text-center text-[13px] text-foreground-secondary">暂无错题记录</div>';
                 return;
               }
-              listEl.innerHTML = list.map(cardTemplate).join('');
+              const visible = applyMasteryFilter(list);
+              if (visible.length === 0) {
+                listEl.innerHTML = '<div class="bg-surface rounded-[14px] border border-border p-10 text-center text-[13px] text-foreground-secondary">当前筛选条件下无错题</div>';
+                return;
+              }
+              listEl.innerHTML = visible.map(cardTemplate).join('');
               // lucide icons in dynamic content
               if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
             }
 
-            // ===== 渲染：stats (用 pre-existing ID 名) =====
-            // 总 = res.pagination.total; 本周/待复习 = mock 静态占位 (R1 暂填, 真实 derive 后续)
-            // header 总/已掌握 = res.pagination.total + 客户端 derive mastery='mastered' 计数
+            // ===== 渲染：stats (含 D20 matched/total 显示) =====
+            // 总 = res.pagination.total (backend fact, 不受 mastery filter 影响)
+            // 本周/待复习 = mock 静态占位 (R1 暂填, 真实 derive 后续)
+            // header 总/已掌握:  无 mastery filter 时显示 total, 有时显示 matched/total
             function renderStats(pagination, list) {
               const total = pagination ? pagination.total : (list ? list.length : 0);
+              const visible = applyMasteryFilter(list || []);
               const totalEl = document.getElementById('wb-stat-total');
               if (totalEl) totalEl.textContent = total;
               // wb-stat-week / wb-stat-due 暂保留 mock 静态占位 (R1 范围外)
@@ -922,7 +929,11 @@
               const masteredCount = (list || []).filter(r => deriveMastery(r) === 'mastered').length;
               const summaryTotal = document.getElementById('wb-summary-total');
               const summaryMastered = document.getElementById('wb-summary-mastered');
-              if (summaryTotal) summaryTotal.textContent = total;
+              if (summaryTotal) {
+                summaryTotal.textContent = filterState.mastery
+                  ? visible.length + ' / ' + total
+                  : String(total);
+              }
               if (summaryMastered) summaryMastered.textContent = masteredCount;
             }
 
@@ -938,12 +949,64 @@
               if (totalEl) totalEl.textContent = total;
               if (pageEl) pageEl.textContent = page;
               if (pagesEl) pagesEl.textContent = totalPages;
-              // Step 2 暂不接 prev/next handler (Step 3 处理)
+              // Step 3: update prev/next disabled state
+              const prevBtn = document.querySelector('[data-page-action="prev"]');
+              const nextBtn = document.querySelector('[data-page-action="next"]');
+              if (prevBtn) prevBtn.disabled = !pagination.hasPrev;
+              if (nextBtn) nextBtn.disabled = !pagination.hasNext;
+            }
+
+            // ===== Filter state (D13) — single object, 5 fields =====
+            const filterState = {
+              subject: null,    // 'math' | 'physics' | ... | null (= 'all')
+              difficulty: null, // 1 | 3 | 5 | null (= 'all')
+              mastery: null,    // 'unmastered' | 'reviewing' | 'mastered' | null (= 'all')
+              page: 1,
+              limit: 20,
+            };
+
+            // ===== Active button visual toggle (D19) — classList.remove/add =====
+            function setFilterActive(type, value) {
+              const attrKey = 'filter' + type[0].toUpperCase() + type.slice(1);
+              document.querySelectorAll('[data-filter-' + type + ']').forEach((btn) => {
+                const btnVal = btn.dataset[attrKey];
+                const isActive = (btnVal === 'all' && (value === null || value === 'all')) || btnVal === String(value);
+                // Strip ALL possible state classes (active + inactive + hover)
+                btn.classList.remove(
+                  'bg-primary-500', 'text-white', 'font-medium',
+                  'bg-surface-secondary', 'text-foreground-secondary', 'hover:bg-surface-secondary',
+                  'bg-surface-tertiary', 'text-foreground', 'hover:bg-surface-tertiary'
+                );
+                if (isActive) {
+                  if (type === 'subject') {
+                    btn.classList.add('bg-primary-500', 'text-white', 'font-medium');
+                  } else {
+                    btn.classList.add('bg-surface-tertiary', 'text-foreground', 'font-medium');
+                  }
+                } else {
+                  if (type === 'subject') {
+                    btn.classList.add('bg-surface-secondary', 'text-foreground-secondary', 'hover:bg-surface-tertiary');
+                  } else {
+                    btn.classList.add('bg-surface-secondary', 'text-foreground-secondary', 'hover:bg-surface-secondary');
+                  }
+                }
+              });
+            }
+
+            // ===== Mastery client filter (D21) — backend 不支持 mastery, page 层 derive + filter =====
+            function applyMasteryFilter(rows) {
+              if (!filterState.mastery) return rows || [];
+              return (rows || []).filter(r => deriveMastery(r) === filterState.mastery);
             }
 
             // ===== 主数据流 =====
-            // Step 2 范围：只读默认 list (filter handler 在 Step 3 接)
-            const listRes = useAsyncResource(() => wrong.getQuestions({ page: 1, limit: 20 }));
+            // fetcher closure 读 filterState; 改 state + refetch() 触发重查 (D14)
+            const listRes = useAsyncResource(() => wrong.getQuestions({
+              subject: filterState.subject,
+              difficulty: filterState.difficulty,
+              page: filterState.page,
+              limit: filterState.limit,
+            }));
             listRes.subscribe(({ data, loading, error }) => {
               if (error) {
                 console.error('[Slice3] list error:', error.type, error.code, error.message);
@@ -963,6 +1026,62 @@
                 renderPagination(data.pagination);
               }
             });
+
+            // ===== Event handlers (D18 event delegation) =====
+            // Filter: subject (backend) + difficulty (backend) + mastery (client)
+            const filtersEl = document.getElementById('wb-filters');
+            if (filtersEl) {
+              filtersEl.addEventListener('click', (e) => {
+                const subjBtn = e.target.closest('[data-filter-subject]');
+                const diffBtn = e.target.closest('[data-filter-difficulty]');
+                const mastBtn = e.target.closest('[data-filter-mastery]');
+
+                if (subjBtn) {
+                  const v = subjBtn.dataset.filterSubject;
+                  filterState.subject = (v === 'all') ? null : v;
+                  filterState.page = 1;
+                  setFilterActive('subject', filterState.subject);
+                  listRes.refetch();
+                } else if (diffBtn) {
+                  const v = diffBtn.dataset.filterDifficulty;
+                  filterState.difficulty = (v === 'all') ? null : parseInt(v, 10);
+                  filterState.page = 1;
+                  setFilterActive('difficulty', filterState.difficulty);
+                  listRes.refetch();
+                } else if (mastBtn) {
+                  const v = mastBtn.dataset.filterMastery;
+                  filterState.mastery = (v === 'all') ? null : v;
+                  filterState.page = 1;
+                  setFilterActive('mastery', filterState.mastery);
+                  // Mastery is client-side, no refetch; just re-render
+                  const s = listRes.read();
+                  if (s.data) {
+                    renderList(s.data.data);
+                    renderStats(s.data.pagination, s.data.data);
+                  }
+                }
+              });
+            }
+
+            // Pagination: prev/next via data-page-action
+            const pagEl = document.getElementById('wb-pagination-buttons');
+            if (pagEl) {
+              pagEl.addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-page-action]');
+                if (!btn || btn.disabled) return;
+                const action = btn.dataset.pageAction;
+                const s = listRes.read();
+                if (!s.data || !s.data.pagination) return;
+                const pag = s.data.pagination;
+                if (action === 'prev' && pag.hasPrev) {
+                  filterState.page = pag.page - 1;
+                  listRes.refetch();
+                } else if (action === 'next' && pag.hasNext) {
+                  filterState.page = pag.page + 1;
+                  listRes.refetch();
+                }
+              });
+            }
           </script>
 
         </div>
