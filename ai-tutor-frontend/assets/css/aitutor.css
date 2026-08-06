@@ -353,6 +353,42 @@ body {
   animation: ait-skeleton-shimmer 1.5s ease-in-out infinite;
   border-radius: var(--radius-sm);
 }
+
+/* ─── Stat num states (D1: empty / loading / error vs value) ─── */
+.ait-stat-num {
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.2;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ait-stat-num.empty {
+  color: var(--color-muted-foreground);
+  font-weight: 400;
+}
+.ait-stat-num.loading {
+  color: var(--color-muted-foreground);
+  font-weight: 400;
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-container-low) 0%,
+    var(--color-surface-container) 50%,
+    var(--color-surface-container-low) 100%
+  );
+  background-size: 200% 100%;
+  animation: ait-skeleton-shimmer 1.5s ease-in-out infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.ait-stat-num.error {
+  color: var(--color-error);
+  font-weight: 600;
+  font-size: var(--text-base);
+}
 @keyframes ait-skeleton-shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }

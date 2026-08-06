@@ -51,12 +51,12 @@
     </div>
   </div>
 
-  <!-- Stats (filled by JS) -->
+  <!-- Stats (filled by JS) — D1 v0.7.1-dev: 4 状态类 empty / loading / error / value -->
   <div class="stats" id="stats">
-    <div class="stat"><div class="num placeholder" id="s0">—</div><div class="lbl">已答题数</div></div>
-    <div class="stat"><div class="num placeholder" id="s1">—</div><div class="lbl">正确率</div></div>
-    <div class="stat"><div class="num placeholder" id="s2">—</div><div class="lbl">薄弱点</div></div>
-    <div class="stat"><div class="num placeholder" id="s3">—</div><div class="lbl">学习天数</div></div>
+    <div class="stat"><div class="num ait-stat-num empty" id="s0">—</div><div class="lbl">已答题数</div></div>
+    <div class="stat"><div class="num ait-stat-num empty" id="s1">—</div><div class="lbl">正确率</div></div>
+    <div class="stat"><div class="num ait-stat-num empty" id="s2">—</div><div class="lbl">薄弱点</div></div>
+    <div class="stat"><div class="num ait-stat-num empty" id="s3">—</div><div class="lbl">学习天数</div></div>
   </div>
 
   <!-- RAG 搜索 (走真后端, 默认 ?mock=false) -->
@@ -110,50 +110,53 @@
 <!-- F1 Foundation JS -->
 <script type="module">
   import { auth, user, exam, rag, knowledge, review, vision } from '../assets/js/api/services/index.js';
-  import { setUseMock, USE_MOCK_OVERRIDE } from '../assets/js/api/USE_MOCK.js';
+  import { setUseMock, getMockEnabled } from '../assets/js/api/USE_MOCK.js';
+  import { ErrorType } from '../assets/js/api/client.js';
   import { toast } from '../assets/js/toast.js';
   import { isLoggedIn, logout } from '../assets/js/auth.js';
   import '../assets/js/router.js';
 
-  window.AIT = { auth, user, exam, rag, knowledge, review, vision, toast, logout };
+  window.AIT = { auth, user, exam, rag, knowledge, review, vision, toast, logout, ErrorType };
 
   const log = (msg) => {
     const el = document.getElementById('service-log');
     el.textContent = `[${new Date().toLocaleTimeString()}] ${msg}\n` + el.textContent;
   };
 
+  // ─── stat 状态 helper (D1: 用 .empty / .loading / .error / .value) ───
+  const setStatState = (id, state, text) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('ait-stat-num', 'empty', 'loading', 'error');
+    el.classList.add('ait-stat-num', state);
+    el.textContent = text;
+  };
+
   // 1. 加载 dashboard (mock)
   document.getElementById('btn-load').onclick = async () => {
     const slots = ['s0', 's1', 's2', 's3'];
-    slots.forEach(id => { const el = document.getElementById(id); el.textContent = '加载中...'; el.classList.remove('placeholder'); });
+    slots.forEach(id => setStatState(id, 'loading', '加载中...'));
     try {
       log('→ user.getDashboard() 调用...');
       const res = await user.getDashboard();
       log('← 返回: ' + JSON.stringify(res).slice(0, 200) + '...');
       const s = res.data.stats;
       const vals = [s.questions_solved, (s.accuracy * 100).toFixed(1) + '%', s.weak_points_count, s.study_days];
-      slots.forEach((id, i) => {
-        const el = document.getElementById(id);
-        el.textContent = vals[i];
-      });
+      slots.forEach((id, i) => setStatState(id, 'value', String(vals[i])));
       toast.success('Dashboard 加载成功');
     } catch (e) {
-      log('✗ 错误: ' + e.message);
-      slots.forEach(id => { const el = document.getElementById(id); el.textContent = '加载失败'; el.classList.add('placeholder'); });
-      toast.error(e.message);
+      log(`✗ 错误 [${e.type || '?'}] ${e.message}` + (e.code ? ` (code=${e.code})` : ''));
+      slots.forEach(id => setStatState(id, 'error', '加载失败'));
+      // 错误已由 client.js toast.error 处理, 这里不再 toast
     }
   };
 
-  // 2. RAG 搜索 (真后端, 默认走 ?mock=false 走 service / 不走 mock)
+  // 2. RAG 搜索 (真后端, 走单次 fetch, 不动 mock toggle)
   const searchRAG = async () => {
     const q = document.getElementById('rag-q').value.trim();
     const subject = document.getElementById('rag-subj').value || undefined;
     const resultsDiv = document.getElementById('rag-results');
     if (!q) { toast.error('输入查询'); return; }
-
-    // 强制走真后端 (即使 LS 开了 mock, RAG 走真)
-    const wasMock = localStorage.getItem('aitutor.useMock');
-    setUseMock(false);
     resultsDiv.innerHTML = '<div style="padding:12px;color:var(--color-muted-foreground)">搜索中...</div>';
 
     try {
@@ -179,19 +182,16 @@
         toast.success(`${results.length} 命中`);
       }
     } catch (e) {
-      log(`✗ RAG fail: ${e.message}`);
-      resultsDiv.innerHTML = `<div style="padding:12px;color:red">错误: ${e.message}</div>`;
-      toast.error(e.message);
-    } finally {
-      // 恢复 mock toggle
-      if (wasMock !== null) setUseMock(wasMock === 'true' || wasMock === '1');
+      log(`✗ RAG fail [${e.type || '?'}] ${e.message}` + (e.code ? ` (code=${e.code})` : ''));
+      resultsDiv.innerHTML = `<div style="padding:12px;color:var(--color-error)">错误: ${e.message}</div>`;
+      // 错误已由 client.js toast 处理
     }
   };
 
   document.getElementById('btn-rag').onclick = searchRAG;
   document.getElementById('rag-q').onkeydown = (e) => { if (e.key === 'Enter') searchRAG(); };
 
-  // Quick-pick 按钮 (synonym 快速入口, 让 28k 题精度可感)
+  // Quick-pick 按钮
   document.querySelectorAll('.quickpick').forEach((btn) => {
     btn.onclick = () => {
       const q = btn.dataset.q;
@@ -202,15 +202,17 @@
     };
   });
 
-  // 3. USE_MOCK toggle
-  let mockOn = localStorage.getItem('aitutor.useMock') !== 'false';
-  document.getElementById('btn-mock').onclick = () => {
-    mockOn = !mockOn;
-    localStorage.setItem('aitutor.useMock', mockOn ? 'true' : 'false');
-    document.getElementById('btn-mock').textContent = 'Mock 模式: ' + (mockOn ? '开' : '关');
-    toast.info('Mock 已' + (mockOn ? '开启' : '关闭') + ' (刷新生效)');
+  // 3. USE_MOCK toggle (D1: 修 3 值 + 即时反映)
+  // 三值 LS: null/'false'/'0' → 关 (默认), 'true'/'1' → 开
+  const refreshMockBtn = () => {
+    document.getElementById('btn-mock').textContent = 'Mock 模式: ' + (getMockEnabled() ? '开' : '关');
   };
-  document.getElementById('btn-mock').textContent = 'Mock 模式: ' + (mockOn ? '开' : '关');
+  refreshMockBtn();
+  document.getElementById('btn-mock').onclick = () => {
+    setUseMock(!getMockEnabled());
+    refreshMockBtn();
+    toast.info('Mock 已' + (getMockEnabled() ? '开启' : '关闭') + ' (下次 request 立即生效)');
+  };
 
   // 4. 暗色主题切换
   document.getElementById('btn-theme').onclick = () => {
@@ -226,16 +228,15 @@
   }
 
   // 6. 启动 log
-  log('✓ F1 Foundation + F2 Service Layer 验证页');
-  log('  USE_MOCK: ' + (USE_MOCK_OVERRIDE === null ? '默认 (USE_MOCK=false)' : USE_MOCK_OVERRIDE));
+  log('✓ D1 v0.7.1-dev — Service Layer + 6 类错误分类 + retry 策略表');
+  log('  Mock (lazy): ' + (getMockEnabled() ? '开' : '关'));
   log('  Services: ' + Object.keys({auth, user, exam, rag, knowledge, review, vision}).join(', '));
-  log('  RAG: 28,580 题, pgvector 768 dim, Ollama 60-90ms');
+  log('  ErrorType: ' + Object.values(ErrorType).join(' / '));
 
-  // 7. RAG 端点健康检查
-  setUseMock(false);  // 暂时关 mock 走真后端
+  // 7. RAG 端点健康检查 (RAG 走真后端默认, 不改全局 mock)
   rag.getStats().then(r => {
     log(`✓ RAG stats: ${r.data.total} 题, ${r.data.subjects} 学科 (端到端 200)`);
-  }).catch(e => log(`✗ RAG stats fail: ${e.message}`));
+  }).catch(e => log(`✗ RAG stats fail [${e.type || '?'}]: ${e.message}`));
 
   if (window.lucide) lucide.createIcons();
 </script>
