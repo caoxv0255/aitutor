@@ -590,10 +590,10 @@
       const weakRes = useAsyncResource(() => review.getWeakPoints());
 
       const stats = [
-        { id: 'solv', render: (d) => d.questions_solved.toLocaleString() },
-        { id: 'acc',  render: (d) => (d.accuracy * 100).toFixed(1) + '%' },
-        { id: 'weak', render: (d) => String(d.weak_points_count) },
-        { id: 'days', render: (d) => String(d.study_days) },
+        { id: 'solv', render: (d) => d.data.stats.questions_solved.toLocaleString() },
+        { id: 'acc',  render: (d) => (d.data.stats.accuracy * 100).toFixed(1) + '%' },
+        { id: 'weak', render: (d) => String(d.data.stats.weak_points_count) },
+        { id: 'days', render: (d) => String(d.data.stats.study_days) },
       ];
 
       const setStat = (id, state, text) => {
@@ -635,7 +635,7 @@
           return;
         }
         if (!data) { ul.innerHTML = '<li>加载中…</li>'; return; }
-        ul.innerHTML = data.map((w) => `
+        ul.innerHTML = data.data.map((w) => `
           <li style="padding:10px 12px;border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:8px;">
             <strong>${w.topic}</strong>
             <span class="ait-badge ait-badge-info" style="margin-left:8px">${w.subject}</span>
