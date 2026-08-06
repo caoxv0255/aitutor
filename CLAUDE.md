@@ -229,6 +229,50 @@ This project is indexed by GitNexus as **aitutor** (17985 symbols, 21388 relatio
 
 <!-- gitnexus:end -->
 
+## Frontend F3 Migration Rules
+
+F3 = pattern for migrating legacy pages (`ai-tutor-frontend/pages/*.html`)
+onto the modern service + hook + boundary stack. Validated by Slice 1
+(dashboard) and Slice 2 (mastery) on 2026-08-06.
+
+### Migration Order
+
+1. **Select Page Shell Adapter** (see table below)
+2. **Apply global data contracts** (envelope, mock, async, error)
+3. **Wire services through `useAsyncResource`**
+4. **Verify** Browser / Network / Git
+
+### Validated Shell Adapters
+
+| Shell | Pages | Sidebar pattern |
+|---|---|---|
+| **Dashboard Shell** | dashboard, mastery | `fixed w-60` + `lg:ml-60 md:ml-[72px]` offset |
+| **Workspace Shell** | tutor (pending) | aside inside flex `<main>` |
+| **Hybrid Shell** | wrong-book (pending) | `fixed md:sticky` mixed |
+| **Immersive Shell** | vision, review (pending) | no sidebar, single column |
+
+### Global Data Contracts (apply to all shells)
+
+- **Service Envelope**: services return `{success, data}`; page does `res.data.X`
+- **Mock Convention**: `request(..., { mockName })` → `assets/js/api/mock/{mockName}.json`
+- **useAsyncResource**: replaces fetch+setState boilerplate
+- **ErrorBoundary**: `mountErrorBoundary()` once per page
+
+### Non-goals
+
+Do **not**:
+
+- Rewrite `client.js` to auto-unwrap the envelope (would break 7 service callers)
+- Unify all page layouts into one shell (4 shells are product UX decisions)
+- Refactor old frontend pages outside the slice scope
+- Extract `.ait-page-shell` before 4-5 pages share the same pattern
+- Amend pushed commits (远端 push 保留控制)
+
+### Resources
+
+- `docs/frontend-migration/F3_SLICE_1_RETROSPECTIVE.md` (v1.1, Page Shell Adapter)
+- `docs/frontend-migration/F3_SLICE_2_RETROSPECTIVE.md` (mastery, 零 fix)
+
 <!-- OPENWIKI:START -->
 
 ## OpenWiki
