@@ -553,6 +553,99 @@
     </style>
 </head>
 <body class="min-h-screen font-sans antialiased">
+    <!-- F3 Slice 1 (D3): 真实数据接入样板 — 不动 dashboard 现有 UI -->
+    <section id="ait-stat-slice" class="ait-page" style="padding:24px;padding-top:24px;padding-bottom:0;">
+      <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span class="ait-badge ait-badge-primary">F3 Slice 1</span>
+        <span style="color:var(--color-muted-foreground);font-size:13px">
+          useAsyncResource + ErrorBoundary 数据接入样板, 独立于下方 dashboard UI
+        </span>
+      </div>
+
+      <div class="stats" id="stats-ait" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+        <div class="stat"><div class="num ait-stat-num empty" id="solv">—</div><div class="lbl">已答题数</div></div>
+        <div class="stat"><div class="num ait-stat-num empty" id="acc">—</div><div class="lbl">正确率</div></div>
+        <div class="stat"><div class="num ait-stat-num empty" id="weak">—</div><div class="lbl">薄弱点</div></div>
+        <div class="stat"><div class="num ait-stat-num empty" id="days">—</div><div class="lbl">学习天数</div></div>
+      </div>
+
+      <div class="ait-card" id="weak-panel" style="margin-top:24px;">
+        <h3 class="ait-card-title">薄弱知识点 (来自 review_weakpoints.json)</h3>
+        <p class="ait-card-desc">review.getWeakPoints() 服务调用, 验证 ErrorType.BUSINESS.code 路径</p>
+        <ul id="weak-list" style="margin:12px 0 0;padding:0;list-style:none;"></ul>
+      </div>
+    </section>
+
+    <script type="module">
+      import { user, review } from '../assets/js/api/services/index.js';
+      import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
+      import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
+      import { ErrorType } from '../assets/js/api/client.js';
+      import { setUseMock } from '../assets/js/api/USE_MOCK.js';
+
+      mountErrorBoundary();
+      setUseMock(true);  // Slice 1 强制 mock, 后端 :3002 没起
+
+      const dashRes = useAsyncResource(() => user.getDashboard());
+      const weakRes = useAsyncResource(() => review.getWeakPoints());
+
+      const stats = [
+        { id: 'solv', render: (d) => d.questions_solved.toLocaleString() },
+        { id: 'acc',  render: (d) => (d.accuracy * 100).toFixed(1) + '%' },
+        { id: 'weak', render: (d) => String(d.weak_points_count) },
+        { id: 'days', render: (d) => String(d.study_days) },
+      ];
+
+      const setStat = (id, state, text) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.className = `num ait-stat-num ${state}`;
+        el.textContent = text;
+      };
+
+      // log dispatcher — 让用户能在 console 看 ApiError.type / code
+      const logErr = (e, label) => console.warn(
+        `[Slice1] ${label}:`,
+        `type=${e?.type || '?'}`,
+        `code=${e?.code ?? '(none)'}`,
+        `status=${e?.status ?? '?'}`,
+        e
+      );
+
+      dashRes.subscribe(({ data, loading, error }) => {
+        if (error) {
+          logErr(error, 'dashboard');
+          stats.forEach(({ id }) => setStat(id, 'error', '加载失败'));
+          return;
+        }
+        if (loading && !data) {
+          stats.forEach(({ id }) => setStat(id, 'loading', '—'));
+          return;
+        }
+        if (!data) return;
+        stats.forEach(({ id, render }) => setStat(id, '', render(data)));
+      });
+
+      weakRes.subscribe(({ data, loading, error }) => {
+        const ul = document.getElementById('weak-list');
+        if (!ul) return;
+        if (error) {
+          logErr(error, 'weakpoints');
+          ul.innerHTML = '<li style="padding:8px 12px;color:var(--color-error)">加载失败 — 浏览器 Console 看 [Slice1] 日志</li>';
+          return;
+        }
+        if (!data) { ul.innerHTML = '<li>加载中…</li>'; return; }
+        ul.innerHTML = data.map((w) => `
+          <li style="padding:10px 12px;border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:8px;">
+            <strong>${w.topic}</strong>
+            <span class="ait-badge ait-badge-info" style="margin-left:8px">${w.subject}</span>
+            <span class="ait-badge ait-badge-warning" style="margin-left:4px">错 ${w.wrong_count}</span>
+            <span class="ait-badge" style="margin-left:4px">正确率 ${(w.accuracy*100).toFixed(0)}%</span>
+          </li>
+        `).join('');
+      });
+    </script>
+
     <main class="min-h-screen bg-surface-secondary">
       <!-- ========== 移动端顶部栏（仅移动端显示） ========== -->
       <header class="lg:hidden sticky top-0 z-40 flex items-center justify-between h-14 px-4 bg-surface border-b border-border-light">
