@@ -645,7 +645,7 @@
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
             <div class="min-w-0">
               <h2 class="text-[clamp(22px,3vw,28px)] font-bold text-foreground leading-tight" style="text-wrap: balance; word-break: keep-all; overflow-wrap: break-word;">错题本</h2>
-              <p class="text-[14px] text-foreground-secondary mt-1.5">共 <span class="font-semibold text-foreground">86</span> 道错题，已掌握 <span class="font-semibold text-success-500">23</span> 道</p>
+              <p id="wb-header-summary" class="text-[14px] text-foreground-secondary mt-1.5">共 <span id="wb-summary-total" class="font-semibold text-foreground">—</span> 道错题，已掌握 <span id="wb-summary-mastered" class="font-semibold text-success-500">—</span> 道</p>
             </div>
             <div class="flex items-center gap-2.5 shrink-0">
               <button class="inline-flex items-center gap-2 h-10 px-4 rounded-[10px] border border-border bg-surface text-[14px] text-foreground-secondary hover:bg-surface-secondary hover:border-border transition-colors whitespace-nowrap">
@@ -668,8 +668,8 @@
                   <i data-lucide="book-x" class="w-4 h-4 text-primary-500"></i>
                 </div>
               </div>
-              <p class="text-[24px] sm:text-[28px] font-bold text-foreground leading-none whitespace-nowrap">86<span class="text-[14px] font-normal text-foreground-muted ml-1">道</span></p>
-              <p class="text-[12px] text-foreground-secondary mt-2 truncate">累计收录</p>
+              <p id="wb-stat-total" class="text-[24px] sm:text-[28px] font-bold text-foreground leading-none whitespace-nowrap">—<span class="text-[14px] font-normal text-foreground-muted ml-1">道</span></p>
+                            <p class="text-[12px] text-foreground-secondary mt-2 truncate">累计收录</p>
             </div>
             <div class="bg-surface rounded-[14px] p-4 sm:p-5 border border-border shadow-sm">
               <div class="flex items-center justify-between mb-2">
@@ -678,8 +678,8 @@
                   <i data-lucide="trending-up" class="w-4 h-4 text-warning-500"></i>
                 </div>
               </div>
-              <p class="text-[24px] sm:text-[28px] font-bold text-foreground leading-none whitespace-nowrap">12<span class="text-[14px] font-normal text-foreground-muted ml-1">道</span></p>
-              <p class="text-[12px] text-warning-500 mt-2 truncate">较上周 +3</p>
+              <p id="wb-stat-week" class="text-[24px] sm:text-[28px] font-bold text-foreground leading-none whitespace-nowrap">—<span class="text-[14px] font-normal text-foreground-muted ml-1">道</span></p>
+                            <p class="text-[12px] text-warning-500 mt-2 truncate">本周新增 (R1 占位)</p>
             </div>
             <div class="bg-surface rounded-[14px] p-4 sm:p-5 border border-border shadow-sm">
               <div class="flex items-center justify-between mb-2">
@@ -688,24 +688,24 @@
                   <i data-lucide="clock" class="w-4 h-4 text-info-500"></i>
                 </div>
               </div>
-              <p class="text-[24px] sm:text-[28px] font-bold text-foreground leading-none whitespace-nowrap">15<span class="text-[14px] font-normal text-foreground-muted ml-1">道</span></p>
-              <p class="text-[12px] text-info-500 mt-2 truncate">今日到期 5 道</p>
+              <p id="wb-stat-due" class="text-[24px] sm:text-[28px] font-bold text-foreground leading-none whitespace-nowrap">—<span class="text-[14px] font-normal text-foreground-muted ml-1">道</span></p>
+                            <p class="text-[12px] text-info-500 mt-2 truncate">待复习 (R1 占位)</p>
             </div>
           </div>
 
           <!-- Filter Bar -->
-          <div class="bg-surface rounded-[14px] border border-border shadow-sm mb-4 p-3 sm:p-4">
+          <div id="wb-filters" class="bg-surface rounded-[14px] border border-border shadow-sm mb-4 p-3 sm:p-4">
             <!-- Subject Filter -->
             <div class="flex items-center gap-2 mb-3 overflow-x-auto no-scrollbar pb-1">
               <span class="text-[12px] text-foreground-muted shrink-0 whitespace-nowrap mr-1">学科</span>
               <div class="flex gap-2 flex-nowrap">
-                <button class="shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] font-medium bg-primary-500 text-white whitespace-nowrap transition-colors">全部</button>
-                <button class="shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">数学</button>
-                <button class="shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">物理</button>
-                <button class="shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">化学</button>
-                <button class="shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">英语</button>
-                <button class="shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors hidden sm:inline-flex">语文</button>
-                <button class="shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors hidden sm:inline-flex">生物</button>
+                <button data-filter-subject="all" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] font-medium bg-primary-500 text-white whitespace-nowrap transition-colors">全部</button>
+                <button data-filter-subject="math" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">数学</button>
+                <button data-filter-subject="physics" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">物理</button>
+                <button data-filter-subject="chemistry" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">化学</button>
+                <button data-filter-subject="english" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">英语</button>
+                <button data-filter-subject="chinese" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors hidden sm:inline-flex">语文</button>
+                <button data-filter-subject="biology" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors hidden sm:inline-flex">生物</button>
               </div>
             </div>
 
@@ -714,10 +714,10 @@
               <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
                 <span class="text-[12px] text-foreground-muted shrink-0 whitespace-nowrap mr-1">难度</span>
                 <div class="flex gap-1.5 flex-nowrap">
-                  <button class="shrink-0 h-7 px-3 rounded-[6px] text-[12px] font-medium bg-surface-tertiary text-foreground whitespace-nowrap">全部</button>
-                  <button class="shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">简单</button>
-                  <button class="shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">中等</button>
-                  <button class="shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">困难</button>
+                  <button data-filter-difficulty="all" class="wb-filter-difficulty shrink-0 h-7 px-3 rounded-[6px] text-[12px] font-medium bg-surface-tertiary text-foreground whitespace-nowrap">全部</button>
+                  <button data-filter-difficulty="1" class="wb-filter-difficulty shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">简单</button>
+                  <button data-filter-difficulty="3" class="wb-filter-difficulty shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">中等</button>
+                  <button data-filter-difficulty="5" class="wb-filter-difficulty shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">困难</button>
                 </div>
               </div>
 
@@ -725,14 +725,14 @@
               <div class="flex items-center gap-2 overflow-x-auto no-scrollbar sm:ml-2">
                 <span class="text-[12px] text-foreground-muted shrink-0 whitespace-nowrap mr-1">状态</span>
                 <div class="flex gap-1.5 flex-nowrap">
-                  <button class="shrink-0 h-7 px-3 rounded-[6px] text-[12px] font-medium bg-surface-tertiary text-foreground whitespace-nowrap">全部</button>
-                  <button class="shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap inline-flex items-center gap-1">
+                  <button data-filter-mastery="all" class="wb-filter-mastery shrink-0 h-7 px-3 rounded-[6px] text-[12px] font-medium bg-surface-tertiary text-foreground whitespace-nowrap">全部</button>
+                  <button data-filter-mastery="unmastered" class="wb-filter-mastery shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap inline-flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-error-500"></span>未掌握
                   </button>
-                  <button class="shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap inline-flex items-center gap-1">
+                  <button data-filter-mastery="reviewing" class="wb-filter-mastery shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap inline-flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-warning-500"></span>复习中
                   </button>
-                  <button class="shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap inline-flex items-center gap-1">
+                  <button data-filter-mastery="mastered" class="wb-filter-mastery shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap inline-flex items-center gap-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-success-500"></span>已掌握
                   </button>
                 </div>
@@ -749,352 +749,18 @@
             </div>
           </div>
 
-          <!-- Wrong Question List -->
-          <div class="space-y-3 mb-5">
+          <!-- Wrong Question List (F3 Slice 3 data-driven) -->
+          <div id="wb-list" class="space-y-3 mb-5">
+            <!-- 8 cards will be rendered by F3 script module (see bottom of file) -->
 
-            <!-- Card 1: Math, Hard, 3 errors -->
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
-              <div class="flex">
-                <div class="w-1 shrink-0 bg-primary-500"></div>
-                <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-start gap-2 mb-2">
-                      <span class="shrink-0 inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-primary-50 text-primary-500 whitespace-nowrap">数学</span>
-                      <h3 class="text-[14px] sm:text-[15px] font-semibold text-foreground truncate leading-snug">已知二次函数y=ax²+bx+c经过A(1,0)、B(3,0)、C(0,-3)三点，求解析式及顶点坐标</h3>
-                    </div>
-                    <p class="text-[13px] text-foreground-secondary line-clamp-2 leading-relaxed mb-3">已知二次函数 y = ax² + bx + c 的图像经过点 A(1, 0)、B(3, 0) 和 C(0, -3)，求该二次函数的解析式，写出其顶点坐标和对称轴方程，并判断其开口方向与最值。</p>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-error-50 text-error-500 whitespace-nowrap">
-                        <i data-lucide="flame" class="w-3 h-3 mr-1"></i>困难
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-secondary whitespace-nowrap">
-                        <i data-lucide="x-circle" class="w-3.5 h-3.5 text-primary-500 mr-1"></i>
-                        错 <span class="text-primary-500 font-semibold mx-0.5">3</span> 次
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-muted whitespace-nowrap">
-                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i>2天前
-                      </span>
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] bg-info-100 text-info-500 whitespace-nowrap">二次函数</span>
-                    </div>
-                  </div>
-                  <div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 sm:pt-0.5">
-                    <span class="inline-flex items-center gap-1 text-[11px] text-error-500 whitespace-nowrap">
-                      <span class="w-2 h-2 rounded-full bg-error-500"></span>未掌握
-                    </span>
-                    <div class="flex items-center gap-2 mt-auto">
-                      <button class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
-                      </button>
-                      <button class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 2: Physics, Medium, 2 errors -->
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
-              <div class="flex">
-                <div class="w-1 shrink-0 bg-info-500"></div>
-                <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-start gap-2 mb-2">
-                      <span class="shrink-0 inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-info-100 text-info-500 whitespace-nowrap">物理</span>
-                      <h3 class="text-[14px] sm:text-[15px] font-semibold text-foreground truncate leading-snug">在光滑水平面上，质量为2kg的物体受到水平力F=10N作用，求3s末速度及位移</h3>
-                    </div>
-                    <p class="text-[13px] text-foreground-secondary line-clamp-2 leading-relaxed mb-3">在光滑水平面上，一质量 m = 2kg 的物体从静止开始受到水平恒力 F = 10N 的作用。求物体在 3s 末的速度大小和 3s 内的位移，并画出物体运动的 v-t 图像。</p>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-warning-50 text-warning-500 whitespace-nowrap">
-                        <i data-lucide="minus" class="w-3 h-3 mr-1"></i>中等
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-secondary whitespace-nowrap">
-                        <i data-lucide="x-circle" class="w-3.5 h-3.5 text-primary-500 mr-1"></i>
-                        错 <span class="text-primary-500 font-semibold mx-0.5">2</span> 次
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-muted whitespace-nowrap">
-                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i>1天前
-                      </span>
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] bg-info-100 text-info-500 whitespace-nowrap">牛顿运动定律</span>
-                    </div>
-                  </div>
-                  <div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 sm:pt-0.5">
-                    <span class="inline-flex items-center gap-1 text-[11px] text-warning-500 whitespace-nowrap">
-                      <span class="w-2 h-2 rounded-full bg-warning-500"></span>复习中
-                    </span>
-                    <div class="flex items-center gap-2 mt-auto">
-                      <button class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
-                      </button>
-                      <button class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 3: Chemistry, Easy, 1 error -->
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
-              <div class="flex">
-                <div class="w-1 shrink-0 bg-success-500"></div>
-                <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-start gap-2 mb-2">
-                      <span class="shrink-0 inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-success-50 text-success-500 whitespace-nowrap">化学</span>
-                      <h3 class="text-[14px] sm:text-[15px] font-semibold text-foreground truncate leading-snug">下列反应的离子方程式书写正确的是（选正确选项）</h3>
-                    </div>
-                    <p class="text-[13px] text-foreground-secondary line-clamp-2 leading-relaxed mb-3">下列反应的离子方程式书写正确的是：A. 铁与稀盐酸反应 2Fe + 6H⁺ = 2Fe³⁺ + 3H₂↑；B. 碳酸钙与稀硝酸反应 CO₃²⁻ + 2H⁺ = CO₂↑ + H₂O；C. 铜与浓硝酸反应 Cu + 4H⁺ + 2NO₃⁻ = Cu²⁺ + 2NO₂↑ + 2H₂O；D. 钠与水反应 Na + 2H₂O = Na⁺ + 2OH⁻ + H₂↑</p>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-success-50 text-success-500 whitespace-nowrap">
-                        <i data-lucide="check" class="w-3 h-3 mr-1"></i>简单
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-secondary whitespace-nowrap">
-                        <i data-lucide="x-circle" class="w-3.5 h-3.5 text-primary-500 mr-1"></i>
-                        错 <span class="text-primary-500 font-semibold mx-0.5">1</span> 次
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-muted whitespace-nowrap">
-                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i>3天前
-                      </span>
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] bg-info-100 text-info-500 whitespace-nowrap">离子反应</span>
-                    </div>
-                  </div>
-                  <div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 sm:pt-0.5">
-                    <span class="inline-flex items-center gap-1 text-[11px] text-success-500 whitespace-nowrap">
-                      <span class="w-2 h-2 rounded-full bg-success-500"></span>已掌握
-                    </span>
-                    <div class="flex items-center gap-2 mt-auto">
-                      <button class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
-                      </button>
-                      <button class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 4: English, Medium, 2 errors -->
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
-              <div class="flex">
-                <div class="w-1 shrink-0 bg-warning-500"></div>
-                <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-start gap-2 mb-2">
-                      <span class="shrink-0 inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-warning-50 text-warning-500 whitespace-nowrap">英语</span>
-                      <h3 class="text-[14px] sm:text-[15px] font-semibold text-foreground truncate leading-snug">The book _____ (write) by a famous author last year has sold well.（语法填空）</h3>
-                    </div>
-                    <p class="text-[13px] text-foreground-secondary line-clamp-2 leading-relaxed mb-3">用括号内单词的正确形式填空：The book _____ (write) by a famous author last year _____ (sell) over a million copies since it _____ (publish) 。请分析句子结构，判断各空应使用的时态和语态，并翻译全句。</p>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-warning-50 text-warning-500 whitespace-nowrap">
-                        <i data-lucide="minus" class="w-3 h-3 mr-1"></i>中等
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-secondary whitespace-nowrap">
-                        <i data-lucide="x-circle" class="w-3.5 h-3.5 text-primary-500 mr-1"></i>
-                        错 <span class="text-primary-500 font-semibold mx-0.5">2</span> 次
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-muted whitespace-nowrap">
-                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i>5天前
-                      </span>
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] bg-info-100 text-info-500 whitespace-nowrap">非谓语动词</span>
-                    </div>
-                  </div>
-                  <div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 sm:pt-0.5">
-                    <span class="inline-flex items-center gap-1 text-[11px] text-warning-500 whitespace-nowrap">
-                      <span class="w-2 h-2 rounded-full bg-warning-500"></span>复习中
-                    </span>
-                    <div class="flex items-center gap-2 mt-auto">
-                      <button class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
-                      </button>
-                      <button class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 5: Math, Medium, 4 errors -->
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
-              <div class="flex">
-                <div class="w-1 shrink-0 bg-primary-500"></div>
-                <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-start gap-2 mb-2">
-                      <span class="shrink-0 inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-primary-50 text-primary-500 whitespace-nowrap">数学</span>
-                      <h3 class="text-[14px] sm:text-[15px] font-semibold text-foreground truncate leading-snug">在△ABC中，a=√3，b=1，B=30°，求角A和边c的长度</h3>
-                    </div>
-                    <p class="text-[13px] text-foreground-secondary line-clamp-2 leading-relaxed mb-3">在△ABC 中，已知 a = √3，b = 1，∠B = 30°，求角 A 的大小和边 c 的长度。请判断解的个数，并求出三角形面积。（注意正弦定理多解情况）</p>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-warning-50 text-warning-500 whitespace-nowrap">
-                        <i data-lucide="minus" class="w-3 h-3 mr-1"></i>中等
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-secondary whitespace-nowrap">
-                        <i data-lucide="x-circle" class="w-3.5 h-3.5 text-primary-500 mr-1"></i>
-                        错 <span class="text-primary-500 font-semibold mx-0.5">4</span> 次
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-muted whitespace-nowrap">
-                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i>今天
-                      </span>
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] bg-info-100 text-info-500 whitespace-nowrap">解三角形</span>
-                    </div>
-                  </div>
-                  <div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 sm:pt-0.5">
-                    <span class="inline-flex items-center gap-1 text-[11px] text-error-500 whitespace-nowrap">
-                      <span class="w-2 h-2 rounded-full bg-error-500"></span>未掌握
-                    </span>
-                    <div class="flex items-center gap-2 mt-auto">
-                      <button class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
-                      </button>
-                      <button class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 6: Physics, Hard, 5 errors -->
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
-              <div class="flex">
-                <div class="w-1 shrink-0 bg-info-500"></div>
-                <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-start gap-2 mb-2">
-                      <span class="shrink-0 inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-info-100 text-info-500 whitespace-nowrap">物理</span>
-                      <h3 class="text-[14px] sm:text-[15px] font-semibold text-foreground truncate leading-snug">如图所示电路，R₁=6Ω，R₂=3Ω，R₃=4Ω，求AB间总电阻及各支路电流</h3>
-                    </div>
-                    <p class="text-[13px] text-foreground-secondary line-clamp-2 leading-relaxed mb-3">在图示电路中，电源电动势 E = 12V（内阻不计），R₁ = 6Ω，R₂ = 3Ω，R₃ = 4Ω，其中 R₂ 与 R₃ 并联后再与 R₁ 串联。求 AB 间的总电阻、通过 R₁ 的电流 I₁、通过 R₂ 的电流 I₂ 及通过 R₃ 的电流 I₃。</p>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-error-50 text-error-500 whitespace-nowrap">
-                        <i data-lucide="flame" class="w-3 h-3 mr-1"></i>困难
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-secondary whitespace-nowrap">
-                        <i data-lucide="x-circle" class="w-3.5 h-3.5 text-primary-500 mr-1"></i>
-                        错 <span class="text-primary-500 font-semibold mx-0.5">5</span> 次
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-muted whitespace-nowrap">
-                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i>4天前
-                      </span>
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] bg-info-100 text-info-500 whitespace-nowrap">恒定电流</span>
-                    </div>
-                  </div>
-                  <div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 sm:pt-0.5">
-                    <span class="inline-flex items-center gap-1 text-[11px] text-error-500 whitespace-nowrap">
-                      <span class="w-2 h-2 rounded-full bg-error-500"></span>未掌握
-                    </span>
-                    <div class="flex items-center gap-2 mt-auto">
-                      <button class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
-                      </button>
-                      <button class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 7: Chinese, Easy, 1 error -->
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
-              <div class="flex">
-                <div class="w-1 shrink-0 bg-error-500"></div>
-                <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-start gap-2 mb-2">
-                      <span class="shrink-0 inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-error-50 text-error-500 whitespace-nowrap">语文</span>
-                      <h3 class="text-[14px] sm:text-[15px] font-semibold text-foreground truncate leading-snug">阅读《荷塘月色》选段，分析文中"微风过处，送来缕缕清香"一句的修辞手法及表达效果</h3>
-                    </div>
-                    <p class="text-[13px] text-foreground-secondary line-clamp-2 leading-relaxed mb-3">"微风过处，送来缕缕清香，仿佛远处高楼上渺茫的歌声似的。"请指出该句使用的修辞手法，并结合上下文分析其表达效果，谈谈这种手法在景物描写中的作用。</p>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-success-50 text-success-500 whitespace-nowrap">
-                        <i data-lucide="check" class="w-3 h-3 mr-1"></i>简单
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-secondary whitespace-nowrap">
-                        <i data-lucide="x-circle" class="w-3.5 h-3.5 text-primary-500 mr-1"></i>
-                        错 <span class="text-primary-500 font-semibold mx-0.5">1</span> 次
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-muted whitespace-nowrap">
-                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i>1周前
-                      </span>
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] bg-info-100 text-info-500 whitespace-nowrap">修辞手法</span>
-                    </div>
-                  </div>
-                  <div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 sm:pt-0.5">
-                    <span class="inline-flex items-center gap-1 text-[11px] text-success-500 whitespace-nowrap">
-                      <span class="w-2 h-2 rounded-full bg-success-500"></span>已掌握
-                    </span>
-                    <div class="flex items-center gap-2 mt-auto">
-                      <button class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
-                      </button>
-                      <button class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 8: Biology, Medium, 2 errors -->
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
-              <div class="flex">
-                <div class="w-1 shrink-0 bg-info-600"></div>
-                <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-start gap-2 mb-2">
-                      <span class="shrink-0 inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-info-100 text-info-600 whitespace-nowrap">生物</span>
-                      <h3 class="text-[14px] sm:text-[15px] font-semibold text-foreground truncate leading-snug">关于DNA复制的叙述，正确的是（选择题）</h3>
-                    </div>
-                    <p class="text-[13px] text-foreground-secondary line-clamp-2 leading-relaxed mb-3">下列关于DNA复制的叙述，正确的是：A. 复制仅发生在细胞核中；B. 复制过程需要DNA聚合酶和解旋酶；C. 复制方式为全保留复制；D. 两条子链的延伸方向都是从3'端到5'端。请选出正确选项并说明理由。</p>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium bg-warning-50 text-warning-500 whitespace-nowrap">
-                        <i data-lucide="minus" class="w-3 h-3 mr-1"></i>中等
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-secondary whitespace-nowrap">
-                        <i data-lucide="x-circle" class="w-3.5 h-3.5 text-primary-500 mr-1"></i>
-                        错 <span class="text-primary-500 font-semibold mx-0.5">2</span> 次
-                      </span>
-                      <span class="inline-flex items-center text-[12px] text-foreground-muted whitespace-nowrap">
-                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i>6天前
-                      </span>
-                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] bg-info-100 text-info-500 whitespace-nowrap">DNA复制</span>
-                    </div>
-                  </div>
-                  <div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 sm:pt-0.5">
-                    <span class="inline-flex items-center gap-1 text-[11px] text-warning-500 whitespace-nowrap">
-                      <span class="w-2 h-2 rounded-full bg-warning-500"></span>复习中
-                    </span>
-                    <div class="flex items-center gap-2 mt-auto">
-                      <button class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
-                      </button>
-                      <button class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
           </div>
 
           <!-- Pagination -->
           <div class="flex items-center justify-between bg-surface rounded-[14px] border border-border px-4 py-3 shadow-sm">
-            <p class="text-[12px] sm:text-[13px] text-foreground-secondary whitespace-nowrap">共 <span class="font-medium text-foreground">86</span> 道，第 <span class="font-medium text-foreground">1</span>/18 页</p>
-            <div class="flex items-center gap-1">
-              <button class="inline-flex items-center gap-1 h-8 px-2.5 sm:px-3 rounded-[8px] text-[13px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+            <p id="wb-pagination-info" class="text-[12px] sm:text-[13px] text-foreground-secondary whitespace-nowrap">共 <span id="wb-pagination-total" class="font-medium text-foreground">86</span> 道，第 <span id="wb-pagination-page" class="font-medium text-foreground">1</span>/<span id="wb-pagination-pages">18</span> 页</p>
+            <div id="wb-pagination-buttons" class="flex items-center gap-1">
+              <button data-page-action="prev" class="inline-flex items-center gap-1 h-8 px-2.5 sm:px-3 rounded-[8px] text-[13px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled>
                 <i data-lucide="chevron-left" class="w-4 h-4"></i>
                 <span class="hidden sm:inline">上一页</span>
               </button>
@@ -1104,12 +770,200 @@
               <button class="w-8 h-8 rounded-[8px] text-[13px] text-foreground-secondary hover:bg-surface-tertiary transition-colors hidden sm:inline-flex">4</button>
               <button class="w-8 h-8 rounded-[8px] text-[13px] text-foreground-secondary hover:bg-surface-tertiary transition-colors hidden sm:inline-flex">5</button>
               <span class="w-8 h-8 flex items-center justify-center text-[13px] text-foreground-muted">…</span>
-              <button class="inline-flex items-center gap-1 h-8 px-2.5 sm:px-3 rounded-[8px] text-[13px] text-foreground-secondary hover:bg-surface-tertiary transition-colors">
+              <button data-page-action="next" class="inline-flex items-center gap-1 h-8 px-2.5 sm:px-3 rounded-[8px] text-[13px] text-foreground-secondary hover:bg-surface-tertiary transition-colors">
                 <span class="hidden sm:inline">下一页</span>
                 <i data-lucide="chevron-right" class="w-4 h-4"></i>
               </button>
             </div>
           </div>
+
+        </div>
+
+          <!-- ===== F3 Slice 3 — wrong-book 数据接入样板 (Hybrid Shell Adapter) ===== -->
+          <section id="ait-f3-status" class="ait-page" style="padding:0;padding-bottom:24px;">
+            <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <span class="ait-badge ait-badge-primary">F3 Slice 3</span>
+              <span style="color:var(--color-muted-foreground);font-size:13px">
+                wrong service 数据接入样板 (Hybrid Shell Adapter 首次验证 — 不动现有 UI, 只替数据源)
+              </span>
+            </div>
+          </section>
+
+          <script type="module">
+            import { wrong } from '../assets/js/api/services/index.js';
+            import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
+            import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
+            import { setUseMock } from '../assets/js/api/USE_MOCK.js';
+
+            mountErrorBoundary();
+            setUseMock(true);  // Slice 3 强制 mock, 后端 :3002 不一定起
+
+            // ===== subject / difficulty / mastery 映射 (跟 legacy frontend/wrong-book.html:65 一致) =====
+            const SUBJECT_NAMES = {
+              math: '数学', chinese: '语文', english: '英语',
+              physics: '物理', chemistry: '化学', politics: '政治',
+              biology: '生物', history: '历史', geography: '地理',
+            };
+            const SUBJECT_CHIP = {
+              math:      { bg: 'bg-primary-50',  text: 'text-primary-500' },
+              chinese:   { bg: 'bg-error-50',    text: 'text-error-500' },
+              english:   { bg: 'bg-warning-50',  text: 'text-warning-500' },
+              physics:   { bg: 'bg-info-100',    text: 'text-info-500' },
+              chemistry: { bg: 'bg-success-50',  text: 'text-success-500' },
+              politics:  { bg: 'bg-creative-100',text: 'text-creative-500' },
+              biology:   { bg: 'bg-info-100',    text: 'text-info-600' },
+            };
+            const SUBJECT_BAR = {
+              math: 'bg-primary-500', chinese: 'bg-error-500',
+              english: 'bg-warning-500', physics: 'bg-info-500',
+              chemistry: 'bg-success-500', politics: 'bg-creative-500',
+              biology: 'bg-info-600', history: 'bg-warning-500',
+              geography: 'bg-info-500',
+            };
+            const DIFFICULTY_META = {
+              1: { icon: 'check', bg: 'bg-success-50', text: 'text-success-500', label: '简单' },
+              2: { icon: 'minus', bg: 'bg-warning-50', text: 'text-warning-500', label: '中等' },
+              3: { icon: 'minus', bg: 'bg-warning-50', text: 'text-warning-500', label: '中等' },
+              4: { icon: 'flame', bg: 'bg-error-50',   text: 'text-error-500',   label: '困难' },
+              5: { icon: 'flame', bg: 'bg-error-50',   text: 'text-error-500',   label: '困难' },
+            };
+            const MASTERY_META = {
+              unmastered: { dot: 'bg-error-500',   text: 'text-error-500',   label: '未掌握' },
+              reviewing:  { dot: 'bg-warning-500', text: 'text-warning-500', label: '复习中' },
+              mastered:   { dot: 'bg-success-500', text: 'text-success-500', label: '已掌握' },
+            };
+
+            // ===== mastery derive — 保持在 page layer =====
+            function deriveMastery(row) {
+              if (!row.is_correct) return 'unmastered';
+              return row.difficulty >= 3 ? 'reviewing' : 'mastered';
+            }
+
+            // ===== HTML escape =====
+            const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+            // ===== Card template (替换 8 张 hardcoded card) =====
+            function cardTemplate(row) {
+              const subj = SUBJECT_NAMES[row.subject_code] || row.subject_code || '—';
+              const chip = SUBJECT_CHIP[row.subject_code] || { bg: 'bg-surface-tertiary', text: 'text-foreground-secondary' };
+              const bar = SUBJECT_BAR[row.subject_code] || 'bg-foreground-muted';
+              const dMeta = DIFFICULTY_META[row.difficulty] || DIFFICULTY_META[3];
+              const mKey = deriveMastery(row);
+              const mMeta = MASTERY_META[mKey];
+              const ts = row.timestamp ? new Date(row.timestamp).toLocaleDateString('zh-CN') : '';
+              const kpName = (row.data && row.data.knowledge_points && row.data.knowledge_points[0]) || '—';
+              const qid = row.question_id || '';
+
+              return `
+            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
+              <div class="flex">
+                <div class="w-1 shrink-0 ${bar}"></div>
+                <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-start gap-2 mb-2">
+                      <span class="shrink-0 inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium ${chip.bg} ${chip.text} whitespace-nowrap">${subj}</span>
+                      <h3 class="text-[14px] sm:text-[15px] font-semibold text-foreground truncate leading-snug">${esc((row.data && row.data.question || '').slice(0, 60))}</h3>
+                    </div>
+                    <p class="text-[13px] text-foreground-secondary line-clamp-2 leading-relaxed mb-3">${esc((row.data && row.data.question) || '')}</p>
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] font-medium ${dMeta.bg} ${dMeta.text} whitespace-nowrap">
+                        <i data-lucide="${dMeta.icon}" class="w-3 h-3 mr-1"></i>${dMeta.label}
+                      </span>
+                      <span class="inline-flex items-center text-[12px] text-foreground-secondary whitespace-nowrap">
+                        <i data-lucide="x-circle" class="w-3.5 h-3.5 text-primary-500 mr-1"></i>
+                        错 <span class="text-primary-500 font-semibold mx-0.5">1</span> 次
+                      </span>
+                      <span class="inline-flex items-center text-[12px] text-foreground-muted whitespace-nowrap">
+                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i>${ts}
+                      </span>
+                      <span class="inline-flex items-center h-5 px-2 rounded-[4px] text-[11px] bg-info-100 text-info-500 whitespace-nowrap">${esc(kpName)}</span>
+                    </div>
+                  </div>
+                  <div class="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 sm:pt-0.5">
+                    <span class="inline-flex items-center gap-1 text-[11px] ${mMeta.text} whitespace-nowrap">
+                      <span class="w-2 h-2 rounded-full ${mMeta.dot}"></span>${mMeta.label}
+                    </span>
+                    <div class="flex items-center gap-2 mt-auto">
+                      <a href="tutor.html?qid=${encodeURIComponent(qid)}" data-dom-id="wb-card-tutor" class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
+                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
+                      </a>
+                      <button data-dom-id="wb-card-delete" class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors" title="删除 (Slice 3.2 deferred)">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+            }
+
+            // ===== 渲染：列表 =====
+            function renderList(list) {
+              const listEl = document.getElementById('wb-list');
+              if (!listEl) return;
+              if (!list || list.length === 0) {
+                listEl.innerHTML = '<div class="bg-surface rounded-[14px] border border-border p-10 text-center text-[13px] text-foreground-secondary">暂无错题记录</div>';
+                return;
+              }
+              listEl.innerHTML = list.map(cardTemplate).join('');
+              // lucide icons in dynamic content
+              if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+            }
+
+            // ===== 渲染：stats (用 pre-existing ID 名) =====
+            // 总 = res.pagination.total; 本周/待复习 = mock 静态占位 (R1 暂填, 真实 derive 后续)
+            // header 总/已掌握 = res.pagination.total + 客户端 derive mastery='mastered' 计数
+            function renderStats(pagination, list) {
+              const total = pagination ? pagination.total : (list ? list.length : 0);
+              const totalEl = document.getElementById('wb-stat-total');
+              if (totalEl) totalEl.textContent = total;
+              // wb-stat-week / wb-stat-due 暂保留 mock 静态占位 (R1 范围外)
+
+              const masteredCount = (list || []).filter(r => deriveMastery(r) === 'mastered').length;
+              const summaryTotal = document.getElementById('wb-summary-total');
+              const summaryMastered = document.getElementById('wb-summary-mastered');
+              if (summaryTotal) summaryTotal.textContent = total;
+              if (summaryMastered) summaryMastered.textContent = masteredCount;
+            }
+
+            // ===== 渲染：分页信息 =====
+            function renderPagination(pagination) {
+              if (!pagination) return;
+              const total = pagination.total || 0;
+              const page = pagination.page || 1;
+              const totalPages = pagination.totalPages || 1;
+              const totalEl = document.getElementById('wb-pagination-total');
+              const pageEl = document.getElementById('wb-pagination-page');
+              const pagesEl = document.getElementById('wb-pagination-pages');
+              if (totalEl) totalEl.textContent = total;
+              if (pageEl) pageEl.textContent = page;
+              if (pagesEl) pagesEl.textContent = totalPages;
+              // Step 2 暂不接 prev/next handler (Step 3 处理)
+            }
+
+            // ===== 主数据流 =====
+            // Step 2 范围：只读默认 list (filter handler 在 Step 3 接)
+            const listRes = useAsyncResource(() => wrong.getQuestions({ page: 1, limit: 20 }));
+            listRes.subscribe(({ data, loading, error }) => {
+              if (error) {
+                console.error('[Slice3] list error:', error.type, error.code, error.message);
+                const listEl = document.getElementById('wb-list');
+                if (listEl) listEl.innerHTML = '<div class="bg-surface rounded-[14px] border border-border p-10 text-center text-[13px] text-error-500">加载失败 — 浏览器 Console 看 [Slice3] 日志</div>';
+                return;
+              }
+              if (loading && !data) {
+                const listEl = document.getElementById('wb-list');
+                if (listEl) listEl.innerHTML = '<div class="bg-surface rounded-[14px] border border-border p-10 text-center text-[13px] text-foreground-secondary">加载中…</div>';
+                return;
+              }
+              if (data) {
+                console.log('[Slice3] list loaded:', data.data.length, 'items, total:', data.pagination.total);
+                renderList(data.data);
+                renderStats(data.pagination, data.data);
+                renderPagination(data.pagination);
+              }
+            });
+          </script>
 
         </div>
       </div>
