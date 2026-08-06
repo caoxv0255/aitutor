@@ -664,6 +664,120 @@
       <div class="lg:ml-60 md:ml-[72px] min-h-screen">
         <div class="px-4 sm:px-6 lg:px-8 py-5 lg:py-8 max-w-[1600px] mx-auto">
 
+          <!-- F3 Slice 2 (Z1): 6 knowledge services 数据接入样板 — 不动 mastery 现有 UI -->
+          <section id="ait-f3-status" class="ait-page" style="padding:0;padding-bottom:24px;">
+            <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <span class="ait-badge ait-badge-primary">F3 Slice 2</span>
+              <span style="color:var(--color-muted-foreground);font-size:13px">
+                6 knowledge services 数据接入样板 (Dashboard Shell Adapter 复用 Slice 1), 独立于下方 mastery UI
+              </span>
+            </div>
+
+            <div class="stats" id="f3-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+              <div class="stat"><div class="num ait-stat-num empty" id="f3-mastery">—</div><div class="lbl">整体掌握度</div></div>
+              <div class="stat"><div class="num ait-stat-num empty" id="f3-kp-count">—</div><div class="lbl">知识点数</div></div>
+              <div class="stat"><div class="num ait-stat-num empty" id="f3-suggestion-count">—</div><div class="lbl">建议数</div></div>
+            </div>
+
+            <div class="ait-card" id="f3-suggestions-panel" style="margin-top:24px;">
+              <h3 class="ait-card-title">学习建议 (来自 knowledge_suggestions.json)</h3>
+              <p class="ait-card-desc">knowledge.getSuggestions() 服务调用, 验证 ErrorType 路径</p>
+              <ul id="f3-suggestion-list" style="margin:12px 0 0;padding:0;list-style:none;"></ul>
+            </div>
+          </section>
+
+          <script type="module">
+            import { knowledge } from '../assets/js/api/services/index.js';
+            import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
+            import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
+            import { ErrorType } from '../assets/js/api/client.js';
+            import { setUseMock } from '../assets/js/api/USE_MOCK.js';
+
+            mountErrorBoundary();
+            setUseMock(true);  // Slice 2 强制 mock, 后端 :3002 没起
+
+            // 6 knowledge services (Dashboard Shell Adapter 验证)
+            const masteryRes = useAsyncResource(() => knowledge.getMastery({ subject: '数学' }));
+            const mapRes = useAsyncResource(() => knowledge.getKnowledgeMap({ subject: '数学' }));
+            const pointsRes = useAsyncResource(() => knowledge.getKnowledgePoints({ subject: '数学' }));
+            const profileRes = useAsyncResource(() => knowledge.getProfile());
+            const suggestionsRes = useAsyncResource(() => knowledge.getSuggestions());
+            const kpDetailRes = useAsyncResource(() => knowledge.getKpDetail('kp_001'));
+
+            const setText = (id, text) => {
+              const el = document.getElementById(id);
+              if (el) el.textContent = text;
+            };
+
+            const logErr = (e, label) => console.warn(
+              `[Slice2] ${label}:`,
+              `type=${e?.type || '?'}`,
+              `code=${e?.code ?? '(none)'}`,
+              `status=${e?.status ?? '?'}`,
+              e
+            );
+
+            // 1. mastery — 整体掌握度
+            masteryRes.subscribe(({ data, loading, error }) => {
+              if (error) { logErr(error, 'mastery'); setText('f3-mastery', '加载失败'); return; }
+              if (loading && !data) return;
+              if (data) {
+                const overall = data.data?.overall;
+                setText('f3-mastery', overall !== undefined ? (overall * 100).toFixed(1) + '%' : '—');
+              }
+            });
+
+            // 2. knowledgeMap — console.log only, 不动图谱渲染
+            mapRes.subscribe(({ data, error }) => {
+              if (error) { logErr(error, 'map'); return; }
+              if (data) console.log('[Slice2] map nodes:', data.data?.nodes?.length ?? 0);
+            });
+
+            // 3. knowledgePoints — 知识点数
+            pointsRes.subscribe(({ data, error }) => {
+              if (error) { logErr(error, 'points'); setText('f3-kp-count', '加载失败'); return; }
+              if (data) {
+                const list = data.data || [];
+                setText('f3-kp-count', String(list.length));
+              }
+            });
+
+            // 4. profile — console.log
+            profileRes.subscribe(({ data, error }) => {
+              if (error) { logErr(error, 'profile'); return; }
+              if (data) console.log('[Slice2] profile loaded:', Object.keys(data.data || {}).slice(0, 5));
+            });
+
+            // 5. suggestions — 渲染列表
+            suggestionsRes.subscribe(({ data, loading, error }) => {
+              const ul = document.getElementById('f3-suggestion-list');
+              if (!ul) return;
+              if (error) {
+                logErr(error, 'suggestions');
+                ul.innerHTML = '<li style="padding:8px 12px;color:var(--color-error)">加载失败 — 浏览器 Console 看 [Slice2] 日志</li>';
+                return;
+              }
+              if (loading && !data) { ul.innerHTML = '<li>加载中…</li>'; return; }
+              if (data) {
+                const list = data.data || [];
+                setText('f3-suggestion-count', String(list.length));
+                ul.innerHTML = list.map((s) => `
+                  <li style="padding:10px 12px;border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:8px;">
+                    <strong>${s.topic || s.name || s.title || '—'}</strong>
+                    ${s.priority ? `<span class="ait-badge ait-badge-warning" style="margin-left:8px">${s.priority}</span>` : ''}
+                    ${s.subject ? `<span class="ait-badge ait-badge-info" style="margin-left:4px">${s.subject}</span>` : ''}
+                  </li>
+                `).join('');
+              }
+            });
+
+            // 6. kpDetail — console.log
+            kpDetailRes.subscribe(({ data, error }) => {
+              if (error) { logErr(error, 'kpDetail'); return; }
+              if (data) console.log('[Slice2] kpDetail loaded:', Object.keys(data.data || {}).slice(0, 5));
+            });
+          </script>
+
           <!-- ===== 顶部标题栏 ===== -->
           <div class="mb-6">
             <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
