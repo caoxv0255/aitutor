@@ -1,0 +1,44 @@
+{
+  "success": true,
+  "message": "教学推理完成",
+  "data": {
+    "response": "好的，我们来求解这道二次函数题。\\n\\n**第一步**：设解析式为 $y = ax^2 + bx + c$。\\n\\n**第二步**：代入三点坐标建立方程组。\\n\\n- 代入 $A(1, 0)$：$a + b + c = 0$\\n- 代入 $B(3, 0)$：$9a + 3b + c = 0$\\n- 代入 $C(0, -3)$：$c = -3$\\n\\n**第三步**：解方程组。由前两式相减得 $8a + 2b = 0$，即 $b = -4a$；代入 $a + b - 3 = 0$ 得 $a - 4a = 3$，解得 $a = 1$，$b = -4$。\\n\\n**第四步**：写出最终结果。解析式为 $y = x^2 - 4x - 3$，顶点坐标 $(2, -7)$，对称轴 $x = 2$，开口向上，最小值 $-7$。",
+    "diagnosis": {
+      "summary": "对二次函数解析式求解的代数运算掌握扎实，建议继续练习含参讨论题型。",
+      "weak_points": [],
+      "strong_points": ["代入法建立方程组", "顶点式与一般式的转换"],
+      "skip_allowed": true
+    },
+    "learning_path": [
+      {
+        "step": 1,
+        "action": "解答",
+        "target": "二次函数解析式求解",
+        "reason": "学生前置知识点全部达标 (mastery ≥ 0.6)，可提供完整解答"
+      }
+    ],
+    "metadata": {
+      "teaching_depth": "full_solution",
+      "weak_kp_ids": [],
+      "prerequisites_covered": ["kp_quadratic_basic"]
+    },
+    "context": {
+      "similar_questions_count": 3,
+      "prerequisites_count": 2,
+      "weak_prerequisites_count": 0,
+      "current_mastery": {
+        "knowledge_point_id": "kp_quadratic_basic",
+        "mastery_score": 78,
+        "attempt_count": 12,
+        "correct_count": 9,
+        "last_practice_at": "2026-08-04T10:23:00Z"
+      }
+    },
+    "usage": {
+      "prompt_tokens": 1850,
+      "completion_tokens": 420,
+      "total_tokens": 2270
+    },
+    "duration_ms": 3450
+  }
+}

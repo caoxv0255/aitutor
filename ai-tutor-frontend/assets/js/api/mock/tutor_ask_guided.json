@@ -1,0 +1,61 @@
+{
+  "success": true,
+  "message": "教学推理完成",
+  "data": {
+    "response": "**学情诊断**：你当前对这道三角函数题的前置知识 (向量内积与投影) 掌握度不足 (mastery_score = 0.42)。如果直接给你完整解法，你会跳过薄弱环节，无法建立稳固的认知基础。\\n\\n**建议学习路径**：\\n\\n1. **第一步 (必须)**：先复习前置知识点 — 向量内积的几何意义 (kp_vector_dot_product)。预计耗时 8-12 分钟。\\n\\n2. **第二步 (关键)**：复习完毕后再次提问同一道题，我会在你掌握度提升后提供完整的解答思路。\\n\\n3. **第三步 (可选)**：如果你已复习过相关内容但仍有疑问，可以明确告诉我“我已复习过向量内积”，我会切换到 guided_review 模式提供关键提示。",
+    "diagnosis": {
+      "summary": "前置知识 (向量内积与投影) 掌握度偏低 (0.42)，建议先复习再解答，避免跳步。",
+      "weak_points": [
+        "向量内积的几何意义",
+        "向量投影的计算公式"
+      ],
+      "strong_points": [
+        "基本三角函数恒等式"
+      ],
+      "skip_allowed": false
+    },
+    "learning_path": [
+      {
+        "step": 1,
+        "action": "复习",
+        "target": "向量内积与投影 (kp_vector_dot_product)",
+        "reason": "掌握度 0.42 < 0.6 阈值，必须先复习前置才能解答当前题"
+      },
+      {
+        "step": 2,
+        "action": "再提问",
+        "target": "原三角函数题",
+        "reason": "复习完成后重新评估 mastery，达到阈值后切换 full_solution"
+      },
+      {
+        "step": 3,
+        "action": "练习",
+        "target": "向量投影相关 5 题",
+        "reason": "巩固薄弱知识点，避免下次同类题再次触发 guided_review"
+      }
+    ],
+    "metadata": {
+      "teaching_depth": "guided_review",
+      "weak_kp_ids": ["kp_vector_dot_product"],
+      "prerequisites_covered": ["kp_trig_basic"]
+    },
+    "context": {
+      "similar_questions_count": 3,
+      "prerequisites_count": 3,
+      "weak_prerequisites_count": 1,
+      "current_mastery": {
+        "knowledge_point_id": "kp_vector_dot_product",
+        "mastery_score": 42,
+        "attempt_count": 8,
+        "correct_count": 3,
+        "last_practice_at": "2026-07-28T16:45:00Z"
+      }
+    },
+    "usage": {
+      "prompt_tokens": 2120,
+      "completion_tokens": 580,
+      "total_tokens": 2700
+    },
+    "duration_ms": 4280
+  }
+}
