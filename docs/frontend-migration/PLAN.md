@@ -164,11 +164,19 @@ DoD 必填 9 项:
 
 ### 3.7 F3.5 WrongBook (Day 10)
 
-- [ ] **F3.5.1**: `wrong-book.html` 调 `exam.questions` (错题列表)
-- [ ] **F3.5.2**: "相似题推荐" 调 `rag.similarQuestions`
-- [ ] **F3.5.3**: 点击错题 → 跳 tutor (闭环)
-- [ ] **F3.5.4**: 错题分类 (按学科/知识点)
-- [ ] **F3.5.5**: 标记掌握 (调 `knowledge`)
+**R1 read-only MVP 完成** (2026-08-07, 3 commits: `34e9acda` / `d3435602` / `03839814`, 0 fix). Retro: `docs/frontend-migration/F3_SLICE_3_RETROSPECTIVE.md`.
+
+- [x] **F3.5.1**: `wrong-book.html` 调 `wrong.getQuestions` (NEW service, 替代原计划 `exam.questions` — 域分离: user 错题 ≠ 题库)
+- [ ] **F3.5.2**: "相似题推荐" 调 `rag.similarQuestions` — R1 不接, deferred (与 wrong-book 错题展示是不同 UX, 后续单独评估)
+- [x] **F3.5.3**: 点击错题 → 跳 tutor (`tutor.html?qid=<question_id>` 闭环验证, qid 来自 backend `wrong_questions.question_id`)
+- [x] **F3.5.4**: 错题分类 (按学科 → backend filter; 按知识点 mastery → client derive 三态 unmastered/reviewing/mastered)
+- [ ] **F3.5.5**: 标记掌握 — deferred 到 Slice 3.2 (mutation workflow: optimistic update + rollback + confirmation modal, R1 read-only)
+
+**Service**: `assets/js/api/services/wrong.js` (NEW, 18 行). **Mock**: `assets/js/api/mock/wrong_questions.json` (NEW, 8 条 + envelope `{success, data, pagination}`). **Page**: `wrong-book.html` (净瘦 27 行, 8 hardcoded card → dynamic render).
+
+**Hybrid Shell Adapter 首次验证**: sidebar `fixed md:sticky` 在 `<main class="flex">` 内层, content `flex-1` 让位, 无 `lg:ml-60 md:ml-[72px]` page offset (跟 Dashboard Shell 区别). 0 fix commit.
+
+**5 个可复用模式 (供后续 slice 引用)**: Filter State Contract, Event Delegation, Mastery Derive (page layer), Active Button Toggle, Matched/Total Display. 详见 retro §2.
 
 ### 3.8 F3.6 Review + Mastery (Day 11)
 

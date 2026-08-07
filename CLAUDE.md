@@ -248,7 +248,7 @@ onto the modern service + hook + boundary stack. Validated by Slice 1
 |---|---|---|
 | **Dashboard Shell** | dashboard, mastery | `fixed w-60` + `lg:ml-60 md:ml-[72px]` offset |
 | **Workspace Shell** | tutor (pending) | aside inside flex `<main>` |
-| **Hybrid Shell** | wrong-book (pending) | `fixed md:sticky` mixed |
+| **Hybrid Shell** | wrong-book | `fixed md:sticky` mixed, `flex-1` 让位 |
 | **Immersive Shell** | vision, review (pending) | no sidebar, single column |
 
 ### Global Data Contracts (apply to all shells)
@@ -272,6 +272,7 @@ Do **not**:
 
 - `docs/frontend-migration/F3_SLICE_1_RETROSPECTIVE.md` (v1.1, Page Shell Adapter)
 - `docs/frontend-migration/F3_SLICE_2_RETROSPECTIVE.md` (mastery, 零 fix)
+- `docs/frontend-migration/F3_SLICE_3_RETROSPECTIVE.md` (wrong-book, Hybrid Shell Adapter 0 fix + 5 可复用模式)
 
 <!-- OPENWIKI:START -->
 

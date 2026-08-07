@@ -12,6 +12,7 @@
 
 ### ✅ Done
 - [x] **Frontend F2** 全部完成 (F2.1-F2.7: client retry/timeout + Contract 39/39 + Playwright 2/2 + USE_MOCK toggle + 6 个 quick-pick synonym 入口)
+- [x] **F3 Slice 3 wrong-book (Hybrid Shell Adapter)** — R1 read-only MVP 完成 (3 commits: wrong service + mock + page migration + retro, 0 fix, mastery derive 在 page layer, mock 不模拟 backend filter). 固化 5 个可复用架构模式 (filter state / event delegation / active button toggle / matched-total / cardTemplate)
 - [x] **P3 RAG ingest v2** (28,580 → 47,538 题入库, +66% via sub_q prefix + shared_materials + 短 stem)
 - [x] **W2 bge-m3 中文 embedding** (nomic 768 → bge 1024, BAAI 多语言, 中文学术精度提升)
 - [x] **W4 HNSW 索引** (ivfflat → hnsw m=16 ef=64, recall ~98%)
@@ -90,7 +91,7 @@
 - [ ] F3.2: Dashboard (dashboard.html)
 - [ ] F3.3: Question (in dashboard)
 - [ ] F3.4: Tutor (tutor.html)
-- [ ] F3.5: WrongBook (wrong-book.html)
+- [x] **F3.5: WrongBook (wrong-book.html, R1 read-only MVP done)** — list/filter/pagination/tutor jump; delete+markMastered deferred to Slice 3.2; retro in `docs/frontend-migration/F3_SLICE_3_RETROSPECTIVE.md`
 - [ ] F3.6: Review + Mastery (review.html + mastery.html)
 - [ ] F3.7: Exam Simulation (exam-simulation.html)
 
