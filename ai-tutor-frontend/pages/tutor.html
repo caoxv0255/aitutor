@@ -1178,6 +1178,10 @@
         };
         conversationState.messages.push(assistantMsg);
         const assistantMsgIndex = conversationState.messages.length - 1;
+        // 4.4 commit 2: 新对话分配 tmp sessionId (流完成时如果没 currentSessionId 就用这个)
+        if (!conversationState.currentSessionId) {
+          assistantMsg._tmpSid = `tmp_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+        }
         // 4. Call askStream
         try {
           await tutor.askStream({
@@ -1203,6 +1207,19 @@
                 }
                 renderMessages(conversationState.messages);
                 console.log('[Slice4.3] stream done:', ev.data);
+                // Slice 4.4 commit 2: 流完成 → 持久化到 localStorage (D56+D57)
+                // 若有 currentSessionId (历史 session 续聊) 或 临时 sessionId
+                if (assistantMsg.content) {
+                  saveSession(
+                    conversationState.currentSessionId || `tmp_${Date.now()}`,
+                    conversationState.subject,
+                    conversationState.messages
+                  );
+                  // 如果是临时 session, 设为 currentSessionId 并更新 URL
+                  if (!conversationState.currentSessionId) {
+                    conversationState.currentSessionId = assistantMsg._tmpSid;
+                  }
+                }
               } else if (ev.event === 'error') {
                 assistantMsg.content = ev.data.message || '流式错误';
                 assistantMsg.error = { type: 'STREAM', code: null, message: ev.data.message };
@@ -1230,6 +1247,49 @@
           renderMessages(conversationState.messages);
           renderLoading();
         }
+      }
+
+      // ===== Slice 4.4 commit 2: '新建对话' button → new session =====
+      const newConvBtn = document.querySelector('aside button:has(i[data-lucide="plus"])');
+      if (newConvBtn) {
+        newConvBtn.addEventListener('click', () => {
+          conversationState.currentSessionId = null;
+          conversationState.messages = [];
+          conversationState.error = null;
+          setSidInUrl(null);
+          renderHistory(conversationState.sessions);
+          renderMessages(conversationState.messages);
+          // 滚到底 (空 chat 区, 实际滚到顶部)
+          const messagesEl = document.getElementById('messages');
+          if (messagesEl) messagesEl.scrollTop = 0;
+          console.log('[Slice4.4] new conversation');
+        });
+      }
+
+      // ===== Slice 4.4 commit 2: history item click → load session + URL sync =====
+      const historyListEl = document.getElementById('chat-history-list');
+      if (historyListEl) {
+        historyListEl.addEventListener('click', (e) => {
+          const li = e.target.closest('li[data-session-id]');
+          if (!li) return;
+          const sid = li.dataset.sessionId;
+          if (!sid || sid === conversationState.currentSessionId) return;
+          // 加载 session: 从 LS 读 messages, 切换 currentSessionId, 更新 URL
+          conversationState.currentSessionId = sid;
+          conversationState.messages = loadSessionMessages(sid);
+          // 切 subject (如果 LS 存了)
+          const store = loadSessionStore();
+          if (store[sid] && store[sid].subject) {
+            conversationState.subject = store[sid].subject;
+            syncSubjectDropdown();
+            renderSubjectTags();
+          }
+          setSidInUrl(sid);
+          renderHistory(conversationState.sessions);
+          renderMessages(conversationState.messages);
+          scrollToBottom();
+          console.log('[Slice4.4] switched to session:', sid);
+        });
       }
 
       // ===== D55: 切页面/refresh 自动 abort =====
