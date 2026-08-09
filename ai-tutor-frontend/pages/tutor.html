@@ -814,15 +814,70 @@
       // ===== SUBJECTS 9 学科 (D35a hardcode, 跟 wrong-book SUBJECT_MAP 一致) =====
       const SUBJECTS = ['数学', '语文', '英语', '物理', '化学', '政治', '生物', '历史', '地理'];
 
-      // ===== conversationState (D33, long-lived, 6 字段固定顺序) =====
+      // ===== conversationState (D33, long-lived, 6 字段固定顺序, 4.3 加 streamController 第 7 字段) =====
       const conversationState = {
-        subject: '数学',          // 当前学科 (Phase 2 双向绑定)
-        currentSessionId: null,   // 当前激活 session (Phase 4.4 才用)
-        sessions: [],             // chat history list (Phase 2 从 mock 加载)
-        messages: [],             // 当前 session 消息 (Phase 3 才渲染, Phase 2 保留 hardcoded)
-        loading: false,           // tutor.ask 等待状态 (Phase 3)
-        error: null,              // 错误信息 (Phase 3)
+        subject: '数学',
+        currentSessionId: null,
+        sessions: [],
+        messages: [],
+        loading: false,
+        error: null,
+        streamController: null,  // 4.3 加: AbortController for SSE
       };
+
+      // ===== Slice 4.4 commit 1: localStorage session store (D56) =====
+      // Schema: { [sid]: { id, title, subject, messages, lastMessageAt } }
+      const LS_KEY = 'aitutor.tutor.sessions';
+
+      function loadSessionStore() {
+        try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); }
+        catch (_) { return {}; }
+      }
+
+      function saveSessionStore(store) {
+        try { localStorage.setItem(LS_KEY, JSON.stringify(store)); }
+        catch (_) { /* quota exceeded 等忽略 */ }
+      }
+
+      function loadSessionMessages(sid) {
+        const store = loadSessionStore();
+        return (store[sid] && store[sid].messages) || [];
+      }
+
+      function saveSession(sid, subject, messages) {
+        if (!sid) return;
+        const store = loadSessionStore();
+        // 第一次存: title 从 first user message 截取
+        let title = store[sid]?.title;
+        if (!title && messages.length > 0) {
+          const firstUser = messages.find(m => m.role === 'user');
+          title = firstUser ? firstUser.content.slice(0, 30) : '新对话';
+        }
+        store[sid] = {
+          ...(store[sid] || {}),
+          id: sid,
+          subject,
+          title,
+          messages,
+          lastMessageAt: new Date().toISOString(),
+        };
+        saveSessionStore(store);
+      }
+
+      // ===== Slice 4.4 commit 1: ?sid=X URL 解析 (D58) =====
+      function parseSidFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('sid');
+      }
+
+      function setSidInUrl(sid, replace = true) {
+        const url = new URL(window.location.href);
+        if (sid) url.searchParams.set('sid', sid);
+        else url.searchParams.delete('sid');
+        // replace 不污染 history (避免每条消息多一条 history entry)
+        if (replace) window.history.replaceState({}, '', url);
+        else window.history.pushState({}, '', url);
+      }
 
       // ===== Escape helper =====
       const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -835,11 +890,12 @@
           listEl.innerHTML = '<li class="px-3 py-2.5 text-sm text-foreground-secondary">暂无历史对话</li>';
           return;
         }
-        listEl.innerHTML = sessions.map((s, idx) => {
-          const isActive = idx === 0;  // Phase 2: 第一项 active
+        listEl.innerHTML = sessions.map((s) => {
+          // 4.4: active by id, not by idx
+          const isActive = s.id === conversationState.currentSessionId;
           const activeClass = isActive ? 'history-item-active' : 'text-foreground-secondary hover:bg-surface';
           const iconColor = isActive ? '' : 'text-foreground-muted';
-          return `<li data-session-id="${esc(s.id)}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm cursor-pointer transition-colors ${activeClass}"><i data-lucide="message-square" class="w-4 h-4 shrink-0 ${iconColor}"></i><span class="truncate">${esc(s.title)}</span></li>`;
+          return `<li data-session-id="${esc(s.id)}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm cursor-pointer transition-colors ${activeClass}" data-domain-id="tutor-history-item"><i data-lucide="message-square" class="w-4 h-4 shrink-0 ${iconColor}"></i><span class="truncate">${esc(s.title)}</span></li>`;
         }).join('');
         if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
       }
@@ -1259,6 +1315,16 @@
           renderMessages(conversationState.messages);
         });
       }
+
+      // ===== Slice 4.4 commit 1: init - parse ?sid=X, load session, set currentSessionId =====
+      const initSid = parseSidFromUrl();
+      if (initSid) {
+        // URL 指定 session: load messages from localStorage
+        conversationState.currentSessionId = initSid;
+        conversationState.messages = loadSessionMessages(initSid);
+      }
+      // 没 URL 参数: 默认第一项 (Phase 2 retro 兼容)
+      // (sess_001 暂用空 messages, 因为 mock 只有 title 列表)
 
       // ===== Initial: 5 hardcoded blocks 已删, renderMessages([]) 处理空数组 =====
       renderMessages(conversationState.messages);
