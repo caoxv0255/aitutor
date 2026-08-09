@@ -975,12 +975,65 @@
               if (btnText) btnText.classList.add('hidden');
               if (btnLoading) { btnLoading.classList.remove('hidden'); btnLoading.classList.add('inline-flex'); }
 
-              setTimeout(function() {
-                window.location.href = './dashboard.html';
-              }, 900);
+              window.__f3Login(panel, btn, btnText, btnLoading);
             });
           });
         })();
+      </script>
+      <script type="module">
+        // ===== F3 Slice F3.1 — login page auth wiring =====
+        import { auth } from '../assets/js/api/services/index.js';
+        import { setUseMock } from '../assets/js/api/USE_MOCK.js';
+        setUseMock(true);  // dev mode, backend /api/auth/* 不一定起
+
+        // Real auth login (called from IIFE after validation passes)
+        window.__f3Login = async function(panel, btn, btnText, btnLoading) {
+          if (panel === 'phone') {
+            const phoneInp = document.getElementById('phone-input');
+            const codeInp = document.getElementById('code-input');
+            // IIFE 已做 client validation, 这里做 server call
+            try {
+              const res = await auth.login({
+                email: phoneInp.value.trim() + '@phone.aitutor',
+                password: codeInp.value.trim(),
+              });
+              window.location.href = './dashboard.html';
+            } catch (err) {
+              // 失败: 恢复按钮 + 显示错误
+              btn.disabled = false;
+              btn.classList.remove('opacity-80', 'cursor-wait');
+              if (btnText) btnText.classList.remove('hidden');
+              if (btnLoading) { btnLoading.classList.add('hidden'); btnLoading.classList.remove('inline-flex'); }
+              const codeErr = document.getElementById('code-error');
+              if (codeErr) {
+                codeErr.textContent = err.message || '登录失败';
+                codeErr.classList.remove('hidden');
+              }
+              console.error('[F3.1] login error:', err.type, err.code, err.message);
+            }
+          } else if (panel === 'password') {
+            const accInp = document.getElementById('account-input');
+            const pwdInp = document.getElementById('password-input');
+            try {
+              const res = await auth.login({
+                email: accInp.value.trim(),
+                password: pwdInp.value,
+              });
+              window.location.href = './dashboard.html';
+            } catch (err) {
+              btn.disabled = false;
+              btn.classList.remove('opacity-80', 'cursor-wait');
+              if (btnText) btnText.classList.remove('hidden');
+              if (btnLoading) { btnLoading.classList.add('hidden'); btnLoading.classList.remove('inline-flex'); }
+              const pwdErr = document.getElementById('password-error');
+              if (pwdErr) {
+                pwdErr.textContent = err.message || '登录失败';
+                pwdErr.classList.remove('hidden');
+              }
+              console.error('[F3.1] login error:', err.type, err.code, err.message);
+            }
+          }
+        };
       </script>
     </main>
     <script>lucide.createIcons();</script>

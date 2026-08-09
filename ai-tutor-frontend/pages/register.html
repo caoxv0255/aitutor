@@ -841,14 +841,43 @@
             btnLoading.classList.remove('hidden');
             regBtn.disabled = true;
 
-            setTimeout(function() {
-              btnText.classList.remove('hidden');
-              btnLoading.classList.add('hidden');
-              regBtn.disabled = false;
-              window.location.href = './dashboard.html';
-            }, 1500);
+            window.__f3Register(regBtn, btnText, btnLoading);
           });
         })();
+      </script>
+      <script type="module">
+        // ===== F3 Slice F3.1 — register page auth wiring =====
+        import { auth } from '../assets/js/api/services/index.js';
+        import { setUseMock } from '../assets/js/api/USE_MOCK.js';
+        setUseMock(true);  // dev mode, backend /api/auth/* 不一定起
+
+        // Real auth register (called from IIFE after validation passes)
+        window.__f3Register = async function(regBtn, btnText, btnLoading) {
+          const phoneInp = document.getElementById('reg-phone-input');
+          const codeInp = document.getElementById('reg-code-input');
+          const pwdInp = document.getElementById('reg-password-input');
+          try {
+            const res = await auth.register({
+              email: phoneInp.value.trim() + '@phone.aitutor',
+              password: pwdInp.value,
+              name: '新用户_' + phoneInp.value.trim().slice(-4),
+              grade: '高三',
+            });
+            // 成功: 自动登录 → 跳 dashboard
+            window.location.href = './dashboard.html';
+          } catch (err) {
+            // 失败: 恢复按钮 + 显示错误
+            regBtn.disabled = false;
+            btnText.classList.remove('hidden');
+            btnLoading.classList.add('hidden');
+            const codeErr = document.getElementById('reg-code-error');
+            if (codeErr) {
+              codeErr.textContent = err.message || '注册失败';
+              codeErr.classList.remove('hidden');
+            }
+            console.error('[F3.1] register error:', err.type, err.code, err.message);
+          }
+        };
       </script>
       <script src="https://unpkg.com/lucide@latest"></script>
       <script>lucide.createIcons();</script>
