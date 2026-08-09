@@ -1,0 +1,77 @@
+{
+  "events": [
+    {
+      "event": "metadata",
+      "data": {
+        "diagnosis": {
+          "summary": "你的二次函数基础扎实，可提供完整解答",
+          "weak_points": [],
+          "strong_points": ["代入法建立方程组", "顶点式与一般式转换"],
+          "skip_allowed": true
+        },
+        "context": {
+          "similar_questions_count": 3,
+          "prerequisites_count": 2,
+          "weak_prerequisites_count": 0,
+          "current_mastery": {
+            "knowledge_point_id": "kp_quadratic_basic",
+            "mastery_score": 78,
+            "attempt_count": 12,
+            "correct_count": 9,
+            "last_practice_at": "2026-08-04T10:23:00Z"
+          }
+        },
+        "current_topic": "二次函数解析式求解"
+      },
+      "delay_ms": 50
+    },
+    {
+      "event": "content",
+      "data": { "delta": "好的，我们来" },
+      "delay_ms": 100
+    },
+    {
+      "event": "content",
+      "data": { "delta": "求解这道二次函数题。\n\n" },
+      "delay_ms": 120
+    },
+    {
+      "event": "content",
+      "data": { "delta": "**第一步**：设解析式为 $y = ax^2 + bx + c$。\n\n" },
+      "delay_ms": 150
+    },
+    {
+      "event": "content",
+      "data": { "delta": "**第二步**：代入三点坐标建立方程组。\n\n" },
+      "delay_ms": 130
+    },
+    {
+      "event": "content",
+      "data": { "delta": "- 代入 $A(1, 0)$：$a + b + c = 0$\n" },
+      "delay_ms": 100
+    },
+    {
+      "event": "content",
+      "data": { "delta": "- 代入 $B(3, 0)$：$9a + 3b + c = 0$\n" },
+      "delay_ms": 110
+    },
+    {
+      "event": "content",
+      "data": { "delta": "- 代入 $C(0, -3)$：$c = -3$\n\n" },
+      "delay_ms": 100
+    },
+    {
+      "event": "content",
+      "data": { "delta": "**第三步**：解方程组得 $y = x^2 - 4x - 3$。" },
+      "delay_ms": 150
+    },
+    {
+      "event": "done",
+      "data": {
+        "duration_ms": 3450,
+        "content_length": 280
+      },
+      "delay_ms": 0
+    }
+  ]
+}

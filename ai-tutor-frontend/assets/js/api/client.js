@@ -77,7 +77,7 @@ class ApiError extends Error {
 // 基础配置
 // ────────────────────────────────────────────────────────────────────
 
-function getApiBase() {
+export function getApiBase() {
   let base = '';
   try {
     const meta = document.querySelector('meta[name="api-base"]');
@@ -107,7 +107,7 @@ const MOCK_BASE = new URL('./mock/', import.meta.url).href;
 // Mock path
 // ────────────────────────────────────────────────────────────────────
 
-async function loadMock(name) {
+export async function loadMock(name) {
   const url = `${MOCK_BASE}${name}.json`;
   const res = await fetch(url);
   if (!res.ok) {

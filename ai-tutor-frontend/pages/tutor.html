@@ -1170,6 +1170,21 @@
         });
       }
 
+      // ===== Slice 4.3 commit 1: 临时验证 askStream chain (Phase 3 UI 不变) =====
+      (async () => {
+        const events = [];
+        try {
+          await tutor.askStream({
+            question: 'verify-askStream-mock',
+            subject: '数学',
+            onEvent: (ev) => events.push(ev),
+          });
+          console.log('[Slice4.3] askStream events:', events.length, events.map(e => e.event).join(','));
+        } catch (err) {
+          console.error('[Slice4.3] askStream error:', err.type || err.name, err.message);
+        }
+      })();
+
       // ===== Initial: 5 hardcoded blocks 已删, renderMessages([]) 处理空数组 =====
       renderMessages(conversationState.messages);
     </script>
