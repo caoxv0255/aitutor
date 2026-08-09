@@ -25,8 +25,14 @@ export const tutor = {
       current_topic_name: currentTopicName,
     }, { mockName: 'tutor_ask' });
   },
+  /**
+   * 会话历史列表 (Phase 2: render adapter only; backend /api/tutor/sessions 待 Slice 4.4 实现)
+   * @returns {Promise<{success, message, data: ChatSession[]}>}
+   */
+  async getHistory() {
+    return request('GET', '/api/tutor/sessions', null, { mockName: 'tutor_history' });
+  },
   // Slice 4.1/4.2/4.3 (deferred):
   // async getMastery(kpId) { ... }   → GET /api/tutor/mastery/:kpId
-  // async getHistory(sessionId) { ... }  → session 持久化 backend 调研后
   // async askStream(...) { ... }      → SSE (Slice 4.3)
 };

@@ -1,0 +1,70 @@
+{
+  "success": true,
+  "message": "获取会话列表成功",
+  "data": [
+    {
+      "id": "sess_001",
+      "title": "二次函数解析式求解",
+      "subject": "数学",
+      "lastMessageAt": "2026-08-06T08:00:00Z",
+      "messageCount": 6,
+      "preview": "好的，我们来求解这道二次函数题..."
+    },
+    {
+      "id": "sess_002",
+      "title": "牛顿第二定律应用",
+      "subject": "物理",
+      "lastMessageAt": "2026-08-05T16:20:00Z",
+      "messageCount": 4,
+      "preview": "这道题考查牛顿第二定律的应用..."
+    },
+    {
+      "id": "sess_003",
+      "title": "氧化还原反应配平",
+      "subject": "化学",
+      "lastMessageAt": "2026-08-04T11:45:00Z",
+      "messageCount": 5,
+      "preview": "氧化还原反应配平的核心是..."
+    },
+    {
+      "id": "sess_004",
+      "title": "立体几何二面角",
+      "subject": "数学",
+      "lastMessageAt": "2026-08-03T19:30:00Z",
+      "messageCount": 8,
+      "preview": "二面角的求解可以通过..."
+    },
+    {
+      "id": "sess_005",
+      "title": "英语作文批改",
+      "subject": "英语",
+      "lastMessageAt": "2026-08-02T14:10:00Z",
+      "messageCount": 3,
+      "preview": "这篇作文的主要问题是..."
+    },
+    {
+      "id": "sess_006",
+      "title": "导数求极值问题",
+      "subject": "数学",
+      "lastMessageAt": "2026-08-01T20:15:00Z",
+      "messageCount": 6,
+      "preview": "导数求极值的关键是..."
+    },
+    {
+      "id": "sess_007",
+      "title": "化学平衡移动",
+      "subject": "化学",
+      "lastMessageAt": "2026-07-31T10:00:00Z",
+      "messageCount": 7,
+      "preview": "化学平衡移动遵循勒夏特列原理..."
+    },
+    {
+      "id": "sess_008",
+      "title": "文言文断句练习",
+      "subject": "语文",
+      "lastMessageAt": "2026-07-30T15:30:00Z",
+      "messageCount": 4,
+      "preview": "文言文断句需要根据上下文..."
+    }
+  ]
+}
