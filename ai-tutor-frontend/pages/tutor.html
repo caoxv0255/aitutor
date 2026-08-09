@@ -937,9 +937,22 @@
               </div>`;
       }
 
+      // ===== Slice 4.3 commit 3: inline markdown (D53 escape → regex) =====
+      // 顺序: escape 先 (XSS), markdown regex 后 (LLM 输出 '<script>' 仍被 escape 守住)
+      function renderInlineMd(escaped) {
+        if (!escaped) return '';
+        // **bold** → <strong>
+        let out = escaped.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold">$1</strong>');
+        // `code` → <code>
+        out = out.replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-surface-tertiary text-[13px] font-mono">$1</code>');
+        // $..$ inline LaTeX → <span class="math-latex" data-latex="..."> (KaTeX 留 Slice 4.5)
+        out = out.replace(/\$([^$]+)\$/g, '<span class="math-latex italic text-foreground-secondary" data-latex="$1">$1</span>');
+        return out;
+      }
+
       // ===== Message template: assistant reply =====
       function assistantMessageTemplate(msg) {
-        const responseHtml = esc(msg.content || '').replace(/\n\n/g, '</p><p class="mb-3 mt-3">').replace(/\n/g, '<br>');
+        const responseHtml = renderInlineMd(esc(msg.content || '')).replace(/\n\n/g, '</p><p class="mb-3 mt-3">').replace(/\n/g, '<br>');
         return `
               <div class="msg-enter dynamic-msg flex gap-3 items-start max-w-[92%] sm:max-w-[80%] lg:max-w-[72%]">
                 <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5" style="background:var(--brand); font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</div>
