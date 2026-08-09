@@ -1081,7 +1081,7 @@
         catch (_) { messagesEl.scrollTop = messagesEl.scrollHeight; }
       }
 
-      // ===== sendMessage — Phase 3 imperative state mgmt =====
+      // ===== sendMessage — Slice 4.3 commit 2: streaming version (D52 + D55) =====
       async function sendMessage() {
         if (conversationState.loading) return;
         const textarea = document.getElementById('chat-input');
@@ -1089,35 +1089,98 @@
         if (!question) return;
         textarea.value = '';
         textarea.style.height = 'auto';
+        // 1. Optimistic user bubble
         conversationState.messages.push({ role: 'user', content: question, timestamp: Date.now() });
         renderMessages(conversationState.messages);
+        // 2. Loading state + AbortController (D55)
         conversationState.loading = true;
+        const streamController = new AbortController();
+        conversationState.streamController = streamController;
         renderLoading();
-        const mockName = pickMockName(question);
+        // 3. Streaming assistant bubble (创建空 bubble, content 累加)
+        const assistantMsg = {
+          role: 'assistant',
+          content: '',
+          diagnosis: null,
+          learningPath: null,
+          metadata: null,
+          context: null,
+          timestamp: Date.now(),
+        };
+        conversationState.messages.push(assistantMsg);
+        const assistantMsgIndex = conversationState.messages.length - 1;
+        // 4. Call askStream
         try {
-          const res = await tutor.ask({ question, subject: conversationState.subject, mockName });
-          conversationState.messages.push({
-            role: 'assistant',
-            content: res.data.response || '',
-            diagnosis: res.data.diagnosis,
-            learningPath: res.data.learning_path,
-            metadata: res.data.metadata,
-            context: res.data.context,
-            timestamp: Date.now(),
+          await tutor.askStream({
+            question,
+            subject: conversationState.subject,
+            signal: streamController.signal,
+            mockName: 'tutor_ask_stream',  // commit 2 强制走 stream mock
+            onEvent: (ev) => {
+              if (ev.event === 'metadata') {
+                // 立即填充 diagnosis / context, 触发诊断卡片渲染
+                assistantMsg.diagnosis = ev.data.diagnosis;
+                assistantMsg.context = ev.data.context;
+                scheduleRenderMessages();  // rAF throttle
+              } else if (ev.event === 'content') {
+                // 累加 content
+                assistantMsg.content += ev.data.delta || '';
+                scheduleRenderMessages();  // rAF throttle (高频)
+              } else if (ev.event === 'done') {
+                // 流结束: rAF flush 一次
+                if (renderRafId) {
+                  cancelAnimationFrame(renderRafId);
+                  renderRafId = null;
+                }
+                renderMessages(conversationState.messages);
+                console.log('[Slice4.3] stream done:', ev.data);
+              } else if (ev.event === 'error') {
+                assistantMsg.content = ev.data.message || '流式错误';
+                assistantMsg.error = { type: 'STREAM', code: null, message: ev.data.message };
+                renderMessages(conversationState.messages);
+              }
+            },
           });
         } catch (err) {
+          // D55: AbortError 不是 error, 用户自己停
+          if (err.name === 'AbortError') {
+            console.log('[Slice4.3] stream aborted by user');
+            return;  // 不追加 error bubble, 已经在 final 里 reset loading
+          }
+          // 移除空 assistant bubble, 加 error bubble
+          conversationState.messages.splice(assistantMsgIndex, 1);
           conversationState.messages.push({
             role: 'assistant', content: '',
             error: { type: err.type || 'UNKNOWN', code: err.code, message: err.message || '请求失败' },
             timestamp: Date.now(),
           });
-          console.error('[Slice4] ask error:', err.type, err.code, err.message);
+          console.error('[Slice4.3] stream error:', err.type, err.code, err.message);
         } finally {
           conversationState.loading = false;
+          conversationState.streamController = null;
           renderMessages(conversationState.messages);
           renderLoading();
         }
       }
+
+      // ===== D55: 切页面/refresh 自动 abort =====
+      window.addEventListener('beforeunload', () => {
+        if (conversationState.streamController) {
+          conversationState.streamController.abort();
+        }
+      });
+      // visibilitychange: 切到后台 5s 后 abort (saves backend resources)
+      let hideTimer = null;
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          hideTimer = setTimeout(() => {
+            if (conversationState.streamController) conversationState.streamController.abort();
+          }, 5000);
+        } else if (hideTimer) {
+          clearTimeout(hideTimer);
+          hideTimer = null;
+        }
+      });
 
       // ===== Event handlers (D43: Enter + IME + send button) =====
       const chatInputEl = document.getElementById('chat-input');
@@ -1170,20 +1233,19 @@
         });
       }
 
-      // ===== Slice 4.3 commit 1: 临时验证 askStream chain (Phase 3 UI 不变) =====
-      (async () => {
-        const events = [];
-        try {
-          await tutor.askStream({
-            question: 'verify-askStream-mock',
-            subject: '数学',
-            onEvent: (ev) => events.push(ev),
-          });
-          console.log('[Slice4.3] askStream events:', events.length, events.map(e => e.event).join(','));
-        } catch (err) {
-          console.error('[Slice4.3] askStream error:', err.type || err.name, err.message);
-        }
-      })();
+      // ===== Slice 4.3 commit 2: streaming state (D54 imperative + rAF throttle) =====
+      // conversationState 第 7 字段: streamController (AbortController for D55)
+      conversationState.streamController = null;
+
+      // rAF throttle: SSE chunks 可能 50-200/s, 不节流 scrollToBottom 会抖
+      let renderRafId = null;
+      function scheduleRenderMessages() {
+        if (renderRafId) return;
+        renderRafId = requestAnimationFrame(() => {
+          renderRafId = null;
+          renderMessages(conversationState.messages);
+        });
+      }
 
       // ===== Initial: 5 hardcoded blocks 已删, renderMessages([]) 处理空数组 =====
       renderMessages(conversationState.messages);
