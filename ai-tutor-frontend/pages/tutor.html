@@ -739,176 +739,6 @@
                 </div>
               </div>
 
-              <!-- 2. 用户消息 -->
-              <div class="msg-enter flex justify-end">
-                <div class="flex flex-col gap-1 items-end max-w-[90%] sm:max-w-[75%] lg:max-w-[70%]">
-                  <div class="px-4 py-3 rounded-2xl rounded-tr-md text-white leading-relaxed text-[15px]" style="background:var(--brand); border-radius:var(--radius-lg); border-top-right-radius:6px;">
-                    已知二次函数 <span class="formula-inline text-white">f(x)=ax²+bx+c</span> 的图像经过点(1,0)和(3,0)，且与y轴交于(0,3)，求函数解析式。
-                  </div>
-                  <span class="text-xs text-foreground-muted mr-1">刚刚</span>
-                </div>
-              </div>
-
-              <!-- 3. AI 诊断卡片（metadata） -->
-              <div class="msg-enter flex gap-3 items-start max-w-[90%] sm:max-w-[75%] lg:max-w-[70%]">
-                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5" style="background:var(--brand); font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</div>
-                <div class="flex-1 min-w-0 flex flex-col gap-2">
-                  <div class="border rounded-2xl p-4" style="background:linear-gradient(135deg,var(--color-success-50) 0%,var(--color-success-50) 100%); border-color:var(--color-success-200); border-radius:var(--radius-lg);">
-                    <div class="flex items-start gap-2.5">
-                      <div class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:var(--success);">
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-white"></i>
-                      </div>
-                      <div class="flex-1 min-w-0">
-                        <p class="text-sm font-semibold mb-1.5" style="color:var(--color-success-700); font-family:'DM Sans','Noto Sans SC',sans-serif;">诊断结果</p>
-                        <p class="text-sm leading-relaxed mb-3" style="color:var(--color-success-600);">
-                          检测到你在「<strong>二次函数图像性质</strong>」掌握度为 <span class="font-bold text-base" style="color:var(--warning);">45%</span>，建议先复习「<strong>韦达定理</strong>」前置知识。
-                        </p>
-                        <div class="flex flex-wrap gap-1.5 mb-3">
-                          <span class="inline-flex items-center h-6 px-2.5 rounded-md text-xs font-medium whitespace-nowrap" style="background:var(--color-warning-100); color:var(--color-warning-800);">二次函数图像性质</span>
-                          <span class="inline-flex items-center h-6 px-2.5 rounded-md text-xs font-medium whitespace-nowrap" style="background:var(--color-error-100); color:var(--color-error-800);">韦达定理</span>
-                          <span class="inline-flex items-center h-6 px-2.5 rounded-md text-xs font-medium whitespace-nowrap" style="background:var(--color-info-100); color:var(--color-info-700);">待定系数法</span>
-                        </div>
-                        <button data-dom-id="tutor-to-mastery" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-medium transition-all hover:opacity-90 text-white" style="background:var(--success);">
-                          <i data-lucide="network" class="w-3.5 h-3.5"></i>
-                          查看知识图谱
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 正在思考状态 -->
-              <div class="msg-enter flex gap-3 items-start max-w-[90%] sm:max-w-[75%] lg:max-w-[70%]">
-                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5" style="background:var(--brand); font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</div>
-                <div class="px-4 py-3.5 rounded-2xl rounded-tl-md flex items-center gap-2 bg-surface-tertiary" style="border-radius:var(--radius-lg); border-top-left-radius:6px">
-                  <span class="typing-dot w-2 h-2 rounded-full" style="background:var(--brand);"></span>
-                  <span class="typing-dot w-2 h-2 rounded-full" style="background:var(--brand);"></span>
-                  <span class="typing-dot w-2 h-2 rounded-full" style="background:var(--brand);"></span>
-                  <span class="text-xs text-foreground-muted ml-1">正在思考…</span>
-                </div>
-              </div>
-
-              <!-- 4. AI 回复消息（流式输出，末尾闪烁光标） -->
-              <div class="msg-enter flex gap-3 items-start max-w-[92%] sm:max-w-[80%] lg:max-w-[72%]">
-                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5" style="background:var(--brand); font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</div>
-                <div class="flex-1 min-w-0 flex flex-col gap-1">
-                  <article class="px-4 py-3.5 rounded-2xl rounded-tl-md text-foreground leading-[1.75] text-[15px] bg-surface-tertiary" style="border-radius:var(--radius-lg); border-top-left-radius:6px">
-                    <p class="mb-3">好的，我们一步一步来解这道题。这是一道典型的<strong>待定系数法</strong>求解二次函数解析式的题目。</p>
-
-                    <p class="font-semibold text-foreground mb-2 mt-3" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
-                      <span class="inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-xs mr-1.5" style="background:var(--brand);">1</span>
-                      第一步：根据已知条件列方程
-                    </p>
-                    <p class="mb-2">因为函数 <span class="formula-inline">f(x) = ax² + bx + c</span> 经过三个点，我们可以将每个点的坐标代入函数式：</p>
-                    <ul class="space-y-1.5 mb-3 ml-2 text-[14.5px] text-foreground">
-                      <li>经过点 <span class="formula-inline">(1, 0)</span>：<span class="formula-inline">a·1² + b·1 + c = 0</span>，即 <span class="formula-inline">a + b + c = 0</span> ……①</li>
-                      <li>经过点 <span class="formula-inline">(3, 0)</span>：<span class="formula-inline">a·3² + b·3 + c = 0</span>，即 <span class="formula-inline">9a + 3b + c = 0</span> ……②</li>
-                      <li>经过点 <span class="formula-inline">(0, 3)</span>：<span class="formula-inline">a·0² + b·0 + c = 3</span>，即 <span class="formula-inline">c = 3</span> ……③</li>
-                    </ul>
-
-                    <p class="font-semibold text-foreground mb-2 mt-4" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
-                      <span class="inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-xs mr-1.5" style="background:var(--brand);">2</span>
-                      第二步：解方程组
-                    </p>
-                    <p class="mb-2">将③代入①和②，得到：</p>
-                    <ul class="space-y-1.5 mb-3 ml-2 text-[14.5px] text-foreground">
-                      <li><span class="formula-inline">a + b = -3</span> ……①′</li>
-                      <li><span class="formula-inline">9a + 3b = -3</span>，化简为 <span class="formula-inline">3a + b = -1</span> ……②′</li>
-                    </ul>
-                    <p class="mb-2">用②′ - ①′消元：</p>
-                    <p class="mb-2 ml-2"><span class="formula-inline">(3a + b) - (a + b) = -1 - (-3)</span>，解得 <span class="formula-inline">a = 1</span></p>
-                    <p class="mb-2 ml-2">代回①′：<span class="formula-inline">1 + b = -3</span>，解得 <span class="formula-inline">b = -4</span></p>
-
-                    <p class="font-semibold text-foreground mb-2 mt-4" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
-                      <span class="inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-xs mr-1.5" style="background:var(--brand);">3</span>
-                      第三步：验证答案
-                    </p>
-                    <p class="mb-2">所以函数解析式为：</p>
-
-                    <!-- 醒目公式块 -->
-                    <div class="formula-block">
-                      <div class="text-center">
-                        <span class="formula-inline" style="font-style:italic;">f(x)</span> = <span class="formula-inline" style="font-style:italic;">x</span>² − 4<span class="formula-inline" style="font-style:italic;">x</span> + 3
-                      </div>
-                      <div class="text-center mt-2 text-sm text-foreground-muted" style="font-style:normal; font-family:'Noto Sans SC',sans-serif">
-                        验证：f(1)=1−4+3=0 ✓ &nbsp; f(3)=9−12+3=0 ✓ &nbsp; f(0)=3 ✓
-                      </div>
-                    </div>
-
-                    <p class="mt-3">
-                      <span class="inline-block w-5 h-5 rounded-full text-white text-xs text-center leading-5 mr-1.5 align-middle" style="background:var(--warning); font-size:11px;">!</span>
-                      <strong class="text-[14px]" style="color:var(--color-warning-800);">小提示：</strong>
-                      因为二次函数与x轴交于(1,0)和(3,0)，也可以直接使用<strong>交点式</strong> <span class="formula-inline">f(x) = a(x−1)(x−3)</span>，再代入(0,3)快速求出 <span class="formula-inline">a = 1</span>，这样计算更快捷。
-                    </p>
-
-                    <!-- 流式输出闪烁光标 -->
-                    <span class="blink-cursor"></span>
-                  </article>
-                </div>
-              </div>
-
-              <!-- 5. AI 回答完后的操作区 -->
-              <div class="msg-enter flex gap-3 items-start max-w-[92%] sm:max-w-[80%] lg:max-w-[72%]">
-                <div class="w-9 h-9 shrink-0"></div>
-                <div class="flex-1 min-w-0 flex flex-col gap-3">
-
-                  <!-- 反馈区 -->
-                  <div class="flex flex-wrap items-center gap-2 px-1">
-                    <span class="text-sm text-foreground-secondary mr-1">这道题帮到了吗？</span>
-                    <button class="inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-sm border transition-all hover:border-success-400 hover:bg-success-50 border-border text-foreground-secondary">
-                      <i data-lucide="thumbs-up" class="w-3.5 h-3.5"></i>
-                      有帮助
-                    </button>
-                    <button class="inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-sm border transition-all hover:border-error-300 hover:bg-error-50 border-border text-foreground-secondary">
-                      <i data-lucide="thumbs-down" class="w-3.5 h-3.5"></i>
-                      没帮助
-                    </button>
-                  </div>
-
-                  <!-- 相似题目推荐 -->
-                  <div class="rounded-2xl p-4 bg-surface-secondary border border-border-light" style="border-radius:var(--radius-lg)">
-                    <div class="flex items-center gap-2 mb-3">
-                      <i data-lucide="lightbulb" class="w-4 h-4" style="color:var(--warning);"></i>
-                      <span class="text-sm font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">相似题目推荐</span>
-                    </div>
-                    <ul class="space-y-2">
-                      <li class="group flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all hover:bg-surface hover:shadow-sm">
-                        <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style="background:var(--brand);">1</span>
-                        <span class="text-sm text-foreground group-hover:text-foreground flex-1 truncate">已知二次函数过点(−1,0)、(2,0)、(0,4)，求解析式</span>
-                        <i data-lucide="chevron-right" class="w-4 h-4 text-foreground-muted group-hover:text-foreground-secondary shrink-0"></i>
-                      </li>
-                      <li class="group flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all hover:bg-surface hover:shadow-sm">
-                        <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style="background:var(--brand);">2</span>
-                        <span class="text-sm text-foreground group-hover:text-foreground flex-1 truncate">抛物线顶点为(2,−1)且过点(0,3)，求二次函数解析式</span>
-                        <i data-lucide="chevron-right" class="w-4 h-4 text-foreground-muted group-hover:text-foreground-secondary shrink-0"></i>
-                      </li>
-                      <li class="group flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all hover:bg-surface hover:shadow-sm">
-                        <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style="background:var(--brand);">3</span>
-                        <span class="text-sm text-foreground group-hover:text-foreground flex-1 truncate">已知 f(x)=x²−2x−3，求其与坐标轴交点及顶点坐标</span>
-                        <i data-lucide="chevron-right" class="w-4 h-4 text-foreground-muted group-hover:text-foreground-secondary shrink-0"></i>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <!-- 操作按钮组 -->
-                  <div class="flex flex-wrap gap-2 px-1">
-                    <button class="inline-flex items-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium text-white transition-all hover:opacity-90" style="background:var(--brand);">
-                      <i data-lucide="bookmark-plus" class="w-4 h-4"></i>
-                      加入错题本
-                    </button>
-                    <button class="inline-flex items-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium border transition-all hover:bg-surface-tertiary border-border text-foreground-secondary">
-                      <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-                      再讲一遍
-                    </button>
-                    <button class="inline-flex items-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium border transition-all hover:bg-surface-tertiary border-border text-foreground-secondary">
-                      <i data-lucide="share-2" class="w-4 h-4"></i>
-                      分享
-                    </button>
-                  </div>
-                </div>
-              </div>
-
               <!-- 底部留白，防止内容被输入区遮挡 -->
               <div class="h-2"></div>
             </div>
@@ -944,8 +774,8 @@
                   <i data-lucide="camera" class="w-5 h-5 text-foreground-secondary"></i>
                 </button>
 
-                <!-- 发送按钮（红色圆形） -->
-                <button class="flex items-center justify-center w-10 h-10 rounded-full text-white transition-all hover:opacity-90 active:scale-95 shrink-0 self-end mb-0.5" style="background:var(--brand);" title="发送" aria-label="发送">
+                <!-- 发送按钮 (Phase 3: id="send-btn" for handler) -->
+                <button id="send-btn" data-dom-id="tutor-send" class="flex items-center justify-center w-10 h-10 rounded-full text-white transition-all hover:opacity-90 active:scale-95 shrink-0 self-end mb-0.5 disabled:opacity-50 disabled:cursor-not-allowed" style="background:var(--brand);" title="发送" aria-label="发送">
                   <i data-lucide="send-horizontal" class="w-5 h-5"></i>
                 </button>
               </div>
@@ -1072,9 +902,234 @@
         });
       }
 
-      // Initial render (subject dropdown 跟 conversationState 默认 '数学' 同步)
+      // Initial render (Phase 2: subject dropdown 跟 conversationState 默认 '数学' 同步)
       syncSubjectDropdown();
       renderSubjectTags();
+
+      // ================================================================================
+      // ===== Slice 4 Phase 3 — Non-streaming Chat MVP =====
+      // ================================================================================
+
+      // ===== Mock routing (D44a: question content hint) =====
+      function pickMockName(question) {
+        const guidedHints = ['不会', '不懂', '先复习', '基础'];
+        if (guidedHints.some(h => question.includes(h))) return 'tutor_ask_guided';
+        return 'tutor_ask';
+      }
+
+      // ===== Helper: format timestamp =====
+      function fmtTime(ts) {
+        if (!ts) return '';
+        try { return new Date(ts).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }); }
+        catch { return ''; }
+      }
+
+      // ===== Message template: user bubble (right-aligned) =====
+      function userMessageTemplate(msg) {
+        return `
+              <div class="msg-enter dynamic-msg flex justify-end">
+                <div class="flex flex-col gap-1 items-end max-w-[90%] sm:max-w-[75%] lg:max-w-[70%]">
+                  <div class="px-4 py-3 rounded-2xl rounded-tr-md text-white leading-relaxed text-[15px]" style="background:var(--brand); border-radius:var(--radius-lg); border-top-right-radius:6px;">
+                    ${esc(msg.content)}
+                  </div>
+                  <span class="text-xs text-foreground-muted mr-1">${esc(fmtTime(msg.timestamp))}</span>
+                </div>
+              </div>`;
+      }
+
+      // ===== Message template: assistant reply =====
+      function assistantMessageTemplate(msg) {
+        const responseHtml = esc(msg.content || '').replace(/\n\n/g, '</p><p class="mb-3 mt-3">').replace(/\n/g, '<br>');
+        return `
+              <div class="msg-enter dynamic-msg flex gap-3 items-start max-w-[92%] sm:max-w-[80%] lg:max-w-[72%]">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5" style="background:var(--brand); font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</div>
+                <div class="flex-1 min-w-0 flex flex-col gap-1">
+                  <article class="px-4 py-3.5 rounded-2xl rounded-tl-md text-foreground leading-[1.75] text-[15px] bg-surface-tertiary" style="border-radius:var(--radius-lg); border-top-left-radius:6px">
+                    <p class="mb-3">${responseHtml}</p>
+                  </article>
+                  <span class="text-xs text-foreground-muted ml-1">${esc(fmtTime(msg.timestamp))}</span>
+                </div>
+              </div>`;
+      }
+
+      // ===== Message template: error bubble (D48a silent + inline) =====
+      function errorMessageTemplate(msg) {
+        const err = msg.error || {};
+        return `
+              <div class="msg-enter dynamic-msg flex gap-3 items-start max-w-[90%] sm:max-w-[75%] lg:max-w-[70%]">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5" style="background:var(--error); font-family:'DM Sans','Noto Sans SC',sans-serif;">!</div>
+                <div class="flex-1 min-w-0 flex flex-col gap-1">
+                  <div class="px-4 py-3 rounded-2xl text-error-700 bg-error-50 border border-error-200 text-[14px]" style="border-radius:var(--radius-lg);">
+                    <p class="font-semibold mb-1">请求失败 (${esc(err.type || 'UNKNOWN')})</p>
+                    <p>${esc(err.message || '未知错误')}</p>
+                  </div>
+                </div>
+              </div>`;
+      }
+
+      // ===== Diagnosis card (conditional, skip_allowed=false 才显示) =====
+      function diagnosisCardTemplate(diagnosis, context) {
+        if (!diagnosis || diagnosis.skip_allowed !== false) return '';
+        const weakKPs = (diagnosis.weak_points || []).map((name) =>
+          `<span class="inline-flex items-center h-6 px-2.5 rounded-md text-xs font-medium whitespace-nowrap" style="background:var(--color-warning-100); color:var(--color-warning-800);">${esc(name)}</span>`
+        ).join('');
+        const strongKPs = (diagnosis.strong_points || []).map((name) =>
+          `<span class="inline-flex items-center h-6 px-2.5 rounded-md text-xs font-medium whitespace-nowrap" style="background:var(--color-info-100); color:var(--color-info-700);">${esc(name)}</span>`
+        ).join('');
+        const masteryPct = context && context.current_mastery && context.current_mastery.mastery_score != null
+          ? context.current_mastery.mastery_score : null;
+        const masteryText = masteryPct != null
+          ? `<span class="font-bold text-base" style="color:var(--warning);">${masteryPct}%</span>` : '—';
+        return `
+              <div class="msg-enter dynamic-msg flex gap-3 items-start max-w-[90%] sm:max-w-[75%] lg:max-w-[70%]">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5" style="background:var(--brand); font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</div>
+                <div class="flex-1 min-w-0 flex flex-col gap-2">
+                  <div class="border rounded-2xl p-4" style="background:linear-gradient(135deg,var(--color-success-50) 0%,var(--color-success-50) 100%); border-color:var(--color-success-200); border-radius:var(--radius-lg);">
+                    <div class="flex items-start gap-2.5">
+                      <div class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5" style="background:var(--success);">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-white"></i>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold mb-1.5" style="color:var(--color-success-700); font-family:'DM Sans','Noto Sans SC',sans-serif;">诊断结果</p>
+                        <p class="text-sm leading-relaxed mb-3" style="color:var(--color-success-600);">
+                          ${esc(diagnosis.summary || '')} 掌握度为 ${masteryText}${diagnosis.weak_points && diagnosis.weak_points.length ? '，建议先复习薄弱前置知识。' : '。'}
+                        </p>
+                        ${(weakKPs || strongKPs) ? `<div class="flex flex-wrap gap-1.5 mb-3">${weakKPs}${strongKPs}</div>` : ''}
+                        <button data-dom-id="tutor-to-mastery" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-xs font-medium transition-all hover:opacity-90 text-white" style="background:var(--success);">
+                          <i data-lucide="network" class="w-3.5 h-3.5"></i>
+                          查看知识图谱
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>`;
+      }
+
+      // ===== Unified message dispatch =====
+      function messageTemplate(msg) {
+        if (msg.role === 'user') return userMessageTemplate(msg);
+        if (msg.role === 'assistant') {
+          if (msg.error) return errorMessageTemplate(msg);
+          return assistantMessageTemplate(msg);
+        }
+        return '';
+      }
+
+      // ===== Render all messages (insert BEFORE spacer .h-2) =====
+      function renderMessages(messages) {
+        const listEl = document.getElementById('messages');
+        if (!listEl) return;
+        let html = '';
+        for (const msg of messages) {
+          html += messageTemplate(msg);
+          if (msg.role === 'assistant' && msg.diagnosis && msg.diagnosis.skip_allowed === false) {
+            html += diagnosisCardTemplate(msg.diagnosis, msg.context);
+          }
+        }
+        // Clear all existing dynamic messages (between welcome msg and spacer)
+        const existingDynamic = listEl.querySelectorAll('.msg-enter.dynamic-msg');
+        existingDynamic.forEach(el => el.remove());
+        const spacer = listEl.querySelector('.h-2');
+        if (spacer) spacer.insertAdjacentHTML('beforebegin', html);
+        else listEl.insertAdjacentHTML('beforeend', html);
+        if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+        scrollToBottom();
+      }
+
+      // ===== Render loading (D46 typing indicator + input/send disable) =====
+      function renderLoading() {
+        const messagesEl = document.getElementById('messages');
+        const textarea = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const existing = document.getElementById('typing-indicator');
+        if (existing) existing.remove();
+        if (conversationState.loading) {
+          const typing = `
+              <div id="typing-indicator" class="msg-enter dynamic-msg flex gap-3 items-start max-w-[90%] sm:max-w-[75%] lg:max-w-[70%]">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5" style="background:var(--brand); font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</div>
+                <div class="px-4 py-3.5 rounded-2xl rounded-tl-md flex items-center gap-2 bg-surface-tertiary" style="border-radius:var(--radius-lg); border-top-left-radius:6px">
+                  <span class="typing-dot w-2 h-2 rounded-full" style="background:var(--brand);"></span>
+                  <span class="typing-dot w-2 h-2 rounded-full" style="background:var(--brand);"></span>
+                  <span class="typing-dot w-2 h-2 rounded-full" style="background:var(--brand);"></span>
+                  <span class="text-xs text-foreground-muted ml-1">正在思考…</span>
+                </div>
+              </div>`;
+          const spacer = messagesEl.querySelector('.h-2');
+          if (spacer) spacer.insertAdjacentHTML('beforebegin', typing);
+          else messagesEl.insertAdjacentHTML('beforeend', typing);
+          if (textarea) { textarea.disabled = true; textarea.classList.add('opacity-50'); }
+          if (sendBtn) { sendBtn.disabled = true; sendBtn.classList.add('opacity-50', 'cursor-not-allowed'); }
+          scrollToBottom();
+        } else {
+          if (textarea) { textarea.disabled = false; textarea.classList.remove('opacity-50'); }
+          if (sendBtn) { sendBtn.disabled = false; sendBtn.classList.remove('opacity-50', 'cursor-not-allowed'); }
+        }
+      }
+
+      // ===== Scroll to bottom (D47a: force smooth) =====
+      function scrollToBottom() {
+        const messagesEl = document.getElementById('messages');
+        if (!messagesEl) return;
+        try { messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' }); }
+        catch (_) { messagesEl.scrollTop = messagesEl.scrollHeight; }
+      }
+
+      // ===== sendMessage — Phase 3 imperative state mgmt =====
+      async function sendMessage() {
+        if (conversationState.loading) return;
+        const textarea = document.getElementById('chat-input');
+        const question = (textarea?.value || '').trim();
+        if (!question) return;
+        textarea.value = '';
+        textarea.style.height = 'auto';
+        conversationState.messages.push({ role: 'user', content: question, timestamp: Date.now() });
+        renderMessages(conversationState.messages);
+        conversationState.loading = true;
+        renderLoading();
+        const mockName = pickMockName(question);
+        try {
+          const res = await tutor.ask({ question, subject: conversationState.subject, mockName });
+          conversationState.messages.push({
+            role: 'assistant',
+            content: res.data.response || '',
+            diagnosis: res.data.diagnosis,
+            learningPath: res.data.learning_path,
+            metadata: res.data.metadata,
+            context: res.data.context,
+            timestamp: Date.now(),
+          });
+        } catch (err) {
+          conversationState.messages.push({
+            role: 'assistant', content: '',
+            error: { type: err.type || 'UNKNOWN', code: err.code, message: err.message || '请求失败' },
+            timestamp: Date.now(),
+          });
+          console.error('[Slice4] ask error:', err.type, err.code, err.message);
+        } finally {
+          conversationState.loading = false;
+          renderMessages(conversationState.messages);
+          renderLoading();
+        }
+      }
+
+      // ===== Event handlers (D43: Enter + IME + send button) =====
+      const chatInputEl = document.getElementById('chat-input');
+      if (chatInputEl) {
+        chatInputEl.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+      }
+      const sendBtnEl = document.getElementById('send-btn');
+      if (sendBtnEl) {
+        sendBtnEl.addEventListener('click', sendMessage);
+      }
+
+      // ===== Initial: 5 hardcoded blocks 已删, renderMessages([]) 处理空数组 =====
+      renderMessages(conversationState.messages);
     </script>
 
     <script>lucide.createIcons();</script>

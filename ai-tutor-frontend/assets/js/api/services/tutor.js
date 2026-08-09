@@ -16,14 +16,14 @@ export const tutor = {
    * @param {string} [opts.currentTopicName]
    * @returns {Promise<{success, message, data: TutorResponse}>}
    */
-  async ask({ question, knowledgePointId, subject, currentTopicName } = {}) {
+  async ask({ question, knowledgePointId, subject, currentTopicName, mockName } = {}) {
     if (!question) throw new Error('tutor.ask: question required');
     return request('POST', '/api/tutor/ask', {
       question,
       knowledge_point_id: knowledgePointId,
       subject,
       current_topic_name: currentTopicName,
-    }, { mockName: 'tutor_ask' });
+    }, { mockName: mockName || 'tutor_ask' });
   },
   /**
    * 会话历史列表 (Phase 2: render adapter only; backend /api/tutor/sessions 待 Slice 4.4 实现)
