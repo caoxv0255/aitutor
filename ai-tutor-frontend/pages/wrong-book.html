@@ -887,7 +887,7 @@
                       <a href="tutor.html?qid=${encodeURIComponent(qid)}" data-dom-id="wb-card-tutor" class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
                         <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
                       </a>
-                      <button data-dom-id="wb-card-delete" class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-foreground-secondary transition-colors" title="删除 (Slice 3.2 deferred)">
+                      <button data-dom-id="wb-card-delete" data-question-id="${esc(row._id)}" class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-error-500 transition-colors" title="删除错题">
                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                       </button>
                     </div>
@@ -1079,6 +1079,31 @@
                 } else if (action === 'next' && pag.hasNext) {
                   filterState.page = pag.page + 1;
                   listRes.refetch();
+                }
+              });
+            }
+
+            // ===== Slice 3.2: 删除错题 → wrong.deleteQuestion (R1 write op) =====
+            // Event delegation: 抓 [data-dom-id="wb-card-delete"] click
+            const delListEl = document.getElementById('wb-list');
+            if (delListEl) {
+              delListEl.addEventListener('click', async (e) => {
+                const delBtn = e.target.closest('[data-dom-id="wb-card-delete"]');
+                if (!delBtn) return;
+                const qid = delBtn.dataset.questionId;
+                if (!qid) return;
+                if (!confirm('确定删除这道错题？此操作不可撤销。')) return;
+                // Optimistic dim
+                const card = delBtn.closest('.bg-surface.rounded-\\[14px\\]');
+                if (card) card.style.opacity = '0.4';
+                try {
+                  await wrong.deleteQuestion(qid);
+                  listRes.refetch();  // re-fetch + re-render
+                  console.log('[Slice3.2] question deleted:', qid);
+                } catch (err) {
+                  if (card) card.style.opacity = '';
+                  console.error('[Slice3.2] delete error:', err.type, err.code, err.message);
+                  alert('删除失败: ' + (err.message || '未知错误'));
                 }
               });
             }

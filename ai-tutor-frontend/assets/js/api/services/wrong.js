@@ -3,7 +3,8 @@
 // 后端: api/handlers/questions.js → wrong_questions 表
 // envelope: backend createPaginatedResponse (data: array + pagination 子对象)
 // 纪律: 不拆信封, page 层做 res.data / res.pagination
-// Slice 3.2 (deferred): delete / markMastered 不在 R1
+// Slice 3.2 (R1 write MVP): deleteQuestion + createQuestion. markMastered deferred
+// (backend questions.js 无 PUT/PATCH route, 待 backend 实现)
 import { request } from '../client.js';
 
 export const wrong = {
@@ -16,4 +17,31 @@ export const wrong = {
     params.set('offset', String((page - 1) * limit));
     return request('GET', `/api/questions?${params}`, null, { mockName: 'wrong_questions' });
   },
+  /**
+   * 删除单条错题 (Slice 3.2: write op)
+   * @param {string|number} id
+   * @returns {Promise<{success, message}>}
+   */
+  async deleteQuestion(id) {
+    if (!id) throw new Error('wrong.deleteQuestion: id required');
+    return request('DELETE', '/api/questions', { id }, { mockName: 'wrong_delete' });
+  },
+  /**
+   * 创建错题 (Slice 3.2: 供 tutor '加入错题本' 触发, cross-page workflow)
+   * @param {object} payload
+   * @param {string} payload.question      — 必填
+   * @param {string} payload.subject       — '数学' 等
+   * @param {string} [payload.answer]
+   * @param {string} [payload.analysis]
+   * @param {string} [payload.knowledge_point_id]
+   * @param {number} [payload.difficulty]
+   * @param {string} [payload.question_id]  — 关联 exam bank qid
+   * @returns {Promise<{success, message, data: {id: string}}>}
+   */
+  async createQuestion(payload) {
+    if (!payload || !payload.question) throw new Error('wrong.createQuestion: question required');
+    return request('POST', '/api/questions', payload, { mockName: 'wrong_create' });
+  },
+  // Slice 3.2 (deferred): markMastered (backend 无 PUT/PATCH, 等 backend 实现)
+  // async markMastered(id, isCorrect) { ... }
 };
