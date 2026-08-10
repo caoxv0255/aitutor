@@ -855,7 +855,7 @@
               const qid = row.question_id || '';
 
               return `
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group">
+            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group" data-question-id="${esc(row._id)}">
               <div class="flex">
                 <div class="w-1 shrink-0 ${bar}"></div>
                 <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
@@ -1081,6 +1081,22 @@
                   listRes.refetch();
                 }
               });
+            }
+
+            // ===== Slice 4.4 commit 4: highlight on page load =====
+            // Read ?highlight=QID, scroll to card, ring highlight 5s.
+            // Use MutationObserver to retry after each render (listRes.subscribe re-renders).
+            function checkHighlight() {
+              const urlParams = new URLSearchParams(window.location.search);
+              const highlightQid = urlParams.get('highlight');
+              if (!highlightQid) return;
+              highlightCardById(highlightQid);
+            }
+            checkHighlight();
+            const wbListEl = document.getElementById('wb-list');
+            if (wbListEl) {
+              const mo = new MutationObserver(() => checkHighlight());
+              mo.observe(wbListEl, { childList: true, subtree: false });
             }
 
             // ===== Slice 3.2: 删除错题 → wrong.deleteQuestion (R1 write op) =====
