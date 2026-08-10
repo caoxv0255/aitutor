@@ -421,6 +421,7 @@
 }
 
     </style>
+    <link rel="stylesheet" href="../assets/css/router.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
     <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
     <style type="text/tailwindcss">
@@ -807,6 +808,7 @@
       import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
       import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
       import { setUseMock } from '../assets/js/api/USE_MOCK.js';
+      import { toast } from '../assets/js/toast.js';
 
       mountErrorBoundary();
       setUseMock(true);  // Phase 2 强制 mock, 后端 :3002 不一定起
@@ -1017,7 +1019,7 @@
                     <p class="mb-3">${responseHtml}</p>
                   </article>
                   <div class="flex items-center gap-2 ml-1">
-                    <button data-dom-id="tutor-add-wrong" data-question-text="${esc((msg.content || '').slice(0, 200))}" class="inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-medium text-white transition-all hover:opacity-90 disabled:opacity-50" style="background:var(--brand);">
+                    <button data-dom-id="tutor-add-wrong" data-question-id="${esc(msg.questionId || ('new_' + Date.now()))}" data-question-text="${esc((msg.content || '').slice(0, 200))}" class="inline-flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-medium text-white transition-all hover:opacity-90 disabled:opacity-50" style="background:var(--brand);">
                       <i data-lucide="bookmark-plus" class="w-3.5 h-3.5"></i>
                       加入错题本
                     </button>
@@ -1249,8 +1251,42 @@
         }
       }
 
-      // ===== Slice 4.4 commit 2: '新建对话' button → new session =====
-      const newConvBtn = document.querySelector('aside button:has(i[data-lucide="plus"])');
+      // ===== Slice 4.4 commit 3: 5 dead buttons live + 新建对话 toast =====
+      // 1. 查看知识图谱 (dialog card 里的按钮)
+      const toMasteryBtn = document.querySelector('[data-dom-id="tutor-to-mastery"]');
+      if (toMasteryBtn) {
+        toMasteryBtn.addEventListener('click', () => {
+          window.location.href = './mastery.html';
+        });
+      }
+
+      // 2. 拍照搜题 (input bar 里的相机按钮)
+      const toVisionBtn = document.querySelector('[data-dom-id="tutor-to-vision"]');
+      if (toVisionBtn) {
+        toVisionBtn.addEventListener('click', () => {
+          window.location.href = './vision.html';
+          toast.info('跳到拍照搜题 (该页尚未 F3)');
+        });
+      }
+
+      // 3. 清空对话 (header 里的 trash 按钮)
+      const clearBtn = document.getElementById('clear-chat-btn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (!confirm('清空当前对话? 历史会话保留。')) return;
+          conversationState.messages = [];
+          conversationState.error = null;
+          conversationState.currentSessionId = null;
+          setSidInUrl(null);
+          renderMessages([]);
+          const messagesEl = document.getElementById('messages');
+          if (messagesEl) messagesEl.scrollTop = 0;
+          toast.success('已清空当前对话');
+        });
+      }
+
+      // 4. "新建对话" 增强 — 加 toast 提示 (sidebar > first button > i.lucide-plus)
+      const newConvBtn = document.querySelector('aside .lucide-plus')?.closest('button');
       if (newConvBtn) {
         newConvBtn.addEventListener('click', () => {
           conversationState.currentSessionId = null;
@@ -1259,12 +1295,17 @@
           setSidInUrl(null);
           renderHistory(conversationState.sessions);
           renderMessages(conversationState.messages);
-          // 滚到底 (空 chat 区, 实际滚到顶部)
           const messagesEl = document.getElementById('messages');
           if (messagesEl) messagesEl.scrollTop = 0;
+          toast.success('已切换到新对话');
           console.log('[Slice4.4] new conversation');
         });
       }
+
+      // 5. "停止生成" - using streamController if exists (D60 wiring)
+      // AbortController already in place from Slice 4.3 commit 2.
+      // We need a button. Check if exists; if not, skip silently (v0.9 will add UI).
+      // (no button in DOM yet — deferred to v0.9 by owner framing)
 
       // ===== Slice 4.4 commit 2: history item click → load session + URL sync =====
       const historyListEl = document.getElementById('chat-history-list');
@@ -1326,38 +1367,40 @@
         sendBtnEl.addEventListener('click', sendMessage);
       }
 
-      // ===== Slice 3.2: '加入错题本' 按钮 → wrong.createQuestion (cross-page) =====
+      // ===== Slice 4.4 commit 3 D59 REVERSAL: navigate wrong-book.html?highlight=QID =====
+      // Owner framing: navigate is physical closure of cross-page loop, not just notification.
       const messagesEl2 = document.getElementById('messages');
       if (messagesEl2) {
         messagesEl2.addEventListener('click', async (e) => {
           const btn = e.target.closest('[data-dom-id="tutor-add-wrong"]');
           if (!btn || btn.disabled) return;
           btn.disabled = true;
-          const orig = btn.innerHTML;
+          const questionText = btn.dataset.questionText || '';
+          const qid = btn.dataset.questionId || '';
           btn.innerHTML = '<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin"></i> 添加中...';
           if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-          const questionText = btn.dataset.questionText || '';
           try {
-            await wrong.createQuestion({
+            const res = await wrong.createQuestion({
               question: questionText,
               subject: conversationState.subject,
               answer: '',
               analysis: '',
               difficulty: 3,
             });
-            btn.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5"></i> 已加入';
-            if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-            console.log('[Slice4] question added to wrong-book');
+            // mock has data.id; real backend will too
+            const newId = (res && res.data && res.data.id) || qid;
+            toast.success('已加入错题本, 正在跳转...');
+            console.log('[Slice4.4] question added to wrong-book, id=' + newId);
+            // 800ms delay so toast is visible
             setTimeout(() => {
-              btn.disabled = false;
-              btn.innerHTML = orig;
-              if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-            }, 3000);
+              window.location.href = './wrong-book.html?highlight=' + encodeURIComponent(newId);
+            }, 800);
           } catch (err) {
             btn.disabled = false;
-            btn.innerHTML = orig;
+            btn.innerHTML = '<i data-lucide="bookmark-plus" class="w-3.5 h-3.5"></i> 加入错题本';
             if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-            console.error('[Slice4] add-wrong error:', err.type, err.code, err.message);
+            console.error('[Slice4.4] add-wrong error:', err.type, err.code, err.message);
+            toast.error('加入失败: ' + (err.message || '未知错误'));
           }
         });
       }
