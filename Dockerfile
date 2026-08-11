@@ -2,10 +2,16 @@ FROM node:22-slim
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 \
-    make \
-    g++ \
+# 用国内 apt 镜像(VPN 全通道下更稳定)
+RUN rm -f /etc/apt/sources.list.d/* /etc/apt/sources.list && \
+    echo 'deb http://mirrors.aliyun.com/debian/ bookworm main contrib' > /etc/apt/sources.list && \
+    echo 'deb http://mirrors.aliyun.com/debian-security/ bookworm-security main contrib' >> /etc/apt/sources.list && \
+    echo 'deb http://mirrors.aliyun.com/debian/ bookworm-updates main contrib' >> /etc/apt/sources.list && \
+    apt-get update -o Acquire::Retries=10 && \
+    apt-get install -y --no-install-recommends -o Acquire::Retries=10 \
+        python3 \
+        make \
+        g++ \
     && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./

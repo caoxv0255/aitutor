@@ -1,16 +1,64 @@
+# ===== 大数据目录 =====
+database/*
+!database/init/
 node_modules/
-coverage/
-dist/
+
+# ===== Python / Node 隐藏缓存 =====
+.venv/
+venv/
+env/
+.npm-cache/
+.yarn-cache/
+.pnp/
+.pnpm-store/
+
+# ===== Git / GitHub =====
 .git/
 .github/
+
+# ===== 环境 / 敏感 =====
 .env
 *.log
-database/*.db
-database/*.sqlite
+.env.*
+
+# ===== Docker / 编排 =====
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# ===== 工具缓存(隐藏) =====
 .claude/
+.aider*
+.gitnexus/
+.qoder/
+.trae*
+.hermes/
+.cache/
+.design_library/
+.idea/
+.vscode/
+
+# ===== 工具缓存(非隐藏) =====
+coverage/
+dist/
+playwright-report/
+test-results/
+
+# ===== 不需要部署的周边项目目录 =====
+ai-tutor-frontend/
+ai-tutor-redesign/
+aitutor-demo/
+frontend-design-doc/
+architecture-review/
+graphrag_workspace/
+uploads/
+人工复检/
+docs/
+
+# ===== 配置文件(运行时不需要) =====
 vitest.config.js
 eslint.config.js
 .prettierrc
 .prettierignore
-docker-compose.yml
-Dockerfile
+fix-nav2.mjs
+emb_server.log

@@ -3,6 +3,8 @@ version: '3.8'
 services:
   app:
     build: .
+    env_file:
+      - .env
     ports:
       - "${PORT:-3000}:3000"
     environment:
@@ -33,6 +35,7 @@ services:
   db:
     build:
       context: .
+      network: host
       dockerfile: Dockerfile.db
     ports:
       - "${DB_PORT:-5432}:5432"

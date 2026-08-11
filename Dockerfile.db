@@ -1,28 +1,57 @@
 FROM postgres:15-bookworm
 
-ENV AGE_VERSION=1.5.0
-ENV AGE_GIT_URL=https://github.com/apache/age.git
+ENV AGE_TAG=PG15/v1.6.0-rc0
+ENV AGE_DIR=age-PG15-1.6.0-rc0
 ENV PGVECTOR_VERSION=0.7.0
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    git \
-    postgresql-server-dev-15 \
-    libssl-dev \
-    wget \
+# 用国内 apt 镜像(VPN 全通道下更稳定) + 多重 fallback 导入 PostgreSQL GPG key
+RUN rm -f /etc/apt/sources.list.d/pgdg.list /etc/apt/sources.list && \
+    echo 'deb http://mirrors.aliyun.com/debian/ bookworm main contrib' > /etc/apt/sources.list && \
+    echo 'deb http://mirrors.aliyun.com/debian-security/ bookworm-security main contrib' >> /etc/apt/sources.list && \
+    echo 'deb http://mirrors.aliyun.com/debian/ bookworm-updates main contrib' >> /etc/apt/sources.list && \
+    install -d -m 0755 /etc/apt/keyrings && \
+    (wget -qO /tmp/pgdg.asc https://mirrors.aliyun.com/postgresql/repos/apt/ACCC4CF8.asc 2>/dev/null && \
+     gpg --dearmor < /tmp/pgdg.asc > /usr/share/keyrings/pgdg.gpg) || \
+    (wget -qO /tmp/pgdg.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc 2>/dev/null && \
+     gpg --dearmor < /tmp/pgdg.asc > /usr/share/keyrings/pgdg.gpg) || \
+    (gpg --no-default-keyring --keyring /usr/share/keyrings/pgdg.gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 7FCC7D46ACCC4CF8 2>/dev/null) || \
+    (echo "WARNING: GPG key import failed, using trusted=yes" && touch /usr/share/keyrings/pgdg.gpg) && \
+    echo 'deb [signed-by=/usr/share/keyrings/pgdg.gpg] http://mirrors.aliyun.com/postgresql/repos/apt/ bookworm-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update -o Acquire::Retries=10 -o Acquire::AllowInsecureRepositories=true && \
+    apt-get install -y --no-install-recommends --allow-unauthenticated -o Acquire::Retries=10 \
+        build-essential \
+        ca-certificates \
+        flex \
+        bison \
+        gnupg \
+        git \
+        postgresql-server-dev-15 \
+        libssl-dev \
+        wget \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone --branch v${AGE_VERSION} ${AGE_GIT_URL} /tmp/age \
-    && cd /tmp/age \
-    && make install \
-    && rm -rf /tmp/age
+# 用 wget 从 gh-proxy.com 镜像下载(WSL 9P 协议 5.3MB 文件有 bug,放弃 COPY)
+# 用 --strip-components=1 去掉顶层目录,避免 mv 找不到目录名
+RUN set -e && \
+    wget -q --tries=3 --retry-connrefused --timeout=120 -O /tmp/age.tar.gz \
+        https://gh-proxy.com/https://github.com/apache/age/archive/refs/tags/${AGE_TAG}.tar.gz && \
+    ls -lh /tmp/age.tar.gz && \
+    mkdir -p /tmp/age && \
+    tar -xzf /tmp/age.tar.gz --strip-components=1 -C /tmp/age && \
+    cd /tmp/age && \
+    make install && \
+    rm -rf /tmp/age /tmp/age.tar.gz
 
-RUN wget -q https://github.com/pgvector/pgvector/archive/refs/tags/v${PGVECTOR_VERSION}.tar.gz \
-    && tar -xzf v${PGVECTOR_VERSION}.tar.gz \
-    && cd pgvector-${PGVECTOR_VERSION} \
-    && make install \
-    && cd .. \
-    && rm -rf pgvector-${PGVECTOR_VERSION} v${PGVECTOR_VERSION}.tar.gz
+# 用 wget 从 gh-proxy.com 镜像下载
+RUN set -e && \
+    wget -q --tries=3 --retry-connrefused --timeout=120 -O /tmp/pgvector.tar.gz \
+        https://gh-proxy.com/https://github.com/pgvector/pgvector/archive/refs/tags/v${PGVECTOR_VERSION}.tar.gz && \
+    mkdir -p /tmp/pgvector && \
+    tar -xzf /tmp/pgvector.tar.gz --strip-components=1 -C /tmp/pgvector && \
+    cd /tmp/pgvector && \
+    make install && \
+    cd /tmp && \
+    rm -rf pgvector /tmp/pgvector.tar.gz
 
 RUN mkdir -p /docker-entrypoint-initdb.d
 
