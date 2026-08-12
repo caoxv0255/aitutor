@@ -110,6 +110,24 @@ app.use(express.static('frontend', {
 app.use('/frontend', express.static('frontend'));
 app.use('/icons', express.static('public/icons'));
 app.use('/redesign', express.static('ai-tutor-redesign'));
+
+const serveF3 = process.env.NODE_ENV !== 'production' || process.env.SERVE_F3 === 'true';
+if (serveF3) {
+  app.use(
+    '/f3',
+    express.static('ai-tutor-frontend', {
+      setHeaders(res, path) {
+        if (path.endsWith('.html') || path.endsWith('.js') || path.endsWith('.css')) {
+          // P0.1: dev/staging force no-cache to fix ES module browser cache stickiness
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+          res.setHeader('Pragma', 'no-cache');
+          res.setHeader('Expires', '0');
+        }
+      },
+    })
+  );
+  console.log('[F3] /f3 dev preview enabled (ai-tutor-frontend/)');
+}
 app.use(
   '/src',
   express.static('public/src', {
