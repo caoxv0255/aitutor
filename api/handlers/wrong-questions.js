@@ -100,7 +100,7 @@ export async function addWrongQuestion(req, res) {
 export async function updateWrongQuestion(req, res) {
   const { email } = req.user;
   const { id } = req.params;
-  const { reviewed, review_count, error_category, analysis_note } = req.body;
+  const { reviewed, review_count, error_category, analysis_note, is_correct, mastered } = req.body;
 
   try {
     const pool = await getDb();
@@ -122,6 +122,16 @@ export async function updateWrongQuestion(req, res) {
     if (error_category) {
       query += `error_category = $${paramIdx++}, `;
       params.push(error_category);
+    }
+
+    if (is_correct !== undefined) {
+      query += `is_correct = $` + (paramIdx++) + `, `;
+      params.push(is_correct);
+    }
+
+    if (mastered !== undefined) {
+      query += `mastered = $` + (paramIdx++) + `, `;
+      params.push(mastered);
     }
 
     if (analysis_note) {
