@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "message": "更新错题成功",
+  "data": {
+    "id": "q_001",
+    "is_correct": true,
+    "mastered": true,
+    "reviewed": true,
+    "updated_at": "2026-08-12T10:00:00Z"
+  }
+}

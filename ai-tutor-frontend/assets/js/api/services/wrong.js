@@ -42,6 +42,19 @@ export const wrong = {
     if (!payload || !payload.question) throw new Error('wrong.createQuestion: question required');
     return request('POST', '/api/questions', payload, { mockName: 'wrong_create' });
   },
-  // Slice 3.2 (deferred): markMastered (backend 无 PUT/PATCH, 等 backend 实现)
-  // async markMastered(id, isCorrect) { ... }
+  /**
+   * 标记错题掌握状态 (P0.4 commit 4)
+   * 后端: PUT /api/wrong-questions/:id { is_correct, mastered, ... }
+   * 实际挂在 api/modules/user/routes.js (modulesRouter 自动挂 /api/ 前缀)
+   * @param {string|number} id
+   * @param {{ is_correct?: boolean, mastered?: boolean, analysis_note?: string }} patch
+   * @returns {Promise<{success, message}>}
+   */
+  async markMastered(id, patch = {}) {
+    if (!id) throw new Error('wrong.markMastered: id required');
+    const payload = { ...patch };
+    if (typeof payload.is_correct === 'boolean') payload.is_correct = payload.is_correct;
+    if (typeof payload.mastered === 'boolean') payload.mastered = payload.mastered;
+    return request('PUT', `/api/wrong-questions/` + id, payload, { mockName: 'wrong_mark_mastered' });
+  },
 };
