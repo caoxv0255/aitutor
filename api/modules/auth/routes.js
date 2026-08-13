@@ -7,8 +7,8 @@ import { getUserProvince, setUserProvince, deleteUserProvince } from '../../hand
 
 const router = express.Router();
 
-router.use('/login', loginRouter);
-router.use('/register', registerRouter);
+router.post('/login', loginRouter);
+router.post('/register', registerRouter);
 router.use('/reset-password', resetPasswordRouter);
 router.use('/guest', guestLoginRouter);
 router.get('/prefs/province', getUserProvince);
