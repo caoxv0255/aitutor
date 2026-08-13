@@ -1,4 +1,4 @@
-// services/knowledge.js — 知识图谱 + 掌握度
+﻿// services/knowledge.js — 知识图谱 + 掌握度
 import { request } from '../client.js';
 
 export const knowledge = {
@@ -22,10 +22,10 @@ export const knowledge = {
   },
 
   async getSuggestions() {
-    return request('GET', '/api/knowledge/learning-suggestions', null, { mockName: 'knowledge_suggestions' });
+    return request('GET', '/api/user/learning-suggestions', null, { mockName: 'knowledge_suggestions' });
   },
 
   async getProfile() {
-    return request('GET', '/api/knowledge/profile', null, { mockName: 'knowledge_profile' });
+    return request('GET', '/api/user/knowledge-profile', null, { mockName: 'knowledge_profile' });
   },
 };

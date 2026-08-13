@@ -1,4 +1,4 @@
-import express from 'express';
+﻿import express from 'express';
 import tutorRoutes from './tutor/routes.js';
 import examRoutes from './exam/routes.js';
 import ragRoutes from './rag/routes.js';
@@ -9,6 +9,7 @@ import gamificationRoutes from './gamification/routes.js';
 import authRoutes from './auth/routes.js';
 import userRoutes from './user/routes.js';
 import trendsRoutes from './trends/routes.js';
+import knowledgeRoutes from './knowledge/routes.js';
 
 const router = express.Router();
 
@@ -22,5 +23,6 @@ router.use('/gamification', gamificationRoutes);
 router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
 router.use('/trends', trendsRoutes);
+router.use('/knowledge', knowledgeRoutes);
 
 export default router;

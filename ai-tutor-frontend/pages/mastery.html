@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN" class="light">
 <head>
     <meta charset="UTF-8">
@@ -694,7 +694,7 @@
             import { setUseMock } from '../assets/js/api/USE_MOCK.js';
 
             mountErrorBoundary();
-            setUseMock(true);  // Slice 2 强制 mock, 后端 :3002 没起
+            setUseMock(false);  // F3.6: knowledge backend 4 endpoint 已就绪
 
             // 6 knowledge services (Dashboard Shell Adapter 验证)
             const masteryRes = useAsyncResource(() => knowledge.getMastery({ subject: '数学' }));
