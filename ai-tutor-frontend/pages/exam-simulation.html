@@ -85,7 +85,12 @@
               <div><div class="text-[11px] text-foreground-muted">错误</div><div id="result-wrong" class="text-lg font-semibold text-error-500"></div></div>
               <div><div class="text-[11px] text-foreground-muted">未答</div><div id="result-empty" class="text-lg font-semibold text-foreground-muted"></div></div>
             </div>
-            <button id="result-back" type="button" class="inline-flex items-center gap-1.5 h-10 px-5 rounded-[10px] text-sm font-medium bg-primary-500 hover:bg-primary-600 text-white">返回试卷</button>
+            <div class="flex items-center justify-center gap-3 mt-4">
+              <button id="result-download-pdf" type="button" class="inline-flex items-center gap-1.5 h-10 px-5 rounded-[10px] text-sm font-medium bg-surface-tertiary text-foreground hover:bg-border transition-colors">
+                <i data-lucide="file-down" class="w-4 h-4"></i>下载试卷 PDF
+              </button>
+              <button id="result-back" type="button" class="inline-flex items-center gap-1.5 h-10 px-5 rounded-[10px] text-sm font-medium bg-primary-500 hover:bg-primary-600 text-white">返回试卷</button>
+            </div>
           </div>
         </section>
       </div>
@@ -119,6 +124,7 @@
 
       let sessionId = null;
       let currentSubject = null;
+      let currentPaperId = null;
       let questions = [];
       let answers = {};
       let currentIdx = 0;
@@ -150,6 +156,7 @@
           const res = await exam.startSession({ subject, mode: "exam", paperId });
           sessionId = (res && res.data && res.data.session_id) || null;
           currentSubject = subject;
+          currentPaperId = paperId;
           const qs = (res && res.data && res.data.questions) || [];
           questions = qs;
           answers = {};
@@ -216,6 +223,49 @@
       qNext.addEventListener("click", () => { if (currentIdx < questions.length - 1) { currentIdx++; renderQuestion(); } });
       qBack.addEventListener("click", () => showPapersView());
       rBack.addEventListener("click", () => showPapersView());
+
+
+      // F3.7.4: 下载试卷 PDF
+      const downloadPdfBtn = document.getElementById('result-download-pdf');
+      if (downloadPdfBtn) {
+        downloadPdfBtn.addEventListener('click', async () => {
+          if (!currentPaperId) {
+            toast.error('当前考试没有关联试卷, 无法下载');
+            return;
+          }
+          downloadPdfBtn.disabled = true;
+          const oldHtml = downloadPdfBtn.innerHTML;
+          downloadPdfBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>下载中…';
+          if (window.lucide) window.lucide.createIcons();
+          try {
+            const res = await exam.getExamPdf(currentPaperId);
+            if (res.mock) {
+              // mock 模式: 用预置 URL 触发新窗口下载
+              window.open(res.url, '_blank');
+              toast.info('已在新窗口打开试卷 PDF (mock)');
+            } else {
+              // 真后端: 触发 blob 下载
+              const url = URL.createObjectURL(res.blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = res.filename || 'exam.pdf';
+              document.body.appendChild(a);
+              a.click();
+              setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              }, 100);
+              toast.success('试卷已下载');
+            }
+          } catch (err) {
+            toast.error('下载失败: ' + (err.message || '未知错误'));
+          } finally {
+            downloadPdfBtn.disabled = false;
+            downloadPdfBtn.innerHTML = oldHtml;
+            if (window.lucide) window.lucide.createIcons();
+          }
+        });
+      }
 
       qSubmit.addEventListener("click", async () => {
         if (!confirm("确定提交? 提交后不可修改")) return;
