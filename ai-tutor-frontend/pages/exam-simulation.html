@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN" class="light">
 <head>
     <meta charset="UTF-8">
@@ -92,14 +92,14 @@
     </main>
 
     <script type="module">
-      import { exam } from "../assets/js/api/services/index.js";
+      import { exam, wrong } from "../assets/js/api/services/index.js";
       import { mountErrorBoundary } from "../assets/js/components/error-boundary.js";
       import { setUseMock } from "../assets/js/api/USE_MOCK.js";
       import { mount as mountNav } from "../assets/js/navator.js";
       import { toast } from "../assets/js/toast.js";
 
       mountErrorBoundary();
-      setUseMock(true);
+      setUseMock(false);
       mountNav("exam");
 
       const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -118,6 +118,7 @@
       const rBack = document.getElementById("result-back");
 
       let sessionId = null;
+      let currentSubject = null;
       let questions = [];
       let answers = {};
       let currentIdx = 0;
@@ -148,6 +149,7 @@
         try {
           const res = await exam.startSession({ subject, mode: "exam", paperId });
           sessionId = (res && res.data && res.data.session_id) || null;
+          currentSubject = subject;
           const qs = (res && res.data && res.data.questions) || [];
           questions = qs;
           answers = {};
@@ -222,6 +224,26 @@
           const res = await exam.submitSession({ sessionId, answers: payload });
           const data = (res && res.data) || {};
           showResultView(data.score != null ? data.score : 0, data.correct_count != null ? data.correct_count : 0, data.wrong_count != null ? data.wrong_count : 0, data.empty_count != null ? data.empty_count : 0);
+          // F3.7.3: auto-add wrong questions to wrong-book
+          if (Array.isArray(data.results)) {
+            const wrongItems = data.results.filter((r) => r && r.is_correct === false);
+            if (wrongItems.length > 0) {
+              const qMap = Object.fromEntries(questions.map((q) => [q.id, q]));
+              Promise.allSettled(wrongItems.map((r) => {
+                const q = qMap[r.question_id] || {};
+                return wrong.createQuestion({
+                  question: q.stem || q.question || r.question_id,
+                  subject: q.subject || currentSubject || 'unknown',
+                  answer: r.correct_answer || '',
+                  analysis: r.analysis || '',
+                  difficulty: q.difficulty || 3,
+                }).catch((e) => { console.warn('[F3.7.3] createQuestion fail', e); });
+              })).then(() => {
+                toast.info('已加入 ' + wrongItems.length + ' 道错题到错题本');
+              });
+            }
+          }
+
           toast.success("æäº¤æå");
         } catch (err) {
           toast.error("æäº¤å¤±è´¥: " + (err.message || ""));
