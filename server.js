@@ -27,14 +27,40 @@ validateJWTSecret();
 const app = express();
 const PORT = process.env.PORT || 3002;
 
+// Rate-limit policy:
+//   - authLimiter   20 / 15min : unauth-heavy endpoints (login/register/etc.)
+//   - proxyLimiter  10 / 1min  : per-user AI proxy (cost-controlled)
+//   - apiLimiter    dynamic    : 120/min for authenticated users, 30/min for anon.
+//                                Anonymous traffic gets the tighter bucket because
+//                                we can't tie it to a stable user key for ban lists.
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 20, message: { error: '请求过于频繁，请稍后再试' } });
 const proxyLimiter = rateLimit({ windowMs: 60 * 1000, max: 10, message: { error: '请求过于频繁，请稍后再试' } });
-const apiLimiter = rateLimit({ windowMs: 60 * 1000, max: 60, message: { error: '请求过于频繁，请稍后再试' } });
+const apiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  // express-rate-limit picks the key from req.ip by default; once authMiddleware
+  // runs the request will have req.user, so we can use email as a more stable
+  // key and bump the budget for known users.
+  keyGenerator: (req /*, res */) => (req.user && req.user.email) ? `u:${req.user.email}` : `ip:${req.ip}`,
+  max: (req /*, res */) => (req.user && req.user.email) ? 120 : 30,
+  message: { error: '请求过于频繁，请稍后再试' },
+});
 
-app.set('trust proxy', 1);
+// Trust-proxy configuration.
+//   - Default: trust the loopback proxy only (Express docs recommend this for
+//     single-tier reverse proxies).
+//   - Override with TRUST_PROXY=<n|ip|loopback|...> in env if you sit behind
+//     multiple tiers (e.g. CDN -> ALB -> app). Never set to `true` unless you
+//     fully control every hop, otherwise rate-limit X-Forwarded-For will be
+//     spoofable. See https://expressjs.com/en/guide/behind-proxies.html
+const TRUST_PROXY = process.env.TRUST_PROXY ?? 'loopback';
+app.set('trust proxy', TRUST_PROXY);
 app.use(securityHeaders);
 app.use(cors({ origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3002'], credentials: true }));
-app.use(express.json({ limit: '50mb' }));
+// Default JSON body limit is 1mb to mitigate DoS via large payloads.
+// Endpoints that legitimately need bigger bodies (e.g. exam-paper generation,
+// bulk imports) MUST install their own per-route body parser with an explicit,
+// tighter limit documented at the call site.
+app.use(express.json({ limit: '1mb' }));
 app.use(xssSanitizer);
 app.use(xssDetector);
 app.use(csrfProtection);
@@ -86,6 +112,14 @@ app.get('/app', (req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
+// P0.5 (2026-08-13): freeze legacy frontends, 301 -> F3
+// legacy /frontend (frontend/) and /redesign (ai-tutor-redesign/) have been migrated to /f3.
+// Preserve 30 days for backward links, then change to 410 Gone.
+// NOTE: must be BEFORE any express.static() that would shadow it (e.g. /redesign path inside frontend/).
+app.get(/^\/(frontend|redesign)(\/.*)?$/, (req, res) => {
+  res.redirect(301, '/f3/pages/index.html');
+});
+
 app.use(express.static('public'));
 app.use('/vendor', express.static('public/vendor'));
 app.use(
@@ -107,10 +141,7 @@ app.use(express.static('frontend', {
     }
   },
 }));
-app.use('/frontend', express.static('frontend'));
 app.use('/icons', express.static('public/icons'));
-app.use('/redesign', express.static('ai-tutor-redesign'));
-
 const serveF3 = process.env.NODE_ENV !== 'production' || process.env.SERVE_F3 === 'true';
 if (serveF3) {
   app.use(
@@ -140,13 +171,24 @@ app.use(
 );
 app.use('/uploads', express.static('uploads'));
 
-const wrapHandler = (handler) => async (req, res) => {
+// wrapHandler: catch both sync throws and async rejections, and respect
+// the case where the handler already started writing the response.
+const wrapHandler = (handler) => async (req, res, next) => {
   try {
-    await handler(req, res);
+    // Express 4 only forwards rejections to error middleware when the handler
+    // returns a promise; synchronous throws need an explicit try/catch.
+    const ret = handler(req, res, next);
+    if (ret && typeof ret.then === 'function') {
+      await ret;
+    }
   } catch (error) {
     logger.error('Handler error', { error });
     if (!res.headersSent) {
       res.status(500).json({ error: '服务器内部错误' });
+    } else {
+      // Headers already flushed (streaming, etc.) — destroy the socket so the
+      // client doesn't hang waiting for a body that's never coming.
+      res.destroy(error);
     }
   }
 };
@@ -181,9 +223,17 @@ app.post('/api/provinces/seed', async (req, res) => {
 });
 
 app.get('/api/exam-pdf/:paperId', generateExamPdf);
+// /api/proxy — MUST stay behind a fixed endpoint whitelist.
+// The handler (api/handlers/proxy.js) refuses any model not in API_CONFIGS,
+// which means the upstream URL is hardcoded and not user-controllable, so
+// the SSRF surface is limited to the two allow-listed hosts (DashScope /
+// DeepSeek).  Do NOT extend this handler to accept arbitrary URLs.
 app.post('/api/proxy', authMiddleware, proxyLimiter, wrapHandler(proxyHandler));
 
-app.use('/api/', authMiddleware, auditMiddleware, apiLimiter, modulesRouter);
+// Audit BEFORE auth: security-relevant events (failed auth, anonymous probing,
+// repeat 401s from one IP) only show up in the audit log if auditMiddleware
+// runs before authMiddleware rejects the request.
+app.use('/api/', auditMiddleware, authMiddleware, apiLimiter, modulesRouter);
 
 app.use((req, res) => {
   res.status(404).json(createErrorResponse(ErrorCode.INTERNAL_ERROR, 'API 端点不存在'));
