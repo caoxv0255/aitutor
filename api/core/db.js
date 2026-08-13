@@ -771,6 +771,13 @@ export async function query(sql, params = []) {
 /**
  * 获取连接池运行状态（用于监控与调试）
  */
+export async function closeDb() {
+  if (pool) {
+    await pool.end();
+    pool = null;
+  }
+}
+
 export function getPoolStats() {
   if (!pool) return null;
   return {
