@@ -4,8 +4,9 @@
 // envelope: backend successResponse (data + message, 无 pagination)
 // Slice 4.1/4.2/4.3 (deferred): askStream / getHistory / getMastery / session 持久化
 // Phase 1 不接 SSE, 不接 history 持久化, 不接 cross-page
-import { request, getMockEnabled, loadMock, getApiBase, getToken, ApiError, ErrorType } from '../client.js';
-
+import { request, loadMock, getApiBase, ApiError, ErrorType } from '../client.js';
+import { getToken } from '../../auth.js';
+import { getMockEnabled } from '../USE_MOCK.js';
 // ===== Slice 4.3 SSE parser helper (D52) =====
 function parseSseFrame(frame) {
   if (!frame) return null;

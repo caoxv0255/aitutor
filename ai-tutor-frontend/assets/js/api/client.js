@@ -189,8 +189,11 @@ async function tryOnce(method, path, body, opts) {
       return { type: ErrorType.BUSINESS, retry: false, status: res.status, code, data };
     }
 
-    // 2xx/3xx: 成功
-    return { type: 'OK', retry: false, status: res.status, code: null, data };
+    // 2xx/3xx: 成功 — unwrap envelope {success, message, data}
+    const payload = (data && typeof data === 'object' && 'success' in data && 'data' in data)
+      ? data.data
+      : data;
+    return { type: 'OK', retry: false, status: res.status, code: null, data: payload };
   } catch (e) {
     clearTimeout(timer);
     if (e.name === 'AbortError') {
@@ -260,7 +263,7 @@ export async function request(method, path, body, opts = {}) {
     if (!(opts.silent || e instanceof ApiError && e.type === ErrorType.AUTH && (() => {
       // AUTH: toast.error + 跳登录 (silent 也弹, 因为重要)
       toast.error('登录已过期, 请重新登录');
-      setTimeout(() => { window.location.href = '/login.html'; }, 1000);
+      setTimeout(() => { window.location.href = '/f3/pages/login.html'; }, 1000);
       return true;
     })())) {
       // BUSINESS 优先用 backend msg;  否则用 USER_MESSAGE 默认

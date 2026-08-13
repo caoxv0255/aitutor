@@ -1,5 +1,6 @@
 // auth.js — token 存 localStorage, 401 自动跳 login
-const TOKEN_KEY='***';
+const TOKEN_KEY = 'aitutor.token';  // 跟 client.js 一致
+
 const USER_KEY = 'aitutor.user';
 
 export function getToken() { return localStorage.getItem(TOKEN_KEY); }

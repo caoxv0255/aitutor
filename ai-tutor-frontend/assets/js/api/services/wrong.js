@@ -15,7 +15,7 @@ export const wrong = {
     if (knowledgePointId) params.set('knowledge_point_id', knowledgePointId);
     params.set('limit', String(limit));
     params.set('offset', String((page - 1) * limit));
-    return request('GET', `/api/questions?${params}`, null, { mockName: 'wrong_questions' });
+    return request('GET', `/api/user/wrong-questions?${params}`, null, { mockName: 'wrong_questions' });
   },
   /**
    * 删除单条错题 (Slice 3.2: write op)
@@ -24,7 +24,7 @@ export const wrong = {
    */
   async deleteQuestion(id) {
     if (!id) throw new Error('wrong.deleteQuestion: id required');
-    return request('DELETE', '/api/questions', { id }, { mockName: 'wrong_delete' });
+    return request('DELETE', '/api/user/wrong-questions/' + id, { mockName: 'wrong_delete' });
   },
   /**
    * 创建错题 (Slice 3.2: 供 tutor '加入错题本' 触发, cross-page workflow)
@@ -40,7 +40,7 @@ export const wrong = {
    */
   async createQuestion(payload) {
     if (!payload || !payload.question) throw new Error('wrong.createQuestion: question required');
-    return request('POST', '/api/questions', payload, { mockName: 'wrong_create' });
+    return request('POST', '/api/user/wrong-questions', payload, { mockName: 'wrong_create' });
   },
   /**
    * 标记错题掌握状态 (P0.4 commit 4)
@@ -55,6 +55,6 @@ export const wrong = {
     const payload = { ...patch };
     if (typeof payload.is_correct === 'boolean') payload.is_correct = payload.is_correct;
     if (typeof payload.mastered === 'boolean') payload.mastered = payload.mastered;
-    return request('PUT', `/api/wrong-questions/` + id, payload, { mockName: 'wrong_mark_mastered' });
+    return request('PUT', `/api/user/wrong-questions/` + id, payload, { mockName: 'wrong_mark_mastered' });
   },
 };
