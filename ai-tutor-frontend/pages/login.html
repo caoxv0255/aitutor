@@ -665,83 +665,26 @@
                 <p class="text-foreground-secondary text-[15px]" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">登录继续你的学习之旅</p>
               </div>
 
-              <!-- Tab Switcher -->
-              <div class="flex bg-surface-tertiary rounded-[10px] p-1 mb-6" role="tablist">
-                <button id="tab-phone" type="button" role="tab" aria-selected="true" data-tab-target="panel-phone" class="login-tab flex-1 h-9 text-sm font-medium rounded-[8px] bg-surface text-foreground shadow-sm transition-all" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
-                  手机号登录
-                </button>
-                <button id="tab-password" type="button" role="tab" aria-selected="false" data-tab-target="panel-password" class="login-tab flex-1 h-9 text-sm font-medium rounded-[8px] text-foreground-secondary hover:text-foreground transition-all" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
-                  账号密码登录
-                </button>
-              </div>
 
-              <!-- ===== Panel 1: Phone Login ===== -->
-              <div id="panel-phone" class="login-panel space-y-4" role="tabpanel">
-                <!-- Phone input -->
-                <div class="space-y-1.5">
-                  <label class="block text-sm font-medium text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">手机号</label>
-                  <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                      <i data-lucide="smartphone" class="w-[18px] h-[18px] text-foreground-muted"></i>
-                    </div>
-                    <input type="tel" id="phone-input" placeholder="请输入手机号" maxlength="11"
-                      class="w-full h-10 pl-10 pr-3.5 rounded-[8px] border border-border bg-surface text-foreground text-sm placeholder:text-foreground-muted focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 focus:outline-none transition-all"
-                      style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
-                  </div>
-                  <p id="phone-error" class="hidden text-xs text-error-500 flex items-center gap-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
-                    <i data-lucide="alert-circle" class="w-3 h-3"></i>
-                    <span>请输入正确的手机号</span>
-                  </p>
-                </div>
 
-                <!-- Verification code input -->
-                <div class="space-y-1.5">
-                  <label class="block text-sm font-medium text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">验证码</label>
-                  <div class="flex gap-2">
-                    <div class="relative flex-1">
-                      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                        <i data-lucide="shield" class="w-[18px] h-[18px] text-foreground-muted"></i>
-                      </div>
-                      <input type="text" id="code-input" placeholder="请输入验证码" maxlength="6"
-                        class="w-full h-10 pl-10 pr-3.5 rounded-[8px] border border-border bg-surface text-foreground text-sm placeholder:text-foreground-muted focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 focus:outline-none transition-all"
-                        style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
-                    </div>
-                    <button type="button" id="get-code-btn" class="h-10 px-4 shrink-0 rounded-[8px] border border-primary-500 text-primary-500 text-sm font-medium hover:bg-primary-50 transition-colors whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
-                      获取验证码
-                    </button>
-                  </div>
-                  <p id="code-error" class="hidden text-xs text-error-500 flex items-center gap-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
-                    <i data-lucide="alert-circle" class="w-3 h-3"></i>
-                    <span>请输入验证码</span>
-                  </p>
-                </div>
 
-                <!-- Login button -->
-                <button type="button" data-dom-id="login-submit" data-panel="phone" class="login-btn w-full h-12 mt-2 rounded-[14px] bg-primary-500 text-white text-[15px] font-semibold hover:bg-primary-600 active:scale-[0.99] transition-all shadow-[0_1px_2px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_8px_rgba(215,25,32,0.25)] inline-flex items-center justify-center gap-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
-                  <span class="login-btn-text">登录</span>
-                  <span class="login-btn-loading hidden items-center gap-2">
-                    <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    登录中...
-                  </span>
-                </button>
-              </div>
 
               <!-- ===== Panel 2: Password Login ===== -->
-              <div id="panel-password" class="login-panel hidden space-y-4" role="tabpanel">
+              <div id="panel-id" class="login-panel space-y-4" role="tabpanel">
                 <!-- Account input -->
                 <div class="space-y-1.5">
-                  <label class="block text-sm font-medium text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">账号</label>
+                  <label class="block text-sm font-medium text-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">邮箱</label>
                   <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                       <i data-lucide="user" class="w-[18px] h-[18px] text-foreground-muted"></i>
                     </div>
-                    <input type="text" id="account-input" placeholder="请输入账号/邮箱"
+                    <input type="email" id="email-input" placeholder="请输入邮箱"
                       class="w-full h-10 pl-10 pr-3.5 rounded-[8px] border border-border bg-surface text-foreground text-sm placeholder:text-foreground-muted focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15 focus:outline-none transition-all"
                       style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
                   </div>
-                  <p id="account-error" class="hidden text-xs text-error-500 flex items-center gap-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                  <p id="email-error" class="hidden text-xs text-error-500 flex items-center gap-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
                     <i data-lucide="alert-circle" class="w-3 h-3"></i>
-                    <span>请输入账号</span>
+                    <span>请输入正确的邮箱</span>
                   </p>
                 </div>
 
@@ -776,7 +719,7 @@
                 </div>
 
                 <!-- Login button -->
-                <button type="button" data-dom-id="login-submit" data-panel="password" class="login-btn w-full h-12 mt-1 rounded-[14px] bg-primary-500 text-white text-[15px] font-semibold hover:bg-primary-600 active:scale-[0.99] transition-all shadow-[0_1px_2px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_8px_rgba(215,25,32,0.25)] inline-flex items-center justify-center gap-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
+                <button type="button" data-dom-id="login-submit" class="login-btn w-full h-12 mt-1 rounded-[14px] bg-primary-500 text-white text-[15px] font-semibold hover:bg-primary-600 active:scale-[0.99] transition-all shadow-[0_1px_2px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_8px_rgba(215,25,32,0.25)] inline-flex items-center justify-center gap-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
                   <span class="login-btn-text">登录</span>
                   <span class="login-btn-loading hidden items-center gap-2">
                     <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -812,228 +755,87 @@
         </div>
       </div>
 
-      <script>
-        (function() {
-          // ---- Tab Switching ----
-          var tabs = document.querySelectorAll('.login-tab');
-          var panels = document.querySelectorAll('.login-panel');
-
-          function activateTab(targetId) {
-            tabs.forEach(function(t) {
-              var isTarget = t.getAttribute('data-tab-target') === targetId;
-              t.setAttribute('aria-selected', isTarget ? 'true' : 'false');
-              if (isTarget) {
-                t.classList.add('bg-surface', 'text-foreground', 'shadow-sm');
-                t.classList.remove('text-foreground-secondary');
-              } else {
-                t.classList.remove('bg-surface', 'text-foreground', 'shadow-sm');
-                t.classList.add('text-foreground-secondary');
-              }
-            });
-            panels.forEach(function(p) {
-              if (p.id === targetId) {
-                p.classList.remove('hidden');
-              } else {
-                p.classList.add('hidden');
-              }
-            });
-            // Clear error states on switch
-            document.querySelectorAll('[id$="-error"]').forEach(function(e) { e.classList.add('hidden'); });
-            document.querySelectorAll('#panel-phone input, #panel-password input').forEach(function(inp) {
-              inp.classList.remove('border-error-500');
-              inp.classList.add('border-border');
-            });
-          }
-
-          tabs.forEach(function(tab) {
-            tab.addEventListener('click', function() {
-              activateTab(tab.getAttribute('data-tab-target'));
-            });
-          });
-
-          // ---- Password Visibility Toggle ----
-          var togglePwd = document.getElementById('toggle-password');
-          var pwdInput = document.getElementById('password-input');
-          var eyeOpen = document.getElementById('eye-open');
-          var eyeClosed = document.getElementById('eye-closed');
-
-          togglePwd.addEventListener('click', function() {
-            var isPwd = pwdInput.type === 'password';
-            pwdInput.type = isPwd ? 'text' : 'password';
-            eyeOpen.classList.toggle('hidden', isPwd);
-            eyeClosed.classList.toggle('hidden', !isPwd);
-          });
-
-          // ---- Verification Code Countdown ----
-          var getCodeBtn = document.getElementById('get-code-btn');
-          var countdownTimer = null;
-
-          getCodeBtn.addEventListener('click', function() {
-            if (getCodeBtn.disabled) return;
-            var phoneInput = document.getElementById('phone-input');
-            var phone = phoneInput.value.trim();
-            var phoneError = document.getElementById('phone-error');
-            var phoneReg = /^1[3-9]\d{9}$/;
-
-            if (!phoneReg.test(phone)) {
-              phoneInput.classList.remove('border-border');
-              phoneInput.classList.add('border-error-500');
-              phoneError.classList.remove('hidden');
-              phoneInput.focus();
-              return;
-            }
-            phoneInput.classList.remove('border-error-500');
-            phoneInput.classList.add('border-border');
-            phoneError.classList.add('hidden');
-
-            var seconds = 60;
-            getCodeBtn.disabled = true;
-            getCodeBtn.classList.add('opacity-60', 'cursor-not-allowed');
-            getCodeBtn.classList.remove('hover:bg-primary-50');
-            getCodeBtn.textContent = seconds + 's 后重发';
-
-            countdownTimer = setInterval(function() {
-              seconds--;
-              if (seconds <= 0) {
-                clearInterval(countdownTimer);
-                getCodeBtn.disabled = false;
-                getCodeBtn.classList.remove('opacity-60', 'cursor-not-allowed');
-                getCodeBtn.classList.add('hover:bg-primary-50');
-                getCodeBtn.textContent = '获取验证码';
-              } else {
-                getCodeBtn.textContent = seconds + 's 后重发';
-              }
-            }, 1000);
-          });
-
-          // Clear error state on input
-          ['phone-input', 'code-input', 'account-input', 'password-input'].forEach(function(id) {
-            var el = document.getElementById(id);
-            if (!el) return;
-            el.addEventListener('input', function() {
-              var errId = id.replace('-input', '-error');
-              var errEl = document.getElementById(errId);
-              if (errEl) errEl.classList.add('hidden');
-              el.classList.remove('border-error-500');
-              el.classList.add('border-border');
-            });
-          });
-
-          // ---- Login Submit (simulate success -> redirect to dashboard) ----
-          var loginBtns = document.querySelectorAll('.login-btn');
-          loginBtns.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-              var panel = btn.getAttribute('data-panel');
-              var valid = true;
-
-              if (panel === 'phone') {
-                var phoneInp = document.getElementById('phone-input');
-                var codeInp = document.getElementById('code-input');
-                var phoneErr = document.getElementById('phone-error');
-                var codeErr = document.getElementById('code-error');
-                var phoneReg = /^1[3-9]\d{9}$/;
-
-                if (!phoneReg.test(phoneInp.value.trim())) {
-                  phoneInp.classList.remove('border-border');
-                  phoneInp.classList.add('border-error-500');
-                  phoneErr.classList.remove('hidden');
-                  valid = false;
-                }
-                if (!codeInp.value.trim() || codeInp.value.trim().length < 4) {
-                  codeInp.classList.remove('border-border');
-                  codeInp.classList.add('border-error-500');
-                  codeErr.classList.remove('hidden');
-                  valid = false;
-                }
-              } else if (panel === 'password') {
-                var accInp = document.getElementById('account-input');
-                var pwdInp = document.getElementById('password-input');
-                var accErr = document.getElementById('account-error');
-                var pwdErr = document.getElementById('password-error');
-
-                if (!accInp.value.trim()) {
-                  accInp.classList.remove('border-border');
-                  accInp.classList.add('border-error-500');
-                  accErr.classList.remove('hidden');
-                  valid = false;
-                }
-                if (!pwdInp.value.trim()) {
-                  pwdInp.classList.remove('border-border');
-                  pwdInp.classList.add('border-error-500');
-                  pwdErr.classList.remove('hidden');
-                  valid = false;
-                }
-              }
-
-              if (!valid) return;
-
-              // Simulate login loading
-              btn.disabled = true;
-              btn.classList.add('opacity-80', 'cursor-wait');
-              var btnText = btn.querySelector('.login-btn-text');
-              var btnLoading = btn.querySelector('.login-btn-loading');
-              if (btnText) btnText.classList.add('hidden');
-              if (btnLoading) { btnLoading.classList.remove('hidden'); btnLoading.classList.add('inline-flex'); }
-
-              window.__f3Login(panel, btn, btnText, btnLoading);
-            });
-          });
-        })();
-      </script>
       <script type="module">
-        // ===== F3 Slice F3.1 — login page auth wiring =====
-        import { auth } from '../assets/js/api/services/index.js';
-        import { setUseMock } from '../assets/js/api/USE_MOCK.js';
-        setUseMock(true);  // dev mode, backend /api/auth/* 不一定起
+        // ===== F3 Slice F3.1 — login page auth wiring (real backend) =====
+        import { auth } from "../assets/js/api/services/index.js";
+        import { setUseMock } from "../assets/js/api/USE_MOCK.js";
+        // 默认走真后端 (useMock = false); 用户可通过 navator 顶栏 Mock 按钮切换
+        setUseMock(false);
 
-        // Real auth login (called from IIFE after validation passes)
-        window.__f3Login = async function(panel, btn, btnText, btnLoading) {
-          if (panel === 'phone') {
-            const phoneInp = document.getElementById('phone-input');
-            const codeInp = document.getElementById('code-input');
-            // IIFE 已做 client validation, 这里做 server call
-            try {
-              const res = await auth.login({
-                email: phoneInp.value.trim() + '@phone.aitutor',
-                password: codeInp.value.trim(),
-              });
-              window.location.href = './dashboard.html';
-            } catch (err) {
-              // 失败: 恢复按钮 + 显示错误
-              btn.disabled = false;
-              btn.classList.remove('opacity-80', 'cursor-wait');
-              if (btnText) btnText.classList.remove('hidden');
-              if (btnLoading) { btnLoading.classList.add('hidden'); btnLoading.classList.remove('inline-flex'); }
-              const codeErr = document.getElementById('code-error');
-              if (codeErr) {
-                codeErr.textContent = err.message || '登录失败';
-                codeErr.classList.remove('hidden');
-              }
-              console.error('[F3.1] login error:', err.type, err.code, err.message);
+        ["email-input", "password-input"].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener("input", function() {
+            var errId = id.replace("-input", "-error");
+            var errEl = document.getElementById(errId);
+            if (errEl) errEl.classList.add("hidden");
+            el.classList.remove("border-error-500");
+            el.classList.add("border-border");
+          });
+        });
+
+        var pwdInput = document.getElementById("password-input");
+        var togglePwd = document.getElementById("toggle-password");
+        var eyeOpen = document.getElementById("eye-open");
+        var eyeClosed = document.getElementById("eye-closed");
+        if (togglePwd && pwdInput) {
+          togglePwd.addEventListener("click", function() {
+            var isPwd = pwdInput.type === "password";
+            pwdInput.type = isPwd ? "text" : "password";
+            if (eyeOpen) eyeOpen.classList.toggle("hidden", isPwd);
+            if (eyeClosed) eyeClosed.classList.toggle("hidden", !isPwd);
+          });
+        }
+
+        var loginBtn = document.querySelector(".login-btn");
+        if (loginBtn) {
+          loginBtn.addEventListener("click", async function() {
+            var emailInp = document.getElementById("email-input");
+            var pwdInp = document.getElementById("password-input");
+            var emailErr = document.getElementById("email-error");
+            var pwdErr = document.getElementById("password-error");
+            var emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var valid = true;
+            if (!emailReg.test(emailInp.value.trim())) {
+              emailInp.classList.remove("border-border");
+              emailInp.classList.add("border-error-500");
+              emailErr.classList.remove("hidden");
+              valid = false;
             }
-          } else if (panel === 'password') {
-            const accInp = document.getElementById('account-input');
-            const pwdInp = document.getElementById('password-input');
+            if (!pwdInp.value.trim()) {
+              pwdInp.classList.remove("border-border");
+              pwdInp.classList.add("border-error-500");
+              pwdErr.classList.remove("hidden");
+              valid = false;
+            }
+            if (!valid) return;
+
+            loginBtn.disabled = true;
+            loginBtn.classList.add("opacity-80", "cursor-wait");
+            var btnText = loginBtn.querySelector(".login-btn-text");
+            var btnLoading = loginBtn.querySelector(".login-btn-loading");
+            if (btnText) btnText.classList.add("hidden");
+            if (btnLoading) { btnLoading.classList.remove("hidden"); btnLoading.classList.add("inline-flex"); }
+
             try {
               const res = await auth.login({
-                email: accInp.value.trim(),
+                email: emailInp.value.trim(),
                 password: pwdInp.value,
               });
-              window.location.href = './dashboard.html';
+              window.location.href = "./dashboard.html";
             } catch (err) {
-              btn.disabled = false;
-              btn.classList.remove('opacity-80', 'cursor-wait');
-              if (btnText) btnText.classList.remove('hidden');
-              if (btnLoading) { btnLoading.classList.add('hidden'); btnLoading.classList.remove('inline-flex'); }
-              const pwdErr = document.getElementById('password-error');
+              loginBtn.disabled = false;
+              loginBtn.classList.remove("opacity-80", "cursor-wait");
+              if (btnText) btnText.classList.remove("hidden");
+              if (btnLoading) { btnLoading.classList.add("hidden"); btnLoading.classList.remove("inline-flex"); }
               if (pwdErr) {
-                pwdErr.textContent = err.message || '登录失败';
-                pwdErr.classList.remove('hidden');
+                pwdErr.textContent = err.message || "登录失败";
+                pwdErr.classList.remove("hidden");
               }
-              console.error('[F3.1] login error:', err.type, err.code, err.message);
+              console.error("[F3.1] login error:", err.type, err.code, err.message);
             }
-          }
-        };
+          });
+        }
       </script>
     </main>
     <script>lucide.createIcons();</script>

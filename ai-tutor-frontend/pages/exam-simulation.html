@@ -30,148 +30,206 @@
     </style>
 </head>
 <body class="min-h-screen bg-surface">
-    <!-- Navigation -->
-    <header class="sticky top-0 z-50 bg-surface border-b border-border">
-        <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
-            <a href="./index.html" class="flex items-center gap-2.5">
-                <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-sm">AI</span>
-                <span class="text-lg font-semibold text-foreground">AI tutor</span>
-            </a>
-            <ul class="hidden md:flex items-center gap-2">
-                <li><a href="./index.html" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary">首页</a></li>
-                <li><a href="./exam-simulation.html" class="px-3 py-2 rounded-lg text-sm font-medium text-primary-500 bg-primary-50">考试练习</a></li>
-                <li><a href="./tutor.html" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary">AI导师</a></li>
-                <li><a href="./dashboard.html" class="px-3 py-2 rounded-lg text-sm font-medium text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary">学情分析</a></li>
-            </ul>
-            <a href="./login.html" class="inline-flex items-center px-4 h-9 rounded-lg text-sm font-medium text-white bg-primary-500 hover:bg-primary-600">登录</a>
-        </nav>
-    </header>
+        <main class="min-h-screen bg-surface-secondary" style="font-family:DM Sans,Noto Sans SC,sans-serif;">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <section class="mb-6">
+          <span class="ait-badge ait-badge-primary">F3 Slice 4.4 commit 6</span>
+          <h1 class="mt-2 text-2xl font-bold text-foreground">æ¨¡æè</h1>
+          <p class="mt-1 text-[13px] text-foreground-secondary">éæ©è¯å· â ç­é¢ â æäº¤</p>
+        </section>
 
-    <!-- Main Content -->
-    <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">考试练习</h1>
-            <p class="mt-2 text-foreground-secondary">选择试卷进行模拟练习，提升考试能力</p>
-        </div>
+        <!-- View: paper list -->
+        <section id="view-papers">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-base font-semibold text-foreground">è¯å·åè¡¨</h2>
+            <span id="papers-loading" class="text-[12px] text-foreground-muted">å è½½ä¸­â¦</span>
+          </div>
+          <div id="papers-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </section>
 
-        <!-- Paper List -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Paper Card 1 -->
-            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
-                        <i data-lucide="file-text" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年全国甲卷数学</h3>
-                        <p class="text-sm text-foreground-secondary">高考真题</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
-                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 120分钟</span>
-                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 22题</span>
-                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 150分</span>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
+        <!-- View: question runner -->
+        <section id="view-questions" class="hidden">
+          <div class="flex items-center justify-between mb-4">
+            <button id="exam-back" type="button" class="inline-flex items-center gap-1.5 h-9 px-3 rounded-[10px] text-[13px] font-medium text-foreground-secondary hover:bg-surface-tertiary transition-colors">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+              è¿åè¯å·
+            </button>
+            <span id="q-progress" class="text-[13px] text-foreground-secondary"></span>
+          </div>
+          <div id="q-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-4"></div>
+          <div id="q-nav" class="flex items-center justify-between gap-3">
+            <button id="q-prev" type="button" class="inline-flex items-center gap-1.5 h-10 px-4 rounded-[10px] text-sm font-medium bg-surface-tertiary text-foreground hover:bg-border transition-colors">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>ä¸ä¸é¢
+            </button>
+            <button id="q-submit" type="button" class="inline-flex items-center gap-1.5 h-10 px-5 rounded-[10px] text-sm font-medium bg-primary-500 hover:bg-primary-600 text-white transition-colors">
+              æäº¤ç­å<i data-lucide="check" class="w-4 h-4"></i>
+            </button>
+            <button id="q-next" type="button" class="inline-flex items-center gap-1.5 h-10 px-4 rounded-[10px] text-sm font-medium bg-surface-tertiary text-foreground hover:bg-border transition-colors">
+              ä¸ä¸é¢<i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </section>
+
+        <!-- View: result -->
+        <section id="view-result" class="hidden">
+          <div class="bg-surface rounded-2xl border border-border shadow-sm p-8 text-center">
+            <i data-lucide="trophy" class="w-12 h-12 text-primary-500 mx-auto mb-3"></i>
+            <h2 class="text-xl font-bold text-foreground mb-2">ç­å·å·²æäº¤</h2>
+            <div class="text-[13px] text-foreground-secondary mb-4">
+              <span>得分Â </span>
+              <span id="result-score" class="text-3xl font-bold text-primary-500 mx-1"></span>
+              <span>å</span>
             </div>
-
-            <!-- Paper Card 2 -->
-            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-info-50 text-info-500">
-                        <i data-lucide="file-text" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年全国乙卷语文</h3>
-                        <p class="text-sm text-foreground-secondary">高考真题</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
-                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 150分钟</span>
-                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 22题</span>
-                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 150分</span>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
+            <div class="grid grid-cols-3 gap-3 max-w-xs mx-auto mb-6 text-center">
+              <div><div class="text-[11px] text-foreground-muted">æ­£ç¡®</div><div id="result-correct" class="text-lg font-semibold text-success-500"></div></div>
+              <div><div class="text-[11px] text-foreground-muted">éè¯¯</div><div id="result-wrong" class="text-lg font-semibold text-error-500"></div></div>
+              <div><div class="text-[11px] text-foreground-muted">æªç­</div><div id="result-empty" class="text-lg font-semibold text-foreground-muted"></div></div>
             </div>
-
-            <!-- Paper Card 3 -->
-            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-success-50 text-success-500">
-                        <i data-lucide="file-text" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年全国甲卷英语</h3>
-                        <p class="text-sm text-foreground-secondary">高考真题</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
-                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 120分钟</span>
-                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 86题</span>
-                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 150分</span>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
-            </div>
-
-            <!-- Paper Card 4 -->
-            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-warning-50 text-warning-500">
-                        <i data-lucide="file-text" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年新高考I卷物理</h3>
-                        <p class="text-sm text-foreground-secondary">高考真题</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
-                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 75分钟</span>
-                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 16题</span>
-                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 100分</span>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
-            </div>
-
-            <!-- Paper Card 5 -->
-            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-error-50 text-error-500">
-                        <i data-lucide="file-text" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年新高考I卷化学</h3>
-                        <p class="text-sm text-foreground-secondary">高考真题</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
-                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 75分钟</span>
-                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 16题</span>
-                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 100分</span>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
-            </div>
-
-            <!-- Paper Card 6 -->
-            <div class="p-6 rounded-2xl bg-surface border border-border shadow-card hover:shadow-hover transition-all cursor-pointer group">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-creative-50 text-creative-600">
-                        <i data-lucide="file-text" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-foreground group-hover:text-primary-500 transition-colors">2025年新高考I卷生物</h3>
-                        <p class="text-sm text-foreground-secondary">高考真题</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 text-sm text-foreground-secondary mb-4">
-                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 75分钟</span>
-                    <span class="flex items-center gap-1"><i data-lucide="list-checks" class="w-4 h-4"></i> 24题</span>
-                    <span class="flex items-center gap-1"><i data-lucide="target" class="w-4 h-4"></i> 100分</span>
-                </div>
-                <button class="w-full h-10 rounded-xl bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors">开始练习</button>
-            </div>
-        </div>
+            <button id="result-back" type="button" class="inline-flex items-center gap-1.5 h-10 px-5 rounded-[10px] text-sm font-medium bg-primary-500 hover:bg-primary-600 text-white">è¿åè¯å·</button>
+          </div>
+        </section>
+      </div>
     </main>
 
+    <script type="module">
+      import { exam } from "../assets/js/api/services/index.js";
+      import { mountErrorBoundary } from "../assets/js/components/error-boundary.js";
+      import { setUseMock } from "../assets/js/api/USE_MOCK.js";
+      import { mount as mountNav } from "../assets/js/navator.js";
+      import { toast } from "../assets/js/toast.js";
+
+      mountErrorBoundary();
+      setUseMock(true);
+      mountNav("exam");
+
+      const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+      const papersListEl = document.getElementById("papers-list");
+      const papersLoadingEl = document.getElementById("papers-loading");
+      const viewPapers = document.getElementById("view-papers");
+      const viewQuestions = document.getElementById("view-questions");
+      const viewResult = document.getElementById("view-result");
+      const qCard = document.getElementById("q-card");
+      const qProgress = document.getElementById("q-progress");
+      const qPrev = document.getElementById("q-prev");
+      const qNext = document.getElementById("q-next");
+      const qSubmit = document.getElementById("q-submit");
+      const qBack = document.getElementById("exam-back");
+      const rBack = document.getElementById("result-back");
+
+      let sessionId = null;
+      let questions = [];
+      let answers = {};
+      let currentIdx = 0;
+
+      async function loadPapers() {
+        papersLoadingEl.textContent = "å è½½ä¸­â¦";
+        try {
+          const res = await exam.getPapers({});
+          papersLoadingEl.classList.add("hidden");
+          const items = (res && res.data) || [];
+          if (items.length === 0) {
+            papersListEl.innerHTML = "<div class=\"col-span-full text-[13px] text-foreground-muted p-6 bg-surface rounded-2xl border border-border\">ææ å¯ç¨è¯å·</div>";
+            return;
+          }
+          papersListEl.innerHTML = items.map((p) =>
+            "<div class=\"bg-surface rounded-2xl border border-border shadow-sm p-5 hover:shadow-md transition-shadow\"><div class=\"flex items-center gap-3 mb-3\"><span class=\"inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-500\"><i data-lucide=\"file-text\" class=\"w-5 h-5\"></i></span><div class=\"min-w-0\"><h3 class=\"font-semibold text-foreground truncate\">" + esc(p.title || p.name || "è¯å·") + "</h3><p class=\"text-[12px] text-foreground-muted\">" + esc(p.subject || "") + (p.year ? " Â· " + esc(p.year) : "") + "</p></div></div><div class=\"flex items-center gap-4 text-[12px] text-foreground-secondary mb-4\"><span>é¢ç® " + (p.question_count || "?") + "</span><span>æ¶é¿ " + (p.duration || "?") + " min</span></div><button class=\"exam-start w-full h-10 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors\" data-paper-id=\"" + esc(p.id) + "\" data-paper-subject=\"" + esc(p.subject || "math") + "\">å¼å§</button></div>"
+          ).join("");
+          if (window.lucide) window.lucide.createIcons();
+          papersListEl.querySelectorAll(".exam-start").forEach((btn) => {
+            btn.addEventListener("click", () => startSession(btn.dataset.paperId, btn.dataset.paperSubject));
+          });
+        } catch (err) {
+          papersLoadingEl.textContent = "å è½½å¤±è´¥: " + (err.message || "");
+        }
+      }
+
+      async function startSession(paperId, subject) {
+        try {
+          const res = await exam.startSession({ subject, mode: "exam", paperId });
+          sessionId = (res && res.data && res.data.session_id) || null;
+          const qs = (res && res.data && res.data.questions) || [];
+          questions = qs;
+          answers = {};
+          currentIdx = 0;
+          if (questions.length === 0) {
+            toast.error("è¯å·ä¸ºç©º");
+            return;
+          }
+          showQuestionsView();
+          renderQuestion();
+        } catch (err) {
+          toast.error("å¼å§å¤±è´¥: " + (err.message || ""));
+        }
+      }
+
+      function showQuestionsView() {
+        viewPapers.classList.add("hidden");
+        viewResult.classList.add("hidden");
+        viewQuestions.classList.remove("hidden");
+      }
+      function showPapersView() {
+        viewQuestions.classList.add("hidden");
+        viewResult.classList.add("hidden");
+        viewPapers.classList.remove("hidden");
+      }
+      function showResultView(score, correct, wrong, empty) {
+        viewPapers.classList.add("hidden");
+        viewQuestions.classList.add("hidden");
+        viewResult.classList.remove("hidden");
+        document.getElementById("result-score").textContent = score;
+        document.getElementById("result-correct").textContent = correct;
+        document.getElementById("result-wrong").textContent = wrong;
+        document.getElementById("result-empty").textContent = empty;
+      }
+
+      function renderQuestion() {
+        const q = questions[currentIdx];
+        if (!q) return;
+        qProgress.textContent = (currentIdx + 1) + " / " + questions.length;
+        const stem = q.stem || q.question || q.content || "";
+        const opts = q.options || [];
+        const current = answers[q.id];
+        let html = "<div class=\"text-[12px] text-foreground-muted mb-2\">é¢å· #" + esc(q.id) + "</div><div class=\"text-[15px] text-foreground leading-relaxed whitespace-pre-wrap mb-4\">" + esc(stem) + "</div>";
+        if (opts.length > 0) {
+          html += "<div class=\"space-y-2\">" + opts.map((o) => {
+            const checked = current === o.key;
+            return "<label class=\"flex items-start gap-2 p-3 rounded-xl border border-border cursor-pointer hover:bg-surface-secondary transition-colors " + (checked ? "border-primary-500 bg-primary-50" : "") + "\"><input type=\"radio\" name=\"exam-opt\" value=\"" + esc(o.key) + "\"" + (checked ? " checked" : "") + " class=\"exam-opt mt-0.5\" /><span class=\"text-[14px] text-foreground\">" + esc(o.key) + ". " + esc(o.text || o.label || "") + "</span></label>";
+          }).join("") + "</div>";
+        } else {
+          html += "<textarea id=\"exam-text-answer\" class=\"w-full min-h-[120px] p-3 rounded-xl border border-border text-[14px] text-foreground focus:border-primary-500 focus:outline-none\" placeholder=\"è¯·è¾å¥ç­æ¡...\">" + esc(current || "") + "</textarea>";
+        }
+        qCard.innerHTML = html;
+        // wire radio changes
+        qCard.querySelectorAll(".exam-opt").forEach((r) => {
+          r.addEventListener("change", () => { answers[q.id] = r.value; renderQuestion(); });
+        });
+        const ta = document.getElementById("exam-text-answer");
+        if (ta) ta.addEventListener("input", (e) => { answers[q.id] = e.target.value; });
+        qPrev.disabled = currentIdx === 0;
+        qNext.disabled = currentIdx === questions.length - 1;
+      }
+
+      qPrev.addEventListener("click", () => { if (currentIdx > 0) { currentIdx--; renderQuestion(); } });
+      qNext.addEventListener("click", () => { if (currentIdx < questions.length - 1) { currentIdx++; renderQuestion(); } });
+      qBack.addEventListener("click", () => showPapersView());
+      rBack.addEventListener("click", () => showPapersView());
+
+      qSubmit.addEventListener("click", async () => {
+        if (!confirm("ç¡®å®æäº¤? æäº¤åä¸å¯ä¿®æ¹")) return;
+        const payload = Object.entries(answers).map(([qid, v]) => ({ question_id: qid, answer: v }));
+        try {
+          const res = await exam.submitSession({ sessionId, answers: payload });
+          const data = (res && res.data) || {};
+          showResultView(data.score != null ? data.score : 0, data.correct_count != null ? data.correct_count : 0, data.wrong_count != null ? data.wrong_count : 0, data.empty_count != null ? data.empty_count : 0);
+          toast.success("æäº¤æå");
+        } catch (err) {
+          toast.error("æäº¤å¤±è´¥: " + (err.message || ""));
+        }
+      });
+
+      loadPapers();
+    </script>
     <script>lucide.createIcons();</script>
 </body>
 </html>

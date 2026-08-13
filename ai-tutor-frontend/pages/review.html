@@ -327,7 +327,7 @@
     }
   },
   "shadow": {
-    "shadow-1·Card": {
+    "shadow-1�Card": {
       "layers": [
         {
           "xOffset": "0px",
@@ -351,7 +351,7 @@
         }
       ]
     },
-    "shadow-2·Card Hover": {
+    "shadow-2�Card Hover": {
       "xOffset": "0px",
       "yOffset": "4px",
       "blur": "8px",
@@ -361,7 +361,7 @@
         "opacity": ".10"
       }
     },
-    "shadow-3·Float": {
+    "shadow-3�Float": {
       "xOffset": "0px",
       "yOffset": "8px",
       "blur": "24px",
@@ -371,7 +371,7 @@
         "opacity": ".18"
       }
     },
-    "shadow-4·Modal": {
+    "shadow-4�Modal": {
       "xOffset": "0px",
       "yOffset": "16px",
       "blur": "40px",
@@ -381,7 +381,7 @@
         "opacity": ".24"
       }
     },
-    "shadow-5·Overlay": {
+    "shadow-5�Overlay": {
       "xOffset": "0px",
       "yOffset": "24px",
       "blur": "60px",
@@ -553,380 +553,162 @@
     </style>
 </head>
 <body class="min-h-screen font-sans antialiased">
-    <main class="min-h-screen bg-gradient-to-b from-surface-secondary to-surface-secondary flex flex-col" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+        <main class="min-h-screen bg-surface-secondary" style="font-family:DM Sans,Noto Sans SC,sans-serif;">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <section class="mb-6">
+          <span class="ait-badge ait-badge-primary">F3 Slice 4.4 commit 6</span>
+          <h1 class="mt-2 text-2xl font-bold text-foreground">学情报告</h1>
+          <p class="mt-1 text-[13px] text-foreground-secondary">学习效果回顾、趋势分析、危机点监测</p>
+        </section>
 
-      <!-- ========== 顶部进度栏 ========== -->
-      <header class="sticky top-0 z-30 bg-surface-secondary/85 backdrop-blur-md border-b border-border-light/70">
-        <div class="max-w-[640px] mx-auto w-full px-4 sm:px-6 py-3 flex items-center gap-3">
-          <!-- 返回按钮 -->
-          <a href="dashboard.html" data-dom-id="review-back" class="shrink-0 h-10 w-10 inline-flex items-center justify-center rounded-lg text-foreground-secondary hover:text-foreground hover:bg-surface hover:shadow-sm transition-all duration-200" aria-label="返回仪表盘">
-            <i data-lucide="arrow-left" class="w-5 h-5"></i>
-          </a>
-          <!-- 进度区 -->
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between mb-1.5">
-              <span class="text-xs font-medium text-foreground-secondary">
-                第 <span class="text-primary-500 font-bold text-sm" style="font-family:'DM Sans',sans-serif;">3</span> 题 / 共 <span style="font-family:'DM Sans',sans-serif;">12</span> 题
-              </span>
-              <span class="text-xs text-foreground-muted flex items-center gap-1">
-                <i data-lucide="zap" class="w-3 h-3 text-warning-500"></i>
-                今日剩余 <span class="font-semibold text-foreground-secondary" style="font-family:'DM Sans',sans-serif;">9</span> 题
-              </span>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Card: trend summary -->
+          <section data-card="trend" class="bg-surface rounded-2xl border border-border shadow-sm p-5">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-base font-semibold text-foreground flex items-center gap-2">
+                <i data-lucide="trending-up" class="w-4 h-4 text-primary-500"></i>
+                30 天趋势
+              </h2>
+              <span data-trend-loading class="text-[12px] text-foreground-muted">加载中…</span>
             </div>
-            <div class="h-1.5 bg-border-light/60 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full transition-all duration-700 ease-out" style="width:25%"></div>
+            <div data-trend-body class="grid grid-cols-3 gap-3 text-center">
+              <div><div class="text-[11px] text-foreground-muted">回答量</div><div data-trend-q class="text-xl font-bold text-foreground">—</div></div>
+              <div><div class="text-[11px] text-foreground-muted">正确率</div><div data-trend-acc class="text-xl font-bold text-success-500">—</div></div>
+              <div><div class="text-[11px] text-foreground-muted">均分</div><div data-trend-score class="text-xl font-bold text-primary-500">—</div></div>
             </div>
-          </div>
-          <!-- 关闭按钮 -->
-          <button type="button" class="shrink-0 h-10 w-10 inline-flex items-center justify-center rounded-lg text-foreground-muted hover:text-foreground-secondary hover:bg-surface hover:shadow-sm transition-all duration-200" aria-label="关闭">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
-        </div>
-      </header>
+          </section>
 
-      <!-- ========== 中央卡片区 ========== -->
-      <div class="flex-1 flex items-center justify-center px-3 sm:px-6 py-5 sm:py-8">
-        <div class="w-full max-w-[640px]">
-          <!-- 卡片容器 -->
-          <div id="review-card" class="bg-surface rounded-2xl shadow-[0_8px_24px_-8px_rgba(0,0,0,0.18),0_2px_6px_-2px_rgba(0,0,0,0.06)] overflow-hidden animate-card-in">
-
-            <!-- 卡片头部：知识点 / 难度 / SM-2 间隔提示 -->
-            <div class="px-5 sm:px-7 pt-5 sm:pt-6 pb-3 flex items-center gap-2 flex-wrap">
-              <span class="inline-flex items-center h-6 px-2.5 rounded-lg bg-info-100 text-info-500 text-xs font-semibold whitespace-nowrap">
-                <i data-lucide="bookmark" class="w-3 h-3 mr-1"></i>二次函数
-              </span>
-              <span class="inline-flex items-center gap-1 h-6 px-2 rounded-lg bg-warning-50 text-warning-700 text-xs whitespace-nowrap">
-                <span class="w-1.5 h-1.5 rounded-full bg-warning-500"></span>中等
-              </span>
-              <span class="ml-auto inline-flex items-center text-xs text-foreground-muted gap-1">
-                <i data-lucide="history" class="w-3 h-3"></i>
-                上次复习：<span class="font-medium text-foreground-secondary">2 天前</span>
-              </span>
+          <!-- Card: weak points -->
+          <section data-card="weak" class="bg-surface rounded-2xl border border-border shadow-sm p-5">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-base font-semibold text-foreground flex items-center gap-2">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-warning-500"></i>
+                危机点
+              </h2>
+              <span data-weak-loading class="text-[12px] text-foreground-muted">加载中…</span>
             </div>
+            <ul data-weak-list class="space-y-2 text-[13px]"></ul>
+          </section>
 
-            <!-- ====== 正面（题目面） ====== -->
-            <div id="card-front" class="px-5 sm:px-7 pb-6 sm:pb-7">
-              <div class="text-xs text-foreground-muted font-semibold tracking-wider mb-3 uppercase" style="font-family:'DM Sans',sans-serif;">Question 03</div>
-
-              <h1 class="text-xl sm:text-[22px] font-bold text-foreground leading-[1.55] mb-5" style="font-family:'DM Sans','Noto Sans SC',sans-serif;text-wrap:balance;word-break:keep-all;overflow-wrap:break-word;">
-                已知二次函数 y = x<sup>2</sup> − 4x + 3，求其顶点坐标和对称轴方程。
-              </h1>
-
-              <!-- 公式展示块（深色） -->
-              <div class="bg-surface-dark rounded-xl p-4 sm:p-5 mb-6 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-primary-500/20 to-transparent rounded-bl-full"></div>
-                <div class="text-[11px] text-foreground-secondary font-semibold tracking-widest uppercase mb-2" style="font-family:'DM Sans',sans-serif;">Equation</div>
-                <div class="text-white text-lg sm:text-xl font-medium tracking-wide text-center py-2" style="font-family:'DM Sans','Noto Sans SC',monospace;">
-                  y = x<sup>2</sup> − 4x + 3
-                </div>
-              </div>
-
-              <p class="text-sm text-foreground-muted text-center mb-6 flex items-center justify-center gap-1.5">
-                <i data-lucide="brain" class="w-4 h-4"></i>
-                先自己思考，想好后点击下方按钮
-              </p>
-
-              <!-- 显示答案按钮 -->
-              <button type="button" id="show-answer-btn" class="w-full h-12 inline-flex items-center justify-center gap-2 rounded-xl bg-primary-500 hover:bg-primary-600 active:bg-primary-700 text-white font-semibold text-base transition-all duration-200 shadow-[0_4px_14px_rgba(215,25,32,0.3)] hover:shadow-[0_6px_20px_rgba(215,25,32,0.38)] active:scale-[0.985]">
-                <i data-lucide="eye" class="w-5 h-5"></i>
-                显示答案
-              </button>
+          <!-- Card: session history -->
+          <section data-card="history" class="bg-surface rounded-2xl border border-border shadow-sm p-5 md:col-span-2">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-base font-semibold text-foreground flex items-center gap-2">
+                <i data-lucide="history" class="w-4 h-4 text-foreground-secondary"></i>
+                近期会话
+              </h2>
+              <span data-history-loading class="text-[12px] text-foreground-muted">加载中…</span>
             </div>
+            <div data-history-list class="space-y-2 text-[13px]"></div>
+          </section>
 
-            <!-- ====== 答案面（初始隐藏） ====== -->
-            <div id="card-back" class="hidden px-5 sm:px-7 pb-6 sm:pb-7">
-
-              <!-- 正确答案 -->
-              <div class="mb-5">
-                <div class="text-xs font-bold text-success-500 mb-2 flex items-center gap-1 uppercase tracking-wider" style="font-family:'DM Sans',sans-serif;">
-                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>正确答案
-                </div>
-                <div class="bg-gradient-to-br from-success-50 to-success-100 border border-success-200 rounded-xl p-4 sm:p-5">
-                  <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                    <div class="flex-1">
-                      <div class="text-xs text-success-600 font-medium mb-0.5">顶点坐标</div>
-                      <div class="text-xl sm:text-2xl font-bold text-success-700" style="font-family:'DM Sans',sans-serif;">(2, −1)</div>
-                    </div>
-                    <div class="hidden sm:block w-px h-10 bg-success-200"></div>
-                    <div class="flex-1">
-                      <div class="text-xs text-success-600 font-medium mb-0.5">对称轴</div>
-                      <div class="text-xl sm:text-2xl font-bold text-success-700" style="font-family:'DM Sans',sans-serif;">x = 2</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 详细解析步骤 -->
-              <div class="mb-5">
-                <div class="text-xs font-bold text-foreground-secondary mb-3 flex items-center gap-1 uppercase tracking-wider" style="font-family:'DM Sans',sans-serif;">
-                  <i data-lucide="list-ordered" class="w-4 h-4"></i>详细解析 · 配方法
-                </div>
-                <ol class="space-y-3">
-                  <li class="flex gap-3">
-                    <span class="shrink-0 w-6 h-6 rounded-full bg-primary-50 text-primary-500 text-xs font-bold inline-flex items-center justify-center mt-0.5" style="font-family:'DM Sans',sans-serif;">1</span>
-                    <div class="flex-1 min-w-0">
-                      <p class="text-sm text-foreground leading-relaxed mb-2">对原式进行配方，将一般式化为顶点式：</p>
-                      <div class="bg-surface-dark rounded-lg p-3 text-white text-sm overflow-x-auto" style="font-family:'DM Sans','Courier New',monospace;">
-                        y = x<sup>2</sup> − 4x + 3 = (x − 2)<sup>2</sup> − 4 + 3 = (x − 2)<sup>2</sup> − 1
-                      </div>
-                    </div>
-                  </li>
-                  <li class="flex gap-3">
-                    <span class="shrink-0 w-6 h-6 rounded-full bg-primary-50 text-primary-500 text-xs font-bold inline-flex items-center justify-center mt-0.5" style="font-family:'DM Sans',sans-serif;">2</span>
-                    <div class="flex-1 min-w-0">
-                      <p class="text-sm text-foreground leading-relaxed mb-2">
-                        对照顶点式 <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-surface-tertiary text-primary-500 font-semibold text-xs" style="font-family:'DM Sans',monospace;">y = a(x − h)<sup>2</sup> + k</span>，
-                        其中 a = 1，可得顶点坐标：
-                      </p>
-                      <div class="bg-surface-dark rounded-lg p-3 text-white text-sm overflow-x-auto" style="font-family:'DM Sans','Courier New',monospace;">
-                        (h, k) = (2, −1)
-                      </div>
-                    </div>
-                  </li>
-                  <li class="flex gap-3">
-                    <span class="shrink-0 w-6 h-6 rounded-full bg-primary-50 text-primary-500 text-xs font-bold inline-flex items-center justify-center mt-0.5" style="font-family:'DM Sans',sans-serif;">3</span>
-                    <div class="flex-1 min-w-0">
-                      <p class="text-sm text-foreground leading-relaxed mb-2">对称轴为过顶点且垂直于 x 轴的直线：</p>
-                      <div class="bg-surface-dark rounded-lg p-3 text-white text-sm overflow-x-auto" style="font-family:'DM Sans','Courier New',monospace;">
-                        x = h = 2
-                      </div>
-                    </div>
-                  </li>
-                </ol>
-              </div>
-
-              <!-- 知识点关联提示 -->
-              <div class="flex items-start gap-2.5 bg-gradient-to-r from-info-50 to-info-100 border border-info-200 rounded-lg p-3 mb-6">
-                <i data-lucide="lightbulb" class="w-4 h-4 text-info-500 shrink-0 mt-0.5"></i>
-                <p class="text-xs text-info-700 leading-relaxed">
-                  <span class="font-bold">关联知识点：</span>配方法是二次函数化顶点式的核心方法，建议结合"二次函数图像平移"与"韦达定理"综合复习。
-                </p>
-              </div>
-
-              <!-- SM-2 评分面板 -->
-              <div>
-                <div class="text-xs font-bold text-foreground-secondary mb-3 text-center uppercase tracking-wider" style="font-family:'DM Sans',sans-serif;">
-                  请根据回忆程度评分
-                </div>
-                <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                  <!-- 0 完全忘记 -->
-                  <button type="button" data-quality="0" class="rating-btn flex flex-col items-center justify-center gap-1 p-2.5 rounded-xl border-2 border-transparent bg-error-50 hover:bg-error-100 transition-all duration-200 active:scale-95">
-                    <span class="text-xl leading-none">😵</span>
-                    <span class="text-[11px] font-semibold text-error-500 whitespace-nowrap">完全忘记</span>
-                    <span class="text-[10px] text-error-500/60 font-mono" style="font-family:'DM Sans',sans-serif;">0</span>
-                  </button>
-                  <!-- 1 严重困难 -->
-                  <button type="button" data-quality="1" class="rating-btn flex flex-col items-center justify-center gap-1 p-2.5 rounded-xl border-2 border-transparent bg-warning-50 hover:bg-warning-100 transition-all duration-200 active:scale-95">
-                    <span class="text-xl leading-none">😓</span>
-                    <span class="text-[11px] font-semibold text-warning-500 whitespace-nowrap">严重困难</span>
-                    <span class="text-[10px] text-warning-500/60 font-mono" style="font-family:'DM Sans',sans-serif;">1</span>
-                  </button>
-                  <!-- 2 困难 -->
-                  <button type="button" data-quality="2" class="rating-btn flex flex-col items-center justify-center gap-1 p-2.5 rounded-xl border-2 border-transparent bg-warning-50 hover:bg-warning-100 transition-all duration-200 active:scale-95">
-                    <span class="text-xl leading-none">😕</span>
-                    <span class="text-[11px] font-semibold text-warning-500 whitespace-nowrap">困难</span>
-                    <span class="text-[10px] text-warning-500/60 font-mono" style="font-family:'DM Sans',sans-serif;">2</span>
-                  </button>
-                  <!-- 3 一般 -->
-                  <button type="button" data-quality="3" class="rating-btn flex flex-col items-center justify-center gap-1 p-2.5 rounded-xl border-2 border-transparent bg-warning-50 hover:bg-warning-100 transition-all duration-200 active:scale-95">
-                    <span class="text-xl leading-none">🤔</span>
-                    <span class="text-[11px] font-semibold text-warning-500 whitespace-nowrap">一般</span>
-                    <span class="text-[10px] text-warning-500/60 font-mono" style="font-family:'DM Sans',sans-serif;">3</span>
-                  </button>
-                  <!-- 4 容易 -->
-                  <button type="button" data-quality="4" class="rating-btn flex flex-col items-center justify-center gap-1 p-2.5 rounded-xl border-2 border-transparent bg-success-50 hover:bg-success-100 transition-all duration-200 active:scale-95">
-                    <span class="text-xl leading-none">🙂</span>
-                    <span class="text-[11px] font-semibold text-success-400 whitespace-nowrap">容易</span>
-                    <span class="text-[10px] text-success-400/60 font-mono" style="font-family:'DM Sans',sans-serif;">4</span>
-                  </button>
-                  <!-- 5 非常容易 -->
-                  <button type="button" data-quality="5" class="rating-btn flex flex-col items-center justify-center gap-1 p-2.5 rounded-xl border-2 border-transparent bg-success-50 hover:bg-success-100 transition-all duration-200 active:scale-95">
-                    <span class="text-xl leading-none">😎</span>
-                    <span class="text-[11px] font-semibold text-success-500 whitespace-nowrap">非常容易</span>
-                    <span class="text-[10px] text-success-500/60 font-mono" style="font-family:'DM Sans',sans-serif;">5</span>
-                  </button>
-                </div>
-              </div>
+          <!-- Card: reports list -->
+          <section data-card="reports" class="bg-surface rounded-2xl border border-border shadow-sm p-5 md:col-span-2">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-base font-semibold text-foreground flex items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4 text-foreground-secondary"></i>
+                学情报告列表
+              </h2>
+              <span data-reports-loading class="text-[12px] text-foreground-muted">加载中…</span>
             </div>
-          </div>
-
-          <!-- 移动端快捷键提示 -->
-          <div class="mt-4 text-center sm:hidden">
-            <div class="inline-flex items-center gap-2 text-[11px] text-foreground-muted bg-surface/70 backdrop-blur rounded-full px-3 py-1.5">
-              <kbd class="inline-flex items-center px-1.5 py-0.5 rounded bg-surface-tertiary text-foreground-secondary font-mono" style="font-family:'DM Sans',monospace;">空格</kbd>
-              <span>显示答案</span>
-              <span class="text-foreground-muted">·</span>
-              <kbd class="inline-flex items-center px-1.5 py-0.5 rounded bg-surface-tertiary text-foreground-secondary font-mono" style="font-family:'DM Sans',monospace;">1-6</kbd>
-              <span>评分</span>
-            </div>
-          </div>
+            <div data-reports-list class="space-y-2 text-[13px]"></div>
+          </section>
         </div>
       </div>
-
-      <!-- ========== 底部操作栏 ========== -->
-      <footer class="sticky bottom-0 z-30 bg-surface/85 backdrop-blur-md border-t border-border-light/70">
-        <div class="max-w-[640px] mx-auto w-full px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
-          <div class="flex items-center gap-1">
-            <button type="button" class="inline-flex items-center gap-1 h-9 px-3 rounded-lg text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary text-sm font-medium transition-colors">
-              <i data-lucide="chevron-left" class="w-4 h-4"></i>
-              <span>上一题</span>
-            </button>
-            <button type="button" class="inline-flex items-center h-9 px-3 rounded-lg text-foreground-secondary hover:text-foreground hover:bg-surface-tertiary text-sm font-medium transition-colors">
-              跳过
-            </button>
-            <button type="button" id="mark-doubt-btn" class="inline-flex items-center justify-center h-9 w-9 rounded-lg text-foreground-muted hover:text-warning-500 hover:bg-warning-50 transition-all" aria-label="标记疑问">
-              <i data-lucide="star" class="w-4 h-4"></i>
-            </button>
-          </div>
-          <div class="text-xs text-foreground-muted hidden sm:flex items-center gap-1.5">
-            <span>快捷键</span>
-            <kbd class="inline-flex items-center px-1.5 py-0.5 rounded bg-surface-tertiary text-foreground-secondary text-[10px] font-mono" style="font-family:'DM Sans',monospace;">Space</kbd>
-            <span>显示答案</span>
-            <span class="mx-0.5 text-foreground-muted">/</span>
-            <kbd class="inline-flex items-center px-1.5 py-0.5 rounded bg-surface-tertiary text-foreground-secondary text-[10px] font-mono" style="font-family:'DM Sans',monospace;">1-6</kbd>
-            <span>评分</span>
-          </div>
-        </div>
-      </footer>
-
-      <!-- ========== Toast 提示 ========== -->
-      <div id="review-toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-surface-dark/95 backdrop-blur text-white text-sm px-4 py-2.5 rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.2)] opacity-0 pointer-events-none transition-all duration-300 -translate-y-2 flex items-center gap-2">
-        <i data-lucide="loader-circle" class="w-4 h-4 text-primary-400 animate-spin" id="toast-icon"></i>
-        <span id="toast-text">正在加载下一题...</span>
-      </div>
-
-      <!-- ========== 页面内样式与交互脚本 ========== -->
-      <style>
-        @keyframes card-in {
-          0%   { opacity: 0; transform: translateY(16px) scale(0.98); }
-          100% { opacity: 1; transform: translateY(0)    scale(1); }
-        }
-        .animate-card-in { animation: card-in 0.5s cubic-bezier(0.22,1,0.36,1) both; }
-
-        @keyframes front-out {
-          0%   { opacity: 1; transform: translateX(0) rotateY(0); }
-          100% { opacity: 0; transform: translateX(-24px) rotateY(-8deg); }
-        }
-        @keyframes back-in {
-          0%   { opacity: 0; transform: translateX(24px) rotateY(8deg); }
-          100% { opacity: 1; transform: translateX(0) rotateY(0); }
-        }
-        .front-exit  { animation: front-out 0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
-        .back-enter  { animation: back-in  0.45s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
-
-        .rating-btn.selected {
-          border-color: currentColor;
-          box-shadow: 0 0 0 3px rgba(0,0,0,0.04);
-          transform: translateY(-2px);
-        }
-      </style>
-
-      <script>
-        (function(){
-          var front    = document.getElementById('card-front');
-          var back     = document.getElementById('card-back');
-          var showBtn  = document.getElementById('show-answer-btn');
-          var card     = document.getElementById('review-card');
-          var toast    = document.getElementById('review-toast');
-          var toastTxt = document.getElementById('toast-text');
-          var toastIcon= document.getElementById('toast-icon');
-          var ratingBtns = document.querySelectorAll('.rating-btn');
-
-          function showAnswer(){
-            if (!front || !back || front.classList.contains('hidden')) return;
-            front.classList.add('front-exit');
-            setTimeout(function(){
-              front.classList.add('hidden');
-              front.classList.remove('front-exit');
-              back.classList.remove('hidden');
-              back.classList.add('back-enter');
-              setTimeout(function(){ back.classList.remove('back-enter'); }, 500);
-            }, 320);
-          }
-
-          function showToast(msg, isSuccess){
-            if (!toast) return;
-            toastTxt.textContent = msg || '已记录';
-            if (isSuccess) {
-              toastIcon.setAttribute('data-lucide','check');
-              toastIcon.classList.remove('animate-spin');
-              toastIcon.classList.add('text-success-400');
-            } else {
-              toastIcon.setAttribute('data-lucide','loader-circle');
-              toastIcon.classList.add('animate-spin');
-            }
-            if (window.lucide) lucide.createIcons();
-            toast.style.opacity = '1';
-            toast.style.transform = 'translate(-50%, 0)';
-            setTimeout(function(){
-              toast.style.opacity = '0';
-              toast.style.transform = 'translate(-50%, -8px)';
-            }, 1400);
-          }
-
-          function resetToFront(){
-            back.classList.add('hidden');
-            front.classList.remove('hidden');
-            // 重新入场动画
-            card.classList.remove('animate-card-in');
-            void card.offsetWidth;
-            card.classList.add('animate-card-in');
-          }
-
-          if (showBtn) {
-            showBtn.addEventListener('click', showAnswer);
-          }
-
-          ratingBtns.forEach(function(btn){
-            btn.addEventListener('click', function(){
-              ratingBtns.forEach(function(b){ b.classList.remove('selected'); });
-              btn.classList.add('selected');
-              var q = btn.getAttribute('data-quality');
-              var labels = ['完全忘记','严重困难','困难','一般','容易','非常容易'];
-              showToast('已记录：' + (labels[q] || ''));
-              setTimeout(function(){
-                showToast('正在加载下一题...', false);
-              }, 900);
-              setTimeout(function(){
-                resetToFront();
-                ratingBtns.forEach(function(b){ b.classList.remove('selected'); });
-              }, 1800);
-            });
-          });
-
-          // 快捷键
-          document.addEventListener('keydown', function(e){
-            if (e.code === 'Space' && !front.classList.contains('hidden')) {
-              e.preventDefault();
-              showAnswer();
-            }
-            if (/^[1-6]$/.test(e.key) && back && !back.classList.contains('hidden')) {
-              e.preventDefault();
-              var idx = parseInt(e.key, 10) - 1;
-              if (ratingBtns[idx]) ratingBtns[idx].click();
-            }
-          });
-
-          // 标记疑问（填充星 vs 空心星）
-          var markBtn = document.getElementById('mark-doubt-btn');
-          if (markBtn) {
-            markBtn.addEventListener('click', function(){
-              var icon = markBtn.querySelector('svg');
-              var isMarked = markBtn.classList.contains('text-warning-500');
-              if (isMarked) {
-                markBtn.classList.remove('text-warning-500','bg-warning-50');
-                markBtn.classList.add('text-foreground-muted');
-                if (icon) { icon.style.fill = 'none'; icon.style.stroke = 'currentColor'; }
-              } else {
-                markBtn.classList.add('text-warning-500','bg-warning-50');
-                markBtn.classList.remove('text-foreground-muted');
-                if (icon) { icon.style.fill = 'currentColor'; icon.style.stroke = 'currentColor'; }
-              }
-            });
-          }
-        })();
-      </script>
     </main>
+
+    <script type="module">
+      import { review } from "../assets/js/api/services/index.js";
+      import { mountErrorBoundary } from "../assets/js/components/error-boundary.js";
+      import { setUseMock } from "../assets/js/api/USE_MOCK.js";
+      import { mount as mountNav } from "../assets/js/navator.js";
+      import { useAsyncResource } from "../assets/js/hooks/useAsyncResource.js";
+      import { toast } from "../assets/js/toast.js";
+
+      mountErrorBoundary();
+      setUseMock(true);  // 后端缺 review 路由, 暂走 mock
+      mountNav("review");
+
+      const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+      // --- trend ---
+      const trendRes = useAsyncResource(() => review.getTrendSummary({ days: 30 }));
+      trendRes.subscribe(({ data, loading, error }) => {
+        const loadingEl = document.querySelector("[data-trend-loading]");
+        if (loading) { if (loadingEl) loadingEl.textContent = "加载中…"; return; }
+        if (error) { if (loadingEl) loadingEl.textContent = "加载失败"; return; }
+        if (data) {
+          if (loadingEl) loadingEl.classList.add("hidden");
+          const d = data.data || {};
+          const qEl = document.querySelector("[data-trend-q]");
+          const accEl = document.querySelector("[data-trend-acc]");
+          const scoreEl = document.querySelector("[data-trend-score]");
+          if (qEl) qEl.textContent = d.total_questions ?? "—";
+          if (accEl) accEl.textContent = d.accuracy ? (d.accuracy * 100).toFixed(1) + "%" : "—";
+          if (scoreEl) scoreEl.textContent = d.avg_score ?? "—";
+        }
+      });
+
+      // --- weak points ---
+      const weakRes = useAsyncResource(() => review.getWeakPoints({}));
+      weakRes.subscribe(({ data, loading, error }) => {
+        const loadingEl = document.querySelector("[data-weak-loading]");
+        const listEl = document.querySelector("[data-weak-list]");
+        if (loading) { if (loadingEl) loadingEl.textContent = "加载中…"; return; }
+        if (error) { if (loadingEl) loadingEl.textContent = "加载失败"; return; }
+        if (data) {
+          if (loadingEl) loadingEl.classList.add("hidden");
+          const items = data.data || [];
+          if (items.length === 0) {
+            listEl.innerHTML = "<li class=\"text-foreground-muted\">暂无危机点</li>";
+            return;
+          }
+          listEl.innerHTML = items.slice(0, 8).map((it) =>
+            "<li class=\"flex items-center justify-between gap-3 py-1.5 border-b border-border last:border-0\"><span class=\"truncate\">" + esc(it.kp_name || it.name || it.knowledge_point || "—") + "</span><span class=\"shrink-0 text-[12px] text-warning-600 font-medium\">" + (it.error_rate ? (it.error_rate * 100).toFixed(0) + "%" : esc(it.level || "")) + "</span></li>"
+          ).join("");
+        }
+      });
+
+      // --- session history ---
+      const historyRes = useAsyncResource(() => review.getSessionHistory({ limit: 10 }));
+      historyRes.subscribe(({ data, loading, error }) => {
+        const loadingEl = document.querySelector("[data-history-loading]");
+        const listEl = document.querySelector("[data-history-list]");
+        if (loading) { if (loadingEl) loadingEl.textContent = "加载中…"; return; }
+        if (error) { if (loadingEl) loadingEl.textContent = "加载失败"; return; }
+        if (data) {
+          if (loadingEl) loadingEl.classList.add("hidden");
+          const items = data.data || [];
+          if (items.length === 0) {
+            listEl.innerHTML = "<div class=\"text-foreground-muted\">暂无会话记录</div>";
+            return;
+          }
+          listEl.innerHTML = items.map((it) =>
+            "<div class=\"flex items-center justify-between gap-3 py-2 border-b border-border last:border-0\"><div class=\"min-w-0\"><div class=\"truncate\">" + esc(it.title || it.subject || "会话") + "</div><div class=\"text-[11px] text-foreground-muted\">" + esc(it.started_at || it.created_at || "") + "</div></div><span class=\"shrink-0 text-[12px] text-foreground-secondary\">" + esc(it.mode || "") + "</span></div>"
+          ).join("");
+        }
+      });
+
+      // --- reports list ---
+      const reportsRes = useAsyncResource(() => review.getReports({ page: 1, pageSize: 5 }));
+      reportsRes.subscribe(({ data, loading, error }) => {
+        const loadingEl = document.querySelector("[data-reports-loading]");
+        const listEl = document.querySelector("[data-reports-list]");
+        if (loading) { if (loadingEl) loadingEl.textContent = "加载中…"; return; }
+        if (error) { if (loadingEl) loadingEl.textContent = "加载失败"; return; }
+        if (data) {
+          if (loadingEl) loadingEl.classList.add("hidden");
+          const items = data.data || [];
+          if (items.length === 0) {
+            listEl.innerHTML = "<div class=\"text-foreground-muted\">暂无报告</div>";
+            return;
+          }
+          listEl.innerHTML = items.map((it) =>
+            "<div class=\"flex items-center justify-between gap-3 py-2 border-b border-border last:border-0\"><div class=\"min-w-0\"><div class=\"truncate font-medium\">" + esc(it.title || it.period || "报告") + "</div><div class=\"text-[11px] text-foreground-muted\">" + esc(it.subject || "") + " · " + esc(it.created_at || it.date || "") + "</div></div><span class=\"shrink-0 text-[12px] text-primary-500 font-medium\">" + esc(it.score != null ? it.score + " 分" : "") + "</span></div>"
+          ).join("");
+        }
+      });
+    </script>
     <script>lucide.createIcons();</script>
 </body>
 </html>
