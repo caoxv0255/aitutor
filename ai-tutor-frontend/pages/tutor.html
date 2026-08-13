@@ -1302,10 +1302,39 @@
         });
       }
 
-      // 5. "停止生成" - using streamController if exists (D60 wiring)
-      // AbortController already in place from Slice 4.3 commit 2.
-      // We need a button. Check if exists; if not, skip silently (v0.9 will add UI).
-      // (no button in DOM yet — deferred to v0.9 by owner framing)
+      // 5. "åæ­¢çæ" - send-btn dual role (Slice 4.4 commit 5)
+      // streaming -> abort + red square icon; else sendMessage
+      const sendBtnRef = document.getElementById("send-btn");
+      if (sendBtnRef) {
+        const newSendBtn = sendBtnRef.cloneNode(true);
+        sendBtnRef.parentNode.replaceChild(newSendBtn, sendBtnRef);
+        newSendBtn.addEventListener("click", () => {
+          if (conversationState.loading && conversationState.streamController) {
+            conversationState.streamController.abort();
+            console.log("[Slice4.4] stream aborted by user via send-btn");
+            toast.info("å·²åæ­¢çæ");
+          } else {
+            sendMessage();
+          }
+        });
+      }
+
+      // ===== Slice 4.4 commit 5: send-btn visual sync =====
+      function refreshSendBtn() {
+        const btn = document.getElementById("send-btn");
+        if (!btn) return;
+        const streaming = conversationState.loading;
+        btn.title = streaming ? "åæ­¢çæ" : "åé";
+        btn.setAttribute("aria-label", btn.title);
+        const icon = btn.querySelector("i[data-lucide]");
+        if (icon) {
+          icon.setAttribute("data-lucide", streaming ? "square" : "send-horizontal");
+          if (window.lucide) window.lucide.createIcons();
+        }
+        btn.style.background = streaming ? "var(--error, #dc2626)" : "var(--brand)";
+      }
+      refreshSendBtn();
+      setInterval(refreshSendBtn, 250);
 
       // ===== Slice 4.4 commit 2: history item click → load session + URL sync =====
       const historyListEl = document.getElementById('chat-history-list');
