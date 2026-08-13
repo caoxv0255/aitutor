@@ -66,12 +66,31 @@ export async function getWrongQuestions(req, res) {
 
 export async function addWrongQuestion(req, res) {
   const { email } = req.user;
-  const { content, subject_code, knowledge_point_id, knowledge_point_name,
-          difficulty, question_type, correct_answer, error_analysis,
-          error_types, error_category } = req.body;
+  // P0.4 + F3.7.3: 兼容前端字段
+  //   question       -> content       (F3 wrong.js createQuestion 字段名)
+  //   subject        -> subject_code
+  //   answer         -> correct_answer
+  //   analysis       -> error_analysis
+  // 后端字段名仍为 source of truth, 仅作为 fallback.
+  const {
+    content, question,
+    subject_code, subject,
+    knowledge_point_id, knowledge_point_name,
+    difficulty,
+    question_type,
+    correct_answer, answer,
+    error_analysis, analysis,
+    error_types,
+    error_category
+  } = req.body;
 
-  if (!content || !subject_code) {
-    return res.status(400).json(errorResponse('缺少必填字段: content, subject_code'));
+  const _content = content || question;
+  const _subject_code = subject_code || subject;
+  const _correct_answer = correct_answer != null ? correct_answer : answer;
+  const _error_analysis = error_analysis || analysis;
+
+  if (!_content || !_subject_code) {
+    return res.status(400).json(errorResponse('缺少必填字段: content/question + subject_code/subject'));
   }
 
   try {
@@ -83,8 +102,8 @@ export async function addWrongQuestion(req, res) {
         difficulty, question_type, correct_answer, error_analysis, error_types, error_category
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       RETURNING id, created_at
-    `, [email, content, subject_code, knowledge_point_id, knowledge_point_name,
-        difficulty || 3, question_type || 'other', correct_answer, error_analysis,
+    `, [email, _content, _subject_code, knowledge_point_id, knowledge_point_name,
+        difficulty || 3, question_type || 'other', _correct_answer, _error_analysis,
         JSON.stringify(error_types || []), error_category || 'unknown']);
 
     return res.json(successResponse({
