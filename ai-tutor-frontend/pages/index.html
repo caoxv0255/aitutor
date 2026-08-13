@@ -111,6 +111,8 @@
 <script type="module">
   import { auth, user, exam, rag, knowledge, review, vision } from '../assets/js/api/services/index.js';
   import { setUseMock, getMockEnabled } from '../assets/js/api/USE_MOCK.js';
+  import { mount as mountNav } from '../assets/js/navator.js';
+  mountNav('home');
   import { ErrorType } from '../assets/js/api/client.js';
   import { toast } from '../assets/js/toast.js';
   import { isLoggedIn, logout } from '../assets/js/auth.js';
