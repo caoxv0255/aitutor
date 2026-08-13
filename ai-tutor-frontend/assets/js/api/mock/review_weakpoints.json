@@ -2,25 +2,37 @@
   "success": true,
   "data": [
     {
-      "topic": "数列综合",
+      "kp_id": "kp_7wibv1",
+      "kp_name": "数列综合",
+      "name": "数列综合",
+      "knowledge_point": "数列综合",
       "subject": "数学",
+      "error_rate": 0.38,
       "wrong_count": 8,
-      "accuracy": 0.62,
-      "priority": "high"
+      "total_count": 21,
+      "level": "high"
     },
     {
-      "topic": "圆锥曲线",
+      "kp_id": "kp_v2vg55",
+      "kp_name": "圆锥曲线",
+      "name": "圆锥曲线",
+      "knowledge_point": "圆锥曲线",
       "subject": "数学",
+      "error_rate": 0.35,
       "wrong_count": 6,
-      "accuracy": 0.65,
-      "priority": "medium"
+      "total_count": 17,
+      "level": "high"
     },
     {
-      "topic": "电磁感应",
+      "kp_id": "kp_4u0wqe",
+      "kp_name": "电磁感应",
+      "name": "电磁感应",
+      "knowledge_point": "电磁感应",
       "subject": "物理",
+      "error_rate": 0.3,
       "wrong_count": 5,
-      "accuracy": 0.7,
-      "priority": "medium"
+      "total_count": 17,
+      "level": "high"
     }
   ]
 }

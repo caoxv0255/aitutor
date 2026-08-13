@@ -626,7 +626,7 @@
       import { toast } from "../assets/js/toast.js";
 
       mountErrorBoundary();
-      setUseMock(true);  // 后端缺 review 路由, 暂走 mock
+      setUseMock(false);  // F3.6: review backend 5 个 endpoint 已就绪
       mountNav("review");
 
       const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -664,7 +664,7 @@
             return;
           }
           listEl.innerHTML = items.slice(0, 8).map((it) =>
-            "<li class=\"flex items-center justify-between gap-3 py-1.5 border-b border-border last:border-0\"><span class=\"truncate\">" + esc(it.kp_name || it.name || it.knowledge_point || "—") + "</span><span class=\"shrink-0 text-[12px] text-warning-600 font-medium\">" + (it.error_rate ? (it.error_rate * 100).toFixed(0) + "%" : esc(it.level || "")) + "</span></li>"
+            "<li class=\"flex items-center justify-between gap-3 py-1.5 border-b border-border last:border-0\"><span class=\"truncate\">" + esc(it.kp_name || it.name || it.knowledge_point || it.topic || "—") + "</span><span class=\"shrink-0 text-[12px] text-warning-600 font-medium\">" + (it.error_rate != null ? (it.error_rate * 100).toFixed(0) + "%" : esc(it.level || it.priority || "")) + "</span></li>"
           ).join("");
         }
       });
@@ -684,7 +684,7 @@
             return;
           }
           listEl.innerHTML = items.map((it) =>
-            "<div class=\"flex items-center justify-between gap-3 py-2 border-b border-border last:border-0\"><div class=\"min-w-0\"><div class=\"truncate\">" + esc(it.title || it.subject || "会话") + "</div><div class=\"text-[11px] text-foreground-muted\">" + esc(it.started_at || it.created_at || "") + "</div></div><span class=\"shrink-0 text-[12px] text-foreground-secondary\">" + esc(it.mode || "") + "</span></div>"
+            "<div class=\"flex items-center justify-between gap-3 py-2 border-b border-border last:border-0\"><div class=\"min-w-0\"><div class=\"truncate\">" + esc(it.title || it.subject || it.mode || "会话") + "</div><div class=\"text-[11px] text-foreground-muted\">" + esc(it.started_at || it.created_at || "") + "</div></div><span class=\"shrink-0 text-[12px] text-foreground-secondary\">" + esc(it.mode || "") + "</span></div>"
           ).join("");
         }
       });

@@ -6,21 +6,30 @@
       "subject": "数学",
       "started_at": "2026-07-30T10:00:00Z",
       "ended_at": "2026-07-30T10:45:00Z",
-      "score": 85
+      "score": 85,
+      "title": "数学 会话",
+      "mode": "exam",
+      "duration_minutes": 45
     },
     {
       "id": "sess_002",
       "subject": "物理",
       "started_at": "2026-07-29T14:00:00Z",
       "ended_at": "2026-07-29T14:52:00Z",
-      "score": 78
+      "score": 78,
+      "title": "物理 会话",
+      "mode": "exam",
+      "duration_minutes": 52
     },
     {
       "id": "sess_003",
       "subject": "化学",
       "started_at": "2026-07-28T09:00:00Z",
       "ended_at": "2026-07-28T09:38:00Z",
-      "score": 92
+      "score": 92,
+      "title": "化学 会话",
+      "mode": "exam",
+      "duration_minutes": 38
     }
   ]
 }
