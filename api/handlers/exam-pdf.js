@@ -2,6 +2,7 @@ import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import path from 'path';
 import { getDb } from '../core/db.js';
+import { errorResponse } from '../utils/response.js';
 import mammoth from 'mammoth';
 import { execSync } from 'child_process';
 
@@ -261,7 +262,7 @@ export async function generateExamPdf(req, res) {
   try {
     const paperResult = await pool.query('SELECT * FROM exam_papers WHERE id = $1', [paperId]);
     if (paperResult.rows.length === 0) {
-      return res.status(404).json({ error: '试卷不存在' });
+      return res.status(404).json(errorResponse('试卷不存在'));
     }
 
     const paper = paperResult.rows[0];
@@ -319,7 +320,7 @@ export async function generateExamPdf(req, res) {
       const questions = questionsResult.rows;
 
       if (questions.length === 0) {
-        return res.status(404).json({ error: '试卷没有题目数据' });
+        return res.status(404).json(errorResponse('试卷没有题目数据'));
       }
 
       pdfBuffer = await generateFromDatabase(paper, questions, includeAnswer, includeAnalysis);
@@ -334,6 +335,6 @@ export async function generateExamPdf(req, res) {
 
   } catch (error) {
     console.error('生成PDF失败:', error.message);
-    res.status(500).json({ error: '生成PDF失败' });
+    res.status(500).json(errorResponse('生成PDF失败'));
   }
 }

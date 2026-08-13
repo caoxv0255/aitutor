@@ -50,6 +50,16 @@ class BusinessError extends AppError {
 }
 
 const errorHandler = (err, req, res, next) => {
+  // body-parser raises these when JSON is malformed or too large;
+  // handle them explicitly so the response carries a requestId like every other error.
+  if (err && (err.type === 'entity.too.large' || err.type === 'entity.parse.failed')) {
+    err.statusCode = err.type === 'entity.too.large' ? 413 : 400;
+    err.errorCode = ErrorCode.VALIDATION_ERROR;
+    err.errorType = ErrorType.VALIDATION;
+    err.message = err.type === 'entity.too.large'
+      ? '请求体过大(超过 1MB 限制)'
+      : '请求体 JSON 解析失败';
+  }
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
@@ -108,6 +118,12 @@ const sendErrorResponse = (error, req, res) => {
     error.errorCode || ErrorCode.INTERNAL_ERROR,
     error.details
   );
+
+  // Stamp request id on every error response so users can quote it in
+  // bug reports and we can grep server logs instantly.
+  if (req && req.requestId) {
+    response.requestId = req.requestId;
+  }
 
   if (process.env.NODE_ENV === 'development' && error.stack) {
     response.stack = error.stack;

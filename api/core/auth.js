@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { errorResponse } from '../utils/response.js';
 import { createErrorResponse, ErrorCode } from '../utils/errorCodes.js';
 import { AuthError } from '../middleware/errorHandler.js';
 
@@ -43,18 +44,18 @@ export function verifyToken(token) {
 }
 
 export function authMiddleware(req, res, next) {
-  // Dev bypass:
-  // 1. NODE_ENV !== 'production' → 跳过 verify (dev mode 默认 bypass, 浏览器也能用)
-  // 2. NODE_ENV === 'production' 但带 x-dev-bypass: 1 header → 不可能 (production 不读这个 header)
-  // 注意: 生产环境 NODE_ENV 必须显式设为 'production', 否则默认 dev bypass
-  if (process.env.NODE_ENV !== 'production') {
+  // Dev bypass: ONLY when DEV_AUTH_BYPASS=1 is set explicitly.  This
+  // makes test runs and CI use real token verification while still
+  // letting developers opt into bypass locally (e.g. for smoke tests
+  // without setting up JWT issuance).
+  if (process.env.DEV_AUTH_BYPASS === '1') {
     req.user = { id: 1, userId: 1, role: 'admin', email: process.env.DEV_USER_EMAIL || 'smoke@example.com', phone: '13800138000', is_dev: true };
     return next();
   }
 
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json(createErrorResponse(ErrorCode.AUTH_NOT_LOGIN));
+    return res.status(401).json(errorResponse('请先登录', ErrorCode.AUTH_NOT_LOGIN));
   }
 
   try {
@@ -64,9 +65,9 @@ export function authMiddleware(req, res, next) {
     next();
   } catch (error) {
     if (error.errorCode === ErrorCode.AUTH_TOKEN_EXPIRED) {
-      return res.status(401).json(createErrorResponse(ErrorCode.AUTH_TOKEN_EXPIRED));
+      return res.status(401).json(errorResponse('登录已过期，请重新登录', ErrorCode.AUTH_TOKEN_EXPIRED));
     }
-    return res.status(401).json(createErrorResponse(ErrorCode.AUTH_INVALID_TOKEN));
+    return res.status(401).json(errorResponse('认证失败，请重新登录', ErrorCode.AUTH_INVALID_TOKEN));
   }
 }
 
@@ -74,7 +75,7 @@ export function requireRole(roles) {
   return (req, res, next) => {
     const userRole = req.user?.role;
     if (!userRole || !roles.includes(userRole)) {
-      return res.status(403).json(createErrorResponse(ErrorCode.AUTH_PERMISSION_DENIED));
+      return res.status(403).json(errorResponse('权限不足', ErrorCode.AUTH_PERMISSION_DENIED));
     }
     next();
   };

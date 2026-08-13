@@ -15,6 +15,8 @@ import { createSuccessResponse, createErrorResponse, ErrorCode } from './api/uti
 import modulesRouter from './api/modules/index.js';
 
 import { getProvinces, getProvinceByCode, getProvinceStats } from './api/handlers/provinces.js';
+import { getClassDetail } from './api/handlers/class-analysis.js';
+import adaptiveDifficultyHandler from './api/handlers/adaptive-difficulty.js';
 import { getProvinceTrends, getProvinceCompare } from './api/handlers/province-trends.js';
 import { seedProvinces } from './api/handlers/seed-provinces.js';
 import { generateExamPdf } from './api/handlers/exam-pdf.js';
@@ -142,13 +144,16 @@ app.use(express.static('frontend', {
   },
 }));
 app.use('/icons', express.static('public/icons'));
-const serveF3 = process.env.NODE_ENV !== 'production' || process.env.SERVE_F3 === 'true';
-if (serveF3) {
+// SERVE_F3: prod off by default, opt-in with SERVE_F3=true.
+// Dev/staging always on for frontend iteration.
+// Cache-Control stays no-cache in dev to avoid ESM browser cache stickiness (P0.1).
+const SERVE_F3 = process.env.NODE_ENV !== 'production' || process.env.SERVE_F3 === 'true';
+if (SERVE_F3) {
   app.use(
     '/f3',
     express.static('ai-tutor-frontend', {
-      setHeaders(res, path) {
-        if (path.endsWith('.html') || path.endsWith('.js') || path.endsWith('.css')) {
+      setHeaders(res, filePath) {
+        if (filePath.endsWith('.html') || filePath.endsWith('.js') || filePath.endsWith('.css')) {
           // P0.1: dev/staging force no-cache to fix ES module browser cache stickiness
           res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
           res.setHeader('Pragma', 'no-cache');
@@ -157,7 +162,9 @@ if (serveF3) {
       },
     })
   );
-  console.log('[F3] /f3 dev preview enabled (ai-tutor-frontend/)');
+  logger.info(`[F3] /f3 preview enabled (NODE_ENV=${process.env.NODE_ENV || '<unset>'}, SERVE_F3=${process.env.SERVE_F3 || '<unset>'})`);
+} else {
+  logger.info(`[F3] /f3 preview disabled (NODE_ENV=production, SERVE_F3 not set)`);
 }
 app.use(
   '/src',
@@ -223,6 +230,8 @@ app.post('/api/provinces/seed', async (req, res) => {
 });
 
 app.get('/api/exam-pdf/:paperId', generateExamPdf);
+app.get('/api/adaptive-difficulty', authMiddleware, wrapHandler(adaptiveDifficultyHandler));
+app.get('/api/class-detail', authMiddleware, wrapHandler(getClassDetail));
 // /api/proxy — MUST stay behind a fixed endpoint whitelist.
 // The handler (api/handlers/proxy.js) refuses any model not in API_CONFIGS,
 // which means the upstream URL is hardcoded and not user-controllable, so
@@ -235,8 +244,16 @@ app.post('/api/proxy', authMiddleware, proxyLimiter, wrapHandler(proxyHandler));
 // runs before authMiddleware rejects the request.
 app.use('/api/', auditMiddleware, authMiddleware, apiLimiter, modulesRouter);
 
+// 404 fallback. Message intentionally generic — leaking valid routes is
+// info-disclosure. Attach request id so client can quote it in bug reports.
 app.use((req, res) => {
-  res.status(404).json(createErrorResponse(ErrorCode.INTERNAL_ERROR, 'API 端点不存在'));
+  logger.warn(`404 ${req.method} ${req.originalUrl}`, {
+    requestId: req.requestId,
+    user: req.user?.email || 'anonymous',
+  });
+  const body = createErrorResponse(ErrorCode.INTERNAL_ERROR, 'API 端点不存在');
+  if (req.requestId) body.requestId = req.requestId;
+  res.status(404).json(body);
 });
 
 app.use(errorHandler);
