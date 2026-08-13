@@ -34,15 +34,15 @@
       <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <section class="mb-6">
           <span class="ait-badge ait-badge-primary">F3 Slice 4.4 commit 6</span>
-          <h1 class="mt-2 text-2xl font-bold text-foreground">æ¨¡æè</h1>
-          <p class="mt-1 text-[13px] text-foreground-secondary">éæ©è¯å· â ç­é¢ â æäº¤</p>
+          <h1 class="mt-2 text-2xl font-bold text-foreground">模拟考</h1>
+          <p class="mt-1 text-[13px] text-foreground-secondary">选择试卷 → 答题 → 提交</p>
         </section>
 
         <!-- View: paper list -->
         <section id="view-papers">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-base font-semibold text-foreground">è¯å·åè¡¨</h2>
-            <span id="papers-loading" class="text-[12px] text-foreground-muted">å è½½ä¸­â¦</span>
+            <h2 class="text-base font-semibold text-foreground">试卷列表</h2>
+            <span id="papers-loading" class="text-[12px] text-foreground-muted">加载中…</span>
           </div>
           <div id="papers-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
         </section>
@@ -52,20 +52,20 @@
           <div class="flex items-center justify-between mb-4">
             <button id="exam-back" type="button" class="inline-flex items-center gap-1.5 h-9 px-3 rounded-[10px] text-[13px] font-medium text-foreground-secondary hover:bg-surface-tertiary transition-colors">
               <i data-lucide="arrow-left" class="w-4 h-4"></i>
-              è¿åè¯å·
+              返回试卷
             </button>
             <span id="q-progress" class="text-[13px] text-foreground-secondary"></span>
           </div>
           <div id="q-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-4"></div>
           <div id="q-nav" class="flex items-center justify-between gap-3">
             <button id="q-prev" type="button" class="inline-flex items-center gap-1.5 h-10 px-4 rounded-[10px] text-sm font-medium bg-surface-tertiary text-foreground hover:bg-border transition-colors">
-              <i data-lucide="chevron-left" class="w-4 h-4"></i>ä¸ä¸é¢
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>上一题
             </button>
             <button id="q-submit" type="button" class="inline-flex items-center gap-1.5 h-10 px-5 rounded-[10px] text-sm font-medium bg-primary-500 hover:bg-primary-600 text-white transition-colors">
-              æäº¤ç­å<i data-lucide="check" class="w-4 h-4"></i>
+              提交答案<i data-lucide="check" class="w-4 h-4"></i>
             </button>
             <button id="q-next" type="button" class="inline-flex items-center gap-1.5 h-10 px-4 rounded-[10px] text-sm font-medium bg-surface-tertiary text-foreground hover:bg-border transition-colors">
-              ä¸ä¸é¢<i data-lucide="chevron-right" class="w-4 h-4"></i>
+              下一题<i data-lucide="chevron-right" class="w-4 h-4"></i>
             </button>
           </div>
         </section>
@@ -74,18 +74,18 @@
         <section id="view-result" class="hidden">
           <div class="bg-surface rounded-2xl border border-border shadow-sm p-8 text-center">
             <i data-lucide="trophy" class="w-12 h-12 text-primary-500 mx-auto mb-3"></i>
-            <h2 class="text-xl font-bold text-foreground mb-2">ç­å·å·²æäº¤</h2>
+            <h2 class="text-xl font-bold text-foreground mb-2">答卷已提交</h2>
             <div class="text-[13px] text-foreground-secondary mb-4">
-              <span>得分Â </span>
+              <span>得分 </span>
               <span id="result-score" class="text-3xl font-bold text-primary-500 mx-1"></span>
-              <span>å</span>
+              <span>分</span>
             </div>
             <div class="grid grid-cols-3 gap-3 max-w-xs mx-auto mb-6 text-center">
-              <div><div class="text-[11px] text-foreground-muted">æ­£ç¡®</div><div id="result-correct" class="text-lg font-semibold text-success-500"></div></div>
-              <div><div class="text-[11px] text-foreground-muted">éè¯¯</div><div id="result-wrong" class="text-lg font-semibold text-error-500"></div></div>
-              <div><div class="text-[11px] text-foreground-muted">æªç­</div><div id="result-empty" class="text-lg font-semibold text-foreground-muted"></div></div>
+              <div><div class="text-[11px] text-foreground-muted">正确</div><div id="result-correct" class="text-lg font-semibold text-success-500"></div></div>
+              <div><div class="text-[11px] text-foreground-muted">错误</div><div id="result-wrong" class="text-lg font-semibold text-error-500"></div></div>
+              <div><div class="text-[11px] text-foreground-muted">未答</div><div id="result-empty" class="text-lg font-semibold text-foreground-muted"></div></div>
             </div>
-            <button id="result-back" type="button" class="inline-flex items-center gap-1.5 h-10 px-5 rounded-[10px] text-sm font-medium bg-primary-500 hover:bg-primary-600 text-white">è¿åè¯å·</button>
+            <button id="result-back" type="button" class="inline-flex items-center gap-1.5 h-10 px-5 rounded-[10px] text-sm font-medium bg-primary-500 hover:bg-primary-600 text-white">返回试卷</button>
           </div>
         </section>
       </div>
@@ -124,24 +124,24 @@
       let currentIdx = 0;
 
       async function loadPapers() {
-        papersLoadingEl.textContent = "å è½½ä¸­â¦";
+        papersLoadingEl.textContent = "加载中…";
         try {
           const res = await exam.getPapers({});
           papersLoadingEl.classList.add("hidden");
           const items = (res && res.data) || [];
           if (items.length === 0) {
-            papersListEl.innerHTML = "<div class=\"col-span-full text-[13px] text-foreground-muted p-6 bg-surface rounded-2xl border border-border\">ææ å¯ç¨è¯å·</div>";
+            papersListEl.innerHTML = "<div class=\"col-span-full text-[13px] text-foreground-muted p-6 bg-surface rounded-2xl border border-border\">暂无可用试卷</div>";
             return;
           }
           papersListEl.innerHTML = items.map((p) =>
-            "<div class=\"bg-surface rounded-2xl border border-border shadow-sm p-5 hover:shadow-md transition-shadow\"><div class=\"flex items-center gap-3 mb-3\"><span class=\"inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-500\"><i data-lucide=\"file-text\" class=\"w-5 h-5\"></i></span><div class=\"min-w-0\"><h3 class=\"font-semibold text-foreground truncate\">" + esc(p.title || p.name || "è¯å·") + "</h3><p class=\"text-[12px] text-foreground-muted\">" + esc(p.subject || "") + (p.year ? " Â· " + esc(p.year) : "") + "</p></div></div><div class=\"flex items-center gap-4 text-[12px] text-foreground-secondary mb-4\"><span>é¢ç® " + (p.question_count || "?") + "</span><span>æ¶é¿ " + (p.duration || "?") + " min</span></div><button class=\"exam-start w-full h-10 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors\" data-paper-id=\"" + esc(p.id) + "\" data-paper-subject=\"" + esc(p.subject || "math") + "\">å¼å§</button></div>"
+            "<div class=\"bg-surface rounded-2xl border border-border shadow-sm p-5 hover:shadow-md transition-shadow\"><div class=\"flex items-center gap-3 mb-3\"><span class=\"inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-500\"><i data-lucide=\"file-text\" class=\"w-5 h-5\"></i></span><div class=\"min-w-0\"><h3 class=\"font-semibold text-foreground truncate\">" + esc(p.title || p.name || "试卷") + "</h3><p class=\"text-[12px] text-foreground-muted\">" + esc(p.subject || "") + (p.year ? " · " + esc(p.year) : "") + "</p></div></div><div class=\"flex items-center gap-4 text-[12px] text-foreground-secondary mb-4\"><span>题目 " + (p.question_count || "?") + "</span><span>时长 " + (p.duration || "?") + " min</span></div><button class=\"exam-start w-full h-10 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors\" data-paper-id=\"" + esc(p.id) + "\" data-paper-subject=\"" + esc(p.subject || "math") + "\">开始</button></div>"
           ).join("");
           if (window.lucide) window.lucide.createIcons();
           papersListEl.querySelectorAll(".exam-start").forEach((btn) => {
             btn.addEventListener("click", () => startSession(btn.dataset.paperId, btn.dataset.paperSubject));
           });
         } catch (err) {
-          papersLoadingEl.textContent = "å è½½å¤±è´¥: " + (err.message || "");
+          papersLoadingEl.textContent = "加载失败: " + (err.message || "");
         }
       }
 
@@ -155,13 +155,13 @@
           answers = {};
           currentIdx = 0;
           if (questions.length === 0) {
-            toast.error("è¯å·ä¸ºç©º");
+            toast.error("试卷为空");
             return;
           }
           showQuestionsView();
           renderQuestion();
         } catch (err) {
-          toast.error("å¼å§å¤±è´¥: " + (err.message || ""));
+          toast.error("开始失败: " + (err.message || ""));
         }
       }
 
@@ -192,14 +192,14 @@
         const stem = q.stem || q.question || q.content || "";
         const opts = q.options || [];
         const current = answers[q.id];
-        let html = "<div class=\"text-[12px] text-foreground-muted mb-2\">é¢å· #" + esc(q.id) + "</div><div class=\"text-[15px] text-foreground leading-relaxed whitespace-pre-wrap mb-4\">" + esc(stem) + "</div>";
+        let html = "<div class=\"text-[12px] text-foreground-muted mb-2\">题号 #" + esc(q.id) + "</div><div class=\"text-[15px] text-foreground leading-relaxed whitespace-pre-wrap mb-4\">" + esc(stem) + "</div>";
         if (opts.length > 0) {
           html += "<div class=\"space-y-2\">" + opts.map((o) => {
             const checked = current === o.key;
             return "<label class=\"flex items-start gap-2 p-3 rounded-xl border border-border cursor-pointer hover:bg-surface-secondary transition-colors " + (checked ? "border-primary-500 bg-primary-50" : "") + "\"><input type=\"radio\" name=\"exam-opt\" value=\"" + esc(o.key) + "\"" + (checked ? " checked" : "") + " class=\"exam-opt mt-0.5\" /><span class=\"text-[14px] text-foreground\">" + esc(o.key) + ". " + esc(o.text || o.label || "") + "</span></label>";
           }).join("") + "</div>";
         } else {
-          html += "<textarea id=\"exam-text-answer\" class=\"w-full min-h-[120px] p-3 rounded-xl border border-border text-[14px] text-foreground focus:border-primary-500 focus:outline-none\" placeholder=\"è¯·è¾å¥ç­æ¡...\">" + esc(current || "") + "</textarea>";
+          html += "<textarea id=\"exam-text-answer\" class=\"w-full min-h-[120px] p-3 rounded-xl border border-border text-[14px] text-foreground focus:border-primary-500 focus:outline-none\" placeholder=\"请输入答案...\">" + esc(current || "") + "</textarea>";
         }
         qCard.innerHTML = html;
         // wire radio changes
@@ -218,7 +218,7 @@
       rBack.addEventListener("click", () => showPapersView());
 
       qSubmit.addEventListener("click", async () => {
-        if (!confirm("ç¡®å®æäº¤? æäº¤åä¸å¯ä¿®æ¹")) return;
+        if (!confirm("确定提交? 提交后不可修改")) return;
         const payload = Object.entries(answers).map(([qid, v]) => ({ question_id: qid, answer: v }));
         try {
           const res = await exam.submitSession({ sessionId, answers: payload });
@@ -244,9 +244,9 @@
             }
           }
 
-          toast.success("æäº¤æå");
+          toast.success("提交成功");
         } catch (err) {
-          toast.error("æäº¤å¤±è´¥: " + (err.message || ""));
+          toast.error("提交失败: " + (err.message || ""));
         }
       });
 
