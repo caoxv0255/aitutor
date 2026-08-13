@@ -796,7 +796,9 @@
             import { setUseMock } from '../assets/js/api/USE_MOCK.js';
 
             mountErrorBoundary();
-            setUseMock(true);  // Slice 3 强制 mock, 后端 :3002 不一定起
+            setUseMock(false);  // 走真后端，让 markMastered PUT 真实生效
+            import { mount as mountNav } from '../assets/js/navator.js';
+            mountNav('wrong');
 
             // ===== subject / difficulty / mastery 映射 (跟 legacy frontend/wrong-book.html:65 一致) =====
             const SUBJECT_NAMES = {
@@ -855,7 +857,7 @@
               const qid = row.question_id || '';
 
               return `
-            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group" data-question-id="${esc(row._id)}">
+            <div class="bg-surface rounded-[14px] border border-border shadow-sm hover:shadow-md hover:border-border transition-all overflow-hidden group" data-question-id="${esc(row.id)}">
               <div class="flex">
                 <div class="w-1 shrink-0 ${bar}"></div>
                 <div class="flex-1 min-w-0 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-4">
@@ -887,7 +889,10 @@
                       <a href="tutor.html?qid=${encodeURIComponent(qid)}" data-dom-id="wb-card-tutor" class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
                         <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
                       </a>
-                      <button data-dom-id="wb-card-delete" data-question-id="${esc(row._id)}" class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-error-500 transition-colors" title="删除错题">
+                      <button data-dom-id="wb-card-mastered" data-question-id="${esc(row.id)}" class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-success-500 transition-colors" title="标记掌握">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                      </button>
+                      <button data-dom-id="wb-card-delete" data-question-id="${esc(row.id)}" class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-error-500 transition-colors" title="删除错题">
                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                       </button>
                     </div>
@@ -1020,10 +1025,10 @@
                 return;
               }
               if (data) {
-                console.log('[Slice3] list loaded:', data.data.length, 'items, total:', data.pagination.total);
-                renderList(data.data);
-                renderStats(data.pagination, data.data);
-                renderPagination(data.pagination);
+                console.log('[Slice3] list loaded:', data.questions.length, 'items, total:', data.total);
+                renderList(data.questions);
+                renderStats(data);
+                renderPagination(data);
               }
             });
 
@@ -1120,6 +1125,26 @@
                   if (card) card.style.opacity = '';
                   console.error('[Slice3.2] delete error:', err.type, err.code, err.message);
                   alert('删除失败: ' + (err.message || '未知错误'));
+                }
+              });
+            }
+
+            // ===== Slice 4.x: 标记掌握 → wrong.markMastered =====
+            if (delListEl) {
+              delListEl.addEventListener('click', async (e) => {
+                const mBtn = e.target.closest('[data-dom-id="wb-card-mastered"]');
+                if (!mBtn) return;
+                const qid = mBtn.dataset.questionId;
+                if (!qid) return;
+                if (!confirm('确定标记为已掌握？')) return;
+                const card = mBtn.closest('.bg-surface.rounded-\\[14px\\]');
+                if (card) card.style.opacity = '0.5';
+                try {
+                  await wrong.markMastered(qid, { mastered: true, is_correct: true });
+                  listRes.refetch();
+                } catch (err) {
+                  if (card) card.style.opacity = '';
+                  alert('标记掌握失败: ' + (err.message || '未知错误'));
                 }
               });
             }
