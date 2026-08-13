@@ -1,0 +1,12 @@
+﻿import 'dotenv/config';
+import pg from 'pg';
+const { Client } = pg;
+const c = new Client({ connectionString: process.env.DATABASE_URL });
+await c.connect();
+let r = await c.query(`SELECT schemaname, tablename FROM pg_tables WHERE schemaname NOT IN ('pg_catalog','information_schema') ORDER BY schemaname, tablename`);
+console.log("=== 所有表 ===");
+console.log(r.rows);
+r = await c.query(`SELECT current_schema(), current_schemas(true)`);
+console.log("\n=== 当前 schema ===");
+console.log(r.rows);
+await c.end();
