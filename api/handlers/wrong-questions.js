@@ -125,13 +125,18 @@ export async function updateWrongQuestion(req, res) {
     }
 
     if (is_correct !== undefined) {
+      // P0.4: schema column is integer 0/1, accept bool or int from client
       query += `is_correct = $` + (paramIdx++) + `, `;
-      params.push(is_correct);
+      params.push((is_correct === true || is_correct === 1) ? 1 : 0);
     }
 
     if (mastered !== undefined) {
+      // P0.4: schema column is boolean, accept bool or 0/1 from client
       query += `mastered = $` + (paramIdx++) + `, `;
-      params.push(mastered);
+      params.push(mastered === true || mastered === 1);
+      if (mastered === true || mastered === 1) {
+        query += `mastered_at = NOW(), `;
+      }
     }
 
     if (analysis_note) {

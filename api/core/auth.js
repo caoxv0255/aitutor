@@ -48,7 +48,7 @@ export function authMiddleware(req, res, next) {
   // 2. NODE_ENV === 'production' 但带 x-dev-bypass: 1 header → 不可能 (production 不读这个 header)
   // 注意: 生产环境 NODE_ENV 必须显式设为 'production', 否则默认 dev bypass
   if (process.env.NODE_ENV !== 'production') {
-    req.user = { id: 1, userId: 1, role: 'admin', phone: '13800138000', is_dev: true };
+    req.user = { id: 1, userId: 1, role: 'admin', email: process.env.DEV_USER_EMAIL || 'smoke@example.com', phone: '13800138000', is_dev: true };
     return next();
   }
 
