@@ -1,0 +1,28 @@
+schema_version: "1.0"
+generated_at: "2026-08-16T17:12:41Z"
+gate_script: scripts/release-gate.sh
+trigger: "manual (建议加 pre-commit hook + GitHub Actions)"
+overall: fail
+raw_tail: |
+  
+  > ai-tutor-backend@1.0.0 gate
+  > bash scripts/release-gate.sh
+  
+  
+  ═══════════ 1/5 单元测试 (vitest) ═══════════
+    ✓ vitest 全绿
+  
+  ═══════════ 2/5 前端 contract test (mock) ═══════════
+    ✓ contract test 全绿
+  
+  ═══════════ 3/5 Backend Contract Test (真后端) ═══════════
+    ✗ BCT 失败 (http://localhost:3002): 18 passed, 1 failed
+  
+  ═══════════ 4/5 docker build (app 镜像) ═══════════
+    ✓ 镜像构建成功
+  
+  ═══════════ 5/5 health check ═══════════
+    ✓ /api/health dbReady=true
+  
+  ❌ 发布门禁未通过 — 修复后重跑 npm run gate
+alerts: []

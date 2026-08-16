@@ -1,0 +1,14 @@
+schema_version: "1.0"
+generated_at: "2026-08-16T17:45:14Z"
+containers: [
+  - name: aitutor-app-1
+    image: aitutor-app
+    status: Up 14 minutes (healthy)
+  - name: aitutor-db-1
+    image: aitutor-db
+    status: Up 3 days (healthy)
+  - name: aitutor-redis-1
+    image: redis:7-alpine
+    status: Up 3 days (healthy)
+]
+alerts: []
