@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { errorResponse } from '../utils/response.js';
 import { createErrorResponse, ErrorCode } from '../utils/errorCodes.js';
 import { AuthError } from '../middleware/errorHandler.js';
+import { isPublicRoute } from '../middleware/publicRoutes.js';
 
 const DEFAULT_SECRETS = [
   'your-secret-key-here-please-change-in-production',
@@ -44,6 +45,12 @@ export function verifyToken(token) {
 }
 
 export function authMiddleware(req, res, next) {
+  // P0.6 (2026-08-15): 公开路由白名单放行 (登录/注册/游客/重置密码等预认证端点).
+  // 避免全局 authMiddleware 造成"登录本身也需要 JWT"的死锁.
+  if (isPublicRoute(req.path)) {
+    return next();
+  }
+
   // Dev bypass: ONLY when DEV_AUTH_BYPASS=1 is set explicitly.  This
   // makes test runs and CI use real token verification while still
   // letting developers opt into bypass locally (e.g. for smoke tests

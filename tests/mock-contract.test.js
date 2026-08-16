@@ -21,14 +21,13 @@ describe("mock vs backend envelope contract", () => {
     const m = loadMock("wrong_questions.json");
     expect(m.success).toBe(true);
     expect(m).toHaveProperty("data");
-    expect(Array.isArray(m.data)).toBe(true);
-    expect(m.data.length).toBeGreaterThan(0);
-    // pagination
-    expect(m).toHaveProperty("pagination");
-    expect(m.pagination).toHaveProperty("page");
-    expect(m.pagination).toHaveProperty("total");
+    // P0.7: 对齐后端 /api/user/wrong-questions → data: {questions, total} (无 pagination 对象)
+    expect(m.data).toHaveProperty("questions");
+    expect(Array.isArray(m.data.questions)).toBe(true);
+    expect(m.data.questions.length).toBeGreaterThan(0);
+    expect(typeof m.data.total).toBe("number");
     // first item fields (keys the wrong-book.html cardTemplate reads)
-    const row = m.data[0];
+    const row = m.data.questions[0];
     expect(row).toHaveProperty("_id");
     expect(row).toHaveProperty("subject_code");
     expect(row).toHaveProperty("difficulty");

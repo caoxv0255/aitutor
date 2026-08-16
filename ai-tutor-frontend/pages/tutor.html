@@ -811,7 +811,7 @@
       import { toast } from '../assets/js/toast.js';
 
       mountErrorBoundary();
-      setUseMock(true);  // Phase 2 强制 mock, 后端 :3002 不一定起
+      setUseMock(false);  // P0.7 (2026-08-15): ask/askStream 真后端 + history 走 localStorage
 
       // ===== SUBJECTS 9 学科 (D35a hardcode, 跟 wrong-book SUBJECT_MAP 一致) =====
       const SUBJECTS = ['数学', '语文', '英语', '物理', '化学', '政治', '生物', '历史', '地理'];

@@ -10,6 +10,7 @@ import authRoutes from './auth/routes.js';
 import userRoutes from './user/routes.js';
 import trendsRoutes from './trends/routes.js';
 import knowledgeRoutes from './knowledge/routes.js';
+import reviewRoutes from './review/routes.js';
 
 const router = express.Router();
 
@@ -24,5 +25,6 @@ router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
 router.use('/trends', trendsRoutes);
 router.use('/knowledge', knowledgeRoutes);
+router.use('/review', reviewRoutes);
 
 export default router;

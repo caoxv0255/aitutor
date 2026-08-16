@@ -254,6 +254,9 @@ onto the modern service + hook + boundary stack. Validated by Slice 1
 ### Global Data Contracts (apply to all shells)
 
 - **Service Envelope**: services return `{success, data}`; page does `res.data.X`
+  - **D062 (2026-08-15)**: `client.js` **不解包** envelope — mock/real 双路径都返回完整 envelope.
+    老规则"不要 unwrap"已废 (反方向), 9 个 service / 10 个页面统一按 `res.data.X` 消费.
+    详见 `.ai/decisions/D062-client-envelope-unify.md`.
 - **Mock Convention**: `request(..., { mockName })` → `assets/js/api/mock/{mockName}.json`
 - **useAsyncResource**: replaces fetch+setState boilerplate
 - **ErrorBoundary**: `mountErrorBoundary()` once per page
@@ -262,11 +265,13 @@ onto the modern service + hook + boundary stack. Validated by Slice 1
 
 Do **not**:
 
-- Rewrite `client.js` to auto-unwrap the envelope (would break 7 service callers)
+- **Undo** D062 envelope-only contract (回到 `data.data.X` 双套消费, 制造 mock/real 分裂)
 - Unify all page layouts into one shell (4 shells are product UX decisions)
 - Refactor old frontend pages outside the slice scope
 - Extract `.ait-page-shell` before 4-5 pages share the same pattern
 - Amend pushed commits (远端 push 保留控制)
+- Re-introduce hand-written UID strings (D063: 走 `api/core/questionUid.js`)
+- Skip `npm run gate` before commit (D065: 5 项硬门禁, pre-commit 已焊死)
 
 ### Resources
 
@@ -283,3 +288,27 @@ This repository uses OpenWiki for recurring code documentation. Start with `open
 The scheduled OpenWiki GitHub Actions workflow refreshes the repository wiki. Do not hand-edit generated OpenWiki pages unless explicitly asked; prefer updating source code/docs and letting OpenWiki regenerate.
 
 <!-- OPENWIKI:END -->
+
+<!-- AI-AGENT-LAYER:START -->
+
+## AI Agent 工程层 (`.ai/`)
+
+本仓库内置**为 AI agent 设计的工程层**, 任何 agent (Claude Code / Hermes / DeepSeek / Cursor) 进入本项目应:
+
+1. **第一站**: 读 [`.ai/context.md`](.ai/context.md) (5 分钟快速恢复上下文)
+2. **按角色读**: coding → `.ai/agents/coding.md`, review → `.ai/agents/review.md`, 等
+3. **找历史决策**: `.ai/decisions/D-NNN-*.md` (避免反向提议)
+4. **执行剧本**: `.ai/runbooks/{fix-bug,add-api,db-migration}.md`
+5. **修改代码必须** `npm run gate` 全绿
+
+**核心约束** (来源: `.ai/decisions/`):
+- **D062**: client.js 双路径统一返回完整 envelope (mock/real 同构), 禁止重新解包
+- **D063**: question_uid 走 `api/core/questionUid.js`, 禁止手写拼接
+- **D064**: knowledge_points 启动空表自动 seed (`ensureSeeds.js`)
+- **D065**: 发布前 `npm run gate` 5 项 (vitest/contract/BCT/docker/health), 已焊死为 pre-commit hook
+
+**Hermes / AI TUI 数据源**: `.ai/status/*.yaml` (version/gate-status/docker-health/rag-components/database/recent-runs/backlog), 7 个 YAML 文件含 `schema_version` / `generated_at`, 机器可解析. 验证: `node scripts/hermes-consume-test.cjs`.
+
+**门禁 (不可跳过)**: 任何 commit 前 `npm run gate`. 紧急跳过: `git commit --no-verify`.
+
+<!-- AI-AGENT-LAYER:END -->

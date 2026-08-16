@@ -556,174 +556,307 @@
     </style>
 </head>
 <body class="min-h-screen font-sans antialiased">
-        <main class="min-h-screen bg-surface-secondary" style="font-family:DM Sans,Noto Sans SC,sans-serif;">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <section class="mb-6">
-          <span class="ait-badge ait-badge-primary">F3 Slice 4.4 commit 6</span>
-          <h1 class="mt-2 text-2xl font-bold text-foreground">æç§æé¢</h1>
-          <p class="mt-1 text-[13px] text-foreground-secondary">æäº¤è¯¾æç§çï¼èªå¨ OCR + æºè½è§£æ</p>
-        </section>
+  <main class="min-h-screen bg-surface-secondary" style="font-family:DM Sans,Noto Sans SC,sans-serif;">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <section class="mb-6">
+        <span class="ait-badge ait-badge-primary">F4 Vision · 真后端</span>
+        <h1 class="mt-2 text-2xl font-bold text-foreground">拍照搜题</h1>
+        <p class="mt-1 text-[13px] text-foreground-secondary">提交题目照片，自动 OCR + 智能解析 + 拍照即入库</p>
+      </section>
 
-        <section class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-5">
-          <div class="flex flex-wrap items-center gap-3 mb-4">
-            <label class="inline-flex items-center gap-2 h-10 px-4 rounded-[10px] bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium cursor-pointer transition-colors">
-              <i data-lucide="image" class="w-4 h-4"></i>
-              <span>ä»ç¸åéå¾ç</span>
-              <input id="vision-file" type="file" accept="image/*" class="hidden" />
-            </label>
-            <label class="inline-flex items-center gap-2 h-10 px-4 rounded-[10px] bg-surface-tertiary hover:bg-border text-foreground text-sm font-medium cursor-pointer transition-colors">
-              <i data-lucide="camera" class="w-4 h-4"></i>
-              <span>æ¨æ</span>
-              <input id="vision-camera" type="file" accept="image/*" capture="environment" class="hidden" />
-            </label>
-            <span class="text-[12px] text-foreground-muted">æ¯æ JPG / PNG / WEBP</span>
-          </div>
-          <div id="vision-preview" class="rounded-xl border border-dashed border-border bg-surface-secondary/40 min-h-[180px] flex items-center justify-center text-foreground-muted text-sm">
-            çªå£åå«å·²éä¸­çå¾çé¢è§
-          </div>
-        </section>
+      <!-- 上传卡片 -->
+      <section class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-5">
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <label class="inline-flex items-center gap-2 h-10 px-4 rounded-[10px] bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium cursor-pointer transition-colors">
+            <i data-lucide="image" class="w-4 h-4"></i>
+            <span>从相册选图片</span>
+            <input id="vision-file" type="file" accept="image/*" class="hidden" />
+          </label>
+          <label class="inline-flex items-center gap-2 h-10 px-4 rounded-[10px] bg-surface-tertiary hover:bg-border text-foreground text-sm font-medium cursor-pointer transition-colors">
+            <i data-lucide="camera" class="w-4 h-4"></i>
+            <span>拍摄</span>
+            <input id="vision-camera" type="file" accept="image/*" capture="environment" class="hidden" />
+          </label>
+          <span class="text-[12px] text-foreground-muted">支持 JPG / PNG / WEBP，单张 ≤ 10MB</span>
+        </div>
 
-        <section id="vision-status-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-5 hidden">
-          <div class="flex items-center gap-2 text-sm text-foreground-secondary">
-            <i data-lucide="loader" class="w-4 h-4 animate-spin text-primary-500"></i>
-            <span id="vision-status-text">æäº¤ä¸­â¦</span>
-          </div>
-        </section>
+        <!-- 学科 + 知识点选择 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+          <label class="block">
+            <span class="text-[12px] text-foreground-secondary mb-1 block">学科（可选，默认自动识别）</span>
+            <select id="vision-subject" class="w-full h-10 rounded-[10px] border border-border bg-surface px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500/30">
+            </select>
+          </label>
+          <label class="block">
+            <span class="text-[12px] text-foreground-secondary mb-1 block">知识点（可选，按学科过滤）</span>
+            <select id="vision-kp" class="w-full h-10 rounded-[10px] border border-border bg-surface px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500/30">
+              <option value="">请先选择学科</option>
+            </select>
+          </label>
+        </div>
 
-        <section id="vision-result-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-5 hidden">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="text-lg font-semibold text-foreground flex items-center gap-2">
-              <i data-lucide="file-text" class="w-5 h-5 text-primary-500"></i>
-              è¯å«ç»æ
-            </h2>
-            <button id="vision-add-wrong" type="button" class="inline-flex items-center gap-1.5 h-9 px-3 rounded-[10px] text-[13px] font-medium bg-primary-500 hover:bg-primary-600 text-white transition-colors">
-              <i data-lucide="bookmark-plus" class="w-4 h-4"></i>
-              ä¸é®å å¥éé¢æ¬
-            </button>
-          </div>
-          <div id="vision-result-text" class="prose prose-sm max-w-none text-foreground whitespace-pre-wrap leading-relaxed"></div>
-        </section>
+        <div id="vision-preview" class="rounded-xl border border-dashed border-border bg-surface-secondary/40 min-h-[180px] flex items-center justify-center text-foreground-muted text-sm">
+          此处显示已选中的图片预览
+        </div>
+      </section>
 
-        <section id="vision-history-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 hidden">
-          <h2 class="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-            <i data-lucide="history" class="w-4 h-4 text-foreground-secondary"></i>
-            åå²è®°å½
+      <!-- 状态卡片 -->
+      <section id="vision-status-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-5 hidden">
+        <div class="flex items-center gap-2 text-sm text-foreground-secondary">
+          <i data-lucide="loader" class="w-4 h-4 animate-spin text-primary-500"></i>
+          <span id="vision-status-text">识别中…</span>
+        </div>
+      </section>
+
+      <!-- 结果卡片 -->
+      <section id="vision-result-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-5 hidden">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-lg font-semibold text-foreground flex items-center gap-2">
+            <i data-lucide="file-text" class="w-5 h-5 text-primary-500"></i>
+            识别结果
           </h2>
-          <div id="vision-history-list" class="space-y-2 text-[13px] text-foreground-secondary"></div>
-        </section>
-      </div>
-    </main>
+          <button id="vision-add-wrong" type="button" class="inline-flex items-center gap-1.5 h-9 px-3 rounded-[10px] text-[13px] font-medium bg-primary-500 hover:bg-primary-600 text-white transition-colors">
+            <i data-lucide="bookmark-plus" class="w-4 h-4"></i>
+            一键加入错题本
+          </button>
+        </div>
+        <div id="vision-meta" class="flex flex-wrap gap-2 mb-3"></div>
+        <div id="vision-raw-text" class="prose prose-sm max-w-none text-foreground whitespace-pre-wrap leading-relaxed"></div>
+        <div id="vision-formulas" class="mt-3 hidden">
+          <div class="text-[12px] font-medium text-foreground-secondary mb-1">识别公式</div>
+          <pre id="vision-formulas-text" class="bg-surface-tertiary rounded-lg p-3 text-[13px] text-foreground overflow-x-auto"></pre>
+        </div>
+      </section>
 
-    <script type="module">
-      import { vision, wrong } from "../assets/js/api/services/index.js";
-      import { mountErrorBoundary } from "../assets/js/components/error-boundary.js";
-      import { setUseMock } from "../assets/js/api/USE_MOCK.js";
-      import { mount as mountNav } from "../assets/js/navator.js";
-      import { toast } from "../assets/js/toast.js";
+      <!-- 历史记录 -->
+      <section id="vision-history-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 hidden">
+        <h2 class="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+          <i data-lucide="history" class="w-4 h-4 text-foreground-secondary"></i>
+          历史记录
+        </h2>
+        <div id="vision-history-list" class="space-y-2 text-[13px] text-foreground-secondary"></div>
+      </section>
+    </div>
+  </main>
 
-      mountErrorBoundary();
-      setUseMock(true);
-      mountNav("vision");
+  <script type="module">
+    import { vision, wrong } from "../assets/js/api/services/index.js";
+    import { mountErrorBoundary } from "../assets/js/components/error-boundary.js";
+    import { setUseMock } from "../assets/js/api/USE_MOCK.js";
+    import { mount as mountNav } from "../assets/js/navator.js";
+    import { useAsyncResource } from "../assets/js/hooks/useAsyncResource.js";
+    import { toast } from "../assets/js/toast.js";
 
-      const fileEl = document.getElementById("vision-file");
-      const camEl = document.getElementById("vision-camera");
-      const previewEl = document.getElementById("vision-preview");
-      const statusCard = document.getElementById("vision-status-card");
-      const statusText = document.getElementById("vision-status-text");
-      const resultCard = document.getElementById("vision-result-card");
-      const resultText = document.getElementById("vision-result-text");
-      const addBtn = document.getElementById("vision-add-wrong");
-      const historyCard = document.getElementById("vision-history-card");
-      const historyList = document.getElementById("vision-history-list");
+    mountErrorBoundary();
+    setUseMock(false);  // F4: vision 真后端 (2026-08-15, parse + knowledge-points 已对齐)
+    mountNav("vision");
 
-      let lastParseResult = null;
-      const history = [];
+    const SUBJECTS = [
+      { code: "", name: "自动识别" },
+      { code: "math", name: "数学" },
+      { code: "chinese", name: "语文" },
+      { code: "english", name: "英语" },
+      { code: "physics", name: "物理" },
+      { code: "chemistry", name: "化学" },
+      { code: "biology", name: "生物" },
+      { code: "history", name: "历史" },
+      { code: "geography", name: "地理" },
+      { code: "politics", name: "政治" },
+    ];
+    const TYPE_LABELS = {
+      choice: "选择题", multi_choice: "多选题", fill: "填空题", short_answer: "简答题",
+      calculation: "计算题", proof: "证明题", experiment: "实验题", essay: "作文题",
+      reading: "阅读理解", other: "其他",
+    };
+    const HISTORY_KEY = "aitutor.vision.history";
+    const MAX_HISTORY = 10;
 
-      function renderHistory() {
-        if (history.length === 0) {
-          historyCard.classList.add("hidden");
-          return;
-        }
-        historyCard.classList.remove("hidden");
-        historyList.innerHTML = history.map((h, i) => `
-          <div class="flex items-center justify-between gap-3 py-2 border-b border-border last:border-0">
-            <div class="min-w-0">
-              <div class="text-[12px] text-foreground-muted">${new Date(h.ts).toLocaleString("zh-CN")}</div>
-              <div class="truncate">${(h.summary || "(empty)").slice(0, 80)}</div>
-            </div>
-            <span class="text-[11px] text-foreground-muted">#${i + 1}</span>
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    const fileEl = $("vision-file");
+    const camEl = $("vision-camera");
+    const previewEl = $("vision-preview");
+    const statusCard = $("vision-status-card");
+    const statusText = $("vision-status-text");
+    const resultCard = $("vision-result-card");
+    const metaEl = $("vision-meta");
+    const rawTextEl = $("vision-raw-text");
+    const formulasWrap = $("vision-formulas");
+    const formulasText = $("vision-formulas-text");
+    const addBtn = $("vision-add-wrong");
+    const historyCard = $("vision-history-card");
+    const historyList = $("vision-history-list");
+    const subjectSel = $("vision-subject");
+    const kpSel = $("vision-kp");
+
+    const state = { selectedSubject: "", selectedKpId: "", lastParse: null };
+
+    // ---------- history (localStorage, F3 tutor 同款模式) ----------
+    function loadHistory() {
+      try { const h = JSON.parse(localStorage.getItem(HISTORY_KEY)); return Array.isArray(h) ? h : []; } catch { return []; }
+    }
+    function saveHistory(h) {
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(h.slice(0, MAX_HISTORY))); } catch { /* quota */ }
+    }
+    function renderHistory() {
+      const h = loadHistory();
+      if (h.length === 0) { historyCard.classList.add("hidden"); return; }
+      historyCard.classList.remove("hidden");
+      historyList.innerHTML = h.map((it, idx) => `
+        <div class="flex items-center justify-between gap-3 py-2 border-b border-border last:border-0">
+          <div class="min-w-0">
+            <div class="text-[12px] text-foreground-muted">${new Date(it.ts).toLocaleString("zh-CN")}${it.subject ? " · " + esc(it.subject) : ""}</div>
+            <div class="truncate">${esc((it.summary || "(空)").slice(0, 80))}</div>
           </div>
-        `).join("");
-      }
+          <span class="shrink-0 text-[11px] text-foreground-muted">#${h.length - idx}</span>
+        </div>`).join("");
+    }
+    function pushHistory(entry) { const h = loadHistory(); h.unshift(entry); saveHistory(h); renderHistory(); }
 
-      function readFileAsDataURL(file) {
-        return new Promise((resolve, reject) => {
-          const r = new FileReader();
-          r.onload = () => resolve(r.result);
-          r.onerror = reject;
-          r.readAsDataURL(file);
-        });
-      }
+    // ---------- subject + knowledge point dropdown ----------
+    SUBJECTS.forEach((s) => {
+      const o = document.createElement("option");
+      o.value = s.code;
+      o.textContent = s.name;
+      subjectSel.appendChild(o);
+    });
 
-      async function handleFile(file) {
-        if (!file) return;
-        if (!file.type.startsWith("image/")) {
-          toast.error("è¯·éæ©å¾çæä»¶");
-          return;
-        }
-        const dataUrl = await readFileAsDataURL(file);
-        previewEl.innerHTML = `<img src="${dataUrl}" alt="preview" class="max-h-[280px] rounded-xl mx-auto" />`;
-        resultCard.classList.add("hidden");
-        statusCard.classList.remove("hidden");
-        statusText.textContent = "æäº¤ä¸­â¦";
-        try {
-          const base64 = dataUrl.split(",")[1];
-          const mimeType = file.type || "image/jpeg";
-          const res = await vision.parse({ imageBase64: base64, mimeType });
-          console.log("[vision] parse response:", res);
-          const content = (res && res.data && (res.data.content || res.data.text)) || JSON.stringify(res.data || {}, null, 2);
-          const taskId = (res && res.data && res.data.task_id) || null;
-          lastParseResult = { content, taskId, ts: Date.now() };
-          history.unshift({ ts: lastParseResult.ts, summary: content });
-          renderHistory();
-          statusCard.classList.add("hidden");
-          resultText.textContent = content;
-          resultCard.classList.remove("hidden");
-          toast.success("è¯å«å®æ");
-        } catch (err) {
-          console.error("[vision] parse error:", err);
-          statusText.textContent = "å¤±è´¥: " + (err.message || "æªç¥éè¯¯");
-          toast.error("è¯å«å¤±è´¥: " + (err.message || ""));
-        }
-      }
+    const kpRes = useAsyncResource(() => {
+      if (!state.selectedSubject) return Promise.resolve({ success: true, data: { items: [], total: 0 } });
+      return vision.getKnowledgePoints({ subject: state.selectedSubject });
+    });
+    kpRes.subscribe(({ data, loading }) => {
+      if (loading || !data) return;
+      // real: data = {items, total}; mock: data = {success, data: {items}} → 归一化
+      const body = (data && data.data) ? data.data : data;
+      const items = Array.isArray(body) ? body : ((body && body.items) || []);
+      const keep = state.selectedKpId && items.some((k) => String(k.id) === String(state.selectedKpId));
+      kpSel.innerHTML = `<option value="">${state.selectedSubject ? "自动识别知识点" : "请先选择学科"}</option>` +
+        items.map((k) => `<option value="${esc(k.id)}">${esc(k.name)}</option>`).join("");
+      if (keep) kpSel.value = state.selectedKpId;
+    });
 
-      fileEl.addEventListener("change", (e) => handleFile(e.target.files[0]));
-      camEl.addEventListener("change", (e) => handleFile(e.target.files[0]));
+    subjectSel.addEventListener("change", () => {
+      state.selectedSubject = subjectSel.value;
+      state.selectedKpId = "";
+      kpRes.refetch();
+    });
+    kpSel.addEventListener("change", () => { state.selectedKpId = kpSel.value; });
 
-      addBtn.addEventListener("click", async () => {
-        if (!lastParseResult || !lastParseResult.content) {
-          toast.error("è¯·åæäº¤ä¸å¼ å¾ç");
-          return;
-        }
-        addBtn.disabled = true;
-        try {
-          await wrong.createQuestion({
-            question: lastParseResult.content.slice(0, 500),
-            subject: "math",
-            answer: "",
-            analysis: "",
-            difficulty: 3,
-          });
-          toast.success("å·²å å¥éé¢æ¬");
-          setTimeout(() => { window.location.href = "./wrong-book.html"; }, 600);
-        } catch (err) {
-          console.error("[vision] add-wrong error:", err);
-          toast.error("å å¥å¤±è´¥: " + (err.message || ""));
-        } finally {
-          addBtn.disabled = false;
-        }
+    // ---------- upload + parse ----------
+    function readFileAsDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result);
+        r.onerror = reject;
+        r.readAsDataURL(file);
       });
-    </script>
-    <script>lucide.createIcons();</script>
+    }
+
+    function renderResult(parse, ingest) {
+      resultCard.classList.remove("hidden");
+      rawTextEl.textContent = parse.raw_text || "(未识别到文本)";
+      const subjectName = SUBJECTS.find((s) => s.code === parse.subject_code)?.name || parse.subject_code || "未识别";
+      const chips = [
+        { label: "学科", value: subjectName },
+        { label: "难度", value: parse.difficulty ? "★".repeat(Math.max(1, Math.min(5, parse.difficulty))) : "—" },
+        { label: "题型", value: TYPE_LABELS[parse.question_type] || parse.question_type || "—" },
+        { label: "知识点", value: parse.inferred_kp_id || "自动匹配中" },
+        { label: "入库", value: ingest && ingest.success ? "✅ 已入库" : "⚠️ 未入库" },
+      ];
+      metaEl.innerHTML = chips.map((c) => `
+        <span class="inline-flex items-center gap-1 rounded-full bg-surface-tertiary px-2.5 py-1 text-[12px] text-foreground-secondary">
+          <span class="text-foreground-muted">${esc(c.label)}</span>${esc(c.value)}
+        </span>`).join("");
+      const formulas = Array.isArray(parse.latex_formulas) ? parse.latex_formulas : [];
+      if (formulas.length > 0) {
+        formulasWrap.classList.remove("hidden");
+        formulasText.textContent = formulas.join("\n");
+      } else {
+        formulasWrap.classList.add("hidden");
+      }
+    }
+
+    async function handleFile(file) {
+      if (!file) return;
+      if (!file.type.startsWith("image/")) { toast.error("请选择图片文件"); return; }
+      const dataUrl = await readFileAsDataURL(file);
+      previewEl.innerHTML = `<img src="${dataUrl}" alt="预览" class="max-h-[280px] rounded-xl mx-auto" />`;
+      resultCard.classList.add("hidden");
+      formulasWrap.classList.add("hidden");
+      statusCard.classList.remove("hidden");
+      statusText.textContent = "识别中… (多模态解析可能需要 10-30 秒)";
+      try {
+        const base64 = dataUrl.split(",")[1];
+        const res = await vision.parse({
+          image: base64,
+          subject: state.selectedSubject || undefined,
+          knowledgePointId: state.selectedKpId || undefined,
+          autoIngest: true,
+        });
+        // real: res = {parse, ingest}; mock: res = {success, data: {parse, ingest}} → 归一化
+        const body = (res && res.data) ? res.data : res;
+        const parse = (body && body.parse) || {};
+        const ingest = (body && body.ingest) || null;
+        state.lastParse = {
+          raw_text: parse.raw_text || "",
+          formulas: Array.isArray(parse.latex_formulas) ? parse.latex_formulas : [],
+          difficulty: parse.difficulty,
+          question_type: parse.question_type,
+          inferred_kp_id: parse.inferred_kp_id,
+          subject_code: parse.subject_code,
+          ingest,
+        };
+        renderResult(parse, ingest);
+        pushHistory({
+          ts: Date.now(),
+          summary: (parse.raw_text || "").slice(0, 60),
+          subject: SUBJECTS.find((s) => s.code === parse.subject_code)?.name || "",
+        });
+        statusCard.classList.add("hidden");
+        toast.success("识别完成");
+      } catch (err) {
+        console.error("[vision] parse error:", err);
+        statusText.textContent = "识别失败: " + (err.message || "未知错误");
+        toast.error("识别失败: " + (err.message || ""));
+      }
+    }
+
+    fileEl.addEventListener("change", (e) => handleFile(e.target.files[0]));
+    camEl.addEventListener("change", (e) => handleFile(e.target.files[0]));
+
+    // ---------- 一键加入错题本 ----------
+    addBtn.addEventListener("click", async () => {
+      const p = state.lastParse;
+      if (!p || !p.raw_text) { toast.error("请先提交一张图片"); return; }
+      addBtn.disabled = true;
+      try {
+        const subjectName = SUBJECTS.find((s) => s.code === p.subject_code)?.name || "数学";
+        const res = await wrong.createQuestion({
+          question: p.raw_text.slice(0, 500),
+          subject: subjectName,                    // backend 兼容 F3 字段 (subject → subject_code)
+          answer: "",
+          analysis: p.formulas.join("\n"),         // 公式作为解析
+          difficulty: p.difficulty || 3,
+          knowledge_point_id: p.inferred_kp_id || undefined,
+          question_id: (p.ingest && p.ingest.rag_id) || undefined,
+        });
+        const body = (res && res.data) ? res.data : res;
+        const newId = (body && body.id) || null;
+        toast.success("已加入错题本, 正在跳转…");
+        setTimeout(() => {
+          window.location.href = "./wrong-book.html" + (newId ? "?highlight=" + encodeURIComponent(newId) : "");
+        }, 600);
+      } catch (err) {
+        console.error("[vision] add-wrong error:", err);
+        toast.error("加入失败: " + (err.message || ""));
+      } finally {
+        addBtn.disabled = false;
+      }
+    });
+
+    renderHistory();
+  </script>
+  <script>lucide.createIcons();</script>
 </body>
 </html>

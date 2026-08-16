@@ -134,6 +134,20 @@ const EXTRACTION_PROMPT = `{subject_hint}
    则必须把 "函数与导数" 加入 knowledge_points, 并尽可能匹配下方列表中
    "导数的概念与几何意义 / 导数的运算 / 导数与单调性 / 导数与极值最值 /
     导数与不等式证明 / 导数与函数零点" 这 6 个细粒度标签中匹配度最高的一个.
+9. 【数学学科·math_structure 字段】每道数学题必须额外提供 "math_structure" 字段, JSON 格式:
+   {
+     "function_types": ["二次函数/三次函数/指数函数/对数函数/三角函数/幂函数/反比例函数/分段函数/复合函数/抽象函数"],
+     "formulas": ["关键公式 LaTeX 或纯文本"],
+     "formula_semantics": ["公式在题中的作用语义"],
+     "parameters": ["a/b/k/m/n/lambda/alpha/theta 等"],
+     "problem_type": "求单调区间/求极值/求最值/求零点/求切线方程/求函数表达式/证明不等式/证明等式/证明函数性质/求参数范围/求函数值/求数列通项/求数列和/求概率/求期望/求方差/求圆锥曲线方程/求面积/求体积/立体几何证明",
+     "techniques": ["分类讨论/构造函数/数学归纳法/数形结合/导数应用/换元法/反证法/放缩法/裂项相消/错位相减/配方法/待定系数法/分离常数/零点存在定理/韦达定理"],
+     "coordinate_system": true/false,
+     "geometric_elements": ["直线/圆/椭圆/双曲线/抛物线/三角形/四边形/正方形/矩形/菱形/梯形/圆锥/圆柱/球/棱柱/棱锥/向量"],
+     "knowledge_points": ["涉及到的具体数学概念"],
+     "semantic_summary": "一句话题目概述 (不超过 200 字)"
+   }
+   字段不全可以空数组, 但 math_structure 字段必须存在 (即使全部为空). 若题目本身没有数学内容可填, math_structure 整体留空对象 {}.
 
 【标准知识点列表】：
 {kp_list}`;
@@ -418,9 +432,8 @@ function calibrateDifficulty(questions, subject) {
   return questions;
 }
 
-function generateQuestionUID(subject, year, provinceCode, questionNumber) {
-  return `${subject}_${year}_${provinceCode}_${questionNumber}`;
-}
+// P0.7 (Phase 3): UID 生成改为单一来源 api/core/questionUid.js (Rule A 与 migration 008 对齐)
+import { generateQuestionUid } from '../api/core/questionUid.js';
 
 async function processQuestionWithAI(question, subject, year, provinceCode) {
   const questionText = question.stem + (question.options ? '\n' + question.options.join('\n') : '');
@@ -787,7 +800,7 @@ async function parseAllQuestions() {
         await pool.query('DELETE FROM question_formulas WHERE question_id IN (SELECT id FROM exam_questions WHERE paper_id = $1)', [paperId]);
 
         for (const q of allQuestions) {
-          const questionUid = generateQuestionUID(subject, year, province_code, q.number);
+          const questionUid = generateQuestionUid({ subject, year, provinceCode: province_code, questionNumber: q.number });
 
           const result = await pool.query(`
             INSERT INTO exam_questions (

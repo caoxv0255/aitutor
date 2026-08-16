@@ -137,3 +137,27 @@ ehthumbs_vista.db
 *.tmp
 scripts/_probe_*.mjs
 server.js.bak.*
+
+# 本地 docker buildx 状态目录 (沙箱/CI 重定向用, 不入库)
+.docker-buildx/
+﻿
+# ─────────────────────────────────────────────────────────────
+# build artifact 大目录 (跨 fs 中文路径, git index 报 Invalid argument)
+# 保留 database/manifest.csv 等根级 metadata 文件
+# ─────────────────────────────────────────────────────────────
+/database/knowledge-points/
+/database/question-bank/
+/database/textbooks/
+
+# ad-hoc 临时文件 (含 hyphen 的 PowerShell/WSL 调试 .cjs / .py / .mjs)
+.tmp-*
+.tmp.*
+*.tmp.cjs
+*.tmp.py
+*.tmp.mjs
+
+
+# 解析流水线临时目录/备份 (非源码)
+*.bak
+*.bak.*
+database/parsed-examples/.backup/

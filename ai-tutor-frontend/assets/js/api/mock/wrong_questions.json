@@ -1,174 +1,185 @@
 {
   "success": true,
   "message": "操作成功",
-  "data": [
-    {
-      "_id": "1",
-      "data": {
-        "question": "已知二次函数 y = ax² + bx + c 的图像经过点 A(1, 0)、B(3, 0) 和 C(0, -3)，求该二次函数的解析式，写出其顶点坐标和对称轴方程，并判断其开口方向与最值。",
-        "answer": "y = x² - 4x - 3",
-        "analysis": "代入三点坐标建立方程组求解 a, b, c。由 A(1,0): a + b + c = 0；由 B(3,0): 9a + 3b + c = 0；由 C(0,-3): c = -3。解得 a = 1, b = -4, c = -3，故 y = x² - 4x - 3。顶点坐标 (2, -7)，对称轴 x = 2，开口向上，最小值 -7。",
-        "knowledge_points": ["二次函数"],
-        "image_url": null
+  "data": {
+    "questions": [
+      {
+        "_id": "1",
+        "data": {
+          "question": "已知二次函数 y = ax² + bx + c 的图像经过点 A(1, 0)、B(3, 0) 和 C(0, -3)，求该二次函数的解析式，写出其顶点坐标和对称轴方程，并判断其开口方向与最值。",
+          "answer": "y = x² - 4x - 3",
+          "analysis": "代入三点坐标建立方程组求解 a, b, c。由 A(1,0): a + b + c = 0；由 B(3,0): 9a + 3b + c = 0；由 C(0,-3): c = -3。解得 a = 1, b = -4, c = -3，故 y = x² - 4x - 3。顶点坐标 (2, -7)，对称轴 x = 2，开口向上，最小值 -7。",
+          "knowledge_points": [
+            "二次函数"
+          ],
+          "image_url": null
+        },
+        "timestamp": "2026-08-04T10:23:00Z",
+        "subject_code": "math",
+        "knowledge_point_id": "kp_001",
+        "difficulty": 4,
+        "question_id": "q_2024_math_bj_05",
+        "is_correct": false,
+        "exam_level": "gaokao",
+        "user_answer": "y = x² + 4x + 3",
+        "correct_answer": "y = x² - 4x - 3",
+        "session_id": "s_2026_08_04_001"
       },
-      "timestamp": "2026-08-04T10:23:00Z",
-      "subject_code": "math",
-      "knowledge_point_id": "kp_001",
-      "difficulty": 4,
-      "question_id": "q_2024_math_bj_05",
-      "is_correct": false,
-      "exam_level": "gaokao",
-      "user_answer": "y = x² + 4x + 3",
-      "correct_answer": "y = x² - 4x - 3",
-      "session_id": "s_2026_08_04_001"
-    },
-    {
-      "_id": "2",
-      "data": {
-        "question": "在光滑水平面上，一质量 m = 2kg 的物体从静止开始受到水平恒力 F = 10N 的作用。求物体在 3s 末的速度大小和 3s 内的位移，并画出物体运动的 v-t 图像。",
-        "answer": "v = 15 m/s, s = 22.5 m",
-        "analysis": "由牛顿第二定律 a = F/m = 10/2 = 5 m/s²。v = at = 5 × 3 = 15 m/s。s = ½at² = ½ × 5 × 9 = 22.5 m。v-t 图像为过原点的直线，斜率 5。",
-        "knowledge_points": ["牛顿运动定律"],
-        "image_url": null
+      {
+        "_id": "2",
+        "data": {
+          "question": "在光滑水平面上，一质量 m = 2kg 的物体从静止开始受到水平恒力 F = 10N 的作用。求物体在 3s 末的速度大小和 3s 内的位移，并画出物体运动的 v-t 图像。",
+          "answer": "v = 15 m/s, s = 22.5 m",
+          "analysis": "由牛顿第二定律 a = F/m = 10/2 = 5 m/s²。v = at = 5 × 3 = 15 m/s。s = ½at² = ½ × 5 × 9 = 22.5 m。v-t 图像为过原点的直线，斜率 5。",
+          "knowledge_points": [
+            "牛顿运动定律"
+          ],
+          "image_url": null
+        },
+        "timestamp": "2026-08-05T09:15:00Z",
+        "subject_code": "physics",
+        "knowledge_point_id": "kp_010",
+        "difficulty": 3,
+        "question_id": "q_2024_phys_bj_08",
+        "is_correct": true,
+        "exam_level": "gaokao",
+        "user_answer": "v = 6 m/s, s = 9 m",
+        "correct_answer": "v = 15 m/s, s = 22.5 m",
+        "session_id": "s_2026_08_05_002"
       },
-      "timestamp": "2026-08-05T09:15:00Z",
-      "subject_code": "physics",
-      "knowledge_point_id": "kp_010",
-      "difficulty": 3,
-      "question_id": "q_2024_phys_bj_08",
-      "is_correct": true,
-      "exam_level": "gaokao",
-      "user_answer": "v = 6 m/s, s = 9 m",
-      "correct_answer": "v = 15 m/s, s = 22.5 m",
-      "session_id": "s_2026_08_05_002"
-    },
-    {
-      "_id": "3",
-      "data": {
-        "question": "下列反应的离子方程式书写正确的是：A. 铁与稀盐酸反应 2Fe + 6H⁺ = 2Fe³⁺ + 3H₂↑；B. 碳酸钙与稀硝酸反应 CO₃²⁻ + 2H⁺ = CO₂↑ + H₂O；C. 铜与浓硝酸反应 Cu + 4H⁺ + 2NO₃⁻ = Cu²⁺ + 2NO₂↑ + 2H₂O；D. 钠与水反应 Na + 2H₂O = Na⁺ + 2OH⁻ + H₂↑",
-        "answer": "C",
-        "analysis": "A 错：Fe 与稀盐酸生成 Fe²⁺，应为 Fe + 2H⁺ = Fe²⁺ + H₂↑。B 错：碳酸钙难溶，应保留化学式 CaCO₃ + 2H⁺ = Ca²⁺ + CO₂↑ + H₂O。D 错：Na 与水反应电子不守恒，应为 2Na + 2H₂O = 2Na⁺ + 2OH⁻ + H₂↑。C 正确：Cu 与浓硝酸 Cu + 4H⁺ + 2NO₃⁻ = Cu²⁺ + 2NO₂↑ + 2H₂O 满足电子守恒、电荷守恒、原子守恒。",
-        "knowledge_points": ["离子反应"],
-        "image_url": null
+      {
+        "_id": "3",
+        "data": {
+          "question": "下列反应的离子方程式书写正确的是：A. 铁与稀盐酸反应 2Fe + 6H⁺ = 2Fe³⁺ + 3H₂↑；B. 碳酸钙与稀硝酸反应 CO₃²⁻ + 2H⁺ = CO₂↑ + H₂O；C. 铜与浓硝酸反应 Cu + 4H⁺ + 2NO₃⁻ = Cu²⁺ + 2NO₂↑ + 2H₂O；D. 钠与水反应 Na + 2H₂O = Na⁺ + 2OH⁻ + H₂↑",
+          "answer": "C",
+          "analysis": "A 错：Fe 与稀盐酸生成 Fe²⁺，应为 Fe + 2H⁺ = Fe²⁺ + H₂↑。B 错：碳酸钙难溶，应保留化学式 CaCO₃ + 2H⁺ = Ca²⁺ + CO₂↑ + H₂O。D 错：Na 与水反应电子不守恒，应为 2Na + 2H₂O = 2Na⁺ + 2OH⁻ + H₂↑。C 正确：Cu 与浓硝酸 Cu + 4H⁺ + 2NO₃⁻ = Cu²⁺ + 2NO₂↑ + 2H₂O 满足电子守恒、电荷守恒、原子守恒。",
+          "knowledge_points": [
+            "离子反应"
+          ],
+          "image_url": null
+        },
+        "timestamp": "2026-08-03T14:42:00Z",
+        "subject_code": "chemistry",
+        "knowledge_point_id": "kp_018",
+        "difficulty": 1,
+        "question_id": "q_2024_chem_bj_03",
+        "is_correct": true,
+        "exam_level": "gaokao",
+        "user_answer": "C",
+        "correct_answer": "C",
+        "session_id": "s_2026_08_03_003"
       },
-      "timestamp": "2026-08-03T14:42:00Z",
-      "subject_code": "chemistry",
-      "knowledge_point_id": "kp_018",
-      "difficulty": 1,
-      "question_id": "q_2024_chem_bj_03",
-      "is_correct": true,
-      "exam_level": "gaokao",
-      "user_answer": "C",
-      "correct_answer": "C",
-      "session_id": "s_2026_08_03_003"
-    },
-    {
-      "_id": "4",
-      "data": {
-        "question": "用括号内单词的正确形式填空：The book _____ (write) by a famous author last year _____ (sell) over a million copies since it _____ (publish)。请分析句子结构，判断各空应使用的时态和语态，并翻译全句。",
-        "answer": "written, has sold, was published",
-        "analysis": "第一空：The book _____ (write) by a famous author — book 与 write 是被动关系，且 last year 暗示过去，故用过去分词 written 作后置定语。第二空：_____ (sell) over a million copies since — since 引导的时间状语，主句用现在完成时 has sold。第三空：it _____ (publish) — it 与 publish 是被动，且 last year 暗示过去，用一般过去时被动 was published。",
-        "knowledge_points": ["非谓语动词"],
-        "image_url": null
+      {
+        "_id": "4",
+        "data": {
+          "question": "用括号内单词的正确形式填空：The book _____ (write) by a famous author last year _____ (sell) over a million copies since it _____ (publish)。请分析句子结构，判断各空应使用的时态和语态，并翻译全句。",
+          "answer": "written, has sold, was published",
+          "analysis": "第一空：The book _____ (write) by a famous author — book 与 write 是被动关系，且 last year 暗示过去，故用过去分词 written 作后置定语。第二空：_____ (sell) over a million copies since — since 引导的时间状语，主句用现在完成时 has sold。第三空：it _____ (publish) — it 与 publish 是被动，且 last year 暗示过去，用一般过去时被动 was published。",
+          "knowledge_points": [
+            "非谓语动词"
+          ],
+          "image_url": null
+        },
+        "timestamp": "2026-08-01T16:30:00Z",
+        "subject_code": "english",
+        "knowledge_point_id": "kp_025",
+        "difficulty": 3,
+        "question_id": "q_2024_eng_bj_12",
+        "is_correct": true,
+        "exam_level": "gaokao",
+        "user_answer": "wrote, sold, published",
+        "correct_answer": "written, has sold, was published",
+        "session_id": "s_2026_08_01_004"
       },
-      "timestamp": "2026-08-01T16:30:00Z",
-      "subject_code": "english",
-      "knowledge_point_id": "kp_025",
-      "difficulty": 3,
-      "question_id": "q_2024_eng_bj_12",
-      "is_correct": true,
-      "exam_level": "gaokao",
-      "user_answer": "wrote, sold, published",
-      "correct_answer": "written, has sold, was published",
-      "session_id": "s_2026_08_01_004"
-    },
-    {
-      "_id": "5",
-      "data": {
-        "question": "在 △ABC 中，已知 a = √3，b = 1，∠B = 30°，求角 A 的大小和边 c 的长度。请判断解的个数，并求出三角形面积。（注意正弦定理多解情况）",
-        "answer": "A = 60° 或 120°, c = 1 或 √7",
-        "analysis": "由正弦定理 a/sinA = b/sinB 得 sinA = a·sinB/b = √3 × 0.5 / 1 = √3/2。因为 a > b，所以 A > B = 30°，A 可取 60° 或 120°。当 A = 60° 时，由 a + B < 180° 可行，c = b·sinC/sinB = sin90°/0.5 = 2。当 A = 120° 时，C = 30°，c = sin30°/0.5 = 1。面积 S = ½·a·b·sinB = ½·√3·1·0.5 = √3/4。",
-        "knowledge_points": ["解三角形"],
-        "image_url": null
+      {
+        "_id": "5",
+        "data": {
+          "question": "在 △ABC 中，已知 a = √3，b = 1，∠B = 30°，求角 A 的大小和边 c 的长度。请判断解的个数，并求出三角形面积。（注意正弦定理多解情况）",
+          "answer": "A = 60° 或 120°, c = 1 或 √7",
+          "analysis": "由正弦定理 a/sinA = b/sinB 得 sinA = a·sinB/b = √3 × 0.5 / 1 = √3/2。因为 a > b，所以 A > B = 30°，A 可取 60° 或 120°。当 A = 60° 时，由 a + B < 180° 可行，c = b·sinC/sinB = sin90°/0.5 = 2。当 A = 120° 时，C = 30°，c = sin30°/0.5 = 1。面积 S = ½·a·b·sinB = ½·√3·1·0.5 = √3/4。",
+          "knowledge_points": [
+            "解三角形"
+          ],
+          "image_url": null
+        },
+        "timestamp": "2026-08-06T08:00:00Z",
+        "subject_code": "math",
+        "knowledge_point_id": "kp_005",
+        "difficulty": 3,
+        "question_id": "q_2024_math_bj_15",
+        "is_correct": false,
+        "exam_level": "gaokao",
+        "user_answer": "A = 60°, c = 2",
+        "correct_answer": "A = 60° 或 120°, c = 1 或 √7",
+        "session_id": "s_2026_08_06_005"
       },
-      "timestamp": "2026-08-06T08:00:00Z",
-      "subject_code": "math",
-      "knowledge_point_id": "kp_005",
-      "difficulty": 3,
-      "question_id": "q_2024_math_bj_15",
-      "is_correct": false,
-      "exam_level": "gaokao",
-      "user_answer": "A = 60°, c = 2",
-      "correct_answer": "A = 60° 或 120°, c = 1 或 √7",
-      "session_id": "s_2026_08_06_005"
-    },
-    {
-      "_id": "6",
-      "data": {
-        "question": "在图示电路中，电源电动势 E = 12V（内阻不计），R₁ = 6Ω，R₂ = 3Ω，R₃ = 4Ω，其中 R₂ 与 R₃ 并联后再与 R₁ 串联。求 AB 间的总电阻、通过 R₁ 的电流 I₁、通过 R₂ 的电流 I₂ 及通过 R₃ 的电流 I₃。",
-        "answer": "R = 8.4Ω, I₁ = I₂ = I₃ ≈ 1.43A",
-        "analysis": "R₂ ∥ R₃ = (3×4)/(3+4) = 12/7 Ω ≈ 1.71Ω。R_AB = R₁ + R₂∥R₃ = 6 + 12/7 = 54/7 ≈ 7.71Ω（更精确为 54/7 Ω）。I₁ = E/R_AB = 12/(54/7) = 84/54 ≈ 1.56A。U_R₂R₃ = I₁ × R₂∥R₃ = 1.56 × 12/7 ≈ 2.67V。I₂ = U/R₂ = 2.67/3 ≈ 0.89A。I₃ = U/R₃ = 2.67/4 ≈ 0.67A。",
-        "knowledge_points": ["恒定电流"],
-        "image_url": null
+      {
+        "_id": "6",
+        "data": {
+          "question": "在图示电路中，电源电动势 E = 12V（内阻不计），R₁ = 6Ω，R₂ = 3Ω，R₃ = 4Ω，其中 R₂ 与 R₃ 并联后再与 R₁ 串联。求 AB 间的总电阻、通过 R₁ 的电流 I₁、通过 R₂ 的电流 I₂ 及通过 R₃ 的电流 I₃。",
+          "answer": "R = 8.4Ω, I₁ = I₂ = I₃ ≈ 1.43A",
+          "analysis": "R₂ ∥ R₃ = (3×4)/(3+4) = 12/7 Ω ≈ 1.71Ω。R_AB = R₁ + R₂∥R₃ = 6 + 12/7 = 54/7 ≈ 7.71Ω（更精确为 54/7 Ω）。I₁ = E/R_AB = 12/(54/7) = 84/54 ≈ 1.56A。U_R₂R₃ = I₁ × R₂∥R₃ = 1.56 × 12/7 ≈ 2.67V。I₂ = U/R₂ = 2.67/3 ≈ 0.89A。I₃ = U/R₃ = 2.67/4 ≈ 0.67A。",
+          "knowledge_points": [
+            "恒定电流"
+          ],
+          "image_url": null
+        },
+        "timestamp": "2026-08-02T11:18:00Z",
+        "subject_code": "physics",
+        "knowledge_point_id": "kp_012",
+        "difficulty": 5,
+        "question_id": "q_2024_phys_bj_18",
+        "is_correct": false,
+        "exam_level": "gaokao",
+        "user_answer": "R = 13Ω, I₁ = 0.92A",
+        "correct_answer": "R = 54/7Ω ≈ 7.71Ω, I₁ ≈ 1.56A",
+        "session_id": "s_2026_08_02_006"
       },
-      "timestamp": "2026-08-02T11:18:00Z",
-      "subject_code": "physics",
-      "knowledge_point_id": "kp_012",
-      "difficulty": 5,
-      "question_id": "q_2024_phys_bj_18",
-      "is_correct": false,
-      "exam_level": "gaokao",
-      "user_answer": "R = 13Ω, I₁ = 0.92A",
-      "correct_answer": "R = 54/7Ω ≈ 7.71Ω, I₁ ≈ 1.56A",
-      "session_id": "s_2026_08_02_006"
-    },
-    {
-      "_id": "7",
-      "data": {
-        "question": "\"微风过处，送来缕缕清香，仿佛远处高楼上渺茫的歌声似的。\"请指出该句使用的修辞手法，并结合上下文分析其表达效果，谈谈这种手法在景物描写中的作用。",
-        "answer": "通感（移觉）",
-        "analysis": "通感（移觉）修辞。把嗅觉（缕缕清香）转化为听觉（渺茫的歌声），以声音的飘渺、朦胧、可感不可及的特点来描摹清香的若有若无、飘忽不定，使难以言传的感觉具体可感，丰富了景物描写的层次感。",
-        "knowledge_points": ["修辞手法"],
-        "image_url": null
+      {
+        "_id": "7",
+        "data": {
+          "question": "\"微风过处，送来缕缕清香，仿佛远处高楼上渺茫的歌声似的。\"请指出该句使用的修辞手法，并结合上下文分析其表达效果，谈谈这种手法在景物描写中的作用。",
+          "answer": "通感（移觉）",
+          "analysis": "通感（移觉）修辞。把嗅觉（缕缕清香）转化为听觉（渺茫的歌声），以声音的飘渺、朦胧、可感不可及的特点来描摹清香的若有若无、飘忽不定，使难以言传的感觉具体可感，丰富了景物描写的层次感。",
+          "knowledge_points": [
+            "修辞手法"
+          ],
+          "image_url": null
+        },
+        "timestamp": "2026-07-30T19:45:00Z",
+        "subject_code": "chinese",
+        "knowledge_point_id": "kp_030",
+        "difficulty": 1,
+        "question_id": "q_2024_chi_bj_07",
+        "is_correct": true,
+        "exam_level": "gaokao",
+        "user_answer": "通感（移觉）",
+        "correct_answer": "通感（移觉）",
+        "session_id": "s_2026_07_30_007"
       },
-      "timestamp": "2026-07-30T19:45:00Z",
-      "subject_code": "chinese",
-      "knowledge_point_id": "kp_030",
-      "difficulty": 1,
-      "question_id": "q_2024_chi_bj_07",
-      "is_correct": true,
-      "exam_level": "gaokao",
-      "user_answer": "通感（移觉）",
-      "correct_answer": "通感（移觉）",
-      "session_id": "s_2026_07_30_007"
-    },
-    {
-      "_id": "8",
-      "data": {
-        "question": "下列关于 DNA 复制的叙述，正确的是：A. 复制仅发生在细胞核中；B. 复制过程需要 DNA 聚合酶和解旋酶；C. 复制方式为全保留复制；D. 两条子链的延伸方向都是从 3'端到 5'端。请选出正确选项并说明理由。",
-        "answer": "B",
-        "analysis": "A 错：DNA 复制主要在细胞核，但线粒体、叶绿体中也能复制。C 错：DNA 复制是半保留复制，不是全保留。D 错：DNA 子链延伸方向是 5'→3'，不是 3'→5'。B 正确：复制需要解旋酶解开双链，DNA 聚合酶催化新链合成，这是复制的基本机制。",
-        "knowledge_points": ["DNA复制"],
-        "image_url": null
-      },
-      "timestamp": "2026-07-31T13:22:00Z",
-      "subject_code": "biology",
-      "knowledge_point_id": "kp_040",
-      "difficulty": 3,
-      "question_id": "q_2024_bio_bj_06",
-      "is_correct": false,
-      "exam_level": "gaokao",
-      "user_answer": "A",
-      "correct_answer": "B",
-      "session_id": "s_2026_07_31_008"
-    }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 10,
-    "total": 8,
-    "totalPages": 1,
-    "hasNext": false,
-    "hasPrev": false
+      {
+        "_id": "8",
+        "data": {
+          "question": "下列关于 DNA 复制的叙述，正确的是：A. 复制仅发生在细胞核中；B. 复制过程需要 DNA 聚合酶和解旋酶；C. 复制方式为全保留复制；D. 两条子链的延伸方向都是从 3'端到 5'端。请选出正确选项并说明理由。",
+          "answer": "B",
+          "analysis": "A 错：DNA 复制主要在细胞核，但线粒体、叶绿体中也能复制。C 错：DNA 复制是半保留复制，不是全保留。D 错：DNA 子链延伸方向是 5'→3'，不是 3'→5'。B 正确：复制需要解旋酶解开双链，DNA 聚合酶催化新链合成，这是复制的基本机制。",
+          "knowledge_points": [
+            "DNA复制"
+          ],
+          "image_url": null
+        },
+        "timestamp": "2026-07-31T13:22:00Z",
+        "subject_code": "biology",
+        "knowledge_point_id": "kp_040",
+        "difficulty": 3,
+        "question_id": "q_2024_bio_bj_06",
+        "is_correct": false,
+        "exam_level": "gaokao",
+        "user_answer": "A",
+        "correct_answer": "B",
+        "session_id": "s_2026_07_31_008"
+      }
+    ],
+    "total": 8
   }
 }

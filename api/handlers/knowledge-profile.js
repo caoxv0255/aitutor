@@ -8,10 +8,10 @@ export async function getKnowledgeProfile(req, res) {
     const pool = await getDb();
 
     const masteryResult = await pool.query(`
-      SELECT kp.*, s.name as subject_name, kps.name as knowledge_point_name
+      SELECT kp.*, kps.subject as subject_code, s.name as subject_name, kps.name as knowledge_point_name
       FROM student_knowledge_mastery kp
-      LEFT JOIN subjects s ON kp.subject_code = s.code
       LEFT JOIN knowledge_points kps ON kp.knowledge_point_id = kps.id
+      LEFT JOIN subjects s ON kps.subject = s.code
       WHERE kp.user_email = $1
       ORDER BY kp.mastery_score ASC
     `, [email]);
@@ -181,10 +181,10 @@ export async function getLearningSuggestions(req, res) {
 
     const weakPointsResult = await pool.query(`
       SELECT kp.knowledge_point_id, kps.name as knowledge_point_name, 
-             s.name as subject_name, kp.subject_code, kp.mastery_score
+             s.name as subject_name, kps.subject as subject_code, kp.mastery_score
       FROM student_knowledge_mastery kp
       LEFT JOIN knowledge_points kps ON kp.knowledge_point_id = kps.id
-      LEFT JOIN subjects s ON kp.subject_code = s.code
+      LEFT JOIN subjects s ON kps.subject = s.code
       WHERE kp.user_email = $1 AND kp.mastery_score < 60
       ORDER BY kp.mastery_score ASC
       LIMIT 5

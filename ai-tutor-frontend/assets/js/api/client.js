@@ -6,7 +6,10 @@
 //   - retry 只对 NETWORK / TIMEOUT / SERVER;  AUTH/VALIDATION/BUSINESS 不重试
 //   - mock: 走 USE_MOCK.js 的 getMockEnabled() lazy;  切换 setUseMock(true) 下次 request 即生效
 //
-// 出口:  request() → data on success, throws ApiError{ type, code, status, body, message }
+// 出口:  request() → 完整响应体 (envelope {success, message, data, ...}),
+//        throws ApiError{ type, code, status, body, message }
+// P0.7 (2026-08-15) 解包统一: mock 路径返回整个 mock 文件, real 路径也返回完整 body
+//        (不再 unwrap envelope) — 两条路径形状一致, page 层统一 res.data.X.
 
 import { getMockEnabled } from './USE_MOCK.js';
 import { getToken, clearToken } from '../auth.js';
@@ -189,11 +192,10 @@ async function tryOnce(method, path, body, opts) {
       return { type: ErrorType.BUSINESS, retry: false, status: res.status, code, data };
     }
 
-    // 2xx/3xx: 成功 — unwrap envelope {success, message, data}
-    const payload = (data && typeof data === 'object' && 'success' in data && 'data' in data)
-      ? data.data
-      : data;
-    return { type: 'OK', retry: false, status: res.status, code: null, data: payload };
+    // 2xx/3xx: 成功 — 返回完整响应体 (envelope {success, message, data, ...}).
+    // P0.7 解包统一: 不再 unwrap data.data, 与 mock 路径 (loadMock 返回整个文件) 形状一致,
+    // page 层统一 res.data.X (F3 文档化约定 "services return {success,data}").
+    return { type: 'OK', retry: false, status: res.status, code: null, data };
   } catch (e) {
     clearTimeout(timer);
     if (e.name === 'AbortError') {

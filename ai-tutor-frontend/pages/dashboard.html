@@ -584,7 +584,7 @@
       import { setUseMock } from '../assets/js/api/USE_MOCK.js';
 
       mountErrorBoundary();
-      setUseMock(true);  // Slice 1 强制 mock, 后端 :3002 没起
+      setUseMock(false);  // P0.7 (2026-08-15): /api/user/dashboard 已补齐 + adapter 映射, 切真后端
 
       const dashRes = useAsyncResource(() => user.getDashboard());
       const weakRes = useAsyncResource(() => review.getWeakPoints());
@@ -612,6 +612,9 @@
         e
       );
 
+      // XSS 转义 (weak list 内容来自后端 OCR/用户数据)
+      const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
       dashRes.subscribe(({ data, loading, error }) => {
         if (error) {
           logErr(error, 'dashboard');
@@ -637,10 +640,10 @@
         if (!data) { ul.innerHTML = '<li>加载中…</li>'; return; }
         ul.innerHTML = data.data.map((w) => `
           <li style="padding:10px 12px;border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:8px;">
-            <strong>${w.topic}</strong>
-            <span class="ait-badge ait-badge-info" style="margin-left:8px">${w.subject}</span>
-            <span class="ait-badge ait-badge-warning" style="margin-left:4px">错 ${w.wrong_count}</span>
-            <span class="ait-badge" style="margin-left:4px">正确率 ${(w.accuracy*100).toFixed(0)}%</span>
+            <strong>${esc(w.kp_name || w.topic || w.name || '—')}</strong>
+            <span class="ait-badge ait-badge-info" style="margin-left:8px">${esc(w.subject || '')}</span>
+            <span class="ait-badge ait-badge-warning" style="margin-left:4px">错 ${w.wrong_count != null ? w.wrong_count : '—'}</span>
+            <span class="ait-badge" style="margin-left:4px">正确率 ${w.accuracy != null ? (w.accuracy * 100).toFixed(0) + '%' : (w.error_rate != null ? (100 - w.error_rate * 100).toFixed(0) + '%' : '—')}</span>
           </li>
         `).join('');
       });

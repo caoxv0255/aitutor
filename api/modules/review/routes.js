@@ -201,12 +201,12 @@ router.get('/trend-summary', async (req, res) => {
   try {
     const pool = await getDb();
     const result = await pool.query(
-      `SELECT DATE(pr.timestamp) AS day,
+      `SELECT DATE(pr.created_at) AS day,
               COUNT(*)::int AS q_count,
               SUM(CASE WHEN pr.is_correct = 1 THEN 1 ELSE 0 END)::int AS c_count
        FROM practice_records pr
-       WHERE pr.user_email = $1 AND pr.timestamp >= NOW() - ($2 || ' days')::interval
-       GROUP BY DATE(pr.timestamp)
+       WHERE pr.user_email = $1 AND pr.created_at >= NOW() - ($2 || ' days')::interval
+       GROUP BY DATE(pr.created_at)
        ORDER BY day ASC`,
       [email, days]
     );

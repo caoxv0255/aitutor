@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "message": "操作成功",
+  "data": {
+    "items": [
+      { "id": "kp_math_001", "name": "集合的概念与运算", "subject": "math", "difficulty": 2 },
+      { "id": "kp_math_002", "name": "函数与导数", "subject": "math", "difficulty": 4 },
+      { "id": "kp_math_015", "name": "集合与逻辑", "subject": "math", "difficulty": 2 },
+      { "id": "kp_math_030", "name": "圆锥曲线", "subject": "math", "difficulty": 4 },
+      { "id": "kp_chinese_001", "name": "现代文阅读", "subject": "chinese", "difficulty": 3 },
+      { "id": "kp_physics_005", "name": "牛顿运动定律", "subject": "physics", "difficulty": 4 }
+    ],
+    "total": 6
+  }
+}

@@ -7,6 +7,7 @@ import { swaggerUI, swaggerSpec } from './api/core/swagger.js';
 import { authMiddleware, validateJWTSecret } from './api/core/auth.js';
 import { getDb } from './api/core/db.js';
 import { startWorker } from './api/core/taskWorker.js';
+import { ensureSeeds } from './api/core/ensureSeeds.js';
 import { logger, loggerMiddleware } from './api/core/logger.js';
 import { errorHandler } from './api/middleware/errorHandler.js';
 import { securityHeaders, xssSanitizer, xssDetector, csrfProtection, auditMiddleware } from './api/middleware/security.js';
@@ -261,6 +262,13 @@ app.use(errorHandler);
 async function start() {
   try {
     await getDb();
+    // Phase 3: 幂等 seed (knowledge_points 为空时自动导入教材知识点)
+    const seedResult = await ensureSeeds();
+    if (seedResult.seeded) {
+      logger.info(`[Seed] 自动导入完成: ${seedResult.count} 条知识点`);
+    } else if (seedResult.reason) {
+      logger.info(`[Seed] 跳过: ${seedResult.reason}`);
+    }
     startWorker();
     app.listen(PORT, () => {
       logger.info(`Server running at http://localhost:${PORT}`);

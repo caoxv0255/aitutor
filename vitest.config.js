@@ -5,7 +5,7 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     include: ['tests/**/*.test.js'],
-    exclude: ['tests/contract.test.js', 'node_modules/**'],
+    exclude: ['tests/contract.test.js', 'tests/backend-contract.test.js', 'node_modules/**'],
     coverage: {
       provider: 'v8',
       include: ['api/**/*.js'],

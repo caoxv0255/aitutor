@@ -1,4 +1,4 @@
-import express from 'express';
+﻿import express from 'express';
 import { getDb } from '../../core/db.js';
 import { successResponse, errorResponse } from '../../utils/response.js';
 import { authMiddleware } from '../../core/auth.js';
@@ -22,16 +22,16 @@ router.get('/mastery', async (req, res) => {
     const params = [email];
     let filter = '';
     if (subject) {
-      filter = ' AND kp.subject_code = $2';
+      filter = ' AND kps.subject = $2';
       params.push(subject);
     }
     const mastery = await pool.query(
-      `SELECT kp.knowledge_point_id, kp.subject_code, kp.mastery_score,
+      `SELECT kp.knowledge_point_id, kps.subject as subject_code, kp.mastery_score,
               kp.attempt_count, kp.correct_count,
               kps.name as kp_name, s.name as subject_name
        FROM student_knowledge_mastery kp
        LEFT JOIN knowledge_points kps ON kp.knowledge_point_id = kps.id
-       LEFT JOIN subjects s ON kp.subject_code = s.code
+       LEFT JOIN subjects s ON kps.subject = s.code
        WHERE kp.user_email = $1${filter}
        ORDER BY kp.mastery_score ASC`,
       params

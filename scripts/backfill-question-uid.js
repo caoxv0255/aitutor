@@ -14,6 +14,7 @@
 
 import 'dotenv/config';
 import { getDb, closeDb } from '../api/core/db.js';
+import { generateQuestionUid } from '../api/core/questionUid.js'; // P0.7: UID 单一来源
 
 const DRY_RUN = process.argv.includes('--dry');
 
@@ -38,12 +39,16 @@ async function main() {
 
   let filled = 0, skippedDup = 0, skippedMissing = 0;
   for (const q of r.rows) {
-    let uid = null;
-    if (q.subject_code && q.year != null && q.question_number != null) {
-      uid = `${q.subject_code}_${q.year}_${q.province_code || 'xx'}_${q.question_number}`;
-    } else if (q.paper_id != null && q.question_number != null) {
-      uid = `q_${q.paper_id}_${q.question_number}`;
-    } else {
+    // P0.7 (Phase 3): UID 规则统一到 api/core/questionUid.js (Rule A 与 parse 管线 + migration 008 一致)
+    const uid = generateQuestionUid({
+      subject: q.subject_code,
+      year: q.year,
+      provinceCode: q.province_code,
+      questionNumber: q.question_number,
+      paperId: q.paper_id,
+      id: q.id,
+    });
+    if (!uid) {
       skippedMissing += 1;
       continue;
     }

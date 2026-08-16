@@ -31,6 +31,8 @@ global.localStorage = {
   removeItem(k) { delete this._data[k]; },
 };
 global.window = { location: { search: '?mock=true' } };
+// client.js getApiBase() 在模块加载时读 document.querySelector('meta[name="api-base"]')
+globalThis.document = { querySelector: () => null };
 
 const services = await import('../ai-tutor-frontend/assets/js/api/services/index.js');
 const { auth, user, exam, rag, knowledge, review, vision } = services;
@@ -206,19 +208,17 @@ await TEST('review.getTrendSummary', async () => {
   assert(isObject(r), 'r 必须是 object');
 });
 
-// ===== vision (3) =====
-console.log('vision (3):');
+// ===== vision (2) =====
+console.log('vision (2):');
 await TEST('vision.parse', async () => {
-  const r = await vision.parse({ image_id: 'i1' });
-  assert(r.data?.task_id && r.data?.content, '必须有 task_id + content');
+  const r = await vision.parse({ image: 'data:image/jpeg;base64,xxx' });
+  assert(r.data?.parse?.raw_text, '必须有 data.parse.raw_text');
+  assert(r.data?.parse?.subject_code, '必须有 parse.subject_code');
+  assert(r.data?.ingest, '必须有 data.ingest (拍照即入库)');
 });
-await TEST('vision.ingest', async () => {
-  const r = await vision.ingest({ dataUrl: 'data:image/png;base64,xxx' });
-  assert(r.data?.id, '必须有 id (不是 image_id)');
-});
-await TEST('vision.getParseStatus', async () => {
-  const r = await vision.getParseStatus({ image_id: 'i1' });
-  assert(isObject(r), 'r 必须是 object');
+await TEST('vision.getKnowledgePoints', async () => {
+  const r = await vision.getKnowledgePoints({ subject: 'math' });
+  assert(Array.isArray(r.data?.items), '必须有 data.items 数组');
 });
 
 // ===== 错误处理 (2) =====
@@ -248,9 +248,9 @@ await TEST('silent opt 不抛 toast 抛 ApiError', async () => {
     global.window = { location: { search: '?mock=true' } };
   }
 });
-await TEST('timeout 默认 10s', async () => {
+await TEST('timeout 默认 30s', async () => {
   const { DEFAULT_TIMEOUT_MS } = await import('../ai-tutor-frontend/assets/js/api/client.js?v=' + Date.now());
-  assert(DEFAULT_TIMEOUT_MS === 10000, '默认 timeout 必须 10s, 实际: ' + DEFAULT_TIMEOUT_MS);
+  assert(DEFAULT_TIMEOUT_MS === 30000, '默认 timeout 必须 30s (bge 1024 慢), 实际: ' + DEFAULT_TIMEOUT_MS);
 });
 
 // ===== 总结 =====

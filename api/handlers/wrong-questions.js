@@ -49,7 +49,11 @@ export async function getWrongQuestions(req, res) {
 
     const result = await pool.query(query, params);
 
-    const countQuery = query.replace(/SELECT.*FROM/, 'SELECT COUNT(*) FROM').replace(/ORDER BY.*/, '').replace(/LIMIT.*/, '');
+    // P0.7 fix: 原正则 /SELECT.*FROM/ 不匹配多行 SQL (`.` 不匹配换行) → count 查询失效
+    // (rows[0].count undefined → 整表列表 500). 用 [\s\S]*? 非贪婪跨行匹配.
+    const countQuery = query
+      .replace(/SELECT[\s\S]*?FROM/, 'SELECT COUNT(*) FROM')
+      .replace(/ORDER BY[\s\S]*/, ''); // 顺带去掉 LIMIT/OFFSET (在 ORDER BY 之后)
     const countResult = await pool.query(countQuery, params.slice(0, -2));
 
     return res.json(successResponse({

@@ -1004,6 +1004,27 @@
               return (rows || []).filter(r => deriveMastery(r) === filterState.mastery);
             }
 
+            // ===== 响应归一化 (P0.7 解包统一) =====
+            // client.js 现在 mock/real 都返回完整 envelope {success, message, data, ...}.
+            // 后端 /api/user/wrong-questions: data = {questions, total} (无 pagination 对象).
+            // 兼容: mock (data = {questions}), 老容器 (data = {questions, pagination}).
+            function normalizeListData(data) {
+              const body = (data && data.data) ? data.data : data;
+              const list = Array.isArray(body) ? body : ((body && body.questions) || []);
+              const total = (body && typeof body.total === 'number') ? body.total : list.length;
+              const limit = filterState.limit || 20;
+              const totalPages = Math.max(1, Math.ceil(total / limit));
+              const page = Math.max(1, Math.min(filterState.page || 1, totalPages));
+              return {
+                list,
+                pag: {
+                  total, page, limit, totalPages,
+                  hasPrev: page > 1,
+                  hasNext: page < totalPages,
+                },
+              };
+            }
+
             // ===== 主数据流 =====
             // fetcher closure 读 filterState; 改 state + refetch() 触发重查 (D14)
             const listRes = useAsyncResource(() => wrong.getQuestions({
@@ -1025,10 +1046,11 @@
                 return;
               }
               if (data) {
-                console.log('[Slice3] list loaded:', data.questions.length, 'items, total:', data.total);
-                renderList(data.questions);
-                renderStats(data);
-                renderPagination(data);
+                const { list, pag } = normalizeListData(data);
+                console.log('[Slice3] list loaded:', list.length, 'items, total:', pag.total);
+                renderList(list);
+                renderStats(pag, list);
+                renderPagination(pag);
               }
             });
 
@@ -1061,8 +1083,9 @@
                   // Mastery is client-side, no refetch; just re-render
                   const s = listRes.read();
                   if (s.data) {
-                    renderList(s.data.data);
-                    renderStats(s.data.pagination, s.data.data);
+                    const { list, pag } = normalizeListData(s.data);
+                    renderList(list);
+                    renderStats(pag, list);
                   }
                 }
               });
@@ -1076,8 +1099,8 @@
                 if (!btn || btn.disabled) return;
                 const action = btn.dataset.pageAction;
                 const s = listRes.read();
-                if (!s.data || !s.data.pagination) return;
-                const pag = s.data.pagination;
+                if (!s.data) return;
+                const { pag } = normalizeListData(s.data);
                 if (action === 'prev' && pag.hasPrev) {
                   filterState.page = pag.page - 1;
                   listRes.refetch();

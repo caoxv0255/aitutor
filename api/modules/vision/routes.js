@@ -6,7 +6,10 @@ import { successResponse, errorResponse } from '../../utils/response.js';
 
 const router = express.Router();
 
-router.use('/parse', visionParseRouter);
+// 挂载到 / (而非 /parse): vision-parse.js 内部已定义 /parse 与 /knowledge-points,
+// 双重 /parse 前缀会得到 /api/vision/parse/parse (与 README + F3 service 契约不符).
+// 修正后: POST /api/vision/parse, GET /api/vision/knowledge-points
+router.use('/', visionParseRouter);
 
 router.post('/search', authMiddleware, async (req, res) => {
   try {

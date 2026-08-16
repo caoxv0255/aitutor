@@ -6,8 +6,12 @@ import subjectsHandler from '../../handlers/subjects.js';
 import { getProvinces as provincesHandler } from '../../handlers/provinces.js';
 import { getWrongQuestions, addWrongQuestion, updateWrongQuestion, deleteWrongQuestion, getWrongQuestionStats, exportWrongQuestions } from '../../handlers/wrong-questions.js';
 import { getKnowledgeProfile, updateKnowledgeMastery, getLearningSuggestions } from '../../handlers/knowledge-profile.js';
+import { getLearningDashboard } from '../../handlers/learning-dashboard.js';
 
 const router = express.Router();
+
+// P0.7 (2026-08-15): F3 user.getDashboard() 契约端点 (之前缺失 → dashboard 真后端 404)
+router.get('/dashboard', getLearningDashboard);
 
 router.get('/profile', userProfileHandler);
 router.post('/profile', userProfileHandler);

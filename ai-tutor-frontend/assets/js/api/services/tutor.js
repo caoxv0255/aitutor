@@ -46,11 +46,29 @@ export const tutor = {
     }, { mockName: mockName || 'tutor_ask' });
   },
   /**
-   * 会话历史列表 (Phase 2: render adapter only; backend /api/tutor/sessions 待 Slice 4.4 实现)
+   * 会话历史列表 (P0.7: D56 决策 — 会话持久化在 localStorage, 后端无 /sessions 端点).
+   * mock 模式: 读 tutor_history.json; 真后端模式: 读 localStorage 的会话仓库,
+   * 返回与 mock 同构的 {id, title, subject, lastMessageAt, messageCount} 数组.
    * @returns {Promise<{success, message, data: ChatSession[]}>}
    */
   async getHistory() {
-    return request('GET', '/api/tutor/sessions', null, { mockName: 'tutor_history' });
+    if (getMockEnabled()) {
+      return request('GET', '/api/tutor/sessions', null, { mockName: 'tutor_history' });
+    }
+    try {
+      const store = JSON.parse(localStorage.getItem('aitutor.tutor.sessions') || '{}');
+      const sessions = Object.entries(store || {}).map(([sid, s]) => ({
+        id: sid,
+        title: (s && s.title) || '新对话',
+        subject: (s && s.subject) || '',
+        lastMessageAt: (s && s.updated_at) || null,
+        messageCount: (s && s.messages && s.messages.length) || 0,
+        preview: (s && s.messages && s.messages.length > 0 && s.messages[s.messages.length - 1].content) ? String(s.messages[s.messages.length - 1].content).slice(0, 40) : '',
+      })).sort((a, b) => String(b.lastMessageAt || '').localeCompare(String(a.lastMessageAt || '')));
+      return { success: true, message: '获取会话历史成功', data: sessions };
+    } catch (_) {
+      return { success: true, message: '获取会话历史成功', data: [] };
+    }
   },
   /**
    * SSE 流式教学 Agent 推理 (Slice 4.3 commit 1: parser + mock skeleton)

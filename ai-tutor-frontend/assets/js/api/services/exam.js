@@ -1,6 +1,7 @@
 // services/exam.js — 题目 / 考试 / PDF
 import { request, getApiBase } from '../client.js';
-import { getMockEnabled, loadMock } from '../USE_MOCK.js';
+import { getMockEnabled } from '../USE_MOCK.js';
+import { loadMock } from '../client.js';
 import { getToken } from '../../auth.js';
 
 export const exam = {

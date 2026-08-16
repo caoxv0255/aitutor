@@ -17,7 +17,12 @@
     "sync:stats": "node scripts/sync-knowledge.js stats",
     "sync:obsidian": "node scripts/sync-knowledge.js sync",
     "sync:graphrag": "node scripts/sync-knowledge.js sync-back",
-    "sync:watch": "node scripts/sync-knowledge.js watch"
+    "sync:watch": "node scripts/sync-knowledge.js watch",
+    "contract": "node tests/contract.test.js",
+    "contract:backend": "node tests/backend-contract.test.js",
+    "seed:kp": "node scripts/seed-textbook-knowledge.js",
+    "backfill:uid": "node scripts/backfill-question-uid.js",
+    "gate": "bash scripts/release-gate.sh"
   },
   "dependencies": {
     "@playwright/test": "^1.61.1",
