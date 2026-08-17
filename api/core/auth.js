@@ -55,7 +55,12 @@ export function authMiddleware(req, res, next) {
   // makes test runs and CI use real token verification while still
   // letting developers opt into bypass locally (e.g. for smoke tests
   // without setting up JWT issuance).
+  //
+  // D067 (2026-08-17): 每次触发时输出警告日志，防止环境变量残留导致
+  // 生产环境认证被绕过 (2026-08-17 incident: 旧进程 DEV_AUTH_BYPASS=1
+  // 残留 → 所有端点无 token 返回 200).
   if (process.env.DEV_AUTH_BYPASS === '1') {
+    console.warn('⚠️  DEV_AUTH_BYPASS=1 — AUTH BYPASS ACTIVE — NOT FOR PRODUCTION');
     req.user = { id: 1, userId: 1, role: 'admin', email: process.env.DEV_USER_EMAIL || 'smoke@example.com', phone: '13800138000', is_dev: true };
     return next();
   }

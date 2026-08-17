@@ -27,6 +27,18 @@ dotenv.config();
 
 validateJWTSecret();
 
+// D067 (2026-08-17): DEV_AUTH_BYPASS 生产防护.
+// 2026-08-17 incident: 旧进程环境变量残留 DEV_AUTH_BYPASS=1,
+// 导致所有端点无 token 返回 200，用户数据泄露.
+// 生产环境强制拒绝启动；开发环境输出醒目警告.
+if (process.env.DEV_AUTH_BYPASS === '1') {
+  if (process.env.NODE_ENV === 'production') {
+    console.error('❌ FATAL: DEV_AUTH_BYPASS=1 is set in production — refusing to start');
+    process.exit(1);
+  }
+  console.warn('⚠️  WARNING: DEV_AUTH_BYPASS=1 — ALL AUTH GUARDS BYPASSED — NOT FOR PRODUCTION');
+}
+
 const app = express();
 const PORT = process.env.PORT || 3002;
 

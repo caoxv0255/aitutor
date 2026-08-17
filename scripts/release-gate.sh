@@ -24,6 +24,25 @@ step() { echo; echo "═══════════ $1 ═══════�
 fail() { echo "  ✗ $1"; FAILED=1; }
 ok()   { echo "  ✓ $1"; }
 
+# ── BCT URL 解析 (auto-detect, P0 v1.0 RC1 稳定化) ──
+# 优先级: $BCT_URL (显式) > localhost:3002 (容器) > localhost:3999 (本地) > fail
+# CI/CD: BCT_URL=https://staging.example.com npm run gate  (最高优先级, 不被 auto 覆盖)
+resolve_bct_url() {
+  if [ -n "${BCT_URL:-}" ]; then
+    echo "$BCT_URL"
+    return
+  fi
+  for url in "http://localhost:3002" "http://localhost:3999"; do
+    if curl -sf -o /dev/null -m 3 "$url/api/health"; then
+      echo "$url"
+      return
+    fi
+  done
+  echo ""
+}
+
+BCT_URL=$(resolve_bct_url || true)
+
 # ── 1. npm test (Vitest) ──
 step "1/5 单元测试 (vitest)"
 VITEST_OUT=$(npx vitest run --reporter=dot 2>&1 || true)
@@ -46,17 +65,16 @@ fi
 step "3/5 Backend Contract Test (真后端)"
 if [ "${SKIP_BCT:-0}" = "1" ]; then
   echo "  (跳过: SKIP_BCT=1)"
+elif [ -z "$BCT_URL" ]; then
+  echo "  (跳过: 无 BCT_URL, 也无 3002/3999 活后端, 设 SKIP_BCT=1 或起后端)"
+  fail "无后端可测"
 else
-  BCT_URL="${BCT_URL:-http://localhost:3002}"
-  if curl -s -o /dev/null -m 5 "$BCT_URL/api/health"; then
-    BCT_OUT=$(BCT_URL="$BCT_URL" node tests/backend-contract.test.js 2>&1 || true)
-    if echo "$BCT_OUT" | tail -1 | grep -qE "0 failed"; then
-      ok "BCT 全绿 ($BCT_URL)"
-    else
-      fail "BCT 失败 ($BCT_URL): $(echo "$BCT_OUT" | tail -1)"
-    fi
+  echo "  (使用: BCT_URL=$BCT_URL)"
+  BCT_OUT=$(BCT_URL="$BCT_URL" node tests/backend-contract.test.js 2>&1 || true)
+  if echo "$BCT_OUT" | tail -1 | grep -qE "0 failed"; then
+    ok "BCT 全绿 ($BCT_URL)"
   else
-    echo "  (跳过: $BCT_URL 无后端, 设 SKIP_BCT=1 或先起后端)"
+    fail "BCT 失败 ($BCT_URL): $(echo "$BCT_OUT" | tail -1)"
   fi
 fi
 
@@ -74,14 +92,18 @@ else
   echo "  (跳过: docker 不可用)"
 fi
 
-# ── 5. health check ──
+# ── 5. health check (使用 auto-detect 的 BCT_URL) ──
 step "5/5 health check"
-BCT_URL="${BCT_URL:-http://localhost:3002}"
-H=$(curl -s -m 5 "$BCT_URL/api/health" 2>/dev/null || echo "")
-if echo "$H" | grep -q '"dbReady":true'; then
-  ok "/api/health dbReady=true"
+if [ -z "$BCT_URL" ]; then
+  echo "  (跳过: 无 BCT_URL, 5/5 跳)"
+  fail "/api/health 未通过 (无后端)"
 else
-  fail "/api/health 未通过 (${H:-无响应})"
+  H=$(curl -s -m 5 "$BCT_URL/api/health" 2>/dev/null || echo "")
+  if echo "$H" | grep -q '"dbReady":true'; then
+    ok "/api/health dbReady=true ($BCT_URL)"
+  else
+    fail "/api/health 未通过 ($BCT_URL): ${H:-无响应}"
+  fi
 fi
 
 echo
