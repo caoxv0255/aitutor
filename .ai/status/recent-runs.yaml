@@ -1,7 +1,23 @@
 schema_version: "1.0"
-generated_at: "2026-08-16T17:45:14Z"
-# Recent Agent Runs — Hermes TUI 数据源
-# AI agent 在 aitutor 仓库内的最近 runs
-# 决策性内容由人工维护, 本脚本只刷 schema 元数据
-runs: []  # TODO 人工维护 recent runs 内容
+generated_at: "2026-08-17T16:30:00Z"
+runs:
+  - id: "20260817-001"
+    task: "P0-1: DEV_AUTH_BYPASS security fix"
+    started_at: "2026-08-17T00:20:00Z"
+    completed_at: "2026-08-17T16:30:00Z"
+    status: completed
+    commits: ["c724469e", "52202a21"]
+    notes: "重启服务器修复 auth bypass + D067 guard code"
+  - id: "20260817-002"
+    task: "P2-1: zhongkao knowledge seed"
+    started_at: "2026-08-17T16:30:00Z"
+    completed_at: "2026-08-17T16:30:00Z"
+    status: completed
+    notes: "45 条中考知识点导入 DB"
+  - id: "20260817-003"
+    task: "P2-2: ai_trace table creation"
+    started_at: "2026-08-17T16:30:00Z"
+    completed_at: "2026-08-17T16:30:00Z"
+    status: completed
+    notes: "009_ai_trace.sql migration + 4 indexes + daily summary view"
 alerts: []

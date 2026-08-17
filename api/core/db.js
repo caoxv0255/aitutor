@@ -695,6 +695,30 @@ async function initTables(pool) {
       USING hnsw (embedding vector_cosine_ops)
       WITH (m = 16, ef_construction = 64);
   `);
+
+  // D069 (2026-08-17): ai_trace 表 (LLM 调用追踪, P2-2)
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS ai_trace (
+      id BIGSERIAL PRIMARY KEY,
+      user_email VARCHAR(255),
+      session_id VARCHAR(100),
+      provider VARCHAR(50) NOT NULL,
+      model VARCHAR(100) NOT NULL,
+      task_type VARCHAR(50),
+      prompt_tokens INTEGER DEFAULT 0,
+      completion_tokens INTEGER DEFAULT 0,
+      total_tokens INTEGER GENERATED ALWAYS AS (prompt_tokens + completion_tokens) STORED,
+      latency_ms INTEGER,
+      cost_cny NUMERIC(10, 6) DEFAULT 0,
+      success BOOLEAN DEFAULT true,
+      error_message TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_ai_trace_created_at ON ai_trace(created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_ai_trace_user ON ai_trace(user_email, created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_ai_trace_model ON ai_trace(model, created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_ai_trace_task ON ai_trace(task_type, created_at DESC);
+  `);
 }
 
 async function seedReferenceData(pool) {

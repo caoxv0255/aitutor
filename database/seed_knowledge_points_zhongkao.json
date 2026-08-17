@@ -1,0 +1,722 @@
+[
+  {
+    "id": "MATH-Z0-001",
+    "name": "实数与运算",
+    "subject": "math",
+    "subject_cn": "数学",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "数与代数",
+    "summary": "有理数、无理数、实数的概念与运算；绝对值、相反数、倒数；科学记数法。",
+    "tags": [
+      "math",
+      "zhongkao",
+      "数与代数"
+    ]
+  },
+  {
+    "id": "MATH-Z0-002",
+    "name": "整式与分式",
+    "subject": "math",
+    "subject_cn": "数学",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "数与代数",
+    "summary": "整式运算、因式分解、分式化简与求值。",
+    "tags": [
+      "math",
+      "zhongkao",
+      "数与代数"
+    ]
+  },
+  {
+    "id": "MATH-Z0-003",
+    "name": "方程与不等式",
+    "subject": "math",
+    "subject_cn": "数学",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "数与代数",
+    "summary": "一元一次方程、二元一次方程组、一元二次方程、分式方程；一元一次不等式与不等式组。",
+    "tags": [
+      "math",
+      "zhongkao",
+      "数与代数"
+    ]
+  },
+  {
+    "id": "MATH-Z0-004",
+    "name": "函数基础",
+    "subject": "math",
+    "subject_cn": "数学",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "数与代数",
+    "summary": "坐标系、一次函数、反比例函数、二次函数图像与性质。",
+    "tags": [
+      "math",
+      "zhongkao",
+      "函数"
+    ]
+  },
+  {
+    "id": "MATH-Z0-005",
+    "name": "三角形",
+    "subject": "math",
+    "subject_cn": "数学",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "图形与几何",
+    "summary": "三角形性质、全等三角形、相似三角形、直角三角形与勾股定理。",
+    "tags": [
+      "math",
+      "zhongkao",
+      "图形与几何"
+    ]
+  },
+  {
+    "id": "MATH-Z0-006",
+    "name": "四边形",
+    "subject": "math",
+    "subject_cn": "数学",
+    "difficulty": 2,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "图形与几何",
+    "summary": "平行四边形、矩形、菱形、正方形的性质与判定。",
+    "tags": [
+      "math",
+      "zhongkao",
+      "图形与几何"
+    ]
+  },
+  {
+    "id": "MATH-Z0-007",
+    "name": "圆",
+    "subject": "math",
+    "subject_cn": "数学",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "图形与几何",
+    "summary": "圆的性质、圆心角与圆周角、切线、弧长与扇形面积。",
+    "tags": [
+      "math",
+      "zhongkao",
+      "图形与几何"
+    ]
+  },
+  {
+    "id": "MATH-Z0-008",
+    "name": "图形的变换",
+    "subject": "math",
+    "subject_cn": "数学",
+    "difficulty": 2,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "图形与几何",
+    "summary": "平移、旋转、轴对称、位似变换。",
+    "tags": [
+      "math",
+      "zhongkao",
+      "图形与几何"
+    ]
+  },
+  {
+    "id": "MATH-Z0-009",
+    "name": "统计与概率",
+    "subject": "math",
+    "subject_cn": "数学",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "统计与概率",
+    "summary": "数据收集与整理、平均数中位数众数、方差；概率基础与计算。",
+    "tags": [
+      "math",
+      "zhongkao",
+      "统计与概率"
+    ]
+  },
+  {
+    "id": "PHY-Z0-001",
+    "name": "声与光",
+    "subject": "physics",
+    "subject_cn": "物理",
+    "difficulty": 2,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "声光热",
+    "summary": "声音的产生与传播、光的反射与折射、平面镜与透镜成像。",
+    "tags": [
+      "physics",
+      "zhongkao",
+      "声光热"
+    ]
+  },
+  {
+    "id": "PHY-Z0-002",
+    "name": "物态变化与热",
+    "subject": "physics",
+    "subject_cn": "物理",
+    "difficulty": 2,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "声光热",
+    "summary": "温度与温度计、熔化凝固汽化液化升华凝华；比热容与热值。",
+    "tags": [
+      "physics",
+      "zhongkao",
+      "声光热"
+    ]
+  },
+  {
+    "id": "PHY-Z0-003",
+    "name": "力学基础",
+    "subject": "physics",
+    "subject_cn": "物理",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "力学",
+    "summary": "运动与速度、力与力的测量、重力弹力摩擦力、牛顿第一定律、惯性。",
+    "tags": [
+      "physics",
+      "zhongkao",
+      "力学"
+    ]
+  },
+  {
+    "id": "PHY-Z0-004",
+    "name": "压强与浮力",
+    "subject": "physics",
+    "subject_cn": "物理",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "力学",
+    "summary": "固体压强、液体压强、大气压；浮力产生原因、阿基米德原理、浮沉条件。",
+    "tags": [
+      "physics",
+      "zhongkao",
+      "力学"
+    ]
+  },
+  {
+    "id": "PHY-Z0-005",
+    "name": "功和机械能",
+    "subject": "physics",
+    "subject_cn": "物理",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "力学",
+    "summary": "功、功率、机械效率；动能势能、机械能及其转化；杠杆滑轮斜面。",
+    "tags": [
+      "physics",
+      "zhongkao",
+      "力学"
+    ]
+  },
+  {
+    "id": "PHY-Z0-006",
+    "name": "电学基础",
+    "subject": "physics",
+    "subject_cn": "物理",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "电学",
+    "summary": "电流电压电阻、欧姆定律、串并联电路特点。",
+    "tags": [
+      "physics",
+      "zhongkao",
+      "电学"
+    ]
+  },
+  {
+    "id": "PHY-Z0-007",
+    "name": "电功率与焦耳定律",
+    "subject": "physics",
+    "subject_cn": "物理",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "电学",
+    "summary": "电功、电功率、焦耳定律；家庭电路与安全用电。",
+    "tags": [
+      "physics",
+      "zhongkao",
+      "电学"
+    ]
+  },
+  {
+    "id": "PHY-Z0-008",
+    "name": "电与磁",
+    "subject": "physics",
+    "subject_cn": "物理",
+    "difficulty": 2,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "电与磁",
+    "summary": "磁场、电流的磁效应、电磁感应；发电机与电动机原理。",
+    "tags": [
+      "physics",
+      "zhongkao",
+      "电与磁"
+    ]
+  },
+  {
+    "id": "CHEM-Z0-001",
+    "name": "物质的变化与性质",
+    "subject": "chemistry",
+    "subject_cn": "化学",
+    "difficulty": 1,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "基础概念",
+    "summary": "物理变化与化学变化、物理性质与化学性质；纯净物与混合物。",
+    "tags": [
+      "chemistry",
+      "zhongkao",
+      "基础概念"
+    ]
+  },
+  {
+    "id": "CHEM-Z0-002",
+    "name": "空气与氧气",
+    "subject": "chemistry",
+    "subject_cn": "化学",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "物质",
+    "summary": "空气成分、氧气的性质与制取、催化剂。",
+    "tags": [
+      "chemistry",
+      "zhongkao",
+      "物质"
+    ]
+  },
+  {
+    "id": "CHEM-Z0-003",
+    "name": "水与溶液",
+    "subject": "chemistry",
+    "subject_cn": "化学",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "溶液",
+    "summary": "水的组成与净化、硬水与软水；溶解度、溶质质量分数、溶液配制。",
+    "tags": [
+      "chemistry",
+      "zhongkao",
+      "溶液"
+    ]
+  },
+  {
+    "id": "CHEM-Z0-004",
+    "name": "碳和碳的氧化物",
+    "subject": "chemistry",
+    "subject_cn": "化学",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "物质",
+    "summary": "碳单质性质、CO与CO2的性质与制取、温室效应。",
+    "tags": [
+      "chemistry",
+      "zhongkao",
+      "物质"
+    ]
+  },
+  {
+    "id": "CHEM-Z0-005",
+    "name": "金属与金属材料",
+    "subject": "chemistry",
+    "subject_cn": "化学",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "物质",
+    "summary": "金属的物理性质与化学性质、合金；金属活动性顺序；金属锈蚀与防护。",
+    "tags": [
+      "chemistry",
+      "zhongkao",
+      "物质"
+    ]
+  },
+  {
+    "id": "CHEM-Z0-006",
+    "name": "酸碱盐",
+    "subject": "chemistry",
+    "subject_cn": "化学",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "酸碱盐",
+    "summary": "常见酸碱的性质与用途、pH测定、中和反应；盐的性质与复分解反应。",
+    "tags": [
+      "chemistry",
+      "zhongkao",
+      "酸碱盐"
+    ]
+  },
+  {
+    "id": "CHEM-Z0-007",
+    "name": "化学方程式与计算",
+    "subject": "chemistry",
+    "subject_cn": "化学",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "计算",
+    "summary": "质量守恒定律、化学方程式书写与配平、根据化学方程式的计算。",
+    "tags": [
+      "chemistry",
+      "zhongkao",
+      "计算"
+    ]
+  },
+  {
+    "id": "BIO-Z0-001",
+    "name": "生物与环境",
+    "subject": "biology",
+    "subject_cn": "生物",
+    "difficulty": 1,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "生态",
+    "summary": "生态因素、生态系统组成与功能、食物链与食物网、生物多样性。",
+    "tags": [
+      "biology",
+      "zhongkao",
+      "生态"
+    ]
+  },
+  {
+    "id": "BIO-Z0-002",
+    "name": "细胞与生物体结构",
+    "subject": "biology",
+    "subject_cn": "生物",
+    "difficulty": 2,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "细胞",
+    "summary": "细胞结构与功能、细胞分裂分化、组织器官系统；植物体与动物体结构层次。",
+    "tags": [
+      "biology",
+      "zhongkao",
+      "细胞"
+    ]
+  },
+  {
+    "id": "BIO-Z0-003",
+    "name": "植物的光合与呼吸",
+    "subject": "biology",
+    "subject_cn": "生物",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "代谢",
+    "summary": "光合作用过程与影响因素、呼吸作用、光合与呼吸的区别联系。",
+    "tags": [
+      "biology",
+      "zhongkao",
+      "代谢"
+    ]
+  },
+  {
+    "id": "BIO-Z0-004",
+    "name": "人体生理",
+    "subject": "biology",
+    "subject_cn": "生物",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "人体",
+    "summary": "消化与吸收、呼吸、血液循环、泌尿系统、神经系统与激素调节。",
+    "tags": [
+      "biology",
+      "zhongkao",
+      "人体"
+    ]
+  },
+  {
+    "id": "BIO-Z0-005",
+    "name": "遗传与变异",
+    "subject": "biology",
+    "subject_cn": "生物",
+    "difficulty": 2,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "遗传",
+    "summary": "基因与染色体、遗传规律、性别决定；变异类型与意义。",
+    "tags": [
+      "biology",
+      "zhongkao",
+      "遗传"
+    ]
+  },
+  {
+    "id": "CHN-Z0-001",
+    "name": "基础知识与运用",
+    "subject": "chinese",
+    "subject_cn": "语文",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "基础知识",
+    "summary": "字音字形、词语辨析、病句修改、标点符号、修辞方法、文学常识。",
+    "tags": [
+      "chinese",
+      "zhongkao",
+      "基础知识"
+    ]
+  },
+  {
+    "id": "CHN-Z0-002",
+    "name": "文言文阅读",
+    "subject": "chinese",
+    "subject_cn": "语文",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "文言文",
+    "summary": "常见实词虚词、文言句式、翻译、文意理解与赏析。",
+    "tags": [
+      "chinese",
+      "zhongkao",
+      "文言文"
+    ]
+  },
+  {
+    "id": "CHN-Z0-003",
+    "name": "现代文阅读",
+    "subject": "chinese",
+    "subject_cn": "语文",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "现代文",
+    "summary": "记叙文说明文议论文阅读；概括内容、理解词句、赏析写法、拓展探究。",
+    "tags": [
+      "chinese",
+      "zhongkao",
+      "现代文"
+    ]
+  },
+  {
+    "id": "CHN-Z0-004",
+    "name": "写作",
+    "subject": "chinese",
+    "subject_cn": "语文",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "写作",
+    "summary": "命题作文与材料作文；记叙文与议论文写作；语言表达与修改。",
+    "tags": [
+      "chinese",
+      "zhongkao",
+      "写作"
+    ]
+  },
+  {
+    "id": "CHN-Z0-005",
+    "name": "名著阅读",
+    "subject": "chinese",
+    "subject_cn": "语文",
+    "difficulty": 2,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "名著",
+    "summary": "《西游记》《水浒传》《骆驼祥子》《昆虫记》等必读名著内容情节与人物。",
+    "tags": [
+      "chinese",
+      "zhongkao",
+      "名著"
+    ]
+  },
+  {
+    "id": "ENG-Z0-001",
+    "name": "基础语法",
+    "subject": "english",
+    "subject_cn": "英语",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "语法",
+    "summary": "名词代词冠词、形容词副词、介词连词；时态语态；简单句并列句复合句。",
+    "tags": [
+      "english",
+      "zhongkao",
+      "语法"
+    ]
+  },
+  {
+    "id": "ENG-Z0-002",
+    "name": "完形填空",
+    "subject": "english",
+    "subject_cn": "英语",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "阅读",
+    "summary": "上下文理解、词义辨析、逻辑推理；常见考点与解题策略。",
+    "tags": [
+      "english",
+      "zhongkao",
+      "阅读"
+    ]
+  },
+  {
+    "id": "ENG-Z0-003",
+    "name": "阅读理解",
+    "subject": "english",
+    "subject_cn": "英语",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "阅读",
+    "summary": "细节理解、推理判断、主旨大意、词义猜测；不同体裁文本阅读策略。",
+    "tags": [
+      "english",
+      "zhongkao",
+      "阅读"
+    ]
+  },
+  {
+    "id": "ENG-Z0-004",
+    "name": "书面表达",
+    "subject": "english",
+    "subject_cn": "英语",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "写作",
+    "summary": "常见话题写作；书信通知记叙议论；语言准确性与连贯性训练。",
+    "tags": [
+      "english",
+      "zhongkao",
+      "写作"
+    ]
+  },
+  {
+    "id": "ENG-Z0-005",
+    "name": "听力理解",
+    "subject": "english",
+    "subject_cn": "英语",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "听力",
+    "summary": "对话与短文听力；主旨大意；细节捕捉；推断说话者意图与态度。",
+    "tags": [
+      "english",
+      "zhongkao",
+      "听力"
+    ]
+  },
+  {
+    "id": "HIS-Z0-001",
+    "name": "中国古代史",
+    "subject": "history",
+    "subject_cn": "历史",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "中国古代史",
+    "summary": "先秦至清朝的重大历史事件、政治制度、经济文化成就。",
+    "tags": [
+      "history",
+      "zhongkao",
+      "中国古代史"
+    ]
+  },
+  {
+    "id": "HIS-Z0-002",
+    "name": "中国近代史",
+    "subject": "history",
+    "subject_cn": "历史",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "中国近代史",
+    "summary": "鸦片战争至新中国成立；列强侵华与中国人民的抗争探索；新民主主义革命。",
+    "tags": [
+      "history",
+      "zhongkao",
+      "中国近代史"
+    ]
+  },
+  {
+    "id": "HIS-Z0-003",
+    "name": "世界史",
+    "subject": "history",
+    "subject_cn": "历史",
+    "difficulty": 2,
+    "frequency": "medium",
+    "level": "zhongkao",
+    "module": "世界史",
+    "summary": "古代文明、资本主义兴起、两次世界大战、冷战与全球化。",
+    "tags": [
+      "history",
+      "zhongkao",
+      "世界史"
+    ]
+  },
+  {
+    "id": "POL-Z0-001",
+    "name": "道德与心理健康",
+    "subject": "politics",
+    "subject_cn": "道德与法治",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "道德",
+    "summary": "认识自我、情绪管理、人际交往；生命教育、道德品质培养。",
+    "tags": [
+      "politics",
+      "zhongkao",
+      "道德"
+    ]
+  },
+  {
+    "id": "POL-Z0-002",
+    "name": "法律常识",
+    "subject": "politics",
+    "subject_cn": "道德与法治",
+    "difficulty": 2,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "法律",
+    "summary": "宪法基本知识、公民权利与义务、未成年人保护、违法行为与法律责任。",
+    "tags": [
+      "politics",
+      "zhongkao",
+      "法律"
+    ]
+  },
+  {
+    "id": "POL-Z0-003",
+    "name": "国情与国策",
+    "subject": "politics",
+    "subject_cn": "道德与法治",
+    "difficulty": 3,
+    "frequency": "high",
+    "level": "zhongkao",
+    "module": "国情",
+    "summary": "基本国情、基本路线、改革开放、科教兴国、可持续发展、民族团结、和平统一。",
+    "tags": [
+      "politics",
+      "zhongkao",
+      "国情"
+    ]
+  }
+]
