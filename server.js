@@ -127,11 +127,11 @@ app.get('/app', (req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-// P0.5 (2026-08-13): freeze legacy frontends, 301 -> F3
-// legacy /frontend (frontend/) and /redesign (ai-tutor-redesign/) have been migrated to /f3.
+// P0.5 (2026-08-13) + D070 (2026-08-17): freeze legacy frontends, 301 -> F3
+// legacy /frontend (frontend/) have been migrated to /f3.
 // Preserve 30 days for backward links, then change to 410 Gone.
-// NOTE: must be BEFORE any express.static() that would shadow it (e.g. /redesign path inside frontend/).
-app.get(/^\/(frontend|redesign)(\/.*)?$/, (req, res) => {
+// NOTE: must be BEFORE any express.static() that would shadow it.
+app.get(/^\/(frontend)(\/.*)?$/, (req, res) => {
   res.redirect(301, '/f3/pages/index.html');
 });
 

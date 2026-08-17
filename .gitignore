@@ -170,7 +170,11 @@ server.js.bak.*
 *.tmp.mjs
 
 
-# 解析流水线临时目录/备份 (非源码)
-*.bak
-*.bak.*
-database/parsed-examples/.backup/
+# --- Frontend cleanup (D070, 2026-08-17) ---
+# ai-tutor-redesign/ — 开发试验产物, 未被 F3 或 PWA 引用, 已 git rm
+# frontend-design-doc/ — 设计文档, 纯静态 HTML + 字体, 不应进入 repo
+ai-tutor-redesign/
+frontend-design-doc/
+
+# legacy frontend/ frozen — 仅作 301 跳转 (P0.5)
+# frontend-redesign/ — experimental, use /f3 instead
