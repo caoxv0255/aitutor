@@ -1,9 +1,9 @@
 schema_version: "1.0"
-generated_at: "2026-08-18T03:47:04Z"
+generated_at: "2026-08-18T03:58:54Z"
 containers: [
   - name: aitutor-app-1
     image: aitutor-app
-    status: Up 42 seconds (healthy)
+    status: Up 12 minutes (healthy)
   - name: aitutor-db-1
     image: aitutor-db
     status: Up 17 hours (healthy)

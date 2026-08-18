@@ -1,15 +1,15 @@
 schema_version: "1.0"
-generated_at: "2026-08-18T03:47:04Z"
+generated_at: "2026-08-18T03:58:54Z"
 project: aitutor
 cwd: /home/cx/aitutor
 
 git:
-  head_commit: 17748443
-  head_message: "fix(security): P1-2 安全头 HSTS + CSP"
-  total_commits: 143
+  head_commit: 676f27ca
+  head_message: "feat(rag): D068 RAG 向量灌入 + Ollama 桥接 (P1-1)"
+  total_commits: 144
   working_tree_changes:
-    files_modified: 4
+    files_modified: 1
     files_deleted: 0
 0
-    files_untracked: 6
+    files_untracked: 8
 alerts: []
