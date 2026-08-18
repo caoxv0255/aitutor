@@ -16,6 +16,12 @@ services:
       - PORT=3000
       - DATABASE_URL=postgresql://aitutor:aitutor_password@db:5432/aitutor_db
       - REDIS_URL=redis://redis:6379
+      # D068 (2026-08-17): Override .env — use Windows host IP, not host.docker.internal
+      - OLLAMA_URL=http://172.21.144.1:11434
+      - EMBEDDING_BASE_URL=http://172.21.144.1:11434
+      - EMBEDDING_PROVIDER=ollama
+      - EMBEDDING_MODEL=bge-m3
+      - EMBEDDING_DIMS=1024
     volumes:
       - app-data:/app/database
       - .:/app

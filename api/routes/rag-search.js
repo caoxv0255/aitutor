@@ -30,7 +30,9 @@ const router = express.Router();
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** 相似度阈值：余弦相似度 > 此值的结果才返回 */
-const DEFAULT_SIMILARITY_THRESHOLD = 0.7;
+// D068-fix (2026-08-17): default lowered from 0.7 → 0.5 (sim data has uniform content,
+// real data with diverse phrasings typically scores 0.5-0.8 in cosine sim)
+const DEFAULT_SIMILARITY_THRESHOLD = 0.5;
 
 /** 默认返回结果数 */
 const DEFAULT_TOP_K = 10;
