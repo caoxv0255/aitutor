@@ -157,6 +157,13 @@ export function securityHeaders(req, res, next) {
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  // CSP: development-only 允许 inline styles/scripts (F3 Tailwind CDN 需要); production收紧
+  if (process.env.NODE_ENV === 'production') {
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob:; connect-src 'self' https://dashscope.aliyuncs.com; font-src 'self' https://cdn.jsdelivr.net");
+  } else {
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; img-src 'self' data: blob:; connect-src 'self' https://dashscope.aliyuncs.com; font-src 'self' https://cdn.jsdelivr.net");
+  }
   res.removeHeader('X-Powered-By');
   next();
 }
