@@ -112,6 +112,15 @@ async function processNext() {
       logTaskMetrics(metrics);
       await recordMetrics(pool, task.id, metrics);
 
+      // D069 (2026-08-17): ai_trace — 异步写入 LLM 调用追踪
+      try {
+        pool.query(
+          `INSERT INTO ai_trace (user_email, provider, model, task_type, prompt_tokens, completion_tokens, latency_ms, success)
+           VALUES ($1, 'dashscope', $2, 'image_recognition', $3, $4, $5, $6)`,
+          [task.user_email, promptConfig.model, tokenUsage.prompt, tokenUsage.completion, metrics.processing_time_ms, true]
+        ).catch(()=>{});
+      } catch {}
+
       taskStats.total++;
       if (isFallback) {
         taskStats.fallback++;

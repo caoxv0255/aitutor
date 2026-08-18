@@ -1,4 +1,5 @@
 import { errorResponse } from '../utils/response.js';
+import { getDb } from '../core/db.js';
 
 const MAX_TOKENS_LIMIT = 4000;
 const MAX_MESSAGES_LENGTH = 20;
@@ -68,6 +69,8 @@ export default async function handler(req, res) {
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  const tStart = Date.now();
+  const tProvider = apiConfig.endpoint.includes('deepseek') ? 'deepseek' : 'dashscope';
 
   try {
     const response = await fetch(apiConfig.endpoint, {
@@ -87,8 +90,20 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
+    // D069 (2026-08-17): ai_trace — 异步写入 LLM 调用追踪
+    const tUsage = data.usage || {};
+    const tLatency = Date.now() - tStart;
+    try {
+      const tp = getDb();
+      tp.then(p => p.query(
+        `INSERT INTO ai_trace (user_email, provider, model, task_type, prompt_tokens, completion_tokens, latency_ms, success)
+         VALUES ($1, $2, $3, 'chat', $4, $5, $6, $7)`,
+        [req.user?.email || null, tProvider, model, tUsage.prompt_tokens||0, tUsage.completion_tokens||0, tLatency, response.ok]
+      )).catch(()=>{});
+    } catch {}
+
     if (data.usage) {
-      console.log(`[Proxy] user=${req.user.email} model=${model} tokens=${data.usage.total_tokens || 'N/A'}`);
+      console.log(`[Proxy] user=${req.user.email} model=${model} tokens=${data.usage.total_tokens || 'N/A'} latency=${tLatency}ms`);
     }
 
     res.status(response.status).json(data);

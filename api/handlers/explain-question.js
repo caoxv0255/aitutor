@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import { PROMPTS } from '../utils/prompts.js';
 import { parseExplainResponse } from '../utils/llmParser.js';
 import { errorResponse } from '../utils/response.js';
+import { getDb } from '../core/db.js';
 dotenv.config();
 
 export default async function handler(req, res) {
@@ -29,6 +30,7 @@ export default async function handler(req, res) {
   const promptConfig = PROMPTS.QUESTION_EXPLAIN;
   const prompt = promptConfig.build(subjectName, question, knowledgePoint);
 
+  const tStart = Date.now();
   try {
     const apiKey = process.env.DASHSCOPE_API_KEY;
     if (!apiKey) {
@@ -61,6 +63,16 @@ export default async function handler(req, res) {
 
     const content = data.choices[0].message.content;
     const { parsed, isFallback, quality } = parseExplainResponse(content);
+
+    // D069 (2026-08-17): ai_trace — 异步写入 LLM 调用追踪
+    try {
+      const tLatency = Date.now() - tStart;
+      getDb().then(p => p.query(
+        `INSERT INTO ai_trace (user_email, provider, model, task_type, prompt_tokens, completion_tokens, latency_ms, success)
+         VALUES ($1, 'dashscope', $2, 'explain_question', $3, $4, $5, $6)`,
+        [req.user?.email||null, promptConfig.model, data.usage?.prompt_tokens||0, data.usage?.completion_tokens||0, tLatency, response.ok]
+      )).catch(()=>{});
+    } catch {}
 
     if (isFallback || quality < 30) {
       console.warn(`[Explain] Low quality response for question (quality=${quality}, fallback=${isFallback})`);

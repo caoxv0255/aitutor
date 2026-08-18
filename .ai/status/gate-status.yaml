@@ -1,5 +1,5 @@
 schema_version: "1.0"
-generated_at: "2026-08-16T17:12:41Z"
+generated_at: "2026-08-18T01:08:26Z"
 gate_script: scripts/release-gate.sh
 trigger: "manual (建议加 pre-commit hook + GitHub Actions)"
 overall: fail
@@ -16,13 +16,14 @@ raw_tail: |
     ✓ contract test 全绿
   
   ═══════════ 3/5 Backend Contract Test (真后端) ═══════════
-    ✗ BCT 失败 (http://localhost:3002): 18 passed, 1 failed
+    (使用: BCT_URL=http://localhost:3002)
+    ✓ BCT 全绿 (http://localhost:3002)
   
   ═══════════ 4/5 docker build (app 镜像) ═══════════
-    ✓ 镜像构建成功
+    ✗ 镜像构建失败
   
   ═══════════ 5/5 health check ═══════════
-    ✓ /api/health dbReady=true
+    ✓ /api/health dbReady=true (http://localhost:3002)
   
   ❌ 发布门禁未通过 — 修复后重跑 npm run gate
 alerts: []

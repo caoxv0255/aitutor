@@ -1,26 +1,15 @@
 schema_version: "1.0"
-generated_at: "2026-08-17T16:30:00Z"
-components:
-  - name: pgvector
-    status: healthy
-    version: "0.8.0"
-    notes: "HNSW index active; BGE-M3 1024 dim"
-  - name: apache-age
-    status: healthy
-    version: "1.5.0"
-    notes: "Cypher graph queries operational"
-  - name: ollama
-    status: degraded
-    endpoint: "host.docker.internal:11434"
-    notes: "不从 WSL 宿主可达；生产部署需远程 Ollama 或 DashScope"
-  - name: dashscope-llm
-    status: healthy
-    provider: "dashscope"
-    notes: "qwen-max via services/llm.js"
-  - name: ai-trace
-    status: healthy
-    notes: "009_ai_trace.sql migration applied"
-alerts:
+generated_at: "2026-08-18T01:07:37Z"
+# RAG Components Status — Hermes TUI 数据源
+# components 字段自动检测; detailed health 由人工维护
+auto_detected: {
+  ollama: false,
+  age: true
+}
+# 下方为决策性内容 (人工维护):
+components: []  # TODO 人工填 vision/embedding/pgvector/AGE/LLM 详细状态
+alerts: [
   - severity: medium
     source: ollama
-    msg: "Ollama 不可达 (host.docker.internal:11434) — 降级到 DashScope"
+    msg: "Ollama 不可达 (host.docker.internal:11434)"
+]

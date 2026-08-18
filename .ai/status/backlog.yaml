@@ -1,45 +1,7 @@
 schema_version: "1.0"
-generated_at: "2026-08-17T16:30:00Z"
-items:
-  - id: P0-001
-    title: "DEV_AUTH_BYPASS 环境残留防护"
-    priority: P0
-    status: completed
-    assignee: agent
-    created_at: "2026-08-17T00:20:00Z"
-    resolved_at: "2026-08-17T16:30:00Z"
-    commit: "c724469e"
-  - id: P2-001
-    title: "补齐中考知识点 Seed (45条)"
-    priority: P2
-    status: completed
-    assignee: agent
-    created_at: "2026-08-17T00:20:00Z"
-    resolved_at: "2026-08-17T16:30:00Z"
-  - id: P2-002
-    title: "创建 ai_trace 表 + 迁移 009"
-    priority: P2
-    status: completed
-    assignee: agent
-    created_at: "2026-08-17T00:20:00Z"
-    resolved_at: "2026-08-17T16:30:00Z"
-  - id: P3-001
-    title: "F3 剩余 4 页提示 Slice"
-    priority: P3
-    status: pending
-    assignee: TBD
-    created_at: "2026-08-16T00:00:00Z"
-    notes: "tutor/review/vision/exam-simulation"
-  - id: P3-002
-    title: "CI/CD GitHub Actions 接入"
-    priority: P3
-    status: pending
-    assignee: TBD
-    created_at: "2026-08-16T00:00:00Z"
-  - id: P3-003
-    title: "Ollama 可达性决策"
-    priority: P3
-    status: pending
-    assignee: TBD
-    notes: "docker compose 中 Ollama host.docker.internal:11434 不可达"
+generated_at: "2026-08-18T01:07:37Z"
+# Known Issues & Backlog — Hermes TUI 数据源
+# 合并 known-bugs + 已知 P0/P1/P2 backlog
+# 决策性内容由人工维护, 本脚本只刷 schema 元数据
+items: []  # TODO 人工维护 backlog 内容
 alerts: []

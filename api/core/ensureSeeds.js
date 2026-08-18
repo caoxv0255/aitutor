@@ -9,6 +9,7 @@ import { execFileSync } from 'node:child_process';
 import { getDb } from './db.js';
 import { logger } from './logger.js';
 import { seedZhongkao } from '../handlers/seed-zhongkao.js';
+import { seedProvinces } from '../handlers/seed-provinces.js';
 
 /**
  * 启动 seed 检查. 幂等:
@@ -48,6 +49,19 @@ export async function ensureSeeds() {
     }
   } catch (e) {
     logger.error('[Seed] 中考知识点自动导入失败', { error: e.message });
+  }
+
+  // ── 3. 省份 Seed (D069 补充, P0-3) ──
+  try {
+    const r = await pool.query('SELECT COUNT(*)::int AS n FROM provinces');
+    if (r.rows[0].n === 0) {
+      await seedProvinces();
+      logger.info('[Seed] 省份数据导入完成');
+    } else {
+      logger.info(`[Seed] 跳过: provinces 已有 ${r.rows[0].n} 条`);
+    }
+  } catch (e) {
+    logger.error('[Seed] 省份自动导入失败', { error: e.message });
   }
 
   // 返回最终状态

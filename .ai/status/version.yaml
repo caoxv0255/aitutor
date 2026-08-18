@@ -1,14 +1,15 @@
 schema_version: "1.0"
-generated_at: "2026-08-16T17:45:14Z"
+generated_at: "2026-08-18T01:07:37Z"
 project: aitutor
 cwd: /home/cx/aitutor
 
 git:
-  head_commit: ae32aa16
-  head_message: "docs(ai): 补充 RECOMMENDATIONS_FOR_HERMES.md (DeepSeek harness 视角建议)"
-  total_commits: 133
+  head_commit: 0623c1bf
+  head_message: "docs(ai): comprehensive audit report 2026-08-17"
+  total_commits: 141
   working_tree_changes:
-    files_modified: 6
-    files_deleted: 4
-    files_untracked: 2
+    files_modified: 11
+    files_deleted: 0
+0
+    files_untracked: 1
 alerts: []

@@ -126,6 +126,7 @@ emit_database() {
     kp_total=$(docker exec aitutor-db-1 psql -U aitutor -d aitutor_db -tAc "SELECT COUNT(*) FROM knowledge_points;" 2>/dev/null || echo 0)
     kp_gaokao=$(docker exec aitutor-db-1 psql -U aitutor -d aitutor_db -tAc "SELECT COUNT(*) FROM knowledge_points WHERE level='gaokao';" 2>/dev/null || echo 0)
     kp_zhongkao=$(docker exec aitutor-db-1 psql -U aitutor -d aitutor_db -tAc "SELECT COUNT(*) FROM knowledge_points WHERE level='zhongkao';" 2>/dev/null || echo 0)
+    tables_total=$(docker exec aitutor-db-1 psql -U aitutor -d aitutor_db -tAc "SELECT COUNT(*) FROM pg_tables WHERE schemaname='public';" 2>/dev/null || echo 0)
   else
     alerts_yaml='[
   - severity: medium
@@ -140,11 +141,9 @@ knowledge_points:
   total: $kp_total
   level_gaokao: $kp_gaokao
   level_zhongkao: $kp_zhongkao
-tables_total: 34
-last_migration: "008_question_uid_and_type_enums.sql"
-pending_tables:
-  - name: ai_trace
-    purpose: RAG 可观测性 (Phase 3)
+tables_total: $tables_total
+last_migration: "009_ai_trace.sql"
+pending_tables: []
 alerts: $alerts_yaml
 EOF
 }

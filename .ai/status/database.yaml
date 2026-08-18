@@ -1,12 +1,10 @@
 schema_version: "1.0"
-generated_at: "2026-08-16T17:45:14Z"
+generated_at: "2026-08-18T01:07:37Z"
 knowledge_points:
-  total: 381
+  total: 426
   level_gaokao: 381
-  level_zhongkao: 0
-tables_total: 34
-last_migration: "008_question_uid_and_type_enums.sql"
-pending_tables:
-  - name: ai_trace
-    purpose: RAG 可观测性 (Phase 3)
+  level_zhongkao: 45
+tables_total: 36
+last_migration: "009_ai_trace.sql"
+pending_tables: []
 alerts: []
