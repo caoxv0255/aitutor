@@ -5,7 +5,12 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     include: ['tests/**/*.test.js'],
-    exclude: ['tests/contract.test.js', 'tests/backend-contract.test.js', 'node_modules/**'],
+    exclude: [
+      'tests/contract.test.js',
+      'tests/backend-contract.test.js',
+      'tests/production-smoke.test.js', // CI-only smoke (D070: vitest 不能加载, 否则报 "No test suite found")
+      'node_modules/**',
+    ],
     coverage: {
       provider: 'v8',
       include: ['api/**/*.js'],
