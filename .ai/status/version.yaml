@@ -1,15 +1,14 @@
 schema_version: "1.0"
-generated_at: "2026-08-18T03:58:54Z"
+generated_at: "2026-08-18T04:10:02Z"
 project: aitutor
 cwd: /home/cx/aitutor
 
 git:
-  head_commit: 676f27ca
-  head_message: "feat(rag): D068 RAG 向量灌入 + Ollama 桥接 (P1-1)"
-  total_commits: 144
+  head_commit: eb0db181
+  head_message: "feat(prod): D070 production deployment + CI + test fixes"
+  total_commits: 146
   working_tree_changes:
     files_modified: 1
-    files_deleted: 0
-0
-    files_untracked: 8
+    files_deleted: 1
+    files_untracked: 2
 alerts: []

@@ -1,5 +1,5 @@
 schema_version: "1.0"
-generated_at: "2026-08-18T03:58:54Z"
+generated_at: "2026-08-18T04:10:02Z"
 # Known Issues & Backlog — Hermes TUI 数据源
 # 合并 known-bugs + 已知 P0/P1/P2 backlog
 # 决策性内容由人工维护, 本脚本只刷 schema 元数据
