@@ -30,17 +30,3 @@ describe('questions.js JSON.parse protection', () => {
     expect(source).toContain('1MB');
   });
 });
-
-describe('knowledge-points.js JSON.parse protection', () => {
-  it('should have try-catch around JSON.parse in knowledge-points.js', async () => {
-    const fs = await import('fs');
-    const path = await import('path');
-    const { fileURLToPath } = await import('url');
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/knowledge-points.js'), 'utf-8');
-
-    const parseCount = (source.match(/JSON\.parse/g) || []).length;
-    const tryCount = (source.match(/try \{/g) || []).length;
-    expect(tryCount).toBeGreaterThanOrEqual(parseCount);
-  });
-});

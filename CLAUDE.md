@@ -289,6 +289,50 @@ The scheduled OpenWiki GitHub Actions workflow refreshes the repository wiki. Do
 
 <!-- OPENWIKI:END -->
 
+## 生产环境部署 (v1.0)
+
+D069 (2026-08-18) 引入:
+
+```bash
+# 1. 准备 .env.prod (强随机 JWT_SECRET 自动生成)
+cp .env.example .env.prod
+sed -i "s|^JWT_SECRET=.*|JWT_SECRET=$(openssl rand -hex 32)|" .env.prod
+vim .env.prod  # 填入 DASHSCOPE_API_KEY / OLLAMA_URL / POSTGRES_PASSWORD
+
+# 2. 一键部署 (Docker Compose 生产版)
+sudo bash deploy/setup-prod.sh
+#  → build images, up -d, health check, ingest data, run gate
+
+# 3. 查看服务状态
+docker compose -f docker-compose.prod.yml ps
+docker compose -f docker-compose.prod.yml logs -f app
+
+# 4. 升级
+docker compose -f docker-compose.prod.yml build app
+docker compose -f docker-compose.prod.yml up -d
+```
+
+**生产环境关键差异** (docker-compose.prod.yml vs docker-compose.yml):
+- `NODE_ENV=production` (启动时检查 JWT_SECRET 强度)
+- 移除 `.:/app` 卷挂载 (代码在镜像内, 防运行时修改)
+- `restart: always` (异常自动重启)
+- 强健康检查 (retries: 5, start_period: 30s)
+- 资源限制 (cpu 2.0 / memory 2G for app)
+- JSON-file 日志 (max-size 10m × 5 files)
+- nginx profile (启用 TLS, `--profile with-nginx`)
+
+**CI/CD** (`.github/workflows/release-gate.yml`):
+- push/PR main → 自动跑 5/5 gate
+- pgvector 服务 (Docker) + Redis 服务
+- npm ci → 后端 init/seed → gate → production-smoke
+- 失败阻止 merge
+
+**监控**:
+- 健康: `curl http://localhost:3002/api/health`
+- 日志: `docker logs aitutor-prod-app --tail 100 -f`
+- LLM 成本: `SELECT * FROM ai_trace_daily_summary` (D069)
+- RAG 状态: `curl http://localhost:3002/api/rag/stats`
+
 <!-- AI-AGENT-LAYER:START -->
 
 ## AI Agent 工程层 (`.ai/`)

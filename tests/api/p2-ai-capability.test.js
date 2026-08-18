@@ -398,16 +398,7 @@ describe('P2-5: Weak point algorithm upgrade', () => {
     expect(results[0].matchedKeywords.length).toBeGreaterThan(0);
   });
 
-  it('knowledge-points.js should import matchWeakPoint and findWeakKPIds', async () => {
-    const fs = await import('fs');
-    const path = await import('path');
-    const { fileURLToPath } = await import('url');
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/knowledge-points.js'), 'utf-8');
-
-    expect(source).toContain('matchWeakPoint');
-    expect(source).toContain('findWeakKPIds');
-  });
+  // knowledge-points.js 已删除 (D070), 测试跳过
 
   it('generate-paper.js should import matchWeakPoint', async () => {
     const fs = await import('fs');

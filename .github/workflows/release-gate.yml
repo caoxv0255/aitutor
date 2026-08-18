@@ -1,0 +1,128 @@
+name: release-gate
+
+on:
+  push:
+    branches: [main, release/*]
+    paths-ignore:
+      - 'docs/**'
+      - '.ai/**'
+      - '*.md'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# 并发限制 (同一 branch 取消在跑的)
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: release-gate (5/5)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_DB: aitutor_db
+          POSTGRES_USER: aitutor
+          POSTGRES_PASSWORD: aitutor_password
+          POSTGRES_INITDB_ARGS: --encoding=UTF8 --lc-collate=C --lc-ctype=C
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U aitutor -d aitutor_db"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://aitutor:aitutor_password@localhost:5432/aitutor_db
+      REDIS_URL: redis://localhost:6379
+      JWT_SECRET: test-secret-key-32-characters-min-aaaaa
+      DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY || 'test-dashscope-key' }}
+      # CI 跳过 docker build (用预构建镜像或 legacy builder)
+      SKIP_DOCKER: '1'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Init DB schema (auto-create + seed)
+        run: |
+          echo "=== 启动后端 (DB init + seed) ==="
+          node server.js &
+          SERVER_PID=$!
+          sleep 8
+          # 健康检查
+          for i in 1 2 3 4 5; do
+            if curl -sf http://localhost:3000/api/health; then
+              echo "Server ready"
+              break
+            fi
+            sleep 2
+          done
+          echo "=== RAG 灌入 ==="
+          docker_exec() { node /app/scripts/ingest-rag-batch.mjs --limit 50; }
+          # 如果 server 启动了 (端口 3000), 则用容器内执行
+          # CI 环境直接 node:
+          DATA_DIR=database/rag_build node scripts/ingest-rag-batch.mjs --limit 50 || echo "RAG 灌入失败 (跳过)"
+          echo "=== Exam questions 灌入 ==="
+          DATA_DIR=database/parsed-examples node scripts/ingest-exam-questions.mjs --limit 1000 || echo "Exam 灌入失败 (跳过)"
+          kill $SERVER_PID 2>/dev/null || true
+        env:
+          OLLAMA_URL: http://mock-ollama:11434
+
+      - name: Run release gate (5/5)
+        run: npm run gate
+        env:
+          BCT_URL: http://localhost:3000
+
+      - name: Run production smoke tests
+        run: node tests/production-smoke.test.js
+        env:
+          API_BASE: http://localhost:3000
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.run_id }}
+          path: |
+            test-results/
+            playwright-report/
+            logs/
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Report gate status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "✅ release-gate passed (5/5)"
+          else
+            echo "❌ release-gate failed"
+            exit 1
+          fi

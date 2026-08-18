@@ -177,17 +177,7 @@ describe('P1-3/P1-4: subjectMap unified module', () => {
     expect(keywords).toEqual([]);
   });
 
-  it('knowledge-points.js should import from subjectMap', async () => {
-    const fs = await import('fs');
-    const path = await import('path');
-    const { fileURLToPath } = await import('url');
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const source = fs.readFileSync(path.join(__dirname, '../../api/handlers/knowledge-points.js'), 'utf-8');
-
-    expect(source).toContain("from '../utils/subjectMap.js'");
-    expect(source).toContain('KEYWORD_MAP');
-    expect(source).toContain('resolveSubjectName');
-  });
+  // knowledge-points.js 已删除 (D070), 测试跳过
 
   it('generate-paper.js should import from subjectMap', async () => {
     const fs = await import('fs');

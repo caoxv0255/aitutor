@@ -1,0 +1,162 @@
+# docker-compose.prod.yml — aitutor v1.0 生产部署
+#
+# 区别于 docker-compose.yml:
+#   - NODE_ENV=production
+#   - JWT_SECRET 必须 ≥32 字符随机 (无默认值)
+#   - 移除 .:/app 卷挂载 (生产环境代码在镜像内)
+#   - 强健康检查 + restart policies
+#   - 强制 OLLAMA_URL 从环境变量 (不再 hardcode 172.21.144.1)
+#
+# 用法:
+#   docker compose -f docker-compose.prod.yml up -d
+#   docker compose -f docker-compose.prod.yml logs -f app
+#
+# 配合 .env.prod 文件 (cp .env.example .env.prod && 编辑)
+
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aitutor-app:latest
+    container_name: aitutor-prod-app
+    env_file:
+      - .env.prod
+    ports:
+      - "3002:3000"
+    environment:
+      # 生产环境 (强制)
+      - NODE_ENV=production
+      - SERVE_F3=true
+      # OLLAMA_URL 必须从 .env.prod 读取 (生产环境变量)
+      - OLLAMA_URL=${OLLAMA_URL}
+      - EMBEDDING_BASE_URL=${EMBEDDING_BASE_URL}
+      - EMBEDDING_PROVIDER=ollama
+      - EMBEDDING_MODEL=bge-m3
+      - EMBEDDING_DIMS=1024
+    volumes:
+      # 生产环境: 只挂数据库目录 (不放源代码)
+      - app-data:/app/database
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: always
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '5'
+    networks:
+      - aitutor-network
+
+  db:
+    build:
+      context: .
+      network: host
+      dockerfile: Dockerfile.db
+    image: aitutor-db:latest
+    container_name: aitutor-prod-db
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --lc-collate=C --lc-ctype=C
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+    logging:
+      driver: json-file
+      options:
+        max-size: '20m'
+        max-file: '5'
+    networks:
+      - aitutor-network
+    command: >
+      postgres
+      -c shared_preload_libraries='age,vector'
+      -c max_locks_per_transaction=64
+      -c work_mem=64MB
+      -c maintenance_work_mem=512MB
+      -c effective_cache_size=4GB
+      -c synchronous_commit=off
+      -c log_min_duration_statement=5000
+
+  redis:
+    image: redis:7-alpine
+    container_name: aitutor-prod-redis
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: json-file
+      options:
+        max-size: '5m'
+        max-file: '3'
+    networks:
+      - aitutor-network
+
+  # 可选: nginx 反代 (TLS termination)
+  # 启用: docker compose -f docker-compose.prod.yml --profile with-nginx up -d
+  nginx:
+    image: nginx:alpine
+    container_name: aitutor-prod-nginx
+    profiles: ["with-nginx"]
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/nginx-prod.conf:/etc/nginx/nginx.conf:ro
+      - ./deploy/certs:/etc/nginx/certs:ro
+    depends_on:
+      - app
+    restart: always
+    networks:
+      - aitutor-network
+
+volumes:
+  app-data:
+    driver: local
+  pgdata:
+    driver: local
+
+networks:
+  aitutor-network:
+    driver: bridge
