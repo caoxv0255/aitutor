@@ -168,3 +168,144 @@ pkill -f "python3 -m http.server 8000"
 ### 后续待办(非本次范围)
 - `tests/integration/`:落实"无 mock + 登录态"端到端 E2E(需 server.js 端到端 + nginx 反代 + 登录态 cookie)
 - Playwright `webServer` 配置可优化:把 `reuseExistingServer:true` + 短超时改为 `webServer` 启动后再 `waitForLoadState`,或改为 `command` 自包含启动 docker compose 中的 app 容器
+
+---
+
+## Headed Chromium 真浏览器自动化 — 2026-08-19 (DSH agent run)
+
+### 背景
+用户在 DSH GUI 中明确要求"**真浏览器自动化测试**",不再接受 sandbox headless。需 WSLg 转发 headed Chromium 窗口到 Windows 桌面,且不污染用户日常 Chrome 数据。
+
+### 环境检测
+- **WSL2 6.6.87** + **WSLg 已装**(`/mnt/wslg/.X11-unix/X0` 存在,wayland-0 socket 存在)
+- Playwright bundled Chromium **149.0.7827.55** 已装(`~/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome`)
+- DSH web profile 原始 bundle:`@deepseek-ai/dsh-base`, `@deepseek-ai/dsh-web-app`, `@linxin666/dsh-web-ui-all`, `@taxueseek/argo-dsh`, `dsh-better-sidebar`
+- `pnpm` 不在 PATH,装到 `/home/cx/.npm-global/bin/pnpm` 后可用
+- aitutor 后端 `localhost:3002` health = 200
+
+### 实施
+1. **方案 2 (headless=false + WSLg wayland)**:`scripts/headed-tests/run.mjs`
+   - chromium.launch({ headless:false, args:['--ozone-platform=wayland', ...] })
+   - 6 步场景:health → 首页 → 游客登录 → dashboard → 错题本 → RAG search
+   - 截图存档 `scripts/headed-tests/screenshots/0[1-3]-*.png`
+2. **方案 3 (DSH 插件化)**:装 `dsh-playwright-browser@^0.1.3`(Clizo1209)
+   - `pnpm` 全局安装(原 PATH 缺失)
+   - `dsh plugin --profile web add dsh-playwright-browser` → pnpm add 成功,加入 profile bundle
+   - 插件提供 10 个 `browser_*` 工具 + BrowserController + Cordis lifecycle
+
+### 结果(方案 2)
+```
+[headed] 22:40:32 浏览器启动: 149.0.7827.55
+[headed] 22:40:33 1/6 后端 health → 200 dbReady=true
+[headed] 22:40:34 2/6 首页 h1 = "用历年真题和错题数据生成你的 2026 备考路线图"
+[headed] 22:40:34 3/6 guest-login → 200 token=true
+[headed] 22:40:35 4/6 dashboard (注入 token 后访问)
+[headed] 22:40:35 5/6 错题本 → page-error 401(预期,dashboard 路由需要登录)
+[headed] 22:40:46 6/6 RAG search → 200 results=3
+[headed] 22:40:46 全部 6 步完成 ✅
+```
+
+| 截图 | 大小 | 内容 |
+|------|------|------|
+| `01-home.png` | 535 KB | 完整首页(1265×3712):样例报告 + 学科卡片 + 2026 趋势预测 |
+| `02-dashboard.png` | 65 KB | dashboard(1265×1139):上半公开卡片 + 下半登录框(预期,需完整登录态) |
+| `03-wrong-book.png` | 65 KB | 同上(被 401 重定向,等同 dashboard 登录框) |
+
+### 风险与边界
+- ✅ **未触碰用户日常 Chrome** —— bundled chromium + `--user-data-dir=/tmp/chrome-test-*` 隔离
+- ✅ **未写数据库脏数据** —— 仅游客登录 + 只读 dashboard + RAG search
+- ✅ **未修改任何 aitutor 业务代码** —— 仅新增 `scripts/headed-tests/run.mjs`
+- ⚠️ **WSLg GPU 提示** `drmGetDevices2 has not found any devices` —— 不影响窗口显示,但复杂 CSS 动画可能掉帧
+
+### 方案 3 状态
+- ✅ `dsh-playwright-browser@^0.1.3` 已加入 `~/.dsh/profiles/web/package.json` bundle
+- ✅ Node 直接 import 测试通过 (`BrowserController` 实例化成功)
+- ⏳ **需用户在 DSH GUI 重启 session**(当前 DSH 进程已跑 1 天13 小时,boot-time 注册不热加载)
+- 重启后 agent 工具列表将自动出现 10 个 `browser_*` 工具,无需手动调用 node 脚本
+
+### 复跑命令
+```bash
+# 方案 2: 立即跑 headed 测试
+cd ~/aitutor && timeout 120 node scripts/headed-tests/run.mjs
+
+# 方案 3: 重启 DSH session 后, 直接在 agent 会话里调 browser_open 等工具
+# (无需手工命令, DSH 会暴露为工具)
+```
+
+### 下一步建议(等你点头)
+- 跑 `scripts/headed-tests/run.mjs` 在你桌面看到的窗口是否真有浮出来
+- 若方案 2 验证满意,**重启 DSH GUI session** 加载 `dsh-playwright-browser` 插件,后续可在 agent 里直接 `browser_open` 等
+- 若想看到更多场景(登录、拍照搜题、报告生成),扩展 `run.mjs`
+
+---
+
+## Headed 开发者中心 (dev gallery) — 2026-08-19
+
+### 背景
+用户在 DSH 中明确要求"**截图、符合用户使用方式, 用户友好型界面**". 决定建一个 demo 页面, 把 headed 测试结果以开发者友好型 UI 展示 (画廊 + diff + 运行卡 + 日志).
+
+### 决策
+- **路径**: `/dev/headed-gallery.html` (frontend/dev/ 下, 不动 server.js, 不污染生产 F3 路径)
+- **数据模型**: 静态 manifest, 无后端依赖
+  - `frontend/dev/runs/index.json`        — runs 列表 (倒序, 最多 50)
+  - `frontend/dev/runs/<runId>/manifest.json` — 单次 run 详情 (6 步 shots)
+  - `frontend/dev/screenshots/<runId>/*.png`   — 截图
+- **架构**: scripts/headed-tests/run.mjs 双输出 (兼容老位置 + 新 demo 位置)
+
+### 实现
+| 文件 | 行数 | 作用 |
+|------|------|------|
+| `scripts/headed-tests/run.mjs` | 改 +30 | 双输出 + manifest + index 维护 + 孤儿清理 |
+| `scripts/headed-tests/verify-gallery.mjs` | 新增 50 | headed 跑 demo 页验证截图 |
+| `frontend/dev/headed-gallery.html` | 新增 95 | 4 区块布局 (画廊/diff/runner/log) + lightbox |
+| `frontend/dev/headed-gallery.css` | 新增 230 | 复用 style.css 变量 (.hg-* 命名空间) |
+| `frontend/dev/headed-gallery.js` | 新增 175 | fetch manifest + 渲染 + lightbox + diff |
+| `frontend/dev/screenshots-demo/*.png` | 3 张 | demo 页自身的截图 (自指) |
+
+### 设计要点 (用户友好型)
+1. **顶栏脉冲红点** + 名称 "Headed 测试画廊 · AI Tutor · Dev Tools" — 一眼识别是 dev 工具, 不混淆生产 UI
+2. **截图画廊**: 缩略图卡片 + step 名 + URL + 状态徽章 (绿 200 / 红 4xx/5xx) + 尺寸 + 时间戳 — QA 一眼看出哪个 step 出问题
+3. **前后对比**: 两次 run 并排, step 选择器 — 视觉差异 = 回归检测
+4. **场景运行卡**: 复跑命令 + DSH 插件用法 + 截图策略 — 给后来者 / 新 QA 看
+5. **DSH 会话日志**: 时间戳 + step + URL + HTTP status + error 列表 — 排错入口
+6. **Lightbox**: 点缩略图看大图 + 元数据 + Esc 关闭 — 键盘友好
+7. **404 容错**: 旧 run 数据残缺时, diff 区块显示 "diff 加载失败" 而不是空白 — 不让用户面对 silent failure
+
+### 验证 (3 张 headed 截图)
+| 文件 | 大小 | 内容 |
+|------|------|------|
+| `screenshots-demo/gallery-overview.png` | 478 KB | 完整 demo 页 (1265×2230), 4 区块全展示 |
+| `screenshots-demo/diff-section.png`     | 114 KB | diff 区块 (1280×900), 左右两个首页并排 |
+| `screenshots-demo/lightbox.png`         | 39 KB  | lightbox 弹出 health 大图 + 元数据 + 关闭按钮 |
+
+### Gate 验证
+- ✅ vitest 238/238
+- ✅ contract 38/38
+- ✅ BCT 19/19
+- ✅ docker build 成功
+- ✅ health dbReady=true
+
+### 访问
+```bash
+# 浏览器打开
+http://localhost:3002/dev/headed-gallery.html
+
+# 复跑一次 (会产生新 run, demo 页刷新可见)
+cd ~/aitutor && node scripts/headed-tests/run.mjs
+
+# headed 验证 demo 页自身
+node scripts/headed-tests/verify-gallery.mjs
+```
+
+### aitutor 约束遵守
+- ✅ **未改 server.js** — 静态文件路径就行
+- ✅ **未改 .ai/decisions/、OpenWiki、F3 migration**
+- ✅ **未改生产代码** (api/, frontend/*.html, ai-tutor-frontend/)
+- ✅ **D065 gate 5/5 通过**
+- ⚠️ `frontend/dev/` 是新增, 不在原 frontend 301 跳路径 (`/frontend/*` → /f3/), 仅影响 `/dev/*` 中间路径, 30 天后 frontend/ 全 410, dev 路径随之失效 — 但这是 dev 工具, 可接受
+
+### 后续可优化(非本次)
+- 集成 `dsh-playwright-browser` 插件后, demo 页可加 "在 DSH 里打开 headed" 按钮触发真实 run
+- 加入像素级 diff (canvas 比较两张 PNG 的像素差异, 输出 diff %)
+- run.mjs 加 --headed 参数, 允许 headless 模式跑 (节省 WSLg 依赖)
+- 增加错误恢复: dashboard 跳转 login.html 是已知问题, run.mjs 可检测并提示

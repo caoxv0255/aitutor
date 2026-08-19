@@ -44,6 +44,8 @@ coverage/
 *.mp3
 !public/icons/*.png
 !public/favicon.ico
+# dev tools: headed-tests 截图 + demo 自指截图
+!frontend/dev/screenshots-demo/*.png
 
 .DS_Store
 Thumbs.db
