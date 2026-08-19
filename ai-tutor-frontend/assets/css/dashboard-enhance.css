@@ -1,0 +1,249 @@
+/* ai-tutor-frontend/assets/css/dashboard-enhance.css
+ * 2026-08-19 DSH agent: F3 dashboard 微设计增强 + 用户友好型交互
+ *
+ * 设计参考: Linear 的"克制"风格 + aitutor 主色 #d71920
+ * 不动 HTML 结构, 只靠 class selector 增强既有组件
+ *
+ * 影响范围:
+ *   - 顶部统计横条 (4 个 summary card)
+ *   - KPI 卡片行 (4 个 metric card)
+ *   - 雷达图 (6 维)
+ *   - 柱状图 (近 7 天)
+ *   - 热力图 (14 天 × 3 学科)
+ *   - 表格 / 待复习任务卡
+ *
+ * 非目标:
+ *   - 不动 light theme token, 不动 D062 envelope, 不动 Shell adapter
+ *   - 不破坏 Dashboard Shell (CLAUDE.md F3 §1 表格)
+ */
+
+/* ════════ 1. 全局微调: 进场动画 + 字体调优 ════════ */
+
+/* 数字 count-up 时,初始 opacity 0, JS 触发后 .ait-counter-ready */
+.ait-counter {
+  opacity: 0;
+  transition: opacity .25s ease-out;
+  font-variant-numeric: tabular-nums;
+}
+.ait-counter.ait-counter-ready { opacity: 1; }
+
+/* 卡片入场 stagger (js 在 body 加 .ait-stagger-in) */
+.ait-stagger-in > * {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: ait-fade-up .35s ease-out forwards;
+}
+.ait-stagger-in > *:nth-child(1) { animation-delay: 30ms; }
+.ait-stagger-in > *:nth-child(2) { animation-delay: 80ms; }
+.ait-stagger-in > *:nth-child(3) { animation-delay: 130ms; }
+.ait-stagger-in > *:nth-child(4) { animation-delay: 180ms; }
+@keyframes ait-fade-up {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════ 2. 顶部统计横条 (今日待复习/掌握度/打卡/学习时长) ════════ */
+
+/* 4 个 summary 卡: 增强 hover + 整卡可点跳转 */
+.grid.grid-cols-2.lg\\:grid-cols-4.gap-3.sm\\:gap-4.mb-5:first-of-type > div {
+  position: relative;
+  cursor: pointer;
+  transition: transform .2s ease-out, box-shadow .2s ease-out, border-color .2s ease-out;
+}
+.grid.grid-cols-2.lg\\:grid-cols-4.gap-3.sm\\:gap-4.mb-5:first-of-type > div:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(215,25,32,.10);
+  border-color: rgba(215,25,32,.25);
+}
+/* icon 容器 hover 动效 */
+.grid.grid-cols-2.lg\\:grid-cols-4.gap-3.sm\\:gap-4.mb-5:first-of-type > div:hover .inline-flex.h-11 {
+  transform: scale(1.06);
+  transition: transform .2s ease-out;
+}
+.grid.grid-cols-2.lg\\:grid-cols-4.gap-3.sm\\:gap-4.mb-5:first-of-type > div .inline-flex.h-11 {
+  transition: transform .2s ease-out;
+}
+/* hover 时右上角加 arrow */
+.grid.grid-cols-2.lg\\:grid-cols-4.gap-3.sm\\:gap-4.mb-5:first-of-type > div::after {
+  content: '→';
+  position: absolute;
+  top: 12px; right: 14px;
+  font-size: 14px;
+  color: var(--color-foreground-muted, #94a3b8);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity .2s, transform .2s;
+}
+.grid.grid-cols-2.lg\\:grid-cols-4.gap-3.sm\\:gap-4.mb-5:first-of-type > div:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ════════ 3. KPI 卡 (总练习/正确率/本月提分/排名) ════════ */
+
+/* 4 个 metric 卡: 已有 hover shadow, 强化 + 加 ring on focus */
+.p-5.rounded-2xl.bg-gradient-to-br {
+  transition: transform .2s ease-out, box-shadow .2s ease-out, border-color .2s ease-out;
+  position: relative;
+}
+.p-5.rounded-2xl.bg-gradient-to-br:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.06);
+}
+/* 数字本身: 略微浮动 */
+.p-5.rounded-2xl .text-3xl {
+  letter-spacing: -.01em;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+}
+
+/* ════════ 4. 雷达图: 维度可点击 + hover 高亮 ════════ */
+
+/* SVG text 标签: 让文字标签成为链接 */
+svg text[class*="fill-foreground"] {
+  cursor: pointer;
+  transition: fill .15s ease-out;
+}
+svg text[class*="fill-foreground"]:hover {
+  fill: var(--color-primary-500);
+}
+/* 雷达图数据点 hover 放大 */
+svg circle[fill*="primary-500"] {
+  cursor: pointer;
+  transition: r .15s ease-out;
+}
+svg circle[fill*="primary-500"]:hover {
+  r: 6;
+}
+
+/* ════════ 5. 柱状图 (近 7 天): 顶部数字常显 + 动画 ════════ */
+
+.flex.items-end.gap-2.sm\\:gap-3.h-\\[200px\\] .flex.flex-col.items-center.gap-1\\.5 {
+  position: relative;
+}
+/* 让顶部数字常显 (opacity 0 -> 0.65),) */
+.flex.items-end.gap-2.sm\\:gap-3.h-\\[200px\\] .flex.flex-col.items-center.gap-1\\.5 > span {
+  opacity: 0.7;
+  transition: opacity .2s, color .2s, transform .2s;
+}
+.flex.items-end.gap-2.sm\\:gap-3.h-\\[200px\\] .flex.flex-col.items-center.gap-1\\.5:hover > span {
+  opacity: 1;
+  color: var(--color-primary-500);
+  transform: translateY(-2px);
+}
+/* 柱子 hover 动效 (已有 transition-all, 强化) */
+.w-full.max-w-\\[32px\\].rounded-t-md.bg-gradient-to-t:hover {
+  transform: scaleY(1.04);
+  transform-origin: bottom;
+}
+/* "今日"高亮: 周六柱子 + 标签 */
+.ait-today-label {
+  position: absolute;
+  top: -22px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-primary-500);
+  background: rgba(215,25,32,.1);
+  padding: 1px 6px;
+  border-radius: 6px;
+}
+
+/* ════════ 6. 热力图 (14 天 × 3 学科): tooltip 增强 ════════ */
+
+/* 热力图 cell hover */
+.ait-heatmap-cell {
+  cursor: pointer;
+  transition: transform .15s ease-out, box-shadow .15s ease-out;
+  border-radius: 4px;
+}
+.ait-heatmap-cell:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  z-index: 10;
+  position: relative;
+}
+
+/* ════════ 7. 待复习任务卡片: 状态强调 ════════ */
+
+/* 紧急 (warning): 左边一道红色边 */
+.ait-task-urgent {
+  position: relative;
+}
+.ait-task-urgent::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 3px;
+  background: linear-gradient(180deg, #ef4444, #f87171);
+  border-radius: 2px;
+}
+/* hover 整卡右移 */
+.ait-task-card {
+  transition: transform .2s ease-out, box-shadow .2s ease-out;
+  cursor: pointer;
+}
+.ait-task-card:hover {
+  transform: translateX(2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+}
+
+/* ════════ 8. 表格行 hover ════════ */
+
+/* 最近练习表格行 */
+table tbody tr {
+  transition: background-color .15s ease-out;
+  cursor: pointer;
+}
+table tbody tr:hover {
+  background-color: rgba(215,25,32,.03);
+}
+
+/* ════════ 9. 减少动效偏好 (a11y) ════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .ait-stagger-in > *,
+  .ait-counter,
+  .p-5.rounded-2xl,
+  .grid.grid-cols-2.lg\\:grid-cols-4.gap-3.sm\\:gap-4.mb-5:first-of-type > div,
+  .ait-task-card,
+  .ait-heatmap-cell {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ════════ 10. tooltip (JS 注入) ════════ */
+
+.ait-tooltip {
+  position: fixed;
+  z-index: 100;
+  padding: 8px 12px;
+  background: rgba(15, 23, 42, .95);
+  color: #f7f8f8;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .15s ease-out, transform .15s ease-out;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  max-width: 240px;
+  white-space: pre-line;
+}
+.ait-tooltip.ait-tooltip-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ait-tooltip strong {
+  color: #ffd966;
+  font-weight: 600;
+}
+.ait-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px; height: 8px;
+  background: rgba(15, 23, 42, .95);
+}

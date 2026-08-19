@@ -1428,5 +1428,12 @@
       </script>
     </main>
     <script>lucide.createIcons();</script>
+
+    <!-- ════════ DSH agent enhancement: 2026-08-19 ════════
+         非破坏性微设计 + 用户友好型交互.
+         注入位置: lucide.createIcons() 之后, 复用现有 service layer / D062 envelope.
+         关闭方式: 移除此 link + script 两行即可回滚. -->
+    <link rel="stylesheet" href="../assets/css/dashboard-enhance.css">
+    <script type="module" src="../assets/js/dashboard-enhance.js"></script>
 </body>
 </html>
