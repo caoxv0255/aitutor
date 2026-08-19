@@ -790,7 +790,7 @@
           </section>
 
           <script type="module">
-            import { wrong } from '../assets/js/api/services/index.js';
+            import { wrong, rag } from '../assets/js/api/services/index.js';
             import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
             import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
             import { setUseMock } from '../assets/js/api/USE_MOCK.js';
@@ -889,6 +889,9 @@
                       <a href="tutor.html?qid=${encodeURIComponent(qid)}" data-dom-id="wb-card-tutor" class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
                         <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
                       </a>
+                      <button data-dom-id="wb-card-similar" data-question-id="${esc(row.id)}" data-question-text="${esc((row.data && row.data.question) || '').slice(0, 120)}" data-subject="${esc((row.data && row.data.subject) || '')}" class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-primary-500 transition-colors" title="查看类似题 (RAG)">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i>
+                      </button>
                       <button data-dom-id="wb-card-mastered" data-question-id="${esc(row.id)}" class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-success-500 transition-colors" title="标记掌握">
                         <i data-lucide="check" class="w-4 h-4"></i>
                       </button>
@@ -1155,6 +1158,16 @@
             // ===== Slice 4.x: 标记掌握 → wrong.markMastered =====
             if (delListEl) {
               delListEl.addEventListener('click', async (e) => {
+                // 2026-08-19 DSH: "类似题" 抽屉 — RAG 检索同类型题
+                // 必须放在 click handler 内, 因为要 e.target
+                const sBtn = e.target.closest('[data-dom-id="wb-card-similar"]');
+                if (sBtn && !e.target.closest('[data-dom-id="wb-card-mastered"], [data-dom-id="wb-card-delete"], [data-dom-id="wb-card-tutor]')) {
+                  const qid = sBtn.dataset.questionId;
+                  const qText = sBtn.dataset.questionText || '';
+                  const subject = sBtn.dataset.subject || '';
+                  openSimilarDrawer(qid, qText, subject);
+                  return;  // 阻止后续 mastered handler
+                }
                 const mBtn = e.target.closest('[data-dom-id="wb-card-mastered"]');
                 if (!mBtn) return;
                 const qid = mBtn.dataset.questionId;
@@ -1171,11 +1184,119 @@
                 }
               });
             }
+
+            // ─── 类似题抽屉 ───
+            let similarDrawerState = { qid: null, lastQuery: null, hits: [] };
+
+            function openSimilarDrawer(qid, questionText, subject) {
+              similarDrawerState.qid = qid;
+              // 用题目文本前 60 字作为 RAG query, 比空 query 强很多
+              const query = questionText.trim().slice(0, 60) || '同类型题';
+              similarDrawerState.lastQuery = query;
+              const drawer = document.getElementById('wb-similar-drawer');
+              const body = document.getElementById('wb-similar-body');
+              const titleEl = document.getElementById('wb-similar-title');
+              if (!drawer || !body) return;
+              titleEl.textContent = `类似题: ${query.slice(0, 30)}${query.length > 30 ? '…' : ''}`;
+              body.innerHTML = '<div class="flex items-center gap-2 text-foreground-muted text-sm py-8 justify-center"><i data-lucide="loader" class="w-4 h-4 animate-spin"></i>正在用 RAG 检索同类型题…</div>';
+              if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+              drawer.classList.remove('hidden');
+              drawer.setAttribute('aria-hidden', 'false');
+              loadSimilar(query, subject);
+            }
+
+            function closeSimilarDrawer() {
+              const drawer = document.getElementById('wb-similar-drawer');
+              if (!drawer) return;
+              drawer.classList.add('hidden');
+              drawer.setAttribute('aria-hidden', 'true');
+            }
+            // 2026-08-19 DSH: 暴露到 window 方便调试 + verify 脚本触发 (dev 用)
+            window.openSimilarDrawer = openSimilarDrawer;
+            window.closeSimilarDrawer = closeSimilarDrawer;
+
+            async function loadSimilar(query, subject) {
+              const body = document.getElementById('wb-similar-body');
+              try {
+                const res = await rag.search({ query, subject: subject || undefined, topK: 5, threshold: 0.4 });
+                const hits = res?.data?.results || [];
+                similarDrawerState.hits = hits;
+                if (hits.length === 0) {
+                  body.innerHTML = `<div class="text-center text-foreground-muted text-sm py-8">未找到类似题 (threshold=0.4, 可降低阈值或换 query)</div>`;
+                  return;
+                }
+                body.innerHTML = `
+                  <div class="text-xs text-foreground-muted mb-3">找到 ${hits.length} 道相似题 · query: "${esc(query.slice(0, 40))}"</div>
+                  <div class="space-y-3">
+                    ${hits.map((h, i) => `
+                      <a href="${esc(h.source_paper_url || 'javascript:void(0)')}" data-dom-id="wb-similar-hit" data-hit-index="${i}" class="block px-4 py-3 rounded-xl bg-surface-secondary hover:bg-surface-tertiary transition-colors border border-border-light">
+                        <div class="flex items-center gap-2 mb-1.5">
+                          <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-primary-50 text-primary-500 text-xs font-bold">#${i+1}</span>
+                          <span class="text-[11px] font-semibold text-primary-500">sim=${h.similarity?.toFixed(3) || '?'}</span>
+                          <span class="text-[11px] px-1.5 py-0.5 rounded bg-surface-tertiary text-foreground-muted">${esc(h.subject_code || subject || '?')}</span>
+                          <span class="text-[11px] px-1.5 py-0.5 rounded bg-surface-tertiary text-foreground-muted">${esc(h.question_type || '?')}</span>
+                        </div>
+                        <div class="text-[13px] text-foreground leading-relaxed line-clamp-4">${esc((h.content || '').slice(0, 300))}${(h.content || '').length > 300 ? '…' : ''}</div>
+                      </a>
+                    `).join('')}
+                  </div>`;
+                if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+              } catch (e) {
+                body.innerHTML = `<div class="text-error-500 text-sm py-4 text-center">检索失败: ${esc(e.message || '未知')}</div>`;
+              }
+            }
+
+            // drawer 关闭: 点背景 / 点 X / Esc
+            document.addEventListener('click', (e) => {
+              if (e.target.id === 'wb-similar-drawer' || e.target.closest('[data-dom-id="wb-similar-close"]')) {
+                closeSimilarDrawer();
+              }
+            });
+            document.addEventListener('keydown', (e) => {
+              if (e.key === 'Escape') closeSimilarDrawer();
+            });
           </script>
 
         </div>
       </div>
     </main>
+
+    <!-- ════════ DSH agent: RAG "类似题" 抽屉 (2026-08-19) ════════
+         错题卡点 💡 按钮 → 弹底部 drawer, 显 RAG 检索 Top-5 相似题. -->
+    <div id="wb-similar-drawer" class="fixed inset-0 z-50 hidden" aria-hidden="true">
+      <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+      <div class="absolute bottom-0 left-0 right-0 bg-surface rounded-t-3xl shadow-2xl max-h-[80vh] flex flex-col">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-border-light shrink-0">
+          <div class="flex items-center gap-2.5">
+            <div class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
+              <i data-lucide="lightbulb" class="w-5 h-5"></i>
+            </div>
+            <h3 id="wb-similar-title" class="text-base font-semibold text-foreground">类似题</h3>
+          </div>
+          <button data-dom-id="wb-similar-close" class="inline-flex items-center justify-center h-9 w-9 rounded-lg text-foreground-secondary hover:bg-surface-tertiary transition-colors" aria-label="关闭">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        <div id="wb-similar-body" class="flex-1 overflow-y-auto px-6 py-4">
+          <div class="flex items-center gap-2 text-foreground-muted text-sm py-8 justify-center">
+            <i data-lucide="loader" class="w-4 h-4 animate-spin"></i>
+            正在用 RAG 检索同类型题…
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+        /* DSH: 类似题抽屉动画 */
+        #wb-similar-drawer:not(.hidden) > div:last-child {
+            animation: wb-drawer-up .35s cubic-bezier(.16,1,.3,1);
+        }
+        @keyframes wb-drawer-up {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+    </style>
+
     <script>lucide.createIcons();</script>
 </body>
 </html>
