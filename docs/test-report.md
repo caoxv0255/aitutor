@@ -309,3 +309,68 @@ node scripts/headed-tests/verify-gallery.mjs
 - 加入像素级 diff (canvas 比较两张 PNG 的像素差异, 输出 diff %)
 - run.mjs 加 --headed 参数, 允许 headless 模式跑 (节省 WSLg 依赖)
 - 增加错误恢复: dashboard 跳转 login.html 是已知问题, run.mjs 可检测并提示
+
+---
+
+## F3 Dashboard 微设计 + 交互增强 — 2026-08-19
+
+### 背景
+用户要求"符合用户使用方式, 用户友好型界面". 决定对 F3 真生产 dashboard 做**非破坏性微设计增强** + 交互优化.
+
+### 决策
+- **不重写**: 现有 dashboard.html 已含 Linear 风设计 (subtle shadow, 圆角, 趋势徽章), 不可盲改.
+- **增量增强**: 新增 `assets/css/dashboard-enhance.css` + `assets/js/dashboard-enhance.js`, 在 dashboard.html 末尾注入 link + script.
+- **关闭方式**: 删除 2 行 link/script 即可回滚.
+- **设计参考**: popular-web-designs skill (Linear 克制风 + aitutor 主色 #d71920).
+
+### 改动
+| 文件 | 改动 |
+|------|------|
+| `ai-tutor-frontend/assets/css/dashboard-enhance.css` | 新增 ~210 行 (10 区块: 进场动画 / summary 卡 hover / KPI 卡 / 雷达图 / 柱状图 / 热力图 / 任务卡 / 表格 / a11y / tooltip) |
+| `ai-tutor-frontend/assets/js/dashboard-enhance.js` | 新增 ~170 行 (count-up / stagger / 跳转 / tooltip / 雷达图跳转 / 柱状图日期 / 热力图等级) |
+| `ai-tutor-frontend/pages/dashboard.html` | +8 行 (link + script 注入, 含注释说明回滚方法) |
+| `scripts/headed-tests/verify-dashboard-enhance.mjs` | 新增 (headed 验证脚本) |
+| `ai-tutor-frontend/dev-verify/*.png` | 5 张自指截图 (dashboard-full / summary-hover / trend-tooltip / bar-hover / heatmap-tooltip) |
+| `.gitignore` | +1 例外 (dev-verify/*.png) |
+
+### 增强点 (用户友好)
+1. **count-up 数字** — 顶部 4 个 summary + 4 个 KPI, 1.2s ease-out 从 0 → 目标值, 给"加载完成"的反馈
+2. **stagger 入场** — 卡片顺序 fade-up, 30ms 间隔, 不让页面"突然出现"
+3. **summary 卡点击跳转** — 4 个 summary 卡整卡可点 + 键盘可达, hover 时右上角出现 → 箭头
+5. **KPI 趋势徽章 tooltip** — hover +12% 显示"上月 1,114 / 变化 +134 题 / 数据来源: 学期回顾"
+6. **雷达图维度可点** — 6 个维度标签 click → mastery.html?subject=函数
+7. **柱状图柱 hover 显示日期** — "周六 (今天)" + 顶部数字变红
+8. **"今日"标签** — 自动定位今天的柱, 加红色 pill 标记
+9. **热力图 cell tooltip** — hover 显示掌握度等级 (薄弱 0-20% / 薄弱 20-40% / 一般 / 良好 / 掌握)
+10. **a11y** — `prefers-reduced-motion` 全部禁用动画, 键盘可达 (Enter/Space 激活)
+
+### aitutor 约束遵守
+- ✅ **HTML 结构零改动** — 现有 dashboard.html 只增加 8 行 link/script + 注释
+- ✅ **不动 service layer** — D062 envelope 完整保留
+- ✅ **不动 Dashboard Shell** (CLAUDE.md F3 §1)
+- ✅ **不动 light theme tokens** — 增量样式不污染全局
+- ✅ **D065 gate 5/5 通过**
+- ✅ **未触碰** .ai/decisions/, OpenWiki, F3 migration scope 外的页面
+
+### 验证 (5 张 headed 截图)
+| 截图 | 状态 |
+|------|------|
+| `dashboard-full.png` | 完整 dashboard + count-up 完成 + stagger 入场稳定 |
+| `dashboard-summary-hover.png` | summary 卡 hover 时抬升 + 红阴影 + 右下 arrow |
+| `dashboard-trend-tooltip.png` | tooltip "总练习题数 / 上月 1,114 / 变化 +134 题 ↑ / 数据来源: 学期回顾" |
+| `dashboard-bar-hover.png` | 柱状图 "周六 (今天) / 3.2h" + 顶部数字变红 |
+| `dashboard-heatmap-tooltip.png` | 热力图 "掌握度等级 / 薄弱 20-40%" |
+
+### 访问验证
+```bash
+# 浏览器打开 (需先游客登录或手动注入 token)
+http://localhost:3002/f3/pages/dashboard.html
+
+# Headed 复跑验证
+node scripts/headed-tests/verify-dashboard-enhance.mjs
+```
+
+### 关键教训 (写入未来 SKILL)
+- **JS querySelector 不接受 `\\:`** 转义, 那是 CSS 专属. 用结构化定位 (`.grid.grid-cols-2` 取数组) 或 class 字面量 (`lg:grid-cols-4` 直接写冒号)
+- **Tailwind 任意值 class `rounded-[3px]` 不匹配 `.rounded`**, 必须用 `.aspect-square` 等具体 class
+- **不重写现有设计** — 增量 CSS + JS 注入是最安全的 DSH 改造模式
