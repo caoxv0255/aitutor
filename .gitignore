@@ -48,6 +48,8 @@ coverage/
 !frontend/dev/screenshots-demo/*.png
 # F3 dashboard 增强自指截图
 !ai-tutor-frontend/dev-verify/*.png
+# F3 RAG 集成验证自指截图
+!ai-tutor-frontend/dev-verify/rag/*.png
 
 .DS_Store
 Thumbs.db

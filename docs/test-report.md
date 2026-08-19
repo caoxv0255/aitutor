@@ -374,3 +374,69 @@ node scripts/headed-tests/verify-dashboard-enhance.mjs
 - **JS querySelector 不接受 `\\:`** 转义, 那是 CSS 专属. 用结构化定位 (`.grid.grid-cols-2` 取数组) 或 class 字面量 (`lg:grid-cols-4` 直接写冒号)
 - **Tailwind 任意值 class `rounded-[3px]` 不匹配 `.rounded`**, 必须用 `.aspect-square` 等具体 class
 - **不重写现有设计** — 增量 CSS + JS 注入是最安全的 DSH 改造模式
+
+---
+
+## RAG 融入 F3 — 2026-08-20
+
+### 背景
+RAG 是 P3 主力 (D068 已灌入 50 题 bge-m3 1024 维向量), 但 F3 首页那个"RAG 框 + Service Layer 验证"是 F2 dev demo 残留, 用户看到突兀. 用户决定:
+- RAG 在产品里是**隐性** (AI 导师大脑 + 错题"类似题" + 拍照搜题后端)
+- 首页 dev demo 框改为 **?dev=1 才显示** (URL 参数控制)
+- 不开新独立入口, 重构 3 处已有位置
+
+### 改动
+
+#### 1. ai-tutor-frontend/pages/index.html — dev demo 隐藏
+- 包 `<div id="dev-rag-tools" hidden>` 包裹 RAG 框 + Service Layer 验证卡
+- URL 加 `?dev=1` 显示, 否则永远隐藏
+- 右下角固定小 toggle "🛠 显示/隐藏 dev 工具", 不带参数也能开关
+
+#### 2. ai-tutor-frontend/pages/tutor.html — AI 导师末尾 RAG 引用
+- `import { tutor, wrong, rag }` (加 rag)
+- AI 回答 metadata 事件触发后, 前端自调 `rag.search({query, subject, topK:3, threshold:0.4})`
+- 命中存 `assistantMsg.ragHits`
+- `assistantMessageTemplate` 在"加入错题本"按钮后插入 `<details>` 折叠区
+  - 标题: "📖 参考了 N 道相似题 ▼"
+  - 每条: 序号 / sim 值 / 学科 chip / 题型 chip / 题目截断
+- 后端零改动: stream metadata 事件只给 count, 前端自调拿具体题
+
+#### 3. ai-tutor-frontend/pages/wrong-book.html — 错题"💡 类似题"按钮 + 抽屉
+- 错题卡操作区加按钮: `<button data-dom-id="wb-card-similar" data-question-text="..." data-subject="...">`
+- 点击触发 `openSimilarDrawer(qid, qText, subject)`:
+  - drawer 显出 (背景模糊, 底部抽屉, cubic-bezier 上滑动画)
+  - loader "正在用 RAG 检索同类型题…"
+  - 异步 `rag.search({query: 前60字, subject, topK:5, threshold:0.4})`
+  - 命中渲染: 序号 / sim / 学科 / 题型 / 题干 (line-clamp-4)
+- 关闭: 点背景 / X / Esc 都能关
+- drawer HTML/CSS 在 `</main>` 后注入 (跟 dashboard-enhance 同模式)
+- **修复重要 bug**: 原 similar handler 我误放在 click listener 外, `e is not defined` ReferenceError → IIFE 中断 → drawer HTML 没渲染 → 整个 page error
+  修正: 移到 click listener 内部, 早 return 阻止后续 mastered handler
+- 暴露 `window.openSimilarDrawer` / `closeSimilarDrawer` 方便 dev 调试
+
+### 验证 (3 张 headed 截图)
+| 截图 | 验证 |
+|------|------|
+| `01-home-clean.png` | F3 首页清爽, 无 RAG 框 |
+| `02-tutor-citation.png` | AI 回答末尾 "📖 参考了 3 道相似题 ▼" + 3 张引用卡 (sim 0.518/0.501/0.501, math/choice) |
+| `03-similar-drawer.png` | 错题本抽屉: "类似题: 已知二次函数..." + 关闭按钮 + 背景模糊 |
+
+### aitutor 约束遵守
+- ✅ **HTML 结构最小改动** (index.html / tutor.html / wrong-book.html)
+- ✅ **不动后端** (tutor-agent.js / rag-search.js 0 行改动)
+- ✅ **不动 D062 envelope**, 不动 Dashboard Shell
+- ✅ **D065 gate 5/5 通过**
+
+### 关键发现 (决策价值)
+1. **RAG 应隐性融入**: 用户感知不到 API, 但看得到"参考了 N 道题"
+2. **前端自调 RAG** 比改后端 stream事件轻得多 (不动后端契约)
+3. **dev demo 残留**是行业常见反模式 — 必须有开关 (?dev=1) 而非"删除就找不回"
+4. **IIFE 内的 click handler**: 漏写 `e` 参数会导致 ReferenceError 让整个模块中断 — 影响 drawer 不渲染
+
+### 用户体验前后对比
+| 之前 | 之后 |
+|------|------|
+| 首页有 RAG 框 (突兀) | 首页清爽, RAG 隐藏为 dev 工具 |
+| AI 回答 (无引用) | AI 回答 + "📖 参考了 3 道相似题" 自动展开 |
+| 错题卡只能"标记掌握/删除" | + 💡 一键看 RAG 同类型题 |
+| 拍照搜题 (隐式 RAG) | 保留 (vision.html 已有 ingestQuestion) |
