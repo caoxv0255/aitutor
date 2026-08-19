@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"> <!-- dev tool, 不让搜索引擎抓 -->
+<title>Headed 测试画廊 · AI Tutor Dev</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="./headed-gallery.css">
+</head>
+<body>
+
+<header class="hg-topbar">
+  <div class="hg-brand">
+    <span class="hg-dot"></span>
+    <span class="hg-title">Headed 测试画廊</span>
+    <span class="hg-sub">AI Tutor · Dev Tools</span>
+  </div>
+  <nav class="hg-nav">
+    <a href="#gallery">截图画廊</a>
+    <a href="#diff">前后对比</a>
+    <a href="#runner">场景运行</a>
+    <a href="#log">会话日志</a>
+    <a href="https://github.com/Clizo1209/dsh-playwright-browser" target="_blank" rel="noopener">插件 ↗</a>
+  </nav>
+</header>
+
+<main class="hg-main">
+
+  <!-- ════════ 区块 1: Run 列表 + 截图画廊 ════════ -->
+  <section id="gallery" class="hg-section">
+    <div class="hg-section-head">
+      <h2>1 · 截图画廊</h2>
+      <p class="hg-hint">所有 headed 测试 run, 按时间倒序. 点击缩略图查看大图, 切换 runs 比较不同时刻的渲染.</p>
+    </div>
+
+    <div class="hg-run-picker" id="run-picker">
+      <label>选择 run:</label>
+      <select id="run-select" aria-label="选择 run">
+        <option value="">载入中…</option>
+      </select>
+      <span id="run-summary" class="hg-run-summary"></span>
+      <button class="hg-btn hg-btn-ghost" id="reload-btn" type="button">↻ 刷新</button>
+    </div>
+
+    <div class="hg-gallery" id="gallery-grid">
+      <p class="hg-empty">载入中…</p>
+    </div>
+  </section>
+
+  <!-- ════════ 区块 2: 前后对比 / diff ════════ -->
+  <section id="diff" class="hg-section">
+    <div class="hg-section-head">
+      <h2>2 · 前后对比</h2>
+      <p class="hg-hint">同一 step, 在两次 run 之间对比. 像素差异越大说明 UI/状态发生变化, 可一眼定位回归.</p>
+    </div>
+
+    <div class="hg-diff-controls">
+      <label>当前 run:</label>
+      <select id="diff-left" aria-label="左图 run"></select>
+      <span class="hg-arrow">→</span>
+      <label>对比 run:</label>
+      <select id="diff-right" aria-label="右图 run"></select>
+      <label>step:</label>
+      <select id="diff-step" aria-label="step">
+        <option value="2-home">首页</option>
+        <option value="3-guest-login">游客登录</option>
+        <option value="4-dashboard">dashboard</option>
+        <option value="5-wrong-book">错题本</option>
+        <option value="6-rag-search">RAG</option>
+      </select>
+    </div>
+
+    <div class="hg-diff-frame" id="diff-frame">
+      <p class="hg-empty">选择 run 后自动对比. 需要至少 2 个 run.</p>
+    </div>
+  </section>
+
+  <!-- ════════ 区块 3: 场景运行面板 ════════ -->
+  <section id="runner" class="hg-section">
+    <div class="hg-section-head">
+      <h2>3 · 场景运行</h2>
+      <p class="hg-hint">手动触发一次 run. 因为 Playwright 必须在 host 进程跑, 这里是说明卡 + 跳转链接到复跑命令.</p>
+    </div>
+
+    <div class="hg-runner-grid">
+      <div class="hg-runner-card">
+        <h3>本地复跑</h3>
+        <pre><code>cd ~/aitutor
+node scripts/headed-tests/run.mjs</code></pre>
+        <p>结果会写到 <code>frontend/dev/runs/&lt;timestamp&gt;/</code>, 刷新本页可见.</p>
+      </div>
+      <div class="hg-runner-card">
+        <h3>DSH 浏览器插件 (重启 GUI 后)</h3>
+        <pre><code>browser_navigate url: "http://localhost:3002"
+browser_snapshot
+browser_click selector: "button:has-text('登录')"</code></pre>
+        <p>详见 <a href="https://github.com/Clizo1209/dsh-playwright-browser#readme" target="_blank" rel="noopener">dsh-playwright-browser README</a>.</p>
+      </div>
+      <div class="hg-runner-card">
+        <h3>截图尺寸策略</h3>
+        <ul>
+          <li>1280 × 800 viewport (PC 端)</li>
+          <li>fullPage: true (捕获整页滚动)</li>
+          <li>headed: false + WSLg wayland (WSL2 真弹窗)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 区块 4: DSH 会话日志 ════════ -->
+  <section id="log" class="hg-section">
+    <div class="hg-section-head">
+      <h2>4 · DSH 会话日志</h2>
+      <p class="hg-hint">本会话由 DSH (MiniMax-M3) 驱动. 展示最近一次 headed run 的 metadata 与异常, 方便 QA 排错.</p>
+    </div>
+
+    <div class="hg-log-frame" id="log-frame">
+      <p class="hg-empty">载入中…</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="hg-footer">
+  <span>DSH agent run · 2026-08-19</span>
+  <span>·</span>
+  <a href="../index.html">← 返回 PC 端首页</a>
+</footer>
+
+<!-- Lightbox -->
+<div class="hg-lightbox" id="lightbox" hidden aria-modal="true" role="dialog">
+  <div class="hg-lightbox-bg"></div>
+  <div class="hg-lightbox-body">
+    <img id="lightbox-img" alt="">
+    <div class="hg-lightbox-meta" id="lightbox-meta"></div>
+    <button class="hg-lightbox-close" type="button" aria-label="关闭">×</button>
+  </div>
+</div>
+
+<script src="./headed-gallery.js" type="module"></script>
+</body>
+</html>
