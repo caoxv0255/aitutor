@@ -129,10 +129,10 @@ function renderDiff() {
   ]).then(([mL, mR]) => {
     state.manifests[left]  = mL;
     state.manifests[right] = mR;
-    const sL = mL.shots.find(s => s.file.startsWith(`${mL.shots.indexOf(s) + 1}-`) && s.step === step) || mL.shots.find(s => s.file.includes(step));
-    const sR = mR.shots.find(s => s.file.includes(step));
+    const sL = mL.shots.find(s => s.step === step);
+    const sR = mR.shots.find(s => s.step === step);
     if (!sL || !sR) {
-      els.diffFrame.innerHTML = `<p class="hg-empty">该 step 在其中一个 run 缺失.</p>`;
+      els.diffFrame.innerHTML = `<p class="hg-empty">该 step (${step}) 在其中一个 run 缺失.</p>`;
       return;
     }
     els.diffFrame.innerHTML = `
