@@ -59,48 +59,54 @@
     <div class="stat"><div class="num ait-stat-num empty" id="s3">—</div><div class="lbl">学习天数</div></div>
   </div>
 
-  <!-- RAG 搜索 (走真后端, 默认 ?mock=false) -->
-  <div class="ait-card" style="max-width: 900px; margin: 40px auto;">
-    <h3 class="ait-card-title">🔍 RAG 语义检索 (P3 真后端, 28,580 题)</h3>
-    <p class="ait-card-desc">搜高考真题 — pgvector cosine + Ollama nomic-embed-text (768 dim, 60-90ms)</p>
-    <p class="ait-card-desc" style="background:var(--color-warning-bg,#fff3cd);padding:8px 12px;border-radius:6px;margin-top:8px">
-      <strong>💡 提示</strong>: 28,580 题学科分布不均 (生物 4597 vs 数学 1614), <strong>不选学科易跑偏</strong>.
-      短 query (1-2 字) + 不选学科 → 排名靠 sim 排序, 不保证学科对.
-      推荐: 选学科 (默认数学) + 输入关键词 (≥3 字效果更好).
-    </p>
-    <div class="rag-bar">
-      <input id="rag-q" type="text" placeholder='试试: "导数" / "牛顿第二定律" / "软锰矿制备高锰酸钾"' value="导数">
-      <select id="rag-subj">
-        <option value="">全部学科 (不选易跑偏)</option>
-        <option value="math" selected>数学</option>
-        <option value="physics">物理</option>
-        <option value="chemistry">化学</option>
-        <option value="biology">生物</option>
-        <option value="chinese">语文</option>
-        <option value="english">英语</option>
-        <option value="history">历史</option>
-        <option value="geography">地理</option>
-        <option value="politics">政治</option>
-      </select>
-      <button class="ait-btn ait-btn-primary" id="btn-rag">搜索</button>
+  <!-- ════════ DEV-only tools (默认隐藏, ?dev=1 才显示) ════════
+       2026-08-19 DSH: F2 验证残留 (RAG 搜索框 + Service Layer 验证卡)
+       对终端用户没用, 只对 dev/QA 有调试价值.
+       注入位置: 4 个 stat 卡之后, </main> 之前. -->
+  <div id="dev-rag-tools" hidden>
+    <!-- RAG 搜索 (走真后端, 默认 ?mock=false) -->
+    <div class="ait-card" style="max-width: 900px; margin: 40px auto;">
+      <h3 class="ait-card-title">🔍 RAG 语义检索 (P3 真后端, 28,580 题)</h3>
+      <p class="ait-card-desc">搜高考真题 — pgvector cosine + Ollama nomic-embed-text (768 dim, 60-90ms)</p>
+      <p class="ait-card-desc" style="background:var(--color-warning-bg,#fff3cd);padding:8px 12px;border-radius:6px;margin-top:8px">
+        <strong>💡 提示</strong>: 28,580 题学科分布不均 (生物 4597 vs 数学 1614), <strong>不选学科易跑偏</strong>.
+        短 query (1-2 字) + 不选学科 → 排名靠 sim 排序, 不保证学科对.
+        推荐: 选学科 (默认数学) + 输入关键词 (≥3 字效果更好).
+      </p>
+      <div class="rag-bar">
+        <input id="rag-q" type="text" placeholder='试试: "导数" / "牛顿第二定律" / "软锰矿制备高锰酸钾"' value="导数">
+        <select id="rag-subj">
+          <option value="">全部学科 (不选易跑偏)</option>
+          <option value="math" selected>数学</option>
+          <option value="physics">物理</option>
+          <option value="chemistry">化学</option>
+          <option value="biology">生物</option>
+          <option value="chinese">语文</option>
+          <option value="english">英语</option>
+          <option value="history">历史</option>
+          <option value="geography">地理</option>
+          <option value="politics">政治</option>
+        </select>
+        <button class="ait-btn ait-btn-primary" id="btn-rag">搜索</button>
+      </div>
+      <div class="rag-quickpick" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;margin-bottom:8px">
+        <span style="font-size:12px;color:var(--color-muted-foreground);align-self:center;margin-right:4px">🚀 快速入口 (高考题常用 synonym, 28k 题里精准命中):</span>
+        <button class="ait-btn ait-btn-outline quickpick" data-q="极值" data-s="math" style="font-size:12px;padding:4px 10px">导数题·极值 (math)</button>
+        <button class="ait-btn ait-btn-outline quickpick" data-q="切线" data-s="math" style="font-size:12px;padding:4px 10px">导数题·切线 (math)</button>
+        <button class="ait-btn ait-btn-outline quickpick" data-q="单调" data-s="math" style="font-size:12px;padding:4px 10px">导数题·单调 (math)</button>
+        <button class="ait-btn ait-btn-outline quickpick" data-q="椭圆" data-s="math" style="font-size:12px;padding:4px 10px">解析几何·椭圆 (math)</button>
+        <button class="ait-btn ait-btn-outline quickpick" data-q="牛顿" data-s="physics" style="font-size:12px;padding:4px 10px">力学·牛顿 (physics)</button>
+        <button class="ait-btn ait-btn-outline quickpick" data-q="软锰矿" data-s="chemistry" style="font-size:12px;padding:4px 10px">化学·软锰矿 (chemistry)</button>
+      </div>
+      <div id="rag-results"></div>
     </div>
-    <div class="rag-quickpick" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;margin-bottom:8px">
-      <span style="font-size:12px;color:var(--color-muted-foreground);align-self:center;margin-right:4px">🚀 快速入口 (高考题常用 synonym, 28k 题里精准命中):</span>
-      <button class="ait-btn ait-btn-outline quickpick" data-q="极值" data-s="math" style="font-size:12px;padding:4px 10px">导数题·极值 (math)</button>
-      <button class="ait-btn ait-btn-outline quickpick" data-q="切线" data-s="math" style="font-size:12px;padding:4px 10px">导数题·切线 (math)</button>
-      <button class="ait-btn ait-btn-outline quickpick" data-q="单调" data-s="math" style="font-size:12px;padding:4px 10px">导数题·单调 (math)</button>
-      <button class="ait-btn ait-btn-outline quickpick" data-q="椭圆" data-s="math" style="font-size:12px;padding:4px 10px">解析几何·椭圆 (math)</button>
-      <button class="ait-btn ait-btn-outline quickpick" data-q="牛顿" data-s="physics" style="font-size:12px;padding:4px 10px">力学·牛顿 (physics)</button>
-      <button class="ait-btn ait-btn-outline quickpick" data-q="软锰矿" data-s="chemistry" style="font-size:12px;padding:4px 10px">化学·软锰矿 (chemistry)</button>
-    </div>
-    <div id="rag-results"></div>
-  </div>
 
-  <!-- Service Layer Demo -->
-  <div class="ait-card" style="max-width: 900px; margin: 40px auto;">
-    <h3 class="ait-card-title">🎯 Service Layer 验证</h3>
-    <p class="ait-card-desc">7 个 service 已就绪: auth, user, exam, rag, knowledge, review, vision</p>
-    <pre id="service-log" style="background:var(--color-surface-container-low);padding:16px;border-radius:8px;font-size:12px;margin-top:12px;max-height:200px;overflow:auto;white-space:pre-wrap;">点击 "加载 dashboard" 按钮测试...</pre>
+    <!-- Service Layer Demo -->
+    <div class="ait-card" style="max-width: 900px; margin: 40px auto;">
+      <h3 class="ait-card-title">🎯 Service Layer 验证</h3>
+      <p class="ait-card-desc">7 个 service 已就绪: auth, user, exam, rag, knowledge, review, vision</p>
+      <pre id="service-log" style="background:var(--color-surface-container-low);padding:16px;border-radius:8px;font-size:12px;margin-top:12px;max-height:200px;overflow:auto;white-space:pre-wrap;">点击 "加载 dashboard" 按钮测试...</pre>
+    </div>
   </div>
 </main>
 
@@ -117,6 +123,23 @@
   import { toast } from '../assets/js/toast.js';
   import { isLoggedIn, logout } from '../assets/js/auth.js';
   import '../assets/js/router.js';
+
+  // 2026-08-19 DSH: dev-only tools 默认隐藏, ?dev=1 才显示
+  const isDev = new URLSearchParams(location.search).get('dev') === '1';
+  const devTools = document.getElementById('dev-rag-tools');
+  if (devTools) {
+    if (isDev) devTools.hidden = false;
+    // 始终显示一个细 toggle, 让 dev 不带参数也能开关
+    const toggle = document.createElement('button');
+    toggle.textContent = isDev ? '🛠 隐藏 dev 工具' : '🛠 显示 dev 工具';
+    toggle.className = 'ait-btn ait-btn-outline';
+    toggle.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:50;font-size:11px;padding:6px 12px;opacity:0.5';
+    toggle.onclick = () => {
+      devTools.hidden = !devTools.hidden;
+      toggle.textContent = devTools.hidden ? '🛠 显示 dev 工具' : '🛠 隐藏 dev 工具';
+    };
+    document.body.appendChild(toggle);
+  }
 
   window.AIT = { auth, user, exam, rag, knowledge, review, vision, toast, logout, ErrorType };
 
