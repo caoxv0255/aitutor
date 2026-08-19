@@ -440,3 +440,50 @@ RAG 是 P3 主力 (D068 已灌入 50 题 bge-m3 1024 维向量), 但 F3 首页�
 | AI 回答 (无引用) | AI 回答 + "📖 参考了 3 道相似题" 自动展开 |
 | 错题卡只能"标记掌握/删除" | + 💡 一键看 RAG 同类型题 |
 | 拍照搜题 (隐式 RAG) | 保留 (vision.html 已有 ingestQuestion) |
+
+---
+
+## Register 页修复 — 2026-08-20
+
+### 现象
+访问 `/f3/pages/register.html` 页面渲染空白 (无样式、无表单), 但 HTML 返回 200。
+
+### 根因
+register.html 是**唯一还停留在 tailwind v3 Play CDN 的页**, 其他 9 个 F3 页 (dashboard/login/tutor/wrong-book/...) 已升级 v4 Browser。
+```html
+<!-- register.html (坏的) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { theme: { extend: { ... } } }</script>
+```
+而 `cdn.tailwindcss.com` **不在 CSP 白名单** (只有 `cdn.jsdelivr.net` 和 `unpkg.com`)。结果:
+```
+PAGE-ERR: tailwind is not defined
+CERR: Loading 'https://cdn.tailwindcss.com/' violates CSP "script-src ... jsdelivr.net unpkg.com"
+```
+整个页面脚本崩溃 → 渲染空白。
+
+### 修复
+**方案**: 跟其他 9 个 F3 页对齐, 升级到 v4 Browser。**只动 register.html** (单一文件), 影响范围:
+- 删除 `<style id="theme-vars">{...355 行 dead JSON...}</style>`
+- 删除 v3 `<script>tailwind.config = { ... }</script>` JS 块
+- 新增 `<style type="text/tailwindcss">@theme inline { ... }</style>` (v4 语法)
+- 替换 `<script src="https://cdn.tailwindcss.com">` → `<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js">`
+- 替换 `<script src="https://unpkg.com/lucide...">` 保留 (CSP 允许)
+- **保留原色板** (brand/surface/foreground/accent-1..9/...) — register 跟 dashboard 用不同的色系, 强行统一会破坏视觉
+
+### 验证
+- ✅ 页面正常渲染 (左侧深色 hero + 右侧 邮箱/密码/确认密码表单 + 红色注册按钮 + 立即登录链接)
+- ✅ 4 个 input + 4 个 button + form 完整
+- ✅ Tailwind v4 加载成功 (无 PAGE-ERR)
+- ✅ `npm run gate` 5/5 通过
+
+### aitutor 约束遵守
+- ✅ 只改 1 个文件 (register.html)
+- ✅ 不动 server.js / API / production code
+- ✅ 不强行统一色板 (保留 register 独立的 brand/accent 体系)
+- ✅ D065 gate 5/5
+
+### 关键教训
+- **CSP 白名单是隐形合同** — 每个新 CDN 域都要先看 middleware/security.js 的白名单
+- **Tailwind v3 Play CDN 已不推荐** (v4 推荐 @tailwindcss/browser 或 build step), 任何 F3 页应统一到 v4
+- **遗留 v3 配置** 是迁移期间常见技术债 — 需要清单工具扫 `cdn.tailwindcss.com` 字符串定期清理
