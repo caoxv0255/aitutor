@@ -910,6 +910,15 @@
       }
 
       // 4. "新建对话" 增强 — 加 toast 提示 (sidebar > first button > i.lucide-plus)
+      // 2026-08-20 DSH 修复: back-from-tutor 死按钮 — 原 HTML 写了 data-dom-id="back-from-tutor" 但 JS 无 click 绑定
+      const backBtn = document.querySelector('[data-dom-id="back-from-tutor"]');
+      if (backBtn) {
+        backBtn.addEventListener('click', () => {
+          // 用 localStorage 直接判断 (tutor.html 没 import isLoggedIn)
+          const hasToken = !!localStorage.getItem('aitutor.token');
+          window.location.href = hasToken ? './dashboard.html' : './index.html';
+        });
+      }
       const newConvBtn = document.querySelector('aside .lucide-plus')?.closest('button');
       if (newConvBtn) {
         newConvBtn.addEventListener('click', () => {
