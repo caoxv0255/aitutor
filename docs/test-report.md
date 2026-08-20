@@ -650,3 +650,54 @@ if (backBtn) {
 - **D070 modules 路由统一规范**: 所有模块的 `routes.js` 内部 router 必须 `router.use('/', ...)` 挂在根, 子路径由内部 router 定义
 - **前端数据流审计**: 改 backend routing 后必须 grep 前端 service 调用路径, 确保对齐
 - **死按钮检测**: 凡是 HTML 写了 `data-dom-id` 但 JS 0 引用, 该按钮就是死的, 需要 audit 脚本扫
+
+---
+
+## data-dom-id audit 工具 — 2026-08-20
+
+### 背景
+在 tutor.html 修复时,发现 `back-from-tutor` 死按钮(HTML 写,JS 0 引用)。**用户问能不能写通用 audit 脚本扫更多死按钮**。做成可复用工具。
+
+### 工具: `scripts/audit/audit-dom-ids.mjs`
+
+**功能**:
+- 扫 F3 + legacy frontend (10 HTML + 19 JS)
+- 检测 (1) 死按钮 (HTML data-dom-id 0 JS ref) (2) 死引用 (JS querySelector 0 HTML 对应)
+- 区分 link vs button (dead by data-dom-id 但 link 能点 = OK)
+- 自动排除"JS 模板字符串动态生成"的 dom-id (navator.js 等)
+- 关联同元素 id="X" + data-dom-id="Y" (getElementById 算绑定)
+- --strict 模式: 有 issue exit 1 (CI 友好)
+- --json 输出: 机器读报告
+
+**用法**:
+```bash
+node scripts/audit/audit-dom-ids.mjs --f3-only              # 只扫 F3
+node scripts/audit/audit-dom-ids.mjs --f3-only --strict    # CI 用, 有 issue 退出 1
+node scripts/audit/audit-dom-ids.mjs --json out.json         # JSON 报告
+```
+
+### 实现踩过的坑(写下来给未来)
+
+1. **`extractRefsFromText` 一开始扫整个 HTML text**,把 HTML 元素里的 `data-dom-id="X"` 当作 JS 引用(误)。修法:用 `<script>...</script>` regex 限定在 script 块内。
+2. **第二轮扫 JS template 字符串时**,如果 regex 用 `['"]data-dom-id="X"['"]` 限制外层引号,会错过 `<button data-dom-id="X">` 这种直接 HTML 字符串。改用无限制 regex。
+3. **dead button 判定 `refs.length === 0`**: 漏判 — 第二轮把"JS 字符串里出现 data-dom-id"也算 ref,导致所有都有 ref。修法:`realRefs = refs.filter(r => r.kind !== 'template')`。
+4. **死引用判定漏判**:`navator.js` 内部 `<button data-dom-id="nav-mock">` 是模板字符串生成,**但同时 line 45 又有 `querySelector('[data-dom-id="nav-mock"]')` 绑定**。死引用 = 有非 template ref 但无 HTML 且无 template。
+5. **`htmlFile` undefined bug**:`for (const { id, line, col, file, tagId } of ids)` — 但 `extractDomIds` 返回的对象**没 `file` 字段**(`file` 是闭包变量)。修法:用 `f` 闭包变量,不要解构 `file`。
+6. **`relative(ROOT, loc.htmlFile || '?')`** — 如果 loc.htmlFile 是非 string 也会错。最终 `relative(ROOT, loc.htmlFile)` 加保证 htmlFile 必填。
+
+### audit 当前结果 (F3 真实状态)
+```
+Files: 10 HTML + 19 JS
+Unique data-dom-id: 32
+Dead buttons (HTML has, JS no ref): 19
+Dead refs (JS refs, HTML missing): 0
+```
+
+19 dead button 全部是 🔗(link) (即 `<a href="...">`,链接能直接点) — **不是真死按钮**。
+唯一一个 🔘(btn) 真死按钮: `tutor-send` (tutor.html:362) — `<button id="send-btn" data-dom-id="tutor-send">`,JS 用 `getElementById('send-btn')` 绑定,但 data-dom-id="tutor-send" 本身无 query 引用。**功能正常**(用户能点发送),但 audit 视角算"死"。
+
+### 进一步改进 (写进 CLAUDE.md 候选)
+
+- **link 型 dead 是预期**: `<a href>` 的 data-dom-id 是给 DSH 自动化测试定位元素用,不需要 JS 事件绑定。**审计输出分类已标 🔗/🔘,可读**。
+- **D070 之后用 `data-dom-id` 命名空间**: sidebar-* / *-to-* 等是导航锚,纯 link。如果审计标准是"无 JS 引用 = dead",会把这些 link 都报 dead,**需要分类逻辑**(已完成)。
+- **未来集成**: 加 `npm run audit:dom-ids` 进 package.json scripts, CI 跑 `--strict`,有 issue fail。
