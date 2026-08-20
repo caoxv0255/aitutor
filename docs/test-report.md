@@ -487,3 +487,39 @@ CERR: Loading 'https://cdn.tailwindcss.com/' violates CSP "script-src ... jsdeli
 - **CSP 白名单是隐形合同** — 每个新 CDN 域都要先看 middleware/security.js 的白名单
 - **Tailwind v3 Play CDN 已不推荐** (v4 推荐 @tailwindcss/browser 或 build step), 任何 F3 页应统一到 v4
 - **遗留 v3 配置** 是迁移期间常见技术债 — 需要清单工具扫 `cdn.tailwindcss.com` 字符串定期清理
+
+---
+
+## F3 dead-code 清理 + 全页 v3 CDN 审计 — 2026-08-20
+
+### 背景
+修 register.html 时发现所有 F3 页都有 `<style id="theme-vars">{...JSON...}</style>` 死块 (~415 行/页, ~63 KB 总). 该 JSON 是 v3 时代喂给 `tailwind.config = { theme: { extend: ... } }` 的, v4 用 `@theme inline { --color-* }` 完全不需要.
+
+### audit 脚本
+`scripts/headed-tests/verify-strip-theme-vars.mjs`: 8 个 F3 页渲染验证 + 错误过滤 (401/auth 已知)
+
+### audit 结果
+| 维度 | 状态 |
+|------|------|
+| (1) v3 tailwind CDN | ✅ register.html 已修 (上轮), 无 v3 CDN 残留 |
+| (2) dead `<style id="theme-vars">` JSON | 🚨 7 个 F3 页各 415 行死块, 共 63 KB |
+| (3) 脚本 CDN 总览 | ✅ 全部白名单内 (jsdelivr/unpkg) |
+| (4) 样式 CDN 总览 | ✅ 全部白名单内 |
+
+### 修复
+**`strip-theme-vars.py`** (一次性脚本, 跑完即弃):
+- 7 个 F3 页 (dashboard/login/mastery/review/tutor/vision/wrong-book) 各减 9 KB
+- 跳过 register.html (上轮已修) + exam-simulation.html (本身没这块) + index.html (没 theme-vars)
+- 不动 `frontend/redesign/` (D070 冻结 legacy)
+
+### 验证
+- ✅ 8 个 F3 页全部 200, headed 渲染无脚本错误 (除 401 已知)
+- ✅ `npm run gate` 5/5 通过
+
+### 关键发现
+- **dead JSON 检测靠 grep, 不靠 lint** — 7 个 F3 页长期带 415 行死 JSON, 浏览器宽容解析 (CSS parser 忽略非 CSS 块), 没人发现
+- **v3 → v4 迁移教训**: 全项目扫 `cdn.tailwindcss.com` 字符串是必要步骤, audit 脚本应该入仓定期跑
+
+### 下一步建议
+- 把 audit 脚本固化为 `npm run audit:f3` (定期跑)
+- 顺手扫其他 `frontend/` 子目录 (legacy, D070 冻结) 是否也有 v3 残留, 仅记录不修
