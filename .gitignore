@@ -51,6 +51,7 @@ coverage/
 # F3 RAG 集成验证自指截图
 !ai-tutor-frontend/dev-verify/rag/*.png
 !ai-tutor-frontend/dev-verify/register/*.png
+!ai-tutor-frontend/dev-verify/back-home/*.png
 
 .DS_Store
 Thumbs.db

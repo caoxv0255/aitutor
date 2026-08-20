@@ -523,3 +523,63 @@ CERR: Loading 'https://cdn.tailwindcss.com/' violates CSP "script-src ... jsdeli
 ### 下一步建议
 - 把 audit 脚本固化为 `npm run audit:f3` (定期跑)
 - 顺手扫其他 `frontend/` 子目录 (legacy, D070 冻结) 是否也有 v3 残留, 仅记录不修
+
+---
+
+## F3 入口页"返回首页"修复 + 全 F3 导航 audit — 2026-08-20
+
+### 现象
+用户报告: register.html 点 "返回首页" (`<a href="./index.html" data-dom-id="back-home">`) 跳到 login.html, 回不去首页.
+
+### 根因
+1. `<a href="./index.html">` 浏览器解析正确为 `http://localhost:3002/f3/pages/index.html` ✅
+2. **index.html 页面加载时** 调 `rag.getStats()` (RAG 端点健康检查) → 401 (未登录) → `client.js:268` `setTimeout(() => location.href = '/f3/pages/login.html', 1000)` → **1 秒后跳 login.html**
+3. 用户感知: "返回首页" 跳到 login ❌
+
+**真问题不是相对路径错, 而是 index.html 入口页不该因为 401 自动跳 login**:
+- `client.js:265-270` 设计是 AUTH 401 强制跳 login (对 dashboard / tutor 是合理的)
+- 但 index / register / login 这些**入口页**不该跳
+
+### 修复
+**`ai-tutor-frontend/pages/index.html`**:
+- 改 `rag.getStats()` 为**原生 fetch** (绕开 client.js 的强制 AUTH 跳)
+- 静默处理失败: 仅 log "RAG stats 失败, 不影响页面"
+- 未登录时显示空 RAG 状态, 不再触发 401 跳
+
+```js
+// 之前 (坏)
+rag.getStats().then(r => log(`✓ ${r.data.total} 题...`)).catch(e => log(...));
+
+// 之后 (好)
+fetch('/api/rag/search/stats', { headers: { 'Content-Type': 'application/json' } })
+  .then(r => r.ok ? r.json() : null)
+  .then(j => { if (j?.data) log(`✓ ${j.data.total} 题...`); else log('· RAG stats 未登录, 跳过'); })
+  .catch(() => log('· RAG stats 失败, 不影响页面'));
+```
+
+### 全 F3 导航按钮 audit
+`scripts/headed-tests/verify-all-nav-buttons.mjs`:
+- 8 个 F3 页 (register/login/index/dashboard/tutor/wrong-book/mastery/review/vision)
+- 5 个交互按钮 (back-home / 立即登录 / 立即注册 / 面包屑首页)
+- anon 模式 (无 token) 测入口页不跳; auth 模式 (有 token) 测内部页不跳
+- 结果: **5 按钮 / 0 错误** ✅
+
+### 验证
+- ✅ register.html 点 "返回首页" → 真到 index.html (不再跳 login)
+- ✅ login.html 点 "返回首页" → 真到 index.html
+- ✅ register.html 点 "立即登录" → 真到 login.html
+- ✅ login.html 点 "立即注册" → 真到 register.html
+- ✅ dashboard 面包屑-首页 → 真到 index.html
+- ✅ 全部 6 个 auth 内部页不跳 login
+- ✅ `npm run gate` 5/5 通过
+
+### aitutor 约束遵守
+- ✅ 只改 1 个文件 (index.html) + 1 个 audit 脚本
+- ✅ 不动 client.js (强制 AUTH 跳对内部页是必要, 入口页应该 caller 绕开)
+- ✅ 不动 server.js / API
+- ✅ D065 gate 5/5
+
+### 关键教训 (写进 CLAUDE.md 候选)
+- **入口页 vs 内部页**: 401 跳 login 是合理的全局守卫, 但**入口页 (index/login/register) 应该 caller 层绕开**, 用原生 fetch 静默处理, 不让守卫误触发
+- **CSP 相对路径 vs 服务端**: `href="./index.html"` 相对解析正确, 真正的 bug 在后端 API 行为
+- **需要 audit 脚本兜底**: F3 入口页 + 内部页分开测, 用 anon / auth 两种模式, 才能发现这种"入口页被守卫误触发"的问题
