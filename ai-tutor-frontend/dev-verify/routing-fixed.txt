@@ -1,0 +1,167 @@
+# D070 Dead Backend Endpoints — 2026-08-20 audit
+
+**生成时间**: 2026-08-20T11:48:00Z
+**审计执行**: DSH agent v1 (run via `node scripts/audit/audit-routing.mjs`)
+**Dead backend**: 83 个 (后端有, 前端 0 调用)
+**Missing backend**: 7 个 (前端调, 后端 404)
+
+## 决策: 不删 dead backend
+
+由于以下原因, **83 个 dead backend 暂不删除**:
+- D070 之前可能正常使用, audit 不知业务上下文 (哪些给其他前端 / 哪些给 DSH 集成 / 哪些给未来模块)
+- 删错可能引发业务回滚 (无 git blame 业务 owner)
+- 提交会引发大 diff 触发 BCT 报警
+
+**建议**: 保留代码, 在 `docs/d070-dead-routes.md` 维护名单, 每次 sprint review 决定删/留.
+
+## 已知真 bug (mock-only 设计除外)
+
+frontend `rag.js` / `exam.js` / `user.js` / `tutor.js` 路径错乱已修 (本次 commit):
+- `POST /api/rag/search/search` → `POST /api/rag/search` (去多余 /search)
+- `POST /api/rag/search/ingest` → `POST /api/rag/ingest`
+- `POST /api/rag/search/multi/*` → `POST /api/rag/multi/*`
+- `GET /api/rag/search/stats` → `GET /api/rag/stats`
+- `POST /api/rag/multi/questions` → `POST /api/rag/multi/questions/:questionId` (加 :questionId)
+- `GET /api/exam-pdf/` → `POST /api/exam/pdf/generate/:paperId` (改 method + 路径)
+- `GET/POST /api/user/user-province` → `GET/POST /api/auth/prefs/province`
+- `rag.explain` / `rag.ask` 加 mock-only 守卫 (后端无对应端点)
+- `tutor.getHistory()` 加本地存储注释 (mock 模式)
+- 后端 `exam/routes.js`: 加 `:paperId` 占位符
+
+## 真 missing backend (剩下 7 个)
+
+| 路径 | 实际 | 类别 |
+|---|---|---|
+| `POST /api/exam/pdf/generate/` | **audit 误报** — 前端 audit-re2 匹中 path 丢失 `:paperId`, 实际 `POST /api/exam/pdf/generate/:paperId` 工作 200 |
+| `POST /api/rag/explain` | 设计 mock-only (已守卫) |
+| `POST /api/rag/ask` | 设计 mock-only (已守卫) |
+| `GET /api/tutor/sessions` | 设计 mock-only (已注释) |
+| `POST /api/tutor/sessions` | 同上 (audit re3 误报 method) |
+| `DELETE /api/user/wrong-questions/` | **audit 局限** — `request('DELETE', '/api/user/wrong-questions/' + id)` 静态分析无法拼 id |
+| `PUT /api/user/wrong-questions/` | 同上 |
+
+## Dead backend 列表 (按模块)
+
+[本文件由 scripts/audit/routing-audit 自动生成, 详见 audit-routing.mjs]
+
+### analytics (9)
+- GET /api/analytics/province/trends
+- GET /api/analytics/province/compare
+- GET /api/analytics/dashboard
+- GET /api/analytics/class/analysis
+- GET /api/analytics/class/teacher-dashboard
+- GET /api/analytics/class/detail
+- POST /api/analytics/path
+- POST /api/analytics/adaptive
+- POST /api/analytics/reports
+
+### auth (3)
+- DELETE /api/auth/prefs/province
+- POST /api/auth/reset-password
+- POST /api/auth/guest
+
+### exam (12)
+- GET /api/exam/papers
+- GET /api/exam/papers/:id
+- POST /api/exam/papers
+- GET /api/exam/questions/:paperId
+- POST /api/exam/questions
+- POST /api/exam/questions/batch
+- GET /api/exam/session/history
+- POST /api/exam/pdf/generate
+- POST /api/exam/pdf/generate/:paperId
+- POST /api/exam/generate
+- POST /api/exam/list
+- POST /api/exam/explain
+
+### gamification (4)
+- POST /api/gamification/checkin
+- GET /api/gamification/checkin/status
+- GET /api/gamification/points/history
+- GET /api/gamification/badges
+
+### knowledge (4)
+- GET /api/knowledge/mastery
+- GET /api/knowledge/mastery/:kpId
+- GET /api/knowledge/map
+- GET /api/knowledge/points
+
+### rag (13)
+- DELETE /api/rag/questions/:id
+- POST /api/rag/multi/upsert
+- GET /api/rag/multi/questions/:question_id
+- DELETE /api/rag/multi/questions/:question_id
+- GET /api/rag/multi/stats
+- POST /api/rag/graphrag/query
+- POST /api/rag/graphrag/explain
+- POST /api/rag/graphrag/similar-questions
+- GET /api/rag/graphrag/knowledge-map
+- GET /api/rag/graphrag/paper-source
+- GET /api/rag/graphrag/admin/jobs
+- GET /api/rag/graphrag/admin/stats
+- POST /api/rag/graphrag/admin/reindex
+
+### review (5)
+- GET /api/review/reports
+- GET /api/review/reports/:id
+- GET /api/review/session/history
+- GET /api/review/weak-points
+- GET /api/review/trend-summary
+
+### srs (3)
+- GET /api/srs/engine/daily-tasks
+- POST /api/srs/engine/complete
+- GET /api/srs/engine/stats
+
+### trends (4)
+- GET /api/trends/province/:code
+- GET /api/trends/province/compare
+- GET /api/trends/subject/:subject
+- GET /api/trends/expert-summary
+
+### tutor (12)
+- GET /api/tutor/mastery/:kpId
+- POST /api/tutor/loop/feedback
+- POST /api/tutor/loop/batch
+- GET /api/tutor/loop/mastery
+- GET /api/tutor/loop/graph
+- GET /api/tutor/graph/stats
+- POST /api/tutor/graph/sync
+- POST /api/tutor/graph/sync-back
+- GET /api/tutor/graph/search
+- GET /api/tutor/graph/file
+- GET /api/tutor/graph/list
+- POST /api/tutor/graph/reindex
+
+### user (12)
+- POST /api/user/profile
+- POST /api/user/subjects
+- DELETE /api/user/subjects
+- POST /api/user/initialize
+- GET /api/user/list/subjects
+- GET /api/user/list/provinces
+- PUT /api/user/wrong-questions/:id
+- DELETE /api/user/wrong-questions/:id
+- GET /api/user/wrong-questions/stats
+- GET /api/user/wrong-questions/export
+- POST /api/user/knowledge-mastery
+
+### vision (2)
+- POST /api/vision/search
+- GET /api/vision/knowledge-points
+
+**总计**: 83 个 dead backend 端点 (D070 迁移后未被前端调用)
+
+## 维护
+
+```bash
+# 重新跑 audit
+node scripts/audit/audit-routing.mjs --json scripts/audit/.routing-audit.json
+
+# 重生成此文件
+node -e "
+const fs = require('fs');
+const j = JSON.parse(fs.readFileSync('scripts/audit/.routing-audit.json', 'utf8'));
+// ... generate markdown
+"
+```

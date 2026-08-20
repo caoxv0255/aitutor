@@ -763,3 +763,78 @@ Missing backend:   21  (前端调, 后端 404 — 真 bug)
 - `--strict` 模式: 把 `missingBackend > 0` 也 exit 1 (CI 阻止 404 bug 合并)
 - 集成: 加 `npm run audit:routing` 进 package.json
 - 精确化: 解析 `req.method === 'POST'` 等 handler 内部 method 推断, 减少 dead backend 误报
+
+---
+
+## D070 真 bug 修复 + dead backend 审计 (2026-08-20)
+
+### 背景
+用户说"除了 CI 全都做"。除 CI 外,本轮做: 修 21 missing backend 真 bug, 清理 88 dead backend(D070 迁移收尾), 改 audit script.
+
+### 修 7 个真 404 bug
+
+#### 后端 (1 个)
+- `api/modules/exam/routes.js` — `router.post('/pdf/generate', ...)` → `router.post('/pdf/generate/:paperId', ...)`. generateExamPdf 用 `req.params.paperId`, 路由之前漏了占位符, 一直 404.
+
+#### 前端 (6 个, 含 mock-only 守卫)
+- `ai-tutor-frontend/assets/js/api/services/rag.js`:
+  - 5 个路径去 `/search/` 多余前缀: `search/search → search`, `search/multi/* → multi/*`, `search/stats → stats`, `search/ingest → ingest`
+  - `similarQuestions` 加 `:questionId` 路径段 (之前 URL 拼出错的 `multi/questions`)
+  - `similarQuestions` 解构兼容 `question_id` 或 `questionId` (contract test 用 `question_id`)
+  - `rag.explain` / `rag.ask` 加 mock-only 守卫 (后端无端点, 不允许生产调用)
+- `ai-tutor-frontend/assets/js/api/services/exam.js`:
+  - `GET /api/exam-pdf/` → `POST /api/exam/pdf/generate/${paperId}` + `method: 'POST'`
+  - 之前是 fetch 裸拿, 现在走 method: POST 与后端一致
+- `ai-tutor-frontend/assets/js/api/services/user.js`:
+  - `GET/POST /api/user/user-province` → `GET/POST /api/auth/prefs/province`
+- `ai-tutor-frontend/assets/js/api/services/tutor.js`:
+  - `getHistory()` 加注释说明 `/api/tutor/sessions` 是 mockName 占位 (D56 决策 tutor session 走 localStorage)
+
+### 修 audit-routing.mjs (5 处)
+1. `walk` 误跳过 `assets` 目录 — 改成只 skip `node_modules` + `.git`
+2. `router.use('/xxx', handler)` vs `subRouter` 区分 — handler 用 4 种 default regex
+3. `re3 method 推断` 改 3 步优先级: `request('METHOD'` > `fetch + method: 'XXX'` 跨多行 > GET 默认
+4. `re3 fetchOpen` 之前误算 `before.lastIndexOf('fetch(')`, 因 re2 match 起点 = `fetch(` 位置, 改成 `m.index`
+5. `re2 fetchOpen` 类似 bug, 同步改成 `m.index`
+
+### 修后 audit 结果
+```
+Backend endpoints: 105
+Frontend calls:   30
+Aligned:           22  ✅ (从 16 → 22)
+Dead backend:      83  (后端有, 前端没调)
+Missing backend:   7  (从 21 → 7)
+  - 1 audit 误报 (exam/pdf/generate/ — re2 静态分析丢 :paperId, 实际 200)
+  - 4 mock-only 设计 (rag.explain, rag.ask, tutor/sessions x2)
+  - 2 audit 局限 (user/wrong-questions/ 静态丢 id 拼接, 实际 200/500)
+```
+
+### 修后 contract test
+- rag.similarQuestions 参数解构兼容 `question_id` 或 `questionId` (contract test 用 `question_id`)
+- contract: **38 / 38 全过** ✅
+- vitest 238 / 238, BCT 19/19, health dbReady=true ✅
+
+### Dead backend 88 个: 不删, 仅生成 review 文档
+
+`docs/d070-dead-routes.md` (118 行) 列出全部 83 dead backend (按模块) + 7 真 missing backend 分类. **建议**: 保留代码, 每次 sprint review 决定删/留 (避免 D070 之前可能用, 删错业务回滚).
+
+### 新增 / 改动文件清单
+```
+api/modules/exam/routes.js                  (1 行 route 改动)
+ai-tutor-frontend/assets/js/api/services/rag.js     (5 路径 + 1 守卫 + 1 兼容)
+ai-tutor-frontend/assets/js/api/services/exam.js   (1 路径 + 1 method)
+ai-tutor-frontend/assets/js/api/services/user.js   (2 路径)
+ai-tutor-frontend/assets/js/api/services/tutor.js  (1 注释)
+scripts/audit/audit-routing.mjs              (5 处改进, 260 → 292 行)
+docs/d070-dead-routes.md                    (新, 118 行)
+ai-tutor-frontend/dev-verify/routing-fixed.txt (新, audit summary)
+.gitignore                                  (1 例外)
+docs/test-report.md                          (本章节)
+```
+
+### aitutor 约束遵守
+- ✅ HTML 0 改动 (只动 .js / .css 已有)
+- ✅ D062 envelope 完整保留
+- ✅ D065 gate 5/5
+- ✅ contract test 38/38
+- ✅ 真 bug 已修, mock-only 设计已守卫

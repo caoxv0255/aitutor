@@ -154,13 +154,25 @@ function extractFrontendCalls() {
           calls.get(key).push({ file: relative(ROOT, full), line: text.slice(0, m.index).split('\n').length });
         }
         // 模式 2: fetch(getApiBase() + '/api/...', { method: 'POST' })
+        // 重要: fetch 调用跨多行, method 在 config 对象里, 可能距 path 字符串 200+ 字符
         const re2 = /fetch\(\s*[^,]+\s*\+\s*['"]([^'"]+)['"]/g;
         while ((m = re2.exec(text)) !== null) {
           if (!m[1].startsWith('/api/')) continue;
-          // 推断 method
-          const around = text.slice(Math.max(0, m.index - 200), m.index);
-          const methodMatch = around.match(/method:\s*['"](\w+)['"]/);
-          const method = methodMatch ? methodMatch[1].toUpperCase() : 'GET';
+          // 推断 method: 找 path 前的 fetch( + path 后 2000 字符的 method:
+          // 关键: re2 match 起点 = 'fetch(' 位置, 所以 fetchOpen = m.index
+          const fetchOpen = m.index;
+          let method = 'GET';
+          const textBefore = text.slice(0, m.index);
+          const beforeReqMatches = [...textBefore.matchAll(/request\(\s*['"](\w+)['"]/g)];
+          if (beforeReqMatches.length > 0) {
+            method = beforeReqMatches[beforeReqMatches.length - 1][1].toUpperCase();
+          }
+          // 看 path 后的 fetch 调用块 (跨多行) 找 method: 'XXX'
+          if (fetchOpen >= 0) {
+            const afterFetch = text.slice(fetchOpen, Math.min(text.length, fetchOpen + 2000));
+            const mFetch = afterFetch.match(/method:\s*['"](\w+)['"]/);
+            if (mFetch) method = mFetch[1].toUpperCase();
+          }
           const path = m[1].replace(/\$\{[^}]+\}/g, ':param').split('?')[0];
           const key = `${method} ${path}`;
           if (!calls.has(key)) calls.set(key, []);
@@ -171,16 +183,29 @@ function extractFrontendCalls() {
         const re3 = /['"`](\/api\/[a-z0-9\/_-]+)['"`]/g;
         while ((m = re3.exec(text)) !== null) {
           const path = m[1].replace(/\$\{[^}]+\}/g, ':param').split('?')[0];
-          // method 推断: 看后续 200 字符是否有 await request('METHOD', ...
-          const after = text.slice(m.index, Math.min(text.length, m.index + 300));
+          // method 推断: 三步优先级
+          // 1. 找 path 前后 200 字符内最近一个 request('METHOD', (用最后的 match)
+          // 2. fetch 调用内 method config — fetch 调用跨多行, 需要扩展到整个 fetch
+          // 3. 默认 GET
+          const textBefore = text.slice(0, m.index);
+          const textAfter = text.slice(m.index, Math.min(text.length, m.index + 300));
           let method = 'GET';
-          const reqMatch = after.match(/request\(\s*['"](\w+)['"]/);
-          if (reqMatch) method = reqMatch[1].toUpperCase();
-          // 看前 200 字符 method: 'METHOD'
-          const before = text.slice(Math.max(0, m.index - 200), m.index);
-          if (method === 'GET' && /method:\s*['"]POST['"]/.test(before)) method = 'POST';
-          else if (method === 'GET' && /method:\s*['"]PUT['"]/.test(before)) method = 'PUT';
-          else if (method === 'GET' && /method:\s*['"]DELETE['"]/.test(before)) method = 'DELETE';
+          // 1. request('METHOD' in textBefore (整 textBefore, 不是 200 字符)
+          const beforeReqMatches = [...textBefore.matchAll(/request\(\s*['"](\w+)['"]/g)];
+          if (beforeReqMatches.length > 0) {
+            method = beforeReqMatches[beforeReqMatches.length - 1][1].toUpperCase();
+          } else {
+            const afterReq = textAfter.match(/request\(\s*['"](\w+)['"]/);
+            if (afterReq) method = afterReq[1].toUpperCase();
+          }
+          // 2. fetch 调用 — 找 path 字符串**之前最近一个** fetch(
+          const fetchOpen = textBefore.lastIndexOf('fetch(');
+          if (fetchOpen >= 0) {
+            const afterFetch = text.slice(fetchOpen, Math.min(text.length, fetchOpen + 2000));
+            const mFetch = afterFetch.match(/method:\s*['"](\w+)['"]/);
+            if (mFetch) method = mFetch[1].toUpperCase();
+          }
+          // 3. 默认 GET
           const key = `${method} ${path}`;
           if (!calls.has(key)) calls.set(key, []);
           calls.get(key).push({ file: relative(ROOT, full), line: text.slice(0, m.index).split('\n').length });

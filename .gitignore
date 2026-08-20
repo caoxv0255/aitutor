@@ -53,6 +53,7 @@ coverage/
 !ai-tutor-frontend/dev-verify/register/*.png
 !ai-tutor-frontend/dev-verify/back-home/*.png
 !ai-tutor-frontend/dev-verify/tutor/*.png
+!ai-tutor-frontend/dev-verify/routing-fixed.txt
 
 .DS_Store
 Thumbs.db
