@@ -701,3 +701,65 @@ Dead refs (JS refs, HTML missing): 0
 - **link 型 dead 是预期**: `<a href>` 的 data-dom-id 是给 DSH 自动化测试定位元素用,不需要 JS 事件绑定。**审计输出分类已标 🔗/🔘,可读**。
 - **D070 之后用 `data-dom-id` 命名空间**: sidebar-* / *-to-* 等是导航锚,纯 link。如果审计标准是"无 JS 引用 = dead",会把这些 link 都报 dead,**需要分类逻辑**(已完成)。
 - **未来集成**: 加 `npm run audit:dom-ids` 进 package.json scripts, CI 跑 `--strict`,有 issue fail。
+
+---
+
+## D070 Routing 一致性 audit — 2026-08-20
+
+### 背景
+继 tutor.html 修复后,用户问能否**系统扫 D070 routing 一致性**(避免再出现 tutor 路由错位类 bug)。这是**系统级 audit**,价值高于 dom-id。
+
+### 工具: `scripts/audit/audit-routing.mjs`
+
+**功能** (纯静态分析, 不跑 server):
+- 扫 `api/modules/*/routes.js` + 子 router 递归展开 (`/api/<module>/<mount>/<subpath>`)
+- 区分 **handler 模式** (`router.use('/xxx', handlerFunc)`) vs **sub-router 模式** (`router.use('/xxx', subRouter)`)
+- 扫 `ai-tutor-frontend/**/*.js` 三种调用模式:
+  1. `request('METHOD', '/api/...', ...)` (F3 service 标准)
+  2. `fetch(prefix + '/api/...', {method:'POST'})` (通用 fetch)
+  3. `const url = '/api/...'; await request(method, url)` (re3 模式)
+- 端点 vs 调用对账, 输出 **aligned / dead backend / missing backend**
+
+**用法**:
+```bash
+node scripts/audit/audit-routing.mjs                    # 全 F3 + api/modules
+node scripts/audit/audit-routing.mjs --strict           # CI: 有 missing backend 退出 1
+node scripts/audit/audit-routing.mjs --json out.json     # JSON 报告
+```
+
+### 踩过的坑 (写进 CLAUDE.md 候选)
+
+1. **`walk` 误跳过 `assets` 目录** — `assets` 是 aitutor 的 `assets/js/` 不是系统目录,不该 skip. 修法: 只 skip `node_modules`, `.git`.
+2. **router.use('/xxx', handler) vs router.use('/xxx', subRouter) 区分** — handler 是 `export default async function handler(req, res)`, 子 router 是 `export default router`. 我用 regex 检测 4 种 default 模式. **handler 模式**只标 mountPath 为端点,method 默认 POST.
+3. **re3 method 推断 bug** — 默认 GET 错. `'/api/xxx'` 后跟 `await request('POST', ...)` 应该推断为 POST. 修法: 看后续 200 字符找 `request('METHOD',`.
+4. **后端 endpoint method 推断** — 一些 endpoint 实际 method 由 handler 内部 `req.method` 决定, audit 静态推断不准. 接受 false positive (dead backend 含 handler 模式).
+
+### 当前 F3 audit 结果
+```
+Backend endpoints: 104
+Frontend calls:   37
+Aligned:           16  ✅
+Dead backend:      88  (后端有, 前端没调, 含 handler 模式)
+Missing backend:   21  (前端调, 后端 404 — 真 bug)
+```
+
+### 21 个真 404 bug 列表 (按文件分组)
+- `auth.js`: `GET /api/auth/{login,register,logout}` → 后端 `POST` (method 错)
+- `exam.js`: `GET /api/exam-pdf/` → 应是 `POST /api/exam/pdf/generate`
+- `exam.js`: `GET /api/exam/session/{start,submit}` → 应 POST
+- `rag.js`: `POST /api/rag/{ask,explain}` → 后端没此端点 (ragSearchRouter 只有 search/ingest/stats/multi/*)
+- `tutor.js`: 多个 404 (需查 rag.js vs tutor.js 实际调用)
+
+### 关键发现: dead backend 88 个 = D070 迁移残留
+- 大量端点(如 `/api/admin/*`, `/api/srs/engine/*`, `/api/gamification/*`)前端 0 调用
+- **D070 重构未清理** 死路由, audit 暴露了完整名单
+
+### aitutor 约束遵守
+- ✅ 只加 1 个 audit 脚本, 0 副作用 (纯静态分析)
+- ✅ --strict 模式 + JSON 输出
+- ✅ 不修任何 bug, 只报告
+
+### 进一步改进
+- `--strict` 模式: 把 `missingBackend > 0` 也 exit 1 (CI 阻止 404 bug 合并)
+- 集成: 加 `npm run audit:routing` 进 package.json
+- 精确化: 解析 `req.method === 'POST'` 等 handler 内部 method 推断, 减少 dead backend 误报
