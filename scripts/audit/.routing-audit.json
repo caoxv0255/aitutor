@@ -1,0 +1,773 @@
+{
+  "summary": {
+    "scannedAt": "2026-08-20T16:20:14.841Z",
+    "backendEndpoints": 54,
+    "frontendCalls": 29,
+    "aligned": 22,
+    "deadBackend": 32,
+    "missingBackend": 7
+  },
+  "aligned": [
+    {
+      "key": "POST /api/auth/login",
+      "backend": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "file": "api/modules/auth/routes.js",
+        "line": 12
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 7
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 7
+        }
+      ]
+    },
+    {
+      "key": "POST /api/auth/register",
+      "backend": {
+        "method": "POST",
+        "path": "/api/auth/register",
+        "file": "api/modules/auth/routes.js",
+        "line": 13
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 16
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 16
+        }
+      ]
+    },
+    {
+      "key": "GET /api/auth/me",
+      "backend": {
+        "method": "GET",
+        "path": "/api/auth/me",
+        "file": "api/modules/auth/routes.js",
+        "line": 18
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 39
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "key": "POST /api/auth/logout",
+      "backend": {
+        "method": "POST",
+        "path": "/api/auth/logout",
+        "file": "api/modules/auth/routes.js",
+        "line": 26
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 32
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 32
+        }
+      ]
+    },
+    {
+      "key": "GET /api/auth/prefs/province",
+      "backend": {
+        "method": "GET",
+        "path": "/api/auth/prefs/province",
+        "file": "api/modules/auth/routes.js",
+        "line": 30
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 41
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 41
+        }
+      ]
+    },
+    {
+      "key": "POST /api/auth/prefs/province",
+      "backend": {
+        "method": "POST",
+        "path": "/api/auth/prefs/province",
+        "file": "api/modules/auth/routes.js",
+        "line": 31
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 45
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 45
+        }
+      ]
+    },
+    {
+      "key": "POST /api/auth/guest-login",
+      "backend": {
+        "method": "POST",
+        "path": "/api/auth/guest-login",
+        "file": "api/modules/auth/routes.js",
+        "line": 16,
+        "kind": "handler-mount"
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 24
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/auth.js",
+          "line": 24
+        }
+      ]
+    },
+    {
+      "key": "POST /api/exam/session/start",
+      "backend": {
+        "method": "POST",
+        "path": "/api/exam/session/start",
+        "file": "api/modules/exam/routes.js",
+        "line": 18
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/exam.js",
+          "line": 23
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/exam.js",
+          "line": 23
+        }
+      ]
+    },
+    {
+      "key": "POST /api/exam/session/submit",
+      "backend": {
+        "method": "POST",
+        "path": "/api/exam/session/submit",
+        "file": "api/modules/exam/routes.js",
+        "line": 19
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/exam.js",
+          "line": 27
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/exam.js",
+          "line": 27
+        }
+      ]
+    },
+    {
+      "key": "POST /api/rag/ingest",
+      "backend": {
+        "method": "POST",
+        "path": "/api/rag/ingest",
+        "file": "api/routes/rag-search.js",
+        "line": 557
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+          "line": 48
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+          "line": 48
+        }
+      ]
+    },
+    {
+      "key": "POST /api/rag/search",
+      "backend": {
+        "method": "POST",
+        "path": "/api/rag/search",
+        "file": "api/routes/rag-search.js",
+        "line": 589
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+          "line": 12
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+          "line": 12
+        }
+      ]
+    },
+    {
+      "key": "GET /api/rag/stats",
+      "backend": {
+        "method": "GET",
+        "path": "/api/rag/stats",
+        "file": "api/routes/rag-search.js",
+        "line": 658
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+          "line": 54
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+          "line": 54
+        }
+      ]
+    },
+    {
+      "key": "POST /api/rag/multi/search",
+      "backend": {
+        "method": "POST",
+        "path": "/api/rag/multi/search",
+        "file": "api/routes/rag-search.js",
+        "line": 684
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+          "line": 18
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+          "line": 18
+        }
+      ]
+    },
+    {
+      "key": "POST /api/tutor/ask",
+      "backend": {
+        "method": "POST",
+        "path": "/api/tutor/ask",
+        "file": "api/routes/tutor-agent.js",
+        "line": 556
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/tutor.js",
+          "line": 41
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/tutor.js",
+          "line": 41
+        }
+      ]
+    },
+    {
+      "key": "POST /api/tutor/ask/stream",
+      "backend": {
+        "method": "POST",
+        "path": "/api/tutor/ask/stream",
+        "file": "api/routes/tutor-agent.js",
+        "line": 619
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/tutor.js",
+          "line": 112
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/tutor.js",
+          "line": 112
+        }
+      ]
+    },
+    {
+      "key": "GET /api/user/dashboard",
+      "backend": {
+        "method": "GET",
+        "path": "/api/user/dashboard",
+        "file": "api/modules/user/routes.js",
+        "line": 14
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 14
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 14
+        }
+      ]
+    },
+    {
+      "key": "GET /api/user/profile",
+      "backend": {
+        "method": "GET",
+        "path": "/api/user/profile",
+        "file": "api/modules/user/routes.js",
+        "line": 16
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 49
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 49
+        }
+      ]
+    },
+    {
+      "key": "GET /api/user/subjects",
+      "backend": {
+        "method": "GET",
+        "path": "/api/user/subjects",
+        "file": "api/modules/user/routes.js",
+        "line": 19
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 53
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/user.js",
+          "line": 53
+        }
+      ]
+    },
+    {
+      "key": "POST /api/user/wrong-questions",
+      "backend": {
+        "method": "POST",
+        "path": "/api/user/wrong-questions",
+        "file": "api/modules/user/routes.js",
+        "line": 26
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/wrong.js",
+          "line": 43
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/wrong.js",
+          "line": 43
+        }
+      ]
+    },
+    {
+      "key": "GET /api/user/knowledge-profile",
+      "backend": {
+        "method": "GET",
+        "path": "/api/user/knowledge-profile",
+        "file": "api/modules/user/routes.js",
+        "line": 31
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/knowledge.js",
+          "line": 29
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/knowledge.js",
+          "line": 29
+        }
+      ]
+    },
+    {
+      "key": "GET /api/user/learning-suggestions",
+      "backend": {
+        "method": "GET",
+        "path": "/api/user/learning-suggestions",
+        "file": "api/modules/user/routes.js",
+        "line": 33
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/knowledge.js",
+          "line": 25
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/knowledge.js",
+          "line": 25
+        }
+      ]
+    },
+    {
+      "key": "POST /api/vision/parse",
+      "backend": {
+        "method": "POST",
+        "path": "/api/vision/parse",
+        "file": "api/routes/vision-parse.js",
+        "line": 271
+      },
+      "frontend": [
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/vision.js",
+          "line": 30
+        },
+        {
+          "file": "ai-tutor-frontend/assets/js/api/services/vision.js",
+          "line": 30
+        }
+      ]
+    }
+  ],
+  "deadBackend": [
+    {
+      "key": "DELETE /api/auth/prefs/province",
+      "backend": {
+        "method": "DELETE",
+        "path": "/api/auth/prefs/province",
+        "file": "api/modules/auth/routes.js",
+        "line": 32
+      }
+    },
+    {
+      "key": "POST /api/auth/guest",
+      "backend": {
+        "method": "POST",
+        "path": "/api/auth/guest",
+        "file": "api/modules/auth/routes.js",
+        "line": 15,
+        "kind": "handler-mount"
+      }
+    },
+    {
+      "key": "GET /api/exam/papers",
+      "backend": {
+        "method": "GET",
+        "path": "/api/exam/papers",
+        "file": "api/modules/exam/routes.js",
+        "line": 12
+      }
+    },
+    {
+      "key": "POST /api/exam/papers",
+      "backend": {
+        "method": "POST",
+        "path": "/api/exam/papers",
+        "file": "api/modules/exam/routes.js",
+        "line": 14
+      }
+    },
+    {
+      "key": "POST /api/exam/questions",
+      "backend": {
+        "method": "POST",
+        "path": "/api/exam/questions",
+        "file": "api/modules/exam/routes.js",
+        "line": 16
+      }
+    },
+    {
+      "key": "POST /api/exam/pdf/generate",
+      "backend": {
+        "method": "POST",
+        "path": "/api/exam/pdf/generate",
+        "file": "api/modules/exam/routes.js",
+        "line": 21
+      }
+    },
+    {
+      "key": "POST /api/exam/pdf/generate/:paperId",
+      "backend": {
+        "method": "POST",
+        "path": "/api/exam/pdf/generate/:paperId",
+        "file": "api/modules/exam/routes.js",
+        "line": 23
+      }
+    },
+    {
+      "key": "GET /api/knowledge/mastery",
+      "backend": {
+        "method": "GET",
+        "path": "/api/knowledge/mastery",
+        "file": "api/modules/knowledge/routes.js",
+        "line": 17
+      }
+    },
+    {
+      "key": "GET /api/knowledge/mastery/:kpId",
+      "backend": {
+        "method": "GET",
+        "path": "/api/knowledge/mastery/:kpId",
+        "file": "api/modules/knowledge/routes.js",
+        "line": 76
+      }
+    },
+    {
+      "key": "GET /api/knowledge/map",
+      "backend": {
+        "method": "GET",
+        "path": "/api/knowledge/map",
+        "file": "api/modules/knowledge/routes.js",
+        "line": 126
+      }
+    },
+    {
+      "key": "GET /api/knowledge/points",
+      "backend": {
+        "method": "GET",
+        "path": "/api/knowledge/points",
+        "file": "api/modules/knowledge/routes.js",
+        "line": 181
+      }
+    },
+    {
+      "key": "DELETE /api/rag/questions/:id",
+      "backend": {
+        "method": "DELETE",
+        "path": "/api/rag/questions/:id",
+        "file": "api/routes/rag-search.js",
+        "line": 636
+      }
+    },
+    {
+      "key": "POST /api/rag/multi/upsert",
+      "backend": {
+        "method": "POST",
+        "path": "/api/rag/multi/upsert",
+        "file": "api/routes/rag-search.js",
+        "line": 745
+      }
+    },
+    {
+      "key": "GET /api/rag/multi/questions/:question_id",
+      "backend": {
+        "method": "GET",
+        "path": "/api/rag/multi/questions/:question_id",
+        "file": "api/routes/rag-search.js",
+        "line": 797
+      }
+    },
+    {
+      "key": "DELETE /api/rag/multi/questions/:question_id",
+      "backend": {
+        "method": "DELETE",
+        "path": "/api/rag/multi/questions/:question_id",
+        "file": "api/routes/rag-search.js",
+        "line": 819
+      }
+    },
+    {
+      "key": "GET /api/rag/multi/stats",
+      "backend": {
+        "method": "GET",
+        "path": "/api/rag/multi/stats",
+        "file": "api/routes/rag-search.js",
+        "line": 841
+      }
+    },
+    {
+      "key": "GET /api/review/reports",
+      "backend": {
+        "method": "GET",
+        "path": "/api/review/reports",
+        "file": "api/modules/review/routes.js",
+        "line": 14
+      }
+    },
+    {
+      "key": "GET /api/review/reports/:id",
+      "backend": {
+        "method": "GET",
+        "path": "/api/review/reports/:id",
+        "file": "api/modules/review/routes.js",
+        "line": 60
+      }
+    },
+    {
+      "key": "GET /api/review/session/history",
+      "backend": {
+        "method": "GET",
+        "path": "/api/review/session/history",
+        "file": "api/modules/review/routes.js",
+        "line": 99
+      }
+    },
+    {
+      "key": "GET /api/review/weak-points",
+      "backend": {
+        "method": "GET",
+        "path": "/api/review/weak-points",
+        "file": "api/modules/review/routes.js",
+        "line": 143
+      }
+    },
+    {
+      "key": "GET /api/review/trend-summary",
+      "backend": {
+        "method": "GET",
+        "path": "/api/review/trend-summary",
+        "file": "api/modules/review/routes.js",
+        "line": 198
+      }
+    },
+    {
+      "key": "GET /api/trends/expert-summary",
+      "backend": {
+        "method": "GET",
+        "path": "/api/trends/expert-summary",
+        "file": "api/modules/trends/routes.js",
+        "line": 8
+      }
+    },
+    {
+      "key": "GET /api/tutor/mastery/:kpId",
+      "backend": {
+        "method": "GET",
+        "path": "/api/tutor/mastery/:kpId",
+        "file": "api/routes/tutor-agent.js",
+        "line": 585
+      }
+    },
+    {
+      "key": "POST /api/user/profile",
+      "backend": {
+        "method": "POST",
+        "path": "/api/user/profile",
+        "file": "api/modules/user/routes.js",
+        "line": 17
+      }
+    },
+    {
+      "key": "POST /api/user/subjects",
+      "backend": {
+        "method": "POST",
+        "path": "/api/user/subjects",
+        "file": "api/modules/user/routes.js",
+        "line": 20
+      }
+    },
+    {
+      "key": "DELETE /api/user/subjects",
+      "backend": {
+        "method": "DELETE",
+        "path": "/api/user/subjects",
+        "file": "api/modules/user/routes.js",
+        "line": 21
+      }
+    },
+    {
+      "key": "POST /api/user/initialize",
+      "backend": {
+        "method": "POST",
+        "path": "/api/user/initialize",
+        "file": "api/modules/user/routes.js",
+        "line": 23
+      }
+    },
+    {
+      "key": "GET /api/user/wrong-questions",
+      "backend": {
+        "method": "GET",
+        "path": "/api/user/wrong-questions",
+        "file": "api/modules/user/routes.js",
+        "line": 25
+      }
+    },
+    {
+      "key": "GET /api/user/wrong-questions/stats",
+      "backend": {
+        "method": "GET",
+        "path": "/api/user/wrong-questions/stats",
+        "file": "api/modules/user/routes.js",
+        "line": 28
+      }
+    },
+    {
+      "key": "GET /api/user/wrong-questions/export",
+      "backend": {
+        "method": "GET",
+        "path": "/api/user/wrong-questions/export",
+        "file": "api/modules/user/routes.js",
+        "line": 29
+      }
+    },
+    {
+      "key": "POST /api/vision/search",
+      "backend": {
+        "method": "POST",
+        "path": "/api/vision/search",
+        "file": "api/modules/vision/routes.js",
+        "line": 14
+      }
+    },
+    {
+      "key": "GET /api/vision/knowledge-points",
+      "backend": {
+        "method": "GET",
+        "path": "/api/vision/knowledge-points",
+        "file": "api/routes/vision-parse.js",
+        "line": 338
+      }
+    }
+  ],
+  "missingBackend": [
+    {
+      "key": "POST /api/exam/pdf/generate/",
+      "frontend": {
+        "file": "ai-tutor-frontend/assets/js/api/services/exam.js",
+        "line": 47
+      }
+    },
+    {
+      "key": "POST /api/rag/explain",
+      "frontend": {
+        "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+        "line": 36
+      }
+    },
+    {
+      "key": "POST /api/rag/ask",
+      "frontend": {
+        "file": "ai-tutor-frontend/assets/js/api/services/rag.js",
+        "line": 44
+      }
+    },
+    {
+      "key": "GET /api/tutor/sessions",
+      "frontend": {
+        "file": "ai-tutor-frontend/assets/js/api/services/tutor.js",
+        "line": 59
+      }
+    },
+    {
+      "key": "POST /api/tutor/sessions",
+      "frontend": {
+        "file": "ai-tutor-frontend/assets/js/api/services/tutor.js",
+        "line": 56
+      }
+    },
+    {
+      "key": "DELETE /api/user/wrong-questions/",
+      "frontend": {
+        "file": "ai-tutor-frontend/assets/js/api/services/wrong.js",
+        "line": 27
+      }
+    },
+    {
+      "key": "PUT /api/user/wrong-questions/",
+      "frontend": {
+        "file": "ai-tutor-frontend/assets/js/api/services/wrong.js",
+        "line": 58
+      }
+    }
+  ]
+}

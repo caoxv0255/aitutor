@@ -54,6 +54,8 @@ coverage/
 !ai-tutor-frontend/dev-verify/back-home/*.png
 !ai-tutor-frontend/dev-verify/tutor/*.png
 !ai-tutor-frontend/dev-verify/routing-fixed.txt
+!docs/audit-dead-routes-checked.md
+!scripts/audit/.routing-audit.json
 
 .DS_Store
 Thumbs.db
