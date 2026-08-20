@@ -52,6 +52,9 @@ export const tutor = {
    * @returns {Promise<{success, message, data: ChatSession[]}>}
    */
   async getHistory() {
+    // 2026-08-20 DSH: tutor session 走 localStorage (D56 决策), mock 模式
+    // 也不调后端. request('/api/tutor/sessions') 路径是 mockName 占位
+    // (request() 走 mockName lookup, 真后端模式不进入此分支)
     if (getMockEnabled()) {
       return request('GET', '/api/tutor/sessions', null, { mockName: 'tutor_history' });
     }

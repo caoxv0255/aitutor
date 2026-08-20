@@ -38,14 +38,18 @@ export const exam = {
       const data = mock && mock.data ? mock.data : mock;
       return { mock: true, url: data.url, expiresAt: data.expires_at };
     }
+    // 2026-08-20 DSH: 之前 GET /api/exam-pdf/ (audit 404), 改 POST /api/exam/pdf/generate/:paperId
+    // 后端 handler 用 req.params.paperId, 但路由之前漏了 :paperId 占位符
     const base = getApiBase();
     const token = getToken();
-    const headers = {};
+    const headers = { 'Content-Type': 'application/json' };
     if (token) headers['Authorization'] = 'Bearer ' + token;
-    const res = await fetch(base + '/api/exam-pdf/' + encodeURIComponent(paperId), { headers });
+    const res = await fetch(base + '/api/exam/pdf/generate/' + encodeURIComponent(paperId), {
+      method: 'POST', headers,
+    });
     if (!res.ok) {
       const ct = res.headers.get('content-type') || '';
-      let msg = 'PDF 下载失败 (HTTP ' + res.status + ')';
+      let msg = 'PDF 生成失败 (HTTP ' + res.status + ')';
       if (ct.includes('application/json')) {
         try { const j = await res.json(); if (j.error) msg = j.error; } catch (e) {}
       }

@@ -22,7 +22,9 @@ router.post('/session/submit', submitExamSession);
 router.get('/session/history', getExamHistory);
 
 router.use('/generate', generatePaperRouter);
-router.post('/pdf/generate', generateExamPdf);
+// 2026-08-20 DSH: 之前 router.post('/pdf/generate', ...) 没声明 :paperId 占位符,
+// 但 generateExamPdf 用 req.params.paperId. 一直 404. 修法: 加 :paperId.
+router.post('/pdf/generate/:paperId', generateExamPdf);
 router.use('/list', questionsRouter);
 router.use('/explain', explainQuestionRouter);
 

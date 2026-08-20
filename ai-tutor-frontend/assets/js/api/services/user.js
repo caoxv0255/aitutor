@@ -36,12 +36,13 @@ export const user = {
     return request('GET', `/api/user/provinces${q}`, null, { mockName: 'user_provinces' });
   },
 
+  // 2026-08-20 DSH: 之前 /api/user/user-province 404, 后端真端点是 /api/auth/prefs/province
   async getUserProvince() {
-    return request('GET', '/api/user/user-province', null, { mockName: 'user_userprovince' });
+    return request('GET', '/api/auth/prefs/province', null, { mockName: 'user_userprovince' });
   },
 
   async setUserProvince({ provinceCode, examLevel }) {
-    return request('POST', '/api/user/user-province', { province_code: provinceCode, exam_level: examLevel }, { mockName: 'user_userprovince_post' });
+    return request('POST', '/api/auth/prefs/province', { province_code: provinceCode, exam_level: examLevel }, { mockName: 'user_userprovince_post' });
   },
 
   async getProfile() {
