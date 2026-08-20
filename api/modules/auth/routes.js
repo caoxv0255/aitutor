@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post('/login', loginRouter);
 router.post('/register', registerRouter);
-router.use('/reset-password', resetPasswordRouter);
+
 router.use('/guest', guestLoginRouter);
 router.use('/guest-login', guestLoginRouter); // 别名: F3 service 调 /api/auth/guest-login (P0.6 对齐)
 // P0.7: 补齐 F3 auth service 契约

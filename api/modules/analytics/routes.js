@@ -8,14 +8,4 @@ import reportsRouter from '../../handlers/reports.js';
 
 const router = express.Router();
 
-router.get('/province/trends', getProvinceTrends);
-router.get('/province/compare', getProvinceCompare);
-router.get('/dashboard', getLearningDashboard);
-router.use('/path', learningPathRouter);
-router.get('/class/analysis', getClassAnalysis);
-router.get('/class/teacher-dashboard', getTeacherDashboard);
-router.get('/class/detail', getClassDetail);
-router.use('/adaptive', adaptiveDifficultyRouter);
-router.use('/reports', reportsRouter);
-
 export default router;

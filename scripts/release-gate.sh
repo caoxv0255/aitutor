@@ -83,10 +83,11 @@ step "4/5 docker build (app 镜像)"
 if [ "${SKIP_DOCKER:-0}" = "1" ]; then
   echo "  (跳过: SKIP_DOCKER=1)"
 elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
-  if docker compose build app 2>&1 | tail -1 | grep -qE "Built|naming to"; then
+  # 2026-08-20 DSH: docker build 加 5 分钟 timeout, 避免 DSH 60s shell timeout 截断
+  if timeout 300 docker compose build app 2>&1 | tail -1 | grep -qE "Built|naming to"; then
     ok "镜像构建成功"
   else
-    fail "镜像构建失败"
+    fail "镜像构建失败 (5 分钟 timeout)"
   fi
 else
   echo "  (跳过: docker 不可用)"

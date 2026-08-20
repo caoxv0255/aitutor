@@ -22,18 +22,14 @@ router.delete('/subjects', userSubjectsHandler);
 
 router.post('/initialize', userInitializeHandler);
 
-router.get('/list/subjects', subjectsHandler);
-router.get('/list/provinces', provincesHandler);
-
 router.get('/wrong-questions', getWrongQuestions);
 router.post('/wrong-questions', addWrongQuestion);
-router.put('/wrong-questions/:id', updateWrongQuestion);
-router.delete('/wrong-questions/:id', deleteWrongQuestion);
+
 router.get('/wrong-questions/stats', getWrongQuestionStats);
 router.get('/wrong-questions/export', exportWrongQuestions);
 
 router.get('/knowledge-profile', getKnowledgeProfile);
-router.post('/knowledge-mastery', updateKnowledgeMastery);
+
 router.get('/learning-suggestions', getLearningSuggestions);
 
 export default router;

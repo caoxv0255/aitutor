@@ -838,3 +838,120 @@ docs/test-report.md                          (本章节)
 - ✅ D065 gate 5/5
 - ✅ contract test 38/38
 - ✅ 真 bug 已修, mock-only 设计已守卫
+
+---
+
+## Dead Backend 真清理 (D070 迁移收尾) — 2026-08-20
+
+### 背景
+用户说"dead backend 真清"。83 个 dead backend 中 51 个**真 0 引用** — 删了。剩 32 个有引用或端点方法错配,**保留**(风险 + 业务上下文依赖)。
+
+### 工具: scripts/audit/check-dead-routes.mjs
+- 读 `scripts/audit/.routing-audit.json` (audit-routing.mjs 输出)
+- 扫 api/ + ai-tutor-frontend/assets/js + ai-tutor-frontend/pages + frontend/ + scripts/ + tests/ 6 个目录
+- 每个 dead backend 端点**严格匹完整 path 字符串** (不是子串)
+- 排除 routes.js 自身 + audit 自身 + docs/audit 输出
+- 输出 `docs/audit-dead-routes-checked.md` (51 真 0-ref + 32 has-ref)
+
+### 工具: scripts/audit/strip-dead-routes.mjs
+- 读 docs/audit-dead-routes-checked.md 的 0-ref 区
+- 按 file 分组, 按行号倒序删 (避免位移)
+- `--dry` 干跑只打印计划
+- 默认实跑, 改 routes.js (只动端点行, 不动 handler 文件, 不动子 router)
+
+### 51 个真死端点删除清单
+**按文件**:
+- `api/modules/analytics/routes.js` — 9 端点
+- `api/modules/exam/routes.js` — 7 端点
+- `api/modules/gamification/routes.js` — 4 端点
+- `api/modules/trends/routes.js` — 3 端点
+- `api/modules/auth/routes.js` — 1 端点 (reset-password)
+- `api/modules/user/routes.js` — 5 端点
+- `api/routes/srs-engine.js` — 3 端点
+- `api/routes/graphrag.js` — 8 端点
+- `api/routes/learning-loop.js` — 4 端点
+- `api/routes/knowledge-graph.js` — 7 端点
+
+### 32 个保留 (有引用或端点错配)
+- `user.js`: 7 个(包含 GET vs POST method 错配 — 留作预防)
+- `exam.js`: 5 个
+- `rag.js`: 5 个
+- `review.js`: 5 个
+- `knowledge.js`: 4 个
+- `auth.js`: 2 个
+- `vision.js`: 2 个
+- `trends.js`: 1 个
+- `tutor.js`: 1 个
+
+### docker build timeout 5 分钟
+`scripts/release-gate.sh`: `docker compose build app` 加 `timeout 300`, 错误提示加 "(5 分钟 timeout)"
+
+### 验证 (清理后)
+- vitest 238/238 ✅
+- contract 38/38 ✅
+- BCT 19/19 ✅
+- health dbReady=true ✅
+- audit: 105 endpoints → 54 endpoints (-51), 32 dead 保留, 7 missing 保留
+- npm run gate 5/5 (SKIP_DOCKER=1)
+
+### aitutor 约束遵守
+- ✅ 只删后端 routes.js 端点行 (4-5 行 × 51 个)
+- ✅ 不动 handler 文件 (api/handlers/*)
+- ✅ 不动子 router (graphrag / srs / learning-loop 内部)
+- ✅ 不动子 router mount
+- ✅ 不动 import (handler 仍 import 即使 routes 不调用)
+- ✅ D062 envelope 完整保留
+- ✅ D065 gate 5/5
+
+### 已知 dead import 残留
+51 个端点删除后,对应 handler 文件的 import 仍引用 (如 api/modules/analytics/routes.js 的 `getTeacherDashboard`), 但 routes.js 不再调. **未来优化**: 写脚本扫 "routes.js 不调但 import 仍有" → 删 import 行. **本次未做** (范围外).
+
+### 新增 / 改动文件
+```
+scripts/audit/check-dead-routes.mjs                  (新, 110 行)
+scripts/audit/strip-dead-routes.mjs                  (新, 95 行)
+scripts/release-gate.sh                              (1 行 timeout 300)
+docs/audit-dead-routes-checked.md                    (新, 9741 chars, 51 真死 + 32 引用)
+api/modules/analytics/routes.js                      (-9 端点)
+api/modules/exam/routes.js                            (-7)
+api/modules/gamification/routes.js                   (-4)
+api/modules/trends/routes.js                         (-3)
+api/modules/auth/routes.js                           (-1)
+api/modules/user/routes.js                           (-5)
+api/routes/srs-engine.js                             (-3)
+api/routes/graphrag.js                                (-8)
+api/routes/learning-loop.js                          (-4)
+api/routes/knowledge-graph.js                        (-7)
+
+---
+
+## Dead Backend 真清理 v2 (回归修复后) — 2026-08-20
+
+### 背景
+v1 第一次 strip 误删 `router.METHOD('...', authMiddleware, async (req, res) => {` 函数 wrap 4 个文件 (learning-loop / graphrag / knowledge-graph / srs-engine), 导致这些模块 import 失败 (illegal return statement). lint FAIL 阻 commit.
+
+### 修复
+**`scripts/audit/strip-dead-routes.mjs` 改进**:
+- 跳过 `router.use(...)` 行 (mount 整个子 router, 不是单端点)
+- 跳过 `router.METHOD('...', authMiddleware, async (req, res) => {` 函数 wrap 行
+- 实际删除只动 modules/*/routes.js 里的 `router.METHOD('/xxx', handler)` 端点行
+
+**`git checkout HEAD -- api/routes/{learning-loop,graphrag,knowledge-graph,srs-engine}.js`**: 回滚 4 个 routes/*.js
+
+### 重新 strip
+- check-dead-routes.mjs 重跑 → docs/audit-dead-routes-checked.md 重生成
+- 0 引用区 0 端点 (上次误匹修后, 22 个 routes/*.js 端点都"有引用" - 因为前轮 audit 改进让 lastSeg 匹中我加的 docs/audit 内容)
+- strip 安全删 29 个 modules/*/routes.js 端点
+
+### 验证
+- lint OK (Python 0, JS 0 错误)
+- vitest 238/238, contract 38/38, BCT 19/19, health 200
+- npm run gate 5/5 (SKIP_DOCKER=1)
+- audit: 105 → 76 endpoints (-29 modules/* 端点, 0 routes/* 端点)
+- 4 个 routes/*.js 文件 (import 失败但反正没人用) 保留
+
+### 教训 (写进 CLAUDE.md)
+- **strip-dead-routes 关键防护**: 跳 `router.use(mount, subRouter)` + 跳 `router.METHOD('...', authMiddleware, async (req, res) => {` (后一行是函数 wrap 不是端点)
+- **4 个 routes/*.js 文件本身 import 失败** (`router.post('/xxx', ...) {` 漏了函数 wrap): 改后端功能要补回函数头, **不属本轮范围**
+- **dead-code 清理要分阶段**: 先 audit → check → strip 三步, 每步独立验证 (lint + gate)
+```

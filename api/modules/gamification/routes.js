@@ -3,9 +3,4 @@ import { checkIn, getCheckinStatus, getPointsHistory, getBadges } from '../../ha
 
 const router = express.Router();
 
-router.post('/checkin', checkIn);
-router.get('/checkin/status', getCheckinStatus);
-router.get('/points/history', getPointsHistory);
-router.get('/badges', getBadges);
-
 export default router;
