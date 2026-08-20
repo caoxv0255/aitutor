@@ -583,3 +583,70 @@ fetch('/api/rag/search/stats', { headers: { 'Content-Type': 'application/json' }
 - **入口页 vs 内部页**: 401 跳 login 是合理的全局守卫, 但**入口页 (index/login/register) 应该 caller 层绕开**, 用原生 fetch 静默处理, 不让守卫误触发
 - **CSP 相对路径 vs 服务端**: `href="./index.html"` 相对解析正确, 真正的 bug 在后端 API 行为
 - **需要 audit 脚本兜底**: F3 入口页 + 内部页分开测, 用 anon / auth 两种模式, 才能发现这种"入口页被守卫误触发"的问题
+
+---
+
+## tutor.html 修复 — 返回死按钮 + AI 对话 404 — 2026-08-20
+
+### 现象
+`http://localhost:3002/f3/pages/tutor.html` 两个问题:
+1. 顶部 "返回" 按钮 (data-dom-id="back-from-tutor") 点了无反应
+2. 输入消息 + 点发送 → "请求失败 (BUSINESS)" → AI 不回复
+
+### 根因 (2 个独立 bug)
+
+#### Bug 1: 后端路由双前缀
+D070 重构为 modules 系统时, `api/modules/tutor/routes.js` 用了 `router.use('/agent', tutorAgentRouter)`:
+```
+完整链: /api/modules + /tutor + /agent + /ask
+真实端点: /api/modules/tutor/agent/ask
+前端调: /api/tutor/ask (tutor.js:41)
+结果: 404 (API 端点不存在)
+```
+**对比**:
+- `api/modules/rag/routes.js` 注释明确写 "Use '/' not '/search' — avoid double prefix"
+- `api/modules/vision/routes.js` 注释 "挂载到 / (而非 /parse)"
+
+**tutor 是 unique 的坏实践** — D070 迁移 bug,前后端契约没对齐。
+
+#### Bug 2: 死按钮
+`<button data-dom-id="back-from-tutor">` HTML 有, **JS 0 处引用** (grep 全项目 = 0)。按钮完全是死的。
+
+### 修复
+
+**`api/modules/tutor/routes.js`** (1 行字符串):
+```js
+// 改 router.use('/agent', tutorAgentRouter)  →  router.use('/', tutorAgentRouter)
+// 跟 rag / vision 模块一致
+```
+**触发**: `docker compose restart app` (routes.js 是后端, 需重启)
+**验证**: `POST /api/tutor/ask` 200, `POST /api/tutor/ask/stream` 200
+
+**`ai-tutor-frontend/pages/tutor.html`** (8 行, 注入 click 绑定):
+```js
+const backBtn = document.querySelector('[data-dom-id="back-from-tutor"]');
+if (backBtn) {
+  backBtn.addEventListener('click', () => {
+    const hasToken = !!localStorage.getItem('aitutor.token');
+    window.location.href = hasToken ? './dashboard.html' : './index.html';
+  });
+}
+```
+**不需要重启** (前端 module 改动)
+
+### 验证 (end-to-end)
+- ✅ tutor.html 顶部 "返回" 按钮: 点 → 跳到 dashboard (有 token) / index (无 token)
+- ✅ AI 对话: 输入"导数怎么理解" + 发送 → AI 流式回复 "好的,同学,我们开始学习'导数'..."
+- ✅ `npm run gate` 5/5 通过
+- ✅ headed 截图存 `ai-tutor-frontend/dev-verify/tutor/01-tutor-fixed.png`
+
+### aitutor 约束遵守
+- ✅ 后端 1 行改 + 前端 8 行加
+- ✅ 不动 service layer / envelope / decision records
+- ✅ 注释里说明修复原因 (D070 教训引用)
+- ✅ D065 gate 5/5
+
+### 关键教训 (写进 CLAUDE.md 候选)
+- **D070 modules 路由统一规范**: 所有模块的 `routes.js` 内部 router 必须 `router.use('/', ...)` 挂在根, 子路径由内部 router 定义
+- **前端数据流审计**: 改 backend routing 后必须 grep 前端 service 调用路径, 确保对齐
+- **死按钮检测**: 凡是 HTML 写了 `data-dom-id` 但 JS 0 引用, 该按钮就是死的, 需要 audit 脚本扫

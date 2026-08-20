@@ -52,6 +52,7 @@ coverage/
 !ai-tutor-frontend/dev-verify/rag/*.png
 !ai-tutor-frontend/dev-verify/register/*.png
 !ai-tutor-frontend/dev-verify/back-home/*.png
+!ai-tutor-frontend/dev-verify/tutor/*.png
 
 .DS_Store
 Thumbs.db
