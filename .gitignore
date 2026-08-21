@@ -190,3 +190,20 @@ frontend-design-doc/
 
 # legacy frontend/ frozen — 仅作 301 跳转 (P0.5)
 # frontend-redesign/ — experimental, use /f3 instead
+
+# AI 推理辅助产物 (本地运行时生成, 不入库)
+.reasonix/
+.qoder/
+
+# 一次性调试输出 / 临时分析文件 (按需重生)
+scripts/missing-files-list.*
+scripts/vault-status.txt
+scripts/debug-*.log
+scripts/pull_bge.ps1
+scripts/web_fetch.ps1
+scripts/web_fetch.py
+scripts/check-pg-extensions.js
+
+# headed-tests 工具运行产物 (manifest + 截图, 按需重生成)
+frontend/dev/runs/
+frontend/dev/screenshots/
