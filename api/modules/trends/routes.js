@@ -5,6 +5,4 @@ import { getExpertSummary } from '../../handlers/trend-summary.js';
 
 const router = express.Router();
 
-router.get('/expert-summary', getExpertSummary);
-
 export default router;

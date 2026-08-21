@@ -1,10 +1,10 @@
 {
   "summary": {
-    "scannedAt": "2026-08-20T16:20:14.841Z",
-    "backendEndpoints": 54,
+    "scannedAt": "2026-08-21T03:12:47.410Z",
+    "backendEndpoints": 66,
     "frontendCalls": 29,
     "aligned": 22,
-    "deadBackend": 32,
+    "deadBackend": 44,
     "missingBackend": 7
   },
   "aligned": [
@@ -148,7 +148,7 @@
         "method": "POST",
         "path": "/api/exam/session/start",
         "file": "api/modules/exam/routes.js",
-        "line": 18
+        "line": 14
       },
       "frontend": [
         {
@@ -167,7 +167,7 @@
         "method": "POST",
         "path": "/api/exam/session/submit",
         "file": "api/modules/exam/routes.js",
-        "line": 19
+        "line": 15
       },
       "frontend": [
         {
@@ -338,7 +338,7 @@
         "method": "GET",
         "path": "/api/user/subjects",
         "file": "api/modules/user/routes.js",
-        "line": 19
+        "line": 18
       },
       "frontend": [
         {
@@ -357,7 +357,7 @@
         "method": "POST",
         "path": "/api/user/wrong-questions",
         "file": "api/modules/user/routes.js",
-        "line": 26
+        "line": 21
       },
       "frontend": [
         {
@@ -376,7 +376,7 @@
         "method": "GET",
         "path": "/api/user/knowledge-profile",
         "file": "api/modules/user/routes.js",
-        "line": 31
+        "line": 23
       },
       "frontend": [
         {
@@ -395,7 +395,7 @@
         "method": "GET",
         "path": "/api/user/learning-suggestions",
         "file": "api/modules/user/routes.js",
-        "line": 33
+        "line": 25
       },
       "frontend": [
         {
@@ -430,15 +430,6 @@
   ],
   "deadBackend": [
     {
-      "key": "DELETE /api/auth/prefs/province",
-      "backend": {
-        "method": "DELETE",
-        "path": "/api/auth/prefs/province",
-        "file": "api/modules/auth/routes.js",
-        "line": 32
-      }
-    },
-    {
       "key": "POST /api/auth/guest",
       "backend": {
         "method": "POST",
@@ -458,30 +449,12 @@
       }
     },
     {
-      "key": "POST /api/exam/papers",
-      "backend": {
-        "method": "POST",
-        "path": "/api/exam/papers",
-        "file": "api/modules/exam/routes.js",
-        "line": 14
-      }
-    },
-    {
-      "key": "POST /api/exam/questions",
-      "backend": {
-        "method": "POST",
-        "path": "/api/exam/questions",
-        "file": "api/modules/exam/routes.js",
-        "line": 16
-      }
-    },
-    {
       "key": "POST /api/exam/pdf/generate",
       "backend": {
         "method": "POST",
         "path": "/api/exam/pdf/generate",
         "file": "api/modules/exam/routes.js",
-        "line": 21
+        "line": 17
       }
     },
     {
@@ -490,7 +463,7 @@
         "method": "POST",
         "path": "/api/exam/pdf/generate/:paperId",
         "file": "api/modules/exam/routes.js",
-        "line": 23
+        "line": 19
       }
     },
     {
@@ -575,6 +548,78 @@
       }
     },
     {
+      "key": "POST /api/rag/graphrag/query",
+      "backend": {
+        "method": "POST",
+        "path": "/api/rag/graphrag/query",
+        "file": "api/routes/graphrag.js",
+        "line": 88
+      }
+    },
+    {
+      "key": "POST /api/rag/graphrag/explain",
+      "backend": {
+        "method": "POST",
+        "path": "/api/rag/graphrag/explain",
+        "file": "api/routes/graphrag.js",
+        "line": 118
+      }
+    },
+    {
+      "key": "POST /api/rag/graphrag/similar-questions",
+      "backend": {
+        "method": "POST",
+        "path": "/api/rag/graphrag/similar-questions",
+        "file": "api/routes/graphrag.js",
+        "line": 136
+      }
+    },
+    {
+      "key": "GET /api/rag/graphrag/knowledge-map",
+      "backend": {
+        "method": "GET",
+        "path": "/api/rag/graphrag/knowledge-map",
+        "file": "api/routes/graphrag.js",
+        "line": 156
+      }
+    },
+    {
+      "key": "GET /api/rag/graphrag/paper-source",
+      "backend": {
+        "method": "GET",
+        "path": "/api/rag/graphrag/paper-source",
+        "file": "api/routes/graphrag.js",
+        "line": 170
+      }
+    },
+    {
+      "key": "GET /api/rag/graphrag/admin/jobs",
+      "backend": {
+        "method": "GET",
+        "path": "/api/rag/graphrag/admin/jobs",
+        "file": "api/routes/graphrag.js",
+        "line": 186
+      }
+    },
+    {
+      "key": "GET /api/rag/graphrag/admin/stats",
+      "backend": {
+        "method": "GET",
+        "path": "/api/rag/graphrag/admin/stats",
+        "file": "api/routes/graphrag.js",
+        "line": 198
+      }
+    },
+    {
+      "key": "POST /api/rag/graphrag/admin/reindex",
+      "backend": {
+        "method": "POST",
+        "path": "/api/rag/graphrag/admin/reindex",
+        "file": "api/routes/graphrag.js",
+        "line": 210
+      }
+    },
+    {
       "key": "GET /api/review/reports",
       "backend": {
         "method": "GET",
@@ -620,12 +665,30 @@
       }
     },
     {
-      "key": "GET /api/trends/expert-summary",
+      "key": "GET /api/srs/engine/daily-tasks",
       "backend": {
         "method": "GET",
-        "path": "/api/trends/expert-summary",
-        "file": "api/modules/trends/routes.js",
-        "line": 8
+        "path": "/api/srs/engine/daily-tasks",
+        "file": "api/routes/srs-engine.js",
+        "line": 123
+      }
+    },
+    {
+      "key": "POST /api/srs/engine/complete",
+      "backend": {
+        "method": "POST",
+        "path": "/api/srs/engine/complete",
+        "file": "api/routes/srs-engine.js",
+        "line": 206
+      }
+    },
+    {
+      "key": "GET /api/srs/engine/stats",
+      "backend": {
+        "method": "GET",
+        "path": "/api/srs/engine/stats",
+        "file": "api/routes/srs-engine.js",
+        "line": 334
       }
     },
     {
@@ -638,39 +701,102 @@
       }
     },
     {
-      "key": "POST /api/user/profile",
+      "key": "POST /api/tutor/loop/feedback",
       "backend": {
         "method": "POST",
-        "path": "/api/user/profile",
-        "file": "api/modules/user/routes.js",
-        "line": 17
+        "path": "/api/tutor/loop/feedback",
+        "file": "api/routes/learning-loop.js",
+        "line": 247
       }
     },
     {
-      "key": "POST /api/user/subjects",
+      "key": "POST /api/tutor/loop/batch",
       "backend": {
         "method": "POST",
-        "path": "/api/user/subjects",
-        "file": "api/modules/user/routes.js",
-        "line": 20
+        "path": "/api/tutor/loop/batch",
+        "file": "api/routes/learning-loop.js",
+        "line": 320
       }
     },
     {
-      "key": "DELETE /api/user/subjects",
+      "key": "GET /api/tutor/loop/mastery",
       "backend": {
-        "method": "DELETE",
-        "path": "/api/user/subjects",
-        "file": "api/modules/user/routes.js",
-        "line": 21
+        "method": "GET",
+        "path": "/api/tutor/loop/mastery",
+        "file": "api/routes/learning-loop.js",
+        "line": 388
       }
     },
     {
-      "key": "POST /api/user/initialize",
+      "key": "GET /api/tutor/loop/graph",
+      "backend": {
+        "method": "GET",
+        "path": "/api/tutor/loop/graph",
+        "file": "api/routes/learning-loop.js",
+        "line": 453
+      }
+    },
+    {
+      "key": "GET /api/tutor/graph/stats",
+      "backend": {
+        "method": "GET",
+        "path": "/api/tutor/graph/stats",
+        "file": "api/routes/knowledge-graph.js",
+        "line": 12
+      }
+    },
+    {
+      "key": "POST /api/tutor/graph/sync",
       "backend": {
         "method": "POST",
-        "path": "/api/user/initialize",
-        "file": "api/modules/user/routes.js",
-        "line": 23
+        "path": "/api/tutor/graph/sync",
+        "file": "api/routes/knowledge-graph.js",
+        "line": 22
+      }
+    },
+    {
+      "key": "POST /api/tutor/graph/sync-back",
+      "backend": {
+        "method": "POST",
+        "path": "/api/tutor/graph/sync-back",
+        "file": "api/routes/knowledge-graph.js",
+        "line": 32
+      }
+    },
+    {
+      "key": "GET /api/tutor/graph/search",
+      "backend": {
+        "method": "GET",
+        "path": "/api/tutor/graph/search",
+        "file": "api/routes/knowledge-graph.js",
+        "line": 42
+      }
+    },
+    {
+      "key": "GET /api/tutor/graph/file",
+      "backend": {
+        "method": "GET",
+        "path": "/api/tutor/graph/file",
+        "file": "api/routes/knowledge-graph.js",
+        "line": 60
+      }
+    },
+    {
+      "key": "GET /api/tutor/graph/list",
+      "backend": {
+        "method": "GET",
+        "path": "/api/tutor/graph/list",
+        "file": "api/routes/knowledge-graph.js",
+        "line": 95
+      }
+    },
+    {
+      "key": "POST /api/tutor/graph/reindex",
+      "backend": {
+        "method": "POST",
+        "path": "/api/tutor/graph/reindex",
+        "file": "api/routes/knowledge-graph.js",
+        "line": 120
       }
     },
     {
@@ -679,25 +805,7 @@
         "method": "GET",
         "path": "/api/user/wrong-questions",
         "file": "api/modules/user/routes.js",
-        "line": 25
-      }
-    },
-    {
-      "key": "GET /api/user/wrong-questions/stats",
-      "backend": {
-        "method": "GET",
-        "path": "/api/user/wrong-questions/stats",
-        "file": "api/modules/user/routes.js",
-        "line": 28
-      }
-    },
-    {
-      "key": "GET /api/user/wrong-questions/export",
-      "backend": {
-        "method": "GET",
-        "path": "/api/user/wrong-questions/export",
-        "file": "api/modules/user/routes.js",
-        "line": 29
+        "line": 20
       }
     },
     {

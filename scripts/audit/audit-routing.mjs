@@ -65,7 +65,7 @@ function extractRoutesFromRouterFile(routerFile, prefixPath, seen = new Set(), d
   let m;
   while ((m = directRe.exec(text)) !== null) {
     const method = m[1].toUpperCase();
-    const path = m[2];
+    const path = m[2].replace(/\$\{[^}]+\}/g, ':param').split('?')[0];
     if (path === '/') continue;  // 跳过空根
     endpoints.push({
       method,
@@ -144,7 +144,7 @@ function extractFrontendCalls() {
       else if (/\.(js|mjs)$/.test(e)) {
         const text = readText(full);
         // 模式 1: request('POST', '/api/...', ...)
-        const re1 = /request\(\s*['"](\w+)['"]\s*,\s*['"]([^'"]+)['"]/g;
+        const re1 = /request\(\s*['"`](\w+)['"`]\s*,\s*['"`]([^'"`]+)['"`]/g;
         let m;
         while ((m = re1.exec(text)) !== null) {
           // 提取 path template 的第一段 (去掉 :param 和 ?query)
