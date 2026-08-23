@@ -14,6 +14,7 @@ import { securityHeaders, xssSanitizer, xssDetector, csrfProtection, auditMiddle
 import { versionMiddleware } from './api/middleware/versioning.js';
 import { createSuccessResponse, createErrorResponse, ErrorCode } from './api/utils/errorCodes.js';
 import modulesRouter from './api/modules/index.js';
+import legacyCompatRouter from './api/legacy-compat.js';
 
 import { getProvinces, getProvinceByCode, getProvinceStats } from './api/handlers/provinces.js';
 import { getClassDetail } from './api/handlers/class-analysis.js';
@@ -109,7 +110,8 @@ app.get('/', (req, res) => {
   if (isMobile) {
     res.sendFile('index.html', { root: 'public' });
   } else {
-    res.sendFile('index.html', { root: 'frontend' });
+    // D070: legacy frontend frozen -> F3 (ai-tutor-frontend) is the canonical build
+    res.redirect(302, '/f3/pages/index.html');
   }
 });
 
@@ -255,7 +257,12 @@ app.post('/api/proxy', authMiddleware, proxyLimiter, wrapHandler(proxyHandler));
 // Audit BEFORE auth: security-relevant events (failed auth, anonymous probing,
 // repeat 401s from one IP) only show up in the audit log if auditMiddleware
 // runs before authMiddleware rejects the request.
-app.use('/api/', auditMiddleware, authMiddleware, apiLimiter, modulesRouter);
+//
+// D-Bug-D (2026-08-23): legacyCompatRouter 必须在 modulesRouter 之前.
+// 它把旧 frontend/ + public/ (PWA) 调用的旧路径 (/api/login, /api/questions 等)
+// 转发到新路径或返回 410 Gone. 兼容期 30 天 (D070 sunset: 2026-09-23).
+// F3 (ai-tutor-frontend) 已对齐新路径, 不需要 alias.
+app.use('/api/', auditMiddleware, authMiddleware, apiLimiter, legacyCompatRouter, modulesRouter);
 
 // 404 fallback. Message intentionally generic — leaking valid routes is
 // info-disclosure. Attach request id so client can quote it in bug reports.
