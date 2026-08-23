@@ -1093,6 +1093,9 @@
 
       // ===== Initial: 5 hardcoded blocks 已删, renderMessages([]) 处理空数组 =====
       renderMessages(conversationState.messages);
+
+      // P1-fix: 顶部 navator 导航 (2026-08-24 audit). active='tutor'
+      import('../assets/js/navator.js').then(m => m.mount({ active: 'tutor' }));
     </script>
 
     <script>lucide.createIcons();</script>

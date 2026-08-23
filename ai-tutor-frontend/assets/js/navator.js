@@ -36,6 +36,12 @@ function render(activeKey) {
 }
 
 export function mount(activeKey) {
+  // 兼容历史调用风格 { active: 'key' } (F3 多页面用对象形式) 与裸字符串 'key'
+  // F3 Nav Audit 2026-08-24: 24 个页面曾用对象形式, 修复后保持向后兼容
+  if (activeKey && typeof activeKey === 'object' && 'active' in activeKey) {
+    activeKey = activeKey.active;
+  }
+  if (typeof activeKey !== 'string') activeKey = null;
   if (document.getElementById('ait-topnav')) return;
   const tmp = document.createElement('div');
   tmp.innerHTML = render(activeKey);
