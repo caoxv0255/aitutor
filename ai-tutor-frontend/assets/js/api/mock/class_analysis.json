@@ -1,0 +1,68 @@
+{
+  "success": true,
+  "data": {
+    "summary": {
+      "totalStudents": 42,
+      "averageScore": 78.6,
+      "attendanceRate": 0.94,
+      "attentionCount": 5,
+      "totalSubjects": 6,
+      "warningSubjects": 1,
+      "totalErrors": 168,
+      "activeDays": 28
+    },
+    "subjects": [
+      { "subject": "数学",   "avgScore": 82.3, "errorCount": 32, "warning": "正常",      "trend": "+3.2" },
+      { "subject": "语文",   "avgScore": 79.1, "errorCount": 18, "warning": "正常",      "trend": "+1.4" },
+      { "subject": "英语",   "avgScore": 85.0, "errorCount": 12, "warning": "正常",      "trend": "+2.8" },
+      { "subject": "物理",   "avgScore": 71.4, "errorCount": 41, "warning": "偏科预警",  "trend": "-1.6" },
+      { "subject": "化学",   "avgScore": 76.8, "errorCount": 28, "warning": "正常",      "trend": "+0.6" },
+      { "subject": "生物",   "avgScore": 80.2, "errorCount": 14, "warning": "正常",      "trend": "+2.1" }
+    ],
+    "weakPoints": [
+      { "subject_code": "physics", "knowledge_point_id": "kp_physics_force", "knowledge_point": "力学 · 牛顿第二定律", "frequency": 18, "subject": "物理" },
+      { "subject_code": "math",    "knowledge_point_id": "kp_math_func",     "knowledge_point": "函数 · 二次函数图像", "frequency": 15, "subject": "数学" },
+      { "subject_code": "physics", "knowledge_point_id": "kp_physics_elec",  "knowledge_point": "电学 · 欧姆定律",     "frequency": 13, "subject": "物理" },
+      { "subject_code": "chemistry","knowledge_point_id": "kp_chem_eq",      "knowledge_point": "化学 · 化学方程式配平", "frequency": 11, "subject": "化学" },
+      { "subject_code": "math",    "knowledge_point_id": "kp_math_trig",     "knowledge_point": "三角函数 · 诱导公式",  "frequency":  9, "subject": "数学" }
+    ],
+    "recentActivity": [
+      { "date": "2026-08-24", "count": 23 },
+      { "date": "2026-08-23", "count": 18 },
+      { "date": "2026-08-22", "count": 27 },
+      { "date": "2026-08-21", "count": 15 },
+      { "date": "2026-08-20", "count":  9 }
+    ],
+    "progressTrend": [
+      { "date": "2026-08-01", "subject_code": "physics", "error_count": 8,  "subject": "物理" },
+      { "date": "2026-08-05", "subject_code": "physics", "error_count": 6,  "subject": "物理" },
+      { "date": "2026-08-10", "subject_code": "physics", "error_count": 5,  "subject": "物理" },
+      { "date": "2026-08-15", "subject_code": "physics", "error_count": 4,  "subject": "物理" },
+      { "date": "2026-08-20", "subject_code": "physics", "error_count": 3,  "subject": "物理" }
+    ],
+    "examHistory": [
+      { "subject": "数学", "correct_count": 8, "total_questions": 10, "created_at": "2026-08-22T10:00:00Z" },
+      { "subject": "物理", "correct_count": 6, "total_questions": 10, "created_at": "2026-08-21T14:30:00Z" },
+      { "subject": "化学", "correct_count": 9, "total_questions": 10, "created_at": "2026-08-20T09:15:00Z" }
+    ],
+    "tierDistribution": {
+      "A": 12,
+      "B": 25,
+      "C": 5
+    },
+    "attentionStudents": [
+      { "student_id": "demo_student_001", "name": "张小明", "avgScore": 58.4, "errorCount": 23, "tier": "C", "warning": "数学连续 3 次低于 60" },
+      { "student_id": "demo_student_007", "name": "李 华", "avgScore": 62.1, "errorCount": 19, "tier": "C", "warning": "物理力学模块薄弱" },
+      { "student_id": "demo_student_012", "name": "王 芳", "avgScore": 64.7, "errorCount": 17, "tier": "C", "warning": "化学方程式反复错" },
+      { "student_id": "demo_student_018", "name": "陈 刚", "avgScore": 66.3, "errorCount": 15, "tier": "C", "warning": "近 7 天未活跃" },
+      { "student_id": "demo_student_023", "name": "刘 静", "avgScore": 68.9, "errorCount": 14, "tier": "C", "warning": "三角函数稳定错因" }
+    ],
+    "commonErrorReasons": [
+      { "reason": "公式记错",        "frequency": 42, "percentage": 0.25 },
+      { "reason": "计算粗心",        "frequency": 36, "percentage": 0.21 },
+      { "reason": "概念混淆",        "frequency": 28, "percentage": 0.17 },
+      { "reason": "审题不清",        "frequency": 24, "percentage": 0.14 },
+      { "reason": "解题步骤缺失",    "frequency": 18, "percentage": 0.11 }
+    ]
+  }
+}

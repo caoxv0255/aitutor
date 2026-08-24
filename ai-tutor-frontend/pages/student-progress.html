@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor - 学生进度 (家长视角)</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-primary-50: #fff1f1;
+    --color-primary-100: #ffe1e2;
+    --color-primary-200: #ffc7c9;
+    --color-primary-400: #ff686d;
+    --color-primary-500: #d71920;
+    --color-primary-600: #b8151b;
+    --color-success-50: #ecfdf5;
+    --color-success-100: #d1fae5;
+    --color-success-500: #059669;
+    --color-success-600: #047857;
+    --color-warning-50: #fffbeb;
+    --color-warning-100: #fef3c7;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-error-50: #fef2f2;
+    --color-error-100: #fee2e2;
+    --color-error-500: #ef4444;
+    --color-info-50: #f0f9ff;
+    --color-info-500: #0284c7;
+    --color-creative-50: #f5f3ff;
+    --color-creative-500: #8b5cf6;
+    --color-surface: #ffffff;
+    --color-surface-secondary: #f8f9fb;
+    --color-surface-tertiary: #f1f5f9;
+    --color-foreground: #0f172a;
+    --color-foreground-secondary: #475569;
+    --color-foreground-muted: #94a3b8;
+    --color-border: #e2e8f0;
+    --color-border-light: #f1f5f9;
+    --font-display: 'DM Sans', 'Noto Sans SC', sans-serif;
+    --font-sans: 'Noto Sans SC', 'DM Sans', sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 16px;
+    --radius-pill: 9999px;
+    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-hover: 0 4px 8px -2px rgb(0 0 0 / 0.10);
+  }
+  @layer base {
+    body { background: var(--color-surface); color: var(--color-foreground); }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      .line-cap { stroke-linecap: round; }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main class="min-h-screen bg-surface-secondary">
+      <div class="px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-[1400px] mx-auto">
+
+        <!-- 顶部 -->
+        <div class="mb-6">
+          <div class="flex items-center gap-1.5 text-xs text-foreground-secondary mb-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+            <a href="/f3/pages/index.html" class="hover:text-primary-500 transition-colors">首页</a>
+            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            <span class="text-foreground font-medium">家长视角</span>
+          </div>
+          <div class="inline-flex items-center gap-2 px-3 h-7 rounded-full bg-success-50 text-success-600 text-xs font-medium mb-3" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+            <span>👪</span>
+            <span>家长视角 · PM P1-9</span>
+          </div>
+          <h1 class="text-2xl sm:text-[28px] font-bold text-foreground leading-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all;">孩子的学习进步</h1>
+          <p class="mt-1 text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">透明可见的学情数据,陪伴成长每一步</p>
+        </div>
+
+        <!-- 学生基本信息卡 -->
+        <div class="bg-surface rounded-2xl shadow-card border border-border-light p-5 mb-5">
+          <div class="flex items-center gap-4 flex-wrap">
+            <div id="student-avatar" class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-500 flex items-center justify-center text-white text-xl font-bold shrink-0" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
+              —
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-1 flex-wrap">
+                <h2 class="text-xl font-bold text-foreground" id="student-name" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">—</h2>
+                <span id="student-tier" class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-warning-50 text-warning-600" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">—</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-foreground-secondary flex-wrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                <span id="student-grade">—</span>
+                <span class="w-1 h-1 rounded-full bg-foreground-muted"></span>
+                <span id="student-school">—</span>
+                <span class="w-1 h-1 rounded-full bg-foreground-muted"></span>
+                <span id="student-enrolled">入学 —</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="/f3/pages/review.html" class="inline-flex items-center gap-2 px-4 h-10 rounded-xl bg-primary-500 text-white text-sm font-medium hover:bg-primary-600 transition-colors whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+                <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                <span>📊 查看完整报告</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 综合掌握度 + 学习时长 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+          <div class="bg-surface rounded-2xl p-5 shadow-card border border-border-light">
+            <div class="text-sm text-foreground-secondary mb-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">综合掌握度</div>
+            <div class="flex items-end gap-2">
+              <div class="text-4xl font-bold text-foreground leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;" id="overall-mastery">—</div>
+              <div class="text-sm text-success-500 mb-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;" id="mastery-trend">+14%</div>
+            </div>
+            <div class="w-full h-2 bg-surface-tertiary rounded-full overflow-hidden mt-3">
+              <div class="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full" style="width:0%" id="mastery-bar"></div>
+            </div>
+          </div>
+          <div class="bg-surface rounded-2xl p-5 shadow-card border border-border-light">
+            <div class="text-sm text-foreground-secondary mb-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">本周学习时长</div>
+            <div class="flex items-end gap-2">
+              <div class="text-4xl font-bold text-foreground leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;" id="week-minutes">—</div>
+              <div class="text-sm text-foreground-muted mb-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">分钟</div>
+            </div>
+            <div class="text-xs text-foreground-muted mt-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">日均 <span id="daily-avg">—</span> 分钟</div>
+          </div>
+          <div class="bg-surface rounded-2xl p-5 shadow-card border border-border-light">
+            <div class="text-sm text-foreground-secondary mb-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">最近进步</div>
+            <div class="flex items-center gap-2 mt-1">
+              <i data-lucide="trending-up" class="w-5 h-5 text-success-500"></i>
+              <div class="text-base font-bold text-foreground leading-tight" id="recent-progress" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">综合提升 +14%</div>
+            </div>
+            <div class="text-xs text-foreground-muted mt-2" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">较 30 天前</div>
+          </div>
+        </div>
+
+        <!-- 进步曲线 -->
+        <div class="bg-surface rounded-2xl shadow-card border border-border-light p-5 mb-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">进步曲线</h3>
+              <p class="text-xs text-foreground-secondary mt-0.5" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">近 30 天 mastery_score 变化</p>
+            </div>
+            <span class="text-xs px-2 py-0.5 rounded-md bg-success-50 text-success-600" style="font-family:'Noto Sans SC','DM Sans',sans-serif;" id="curve-trend">↑ 上升</span>
+          </div>
+          <svg viewBox="0 0 600 200" class="w-full" preserveAspectRatio="none" style="max-height: 220px;" id="trend-svg">
+            <!-- 网格线 -->
+            <line x1="0" y1="40"  x2="600" y2="40"  stroke="var(--color-border-light)" stroke-width="1"/>
+            <line x1="0" y1="100" x2="600" y2="100" stroke="var(--color-border-light)" stroke-width="1"/>
+            <line x1="0" y1="160" x2="600" y2="160" stroke="var(--color-border-light)" stroke-width="1"/>
+            <!-- 路径 (JS 填充) -->
+            <path id="trend-path" d="" fill="none" stroke="var(--color-primary-500)" stroke-width="2.5" class="line-cap"/>
+            <path id="trend-area" d="" fill="url(#trendGrad)" opacity="0.15"/>
+            <defs>
+              <linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--color-primary-500)"/>
+                <stop offset="100%" stop-color="var(--color-primary-500)" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="flex items-center justify-between mt-2 text-[11px] text-foreground-muted" style="font-family:'Noto Sans SC','DM Sans',sans-serif;" id="trend-axis-labels">
+            <span>—</span><span>—</span>
+          </div>
+        </div>
+
+        <!-- 本月学习时长分布 -->
+        <div class="bg-surface rounded-2xl shadow-card border border-border-light p-5 mb-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">本月学习时长</h3>
+              <p class="text-xs text-foreground-secondary mt-0.5" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">每天学习分钟数 (近 30 天)</p>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+              <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-primary-500"></span>日学习时长</span>
+            </div>
+          </div>
+          <div class="flex items-end gap-1 h-32" id="minutes-bars">
+            <!-- bars (JS 渲染) -->
+          </div>
+          <div class="flex items-center justify-between mt-3 text-xs text-foreground-muted" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+            <span id="minutes-min-date">—</span>
+            <span id="minutes-max-date">—</span>
+          </div>
+        </div>
+
+        <!-- 薄弱知识点 TOP 5 -->
+        <div class="bg-surface rounded-2xl shadow-card border border-border-light p-5 mb-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">薄弱知识点 TOP 5</h3>
+              <p class="text-xs text-foreground-secondary mt-0.5" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">与跨学科知识图谱关联 (Phase H1)</p>
+            </div>
+            <a href="/f3/pages/cross-subject.html" class="text-xs text-primary-500 hover:text-primary-600" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">查看跨学科 →</a>
+          </div>
+          <div class="space-y-3" id="weak-kp-list">
+            <!-- 知识点列表 (JS 渲染) -->
+          </div>
+        </div>
+
+        <!-- 最近错题 -->
+        <div class="bg-surface rounded-2xl shadow-card border border-border-light p-5 mb-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-base font-semibold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">最近错题 5 道</h3>
+            <a href="/f3/pages/wrong-book.html" class="text-xs text-primary-500 hover:text-primary-600" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">查看错题本 →</a>
+          </div>
+          <div class="space-y-2" id="recent-questions">
+            <!-- 错题列表 (JS 渲染) -->
+          </div>
+        </div>
+
+        <!-- 成长里程碑 + 建议 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
+          <div class="bg-surface rounded-2xl shadow-card border border-border-light p-5">
+            <h3 class="text-base font-semibold text-foreground mb-4" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">成长里程碑</h3>
+            <div class="space-y-3" id="milestones">
+              <!-- JS 渲染 -->
+            </div>
+          </div>
+          <div class="bg-surface rounded-2xl shadow-card border border-border-light p-5">
+            <h3 class="text-base font-semibold text-foreground mb-4" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">本周建议</h3>
+            <div class="space-y-3" id="suggestions">
+              <!-- JS 渲染 -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script type="module">
+        import { classAnalysis } from '../assets/js/api/services/index.js';
+        import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
+        import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
+        import { setUseMock } from '../assets/js/api/USE_MOCK.js';
+
+        mountErrorBoundary();
+        setUseMock(true);
+
+        // 默认 demo student 'demo_student_001'
+        const url = new URL(window.location.href);
+        const studentId = url.searchParams.get('student_id') || 'demo_student_001';
+
+        const progressRes = useAsyncResource(() => classAnalysis.getStudentProgress(studentId));
+
+        const setText = (id, text) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = text;
+        };
+
+        const subjectColor = (s) => ({
+          '数学':'#d71920','语文':'#7c3aed','英语':'#0284c7','物理':'#059669','化学':'#f59e0b','生物':'#16a34a'
+        })[s] || '#475569';
+
+        const tierBadge = (t) => ({
+          'A': '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-success-50 text-success-600" style="font-family:Noto Sans SC,DM Sans,sans-serif;">A 档 · 掌握良好</span>',
+          'B': '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-warning-50 text-warning-600" style="font-family:Noto Sans SC,DM Sans,sans-serif;">B 档 · 稳步提升</span>',
+          'C': '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-error-50 text-error-500" style="font-family:Noto Sans SC,DM Sans,sans-serif;">C 档 · 待关注</span>'
+        })[t] || '';
+
+        const priorityBadge = (p) => ({
+          'high':   '<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-error-50 text-error-500" style="font-family:DM Sans,Noto Sans SC,sans-serif;">高</span>',
+          'medium': '<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-warning-50 text-warning-600" style="font-family:DM Sans,Noto Sans SC,sans-serif;">中</span>',
+          'low':    '<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-success-50 text-success-600" style="font-family:DM Sans,Noto Sans SC,sans-serif;">低</span>'
+        })[p] || '';
+
+        const milestoneIcon = (t) => ({
+          'improvement': 'trending-up',
+          'badge': 'award',
+          'milestone': 'star'
+        })[t] || 'circle';
+
+        progressRes.subscribe(({ data, loading, error }) => {
+          if (error) { console.error('[student-progress]', error); return; }
+          if (loading && !data) return;
+          if (!data) return;
+          const d = data.data || {};
+
+          // 1. 学生基本信息
+          const s = d.student || {};
+          if (s.name) {
+            setText('student-name', s.name);
+            const av = document.getElementById('student-avatar');
+            if (av) av.textContent = s.name.slice(0, 1);
+          }
+          if (s.grade) setText('student-grade', s.grade);
+          if (s.school) setText('student-school', s.school);
+          if (s.enrolledAt) setText('student-enrolled', '入学 ' + s.enrolledAt);
+          if (s.tier) {
+            const tb = document.getElementById('student-tier');
+            if (tb) tb.outerHTML = tierBadge(s.tier);
+          }
+          if (s.overallMastery !== undefined) {
+            const m = (s.overallMastery * 100).toFixed(0);
+            setText('overall-mastery', m + '%');
+            const bar = document.getElementById('mastery-bar');
+            if (bar) bar.style.width = m + '%';
+          }
+
+          // 2. 进步曲线 — SVG path
+          const trend = d.masteryTrend30d || [];
+          if (trend.length >= 2) {
+            const W = 600, H = 200;
+            const minV = 0, maxV = 1;
+            const points = trend.map((p, i) => {
+              const x = (i / (trend.length - 1)) * W;
+              const y = H - 20 - ((p.mastery_score - minV) / (maxV - minV)) * (H - 40);
+              return [x, y];
+            });
+            const pathD = points.map(([x, y], i) => (i === 0 ? 'M' : 'L') + x + ',' + y).join(' ');
+            const areaD = pathD + ` L ${W},${H} L 0,${H} Z`;
+            const tp = document.getElementById('trend-path');
+            const ta = document.getElementById('trend-area');
+            if (tp) tp.setAttribute('d', pathD);
+            if (ta) ta.setAttribute('d', areaD);
+            // 首尾标签
+            const labels = document.getElementById('trend-axis-labels');
+            if (labels) {
+              labels.innerHTML = `<span>${trend[0].date}</span><span>${trend[trend.length - 1].date}</span>`;
+            }
+            // 趋势方向
+            const first = trend[0].mastery_score;
+            const last  = trend[trend.length - 1].mastery_score;
+            const diff  = ((last - first) * 100).toFixed(1);
+            const trendText = last > first ? `↑ 上升 +${diff}%` : last < first ? `↓ 下降 ${diff}%` : '→ 持平';
+            const trendColor = last > first ? 'bg-success-50 text-success-600' : last < first ? 'bg-error-50 text-error-500' : 'bg-surface-tertiary text-foreground-secondary';
+            const ct = document.getElementById('curve-trend');
+            if (ct) { ct.className = 'text-xs px-2 py-0.5 rounded-md ' + trendColor; ct.textContent = trendText; }
+            // 顶部提示
+            const rt = document.getElementById('recent-progress');
+            if (rt) rt.textContent = (last > first ? '综合提升 +' : '综合下降 ') + diff + '%';
+            const mt = document.getElementById('mastery-trend');
+            if (mt) {
+              mt.textContent = (last > first ? '+' : '') + diff + '%';
+              mt.className = 'text-sm mb-1 ' + (last > first ? 'text-success-500' : 'text-error-500');
+            }
+          }
+
+          // 3. 本月学习时长 — 柱状图
+          const minutes = d.monthlyStudyMinutes || {};
+          const entries = Object.entries(minutes).sort(([a],[b]) => a.localeCompare(b));
+          if (entries.length > 0) {
+            const values = entries.map(([, v]) => v);
+            const max = Math.max(...values, 60);
+            const bars = document.getElementById('minutes-bars');
+            if (bars) {
+              bars.innerHTML = entries.map(([date, m]) => {
+                const h = m === 0 ? 0 : Math.max(4, Math.round((m / max) * 100));
+                const day = date.slice(-2);
+                return `<div class="flex-1 flex flex-col items-center gap-1 group">
+                  <div class="text-[10px] text-foreground-muted opacity-0 group-hover:opacity-100 transition-opacity" style="font-family:DM Sans,Noto Sans SC,sans-serif;">${m}m</div>
+                  <div class="w-full rounded-t ${m === 0 ? 'bg-surface-tertiary' : 'bg-primary-500'}" style="height:${h}%;" title="${date}: ${m} 分钟"></div>
+                  <div class="text-[10px] text-foreground-muted" style="font-family:DM Sans,Noto Sans SC,sans-serif;">${day}</div>
+                </div>`;
+              }).join('');
+            }
+            const total = values.reduce((s, v) => s + v, 0);
+            const days = entries.filter(([, v]) => v > 0).length;
+            setText('week-minutes', String(total));
+            setText('daily-avg', days > 0 ? Math.round(total / entries.length).toString() : '0');
+            setText('minutes-min-date', entries[0][0]);
+            setText('minutes-max-date', entries[entries.length - 1][0]);
+            // 顶部周学习时长
+            const weeklyTotal = entries.slice(-7).reduce((s, [, v]) => s + v, 0);
+            setText('week-minutes', String(weeklyTotal));
+          }
+
+          // 4. 薄弱知识点 TOP 5
+          const wk = document.getElementById('weak-kp-list');
+          if (wk) {
+            const list = d.weakKnowledgePoints || [];
+            wk.innerHTML = list.slice(0, 5).map((kp, i) => {
+              const cls = subjectColor(kp.subject);
+              const pct = Math.round(kp.mastery * 100);
+              const cross = (d.crossSubjectLinks || []).find(c => c.from === kp.name);
+              return `<div class="px-4 py-3 rounded-xl border border-border-light hover:border-primary-500 hover:bg-primary-50/30 transition-colors">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center gap-2 min-w-0">
+                    <span class="text-xs font-bold text-foreground-muted w-4" style="font-family:DM Sans,Noto Sans SC,sans-serif;">${i + 1}</span>
+                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-medium text-white" style="background:${cls};font-family:Noto Sans SC,DM Sans,sans-serif;">${kp.subject}</span>
+                    <span class="text-sm font-semibold text-foreground truncate" style="font-family:Noto Sans SC,DM Sans,sans-serif;">${kp.name}</span>
+                  </div>
+                  <div class="text-xs text-foreground-muted shrink-0" style="font-family:DM Sans,Noto Sans SC,sans-serif;">${kp.errorCount} 错</div>
+                </div>
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="flex-1 h-1.5 bg-surface-tertiary rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-warning-400 to-error-500 rounded-full" style="width:${pct}%;"></div>
+                  </div>
+                  <span class="text-xs font-bold text-error-500 w-10 text-right" style="font-family:DM Sans,Noto Sans SC,sans-serif;">${pct}%</span>
+                </div>
+                ${cross ? `<div class="text-xs text-creative-500 flex items-center gap-1" style="font-family:Noto Sans SC,DM Sans,sans-serif;">
+                  <i data-lucide="link-2" class="w-3 h-3"></i>
+                  <span>跨学科关联 → ${cross.to} (${cross.subject_pair.join('·')})</span>
+                </div>` : ''}
+              </div>`;
+            }).join('');
+            if (window.lucide) lucide.createIcons();
+          }
+
+          // 5. 最近错题 5 道
+          const rq = document.getElementById('recent-questions');
+          if (rq) {
+            const list = d.recentWrongQuestions || [];
+            rq.innerHTML = list.slice(0, 5).map(q => {
+              const cls = subjectColor(q.subject);
+              return `<a href="/f3/pages/wrong-book.html#${q.question_id}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-tertiary transition-colors">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center text-white text-sm font-bold shrink-0" style="background:${cls};font-family:DM Sans,Noto Sans SC,sans-serif;">${q.subject.slice(0,1)}</div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-0.5">
+                    <span class="text-sm font-semibold text-foreground" style="font-family:Noto Sans SC,DM Sans,sans-serif;">${q.knowledge_point}</span>
+                  </div>
+                  <div class="text-xs text-foreground-secondary truncate" style="font-family:Noto Sans SC,DM Sans,sans-serif;">${q.errorReason}</div>
+                </div>
+                <div class="text-right shrink-0">
+                  <div class="text-sm font-bold text-error-500" style="font-family:DM Sans,Noto Sans SC,sans-serif;">${q.score}/10</div>
+                  <div class="text-[11px] text-foreground-muted" style="font-family:Noto Sans SC,DM Sans,sans-serif;">${q.date}</div>
+                </div>
+              </a>`;
+            }).join('');
+          }
+
+          // 6. 里程碑
+          const ms = document.getElementById('milestones');
+          if (ms) {
+            const list = d.milestones || [];
+            ms.innerHTML = list.map(m => {
+              const ic = milestoneIcon(m.type);
+              return `<div class="flex items-start gap-3 px-3 py-2 rounded-xl bg-surface-secondary">
+                <div class="w-8 h-8 rounded-lg bg-warning-50 flex items-center justify-center shrink-0">
+                  <i data-lucide="${ic}" class="w-4 h-4 text-warning-600"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm text-foreground" style="font-family:Noto Sans SC,DM Sans,sans-serif;">${m.title}</div>
+                  <div class="text-xs text-foreground-muted mt-0.5" style="font-family:Noto Sans SC,DM Sans,sans-serif;">${m.date}</div>
+                </div>
+              </div>`;
+            }).join('');
+            if (window.lucide) lucide.createIcons();
+          }
+
+          // 7. 建议
+          const sg = document.getElementById('suggestions');
+          if (sg) {
+            const list = d.suggestions || [];
+            sg.innerHTML = list.map(s => `
+              <div class="px-4 py-3 rounded-xl border border-border-light">
+                <div class="flex items-center gap-2 mb-1">
+                  ${priorityBadge(s.priority)}
+                  <span class="text-sm font-semibold text-foreground" style="font-family:Noto Sans SC,DM Sans,sans-serif;">${s.title}</span>
+                </div>
+                <div class="text-xs text-foreground-secondary" style="font-family:Noto Sans SC,DM Sans,sans-serif;">${s.reason}</div>
+              </div>
+            `).join('');
+          }
+        });
+
+        // 顶部 navator — P1-fix (2026-08-24 audit)
+        import('../assets/js/navator.js').then(m => m.mount({ active: 'parent' }));
+        if (window.lucide) lucide.createIcons();
+      </script>
+    </main>
+</body>
+</html>

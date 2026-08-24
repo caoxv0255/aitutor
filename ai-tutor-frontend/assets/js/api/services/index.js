@@ -13,3 +13,5 @@ export { gamification } from './gamification.js';
 export { srs } from './srs.js';
 // Phase-G1-fix (2026-08-24): G1 — 用户反馈通道
 export { feedback } from './feedback.js';
+// Phase-I-fix (2026-08-24): 教师/家长视角 (PM P1-9)
+export { classAnalysis } from './class-analysis.js';

@@ -1,0 +1,95 @@
+{
+  "success": true,
+  "data": {
+    "student": {
+      "student_id": "demo_student_001",
+      "name": "张小明",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=demo_student_001",
+      "grade": "初三",
+      "school": "北京市第八中学",
+      "enrolledAt": "2025-09-01",
+      "tier": "C",
+      "overallMastery": 0.62,
+      "weeklyStudyMinutes": 420
+    },
+    "masteryTrend30d": [
+      { "date": "2026-07-26", "mastery_score": 0.48 },
+      { "date": "2026-07-28", "mastery_score": 0.50 },
+      { "date": "2026-07-30", "mastery_score": 0.52 },
+      { "date": "2026-08-01", "mastery_score": 0.51 },
+      { "date": "2026-08-03", "mastery_score": 0.54 },
+      { "date": "2026-08-05", "mastery_score": 0.55 },
+      { "date": "2026-08-07", "mastery_score": 0.58 },
+      { "date": "2026-08-09", "mastery_score": 0.57 },
+      { "date": "2026-08-11", "mastery_score": 0.60 },
+      { "date": "2026-08-13", "mastery_score": 0.59 },
+      { "date": "2026-08-15", "mastery_score": 0.61 },
+      { "date": "2026-08-17", "mastery_score": 0.60 },
+      { "date": "2026-08-19", "mastery_score": 0.62 },
+      { "date": "2026-08-21", "mastery_score": 0.61 },
+      { "date": "2026-08-23", "mastery_score": 0.62 },
+      { "date": "2026-08-24", "mastery_score": 0.62 }
+    ],
+    "monthlyStudyMinutes": {
+      "2026-07-26": 35,
+      "2026-07-27": 42,
+      "2026-07-28": 28,
+      "2026-07-29": 50,
+      "2026-07-30": 45,
+      "2026-07-31": 0,
+      "2026-08-01": 38,
+      "2026-08-02": 32,
+      "2026-08-03": 55,
+      "2026-08-04": 40,
+      "2026-08-05": 48,
+      "2026-08-06": 25,
+      "2026-08-07": 30,
+      "2026-08-08": 35,
+      "2026-08-09": 42,
+      "2026-08-10": 50,
+      "2026-08-11": 28,
+      "2026-08-12": 36,
+      "2026-08-13": 45,
+      "2026-08-14": 32,
+      "2026-08-15": 38,
+      "2026-08-16": 25,
+      "2026-08-17": 40,
+      "2026-08-18": 28,
+      "2026-08-19": 35,
+      "2026-08-20": 42,
+      "2026-08-21": 30,
+      "2026-08-22": 38,
+      "2026-08-23": 45,
+      "2026-08-24": 32
+    },
+    "weakKnowledgePoints": [
+      { "knowledge_point_id": "kp_math_func",     "name": "二次函数图像",          "subject": "数学", "mastery": 0.42, "errorCount":  9, "difficulty": 4 },
+      { "knowledge_point_id": "kp_math_trig",     "name": "三角函数 · 诱导公式",   "subject": "数学", "mastery": 0.38, "errorCount":  7, "difficulty": 4 },
+      { "knowledge_point_id": "kp_phys_force",    "name": "牛顿第二定律",          "subject": "物理", "mastery": 0.35, "errorCount":  6, "difficulty": 5 },
+      { "knowledge_point_id": "kp_chem_eq",       "name": "化学方程式配平",        "subject": "化学", "mastery": 0.46, "errorCount":  4, "difficulty": 3 },
+      { "knowledge_point_id": "kp_math_seq",      "name": "等差数列求和",          "subject": "数学", "mastery": 0.50, "errorCount":  3, "difficulty": 3 }
+    ],
+    "crossSubjectLinks": [
+      { "from": "二次函数图像",      "to": "物理抛体运动",        "subject_pair": ["数学", "物理"], "strength": 0.82 },
+      { "from": "三角函数 · 诱导公式","to": "物理简谐振动",        "subject_pair": ["数学", "物理"], "strength": 0.74 },
+      { "from": "化学方程式配平",    "to": "数学配方法",          "subject_pair": ["化学", "数学"], "strength": 0.61 }
+    ],
+    "recentWrongQuestions": [
+      { "question_id": "wq_20260824_math_01", "subject": "数学", "knowledge_point": "二次函数图像",       "date": "2026-08-24", "errorReason": "顶点坐标公式记错",   "score": 0 },
+      { "question_id": "wq_20260823_phys_03", "subject": "物理", "knowledge_point": "牛顿第二定律",       "date": "2026-08-23", "errorReason": "受力分析缺摩擦力",     "score": 3 },
+      { "question_id": "wq_20260822_math_02", "subject": "数学", "knowledge_point": "三角函数 · 诱导公式", "date": "2026-08-22", "errorReason": "符号判断错误",         "score": 4 },
+      { "question_id": "wq_20260821_chem_01", "subject": "化学", "knowledge_point": "化学方程式配平",     "date": "2026-08-21", "errorReason": "电子转移守恒错误",     "score": 2 },
+      { "question_id": "wq_20260820_math_03", "subject": "数学", "knowledge_point": "等差数列求和",       "date": "2026-08-20", "errorReason": "首项公差混淆",         "score": 4 }
+    ],
+    "milestones": [
+      { "date": "2026-08-22", "type": "improvement", "title": "化学进步 12 分, 进入 B 档" },
+      { "date": "2026-08-15", "type": "badge",       "title": "获得「7 日连续打卡」徽章" },
+      { "date": "2026-08-08", "type": "improvement", "title": "综合掌握度突破 60%" }
+    ],
+    "suggestions": [
+      { "priority": "high",   "title": "建议本周专攻「二次函数图像」", "reason": "连续 3 次错题, 错误率 45%" },
+      { "priority": "medium", "title": "复习「牛顿第二定律」前置概念", "reason": "受力分析是解题关键" },
+      { "priority": "low",    "title": "保持「化学方程式配平」每日 2 题","reason": "近期进步明显" }
+    ]
+  }
+}

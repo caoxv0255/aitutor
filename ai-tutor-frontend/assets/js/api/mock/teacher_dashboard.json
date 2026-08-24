@@ -1,0 +1,74 @@
+{
+  "success": true,
+  "data": {
+    "teacher": {
+      "teacher_id": "teacher_001",
+      "name": "王 老师",
+      "subject": "数学",
+      "classes": ["高一 (3) 班", "高一 (5) 班"]
+    },
+    "overview": {
+      "totalUsers": 1280,
+      "activeToday": 184,
+      "totalQuestions": 5620,
+      "totalPapers": 248,
+      "totalClasses": 2,
+      "totalStudents": 86,
+      "weeklyActiveRate": 0.91
+    },
+    "classes": [
+      {
+        "class_id": "class_001",
+        "name": "高一 (3) 班",
+        "studentCount": 42,
+        "averageScore": 78.6,
+        "attendanceRate": 0.94,
+        "attentionCount": 5,
+        "tierDistribution": { "A": 12, "B": 25, "C": 5 }
+      },
+      {
+        "class_id": "class_002",
+        "name": "高一 (5) 班",
+        "studentCount": 44,
+        "averageScore": 81.2,
+        "attendanceRate": 0.96,
+        "attentionCount": 3,
+        "tierDistribution": { "A": 15, "B": 26, "C": 3 }
+      }
+    ],
+    "subjectStats": [
+      { "subject_code": "math",    "user_count": 412, "subject": "数学" },
+      { "subject_code": "physics", "user_count": 356, "subject": "物理" },
+      { "subject_code": "chinese", "user_count": 298, "subject": "语文" },
+      { "subject_code": "english", "user_count": 287, "subject": "英语" },
+      { "subject_code": "chemistry","user_count": 198, "subject": "化学" },
+      { "subject_code": "biology", "user_count": 175, "subject": "生物" }
+    ],
+    "difficultyDistribution": [
+      { "difficulty": 1, "count": 420 },
+      { "difficulty": 2, "count": 1280 },
+      { "difficulty": 3, "count": 2180 },
+      { "difficulty": 4, "count": 1280 },
+      { "difficulty": 5, "count": 460 }
+    ],
+    "weeklyDynamics": {
+      "weekStart": "2026-08-18",
+      "weekEnd": "2026-08-24",
+      "newQuestions": 18,
+      "newReports": 12,
+      "averageImprovement": 0.034,
+      "activeStudents": 78,
+      "keyEvents": [
+        { "time": "2026-08-24 09:12", "type": "report",  "title": "张小明提交数学错题分析报告",     "student": "张小明" },
+        { "time": "2026-08-23 16:45", "type": "alert",   "title": "李华连续 3 次物理低于 60",         "student": "李 华" },
+        { "time": "2026-08-23 10:30", "type": "report",  "title": "高一 (3) 班周报已生成",            "student": null },
+        { "time": "2026-08-22 14:08", "type": "milestone","title": "王芳化学进步 12 分, 进入 B 档",   "student": "王 芳" },
+        { "time": "2026-08-21 11:20", "type": "alert",   "title": "陈刚连续 7 天未活跃, 请关注",      "student": "陈 刚" }
+      ]
+    },
+    "pendingTasks": [
+      { "task_id": "task_001", "type": "review_report", "title": "审核高一 (3) 班周报",      "due": "2026-08-25" },
+      { "task_id": "task_002", "type": "contact_parent", "title": "联系张小明家长",           "due": "2026-08-26" }
+    ]
+  }
+}
