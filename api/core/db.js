@@ -699,6 +699,74 @@ async function initTables(pool) {
     }
   }
 
+  // Phase C2-fix (2026-08-24): C2-2 KP FK CASCADE + C2-3 task_queue status CHECK + C2-4 question_uid NOT NULL
+  //   PG 不支持 ADD CONSTRAINT IF NOT EXISTS / ADD CONSTRAINT IF NOT VALID 这种幂等语法,
+  //   所以这批 C2 迁移用 DO block 包裹 DROP IF EXISTS + ADD, 保证新库 + 旧库升级都安全
+  //   失败不致命 (try-catch 包裹, 仅警告), 真正的强约束由 migrations/014-016 提供
+  const c2Statements = [
+    {
+      name: 'qkp_kp_fk_cascade',
+      sql: `
+        DO $$ BEGIN
+          ALTER TABLE question_knowledge_points DROP CONSTRAINT IF EXISTS question_knowledge_points_knowledge_point_id_fkey;
+          ALTER TABLE question_knowledge_points DROP CONSTRAINT IF EXISTS fk_qkp_kp_id;
+          ALTER TABLE question_knowledge_points
+            ADD CONSTRAINT fk_qkp_kp_id
+            FOREIGN KEY (knowledge_point_id) REFERENCES knowledge_points(id) ON DELETE CASCADE;
+        EXCEPTION WHEN OTHERS THEN
+          RAISE NOTICE 'qkp_kp_fk_cascade skipped: %', SQLERRM;
+        END $$;
+      `,
+    },
+    {
+      name: 'srs_log_kp_fk_cascade',
+      sql: `
+        DO $$ BEGIN
+          ALTER TABLE srs_review_log DROP CONSTRAINT IF EXISTS fk_srs_log_kp_id;
+          ALTER TABLE srs_review_log
+            ADD CONSTRAINT fk_srs_log_kp_id
+            FOREIGN KEY (knowledge_point_id) REFERENCES knowledge_points(id) ON DELETE CASCADE;
+        EXCEPTION WHEN OTHERS THEN
+          RAISE NOTICE 'srs_log_kp_fk_cascade skipped: %', SQLERRM;
+        END $$;
+      `,
+    },
+    {
+      name: 'task_queue_status_check',
+      sql: `
+        DO $$ BEGIN
+          ALTER TABLE task_queue DROP CONSTRAINT IF EXISTS task_queue_status_check;
+          ALTER TABLE task_queue
+            ADD CONSTRAINT task_queue_status_check
+            CHECK (status IN ('pending', 'processing', 'completed', 'failed', 'cancelled'));
+        EXCEPTION WHEN OTHERS THEN
+          RAISE NOTICE 'task_queue_status_check skipped: %', SQLERRM;
+        END $$;
+      `,
+    },
+    {
+      name: 'question_uid_notnull',
+      sql: `
+        DO $$ BEGIN
+          IF NOT EXISTS (SELECT 1 FROM exam_questions WHERE question_uid IS NULL) THEN
+            ALTER TABLE exam_questions ALTER COLUMN question_uid SET NOT NULL;
+          ELSE
+            RAISE NOTICE 'question_uid_notnull skipped: NULL rows exist';
+          END IF;
+        EXCEPTION WHEN OTHERS THEN
+          RAISE NOTICE 'question_uid_notnull skipped: %', SQLERRM;
+        END $$;
+      `,
+    },
+  ];
+  for (const { name, sql } of c2Statements) {
+    try {
+      await pool.query(sql);
+    } catch (err) {
+      console.warn(`[DB Migration] C2 ${name} failed: ${err.message}`);
+    }
+  }
+
   // P0-fix (2026-08-24): 向量列维度从 768 → 1024 迁移 (与 services/embedding.js bge-m3 一致)
   // ALTER COLUMN TYPE 不可幂等, 需先查维度, 已为 1024 则跳过; 否则 truncate + alter
   // (D068 历史: migration 006_bge_m3_1024.sql 已 DESTRUCTIVE 升级, 这里是新库场景兜底)
