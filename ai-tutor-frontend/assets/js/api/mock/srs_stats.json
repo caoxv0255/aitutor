@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "data": {
+    "total_reviews": 87,
+    "today_reviews": 5,
+    "due_count": 12,
+    "active_days_30d": 18
+  }
+}

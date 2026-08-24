@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "data": {
+    "subject": "physics",
+    "root_causes": [
+      { "kp_id": "MATH-002", "name": "函数与导数", "subject": "math", "mastery_score": 32, "impact_score": 0.85 },
+      { "kp_id": "MATH-D01", "name": "导数定义", "subject": "math", "mastery_score": 45, "impact_score": 0.78 },
+      { "kp_id": "MATH-005", "name": "向量基础", "subject": "math", "mastery_score": 52, "impact_score": 0.65 },
+      { "kp_id": "MATH-008", "name": "三角函数", "subject": "math", "mastery_score": 58, "impact_score": 0.55 },
+      { "kp_id": "MATH-010", "name": "数列基础", "subject": "math", "mastery_score": 62, "impact_score": 0.45 }
+    ],
+    "note": "mock 数据 - 基于知识图谱影响关系"
+  }
+}

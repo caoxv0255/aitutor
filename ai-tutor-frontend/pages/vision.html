@@ -183,6 +183,83 @@
         </div>
       </section>
 
+      <!-- Phase-E-fix (2026-08-24): 整卷 OCR 上传卡片 -->
+      <section class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-5">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="ait-badge ait-badge-primary">Phase E · 整卷 OCR</span>
+          <span class="text-[12px] text-foreground-muted">多图 / 多页 PDF / 整份试卷一键上传</span>
+        </div>
+        <h2 class="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+          <i data-lucide="layers" class="w-5 h-5 text-primary-500"></i>
+          整卷上传
+        </h2>
+
+        <!-- Photo mode + File mode toggle -->
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <label class="inline-flex items-center gap-2 h-10 px-4 rounded-[10px] bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium cursor-pointer transition-colors">
+            <i data-lucide="image-plus" class="w-4 h-4"></i>
+            <span>选择多张图片</span>
+            <input id="vision-batch-files" type="file" accept="image/*" multiple class="hidden" />
+          </label>
+          <label class="inline-flex items-center gap-2 h-10 px-4 rounded-[10px] bg-surface-tertiary hover:bg-border text-foreground text-sm font-medium cursor-pointer transition-colors">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>上传 PDF</span>
+            <input id="vision-batch-pdf" type="file" accept="application/pdf" class="hidden" />
+          </label>
+          <span class="text-[12px] text-foreground-muted">最多 20 张，单张 ≤ 10MB</span>
+          <button id="vision-batch-clear" type="button" class="hidden inline-flex items-center gap-1 h-8 px-2.5 rounded-[8px] text-[12px] bg-surface-tertiary hover:bg-border text-foreground-secondary">
+            <i data-lucide="x" class="w-3 h-3"></i> 清空
+          </button>
+        </div>
+
+        <!-- 已选文件预览网格 -->
+        <div id="vision-batch-preview" class="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-3 min-h-[60px]">
+          <div class="col-span-full text-[12px] text-foreground-muted text-center py-4">尚未选择文件</div>
+        </div>
+
+        <!-- 进度条 -->
+        <div id="vision-batch-progress" class="hidden mb-3">
+          <div class="flex items-center justify-between text-[12px] text-foreground-secondary mb-1">
+            <span id="vision-batch-progress-text">上传中 (0/0)</span>
+            <span id="vision-batch-progress-pct" class="text-foreground-muted">0%</span>
+          </div>
+          <div class="h-2 w-full bg-surface-tertiary rounded-full overflow-hidden">
+            <div id="vision-batch-progress-bar" class="h-full bg-primary-500 transition-all duration-200" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="vision-batch-submit" type="button" disabled class="inline-flex items-center gap-2 h-10 px-4 rounded-[10px] bg-primary-500 hover:bg-primary-600 disabled:bg-surface-tertiary disabled:text-foreground-muted text-white text-sm font-medium transition-colors">
+            <i data-lucide="zap" class="w-4 h-4"></i>
+            <span>开始整卷解析</span>
+          </button>
+          <button id="vision-batch-ingest" type="button" disabled class="hidden inline-flex items-center gap-2 h-10 px-4 rounded-[10px] bg-success-500 hover:bg-success-600 disabled:bg-surface-tertiary disabled:text-foreground-muted text-white text-sm font-medium transition-colors">
+            <i data-lucide="bookmark-plus" class="w-4 h-4"></i>
+            <span>批量加入错题本 (<span id="vision-batch-ingest-count">0</span>)</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Phase-E-fix (2026-08-24): 整卷结果卡片 (聚合展示) -->
+      <section id="vision-batch-result-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-5 hidden">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-lg font-semibold text-foreground flex items-center gap-2">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-success-500"></i>
+            整卷解析结果
+          </h2>
+          <div id="vision-batch-summary" class="text-[12px] text-foreground-secondary"></div>
+        </div>
+        <div id="vision-batch-questions" class="space-y-2"></div>
+        <div id="vision-batch-failed-wrap" class="hidden mt-4 pt-4 border-t border-border-light">
+          <div class="text-[13px] font-medium text-error-600 mb-2 flex items-center gap-1.5">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+            解析失败 (<span id="vision-batch-failed-count">0</span>)
+          </div>
+          <div id="vision-batch-failed" class="space-y-1.5"></div>
+        </div>
+      </section>
+
       <!-- 状态卡片 -->
       <section id="vision-status-card" class="bg-surface rounded-2xl border border-border shadow-sm p-5 mb-5 hidden">
         <div class="flex items-center gap-2 text-sm text-foreground-secondary">
@@ -439,6 +516,270 @@
     });
 
     renderHistory();
+
+    // ────────────────────────────────────────────────────────────────────────
+    // Phase E (2026-08-24): 整卷 OCR 多图上传 + 批量解析 + 批量入库
+    //
+    // 设计原则:
+    //   - 单题失败不影响整批 (核心 UX)
+    //   - 进度条 + 实时计数 (上传中 3/5)
+    //   - 调用 vision.batchParse (F3 service envelope) + vision.batchIngest
+    //   - 结果聚合展示 + 失败项单独高亮
+    // ────────────────────────────────────────────────────────────────────────
+
+    const batchFileEl = $("vision-batch-files");
+    const batchPdfEl = $("vision-batch-pdf");
+    const batchPreview = $("vision-batch-preview");
+    const batchProgress = $("vision-batch-progress");
+    const batchProgressBar = $("vision-batch-progress-bar");
+    const batchProgressText = $("vision-batch-progress-text");
+    const batchProgressPct = $("vision-batch-progress-pct");
+    const batchSubmitBtn = $("vision-batch-submit");
+    const batchIngestBtn = $("vision-batch-ingest");
+    const batchIngestCount = $("vision-batch-ingest-count");
+    const batchClearBtn = $("vision-batch-clear");
+    const batchResultCard = $("vision-batch-result-card");
+    const batchQuestions = $("vision-batch-questions");
+    const batchSummary = $("vision-batch-summary");
+    const batchFailedWrap = $("vision-batch-failed-wrap");
+    const batchFailed = $("vision-batch-failed");
+    const batchFailedCount = $("vision-batch-failed-count");
+
+    const batchState = {
+      files: [],            // [{ file, dataUrl, pageIndex }]
+      questions: [],        // 解析成功的题
+      failed: [],           // 解析失败的项
+      busy: false,          // 是否正在解析中
+    };
+
+    function renderBatchPreview() {
+      if (batchState.files.length === 0) {
+        batchPreview.innerHTML = `<div class="col-span-full text-[12px] text-foreground-muted text-center py-4">尚未选择文件</div>`;
+        batchSubmitBtn.disabled = true;
+        batchClearBtn.classList.add("hidden");
+        return;
+      }
+      batchPreview.innerHTML = batchState.files.map((f, idx) => `
+        <div class="relative group rounded-lg overflow-hidden border border-border bg-surface-secondary aspect-square">
+          <img src="${f.dataUrl}" alt="第 ${idx + 1} 张" class="w-full h-full object-cover" />
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent text-white text-[10px] px-1.5 py-0.5">#${idx + 1}</div>
+        </div>
+      `).join("");
+      batchSubmitBtn.disabled = batchState.busy;
+      batchClearBtn.classList.remove("hidden");
+    }
+
+    function setBatchProgress(current, total, label) {
+      const pct = total > 0 ? Math.round((current / total) * 100) : 0;
+      batchProgress.classList.remove("hidden");
+      batchProgressBar.style.width = pct + "%";
+      batchProgressText.textContent = label || `上传中 (${current}/${total})`;
+      batchProgressPct.textContent = pct + "%";
+    }
+
+    function hideBatchProgress() { batchProgress.classList.add("hidden"); }
+
+    async function filesToDataUrls(files) {
+      const out = [];
+      for (let i = 0; i < files.length; i++) {
+        const dataUrl = await readFileAsDataURL(files[i]);
+        out.push({ file: files[i], dataUrl, pageIndex: i + 1 });
+      }
+      return out;
+    }
+
+    async function handleBatchFiles(fileList) {
+      if (batchState.busy) return;
+      const files = Array.from(fileList || []);
+      const imageFiles = files.filter((f) => f.type.startsWith("image/"));
+      if (imageFiles.length === 0) {
+        toast.error("请选择图片文件");
+        return;
+      }
+      const remaining = 20 - batchState.files.length;
+      if (imageFiles.length > remaining) {
+        toast.warning(`最多 20 张, 已截取前 ${remaining} 张`);
+      }
+      const toAdd = imageFiles.slice(0, remaining);
+      batchState.busy = true;
+      try {
+        const newOnes = await filesToDataUrls(toAdd);
+        batchState.files = batchState.files.concat(newOnes);
+        renderBatchPreview();
+        toast.success(`已添加 ${toAdd.length} 张图片 (共 ${batchState.files.length} 张)`);
+      } catch (err) {
+        toast.error("文件读取失败: " + err.message);
+      } finally {
+        batchState.busy = false;
+      }
+    }
+
+    async function handleBatchPdf(file) {
+      if (!file) return;
+      if (file.type !== "application/pdf") {
+        toast.error("请选择 PDF 文件");
+        return;
+      }
+      // Phase-E-fix (2026-08-24): PDF → 图片依赖 pdf.js, 当前 MVP 简化处理 —
+      // 提示用户"PDF 多页功能开发中", 引导先拆分为图片上传.
+      // 真实场景下应使用 pdfjs-dist render → canvas → base64.
+      toast.warn("PDF 多页解析需 pdf.js, MVP 当前推荐拆分为图片上传");
+      // 清空 input, 避免重复触发
+      batchPdfEl.value = "";
+    }
+
+    function renderBatchResults() {
+      const { questions, failed } = batchState;
+      if (questions.length === 0 && failed.length === 0) {
+        batchResultCard.classList.add("hidden");
+        return;
+      }
+      batchResultCard.classList.remove("hidden");
+      batchSummary.textContent = `成功 ${questions.length} / 失败 ${failed.length} / 总计 ${questions.length + failed.length}`;
+      batchIngestCount.textContent = String(questions.length);
+      batchIngestBtn.disabled = questions.length === 0;
+
+      if (questions.length === 0) {
+        batchQuestions.innerHTML = `<div class="text-[13px] text-foreground-muted text-center py-4">暂无成功解析的题目</div>`;
+      } else {
+        batchQuestions.innerHTML = questions.map((q) => {
+          const subjectName = SUBJECTS.find((s) => s.code === q.subject_code)?.name || q.subject_code || "未识别";
+          return `
+            <div class="flex items-start gap-3 py-2 px-3 rounded-lg bg-surface-tertiary/50">
+              <div class="shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary-500/10 text-primary-600 text-[12px] font-medium">#${esc(q.pageIndex)}</div>
+              <div class="min-w-0 flex-1">
+                <div class="flex flex-wrap items-center gap-2 text-[11px] text-foreground-secondary mb-1">
+                  <span class="font-medium text-foreground">${esc(subjectName)}</span>
+                  <span>·</span>
+                  <span>难度 ${"★".repeat(Math.max(1, Math.min(5, q.difficulty || 1)))}</span>
+                  <span>·</span>
+                  <span>${esc(TYPE_LABELS[q.question_type] || q.question_type || "其他")}</span>
+                  <span>·</span>
+                  <span class="text-foreground-muted">${esc(q.inferred_kp_id || "未匹配知识点")}</span>
+                </div>
+                <div class="text-[13px] text-foreground line-clamp-2">${esc((q.raw_text || "").slice(0, 120))}</div>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      if (failed.length === 0) {
+        batchFailedWrap.classList.add("hidden");
+      } else {
+        batchFailedWrap.classList.remove("hidden");
+        batchFailedCount.textContent = String(failed.length);
+        batchFailed.innerHTML = failed.map((f) => `
+          <div class="flex items-center gap-2 py-1.5 px-3 rounded-md bg-error-50 text-[12px] text-error-700">
+            <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+            <span>第 ${esc(f.pageIndex)} 张:</span>
+            <span class="truncate">${esc(f.error || "未知错误")}</span>
+          </div>
+        `).join("");
+      }
+      // Re-render lucide icons (for failed items)
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    async function submitBatchParse() {
+      if (batchState.files.length === 0 || batchState.busy) return;
+      batchState.busy = true;
+      batchSubmitBtn.disabled = true;
+      batchIngestBtn.classList.add("hidden");
+      batchResultCard.classList.add("hidden");
+      const total = batchState.files.length;
+      try {
+        // Step 1: 上传图片 (模拟进度)
+        for (let i = 0; i < total; i++) {
+          await new Promise((r) => setTimeout(r, 30)); // 让 UI 跟上
+          setBatchProgress(i + 1, total, `上传中 (${i + 1}/${total})`);
+        }
+
+        // Step 2: 调 batchParse
+        setBatchProgress(total, total, `整卷解析中 (${total} 张图片)...`);
+        const images = batchState.files.map((f, i) => {
+          const base64 = (f.dataUrl.split(",")[1] || "").trim();
+          return {
+            data: base64,
+            subject: state.selectedSubject || null,
+            pageIndex: f.pageIndex,
+          };
+        });
+        const res = await vision.batchParse({
+          images,
+          userHint: { default_subject: state.selectedSubject || null },
+          options: { concurrency: 3 },
+        });
+        const body = (res && res.data) ? res.data : res;
+        batchState.questions = Array.isArray(body?.questions) ? body.questions : [];
+        batchState.failed = Array.isArray(body?.failed) ? body.failed : [];
+
+        renderBatchResults();
+        batchIngestBtn.classList.remove("hidden");
+        hideBatchProgress();
+        const totalQ = batchState.questions.length + batchState.failed.length;
+        toast.success(`整卷解析完成: 成功 ${batchState.questions.length} / 失败 ${batchState.failed.length}`);
+        if (batchState.questions.length > 0) {
+          pushHistory({
+            ts: Date.now(),
+            summary: `[整卷] ${batchState.questions.length}/${totalQ} 题`,
+            subject: SUBJECTS.find((s) => s.code === state.selectedSubject)?.name || "",
+          });
+        }
+      } catch (err) {
+        console.error("[vision] batch parse error:", err);
+        toast.error("整卷解析失败: " + (err.message || ""));
+        hideBatchProgress();
+      } finally {
+        batchState.busy = false;
+        batchSubmitBtn.disabled = batchState.files.length === 0;
+      }
+    }
+
+    async function submitBatchIngest() {
+      if (batchState.questions.length === 0) return;
+      batchIngestBtn.disabled = true;
+      try {
+        const res = await vision.batchIngest({ questions: batchState.questions });
+        const body = (res && res.data) ? res.data : res;
+        const ok = body?.success_count ?? 0;
+        const fail = body?.failed_count ?? 0;
+        const mastery = body?.mastery_updates ?? 0;
+        const srs = body?.srs_scheduled ?? 0;
+        toast.success(`已入库 ${ok} 题 · mastery -10 × ${mastery} · SRS 调度 × ${srs}` + (fail > 0 ? ` · 失败 ${fail}` : ""));
+        setTimeout(() => {
+          window.location.href = "./wrong-book.html";
+        }, 800);
+      } catch (err) {
+        console.error("[vision] batch ingest error:", err);
+        toast.error("批量入库失败: " + (err.message || ""));
+        batchIngestBtn.disabled = false;
+      }
+    }
+
+    function clearBatch() {
+      if (batchState.busy) return;
+      batchState.files = [];
+      batchState.questions = [];
+      batchState.failed = [];
+      renderBatchPreview();
+      batchResultCard.classList.add("hidden");
+      batchIngestBtn.classList.add("hidden");
+      batchSubmitBtn.disabled = true;
+      batchFileEl.value = "";
+      batchPdfEl.value = "";
+      hideBatchProgress();
+      toast.info("已清空");
+    }
+
+    batchFileEl.addEventListener("change", (e) => handleBatchFiles(e.target.files));
+    batchPdfEl.addEventListener("change", (e) => handleBatchPdf(e.target.files[0]));
+    batchSubmitBtn.addEventListener("click", submitBatchParse);
+    batchIngestBtn.addEventListener("click", submitBatchIngest);
+    batchClearBtn.addEventListener("click", clearBatch);
+
+    // 初始化预览
+    renderBatchPreview();
   </script>
   <script>lucide.createIcons();</script>
 </body>

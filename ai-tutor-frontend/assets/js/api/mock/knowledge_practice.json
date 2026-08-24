@@ -1,0 +1,43 @@
+{
+  "success": true,
+  "data": {
+    "questions": [
+      {
+        "id": 101,
+        "content": "已知函数 f(x)=x²+2x+1，求 f(2) 的值",
+        "subject_code": "math",
+        "difficulty": 2,
+        "knowledge_point_id": "MATH-001"
+      },
+      {
+        "id": 102,
+        "content": "若 f(x)=ax²+bx+c 满足 f(1)=0 且对称轴 x=2，求 b 的值",
+        "subject_code": "math",
+        "difficulty": 3,
+        "knowledge_point_id": "MATH-001"
+      },
+      {
+        "id": 103,
+        "content": "求函数 f(x)=x²-4x+5 的最小值",
+        "subject_code": "math",
+        "difficulty": 2,
+        "knowledge_point_id": "MATH-001"
+      },
+      {
+        "id": 104,
+        "content": "判断 f(x)=(x-1)²+3 的单调区间",
+        "subject_code": "math",
+        "difficulty": 3,
+        "knowledge_point_id": "MATH-001"
+      },
+      {
+        "id": 105,
+        "content": "已知 f(x)=2x²-4x+1，求顶点坐标",
+        "subject_code": "math",
+        "difficulty": 2,
+        "knowledge_point_id": "MATH-001"
+      }
+    ],
+    "source": "mock"
+  }
+}

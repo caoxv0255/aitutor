@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "message": "打卡成功",
+  "data": {
+    "checkinDate": "2026-08-24",
+    "streakDays": 8,
+    "pointsEarned": 13,
+    "newBadges": [
+      {
+        "id": "week_streak",
+        "name": "坚持一周",
+        "description": "连续打卡7天",
+        "icon": "🔥",
+        "earnedAt": "2026-08-24T08:30:15.000Z"
+      }
+    ]
+  }
+}

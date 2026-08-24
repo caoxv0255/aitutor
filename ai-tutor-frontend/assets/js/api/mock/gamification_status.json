@@ -1,0 +1,18 @@
+{
+  "success": true,
+  "data": {
+    "todayCheckedIn": true,
+    "currentStreak": 8,
+    "totalCheckins": 42,
+    "recentCheckins": [
+      { "checkin_date": "2026-08-24", "streak_days": 8 },
+      { "checkin_date": "2026-08-23", "streak_days": 7 },
+      { "checkin_date": "2026-08-22", "streak_days": 6 },
+      { "checkin_date": "2026-08-21", "streak_days": 5 },
+      { "checkin_date": "2026-08-20", "streak_days": 4 },
+      { "checkin_date": "2026-08-19", "streak_days": 3 },
+      { "checkin_date": "2026-08-18", "streak_days": 2 },
+      { "checkin_date": "2026-08-17", "streak_days": 1 }
+    ]
+  }
+}

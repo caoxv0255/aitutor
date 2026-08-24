@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跨学科溯源分析 · AI Tutor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { 50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' },
+            surface: { DEFAULT: '#ffffff', secondary: '#f8fafc', tertiary: '#f1f5f9' },
+            border: { DEFAULT: '#e5e7eb', light: '#f3f4f6' },
+            foreground: { DEFAULT: '#0f172a', secondary: '#475569', muted: '#94a3b8' },
+            success: { 50: '#f0fdf4', 500: '#10b981', 600: '#059669' },
+            warning: { 50: '#fffbeb', 500: '#f59e0b', 600: '#d97706' },
+            error:   { 50: '#fef2f2', 500: '#ef4444', 600: '#dc2626' }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { font-family: 'DM Sans','Noto Sans SC',sans-serif; background: #f8fafc; }
+    .mastery-bar { transition: width 0.6s ease; }
+  </style>
+</head>
+<body class="bg-surface-secondary min-h-screen">
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+    <!-- 标题 -->
+    <header class="mb-6">
+      <h1 class="text-2xl sm:text-3xl font-bold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
+        🔗 跨学科溯源分析
+      </h1>
+      <p class="text-sm text-foreground-secondary mt-1">
+        识别影响目标学科的关键先决知识点 · 基于知识图谱与个人掌握度
+      </p>
+    </header>
+
+    <!-- 控制面板 -->
+    <section class="bg-surface border border-border rounded-2xl p-5 mb-5 shadow-sm">
+      <div class="flex flex-col sm:flex-row gap-3 sm:items-end">
+        <div class="flex-1">
+          <label class="block text-xs font-medium text-foreground-secondary mb-1.5">目标学科</label>
+          <select id="subject-select"
+                  class="w-full h-10 px-3 bg-surface border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
+            <option value="math">数学 (math)</option>
+            <option value="physics">物理 (physics)</option>
+            <option value="chemistry">化学 (chemistry)</option>
+            <option value="biology">生物 (biology)</option>
+            <option value="chinese">语文 (chinese)</option>
+            <option value="english">英语 (english)</option>
+            <option value="politics">政治 (politics)</option>
+            <option value="history">历史 (history)</option>
+            <option value="geography">地理 (geography)</option>
+          </select>
+        </div>
+        <button id="load-btn"
+                class="h-10 px-5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-lg transition-colors">
+          📊 加载跨学科影响
+        </button>
+      </div>
+      <p class="text-xs text-foreground-muted mt-3" id="meta-note"></p>
+    </section>
+
+    <!-- 结果区 -->
+    <section id="result-panel" class="bg-surface border border-border rounded-2xl p-5 shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-base font-semibold text-foreground">
+          🎯 TOP 5 先决知识点（影响 <span id="result-subject">—</span>）
+        </h2>
+        <span id="result-count" class="text-xs text-foreground-muted"></span>
+      </div>
+      <div id="cross-list" class="space-y-3">
+        <p class="text-foreground-muted text-sm text-center py-8">请选择学科后点击"加载跨学科影响"</p>
+      </div>
+    </section>
+
+    <!-- 底部说明 -->
+    <footer class="mt-6 text-xs text-foreground-muted text-center">
+      Phase-H1-fix · 数据来源: Apache AGE 知识图谱 + 学生掌握度记录
+    </footer>
+  </main>
+
+  <script type="module">
+    // Phase-H1-fix (2026-08-24): 跨学科溯源分析页
+    import { mount as mountNav } from '../assets/js/navator.js';
+    import { knowledge } from '../assets/js/api/services/index.js';
+
+    mountNav('cross');
+
+    const subjectSel = document.getElementById('subject-select');
+    const loadBtn = document.getElementById('load-btn');
+    const listEl = document.getElementById('cross-list');
+    const subjectLabel = document.getElementById('result-subject');
+    const countEl = document.getElementById('result-count');
+    const metaNote = document.getElementById('meta-note');
+
+    function renderCauses(causes, subject) {
+      subjectLabel.textContent = subject || '—';
+      countEl.textContent = causes.length > 0 ? `共 ${causes.length} 项` : '';
+      if (!causes || causes.length === 0) {
+        listEl.innerHTML = '<p class="text-foreground-muted text-sm text-center py-8">暂无跨学科关联数据</p>';
+        return;
+      }
+      listEl.innerHTML = causes.map((c, i) => {
+        const score = Math.max(0, Math.min(100, Math.round(c.mastery_score || 0)));
+        const barColor = score < 40 ? 'bg-error-500' : score < 60 ? 'bg-warning-500' : 'bg-primary-500';
+        return `
+          <article class="border border-border rounded-xl p-4 hover:border-primary-300 transition-colors">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary-50 text-primary-600 text-xs font-semibold">${i + 1}</span>
+                  <h3 class="text-sm font-semibold text-foreground truncate">${escapeHtml(c.name || c.kp_id)}</h3>
+                  <span class="inline-flex items-center px-2 h-5 rounded-md bg-surface-tertiary text-foreground-secondary text-[11px] font-medium">[${escapeHtml(c.subject || '')}]</span>
+                </div>
+                <p class="text-xs text-foreground-muted">KP: ${escapeHtml(c.kp_id || '')}</p>
+              </div>
+              <a href="/f3/pages/wrong-book.html?kp=${encodeURIComponent(c.kp_id || '')}#practice"
+                 class="shrink-0 inline-flex items-center gap-1 h-8 px-3 bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium rounded-lg transition-colors">
+                📝 去练习
+              </a>
+            </div>
+            <div class="mt-3">
+              <div class="flex items-center justify-between text-xs mb-1">
+                <span class="text-foreground-secondary">掌握度</span>
+                <span class="font-semibold ${score < 40 ? 'text-error-500' : score < 60 ? 'text-warning-600' : 'text-primary-600'}">${score}%</span>
+              </div>
+              <div class="h-2 bg-border-light rounded-full overflow-hidden">
+                <div class="h-full mastery-bar ${barColor}" style="width:${score}%"></div>
+              </div>
+            </div>
+            <div class="mt-2 text-xs text-foreground-muted">
+              影响权重: <span class="font-medium">${(c.impact_score || 0).toFixed(2)}</span>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    async function load() {
+      const subject = subjectSel.value;
+      loadBtn.disabled = true;
+      loadBtn.textContent = '加载中…';
+      listEl.innerHTML = '<p class="text-foreground-muted text-sm text-center py-8">⏳ 分析中...</p>';
+      try {
+        const res = await knowledge.getCrossSubjectImpact(subject);
+        const data = res.data || {};
+        metaNote.textContent = data.note || '';
+        renderCauses(data.root_causes || [], data.subject || subject);
+      } catch (e) {
+        listEl.innerHTML = '<p class="text-error-500 text-sm text-center py-8">⚠️ 加载失败：' + escapeHtml(e.message) + '</p>';
+      } finally {
+        loadBtn.disabled = false;
+        loadBtn.textContent = '📊 加载跨学科影响';
+      }
+    }
+
+    loadBtn.addEventListener('click', load);
+    // 初始自动加载
+    load();
+  </script>
+</body>
+</html>

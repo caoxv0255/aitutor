@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "message": "复习已记录",
+  "data": {
+    "knowledge_point_id": "math_002",
+    "old_mastery": 0.32,
+    "new_mastery": 0.44,
+    "mastery_delta": 0.12,
+    "quality": 4,
+    "old_interval": 3,
+    "new_interval": 6,
+    "old_ef": 2.5,
+    "new_ef": 2.56,
+    "next_review_at": "2026-08-30T08:30:00.000Z"
+  }
+}

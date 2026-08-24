@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "data": {
+    "totalBadges": 14,
+    "earnedCount": 4,
+    "badges": [
+      { "id": "first_login", "name": "初来乍到", "description": "首次登录", "icon": "🌟", "earned": true, "earnedAt": "2026-07-15T10:00:00.000Z", "progress": 1 },
+      { "id": "week_streak", "name": "坚持一周", "description": "连续打卡7天", "icon": "🔥", "earned": true, "earnedAt": "2026-08-24T08:30:15.000Z", "progress": 1 },
+      { "id": "month_streak", "name": "月度之星", "description": "连续打卡30天", "icon": "👑", "earned": false, "earnedAt": null, "progress": 0.27 },
+      { "id": "first_error", "name": "不怕犯错", "description": "记录第一道错题", "icon": "📝", "earned": true, "earnedAt": "2026-07-18T14:22:10.000Z", "progress": 1 },
+      { "id": "error_50", "name": "错题达人", "description": "累计记录50道错题", "icon": "📚", "earned": false, "earnedAt": null, "progress": 0.76 },
+      { "id": "error_200", "name": "百炼成钢", "description": "累计记录200道错题", "icon": "⚔️", "earned": false, "earnedAt": null, "progress": 0.19 },
+      { "id": "exam_1", "name": "初试锋芒", "description": "完成第一次练习", "icon": "✏️", "earned": true, "earnedAt": "2026-07-19T16:45:30.000Z", "progress": 1 },
+      { "id": "exam_10", "name": "勤学苦练", "description": "完成10次练习", "icon": "📖", "earned": false, "earnedAt": null, "progress": 0.7 },
+      { "id": "exam_50", "name": "题海战术", "description": "完成50次练习", "icon": "🎓", "earned": false, "earnedAt": null, "progress": 0.14 },
+      { "id": "accuracy_80", "name": "精准射手", "description": "单次练习正确率≥80%", "icon": "🎯", "earned": false, "earnedAt": null, "progress": 0.85 },
+      { "id": "accuracy_95", "name": "满分选手", "description": "单次练习正确率≥95%", "icon": "💯", "earned": false, "earnedAt": null, "progress": 0.4 },
+      { "id": "points_100", "name": "积分新手", "description": "累计获得100积分", "icon": "🪙", "earned": false, "earnedAt": null, "progress": 1 },
+      { "id": "points_1000", "name": "积分达人", "description": "累计获得1000积分", "icon": "🏆", "earned": false, "earnedAt": null, "progress": 0.29 },
+      { "id": "all_subjects", "name": "全科选手", "description": "练习覆盖所有学科", "icon": "🌈", "earned": false, "earnedAt": null, "progress": 0.67 }
+    ]
+  }
+}

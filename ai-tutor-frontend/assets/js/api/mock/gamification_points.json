@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "data": {
+    "totalPoints": 285,
+    "history": [
+      { "id": 1, "points": 13, "reason": "每日打卡（连续8天）", "created_at": "2026-08-24T08:30:15.000Z" },
+      { "id": 2, "points": 12, "reason": "每日打卡（连续7天）", "created_at": "2026-08-23T08:21:42.000Z" },
+      { "id": 3, "points": 11, "reason": "每日打卡（连续6天）", "created_at": "2026-08-22T08:35:18.000Z" },
+      { "id": 4, "points": 10, "reason": "完成一次练习", "created_at": "2026-08-21T19:14:09.000Z" },
+      { "id": 5, "points": 11, "reason": "每日打卡（连续5天）", "created_at": "2026-08-21T08:42:33.000Z" },
+      { "id": 6, "points": 10, "reason": "每日打卡（连续4天）", "created_at": "2026-08-20T08:18:55.000Z" },
+      { "id": 7, "points": 30, "reason": "完成10次练习奖励", "created_at": "2026-08-19T20:05:21.000Z" }
+    ]
+  }
+}

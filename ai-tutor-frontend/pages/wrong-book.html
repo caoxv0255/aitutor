@@ -472,6 +472,11 @@
                       <a href="tutor.html?qid=${encodeURIComponent(qid)}" data-dom-id="wb-card-tutor" class="inline-flex items-center gap-1 h-8 px-3 rounded-[8px] text-[12px] font-medium text-primary-500 bg-primary-50 hover:bg-primary-100 transition-colors whitespace-nowrap">
                         <i data-lucide="eye" class="w-3.5 h-3.5"></i>查看解析
                       </a>
+                      <button class="practice-btn mt-2 px-3 py-1.5 text-sm bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition"
+                        data-kp="${esc(row.knowledge_point_id || '')}"
+                        data-wrong-id="${esc(row.id)}">
+                        🎯 5 道针对练习
+                      </button>
                       <button data-dom-id="wb-card-similar" data-question-id="${esc(row.id)}" data-question-text="${esc((row.data && row.data.question) || '').slice(0, 120)}" data-subject="${esc((row.data && row.data.subject) || '')}" class="inline-flex items-center justify-center w-8 h-8 rounded-[8px] text-foreground-muted hover:bg-surface-tertiary hover:text-primary-500 transition-colors" title="查看类似题 (RAG)">
                         <i data-lucide="lightbulb" class="w-4 h-4"></i>
                       </button>
@@ -837,6 +842,55 @@
             });
             document.addEventListener('keydown', (e) => {
               if (e.key === 'Escape') closeSimilarDrawer();
+            });
+
+            // ─── Phase-G3-fix (2026-08-24): 错题"5 道针对练习" ───
+            import { knowledge } from '../assets/js/api/services/index.js';
+
+            document.addEventListener('click', async (e) => {
+              const btn = e.target.closest('.practice-btn');
+              if (!btn) return;
+              const kpId = btn.dataset.kp;
+              const wrongId = btn.dataset.wrongId;
+              if (!kpId) return;
+
+              btn.disabled = true;
+              btn.textContent = '加载中...';
+
+              try {
+                const res = await knowledge.getPracticeQuestions(kpId, { limit: 5 });
+                const questions = res.data?.questions || [];
+
+                // 弹窗显示 5 道题
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/50';
+                modal.innerHTML = `
+                  <div class="bg-white rounded-2xl p-6 max-w-2xl max-h-[80vh] overflow-y-auto w-full mx-4">
+                    <div class="flex justify-between items-center mb-4">
+                      <h3 class="text-lg font-bold">🎯 针对练习 (${questions.length} 题)</h3>
+                      <button class="close-btn text-2xl">&times;</button>
+                    </div>
+                    <div class="practice-questions space-y-4">
+                      ${questions.map((q, i) => `
+                        <div class="border border-border rounded-lg p-4">
+                          <div class="text-sm text-foreground-muted mb-2">第 ${i+1} 题 · 难度 ${q.difficulty} · ${q.knowledge_point_id}</div>
+                          <div class="mb-3">${esc(q.content)}</div>
+                          <div class="text-sm text-foreground-muted">正确答案与解析（mock）</div>
+                        </div>
+                      `).join('')}
+                    </div>
+                    ${questions.length === 0 ? '<div class="text-center text-foreground-muted py-8">题库暂无相关题目，请稍后再试</div>' : ''}
+                  </div>`;
+                document.body.appendChild(modal);
+                modal.querySelector('.close-btn').onclick = () => modal.remove();
+                modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+                btn.textContent = '🎯 5 道针对练习';
+                btn.disabled = false;
+              } catch (err) {
+                btn.textContent = '🎯 5 道针对练习';
+                btn.disabled = false;
+                alert('加载失败：' + err.message);
+              }
             });
           </script>
 

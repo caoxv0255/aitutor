@@ -40,4 +40,60 @@ export const vision = {
     const q = subject ? `?subject=${encodeURIComponent(subject)}` : '';
     return request('GET', `/api/vision/knowledge-points${q}`, null, { mockName: 'vision_knowledge_points' });
   },
+
+  // ────────────────────────────────────────────────────────────────────────────
+  // Phase E (2026-08-24): 整卷 OCR — 多图 / 多页 PDF 批量解析
+  //
+  // 后端契约 (实测 2026-08-24, 与 api/modules/vision/routes.js 对齐):
+  //   POST /api/vision/batch-parse  {images: [{data, subject?, pageIndex?}],
+  //                                   user_hint?: {default_subject?},
+  //                                   options?: {concurrency?, mock?}}
+  //                                  → data: { questions: [...], failed: [...],
+  //                                            total_count, success_count, failed_count }
+  //   POST /api/vision/batch-ingest {questions: [...], options?: {source?}}
+  //                                  → data: { ingested: [...], failed: [...],
+  //                                            total_count, success_count, failed_count,
+  //                                            mastery_updates, srs_scheduled }
+  //
+  // 核心 UX: 单题失败不影响整批, 由前端聚合 failed[] 展示.
+  // ────────────────────────────────────────────────────────────────────────────
+
+  /**
+   * 整卷 OCR 批量解析 (Phase E, 2026-08-24)
+   * @param {object} opts
+   * @param {Array<{data:string, subject?:string, pageIndex?:number}>} opts.images
+   * @param {{default_subject?:string}} [opts.userHint]
+   * @param {{concurrency?:number, mock?:boolean}} [opts.options]
+   * @returns {Promise<{success, data: {questions: Array, failed: Array, total_count: number, success_count: number, failed_count: number}}>}
+   */
+  async batchParse({ images, userHint, options } = {}) {
+    if (!Array.isArray(images) || images.length === 0) {
+      throw new Error('vision.batchParse: images (非空数组) 必填');
+    }
+    return request(
+      'POST',
+      '/api/vision/batch-parse',
+      { images, user_hint: userHint || {}, options: options || {} },
+      { mockName: 'vision_batch_parse' }
+    );
+  },
+
+  /**
+   * 批量入库 (Phase E, 2026-08-24) — 把 batchParse 返回的 questions 写入错题本
+   * @param {object} opts
+   * @param {Array<object>} opts.questions — 必须含 full_content / subject_code / inferred_kp_id
+   * @param {string} [opts.source]
+   * @returns {Promise<{success, data: {ingested: Array, failed: Array, total_count: number, success_count: number, failed_count: number, mastery_updates: number, srs_scheduled: number}}>}
+   */
+  async batchIngest({ questions, source } = {}) {
+    if (!Array.isArray(questions) || questions.length === 0) {
+      throw new Error('vision.batchIngest: questions (非空数组) 必填');
+    }
+    return request(
+      'POST',
+      '/api/vision/batch-ingest',
+      { questions, options: { source: source || 'vision_batch_parse' } },
+      { mockName: 'vision_batch_ingest' }
+    );
+  },
 };

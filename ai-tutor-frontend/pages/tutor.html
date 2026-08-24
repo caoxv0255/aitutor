@@ -312,6 +312,9 @@
             <!-- 消息流区域 -->
             <div id="messages" class="flex-1 overflow-y-auto chat-scroll px-4 sm:px-6 lg:px-8 py-5 space-y-5" style="scroll-behavior:smooth;">
 
+              <!-- Phase-H2-fix (2026-08-24): AI 讲解页差异化提示 -->
+              <div id="differentiation-tip"></div>
+
               <!-- 1. AI 欢迎消息 -->
               <div class="msg-enter flex gap-3 items-start max-w-[90%] sm:max-w-[75%] lg:max-w-[70%]">
                 <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 mt-0.5" style="background:var(--brand); font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</div>
@@ -326,6 +329,9 @@
               <!-- 底部留白，防止内容被输入区遮挡 -->
               <div class="h-2"></div>
             </div>
+
+            <!-- Phase-G1-fix (2026-08-24): 用户反馈通道 — AI 回答区底部挂载点 -->
+            <div id="feedback-zone" class="px-4 sm:px-6 lg:px-8 pb-3"></div>
 
             <!-- ========== 底部输入区域 ========== -->
             <div class="border-t border-border-light bg-surface px-3 sm:px-5 py-3 shrink-0">
@@ -386,10 +392,41 @@
       </div>
     </section>
 
+    <!-- Phase-H2-fix (2026-08-24): AI 讲解页差异化提示 -->
+    <script type="module">
+      import { mountAntiSkipBanner } from '../assets/js/components/anti-skip-banner.js';
+
+      // 在 SSE 流式 done 事件中调用
+      function showDifferentiationTip(metadata) {
+        const tip = document.getElementById('differentiation-tip');
+        if (!tip || !metadata) return;
+
+        // 防跳跃横幅
+        if (metadata.weak_kp_ids && metadata.weak_kp_ids.length > 0) {
+          mountAntiSkipBanner({
+            container: tip,
+            weakKps: metadata.weak_kp_ids.map(id => ({ kp_id: id, mastery_score: '?' })),
+            subject: metadata.subject || ''
+          });
+        }
+
+        // 当前 KP 掌握度提示
+        if (metadata.current_mastery !== undefined) {
+          const tipDiv = document.createElement('div');
+          tipDiv.className = 'text-xs text-foreground-muted bg-surface-tertiary px-3 py-2 rounded-md mt-2';
+          tipDiv.innerHTML = `🎯 这道题关联 KP 掌握度 <b>${metadata.current_mastery}</b>%`;
+          tip.appendChild(tipDiv);
+        }
+      }
+      // 暴露给 SSE 处理函数调用
+      window.showDifferentiationTip = showDifferentiationTip;
+    </script>
+
     <script type="module">
       import { tutor, wrong, rag } from '../assets/js/api/services/index.js';
       import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
       import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
+      import { mountFeedbackButton } from '../assets/js/components/feedback-button.js';
       import { setUseMock } from '../assets/js/api/USE_MOCK.js';
       import { toast } from '../assets/js/toast.js';
 
@@ -833,6 +870,18 @@
                 }
                 renderMessages(conversationState.messages);
                 console.log('[Slice4.3] stream done:', ev.data);
+                // Phase-G1-fix (2026-08-24): 挂载反馈按钮 (每条 AI 回答挂一次)
+                try {
+                  if (typeof mountFeedbackButton === 'function') {
+                    // request_id 优先: ev.data.request_id (后端 stream done 给)
+                    // fallback: 浏览器 trace_id (client.js#generateTraceId)
+                    const doneData = ev.data || {};
+                    const reqId = doneData.request_id || (typeof window !== 'undefined' && window.__lastTraceId) || null;
+                    mountFeedbackButton('#feedback-zone', 'tutor_ask', reqId);
+                  }
+                } catch (fbErr) {
+                  console.warn('[G1] feedback-button mount failed:', fbErr);
+                }
                 // Slice 4.4 commit 2: 流完成 → 持久化到 localStorage (D56+D57)
                 // 若有 currentSessionId (历史 session 续聊) 或 临时 sessionId
                 if (assistantMsg.content) {

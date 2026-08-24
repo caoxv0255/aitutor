@@ -1,0 +1,84 @@
+{
+  "success": true,
+  "message": "今日 5 条复习任务",
+  "data": {
+    "tasks": [
+      {
+        "knowledge_point_id": "math_002",
+        "subject": "数学",
+        "topic": "等腰三角形性质与判定",
+        "mastery_score": 32,
+        "priority": 0.928,
+        "is_overdue": true,
+        "days_overdue": 5,
+        "next_review_at": "2026-08-19T08:00:00.000Z",
+        "interval_days": 3,
+        "attempt_count": 4,
+        "correct_count": 1,
+        "accuracy": 25.0
+      },
+      {
+        "knowledge_point_id": "math_007",
+        "subject": "数学",
+        "topic": "二次函数图像与性质",
+        "mastery_score": 45,
+        "priority": 0.812,
+        "is_overdue": true,
+        "days_overdue": 3,
+        "next_review_at": "2026-08-21T08:00:00.000Z",
+        "interval_days": 4,
+        "attempt_count": 6,
+        "correct_count": 3,
+        "accuracy": 50.0
+      },
+      {
+        "knowledge_point_id": "math_012",
+        "subject": "数学",
+        "topic": "等差数列通项与求和",
+        "mastery_score": 50,
+        "priority": 0.7,
+        "is_overdue": false,
+        "days_overdue": null,
+        "next_review_at": "2026-08-27T08:00:00.000Z",
+        "interval_days": 6,
+        "attempt_count": 8,
+        "correct_count": 5,
+        "accuracy": 62.5
+      },
+      {
+        "knowledge_point_id": "math_018",
+        "subject": "数学",
+        "topic": "概率与统计基础",
+        "mastery_score": 60,
+        "priority": 0.555,
+        "is_overdue": false,
+        "days_overdue": null,
+        "next_review_at": "2026-08-26T08:00:00.000Z",
+        "interval_days": 5,
+        "attempt_count": 5,
+        "correct_count": 3,
+        "accuracy": 60.0
+      },
+      {
+        "knowledge_point_id": "math_025",
+        "subject": "数学",
+        "topic": "三角函数诱导公式",
+        "mastery_score": 68,
+        "priority": 0.408,
+        "is_overdue": false,
+        "days_overdue": null,
+        "next_review_at": "2026-08-25T08:00:00.000Z",
+        "interval_days": 3,
+        "attempt_count": 9,
+        "correct_count": 6,
+        "accuracy": 66.7
+      }
+    ],
+    "stats": {
+      "total_due": 2,
+      "total_weak": 2,
+      "avg_priority": 0.681
+    },
+    "generated_at": "2026-08-24T08:30:00.000Z"
+  }
+}
