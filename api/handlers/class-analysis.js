@@ -69,11 +69,11 @@ export async function getClassAnalysis(req, res) {
       SELECT
         subject,
         correct_count,
-        total_questions,
-        created_at
+        question_count,
+        started_at
       FROM exam_sessions
       WHERE user_email = $1
-      ORDER BY created_at DESC
+      ORDER BY started_at DESC
       LIMIT 10
     `, [email]);
     const examHistory = examHistoryResult.rows;
@@ -181,8 +181,8 @@ export async function getClassDetail(req, res) {
         u.name,
         COUNT(DISTINCT wq.id) as error_count,
         COUNT(DISTINCT es.id) as exam_count,
-        AVG(CASE WHEN es.total_questions > 0
-          THEN CAST(es.correct_count AS DOUBLE PRECISION) / es.total_questions
+        AVG(CASE WHEN es.question_count > 0
+          THEN CAST(es.correct_count AS DOUBLE PRECISION) / es.question_count
           ELSE NULL END) as avg_accuracy
       FROM users u
       LEFT JOIN wrong_questions wq ON u.email = wq.user_email
@@ -229,17 +229,17 @@ export async function getClassDetail(req, res) {
     const scoreDistributionResult = await pool.query(`
       SELECT
         CASE
-          WHEN CAST(correct_count AS DOUBLE PRECISION) / total_questions >= 0.9 THEN '90-100'
-          WHEN CAST(correct_count AS DOUBLE PRECISION) / total_questions >= 0.8 THEN '80-89'
-          WHEN CAST(correct_count AS DOUBLE PRECISION) / total_questions >= 0.7 THEN '70-79'
-          WHEN CAST(correct_count AS DOUBLE PRECISION) / total_questions >= 0.6 THEN '60-69'
+          WHEN CAST(correct_count AS DOUBLE PRECISION) / question_count >= 0.9 THEN '90-100'
+          WHEN CAST(correct_count AS DOUBLE PRECISION) / question_count >= 0.8 THEN '80-89'
+          WHEN CAST(correct_count AS DOUBLE PRECISION) / question_count >= 0.7 THEN '70-79'
+          WHEN CAST(correct_count AS DOUBLE PRECISION) / question_count >= 0.6 THEN '60-69'
           ELSE '0-59'
         END as score_range,
         COUNT(*) as count
       FROM exam_sessions
-      WHERE created_at >= CURRENT_DATE - CAST($1 AS INTEGER) * INTERVAL '1 day'
+      WHERE started_at >= CURRENT_DATE - CAST($1 AS INTEGER) * INTERVAL '1 day'
         AND ($2 = '' OR subject = $3 OR subject = $4)
-        AND total_questions > 0
+        AND question_count > 0
       GROUP BY score_range
       ORDER BY score_range DESC
     `, [periodDays, subjectStr, subjectStr, subjectNameStr]);

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    image: aitutor:v1.0.0
     env_file:
       - .env
     ports:
