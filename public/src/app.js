@@ -1,6 +1,8 @@
 import { context } from './utils/context.js';
 import { aiService } from './services/aiService.js';
 import { ImageCropper } from './components/cropper.js';
+import { mountHotFeatures } from './components/hot-features.js';
+import { guestState } from './utils/guest-state.js'; // Phase-H3-fix (2026-08-24): 游客数据持久化
 
 class App {
   constructor() {
@@ -19,6 +21,23 @@ class App {
     this._abortControllers = [];
     this._pageListeners = [];
     this.render();
+
+    // Phase-G2-fix (2026-08-24): 挂载 PWA 顶部热门功能卡片
+    window.app = this;
+    mountHotFeatures();
+
+    // Phase-H3-fix (2026-08-24): 游客数据持久化提示横幅
+    (async () => {
+      if (!guestState.isGuest()) return;
+      const summary = await guestState.getGuestDataSummary();
+      if (!summary || summary.total === 0) return;
+      const banner = document.getElementById('guest-data-banner');
+      const text = document.getElementById('guest-banner-text');
+      if (!banner || !text) return;
+      text.innerHTML = `📦 你已有 <b>${summary.total}</b> 条本地数据，<a href="/login.html" class="underline font-semibold">立即注册</a>永久保留`;
+      banner.classList.remove('hidden');
+      setTimeout(() => { try { banner.classList.add('hidden'); } catch (_) {} }, 8000);
+    })();
   }
 
   _addTimer(id) {

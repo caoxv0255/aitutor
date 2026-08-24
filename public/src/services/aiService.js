@@ -439,6 +439,107 @@ ${sampleQuestions || '暂无详细错题数据'}
       };
     }
   }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Phase E (2026-08-24): 整卷 OCR — 多图 / 多页 PDF 批量解析 (PWA 端)
+  //
+  // 设计原则: 复用现有 baseURL + Auth 头, 不依赖 ai-tutor-frontend 的 client.js;
+  //          把 File[] 转 base64 后调 /api/vision/batch-parse.
+  //
+  // 入参:
+  //   files: File[] — 来自 <input type="file" multiple> 或 PDF 转换
+  //   options: { subject?, concurrency?, signal? }
+  // 返回: { questions: [], failed: [], total_count, success_count, failed_count }
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /**
+   * 整卷 OCR 批量解析 (PWA 端 Phase E, 2026-08-24)
+   * @param {File[]} files — 来自相册/相机的多张图片或多页 PDF
+   * @param {object} [options]
+   * @param {string} [options.subject] — 默认学科 (math/chinese/...), 缺省后端推断
+   * @param {number} [options.concurrency] — 后端并发数 (1-10), 默认 3
+   * @param {AbortSignal} [options.signal]
+   * @returns {Promise<{questions:Array, failed:Array, total_count:number, success_count:number, failed_count:number}>}
+   */
+  async batchParse(files, options = {}) {
+    if (!Array.isArray(files) || files.length === 0) {
+      throw new Error('aiService.batchParse: files (非空数组) 必填');
+    }
+
+    // 1) File → base64 (剥离 data URL 前缀, 与后端约定一致)
+    const images = [];
+    for (let i = 0; i < files.length; i++) {
+      const f = files[i];
+      const dataUrl = await this._readFileAsDataURL(f);
+      const base64 = (dataUrl.split(',')[1] || '').trim();
+      images.push({
+        data: base64,
+        subject: options.subject || null,
+        pageIndex: i + 1,
+      });
+    }
+
+    // 2) 调用后端 /api/vision/batch-parse
+    const url = (this.config.baseURL || '').replace(/\/+$/, '') + '/api/vision/batch-parse';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({
+        images,
+        user_hint: { default_subject: options.subject },
+        options: { concurrency: options.concurrency || 3 },
+      }),
+      signal: options.signal,
+    });
+
+    if (!response.ok) {
+      const errText = await response.text().catch(() => '');
+      throw new Error(`batchParse HTTP ${response.status}: ${errText.slice(0, 200)}`);
+    }
+
+    const body = await response.json();
+    // 与 F3 envelope 兼容: {success, data: {questions, failed, ...}}
+    return body.data || body;
+  }
+
+  /**
+   * File → DataURL helper (Phase E, 2026-08-24)
+   */
+  _readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result);
+      r.onerror = () => reject(new Error(`读取文件失败: ${file.name}`));
+      r.readAsDataURL(file);
+    });
+  }
+
+  /**
+   * 批量入库 helper (Phase E, 2026-08-24)
+   * 把 batchParse 返回的 questions 写入错题本 + mastery -10 + SRS 调度
+   * @param {Array<object>} questions
+   * @param {object} [options]
+   * @param {AbortSignal} [options.signal]
+   * @returns {Promise<{ingested:Array, failed:Array, total_count:number, success_count:number, failed_count:number, mastery_updates:number, srs_scheduled:number}>}
+   */
+  async batchIngest(questions, options = {}) {
+    if (!Array.isArray(questions) || questions.length === 0) {
+      throw new Error('aiService.batchIngest: questions (非空数组) 必填');
+    }
+    const url = (this.config.baseURL || '').replace(/\/+$/, '') + '/api/vision/batch-ingest';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ questions, options: { source: 'pwa_batch_parse' } }),
+      signal: options.signal,
+    });
+    if (!response.ok) {
+      const errText = await response.text().catch(() => '');
+      throw new Error(`batchIngest HTTP ${response.status}: ${errText.slice(0, 200)}`);
+    }
+    const body = await response.json();
+    return body.data || body;
+  }
 }
 
 export const aiService = new AIAdapter();

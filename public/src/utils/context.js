@@ -1,4 +1,5 @@
 import { aiService } from '../services/aiService.js';
+import { idbStorage } from './idb-storage.js'; // Phase-H3-fix (2026-08-24): 游客数据 IndexedDB 兜底
 
 /**
  * 学科配置
@@ -73,6 +74,12 @@ class Context {
     localStorage.setItem('currentGrade', grade);
     // aitutor.user (F3 格式) 也存一份, 跨端共享
     if (email) localStorage.setItem('aitutor.user', JSON.stringify({ email, grade }));
+    // Phase-H3-fix (2026-08-24): 注册/登录成功 → 把游客期 IDB 数据合并到后端
+    try {
+      import('./guest-state.js').then(({ guestState }) => {
+        guestState.onRegisterSuccess(token).catch(e => console.warn('[guest] merge post-login failed', e));
+      }).catch(e => console.warn('[guest] dynamic import failed', e));
+    } catch (e) { /* swallow */ }
   }
 
   logout() {
@@ -199,6 +206,24 @@ class Context {
       subject: this.currentSubject,
       ...question
     };
+    // Phase-H3-fix (2026-08-24): 游客模式 → IndexedDB 兜底, 注册后可合并到后端
+    if (!this.isLoggedIn()) {
+      try {
+        await idbStorage.save('wrong_questions', {
+          id: `local_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+          data: newQuestion,
+          created_at: new Date().toISOString()
+        });
+        // 内存中加一条, 便于 UI 立即显示
+        this.wrongQuestions = [newQuestion, ...this.wrongQuestions];
+        return { success: true, message: '已保存到本地（注册后可永久保留）', data: { id: 'local', offline: true } };
+      } catch (e) {
+        console.warn('[guest] idb save failed', e);
+        // 内存里至少留一条, 功能不丢
+        this.wrongQuestions = [newQuestion, ...this.wrongQuestions];
+        return { success: true, message: '仅内存保留', data: { id: 'local_mem', offline: true } };
+      }
+    }
     try {
       const response = await fetch('/api/user/wrong-questions', {
         method: 'POST',

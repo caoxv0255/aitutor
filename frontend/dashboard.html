@@ -30,8 +30,12 @@
 .province-section{margin-bottom:32px}
 .province-selector{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
 .province-selector h3{font-size:1rem;font-weight:700;margin-bottom:12px}
-.province-selector select{width:100%;padding:12px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-secondary);color:var(--text);font-size:.9rem;margin-bottom:12px}
+.province-selector select{width:100%;padding:12px 40px 12px 12px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg-secondary) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 5l3 3 3-3' stroke='%23d71920' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 14px center;color:var(--text);font-size:.9rem;margin-bottom:12px;cursor:pointer;appearance:none;-webkit-appearance:none;-moz-appearance:none;transition:border-color 0.2s ease}
+.province-selector select:hover{border-color:var(--accent);background-color:var(--accent-soft)}
+.province-selector select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(215,25,32,0.15)}
 .province-selector .btn-row{display:flex;gap:12px}
+.province-selector select:disabled{opacity:0.6;cursor:not-allowed}
+.province-selector select option:first-child{color:var(--text-muted);font-style:italic}
 .province-info{display:flex;align-items:center;gap:16px;background:var(--bg-card);border:1px solid var(--accent);border-radius:var(--radius);padding:16px 20px;cursor:pointer;transition:var(--transition)}
 .province-info:hover{transform:translateY(-2px)}
 .province-info .province-icon{font-size:1.5rem}
@@ -427,12 +431,19 @@ function escapeHtml(text) {
 
 async function loadProvinces() {
   const examLevel = document.getElementById('province-exam-level').value;
+  const select = document.getElementById('province-code-select');
+  // 加载状态：显示 "加载中..."
+  select.innerHTML = '<option value="">加载中...</option>';
+  select.disabled = true;
   try {
     const res = await fetch(`/api/provinces?exam_level=${examLevel}`);
-    if (!res.ok) throw new Error('加载省份失败');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const { data } = await res.json();
-    const select = document.getElementById('province-code-select');
-    select.innerHTML = '<option value="">请选择省份</option>';
+    if (!Array.isArray(data) || data.length === 0) {
+      select.innerHTML = '<option value="">暂无可选省份</option>';
+      return;
+    }
+    select.innerHTML = '<option value="">请选择省份（' + data.length + ' 个选项）</option>';
     data.forEach(p => {
       const opt = document.createElement('option');
       opt.value = p.code;
@@ -444,10 +455,11 @@ async function loadProvinces() {
       opt.textContent = p.name + (typeLabel ? ' (' + typeLabel + ')' : '');
       select.appendChild(opt);
     });
+    select.disabled = false;
   } catch (err) {
     console.error('加载省份失败:', err);
-    const select = document.getElementById('province-code-select');
-    if (select) select.innerHTML = '<option value="">加载失败，请刷新</option>';
+    select.innerHTML = '<option value="">加载失败，请刷新页面</option>';
+    select.disabled = false;
   }
 }
 
