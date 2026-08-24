@@ -11,6 +11,13 @@ export const SUBJECTS = {
 
 /**
  * 用户上下文管理
+ *
+ * API 契约 (D062 envelope, 2026-08-23 统一):
+ *   成功响应: { success: true, message?: string, data: ... }
+ *   失败响应: { success: false, message: string, errorCode?: string }
+ *
+ * 本类内部用 unwrap() 把 envelope 解包成业务数据, 字段访问保持原样.
+ * 旧 compat 层 (api/legacy-compat.js) 的 unwrapEnvelope 已删除, 前端需自行解包.
  */
 class Context {
   constructor() {
@@ -24,6 +31,22 @@ class Context {
     this.reports = [];
     this.tasks = [];
     this.restoreSession();
+  }
+
+  // ========== envelope 解包工具 ==========
+
+  /**
+   * 把后端 envelope 解包成 data; 失败响应抛出带 message 的 Error
+   */
+  async parseJson(response) {
+    let body;
+    try { body = await response.json(); } catch (_) { body = null; }
+    if (response.ok && body && body.success === true) return body.data;
+    const msg = (body && body.message) || `HTTP ${response.status}`;
+    const err = new Error(msg);
+    err.status = response.status;
+    err.body = body;
+    throw err;
   }
 
   // ========== 认证相关 ==========
@@ -43,9 +66,13 @@ class Context {
     this.authToken = token;
     this.user = { email };
     this.grade = grade;
+    // D072 (2026-08-24): 双写 key, 兼容 F3 (aitutor.token) + 老 PWA (authToken)
+    localStorage.setItem('aitutor.token', token);
     localStorage.setItem('authToken', token);
     localStorage.setItem('currentUser', email);
     localStorage.setItem('currentGrade', grade);
+    // aitutor.user (F3 格式) 也存一份, 跨端共享
+    if (email) localStorage.setItem('aitutor.user', JSON.stringify({ email, grade }));
   }
 
   logout() {
@@ -59,15 +86,29 @@ class Context {
     this.reports = [];
     this.tasks = [];
     localStorage.removeItem('authToken');
+    localStorage.removeItem('aitutor.token');
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('aitutor.user');
     localStorage.removeItem('currentGrade');
   }
 
   restoreSession() {
-    const token = localStorage.getItem('authToken');
-    const email = localStorage.getItem('currentUser');
-    const grade = localStorage.getItem('currentGrade');
-    if (token && email && grade) {
+    // D072 (2026-08-24): 优先用 F3 统一 key (aitutor.token), 兜底老 PWA key
+    const token = localStorage.getItem('aitutor.token') || localStorage.getItem('authToken');
+    let email = localStorage.getItem('currentUser');
+    let grade = localStorage.getItem('currentGrade');
+    if (!email) {
+      // 从 aitutor.user 反向解析 (跨端登录)
+      try {
+        const userStr = localStorage.getItem('aitutor.user');
+        if (userStr) {
+          const u = JSON.parse(userStr);
+          email = u.email;
+          grade = u.grade || grade;
+        }
+      } catch (_) {}
+    }
+    if (token && email) {
       this.authToken = token;
       this.user = { email };
       this.grade = grade;
@@ -78,81 +119,64 @@ class Context {
 
   async login(email, password) {
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      const data = await response.json();
-      if (response.ok) {
-        this.saveAuth(data.token, email, data.user.grade);
-        await this.loadWrongQuestionsFromDB();
-        await this.loadReportsFromDB();
-        await this.loadTasks();
-        return { success: true };
-      } else {
-        return { success: false, message: data.error };
-      }
+      const data = await this.parseJson(response); // {token, user}
+      this.saveAuth(data.token, email, data.user.grade);
+      await this.loadWrongQuestionsFromDB();
+      await this.loadReportsFromDB();
+      return { success: true };
     } catch (error) {
-      return { success: false, message: '网络错误，请检查连接' };
+      return { success: false, message: error.message };
     }
   }
 
   async guestLogin() {
     try {
-      const response = await fetch('/api/guest-login', {
+      const response = await fetch('/api/auth/guest-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });
-      const data = await response.json();
-      if (response.ok) {
-        this.saveAuth(data.token, data.user.email, data.user.grade);
-        await this.loadWrongQuestionsFromDB();
-        await this.loadReportsFromDB();
-        await this.loadTasks();
-        return { success: true };
-      } else {
-        return { success: false, message: data.error };
-      }
+      const data = await this.parseJson(response); // {token, user}
+      this.saveAuth(data.token, data.user.email, data.user.grade);
+      await this.loadWrongQuestionsFromDB();
+      await this.loadReportsFromDB();
+      return { success: true };
     } catch (error) {
-      return { success: false, message: '网络错误，请检查连接' };
+      return { success: false, message: error.message };
     }
   }
 
   async register(email, password, grade) {
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, grade })
       });
-      const data = await response.json();
-      if (response.ok) {
-        this.saveAuth(data.token, email, grade);
-        return { success: true };
-      } else {
-        return { success: false, message: data.error };
-      }
+      const data = await this.parseJson(response); // {token, user}
+      this.saveAuth(data.token, email, grade);
+      return { success: true };
     } catch (error) {
-      return { success: false, message: '网络错误，请检查连接' };
+      return { success: false, message: error.message };
     }
   }
 
   async resetPassword(email, newPassword) {
     try {
-      const response = await fetch('/api/reset-password', {
+      // 后端无 reset-password 接口 (compat 已 410 Gone). 调用前应提示用户.
+      const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, newPassword })
       });
-      const data = await response.json();
-      if (response.ok) {
-        return { success: true };
-      } else {
-        return { success: false, message: data.error };
-      }
+      await this.parseJson(response);
+      return { success: true };
     } catch (error) {
-      return { success: false, message: '重置失败，请检查网络' };
+      return { success: false, message: error.message };
     }
   }
 
@@ -176,13 +200,15 @@ class Context {
       ...question
     };
     try {
-      const response = await fetch('/api/questions', {
+      const response = await fetch('/api/user/wrong-questions', {
         method: 'POST',
         headers: this.authHeaders(),
         body: JSON.stringify(newQuestion)
       });
       if (response.ok) {
         await this.loadWrongQuestionsFromDB();
+      } else {
+        console.error('保存错题失败:', response.status);
       }
     } catch (error) {
       console.error('保存错题失败:', error);
@@ -192,9 +218,10 @@ class Context {
   async loadWrongQuestionsFromDB() {
     if (!this.isLoggedIn()) return;
     try {
-      const response = await fetch('/api/questions', { headers: this.authHeaders() });
+      const response = await fetch('/api/user/wrong-questions?limit=100', { headers: this.authHeaders() });
       if (response.ok) {
-        this.wrongQuestions = await response.json();
+        const data = await this.parseJson(response); // {questions, total, ...} 或直接数组
+        this.wrongQuestions = Array.isArray(data) ? data : (data.questions || []);
       } else if (response.status === 401) {
         this.logout();
       }
@@ -205,10 +232,9 @@ class Context {
 
   async deleteWrongQuestion(id) {
     try {
-      const response = await fetch('/api/questions', {
+      const response = await fetch(`/api/user/wrong-questions/${id}`, {
         method: 'DELETE',
-        headers: this.authHeaders(),
-        body: JSON.stringify({ id })
+        headers: this.authHeaders()
       });
       if (response.ok) {
         await this.loadWrongQuestionsFromDB();
@@ -223,53 +249,28 @@ class Context {
   getSubjectReports(subject) { return this.reports.filter(r => r.subject === subject); }
   getReport(id) { return this.reports.find(r => r._id === id); }
 
-  // ========== 任务队列 ==========
+  // ========== 任务队列 (已退役, /api/tasks 410 Gone) ==========
+  // 后端无独立 tasks 模块, OCR 走 /api/user/wrong-questions + 后台 task_worker.
+  // 旧前端 submitTask/loadTasks/deleteTask 保留为空 stub 以防 app.js 调用崩溃.
 
   async submitTask(subject, grade, imageData) {
-    try {
-      const response = await fetch('/api/tasks', {
-        method: 'POST',
-        headers: this.authHeaders(),
-        body: JSON.stringify({ subject, grade, imageData })
-      });
-      if (response.ok) {
-        const data = await response.json();
-        return { success: true, id: data.id };
-      }
-      return { success: false, message: '提交失败' };
-    } catch (error) {
-      return { success: false, message: '网络错误' };
-    }
+    console.warn('[deprecated] /api/tasks 已退役, 请改用 /api/user/wrong-questions 异步上传');
+    return { success: false, message: '旧任务队列接口已废弃, 请刷新页面' };
   }
 
   async loadTasks() {
     if (!this.isLoggedIn()) return;
-    try {
-      const response = await fetch('/api/tasks', { headers: this.authHeaders() });
-      if (response.ok) {
-        this.tasks = await response.json();
-      }
-    } catch (error) {
-      console.error('加载任务失败:', error);
-    }
+    // 后端 410 Gone, 不拉取
+    this.tasks = [];
   }
 
   async deleteTask(id) {
-    try {
-      const response = await fetch('/api/tasks', {
-        method: 'DELETE',
-        headers: this.authHeaders(),
-        body: JSON.stringify({ id })
-      });
-      if (response.ok) {
-        await this.loadTasks();
-      }
-    } catch (error) {
-      console.error('删除任务失败:', error);
-    }
+    console.warn('[deprecated] /api/tasks 已退役');
   }
 
-  getTask(id) { return this.tasks.find(t => t._id === id); }
+  getTask(id) { return null; }
+
+  // ========== AI 生成报告 ==========
 
   async generateSubjectReport(subject) {
     const questions = this.wrongQuestions.filter(q => q.subject === subject);
@@ -277,7 +278,6 @@ class Context {
       throw new Error('该学科暂无错题，无法生成报告');
     }
 
-    // 收集错题元数据和AI解析内容用于类题推荐
     const summaries = questions.map(q => ({
       id: q._id,
       keywords: q.metadata?.keywords || [],
@@ -288,7 +288,6 @@ class Context {
       clue: q.clue || ''
     }));
 
-    // 先生成报告，再用薄弱知识点生成类题
     const aiResult = await aiService.generateReport(subject, this.grade, summaries);
     const weakPoints = aiResult.weakPoints || [];
     const existingKeywords = summaries.flatMap(s => s.keywords);
@@ -303,7 +302,6 @@ class Context {
       console.warn('AI未能生成类题——跳过类题，不进行兜底');
     }
 
-    // 构建节点 → 错题映射（节点 label 与错题 keywords 模糊匹配）
     const nodeQuestionMap = {};
     if (aiResult.knowledgeGraph?.nodes) {
       for (const node of aiResult.knowledgeGraph.nodes) {
@@ -329,13 +327,15 @@ class Context {
     };
 
     try {
-      const response = await fetch('/api/reports', {
+      const response = await fetch('/api/user/wrong-questions/generate-report', {
         method: 'POST',
         headers: this.authHeaders(),
         body: JSON.stringify(report)
       });
       if (response.ok) {
         await this.loadReportsFromDB();
+      } else {
+        console.error('生成报告失败:', response.status);
       }
     } catch (error) {
       console.error('生成报告失败:', error);
@@ -345,9 +345,10 @@ class Context {
   async loadReportsFromDB() {
     if (!this.isLoggedIn()) return;
     try {
-      const response = await fetch('/api/reports', { headers: this.authHeaders() });
+      const response = await fetch('/api/review/reports?limit=100', { headers: this.authHeaders() });
       if (response.ok) {
-        this.reports = await response.json();
+        const data = await this.parseJson(response); // {reports, ...} 或数组
+        this.reports = Array.isArray(data) ? data : (data.reports || data || []);
       }
     } catch (error) {
       console.error('加载报告失败:', error);
@@ -356,10 +357,9 @@ class Context {
 
   async deleteReport(id) {
     try {
-      const response = await fetch('/api/reports', {
+      const response = await fetch(`/api/review/reports/${id}`, {
         method: 'DELETE',
-        headers: this.authHeaders(),
-        body: JSON.stringify({ id })
+        headers: this.authHeaders()
       });
       if (response.ok) {
         await this.loadReportsFromDB();

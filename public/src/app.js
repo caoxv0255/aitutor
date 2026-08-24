@@ -788,8 +788,8 @@ class App {
         const examLevel = examLevelSelect.value;
 
         try {
-          const token = localStorage.getItem('token');
-          const res = await fetch('/api/user-province', {
+          const token = context.authToken || localStorage.getItem('authToken');
+          const res = await fetch('/api/auth/prefs/province', {
             method: 'POST',
             headers: {
               'Authorization': 'Bearer ' + token,
@@ -799,13 +799,15 @@ class App {
           });
 
           if (res.ok) {
-            const { data } = await res.json();
-            context.user.province = data.province_code;
+            const body = await res.json();
+            // D062 envelope: {success, data} 解包
+            const data = body.data || body;
+            context.user.province = data.province_code || provinceCode;
             context.user.exam_level = examLevel;
             alert('省份设置成功');
             this.navigateTo('menu');
           } else {
-            const err = await res.json();
+            const err = await res.json().catch(() => ({}));
             alert(err.message || err.error || '设置失败');
           }
         } catch (err) {
@@ -1083,33 +1085,126 @@ class App {
       const res = await fetch(`/api/provinces?exam_level=${examLevel}`);
       const { data } = await res.json();
 
+      // D072 (2026-08-24): 空数据时显示友好提示而非空白 (中考省份 seed 缺失时常见)
+      if (!data || data.length === 0) {
+        const examLabel = examLevel === 'zhongkao' ? '中考' : '高考';
+        provinceList.innerHTML = `
+          <div style="text-align: center; padding: 40px 20px;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🗺️</div>
+            <div style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">
+              ${examLabel}省份暂未上线
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+              目前已支持 <strong>${examLevel === 'zhongkao' ? '高考' : '中考'}</strong> 省份选择<br>
+              请切换其他考试类型, 或联系客服反馈
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // D072 (2026-08-24): 按 region 分组 (华北/华东/华南/华中/西南/西北/东北) + 加搜索框
+      // 注意: DB 返回的是中文 region (东北/华北 etc), seed JSON 是英文, 这里用中文 + 兼容英文
       const selectedCode = context.user?.province;
+      const REGION_LABELS = {
+        '东北': '东北', '华北': '华北', '华东': '华东', '华中': '华中',
+        '华南': '华南', '西南': '西南', '西北': '西北',
+        // 兼容旧 seed 英文
+        'north': '华北', 'east': '华东', 'south': '华南',
+        'central': '华中', 'southwest': '西南', 'northwest': '西北', 'northeast': '东北'
+      };
 
-      provinceList.innerHTML = data.map(p => `
-        <div class="province-item ${p.code === selectedCode ? 'selected' : ''}"
-             data-code="${p.code}"
-             style="padding: 12px; border: 1px solid ${p.code === selectedCode ? '#d71920' : '#e5e5ea'};
-                    border-radius: 8px; margin-bottom: 8px; cursor: pointer;
-                    background: ${p.code === selectedCode ? '#fff5f5' : '#fff'};
-                    transition: all 0.2s;">
-          <div style="font-weight: 600; font-size: 16px;">${p.name}</div>
-          <div style="font-size: 12px; color: #86868b; margin-top: 4px;">${p.paper_type === 'independent' ? '自主命题' : p.paper_type === 'new_gaokao_i' ? '新高考I卷' : p.paper_type === 'new_gaokao_ii' ? '新高考II卷' : p.paper_type === 'national_a' ? '全国甲卷' : p.paper_type === 'national_b' ? '全国乙卷' : p.paper_type}</div>
-        </div>
-      `).join('');
-
-      // 添加点击事件
-      provinceList.querySelectorAll('.province-item').forEach(item => {
-        item.onclick = () => {
-          provinceList.querySelectorAll('.province-item').forEach(i => {
-            i.classList.remove('selected');
-            i.style.borderColor = '#e5e5ea';
-            i.style.background = '#fff';
-          });
-          item.classList.add('selected');
-          item.style.borderColor = '#d71920';
-          item.style.background = '#fff5f5';
-        };
+      // 按 region 分组
+      const grouped = {};
+      data.forEach(p => {
+        const r = p.region || 'other';
+        if (!grouped[r]) grouped[r] = [];
+        grouped[r].push(p);
       });
+
+      // 排序: 固定 region 顺序
+      const regionOrder = ['north', 'east', 'central', 'south', 'southwest', 'northwest', 'northeast', 'other'];
+      const regionKeys = Object.keys(grouped).sort((a, b) => {
+        const ia = regionOrder.indexOf(a); const ib = regionOrder.indexOf(b);
+        return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+      });
+
+      const PAPER_LABEL = {
+        'independent': '自主命题', 'new_gaokao_i': '新高考I卷', 'new_gaokao_ii': '新高考II卷',
+        'national_a': '全国甲卷', 'national_b': '全国乙卷'
+      };
+
+      provinceList.innerHTML = `
+        <div class="province-search" style="position: sticky; top: 0; background: var(--bg-secondary); padding: 8px 0 12px; margin-bottom: 4px; z-index: 5;">
+          <input type="search" id="provinceSearch" placeholder="搜索省份..." style="
+            width: 100%; padding: 10px 14px; border: 1px solid #e5e5ea; border-radius: 10px;
+            font-size: 14px; outline: none; background: #fff;
+            -webkit-appearance: none; appearance: none;
+          ">
+        </div>
+        <div class="province-groups">
+          ${regionKeys.map(rk => `
+            <div class="province-group" data-region="${rk}">
+              <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin: 8px 4px 6px; letter-spacing: 0.5px;">
+                ${REGION_LABELS[rk] || rk} · ${grouped[rk].length}
+              </div>
+              ${grouped[rk].map(p => `
+                <div class="province-item ${p.code === selectedCode ? 'selected' : ''}"
+                     data-code="${p.code}"
+                     data-name="${this.sanitize(p.name)}"
+                     data-region="${p.region || ''}"
+                     style="padding: 12px; border: 1px solid ${p.code === selectedCode ? '#d71920' : '#e5e5ea'};
+                            border-radius: 8px; margin-bottom: 8px; cursor: pointer;
+                            background: ${p.code === selectedCode ? '#fff5f5' : '#fff'};
+                            transition: all 0.2s;">
+                  <div style="font-weight: 600; font-size: 16px;">${this.sanitize(p.name)}</div>
+                  <div style="font-size: 12px; color: #86868b; margin-top: 4px;">${PAPER_LABEL[p.paper_type] || this.sanitize(p.paper_type || '')}</div>
+                </div>
+              `).join('')}
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      // 绑定点击事件
+      const bindClick = () => {
+        provinceList.querySelectorAll('.province-item').forEach(item => {
+          item.onclick = () => {
+            provinceList.querySelectorAll('.province-item').forEach(i => {
+              i.classList.remove('selected');
+              i.style.borderColor = '#e5e5ea';
+              i.style.background = '#fff';
+            });
+            item.classList.add('selected');
+            item.style.borderColor = '#d71920';
+            item.style.background = '#fff5f5';
+          };
+        });
+      };
+      bindClick();
+
+      // 搜索过滤 (支持省份名 + region 标签)
+      const searchInput = document.getElementById('provinceSearch');
+      if (searchInput) {
+        searchInput.oninput = (e) => {
+          const q = e.target.value.trim().toLowerCase();
+          provinceList.querySelectorAll('.province-group').forEach(group => {
+            const rk = group.dataset.region;
+            const rkLabel = (REGION_LABELS[rk] || '').toLowerCase();
+            let visible = 0;
+            group.querySelectorAll('.province-item').forEach(item => {
+              const name = item.dataset.name.toLowerCase();
+              const matchName = q === '' || name.includes(q);
+              const matchRegion = q !== '' && rkLabel.includes(q);
+              const visible2 = matchName || matchRegion;
+              item.style.display = visible2 ? '' : 'none';
+              if (visible2) visible++;
+            });
+            // 没省份匹配就隐藏整组
+            group.style.display = visible > 0 ? '' : 'none';
+          });
+        };
+      }
     } catch (err) {
       provinceList.innerHTML = '<div style="text-align: center; color: #ff3b30; padding: 20px;">加载失败: ' + this.sanitize(err.message) + '</div>';
     }
@@ -1390,27 +1485,28 @@ class App {
         sessionStorage.setItem('visit_fingerprint', fingerprint);
       }
 
-      let data;
+      // /api/stats/visits 在 compat 层返回 410 Gone, 后端无访客统计实现.
+      // 静默忽略即可, 不显示访客计数 badge.
+      // 保留 try/catch 是为了未来重新启用时的兼容点.
       try {
         const res = await fetch('/api/stats/visits/increment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ fingerprint }),
         });
-        data = await res.json();
-      } catch {
-        const res = await fetch('/api/stats/visits');
-        data = await res.json();
-      }
-
-      if (data && data.total_visits) {
-        const formatted = Number(data.total_visits).toLocaleString('en-US');
-        const text = `累计服务 ${formatted} 次`;
-        const el = document.getElementById('loginVisitCounter');
-        if (el) el.textContent = text;
-        const menuEl = document.getElementById('menuVisitCounter');
-        if (menuEl) menuEl.textContent = text;
-      }
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.total_visits) {
+            const formatted = Number(data.total_visits).toLocaleString('en-US');
+            const text = `累计服务 ${formatted} 次`;
+            const el = document.getElementById('loginVisitCounter');
+            if (el) el.textContent = text;
+            const menuEl = document.getElementById('menuVisitCounter');
+            if (menuEl) menuEl.textContent = text;
+          }
+        }
+        // 410 / 404 / 500 都静默
+      } catch { /* network err, silent */ }
     } catch {
       // 静默失败
     }

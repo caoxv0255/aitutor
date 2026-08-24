@@ -126,7 +126,7 @@ export class CacheService {
       const papersResult = await pool.query(paperQuery, paperParams);
       const papersRows = papersResult.rows;
 
-      const knowledgeQuery = `
+      let knowledgeQuery = `
         SELECT
           pk.knowledge_point_id,
           kp.name as knowledge_point_name,

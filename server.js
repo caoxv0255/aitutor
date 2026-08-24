@@ -21,6 +21,7 @@ import { getClassDetail } from './api/handlers/class-analysis.js';
 import adaptiveDifficultyHandler from './api/handlers/adaptive-difficulty.js';
 import { getProvinceTrends, getProvinceCompare } from './api/handlers/province-trends.js';
 import { seedProvinces } from './api/handlers/seed-provinces.js';
+import { CacheService } from './api/services/cacheService.js';
 import { generateExamPdf } from './api/handlers/exam-pdf.js';
 import proxyHandler from './api/handlers/proxy.js';
 
@@ -110,8 +111,9 @@ app.get('/', (req, res) => {
   if (isMobile) {
     res.sendFile('index.html', { root: 'public' });
   } else {
-    // D070: legacy frontend frozen -> F3 (ai-tutor-frontend) is the canonical build
-    res.redirect(302, '/f3/pages/index.html');
+    // PC: F3 完整产品首页 (D-Bug-D 完成 2026-08-24, 把 frontend/index.html 内容迁移到 F3).
+    // 见 docs/frontend-migration/F3_MIGRATION_PLAN_2026-08-23.md
+    res.sendFile('index.html', { root: 'ai-tutor-frontend/pages' });
   }
 });
 
@@ -238,9 +240,23 @@ app.get('/api/province-compare', wrapHandler(getProvinceCompare));
 app.post('/api/provinces/seed', async (req, res) => {
   try {
     const result = await seedProvinces();
+    // D072 (2026-08-24): 清 cache, 让 province 列表刷新
+    await CacheService.invalidateProvinces();
     res.json(result);
   } catch (err) {
-    res.status(500).json({ error: '种子导入失败' });
+    console.error('[seed-provinces] failed:', err.message, err.stack);
+    res.status(500).json({ error: '种子导入失败', detail: err.message });
+  }
+});
+
+// D072 (2026-08-24): 临时 admin 端点清 province cache (直接 INSERT 后用)
+// 用法: curl -X POST http://localhost:3002/api/cache/clear-provinces
+app.post('/api/cache/clear-provinces', async (req, res) => {
+  try {
+    await CacheService.invalidateProvinces();
+    res.json({ success: true, message: 'Province cache cleared' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

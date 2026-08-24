@@ -4,7 +4,7 @@
     "name": "北京",
     "exam_type": "gaokao",
     "paper_type": "independent",
-    "region": "north",
+    "region": "华北",
     "description": "自主命题，重视情境理解、开放表达，综合建模，题目文字阅读量较大"
   },
   {
@@ -12,7 +12,7 @@
     "name": "上海",
     "exam_type": "gaokao",
     "paper_type": "independent",
-    "region": "east",
+    "region": "华东",
     "description": "自主命题，注重创新思维和综合应用能力"
   },
   {
@@ -20,7 +20,7 @@
     "name": "天津",
     "exam_type": "gaokao",
     "paper_type": "independent",
-    "region": "north",
+    "region": "华北",
     "description": "自主命题，题型稳定，注重基础知识和能力考查"
   },
   {
@@ -28,7 +28,7 @@
     "name": "山东",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "east",
+    "region": "华东",
     "description": "使用新高考I卷，重视基础题稳定性和中档题综合迁移"
   },
   {
@@ -36,7 +36,7 @@
     "name": "广东",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "south",
+    "region": "华南",
     "description": "使用新高考I卷，题型结构稳定，强调综合应用与新情境"
   },
   {
@@ -44,7 +44,7 @@
     "name": "浙江",
     "exam_type": "gaokao",
     "paper_type": "independent",
-    "region": "east",
+    "region": "华东",
     "description": "自主命题特色强，重视思维灵活性和能力综合"
   },
   {
@@ -52,7 +52,7 @@
     "name": "江苏",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "east",
+    "region": "华东",
     "description": "使用新高考I卷，注重数学和物理的深度考查"
   },
   {
@@ -60,7 +60,7 @@
     "name": "河南",
     "exam_type": "gaokao",
     "paper_type": "national_b",
-    "region": "central",
+    "region": "华中",
     "description": "使用全国乙卷，题型规范，注重基础知识和综合应用"
   },
   {
@@ -68,7 +68,7 @@
     "name": "四川",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "west",
+    "region": "西北",
     "description": "使用全国甲卷，重视基础知识和运算能力"
   },
   {
@@ -76,7 +76,7 @@
     "name": "河北",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "north",
+    "region": "华北",
     "description": "使用新高考I卷，注重综合应用和创新思维"
   },
   {
@@ -84,7 +84,7 @@
     "name": "湖北",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "central",
+    "region": "华中",
     "description": "使用新高考I卷，重视理科综合能力"
   },
   {
@@ -92,7 +92,7 @@
     "name": "湖南",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "central",
+    "region": "华中",
     "description": "使用新高考I卷，注重基础知识和能力并重"
   },
   {
@@ -100,7 +100,7 @@
     "name": "福建",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "east",
+    "region": "华东",
     "description": "使用新高考I卷，题型稳定，注重综合应用"
   },
   {
@@ -108,7 +108,7 @@
     "name": "安徽",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "east",
+    "region": "华东",
     "description": "使用新高考I卷，重视基础知识和运算能力"
   },
   {
@@ -116,7 +116,7 @@
     "name": "辽宁",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_ii",
-    "region": "northeast",
+    "region": "东北",
     "description": "使用新高考II卷，注重综合应用能力"
   },
   {
@@ -124,7 +124,7 @@
     "name": "重庆",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_ii",
-    "region": "west",
+    "region": "西北",
     "description": "使用新高考II卷，重视基础知识和创新思维"
   },
   {
@@ -132,7 +132,7 @@
     "name": "江西",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_i",
-    "region": "east",
+    "region": "华东",
     "description": "使用新高考I卷，注重基础知识和综合应用"
   },
   {
@@ -140,7 +140,7 @@
     "name": "海南",
     "exam_type": "gaokao",
     "paper_type": "new_gaokao_ii",
-    "region": "south",
+    "region": "华南",
     "description": "使用新高考II卷，注重综合应用能力"
   },
   {
@@ -148,7 +148,7 @@
     "name": "山西",
     "exam_type": "gaokao",
     "paper_type": "national_b",
-    "region": "north",
+    "region": "华北",
     "description": "使用全国乙卷，注重基础知识和综合应用"
   },
   {
@@ -156,7 +156,7 @@
     "name": "云南",
     "exam_type": "gaokao",
     "paper_type": "national_b",
-    "region": "south",
+    "region": "华南",
     "description": "使用全国乙卷，题型规范，注重基础知识"
   },
   {
@@ -164,7 +164,7 @@
     "name": "新疆",
     "exam_type": "gaokao",
     "paper_type": "national_b",
-    "region": "west",
+    "region": "西北",
     "description": "使用全国乙卷，注重基础知识和综合应用"
   },
   {
@@ -172,7 +172,7 @@
     "name": "西藏",
     "exam_type": "gaokao",
     "paper_type": "national_b",
-    "region": "west",
+    "region": "西北",
     "description": "使用全国乙卷，题型规范，注重基础知识"
   },
   {
@@ -180,7 +180,7 @@
     "name": "内蒙古",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "north",
+    "region": "华北",
     "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
@@ -188,7 +188,7 @@
     "name": "宁夏",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "north",
+    "region": "华北",
     "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
@@ -196,7 +196,7 @@
     "name": "青海",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "west",
+    "region": "西北",
     "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
@@ -204,7 +204,7 @@
     "name": "甘肃",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "west",
+    "region": "西北",
     "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
@@ -212,7 +212,7 @@
     "name": "陕西",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "west",
+    "region": "西北",
     "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
@@ -220,7 +220,7 @@
     "name": "贵州",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "south",
+    "region": "华南",
     "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
@@ -228,7 +228,7 @@
     "name": "广西",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "south",
+    "region": "华南",
     "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
@@ -236,7 +236,7 @@
     "name": "黑龙江",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "northeast",
+    "region": "东北",
     "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
@@ -244,7 +244,7 @@
     "name": "吉林",
     "exam_type": "gaokao",
     "paper_type": "national_a",
-    "region": "northeast",
+    "region": "东北",
     "description": "使用全国甲卷，注重基础知识和综合应用"
   },
   {
@@ -252,7 +252,7 @@
     "name": "北京中考",
     "exam_type": "zhongkao",
     "paper_type": "independent",
-    "region": "north",
+    "region": "华北",
     "description": "北京自主命题，注重基础知识和综合应用"
   },
   {
@@ -260,7 +260,7 @@
     "name": "上海中考",
     "exam_type": "zhongkao",
     "paper_type": "independent",
-    "region": "east",
+    "region": "华东",
     "description": "上海自主命题，注重创新思维"
   },
   {
@@ -268,7 +268,87 @@
     "name": "广州中考",
     "exam_type": "zhongkao",
     "paper_type": "independent",
-    "region": "south",
+    "region": "华南",
     "description": "广州自主命题，题型稳定"
+  },
+  {
+    "code": "tianjin_zhongkao",
+    "name": "天津中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "华北",
+    "description": "天津自主命题"
+  },
+  {
+    "code": "chongqing_zhongkao",
+    "name": "重庆中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "西南",
+    "description": "重庆自主命题"
+  },
+  {
+    "code": "shenzhen_zhongkao",
+    "name": "深圳中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "华南",
+    "description": "深圳自主命题"
+  },
+  {
+    "code": "hangzhou_zhongkao",
+    "name": "杭州中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "华东",
+    "description": "杭州自主命题"
+  },
+  {
+    "code": "nanjing_zhongkao",
+    "name": "南京中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "华东",
+    "description": "南京自主命题"
+  },
+  {
+    "code": "wuhan_zhongkao",
+    "name": "武汉中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "华中",
+    "description": "武汉自主命题"
+  },
+  {
+    "code": "xian_zhongkao",
+    "name": "西安中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "西北",
+    "description": "西安自主命题"
+  },
+  {
+    "code": "chengdu_zhongkao",
+    "name": "成都中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "西南",
+    "description": "成都自主命题"
+  },
+  {
+    "code": "jinan_zhongkao",
+    "name": "济南中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "华东",
+    "description": "济南自主命题"
+  },
+  {
+    "code": "shenyang_zhongkao",
+    "name": "沈阳中考",
+    "exam_type": "zhongkao",
+    "paper_type": "independent",
+    "region": "东北",
+    "description": "沈阳自主命题"
   }
 ]
