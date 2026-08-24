@@ -1,4 +1,4 @@
-# D071 — F3 navator API 兼容 + 视觉反馈闭环基建 (2026-08-24)
+# D071 — F3 navator API 兼容 + 视觉反馈闭环基建 + PWA 品牌色统一 (2026-08-24)
 
 ## 决策
 
@@ -6,6 +6,8 @@
 2. **新增 scripts/headed-tests/run-all.mjs** — 覆盖 F3 全 24+ 页面截图，替代 run.mjs 仅 7 步的限制。
 3. **新增 scripts/headed-tests/check-nav-active.mjs** — 自动化验证 navator active 高亮是否正确，11/11 全绿。
 4. **4 Shell Adapter 全部完成验证** — Dashboard / Hybrid / Workspace / Immersive 4 套架构闭环。
+5. **Dashboard 4 KPI 卡片接真后端** — 之前是 hardcoded mock (1,248/76%/+12/85%)，现在用 .ait-stat-num 状态机 + 真后端 overview 字段。
+6. **PWA 品牌色统一** — `theme-color` + `.btn-primary` + `.menu-card-icon.camera` 从苹果蓝 #007aff 改为品牌红 #d71920。
 
 ## 上下文
 
@@ -29,10 +31,17 @@
 | `ai-tutor-frontend/pages/register.html` | 2 个 `href="#"` → `methodology.html` | 修复 |
 | `ai-tutor-frontend/pages/personalized-paper.html` | 2 处 `/api/explain-question` + `/api/generate-paper` → `/api/tutor/ask` | 修复 |
 | `ai-tutor-frontend/pages/question-explainer.html` | 1 处 `/api/explain-question` → `/api/tutor/ask` | 修复 |
+| `ai-tutor-frontend/pages/dashboard.html` | 4 KPI 卡片接真后端 + .ait-stat-num | 修复 |
+| `public/index.html` | theme-color #007aff → #d71920 | 修复 |
+| `public/styles.css` | .btn-primary + .menu-card-icon.camera 用品牌红 | 修复 |
 | `scripts/headed-tests/run-all.mjs` | 新建: 覆盖全 24 F3 页面的 Playwright 截图 | 新基建 |
+| `scripts/headed-tests/run-pwa.mjs` | 新建: PWA mobile viewport 截图 | 新基建 |
 | `scripts/headed-tests/check-nav-active.mjs` | 新建: 自动化 navator 高亮验证 | 新基建 |
+| `scripts/headed-tests/verify-kpi.mjs` | 新建: Dashboard KPI 卡片真后端验证 | 新基建 |
 | `.ai/architecture/frontend.md` | 4 个 Shell Adapter 状态全部标 ✅ | 文档 |
+| `docs/frontend-visual-guide.md` | 前端视觉设计指南 (314 行) | 文档 |
 | `frontend/dev/runs/20260824T031322/` | 35 张截图 + manifest.json | 视觉回归基线 |
+| `frontend/dev/runs/20260824T032803/` | 3 张 PWA 截图 (mobile viewport) | PWA 视觉基线 |
 
 ## 验证
 
