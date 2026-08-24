@@ -72,11 +72,21 @@ router.get('/weak-points', (req, res, next) => {
   next();
 });
 
-// ===== 7. 学习路径 (改 410, 已挂到 /api/analytics/learning-path) =====
-router.get('/learning-path', gone(
-  '/api/learning-path',
-  '/api/analytics/learning-path'
-));
+// ===== 6b. EXAM PAPERS (转发到 /api/exam/papers) =====
+// D-Bug-D v3 (2026-08-24): frontend province-page.js 调 /api/exam-papers?province=...
+// compat fallthrough 转发到 /api/exam/papers (modulesRouter 已挂载)
+router.get('/exam-papers', (req, res, next) => {
+  req.url = '/exam/papers' + (req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '');
+  req.baseUrl = '/api';
+  next();
+});
+
+// ===== 7. 学习路径 (转发到 /api/analytics/learning-path, 旧前端 JS 调 /api/learning-path) =====
+router.get('/learning-path', (req, res, next) => {
+  req.url = '/analytics/learning-path' + (req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '');
+  req.baseUrl = '/api';
+  next();
+});
 
 // ===== 8. 个性化试卷 (后端无等价品) =====
 router.post('/generate-paper', gone(

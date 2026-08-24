@@ -1,20 +1,26 @@
 import { errorResponse } from '../utils/response.js';
-import { getDb } from '../core/db.js';
+// Phase-B-fix (2026-08-24): B10 — 改用 services/aiTrace.js 统一埋点 (request_id / cost 自动算)
+import { recordAiTraceAsync } from '../../services/aiTrace.js';
 
 const MAX_TOKENS_LIMIT = 4000;
 const MAX_MESSAGES_LENGTH = 20;
 const FETCH_TIMEOUT_MS = 30000;
 
+// P0-fix (2026-08-24): 模型白名单修正
+//   - qwen3-vl-plus → qwen-vl-plus (官方模型名, 之前拼写错误)
+//   - 删除 deepseek-v4-pro (DeepSeek 官方无此模型)
+//   - 删除 deepseek-coder (DeepSeek 官方已下线此独立模型)
+//   - 新增 deepseek-reasoner (DeepSeek 官方推理模型)
 const API_CONFIGS = {
   qwen: {
     endpoint: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
     keyEnv: 'DASHSCOPE_API_KEY',
-    models: ['qwen3-vl-plus', 'qwen-plus', 'qwen-max', 'qwen-turbo']
+    models: ['qwen-vl-plus', 'qwen-plus', 'qwen-max', 'qwen-turbo', 'qwen-vl-max']
   },
   deepseek: {
     endpoint: 'https://api.deepseek.com/v1/chat/completions',
     keyEnv: 'DEEPSEEK_API_KEY',
-    models: ['deepseek-v4-pro', 'deepseek-chat', 'deepseek-coder']
+    models: ['deepseek-chat', 'deepseek-reasoner']
   }
 };
 
@@ -90,17 +96,22 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // D069 (2026-08-17): ai_trace — 异步写入 LLM 调用追踪
+    // Phase-B-fix (2026-08-24): B10 — ai_trace 改用统一 recordAiTrace (含 request_id / cost)
     const tUsage = data.usage || {};
     const tLatency = Date.now() - tStart;
-    try {
-      const tp = getDb();
-      tp.then(p => p.query(
-        `INSERT INTO ai_trace (user_email, provider, model, task_type, prompt_tokens, completion_tokens, latency_ms, success)
-         VALUES ($1, $2, $3, 'chat', $4, $5, $6, $7)`,
-        [req.user?.email || null, tProvider, model, tUsage.prompt_tokens||0, tUsage.completion_tokens||0, tLatency, response.ok]
-      )).catch(()=>{});
-    } catch {}
+    recordAiTraceAsync({
+      request_id: req.traceId,
+      user_id: req.user?.email,
+      task_type: 'chat',
+      provider: tProvider,
+      model,
+      prompt_tokens: tUsage.prompt_tokens || 0,
+      completion_tokens: tUsage.completion_tokens || 0,
+      latency_ms: tLatency,
+      cost_cny: ((tUsage.total_tokens || 0) / 1_000_000) * 0.8, // 近似: qwen-plus 单价
+      success: response.ok,
+      error_message: response.ok ? null : (data.error?.message || `HTTP ${response.status}`),
+    });
 
     if (data.usage) {
       console.log(`[Proxy] user=${req.user.email} model=${model} tokens=${data.usage.total_tokens || 'N/A'} latency=${tLatency}ms`);
@@ -108,6 +119,17 @@ export default async function handler(req, res) {
 
     res.status(response.status).json(data);
   } catch (error) {
+    // Phase-B-fix (2026-08-24): B10 — 异常路径也写 ai_trace (success=false)
+    recordAiTraceAsync({
+      request_id: req.traceId,
+      user_id: req.user?.email,
+      task_type: 'chat',
+      provider: tProvider,
+      model,
+      latency_ms: Date.now() - tStart,
+      success: false,
+      error_message: error.message,
+    });
     if (error.name === 'AbortError') {
       console.error(`[Proxy] Timeout: user=${req.user.email} model=${model}`);
       return res.status(504).json(errorResponse('AI 服务响应超时，请稍后重试'));

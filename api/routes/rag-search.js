@@ -848,4 +848,58 @@ router.get('/multi/stats', authMiddleware, async (req, res) => {
   }
 });
 
+/**
+ * POST /api/rag/ask — P0.7-fix (2026-08-24): RAG 智能问答
+ * F3 services/rag.js ask() 调此端点. 历史上未实现 (F3 service 抛错).
+ * 实现: 代理到 /api/tutor/ask 复用 LLM 推理.
+ */
+router.post('/ask', authMiddleware, async (req, res) => {
+  const { question } = req.body;
+  if (!question || typeof question !== 'string') {
+    return res.status(400).json(errorResponse('缺少必填字段: question'));
+  }
+  try {
+    const tutorRes = await fetch(`http://127.0.0.1:${process.env.PORT || 3002}/api/tutor/ask`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': req.headers.authorization || ''
+      },
+      body: JSON.stringify({ question, subject: req.body.subject })
+    });
+    const data = await tutorRes.json();
+    return res.status(tutorRes.status).json(data);
+  } catch (err) {
+    return res.status(500).json(errorResponse('rag.ask 代理失败: ' + err.message));
+  }
+});
+
+/**
+ * POST /api/rag/explain — P0.7-fix (2026-08-24): 题目讲解
+ * F3 services/rag.js explain() 调此端点. 历史上未实现.
+ * 实现: 代理到 /api/tutor/ask, 包装为 "请讲解题目: ..." prompt.
+ */
+router.post('/explain', authMiddleware, async (req, res) => {
+  const { question, context, question_id } = req.body;
+  if (!question || typeof question !== 'string') {
+    return res.status(400).json(errorResponse('缺少必填字段: question'));
+  }
+  const explainPrompt = `请详细讲解这道题${question_id ? ` (id=${question_id})` : ''}: ${question}` +
+    (context ? `\n\n相关上下文: ${context}` : '');
+  try {
+    const tutorRes = await fetch(`http://127.0.0.1:${process.env.PORT || 3002}/api/tutor/ask`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': req.headers.authorization || ''
+      },
+      body: JSON.stringify({ question: explainPrompt, subject: req.body.subject })
+    });
+    const data = await tutorRes.json();
+    return res.status(tutorRes.status).json(data);
+  } catch (err) {
+    return res.status(500).json(errorResponse('rag.explain 代理失败: ' + err.message));
+  }
+});
+
 export default router;

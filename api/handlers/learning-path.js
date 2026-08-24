@@ -1,5 +1,5 @@
 import { getDb } from '../core/db.js';
-import { errorResponse } from '../utils/response.js';
+import { errorResponse, successResponse } from '../utils/response.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     wrongQuestions.length
   );
 
-  return res.json({
+  return res.json(successResponse({
     subject,
     subjectName,
     totalWeeks,
@@ -71,7 +71,7 @@ export default async function handler(req, res) {
       totalWrongQuestions: wrongQuestions.length,
       totalKnowledgePoints: knowledgePoints.length
     }
-  });
+  }, '学习路径生成成功'));
 }
 
 function analyzeWeakPoints(wrongQuestions, knowledgePoints, subject) {

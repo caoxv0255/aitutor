@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN" class="light">
 <head>
     <meta charset="UTF-8">
@@ -238,22 +238,23 @@
           downloadPdfBtn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>下载中…';
           if (window.lucide) window.lucide.createIcons();
           try {
+            // P0-fix (2026-08-24): service 统一返回 {mock, url, filename?}, mock/real 同构消费
             const res = await exam.getExamPdf(currentPaperId);
             if (res.mock) {
               // mock 模式: 用预置 URL 触发新窗口下载
               window.open(res.url, '_blank');
               toast.info('已在新窗口打开试卷 PDF (mock)');
             } else {
-              // 真后端: 触发 blob 下载
-              const url = URL.createObjectURL(res.blob);
+              // 真后端: service 已把 blob 转成 object URL, 直接触发下载
               const a = document.createElement('a');
-              a.href = url;
+              a.href = res.url;
               a.download = res.filename || 'exam.pdf';
               document.body.appendChild(a);
               a.click();
               setTimeout(() => {
                 document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                // real 路径的 url 来自 createObjectURL, 需要 revoke; mock URL 是 http(s), 不应 revoke
+                if (res.url.startsWith('blob:')) URL.revokeObjectURL(res.url);
               }, 100);
               toast.success('试卷已下载');
             }

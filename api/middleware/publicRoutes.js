@@ -16,6 +16,11 @@ export const PUBLIC_ROUTES = [
   '/auth/reset-password', // 重置密码 (含请求/验证/设置)
   '/auth/logout', // 登出 (JWT 无状态, 前端清 token; 保证 200)
   '/health', // 健康检查 (虽然 server.js 提前处理, 双保险)
+  // D-Bug-D (2026-08-23): legacy compat 层 (api/legacy-compat.js) 的预认证端点
+  // 让旧 frontend/ + public/ (PWA) 的登录/注册/游客能正常走 authMiddleware
+  '/login', // 旧路径 (legacyCompatRouter 转发到 /auth/login)
+  '/guest-login', // 旧路径
+  '/register', // 旧路径
 ];
 
 /**

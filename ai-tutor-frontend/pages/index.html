@@ -1,279 +1,637 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- P1 联调: 前端 :8000 + 后端 :3002, 跨域指向后端 (生产同源时删这行) -->
-<meta name="api-base" content="http://localhost:3002">
-<!-- P1 修 cache: 强制不 cache HTML, reload 必重新加载所有 .js -->
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>AI Tutor - 智启AI导师 (v2 迁移中)</title>
-
-<!-- F1 Foundation: 4 层 CSS -->
-<link rel="stylesheet" href="../assets/css/tokens.css">
-<link rel="stylesheet" href="../assets/css/tailwind-theme.css">
-<link rel="stylesheet" href="../assets/css/aitutor.css">
-<link rel="stylesheet" href="../assets/css/router.css">
-<link rel="stylesheet" href="../assets/css/brand.css">
-
-<style>
-  body { padding-top: 64px; }
-  .hero { padding: 56px 24px 32px; text-align: center; max-width: 900px; margin: 0 auto; }
-  .hero h1 { font-size: 44px; font-weight: 800; margin: 0 0 12px; color: var(--color-foreground); letter-spacing: -0.02em; }
-  .hero p { font-size: 16px; color: var(--color-muted-foreground); margin: 0 0 28px; }
-  .hero .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 40px auto; max-width: 900px; padding: 0 24px; }
-  .stat { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; padding: 24px; text-align: center; }
-  .stat .num { font-size: 36px; font-weight: 800; color: var(--color-primary); line-height: 1.2; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-  .stat .num.placeholder { color: var(--color-muted); font-weight: 400; }
-  .stat .lbl { font-size: 13px; color: var(--color-muted-foreground); margin-top: 8px; }
-  .rag-bar { display: flex; gap: 8px; margin: 24px 0; }
-  .rag-bar input, .rag-bar select { padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); color: var(--color-foreground); font-size: 14px; }
-  .rag-bar input { flex: 1; }
-  .rag-result { padding: 12px; border: 1px solid var(--color-border); border-radius: 8px; margin: 8px 0; background: var(--color-surface-container-low); }
-  .rag-result .meta { font-size: 12px; color: var(--color-muted-foreground); margin-top: 4px; }
-  .rag-result .sim { color: var(--color-primary); font-weight: 700; }
-  @media (max-width: 768px) { .stats { grid-template-columns: repeat(2, 1fr); } .hero h1 { font-size: 32px; } }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="api-base" content="">
+    <title>AI Tutor 高考/中考错题诊断与预测学习平台</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/tailwind-theme.css">
+    <link rel="stylesheet" href="../assets/css/aitutor.css">
+    <link rel="stylesheet" href="../assets/css/brand.css">
+    <link rel="stylesheet" href="../assets/css/router.css">
+    <style type="text/tailwindcss">
+@theme inline {
+  --color-primary-50: #fff1f1;
+  --color-primary-100: #ffe1e2;
+  --color-primary-200: #ffc7c9;
+  --color-primary-300: #ffa0a4;
+  --color-primary-400: #ff686d;
+  --color-primary-500: #d71920;
+  --color-primary-600: #b8151b;
+  --color-primary-700: #941218;
+  --color-primary-800: #7a1014;
+  --color-primary-900: #660f13;
+  --color-success-50: #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-200: #a7f3d0;
+  --color-success-300: #6ee7b7;
+  --color-success-400: #34d399;
+  --color-success-500: #059669;
+  --color-success-600: #047857;
+  --color-success-700: #065f46;
+  --color-success-800: #064e3b;
+  --color-success-900: #022c22;
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-300: #fcd34d;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+  --color-warning-900: #78350f;
+  --color-error-50: #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-200: #fecaca;
+  --color-error-300: #fca5a5;
+  --color-error-400: #f87171;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+  --color-error-700: #b91c1c;
+  --color-error-800: #991b1b;
+  --color-error-900: #7f1d1d;
+  --color-info-50: #f0f9ff;
+  --color-info-100: #e0f2fe;
+  --color-info-200: #bae6fd;
+  --color-info-300: #7dd3fc;
+  --color-info-400: #38bdf8;
+  --color-info-500: #0284c7;
+  --color-info-600: #0369a1;
+  --color-info-700: #075985;
+  --color-info-800: #0c4a6e;
+  --color-info-900: #082f49;
+  --color-foreground: #0b1220;
+  --color-foreground-secondary: #4b5563;
+  --color-muted-foreground: #6b7280;
+  --color-foreground-muted: #9ca3af;
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f9fafb;
+  --color-surface-tertiary: #f3f4f6;
+  --color-surface-container-low: #f6f8fa;
+  --color-border: #e5e7eb;
+  --color-border-light: #f1f3f5;
+}
+    </style>
 </head>
-<body>
-<main class="ait-page" id="app">
-  <!-- Hero -->
-  <div class="hero">
-    <h1>AI Tutor <span class="ait-badge ait-badge-primary">v2 迁移中</span></h1>
-    <p>F1+F2 验证页 — Service Layer + Mock + RAG 端到端 (P3 28,580 题)</p>
-    <div class="actions">
-      <button class="ait-btn ait-btn-primary" id="btn-load">加载 dashboard (Mock)</button>
-      <button class="ait-btn ait-btn-outline" id="btn-mock">Mock 模式: 开</button>
-      <button class="ait-btn ait-btn-outline" id="btn-theme">切换暗色主题</button>
-    </div>
-  </div>
+<body class="min-h-screen font-sans antialiased" style="background:var(--color-surface);color:var(--color-foreground)">
+    <div class="lg:ml-60 md:ml-[72px] min-h-screen" style="background:var(--color-surface);color:var(--color-foreground)">
 
-  <!-- Stats (filled by JS) — D1 v0.7.1-dev: 4 状态类 empty / loading / error / value -->
-  <div class="stats" id="stats">
-    <div class="stat"><div class="num ait-stat-num empty" id="s0">—</div><div class="lbl">已答题数</div></div>
-    <div class="stat"><div class="num ait-stat-num empty" id="s1">—</div><div class="lbl">正确率</div></div>
-    <div class="stat"><div class="num ait-stat-num empty" id="s2">—</div><div class="lbl">薄弱点</div></div>
-    <div class="stat"><div class="num ait-stat-num empty" id="s3">—</div><div class="lbl">学习天数</div></div>
-  </div>
+<main class="ait-page max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
 
-  <!-- ════════ DEV-only tools (默认隐藏, ?dev=1 才显示) ════════
-       2026-08-19 DSH: F2 验证残留 (RAG 搜索框 + Service Layer 验证卡)
-       对终端用户没用, 只对 dev/QA 有调试价值.
-       注入位置: 4 个 stat 卡之后, </main> 之前. -->
-  <div id="dev-rag-tools" hidden>
-    <!-- RAG 搜索 (走真后端, 默认 ?mock=false) -->
-    <div class="ait-card" style="max-width: 900px; margin: 40px auto;">
-      <h3 class="ait-card-title">🔍 RAG 语义检索 (P3 真后端, 28,580 题)</h3>
-      <p class="ait-card-desc">搜高考真题 — pgvector cosine + Ollama nomic-embed-text (768 dim, 60-90ms)</p>
-      <p class="ait-card-desc" style="background:var(--color-warning-bg,#fff3cd);padding:8px 12px;border-radius:6px;margin-top:8px">
-        <strong>💡 提示</strong>: 28,580 题学科分布不均 (生物 4597 vs 数学 1614), <strong>不选学科易跑偏</strong>.
-        短 query (1-2 字) + 不选学科 → 排名靠 sim 排序, 不保证学科对.
-        推荐: 选学科 (默认数学) + 输入关键词 (≥3 字效果更好).
-      </p>
-      <div class="rag-bar">
-        <input id="rag-q" type="text" placeholder='试试: "导数" / "牛顿第二定律" / "软锰矿制备高锰酸钾"' value="导数">
-        <select id="rag-subj">
-          <option value="">全部学科 (不选易跑偏)</option>
-          <option value="math" selected>数学</option>
-          <option value="physics">物理</option>
-          <option value="chemistry">化学</option>
-          <option value="biology">生物</option>
-          <option value="chinese">语文</option>
-          <option value="english">英语</option>
-          <option value="history">历史</option>
-          <option value="geography">地理</option>
-          <option value="politics">政治</option>
-        </select>
-        <button class="ait-btn ait-btn-primary" id="btn-rag">搜索</button>
+  <!-- ===== 面包屑 ===== -->
+  <nav class="flex items-center gap-1.5 text-xs text-foreground-secondary mb-4" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+    <i data-lucide="home" class="w-3.5 h-3.5"></i>
+    <span class="text-foreground font-medium">首页</span>
+  </nav>
+
+  <!-- ===== HERO: 价值主张 + 样例预览 + CTA ===== -->
+  <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 text-white p-8 lg:p-12 mb-8 shadow-[0_8px_24px_-8px_rgba(215,25,32,0.4)]">
+    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px); background-size: 30px 30px, 40px 40px;"></div>
+    <div class="relative grid lg:grid-cols-2 gap-8 items-center">
+      <div>
+        <div class="inline-flex items-center gap-1.5 px-3 h-7 rounded-full bg-white/15 backdrop-blur-sm text-xs font-medium mb-4">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>2026 备考路线图</span>
+        </div>
+        <h1 class="text-3xl lg:text-5xl font-extrabold leading-tight mb-4" style="text-wrap:balance; word-break:keep-all; letter-spacing:-0.02em;">
+          用历年真题和错题数据<br>生成你的备考路线图
+        </h1>
+        <p class="text-base lg:text-lg text-white/85 leading-relaxed mb-6" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+          AI Tutor 基于全国各省 17+ 年真题、官方政策、知识点图谱和学生错题数据,<br class="hidden lg:inline">生成可追溯的趋势报告、预测训练卷和个性化提分路径。
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="sample-report-student.html" class="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-white text-primary-600 font-semibold hover:bg-surface-secondary transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.15)]" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            查看样例报告
+          </a>
+          <a href="math-exam.html" class="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-white/15 backdrop-blur-sm text-white font-semibold hover:bg-white/25 transition-colors border border-white/20" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+            <i data-lucide="pencil-line" class="w-4 h-4"></i>
+            体验预测卷
+          </a>
+          <a href="login.html" class="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-white/15 backdrop-blur-sm text-white font-semibold hover:bg-white/25 transition-colors border border-white/20" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+            <i data-lucide="log-in" class="w-4 h-4"></i>
+            登录体验
+          </a>
+        </div>
       </div>
-      <div class="rag-quickpick" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;margin-bottom:8px">
-        <span style="font-size:12px;color:var(--color-muted-foreground);align-self:center;margin-right:4px">🚀 快速入口 (高考题常用 synonym, 28k 题里精准命中):</span>
-        <button class="ait-btn ait-btn-outline quickpick" data-q="极值" data-s="math" style="font-size:12px;padding:4px 10px">导数题·极值 (math)</button>
-        <button class="ait-btn ait-btn-outline quickpick" data-q="切线" data-s="math" style="font-size:12px;padding:4px 10px">导数题·切线 (math)</button>
-        <button class="ait-btn ait-btn-outline quickpick" data-q="单调" data-s="math" style="font-size:12px;padding:4px 10px">导数题·单调 (math)</button>
-        <button class="ait-btn ait-btn-outline quickpick" data-q="椭圆" data-s="math" style="font-size:12px;padding:4px 10px">解析几何·椭圆 (math)</button>
-        <button class="ait-btn ait-btn-outline quickpick" data-q="牛顿" data-s="physics" style="font-size:12px;padding:4px 10px">力学·牛顿 (physics)</button>
-        <button class="ait-btn ait-btn-outline quickpick" data-q="软锰矿" data-s="chemistry" style="font-size:12px;padding:4px 10px">化学·软锰矿 (chemistry)</button>
+      <div class="grid grid-cols-2 lg:grid-cols-2 gap-3">
+        <div class="rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20 p-5">
+          <div class="text-3xl font-extrabold mb-1" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">78</div>
+          <div class="text-xs text-white/80">综合得分</div>
+        </div>
+        <div class="rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20 p-5">
+          <div class="text-3xl font-extrabold mb-1" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">12</div>
+          <div class="text-xs text-white/80">薄弱点</div>
+        </div>
+        <div class="rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20 p-5">
+          <div class="text-3xl font-extrabold mb-1 text-success-300" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">+5</div>
+          <div class="text-xs text-white/80">本周提升</div>
+        </div>
+        <div class="rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20 p-5">
+          <div class="text-3xl font-extrabold mb-1" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">92%</div>
+          <div class="text-xs text-white/80">考点覆盖</div>
+        </div>
       </div>
-      <div id="rag-results"></div>
     </div>
+  </section>
 
-    <!-- Service Layer Demo -->
-    <div class="ait-card" style="max-width: 900px; margin: 40px auto;">
-      <h3 class="ait-card-title">🎯 Service Layer 验证</h3>
-      <p class="ait-card-desc">7 个 service 已就绪: auth, user, exam, rag, knowledge, review, vision</p>
-      <pre id="service-log" style="background:var(--color-surface-container-low);padding:16px;border-radius:8px;font-size:12px;margin-top:12px;max-height:200px;overflow:auto;white-space:pre-wrap;">点击 "加载 dashboard" 按钮测试...</pre>
+  <!-- ===== 为什么可信 ===== -->
+  <section class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">为什么可信</h2>
+      <a href="methodology.html" class="text-xs text-primary-500 hover:underline">查看方法 →</a>
     </div>
-  </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div class="flex flex-col gap-2 p-5 rounded-2xl bg-surface border border-border-light hover:border-border transition-colors">
+        <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
+          <i data-lucide="file-check-2" class="w-5 h-5"></i>
+        </div>
+        <h3 class="text-sm font-bold text-foreground mt-1">官方政策来源</h3>
+        <p class="text-xs text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">引用北京教育考试院官方文件,政策解读有据可查</p>
+      </div>
+      <div class="flex flex-col gap-2 p-5 rounded-2xl bg-surface border border-border-light hover:border-border transition-colors">
+        <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-success-50 text-success-500">
+          <i data-lucide="library" class="w-5 h-5"></i>
+        </div>
+        <h3 class="text-sm font-bold text-foreground mt-1">历年真题库</h3>
+        <p class="text-xs text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">覆盖 2008-2025 年 17+ 年真题,六科完整数据</p>
+      </div>
+      <div class="flex flex-col gap-2 p-5 rounded-2xl bg-surface border border-border-light hover:border-border transition-colors">
+        <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-info-50 text-info-500">
+          <i data-lucide="map" class="w-5 h-5"></i>
+        </div>
+        <h3 class="text-sm font-bold text-foreground mt-1">知识点映射</h3>
+        <p class="text-xs text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">1000+ 核心知识点,每道题可追溯知识点标签</p>
+      </div>
+      <div class="flex flex-col gap-2 p-5 rounded-2xl bg-surface border border-border-light hover:border-border transition-colors">
+        <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-warning-50 text-warning-500">
+          <i data-lucide="shield-alert" class="w-5 h-5"></i>
+        </div>
+        <h3 class="text-sm font-bold text-foreground mt-1">预测边界</h3>
+        <p class="text-xs text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">公开预测方法、数据来源和局限说明,不承诺押题</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 查看样例报告 ===== -->
+  <section class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">查看样例报告</h2>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <a href="sample-report-student.html" class="group flex flex-col gap-3 p-6 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_8px_24px_-8px_rgba(215,25,32,0.2)] transition-all">
+        <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50 text-primary-500 group-hover:scale-110 transition-transform">
+          <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="text-xs text-foreground-secondary mb-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">学生版</div>
+          <h3 class="text-lg font-bold text-foreground mb-2">个性化诊断报告</h3>
+          <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">能力雷达图、薄弱知识点热力图、推荐训练路径,让学生清楚"我哪里弱、怎么练"</p>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mt-1">
+          <span class="inline-flex items-center h-5 px-2 rounded-md bg-primary-50 text-primary-600 text-[11px] font-medium">能力雷达图</span>
+          <span class="inline-flex items-center h-5 px-2 rounded-md bg-primary-50 text-primary-600 text-[11px] font-medium">薄弱点分析</span>
+          <span class="inline-flex items-center h-5 px-2 rounded-md bg-primary-50 text-primary-600 text-[11px] font-medium">学习路径</span>
+        </div>
+      </a>
+      <a href="sample-report-parent.html" class="group flex flex-col gap-3 p-6 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_8px_24px_-8px_rgba(215,25,32,0.2)] transition-all">
+        <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-success-50 text-success-500 group-hover:scale-110 transition-transform">
+          <i data-lucide="users" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="text-xs text-foreground-secondary mb-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">家长版</div>
+          <h3 class="text-lg font-bold text-foreground mb-2">学习周报</h3>
+          <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">进步曲线、每日任务完成情况、薄弱点汇总,让家长了解"孩子每天练什么、进步了多少"</p>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mt-1">
+          <span class="inline-flex items-center h-5 px-2 rounded-md bg-success-50 text-success-600 text-[11px] font-medium">进步曲线</span>
+          <span class="inline-flex items-center h-5 px-2 rounded-md bg-success-50 text-success-600 text-[11px] font-medium">任务进度</span>
+          <span class="inline-flex items-center h-5 px-2 rounded-md bg-success-50 text-success-600 text-[11px] font-medium">改进建议</span>
+        </div>
+      </a>
+      <a href="sample-report-teacher.html" class="group flex flex-col gap-3 p-6 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_8px_24px_-8px_rgba(215,25,32,0.2)] transition-all">
+        <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-info-50 text-info-500 group-hover:scale-110 transition-transform">
+          <i data-lucide="presentation" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="text-xs text-foreground-secondary mb-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">教师版</div>
+          <h3 class="text-lg font-bold text-foreground mb-2">班级学情分析</h3>
+          <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">班级共性错因、知识点掌握率、需关注学生名单,让老师掌握"班级薄弱点、谁需要帮助"</p>
+        </div>
+        <div class="flex flex-wrap gap-1.5 mt-1">
+          <span class="inline-flex items-center h-5 px-2 rounded-md bg-info-50 text-info-600 text-[11px] font-medium">共性错因</span>
+          <span class="inline-flex items-center h-5 px-2 rounded-md bg-info-50 text-info-600 text-[11px] font-medium">知识点覆盖</span>
+          <span class="inline-flex items-center h-5 px-2 rounded-md bg-info-50 text-info-600 text-[11px] font-medium">学生分层</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== 透明承诺 ===== -->
+  <section class="mb-8 p-6 rounded-2xl bg-surface-secondary border border-border-light">
+    <div class="flex gap-3">
+      <i data-lucide="lightbulb" class="w-5 h-5 text-warning-500 shrink-0 mt-0.5"></i>
+      <div>
+        <h3 class="text-base font-bold text-foreground mb-1">预测卷不是押题,而是训练</h3>
+        <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+          我们不承诺押中原题;我们预测的是 <strong class="text-foreground">题型结构、知识点分布、能力要求和训练优先级</strong>。每套预测卷均可追溯其命题依据,包括数据来源、分析方法和预测边界。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 数字指标 ===== -->
+  <section class="mb-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+    <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light">
+      <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
+        <i data-lucide="book-open" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-foreground leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">9</div>
+        <div class="text-xs text-foreground-secondary mt-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">覆盖学科</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light">
+      <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-success-50 text-success-500">
+        <i data-lucide="map-pin" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-foreground leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">20+</div>
+        <div class="text-xs text-foreground-secondary mt-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">覆盖省份</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light">
+      <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-info-50 text-info-500">
+        <i data-lucide="network" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-foreground leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">1000+</div>
+        <div class="text-xs text-foreground-secondary mt-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">核心知识点</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light">
+      <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-warning-50 text-warning-500">
+        <i data-lucide="calendar" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <div class="text-2xl font-bold text-foreground leading-none" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">17+</div>
+        <div class="text-xs text-foreground-secondary mt-1" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">真题年份</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 选择省份 ===== -->
+  <section class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">选择你的考试地区</h2>
+    </div>
+    <div class="flex items-center gap-1 mb-4 p-1 rounded-xl bg-surface-secondary border border-border-light inline-flex">
+      <button class="inline-flex items-center gap-1.5 h-9 px-4 rounded-lg bg-primary-500 text-white text-sm font-medium" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">高考</button>
+      <button class="inline-flex items-center gap-1.5 h-9 px-4 rounded-lg text-foreground-secondary hover:bg-surface-tertiary hover:text-foreground text-sm font-medium transition-colors" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">中考</button>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3" id="province-grid">
+      <a href="province.html?code=liaoning" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">辽宁</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">东北</div>
+        </div>
+      </a>
+      <a href="province.html?code=shanghai" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">上海</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华东</div>
+        </div>
+      </a>
+      <a href="province.html?code=shandong" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">山东</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华东</div>
+        </div>
+      </a>
+      <a href="province.html?code=jiangsu" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">江苏</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华东</div>
+        </div>
+      </a>
+      <a href="province.html?code=zhejiang" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">浙江</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华东</div>
+        </div>
+      </a>
+      <a href="province.html?code=henan" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">河南</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华中</div>
+        </div>
+      </a>
+      <a href="province.html?code=hubei" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">湖北</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华中</div>
+        </div>
+      </a>
+      <a href="province.html?code=hunan" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">湖南</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华中</div>
+        </div>
+      </a>
+      <a href="province.html?code=beijing" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">北京</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华北</div>
+        </div>
+      </a>
+      <a href="province.html?code=tianjin" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">天津</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华北</div>
+        </div>
+      </a>
+      <a href="province.html?code=hebei" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">河北</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华北</div>
+        </div>
+      </a>
+      <a href="province.html?code=guangdong" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">广东</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">华南</div>
+        </div>
+      </a>
+      <a href="province.html?code=shaanxi" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">陕西</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">西北</div>
+        </div>
+      </a>
+      <a href="province.html?code=sichuan" class="flex items-center gap-2.5 p-3.5 rounded-xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <i data-lucide="map-pin" class="w-4 h-4 text-primary-500 shrink-0"></i>
+        <div class="min-w-0 flex-1">
+          <div class="text-sm font-medium text-foreground truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">四川</div>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">西南</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== 核心功能 ===== -->
+  <section class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">核心功能</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <a href="#province-selector" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
+          <i data-lucide="trending-up" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-foreground mb-1">分省高考趋势分析</h3>
+          <p class="text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">覆盖全国 20+ 省份历年真题,深度分析</p>
+        </div>
+      </a>
+      <a href="math-exam.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-success-50 text-success-500">
+          <i data-lucide="pencil-line" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-foreground mb-1">分省预测卷生成</h3>
+          <p class="text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">按省份、学科生成个性化模拟练习卷</p>
+        </div>
+      </a>
+      <a href="login.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-info-50 text-info-500">
+          <i data-lucide="camera" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-foreground mb-1">错题拍照识别</h3>
+          <p class="text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">手机拍照上传错题,AI 自动识别</p>
+        </div>
+      </a>
+      <a href="dashboard.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-warning-50 text-warning-500">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-foreground mb-1">本省同类题推荐</h3>
+          <p class="text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">结合本省真题,推荐强化训练</p>
+        </div>
+      </a>
+      <a href="my-weak-points.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-error-50 text-error-500">
+          <i data-lucide="target" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-foreground mb-1">薄弱点精准分析</h3>
+          <p class="text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">错因、知识点、能力画像全方位</p>
+        </div>
+      </a>
+      <a href="learning-path.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
+          <i data-lucide="route" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-foreground mb-1">学习路径规划</h3>
+          <p class="text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">分阶段计划 + 每日目标 + 同类强化</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== 预测模拟卷入口 ===== -->
+  <section class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">高考预测模拟卷</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <a href="chinese-exam.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500 text-lg">语</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-sm font-bold text-foreground">语文</h3>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-foreground-muted shrink-0"></i>
+          </div>
+          <p class="text-xs text-foreground-secondary mb-2 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">现代文 · 文言文 · 默写 · 语用 · 写作</p>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">150分 · 150分钟</div>
+        </div>
+      </a>
+      <a href="math-exam.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500 text-lg">数</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-sm font-bold text-foreground">数学</h3>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-foreground-muted shrink-0"></i>
+          </div>
+          <p class="text-xs text-foreground-secondary mb-2 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">选择 · 多选 · 填空 · 解答 · 压轴</p>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">150分 · 120分钟</div>
+        </div>
+      </a>
+      <a href="english-exam.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500 text-lg">英</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-sm font-bold text-foreground">英语</h3>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-foreground-muted shrink-0"></i>
+          </div>
+          <p class="text-xs text-foreground-secondary mb-2 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">听力 · 阅读 · 完形 · 语法 · 写作</p>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">150分 · 120分钟</div>
+        </div>
+      </a>
+      <a href="physics-exam.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500 text-lg">物</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-sm font-bold text-foreground">物理</h3>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-foreground-muted shrink-0"></i>
+          </div>
+          <p class="text-xs text-foreground-secondary mb-2 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">力学 · 电磁学 · 热学 · 光学 · 实验</p>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">100分 · 90分钟</div>
+        </div>
+      </a>
+      <a href="chemistry-exam.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500 text-lg">化</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-sm font-bold text-foreground">化学</h3>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-foreground-muted shrink-0"></i>
+          </div>
+          <p class="text-xs text-foreground-secondary mb-2 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">有机 · 无机 · 反应原理 · 实验</p>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">100分 · 90分钟</div>
+        </div>
+      </a>
+      <a href="politics-exam.html" class="flex items-start gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all">
+        <div class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500 text-lg">政</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-sm font-bold text-foreground">政治</h3>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-foreground-muted shrink-0"></i>
+          </div>
+          <p class="text-xs text-foreground-secondary mb-2 truncate" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">经济 · 政治 · 哲学 · 文化</p>
+          <div class="text-[11px] text-muted-foreground" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">100分 · 90分钟</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== 2026 趋势预测 ===== -->
+  <section class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-foreground" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">2026 命题趋势预测</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+      <div class="p-5 rounded-2xl bg-surface border border-border-light">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-primary-50 text-primary-500 text-sm">语</div>
+          <h3 class="text-sm font-bold text-foreground">语文</h3>
+        </div>
+        <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+          <strong class="text-foreground">信息类文本阅读</strong>权重持续上升,近三年从 19 分升至 22 分,跨学科材料(科技+人文)成主流命题趋势。
+        </p>
+      </div>
+      <div class="p-5 rounded-2xl bg-surface border border-border-light">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-primary-50 text-primary-500 text-sm">数</div>
+          <h3 class="text-sm font-bold text-foreground">数学</h3>
+        </div>
+        <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+          <strong class="text-foreground">情境化应用题</strong>比例增大,新课标导向下,数学建模、数据分析类应用题占比提升。
+        </p>
+      </div>
+      <div class="p-5 rounded-2xl bg-surface border border-border-light">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-primary-50 text-primary-500 text-sm">英</div>
+          <h3 class="text-sm font-bold text-foreground">英语</h3>
+        </div>
+        <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+          <strong class="text-foreground">读后续写</strong>高概率成为新题型,北京卷可能引入,考查综合语言运用能力。
+        </p>
+      </div>
+      <div class="p-5 rounded-2xl bg-surface border border-border-light">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-primary-50 text-primary-500 text-sm">政</div>
+          <h3 class="text-sm font-bold text-foreground">政治</h3>
+        </div>
+        <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+          <strong class="text-foreground">时政热点</strong>深度融合学科知识,新质生产力、数字经济、乡村振兴等热点频繁入题。
+        </p>
+      </div>
+      <div class="p-5 rounded-2xl bg-surface border border-border-light">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-primary-50 text-primary-500 text-sm">化</div>
+          <h3 class="text-sm font-bold text-foreground">化学</h3>
+        </div>
+        <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+          <strong class="text-foreground">工业流程题</strong>难度提升,涉及多步反应计算和条件分析,需强化系统思维。
+        </p>
+      </div>
+      <div class="p-5 rounded-2xl bg-surface border border-border-light">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-primary-50 text-primary-500 text-sm">物</div>
+          <h3 class="text-sm font-bold text-foreground">物理</h3>
+        </div>
+        <p class="text-sm text-foreground-secondary leading-relaxed" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+          <strong class="text-foreground">实验探究题</strong>分值增大,从 12 分增至 18 分,考查创新实验思维和数据处理能力。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 透明承诺底部 ===== -->
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+    <a href="methodology.html" class="flex items-center gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 transition-all">
+      <i data-lucide="search" class="w-5 h-5 text-info-500 shrink-0"></i>
+      <div>
+        <h3 class="text-sm font-bold text-foreground">透明的预测方法</h3>
+        <p class="text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">数据来源、分析维度、预测生成逻辑</p>
+      </div>
+    </a>
+    <a href="2026-policy.html" class="flex items-center gap-3 p-5 rounded-2xl bg-surface border border-border-light hover:border-primary-500 transition-all">
+      <i data-lucide="scroll-text" class="w-5 h-5 text-warning-500 shrink-0"></i>
+      <div>
+        <h3 class="text-sm font-bold text-foreground">2026 北京高考政策解读</h3>
+        <p class="text-xs text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">科目 · 时间 · 志愿 · 加分政策</p>
+      </div>
+    </a>
+  </section>
+
 </main>
 
-<!-- Lucide icons -->
-<script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
-
-<!-- F1 Foundation JS -->
-<script type="module">
-  import { auth, user, exam, rag, knowledge, review, vision } from '../assets/js/api/services/index.js';
-  import { setUseMock, getMockEnabled } from '../assets/js/api/USE_MOCK.js';
-  import { mount as mountNav } from '../assets/js/navator.js';
-  mountNav('home');
-  import { ErrorType } from '../assets/js/api/client.js';
-  import { toast } from '../assets/js/toast.js';
-  import { isLoggedIn, logout } from '../assets/js/auth.js';
-  import '../assets/js/router.js';
-
-  // 2026-08-19 DSH: dev-only tools 默认隐藏, ?dev=1 才显示
-  const isDev = new URLSearchParams(location.search).get('dev') === '1';
-  const devTools = document.getElementById('dev-rag-tools');
-  if (devTools) {
-    if (isDev) devTools.hidden = false;
-    // 始终显示一个细 toggle, 让 dev 不带参数也能开关
-    const toggle = document.createElement('button');
-    toggle.textContent = isDev ? '🛠 隐藏 dev 工具' : '🛠 显示 dev 工具';
-    toggle.className = 'ait-btn ait-btn-outline';
-    toggle.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:50;font-size:11px;padding:6px 12px;opacity:0.5';
-    toggle.onclick = () => {
-      devTools.hidden = !devTools.hidden;
-      toggle.textContent = devTools.hidden ? '🛠 显示 dev 工具' : '🛠 隐藏 dev 工具';
-    };
-    document.body.appendChild(toggle);
-  }
-
-  window.AIT = { auth, user, exam, rag, knowledge, review, vision, toast, logout, ErrorType };
-
-  const log = (msg) => {
-    const el = document.getElementById('service-log');
-    el.textContent = `[${new Date().toLocaleTimeString()}] ${msg}\n` + el.textContent;
-  };
-
-  // ─── stat 状态 helper (D1: 用 .empty / .loading / .error / .value) ───
-  const setStatState = (id, state, text) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.classList.remove('ait-stat-num', 'empty', 'loading', 'error');
-    el.classList.add('ait-stat-num', state);
-    el.textContent = text;
-  };
-
-  // 1. 加载 dashboard (mock)
-  document.getElementById('btn-load').onclick = async () => {
-    const slots = ['s0', 's1', 's2', 's3'];
-    slots.forEach(id => setStatState(id, 'loading', '加载中...'));
-    try {
-      log('→ user.getDashboard() 调用...');
-      const res = await user.getDashboard();
-      log('← 返回: ' + JSON.stringify(res).slice(0, 200) + '...');
-      const s = res.data.stats;
-      const vals = [s.questions_solved, (s.accuracy * 100).toFixed(1) + '%', s.weak_points_count, s.study_days];
-      slots.forEach((id, i) => setStatState(id, 'value', String(vals[i])));
-      toast.success('Dashboard 加载成功');
-    } catch (e) {
-      log(`✗ 错误 [${e.type || '?'}] ${e.message}` + (e.code ? ` (code=${e.code})` : ''));
-      slots.forEach(id => setStatState(id, 'error', '加载失败'));
-      // 错误已由 client.js toast.error 处理, 这里不再 toast
-    }
-  };
-
-  // 2. RAG 搜索 (真后端, 走单次 fetch, 不动 mock toggle)
-  const searchRAG = async () => {
-    const q = document.getElementById('rag-q').value.trim();
-    const subject = document.getElementById('rag-subj').value || undefined;
-    const resultsDiv = document.getElementById('rag-results');
-    if (!q) { toast.error('输入查询'); return; }
-    resultsDiv.innerHTML = '<div style="padding:12px;color:var(--color-muted-foreground)">搜索中...</div>';
-
-    try {
-      log(`→ rag.search("${q}", subject=${subject || '全部'})`);
-      const t0 = Date.now();
-      const res = await rag.search({ query: q, subject, topK: 5, threshold: 0.5 });
-      const ms = Date.now() - t0;
-      const results = res.data?.results || [];
-      log(`← ${results.length} hits, ${ms}ms`);
-
-      if (results.length === 0) {
-        resultsDiv.innerHTML = '<div style="padding:12px;color:var(--color-muted-foreground)">无匹配 (降低阈值或换 query)</div>';
-        toast.info('0 命中');
-      } else {
-        resultsDiv.innerHTML = `<div style="padding:8px 12px;color:var(--color-muted-foreground);font-size:13px">${results.length} hits in ${ms}ms</div>` +
-          results.map((r, i) => `
-            <div class="rag-result">
-              <div><span class="sim">#${i+1} sim=${r.similarity?.toFixed(4)}</span>  ${r.subject_code || '?'}  ${r.question_type || '?'}</div>
-              <div style="margin-top:6px;color:var(--color-foreground)">${(r.content || '').slice(0, 200)}${(r.content || '').length > 200 ? '...' : ''}</div>
-              <div class="meta">id=${r.id}  source_paper=${(r.source_paper_id || '').slice(0, 60)}</div>
-            </div>
-          `).join('');
-        toast.success(`${results.length} 命中`);
-      }
-    } catch (e) {
-      log(`✗ RAG fail [${e.type || '?'}] ${e.message}` + (e.code ? ` (code=${e.code})` : ''));
-      resultsDiv.innerHTML = `<div style="padding:12px;color:var(--color-error)">错误: ${e.message}</div>`;
-      // 错误已由 client.js toast 处理
-    }
-  };
-
-  document.getElementById('btn-rag').onclick = searchRAG;
-  document.getElementById('rag-q').onkeydown = (e) => { if (e.key === 'Enter') searchRAG(); };
-
-  // Quick-pick 按钮
-  document.querySelectorAll('.quickpick').forEach((btn) => {
-    btn.onclick = () => {
-      const q = btn.dataset.q;
-      const s = btn.dataset.s;
-      document.getElementById('rag-q').value = q;
-      if (s) document.getElementById('rag-subj').value = s;
-      searchRAG();
-    };
-  });
-
-  // 3. USE_MOCK toggle (D1: 修 3 值 + 即时反映)
-  // 三值 LS: null/'false'/'0' → 关 (默认), 'true'/'1' → 开
-  const refreshMockBtn = () => {
-    document.getElementById('btn-mock').textContent = 'Mock 模式: ' + (getMockEnabled() ? '开' : '关');
-  };
-  refreshMockBtn();
-  document.getElementById('btn-mock').onclick = () => {
-    setUseMock(!getMockEnabled());
-    refreshMockBtn();
-    toast.info('Mock 已' + (getMockEnabled() ? '开启' : '关闭') + ' (下次 request 立即生效)');
-  };
-
-  // 4. 暗色主题切换
-  document.getElementById('btn-theme').onclick = () => {
-    document.documentElement.classList.toggle('dark');
-    const isDark = document.documentElement.classList.contains('dark');
-    localStorage.setItem('aitutor.theme', isDark ? 'dark' : 'light');
-    toast.info('已切换到 ' + (isDark ? '暗色' : '亮色') + ' 主题');
-  };
-
-  // 5. 启动时恢复主题
-  if (localStorage.getItem('aitutor.theme') === 'dark') {
-    document.documentElement.classList.add('dark');
-  }
-
-  // 6. 启动 log
-  log('✓ D1 v0.7.1-dev — Service Layer + 6 类错误分类 + retry 策略表');
-  log('  Mock (lazy): ' + (getMockEnabled() ? '开' : '关'));
-  log('  Services: ' + Object.keys({auth, user, exam, rag, knowledge, review, vision}).join(', '));
-  log('  ErrorType: ' + Object.values(ErrorType).join(' / '));
-
-  // 7. RAG 端点健康检查 (RAG 走真后端默认, 不改全局 mock)
-  // 2026-08-20 DSH 修复: 之前未登录用户打开 /f3/pages/index.html 会被 client.js:268
-  // 401 守卫 setTimeout 跳到 login.html, "返回首页" 看似"回不去".
-  // 修法: 用原生 fetch + 静默 + 自己处理结果, 绕开 client.js 的强制 AUTH 跳.
-  fetch('/api/rag/search/stats', { headers: { 'Content-Type': 'application/json' } })
-    .then(r => r.ok ? r.json() : null)
-    .then(j => {
-      if (j && j.success && j.data) {
-        log(`✓ RAG stats: ${j.data.total} 题, ${j.data.subjects} 学科 (端到端 200)`);
-      } else {
-        log('· RAG stats 未登录, 跳过 (登录后可看 28,580 题)');
-      }
-    })
-    .catch(() => log('· RAG stats 失败, 不影响页面'));
-
+<script>
+  // 初始化 lucide 图标
   if (window.lucide) lucide.createIcons();
+
+  // 高考/中考 切换
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('button') && e.target.closest('button').textContent.trim() === '中考') {
+      window.location.href = 'zhongkao.html';
+    }
+  });
 </script>
+
+<script type="module">
+      import { mount } from '../assets/js/navator.js';
+      mount({ active: 'home' });
+    </script>
+    </div>
 </body>
 </html>

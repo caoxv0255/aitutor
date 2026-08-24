@@ -70,6 +70,8 @@ class Logger {
       ...(meta.error && { error: meta.error.message }),
       ...(meta.user && { user: meta.user }),
       ...(meta.requestId && { requestId: meta.requestId }),
+      // Phase-B-fix (2026-08-24): traceId (UUID) 与 requestId (短随机) 并列, 用于 ai_trace 关联
+      ...(meta.traceId && { traceId: meta.traceId }),
       ...(meta.duration && { duration: meta.duration }),
       ...(meta.module && { module: meta.module }),
     };
@@ -131,6 +133,8 @@ class Logger {
       userAgent,
       referer,
       requestId: req.requestId,
+      // Phase-B-fix (2026-08-24): 写 traceId 到日志 meta
+      traceId: req.traceId,
     });
   }
 

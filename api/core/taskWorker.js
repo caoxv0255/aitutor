@@ -2,11 +2,15 @@ import { getDb } from './db.js';
 import { PROMPTS, PROMPT_VERSION } from '../utils/prompts.js';
 import { parseImageRecognitionResponse, createTaskMetrics, logTaskMetrics } from '../utils/llmParser.js';
 import dotenv from 'dotenv';
+// Phase-B-fix (2026-08-24): B10 — 改用 services/aiTrace.js 统一埋点
+import { recordAiTraceAsync } from '../../services/aiTrace.js';
 dotenv.config();
 
 const MAX_RETRIES = 3;
 const RETRY_DELAYS = [5000, 15000, 45000];
 const STALE_PROCESSING_THRESHOLD_MS = 5 * 60 * 1000;
+// P0-fix (2026-08-24): 失败任务 30 天后自动清理 (防 task_queue 无限增长)
+const FAILED_TASK_RETENTION_DAYS = 30;
 
 let isProcessing = false;
 let taskStats = { total: 0, success: 0, fallback: 0, failed: 0, lowQuality: 0 };
@@ -24,6 +28,23 @@ async function recoverStaleTasks() {
     }
   } catch (err) {
     console.error('[Worker] Failed to recover stale tasks:', err.message);
+  }
+}
+
+// P0-fix (2026-08-24): 清理 30 天前的 failed 任务 (防 task_queue 无限增长)
+async function purgeOldFailedTasks() {
+  try {
+    const pool = await getDb();
+    const cutoff = new Date(Date.now() - FAILED_TASK_RETENTION_DAYS * 24 * 60 * 60 * 1000).toISOString();
+    const result = await pool.query(
+      "DELETE FROM task_queue WHERE status = 'failed' AND updated_at < $1",
+      [cutoff]
+    );
+    if (result.rowCount > 0) {
+      console.log(`[Worker] Purged ${result.rowCount} failed tasks older than ${FAILED_TASK_RETENTION_DAYS} days`);
+    }
+  } catch (err) {
+    console.error('[Worker] Failed to purge old failed tasks:', err.message);
   }
 }
 
@@ -112,14 +133,20 @@ async function processNext() {
       logTaskMetrics(metrics);
       await recordMetrics(pool, task.id, metrics);
 
-      // D069 (2026-08-17): ai_trace — 异步写入 LLM 调用追踪
-      try {
-        pool.query(
-          `INSERT INTO ai_trace (user_email, provider, model, task_type, prompt_tokens, completion_tokens, latency_ms, success)
-           VALUES ($1, 'dashscope', $2, 'image_recognition', $3, $4, $5, $6)`,
-          [task.user_email, promptConfig.model, tokenUsage.prompt, tokenUsage.completion, metrics.processing_time_ms, true]
-        ).catch(()=>{});
-      } catch {}
+      // Phase-B-fix (2026-08-24): B10 — ai_trace 改用统一 recordAiTrace (含 task_id 作为 request_id)
+      recordAiTraceAsync({
+        request_id: `task_${task.id}`,
+        user_id: task.user_email,
+        session_id: String(task.id),
+        task_type: 'image_recognition',
+        provider: 'dashscope',
+        model: promptConfig.model,
+        prompt_tokens: tokenUsage.prompt,
+        completion_tokens: tokenUsage.completion,
+        latency_ms: metrics.processing_time_ms,
+        cost_cny: ((tokenUsage.total || 0) / 1_000_000) * 0.8,
+        success: true,
+      });
 
       taskStats.total++;
       if (isFallback) {
@@ -157,6 +184,19 @@ async function processNext() {
       const metrics = createTaskMetrics(task.id, startTime, endTime, PROMPTS.IMAGE_RECOGNITION.model, { prompt: 0, completion: 0, total: 0 }, 0, true);
       logTaskMetrics(metrics);
 
+      // Phase-B-fix (2026-08-24): B10 — 失败路径也 ai_trace
+      recordAiTraceAsync({
+        request_id: `task_${task.id}`,
+        user_id: task.user_email,
+        session_id: String(task.id),
+        task_type: 'image_recognition',
+        provider: 'dashscope',
+        model: PROMPTS.IMAGE_RECOGNITION.model,
+        latency_ms: endTime - startTime,
+        success: false,
+        error_message: err.message,
+      });
+
       if (retryCount + 1 < MAX_RETRIES) {
         const delay = RETRY_DELAYS[retryCount] || RETRY_DELAYS[RETRY_DELAYS.length - 1];
         await pool.query(
@@ -188,6 +228,8 @@ let intervalId = null;
 export function startWorker(intervalMs = 3000) {
   console.log(`[Worker] Started, polling every ${intervalMs}ms (prompt v${PROMPT_VERSION})`);
   recoverStaleTasks();
+  // P0-fix (2026-08-24): 启动时清理 30 天前 failed 任务, 避免无限堆积
+  purgeOldFailedTasks();
   intervalId = setInterval(processNext, intervalMs);
 }
 

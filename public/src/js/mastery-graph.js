@@ -363,7 +363,7 @@ async function init() {
 
   try {
     // 获取图谱拓扑数据（首屏唯一 API 调用）
-    graphData = await apiFetch('/api/loop/graph');
+    graphData = await apiFetch('/api/tutor/loop/graph');
 
     // 为节点注入颜色属性（纯视觉编码）
     const cyNodes = graphData.nodes.map((n) => ({

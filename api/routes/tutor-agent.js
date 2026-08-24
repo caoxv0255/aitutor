@@ -456,9 +456,10 @@ ${similarText}
  * @param {string} params.user_email - 学生邮箱
  * @param {string} [params.subject] - 学科
  * @param {string} [params.current_topic_name] - 当前知识点名称
+ * @param {string} [params.request_id] - 调用方 trace_id (Phase B 2026-08-24, 用于 ai_trace)
  * @returns {Promise<object>} 结构化教学响应
  */
-export async function askTutorAgent({ question, knowledge_point_id, user_email, subject, current_topic_name }) {
+export async function askTutorAgent({ question, knowledge_point_id, user_email, subject, current_topic_name, request_id }) {
   const pool = await getDb();
   const startTime = Date.now();
 
@@ -506,11 +507,15 @@ export async function askTutorAgent({ question, knowledge_point_id, user_email, 
   const userPrompt = buildUserPrompt(question, subject);
 
   // ── Step 4: 方案 C — LLM 推理（强制 JSON 模式）──
+  // Phase-B-fix (2026-08-24): 注入 request_id / user_id / task_type 用于 ai_trace (B2)
   const llmResult = await chatCompletion(systemPrompt, userPrompt, {
     model: TUTOR_MODEL,
     temperature: 0.3,
     max_tokens: 4000,
     jsonMode: true,
+    task_type: 'tutor_agent',
+    user_id: user_email,
+    request_id,
   });
 
   // ── Step 5: 结构化输出解析（容错）──
@@ -569,6 +574,8 @@ router.post('/ask', authMiddleware, async (req, res) => {
       user_email: userEmail,
       subject,
       current_topic_name,
+      // Phase-B-fix (2026-08-24): 透传 trace_id 到 ai_trace (B7 middleware)
+      request_id: req.traceId,
     });
 
     return res.json(successResponse(result, '教学推理完成'));
@@ -712,10 +719,14 @@ router.post('/ask/stream', authMiddleware, async (req, res) => {
 
     let fullContent = '';
     try {
+      // Phase-B-fix (2026-08-24): 注入 task_type='tutor_stream' + user_id + request_id 用于 ai_trace
       for await (const chunk of streamChatCompletion(systemPrompt, userPrompt, {
         model: TUTOR_MODEL,
         temperature: 0.3,
         max_tokens: 4000,
+        task_type: 'tutor_stream',
+        user_id: userEmail,
+        request_id: req.traceId,
         signal: { addEventListener: (_, fn) => req.on('close', fn) },
       })) {
         if (closed) break;
@@ -744,6 +755,16 @@ router.post('/ask/stream', authMiddleware, async (req, res) => {
       res.end();
     }
   }
+});
+
+/**
+ * GET /api/tutor/sessions — 会话历史列表 (P0.7 决策: D56 — 会话存 localStorage,
+ * 后端无持久化, 此端点为前端兼容保留, 永远返回空 list).
+ * F3 services/tutor.js getHistory() 在真后端模式下用 localStorage 仓库, 不调此端点;
+ * mock 模式调此端点拿 mock 数据. 此实现保证真后端模式 fetch 不报 404.
+ */
+router.get('/sessions', authMiddleware, async (req, res) => {
+  return res.json(successResponse([], '会话历史 (真后端模式请使用 localStorage)'));
 });
 
 export default router;

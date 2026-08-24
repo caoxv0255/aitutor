@@ -19,6 +19,11 @@ const DEFAULT_DASHSCOPE_COMPATIBLE_URL = 'https://dashscope.aliyuncs.com/compati
 const DEFAULT_DASHSCOPE_NATIVE_URL = 'https://dashscope.aliyuncs.com/api/v1';
 const DEEPSEEK_ENDPOINT = 'https://api.deepseek.com/v1/chat/completions';
 
+// Phase-B-fix (2026-08-24): 引入 ai_trace 统一埋点 (B1)
+// - recordAiTrace 异步 fire-and-forget, 写入失败不抛
+// - services/* 同层, 无循环依赖 (lazy import api/core/db.js)
+import { recordAiTraceAsync, generateTraceId } from './aiTrace.js';
+
 function buildEndpoint(baseUrl, path) {
   const normalizedBase = baseUrl.replace(/\/$/, '');
   return `${normalizedBase}${path}`;
@@ -42,10 +47,12 @@ const MODEL_CONFIGS = {
   'qwen-turbo': { endpoint: DASHSCOPE_ENDPOINT, keyEnv: 'DASHSCOPE_API_KEY', mode: DASHSCOPE_API_MODE, costPerMillionTokens: 0.4 },
   'qwen-vl-max': { endpoint: DASHSCOPE_ENDPOINT, keyEnv: 'DASHSCOPE_API_KEY', mode: DASHSCOPE_API_MODE, costPerMillionTokens: 12 },
   'qwen-vl-plus': { endpoint: DASHSCOPE_ENDPOINT, keyEnv: 'DASHSCOPE_API_KEY', mode: DASHSCOPE_API_MODE, costPerMillionTokens: 6 },
-  'deepseek-chat': { endpoint: DEEPSEEK_ENDPOINT, keyEnv: 'DEEPSEEK_API_KEY', mode: 'compatible', costPerMillionTokens: 0.06 },
-  'deepseek-v4-pro': { endpoint: DEEPSEEK_ENDPOINT, keyEnv: 'DEEPSEEK_API_KEY', mode: 'compatible', costPerMillionTokens: 1.2 },
+  'deepseek-chat': { endpoint: DEEPSEEK_ENDPOINT, keyEnv: 'DEEPSEEK_API_KEY', mode: 'compatible', costPerMillionTokens: 0.14 },
+  'deepseek-reasoner': { endpoint: DEEPSEEK_ENDPOINT, keyEnv: 'DEEPSEEK_API_KEY', mode: 'compatible', costPerMillionTokens: 2.0 },
 };
 
+// P0-fix (2026-08-24): 删除 'deepseek-v4-pro' (DeepSeek 官方无此模型),
+// 添加 'deepseek-reasoner' (DeepSeek 官方推理模型) 作为替代.
 const FALLBACK_MATRIX = {
   'qwen-plus': ['qwen-turbo', 'deepseek-chat'],
   'qwen-max': ['qwen-plus', 'qwen-turbo'],
@@ -53,6 +60,7 @@ const FALLBACK_MATRIX = {
   'qwen-vl-max': ['qwen-vl-plus'],
   'qwen-vl-plus': ['qwen-vl-max'],
   'deepseek-chat': [],
+  'deepseek-reasoner': ['deepseek-chat'],
 };
 
 const DEFAULT_MODEL = 'qwen-plus';
@@ -244,7 +252,44 @@ async function callModel(systemPrompt, userPrompt, options) {
 }
 
 export async function chatCompletion(systemPrompt, userPrompt, options = {}) {
-  return callWithFallback(systemPrompt, userPrompt, options, callModel);
+  // Phase-B-fix (2026-08-24): ai_trace 埋点 — B1 (services/llm.js 三大出口之一)
+  // - request_id / user_id / task_type 来自 options (caller 注入)
+  // - 优先 task_type (caller 显式), 否则用 feature (兼容旧 feature budget)
+  // - try-finally 保证异常路径也记录
+  const tStart = Date.now();
+  const request_id = options.request_id || generateTraceId();
+  const user_id = options.user_id || 'system';
+  const task_type = options.task_type || options.feature || 'chat';
+  let currentModel = options.model || DEFAULT_MODEL;
+  let result;
+  let errorMsg = null;
+  try {
+    result = await callWithFallback(systemPrompt, userPrompt, options, callModel);
+    currentModel = result.model || currentModel;
+    return result;
+  } catch (err) {
+    errorMsg = err.message || String(err);
+    throw err;
+  } finally {
+    const usage = result?.usage || {};
+    const cost = (typeof result?.cost === 'number')
+      ? result.cost
+      : ((usage.total_tokens || 0) / 1_000_000) * (MODEL_CONFIGS[currentModel]?.costPerMillionTokens || 0);
+    recordAiTraceAsync({
+      request_id,
+      user_id,
+      session_id: options.session_id,
+      task_type,
+      provider: currentModel.startsWith('deepseek-') ? 'deepseek' : 'dashscope',
+      model: currentModel,
+      prompt_tokens: usage.prompt_tokens || 0,
+      completion_tokens: usage.completion_tokens || 0,
+      latency_ms: Date.now() - tStart,
+      cost_cny: cost,
+      success: !errorMsg,
+      error_message: errorMsg,
+    });
+  }
 }
 
 export function safeParseLLMJson(content) {
@@ -371,33 +416,75 @@ async function* streamCallModel(systemPrompt, userPrompt, options) {
 }
 
 export async function* streamChatCompletion(systemPrompt, userPrompt, options = {}) {
-  const { model = DEFAULT_MODEL, retries = MAX_RETRIES } = options;
-  
-  let currentModel = model;
-  const fallbackChain = [...FALLBACK_MATRIX[model] || []];
-  let attempt = 0;
+  // Phase-B-fix (2026-08-24): ai_trace 埋点 — B1 (services/llm.js 三大出口之二)
+  // 流式: 在外层 generator 的 finally 中记录; usage 仅 final usage 时记录,
+  //   prompt_tokens 由上游拼 system+user 长度估算 (无最终 token 报告),
+  //   completion_tokens = 累计 yield 字符数近似
+  const tStart = Date.now();
+  const request_id = options.request_id || generateTraceId();
+  const user_id = options.user_id || 'system';
+  const task_type = options.task_type || options.feature || 'chat_stream';
+  const initialModel = options.model || DEFAULT_MODEL;
+  let currentModel = initialModel;
+  let completionChars = 0;
+  let lastErrMsg = null;
+  let resolvedModel = initialModel;
+  let promptTokensEstimate = 0;
 
-  while (attempt <= retries) {
-    try {
-      if (!await checkBudget(currentModel, options.max_tokens || 3000)) {
-        throw new Error('每日预算已耗尽');
-      }
+  // 粗略估算 prompt tokens (中英文 1 token ≈ 1.5-2 字符)
+  try {
+    promptTokensEstimate = Math.ceil(((systemPrompt?.length || 0) + (userPrompt?.length || 0)) / 2);
+  } catch (_) { /* ignore */ }
 
-      yield* streamCallModel(systemPrompt, userPrompt, { ...options, model: currentModel });
-      return;
-    } catch (err) {
-      attempt++;
-      
-      if (attempt > retries || fallbackChain.length === 0) {
-        throw err;
+  try {
+    const { model = DEFAULT_MODEL, retries = MAX_RETRIES } = options;
+    const fallbackChain = [...FALLBACK_MATRIX[model] || []];
+    let attempt = 0;
+
+    while (attempt <= retries) {
+      try {
+        if (!await checkBudget(currentModel, options.max_tokens || 3000)) {
+          throw new Error('每日预算已耗尽');
+        }
+
+        for await (const chunk of streamCallModel(systemPrompt, userPrompt, { ...options, model: currentModel })) {
+          completionChars += (chunk?.length || 0);
+          yield chunk;
+        }
+        resolvedModel = currentModel;
+        return;
+      } catch (err) {
+        attempt++;
+        if (attempt > retries || fallbackChain.length === 0) {
+          throw err;
+        }
+        currentModel = fallbackChain.shift();
+        console.warn(`[LLM] 流式模型 ${model} 失败，回退到 ${currentModel}: ${err.message}`);
       }
-      
-      currentModel = fallbackChain.shift();
-      console.warn(`[LLM] 流式模型 ${model} 失败，回退到 ${currentModel}: ${err.message}`);
     }
+    throw new Error('所有模型均调用失败');
+  } catch (err) {
+    lastErrMsg = err.message || String(err);
+    throw err;
+  } finally {
+    const completionTokensEstimate = Math.ceil(completionChars / 2);
+    const totalTokens = promptTokensEstimate + completionTokensEstimate;
+    const cost = (totalTokens / 1_000_000) * (MODEL_CONFIGS[resolvedModel]?.costPerMillionTokens || 0);
+    recordAiTraceAsync({
+      request_id,
+      user_id,
+      session_id: options.session_id,
+      task_type,
+      provider: resolvedModel.startsWith('deepseek-') ? 'deepseek' : 'dashscope',
+      model: resolvedModel,
+      prompt_tokens: promptTokensEstimate,
+      completion_tokens: completionTokensEstimate,
+      latency_ms: Date.now() - tStart,
+      cost_cny: cost,
+      success: !lastErrMsg,
+      error_message: lastErrMsg,
+    });
   }
-  
-  throw new Error('所有模型均调用失败');
 }
 
 export { DEFAULT_MODEL };
@@ -472,12 +559,46 @@ async function visionCallModel(systemPrompt, userText, imageBase64, options) {
 }
 
 export async function visionChatCompletion(systemPrompt, userText, imageBase64, options = {}) {
-  return callWithFallback(
-    systemPrompt,
-    { userText, imageBase64 },
-    options,
-    (sys, payload, opts) => visionCallModel(sys, payload.userText, payload.imageBase64, opts)
-  );
+  // Phase-B-fix (2026-08-24): ai_trace 埋点 — B1 (services/llm.js 三大出口之三)
+  const tStart = Date.now();
+  const request_id = options.request_id || generateTraceId();
+  const user_id = options.user_id || 'system';
+  const task_type = options.task_type || options.feature || 'vision_chat';
+  let currentModel = options.model || 'qwen-vl-max';
+  let result;
+  let errorMsg = null;
+  try {
+    result = await callWithFallback(
+      systemPrompt,
+      { userText, imageBase64 },
+      options,
+      (sys, payload, opts) => visionCallModel(sys, payload.userText, payload.imageBase64, opts)
+    );
+    currentModel = result.model || currentModel;
+    return result;
+  } catch (err) {
+    errorMsg = err.message || String(err);
+    throw err;
+  } finally {
+    const usage = result?.usage || {};
+    const cost = (typeof result?.cost === 'number')
+      ? result.cost
+      : ((usage.total_tokens || 0) / 1_000_000) * (MODEL_CONFIGS[currentModel]?.costPerMillionTokens || 0);
+    recordAiTraceAsync({
+      request_id,
+      user_id,
+      session_id: options.session_id,
+      task_type,
+      provider: currentModel.startsWith('deepseek-') ? 'deepseek' : 'dashscope',
+      model: currentModel,
+      prompt_tokens: usage.prompt_tokens || 0,
+      completion_tokens: usage.completion_tokens || 0,
+      latency_ms: Date.now() - tStart,
+      cost_cny: cost,
+      success: !errorMsg,
+      error_message: errorMsg,
+    });
+  }
 }
 
 export function getBudgetStats(feature = null) {
@@ -533,7 +654,8 @@ export const MODELS = {
   QWEN_VL_MAX: 'qwen-vl-max',
   QWEN_VL_PLUS: 'qwen-vl-plus',
   DEEPSEEK_CHAT: 'deepseek-chat',
-  DEEPSEEK_V4_PRO: 'deepseek-v4-pro',
+  // P0-fix (2026-08-24): DeepSeek 官方无 'deepseek-v4-pro', 改用官方推理模型 'deepseek-reasoner'
+  DEEPSEEK_REASONER: 'deepseek-reasoner',
 };
 
 export default {

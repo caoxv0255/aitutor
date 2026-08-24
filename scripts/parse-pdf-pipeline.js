@@ -194,11 +194,11 @@ async function callLLMForExtraction(content, subject) {
     const result = await chatCompletion(
       `你是一个专业的高考试卷题目提取助手。${subjectPrompt}请严格按照JSON格式输出，确保JSON完整闭合，不要添加任何解释。`,
       prompt + '\n\n以下是试卷内容：\n' + content,
-      { model: 'deepseek-v4-pro', temperature: 0.1, max_tokens: 20000, jsonMode: true }
+      { model: 'deepseek-reasoner', temperature: 0.1, max_tokens: 20000, jsonMode: true }
     );
     return safeParseLLMJson(result.content);
   } catch (e) {
-    console.log(`   ⚠️  deepseek-v4-pro JSON模式失败，回退到deepseek-chat...`);
+    console.log(`   ⚠️  deepseek-reasoner JSON模式失败，回退到deepseek-chat...`);
     try {
       const result = await chatCompletion(
         `你是一个专业的高考试卷题目提取助手。${subjectPrompt}请严格按照JSON格式输出，确保JSON完整闭合，不要添加任何解释。`,

@@ -11,6 +11,11 @@
 
 import { chatCompletion, safeParseLLMJson } from './llm.js';
 
+// P0-fix (2026-08-24): 模型名 'qwen3.7-plus' 不在 MODEL_CONFIGS 注册表中
+// 会触发 "不支持的模型" 异常. 统一改为已注册的 'qwen-plus'.
+// 此常量便于未来切换更优模型时一处修改.
+const SUBJECT_PARSER_MODEL = 'qwen-plus';
+
 const PHYSICS_SYSTEM_PROMPT = `你是一位专业的高中物理教师，擅长分析物理题目的结构化信息。
 
 请分析以下物理题目，并输出严格的结构化 JSON：
@@ -121,7 +126,7 @@ export async function parsePhysicsStructure(questionText) {
     const result = await chatCompletion(
       PHYSICS_SYSTEM_PROMPT,
       `请分析以下物理题目：\n\n${questionText}`,
-      { model: 'qwen3.7-plus', temperature: 0.2, max_tokens: 2000 }
+      { model: SUBJECT_PARSER_MODEL, temperature: 0.2, max_tokens: 2000 }
     );
     return safeParseLLMJson(result.content);
   } catch {
@@ -143,7 +148,7 @@ export async function parseChemistryStructure(questionText) {
     const result = await chatCompletion(
       CHEMISTRY_SYSTEM_PROMPT,
       `请分析以下化学题目：\n\n${questionText}`,
-      { model: 'qwen3.7-plus', temperature: 0.2, max_tokens: 2000 }
+      { model: SUBJECT_PARSER_MODEL, temperature: 0.2, max_tokens: 2000 }
     );
     return safeParseLLMJson(result.content);
   } catch {
@@ -167,7 +172,7 @@ export async function parseMathStructure(questionText) {
     const result = await chatCompletion(
       MATH_SYSTEM_PROMPT,
       `请分析以下数学题目：\n\n${questionText}`,
-      { model: 'qwen3.7-plus', temperature: 0.2, max_tokens: 2000 }
+      { model: SUBJECT_PARSER_MODEL, temperature: 0.2, max_tokens: 2000 }
     );
     return safeParseLLMJson(result.content);
   } catch {
@@ -192,7 +197,7 @@ export async function generateImageSemantics(imageDescription) {
     const result = await chatCompletion(
       IMAGE_SEMANTIC_PROMPT,
       imageDescription,
-      { model: 'qwen3.7-plus', temperature: 0.3, max_tokens: 1000, jsonMode: false }
+      { model: SUBJECT_PARSER_MODEL, temperature: 0.3, max_tokens: 1000, jsonMode: false }
     );
     return result.content.trim();
   } catch {
@@ -206,7 +211,7 @@ export async function generateFormulaSemantics(formula) {
     const result = await chatCompletion(
       FORMULA_SEMANTIC_PROMPT,
       formula,
-      { model: 'qwen3.7-plus', temperature: 0.3, max_tokens: 500, jsonMode: false }
+      { model: SUBJECT_PARSER_MODEL, temperature: 0.3, max_tokens: 500, jsonMode: false }
     );
     return result.content.trim();
   } catch {
@@ -233,7 +238,7 @@ export async function generateSemanticDescription(questionText, subject) {
     const result = await chatCompletion(
       '你是一位专业的学科教师，擅长用简洁的语言总结题目。',
       `${prompt}\n\n题目：${questionText}`,
-      { model: 'qwen3.7-plus', temperature: 0.3, max_tokens: 500, jsonMode: false }
+      { model: SUBJECT_PARSER_MODEL, temperature: 0.3, max_tokens: 500, jsonMode: false }
     );
     return result.content.trim();
   } catch {
@@ -260,7 +265,7 @@ export async function generateSolutionDescription(questionText, answer, analysis
     const result = await chatCompletion(
       '你是一位专业的学科教师，擅长总结解题方法。',
       `${prompt}\n\n题目：${questionText}\n\n答案：${answer || '暂无'}\n\n解析：${analysis || '暂无'}`,
-      { model: 'qwen3.7-plus', temperature: 0.3, max_tokens: 800, jsonMode: false }
+      { model: SUBJECT_PARSER_MODEL, temperature: 0.3, max_tokens: 800, jsonMode: false }
     );
     return result.content.trim();
   } catch {

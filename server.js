@@ -12,6 +12,8 @@ import { logger, loggerMiddleware } from './api/core/logger.js';
 import { errorHandler } from './api/middleware/errorHandler.js';
 import { securityHeaders, xssSanitizer, xssDetector, csrfProtection, auditMiddleware } from './api/middleware/security.js';
 import { versionMiddleware } from './api/middleware/versioning.js';
+// Phase-B-fix (2026-08-24): B7 — traceIdMiddleware 提取/生成 X-Trace-Id, 挂到 req.traceId
+import { traceIdMiddleware } from './api/middleware/traceId.js';
 import { createSuccessResponse, createErrorResponse, ErrorCode } from './api/utils/errorCodes.js';
 import modulesRouter from './api/modules/index.js';
 import legacyCompatRouter from './api/legacy-compat.js';
@@ -81,7 +83,10 @@ app.use(express.json({ limit: '1mb' }));
 app.use(xssSanitizer);
 app.use(xssDetector);
 app.use(csrfProtection);
+// Phase-B-fix (2026-08-24): B7 — traceId 必须在 loggerMiddleware 之后,
+//   让 logger.request() 把 traceId 写入日志 meta (与 requestId 并列)
 app.use(loggerMiddleware);
+app.use(traceIdMiddleware);
 app.use('/api/', versionMiddleware);
 
 app.use((req, res, next) => {
@@ -232,6 +237,12 @@ app.get('/api/health', async (_req, res) => {
 app.get('/api-docs', swaggerUI);
 app.get('/api-docs.json', swaggerSpec);
 
+// Audit-2026-08-24 Fix-4: 收口说明
+// 以下 7 个 endpoint 仍由 server.js 直接挂, 未走 api/modules/*/routes.js
+// 原因: 这些路径被 frontend/ (D070 冻结) + public/ (PWA) + ai-tutor-frontend/ 三处调用,
+//       改路径会破坏向后兼容. 等 frontend/ + public/ 完全归档 (F6 计划 2-3 周观察期) 后
+//       再迁到 modules/province + modules/admin 等.
+// 新增 endpoint 一律走 modules, 不在 server.js 直接挂. (gate 守门见 release-gate.sh)
 app.get('/api/provinces', wrapHandler(getProvinces));
 app.get('/api/provinces/:code', wrapHandler(getProvinceByCode));
 app.get('/api/province-stats/:code', wrapHandler(getProvinceStats));

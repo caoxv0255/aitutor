@@ -103,6 +103,25 @@ const USER_KEY = 'aitutor.user';
 const DEFAULT_TIMEOUT_MS = 30000;  // v0.7: bge 1024 慢, 默认 10s 不够, 改 30s
 const RETRY_BACKOFF_MS = 600;      // 1st retry: 600ms, 2nd: 1200ms
 
+// Phase-B-fix (2026-08-24): B6 — 生成 RFC 4122 v4 UUID (浏览器原生优先, 兜底 Math.random)
+// 与后端 services/aiTrace.js#uuidv4 兼容; 后端兜底一致.
+function generateTraceId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    try { return crypto.randomUUID(); } catch (_) { /* fall through */ }
+  }
+  // Fallback (老浏览器 / 测试环境)
+  const bytes = new Uint8Array(16);
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    crypto.getRandomValues(bytes);
+  } else {
+    for (let i = 0; i < 16; i++) bytes[i] = Math.floor(Math.random() * 256);
+  }
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0'));
+  return `${hex.slice(0,4).join('')}-${hex.slice(4,6).join('')}-${hex.slice(6,8).join('')}-${hex.slice(8,10).join('')}-${hex.slice(10,16).join('')}`;
+}
+
 // 用 import.meta.url 算 mock 绝对路径
 const MOCK_BASE = new URL('./mock/', import.meta.url).href;
 
@@ -139,6 +158,12 @@ async function tryOnce(method, path, body, opts) {
   const headers = { 'Content-Type': 'application/json', ...opts.headers };
   const token = getToken();
   if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  // Phase-B-fix (2026-08-24): B6 — 每个 request 生成 UUID v4 trace_id, 写入 X-Trace-Id header
+  // 后端 traceId middleware 读取 → req.traceId → 透传到 ai_trace (request_id 列)
+  // opts.traceId 允许 caller 覆盖 (例如 SSE 流式续 trace)
+  const traceId = opts.traceId || generateTraceId();
+  headers['X-Trace-Id'] = traceId;
 
   const url = API_BASE + path;
   const init = { method, headers, signal: controller.signal };
@@ -263,8 +288,10 @@ export async function request(method, path, body, opts = {}) {
   } catch (e) {
     // 默认非 silent 时弹 toast (除非 caller 已 silent)
     if (!(opts.silent || e instanceof ApiError && e.type === ErrorType.AUTH && (() => {
-      // AUTH: toast.error + 跳登录 (silent 也弹, 因为重要)
+      // AUTH: toast.error + 清登录态 + 跳登录 (silent 也弹, 因为重要)
       toast.error('登录已过期, 请重新登录');
+      // P0-fix (2026-08-24): 401 时清除 aitutor.user, 避免脏 user 缓存导致后续 state 不一致
+      try { clearUser(); } catch (_) {}
       setTimeout(() => { window.location.href = '/f3/pages/login.html'; }, 1000);
       return true;
     })())) {

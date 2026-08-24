@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="api-base" content="">
+    <title>学习路径 - AI Tutor</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/aitutor.css">
+    <link rel="stylesheet" href="../assets/css/brand.css">
+    <link rel="stylesheet" href="../assets/css/router.css">
+    <style type="text/tailwindcss">
+@theme inline {
+  --color-primary-500: #d71920;
+  --color-primary-600: #b8151b;
+  --color-success-500: #059669;
+  --color-warning-500: #f59e0b;
+  --color-error-500: #ef4444;
+  --color-info-500: #0284c7;
+  --color-foreground: #0b1220;
+  --color-muted-foreground: #6b7280;
+  --color-surface: #ffffff;
+  --color-surface-container-low: #f6f8fa;
+  --color-border: #e5e7eb;
+  --color-border-light: #f1f3f5;
+}
+    </style>
+<script>
+      // D-Bug-D v3 (2026-08-24): F3 用 'aitutor.token', frontend 旧页用 'token'. 同步.
+      (function() {
+        const newTok = localStorage.getItem('aitutor.token');
+        if (newTok && !localStorage.getItem('token')) {
+          localStorage.setItem('token', newTok);
+        }
+        const newUser = localStorage.getItem('aitutor.user');
+        if (newUser && !localStorage.getItem('currentUser')) {
+          localStorage.setItem('currentUser', newUser);
+        }
+      })();
+    </script>
+</head>
+<body class="min-h-screen p-4" style="background:var(--color-surface);color:var(--color-foreground)">
+    <div class="lg:ml-60 md:ml-[72px] min-h-screen" style="background:var(--color-surface);color:var(--color-foreground)">
+
+<div class="learning-wrap">
+  <div class="learning-header">
+    <h1>学习路径规划</h1>
+    <p>根据你的薄弱知识点，为你量身定制分阶段学习计划</p>
+  </div>
+
+  <div class="subject-selector" id="subjectSelector">
+    <button class="subject-btn active" data-subject="math" onclick="loadLearningPath('math')">数学</button>
+    <button class="subject-btn" data-subject="physics" onclick="loadLearningPath('physics')">物理</button>
+    <button class="subject-btn" data-subject="chemistry" onclick="loadLearningPath('chemistry')">化学</button>
+    <button class="subject-btn" data-subject="chinese" onclick="loadLearningPath('chinese')">语文</button>
+    <button class="subject-btn" data-subject="english" onclick="loadLearningPath('english')">英语</button>
+    <button class="subject-btn" data-subject="politics" onclick="loadLearningPath('politics')">政治</button>
+  </div>
+
+  <div class="loading-state" id="loadingState">正在加载学习路径...</div>
+
+  <div id="pathContent" style="display:none"></div>
+
+  <div class="no-data" id="noData" style="display:none">
+    <div class="empty-icon">📚</div>
+    <p>暂无数据</p>
+    <p style="margin-top:12px">请先上传一些错题记录，以便生成个性化学习路径</p>
+  </div>
+</div>
+
+<script>
+(function() {
+  const token = localStorage.getItem('token');
+  if (!token) { location.href = 'login.html'; return; }
+  loadLearningPath('math');
+})();
+
+async function loadLearningPath(subject) {
+  const token = localStorage.getItem('token');
+  const loading = document.getElementById('loadingState');
+  const content = document.getElementById('pathContent');
+  const noData = document.getElementById('noData');
+
+  // Update active button
+  document.querySelectorAll('.subject-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.subject === subject);
+  });
+
+  loading.style.display = 'block';
+  content.style.display = 'none';
+  noData.style.display = 'none';
+
+  try {
+    const res = await fetch('/api/learning-path?subject=' + subject, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
+
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      location.href = 'login.html';
+      return;
+    }
+
+    if (!res.ok) throw new Error('获取失败');
+    const data = await res.json();
+    
+    renderLearningPath(data);
+
+  } catch (err) {
+    loading.style.display = 'none';
+    noData.style.display = 'block';
+  }
+}
+
+function renderLearningPath(data) {
+  const loading = document.getElementById('loadingState');
+  const content = document.getElementById('pathContent');
+
+  loading.style.display = 'none';
+  content.style.display = 'block';
+
+  let html = '';
+
+  // Recommendation
+  html += '<div class="recommendation-box">' +
+    '<h2>💡 学习建议</h2>' +
+    '<p>' + data.recommendation + '</p>' +
+  '</div>';
+
+  // Analysis stats
+  html += '<div class="analysis-box">' +
+    '<h2>📊 学习分析</h2>' +
+    '<div class="analysis-grid">' +
+      '<div class="analysis-stat">' +
+        '<div class="stat-value">' + (data.analysis.totalWrongQuestions || 0) + '</div>' +
+        '<div class="stat-label">错题记录</div>' +
+      '</div>' +
+      '<div class="analysis-stat">' +
+        '<div class="stat-value">' + (data.analysis.weakPoints || []).length + '</div>' +
+        '<div class="stat-label">薄弱点</div>' +
+      '</div>' +
+      '<div class="analysis-stat">' +
+        '<div class="stat-value">' + (data.analysis.strongPoints || []).length + '</div>' +
+        '<div class="stat-label">已掌握</div>' +
+      '</div>' +
+      '<div class="analysis-stat">' +
+        '<div class="stat-value">' + data.totalWeeks + '</div>' +
+        '<div class="stat-label">计划周数</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+
+  // Weak points list
+  if (data.analysis.weakPoints && data.analysis.weakPoints.length > 0) {
+    html += '<div class="analysis-box">' +
+      '<h2>⚠️ 薄弱知识点</h2>' +
+      '<div class="phase-topics">';
+    data.analysis.weakPoints.forEach(wp => {
+      const diffLabel = wp.difficulty >= 4 ? 'hard' : (wp.difficulty >= 3 ? 'medium' : 'easy');
+      html += '<span class="phase-topic">' + wp.name + 
+        ' <span class="difficulty-badge ' + diffLabel + '">' + wp.count + '次错</span></span>';
+    });
+    html += '</div></div>';
+  }
+
+  // Learning phases timeline
+  html += '<h2 style="font-size:1.2rem;font-weight:700;margin-bottom:24px">📅 分阶段学习计划</h2>';
+  html += '<div class="phase-timeline">';
+
+  (data.phases || []).forEach(phase => {
+    const diffClass = phase.difficulty || 'medium';
+    const diffLabelMap = { 'easy': '基础', 'medium': '进阶', 'hard': '突破', 'comprehensive': '综合' };
+    
+    html += '<div class="phase-item">' +
+      '<div class="phase-dot"></div>' +
+      '<div class="phase-card">' +
+        '<div class="phase-week">第' + phase.week + '周 ' +
+          '<span class="difficulty-badge ' + diffClass + '">' + (diffLabelMap[diffClass] || diffClass) + '</span>' +
+        '</div>' +
+        '<h3>' + phase.focus + '</h3>' +
+        '<div class="phase-topics">';
+    (phase.topics || []).forEach(topic => {
+      html += '<span class="phase-topic">' + topic + '</span>';
+    });
+    html += '</div>' +
+      '<div class="phase-goal"><strong>每日目标：</strong>' + phase.dailyGoal + '</div>' +
+      '</div>' +
+    '</div>';
+  });
+
+  html += '</div>';
+
+  // Action buttons
+  html += '<div class="action-buttons">' +
+    '<button class="action-btn secondary" onclick="window.print()">🖨 打印学习计划</button>' +
+    '<button class="action-btn primary" onclick="location.href=\\"my-weak-points.html\\"">📊 查看薄弱点</button>' +
+  '</div>';
+
+  content.innerHTML = html;
+}
+</script>
+
+
+<script type="module">
+      import { mount } from '../assets/js/navator.js';
+      mount({ active: 'home' });
+    </script>
+    </div>
+</body>
+</html>

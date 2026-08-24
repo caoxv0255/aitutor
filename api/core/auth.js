@@ -25,7 +25,11 @@ export function validateJWTSecret() {
     return;
   }
   if (secret.length < 32) {
-    console.warn('⚠️  WARNING: JWT_SECRET 长度不足32字符，建议使用更强的密钥');
+    // P0-fix (2026-08-24): 长度不足直接阻断, 弱密钥会导致 JWT 可被爆破
+    //   之前的实现会让弱 JWT_SECRET 通过, 生产事故隐患 (D069 强化)
+    console.error('❌ FATAL: JWT_SECRET 长度不足32字符，请在生产环境使用强随机密钥（≥32字符）');
+    process.exit(1);
+    return;
   }
 }
 

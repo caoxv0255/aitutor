@@ -40,8 +40,14 @@ export async function sendResetCodeHandler(req, res) {
     attempts: 0
   });
 
-  console.log(`[ResetPassword] 验证码已生成: email=${email} code=${code}`);
-  console.log(`[ResetPassword] 生产环境应通过邮件发送验证码，当前为开发模式直接输出到日志`);
+  // P0-fix (2026-08-24): 验证码明文不在日志里暴露 (生产事故: email+code 写到日志被脱库)
+//   - 开发环境 (NODE_ENV !== 'production'): 输出 'dev-email: dev-code' 标记以便调试
+//   - 生产环境: 仅记录审计日志 (email + 时间戳), 不输出 code
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`[ResetPassword][DEV ONLY] verification code generated for email=${email}`);
+  } else {
+    console.log(`[ResetPassword] verification code generated for email=${email} at ${new Date().toISOString()}`);
+  }
 
   return res.json(successResponse(null, '验证码已发送到您的邮箱（开发模式请查看服务端日志）'));
 }

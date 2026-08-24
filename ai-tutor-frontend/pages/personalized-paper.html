@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="api-base" content="">
+    <title>个性化练习卷 - AI Tutor</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/aitutor.css">
+    <link rel="stylesheet" href="../assets/css/brand.css">
+    <link rel="stylesheet" href="../assets/css/router.css">
+    <style type="text/tailwindcss">
+@theme inline {
+  --color-primary-500: #d71920;
+  --color-primary-600: #b8151b;
+  --color-success-500: #059669;
+  --color-warning-500: #f59e0b;
+  --color-error-500: #ef4444;
+  --color-info-500: #0284c7;
+  --color-foreground: #0b1220;
+  --color-muted-foreground: #6b7280;
+  --color-surface: #ffffff;
+  --color-surface-container-low: #f6f8fa;
+  --color-border: #e5e7eb;
+  --color-border-light: #f1f3f5;
+}
+    </style>
+<script>
+      // D-Bug-D v3 (2026-08-24): F3 用 'aitutor.token', frontend 旧页用 'token'. 同步.
+      (function() {
+        const newTok = localStorage.getItem('aitutor.token');
+        if (newTok && !localStorage.getItem('token')) {
+          localStorage.setItem('token', newTok);
+        }
+        const newUser = localStorage.getItem('aitutor.user');
+        if (newUser && !localStorage.getItem('currentUser')) {
+          localStorage.setItem('currentUser', newUser);
+        }
+      })();
+    </script>
+</head>
+<body class="min-h-screen p-4" style="background:var(--color-surface);color:var(--color-foreground)">
+    <div class="lg:ml-60 md:ml-[72px] min-h-screen" style="background:var(--color-surface);color:var(--color-foreground)">
+
+<!-- Timer bar -->
+<div class="timer-bar" id="timerBar">
+  <span class="timer-label">⏱ 计时模式</span>
+  <span class="timer-display" id="timerDisplay">00:00:00</span>
+  <button class="timer-btn" id="timerToggle" onclick="toggleTimer()">开始计时</button>
+  <button class="timer-btn" onclick="resetTimer()">重置</button>
+  <button class="timer-btn" onclick="disableTimer()">关闭计时</button>
+</div>
+
+<div class="paper-wrap" id="paperWrap">
+  <div class="loading-state" id="loadingState">正在加载试卷...</div>
+  <div class="no-paper" id="noPaper" style="display:none">
+    <div class="empty-icon">📄</div>
+    <p>还没有生成个性化试卷</p>
+    <p style="margin-top:12px">请前往<a href="my-weak-points.html" style="color:var(--accent)">薄弱点分析</a>页面，选择学科后生成个性化预测卷</p>
+  </div>
+  <div id="paperContent" style="display:none"></div>
+</div>
+
+<!-- Variant question modal -->
+<div class="variant-modal-overlay" id="variantModal">
+  <div class="variant-modal">
+    <button class="variant-modal-close" onclick="closeVariantModal()">&times;</button>
+    <h2>🔄 变式题生成</h2>
+    <div id="variantModalContent">
+      <div class="variant-loading">
+        <div class="loading-spinner" style="width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 12px"></div>
+        <p>AI正在生成变式题...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+let timerEnabled = false;
+let currentPaperData = null;
+
+function toggleTimer() {
+  const btn = document.getElementById('timerToggle');
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    btn.textContent = '继续计时';
+    btn.classList.remove('running');
+    btn.classList.add('paused');
+  } else {
+    timerRunning = true;
+    btn.textContent = '暂停';
+    btn.classList.remove('paused');
+    btn.classList.add('running');
+    timerInterval = setInterval(function() {
+      timerSeconds++;
+      updateTimerDisplay();
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerSeconds = 0;
+  timerRunning = false;
+  updateTimerDisplay();
+  const btn = document.getElementById('timerToggle');
+  btn.textContent = '开始计时';
+  btn.classList.remove('running');
+  btn.classList.remove('paused');
+}
+
+function enableTimer() {
+  timerEnabled = true;
+  document.getElementById('timerBar').classList.add('active');
+  document.getElementById('timerBar').style.top = '0';
+  document.querySelector('.site-header').style.top = '52px';
+}
+
+function disableTimer() {
+  timerEnabled = false;
+  timerRunning = false;
+  clearInterval(timerInterval);
+  document.getElementById('timerBar').classList.remove('active');
+  document.querySelector('.site-header').style.top = '0';
+}
+
+function updateTimerDisplay() {
+  const h = Math.floor(timerSeconds / 3600);
+  const m = Math.floor((timerSeconds % 3600) / 60);
+  const s = timerSeconds % 60;
+  document.getElementById('timerDisplay').textContent = 
+    String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+function closeVariantModal() {
+  document.getElementById('variantModal').classList.remove('active');
+}
+
+function openVariantModal(questionText, kp) {
+  document.getElementById('variantModal').classList.add('active');
+  document.getElementById('variantModalContent').innerHTML = 
+    '<div class="variant-loading">' +
+    '<div class="loading-spinner" style="width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 12px"></div>' +
+    '<p>AI正在生成变式题...</p></div>';
+
+  const token = localStorage.getItem('token');
+  const subject = (currentPaperData && currentPaperData.subject) || 'math';
+
+  // P1-fix (2026-08-24 audit): /api/explain-question → /api/tutor/ask (compat 给 410)
+  fetch('/api/tutor/ask', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ question: questionText, subject, knowledgePoint: kp })
+  })
+  .then(res => {
+    if (res.status === 401) { location.href = 'login.html'; return; }
+    return res.json();
+  })
+  .then(data => {
+    if (!data) return;
+    renderVariantModal(data);
+  })
+  .catch(() => {
+    document.getElementById('variantModalContent').innerHTML = 
+      '<p style="color:#ef4444;text-align:center">生成失败，请重试</p>';
+  });
+}
+
+function renderVariantModal(data) {
+  let html = '';
+  
+  if (data.explanation) {
+    html += '<div style="margin-bottom:20px;padding:16px;background:var(--bg);border-radius:var(--radius-sm);line-height:1.7">' +
+      '<h4 style="color:var(--accent);margin-bottom:8px">📖 讲解要点</h4>' +
+      '<p style="font-size:.9rem">' + (data.explanation.substring(0, 300) + (data.explanation.length > 300 ? '...' : '')) + '</p>' +
+    '</div>';
+  }
+
+  if (data.keyPoints && data.keyPoints.length > 0) {
+    html += '<div style="margin-bottom:20px">';
+    html += '<h4 style="color:var(--accent);margin-bottom:8px">💡 关键点</h4>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:6px">';
+    data.keyPoints.forEach(kp => {
+      html += '<span class="kp-tag">' + kp + '</span>';
+    });
+    html += '</div></div>';
+  }
+
+  if (data.variantProblems && data.variantProblems.length > 0) {
+    html += '<h4 style="color:var(--accent);margin-bottom:12px">🔄 变式题</h4>';
+    data.variantProblems.forEach((vp, i) => {
+      html += '<div class="variant-problem">' +
+        '<h4>变式题 ' + (i + 1) + '</h4>' +
+        '<p>' + vp.question + '</p>' +
+        '<div class="variant-ans"><strong>答案：</strong>' + vp.answer + '</div>' +
+      '</div>';
+    });
+  }
+
+  if (data.similarProblems && data.similarProblems.length > 0) {
+    html += '<h4 style="color:var(--accent);margin:20px 0 12px">📚 同类题</h4>';
+    data.similarProblems.forEach((sp, i) => {
+      html += '<div class="variant-problem">' +
+        '<h4>同类题 ' + (i + 1) + '</h4>' +
+        '<p>' + sp.question + '</p>' +
+        '<div class="variant-ans"><strong>答案：</strong>' + sp.answer + '</div>' +
+      '</div>';
+    });
+  }
+
+  document.getElementById('variantModalContent').innerHTML = html || '<p>暂无变式题</p>';
+}
+
+function openExplainer(question, subject, kp) {
+  const url = 'question-explainer.html?question=' + encodeURIComponent(question) + 
+    '&subject=' + (subject || 'math') + 
+    '&knowledgePoint=' + encodeURIComponent(kp || '');
+  window.open(url, '_blank');
+}
+
+// Close modal on overlay click
+document.getElementById('variantModal').addEventListener('click', function(e) {
+  if (e.target === this) closeVariantModal();
+});
+</script>
+
+<script>
+(function() {
+  const token = localStorage.getItem('token');
+  if (!token) { location.href = 'login.html'; return; }
+
+  const loadingState = document.getElementById('loadingState');
+  const noPaper = document.getElementById('noPaper');
+  const paperContent = document.getElementById('paperContent');
+
+  // Check if paper data exists in sessionStorage (from generation)
+  let paperData = null;
+  const params = new URLSearchParams(location.search);
+
+  if (params.get('from') === 'generate') {
+    const stored = sessionStorage.getItem('generatedPaper');
+    if (stored) {
+      try {
+        paperData = JSON.parse(stored);
+        sessionStorage.removeItem('generatedPaper');
+      } catch(e) {}
+    }
+  }
+
+  if (params.get('timer') === 'true') {
+    enableTimer();
+  }
+
+  if (paperData) {
+    currentPaperData = paperData;
+    renderPaper(paperData);
+  } else {
+    // Try to fetch latest from server
+    fetchLatestPaper();
+  }
+
+  async function fetchLatestPaper() {
+    try {
+      // P1-fix (2026-08-24 audit): /api/generate-paper → /api/tutor/ask (compat 给 410)
+      const res = await fetch('/api/tutor/ask', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          question: '请生成一份数学学科的个性化预测卷, 3 道题, 主题基于薄弱知识点. 每题包含: 题干, 选项, 答案, 解析. Markdown 格式.',
+          subject: 'math'
+        })
+      });
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        location.href = 'login.html';
+        return;
+      }
+      if (!res.ok) throw new Error('获取失败');
+      const data = await res.json();
+      currentPaperData = data;
+      renderPaper(data);
+    } catch(err) {
+      loadingState.style.display = 'none';
+      noPaper.style.display = 'block';
+    }
+  }
+
+  function renderPaper(paper) {
+    loadingState.style.display = 'none';
+    paperContent.style.display = 'block';
+
+    // P1-fix (2026-08-24): 支持 my-weak-points 生成的 LLM Markdown paper
+    // (paper.content 来自 tutor.ask, 不是结构化 sections)
+    if (paper.content && !paper.sections) {
+      paperContent.innerHTML = '<div class="paper-header">' +
+        '<h1>' + (paper.subject_name || paper.subject || '个性化预测卷') + '</h1>' +
+        '<p>根据您的薄弱知识点由 AI 智能生成</p>' +
+        '<div class="paper-meta">' +
+          '<span>' + (paper.subject_name || paper.subject || '') + '</span>' +
+          '<span>生成时间: ' + new Date(paper.created_at || Date.now()).toLocaleString('zh-CN') + '</span>' +
+          (paper.weak_points && paper.weak_points.length ? '<span class="meta-tag">🎯 针对 ' + paper.weak_points.length + ' 个薄弱点</span>' : '') +
+        '</div>' +
+      '</div>' +
+      // 简单把 Markdown 渲染为 pre 块 (前端无 markdown lib, 保守做法)
+      // 用户仍可阅读完整内容;后续可接 marked.js
+      '<div style="background:var(--surface-secondary);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin:24px auto;max-width:900px;white-space:pre-wrap;font-family:\'Noto Sans SC\',\'DM Sans\',sans-serif;line-height:1.8">' +
+        esc(paper.content) +
+      '</div>';
+      return;
+    }
+
+    let html = '';
+    let totalQuestions = 0;
+    let answeredCount = 0;
+
+    // Header
+    html += '<div class="paper-header">' +
+      '<h1>' + (paper.title || '个性化预测卷') + '</h1>' +
+      '<p>根据您的薄弱知识点精准生成</p>' +
+      '<div class="paper-meta">' +
+        '<span>' + (paper.subject_name || paper.subject) + '</span>' +
+        '<span>生成时间: ' + new Date(paper.generated_at).toLocaleString('zh-CN') + '</span>' +
+        (paper.is_personalized ? '<span class="meta-tag">🎯 已针对薄弱点</span>' : '') +
+      '</div>' +
+    '</div>';
+
+    // Metadata
+    if (paper.metadata) {
+      html += '<div style="margin-bottom:24px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap">';
+      if (paper.metadata.timeEstimate) {
+        html += '<span style="padding:4px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-pill);font-size:.85rem;color:var(--text-muted)">⏱ ' + paper.metadata.timeEstimate + '</span>';
+      }
+      if (paper.metadata.questionCount) {
+        html += '<span style="padding:4px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-pill);font-size:.85rem;color:var(--text-muted)">📝 ' + paper.metadata.questionCount + '题</span>';
+      }
+      if (paper.metadata.difficulty) {
+        html += '<span style="padding:4px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-pill);font-size:.85rem;color:var(--text-muted)">📊 难度: ' + paper.metadata.difficulty + '/5</span>';
+      }
+      if (paper.metadata.distribution) {
+        const d = paper.metadata.distribution;
+        html += '<span style="padding:4px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-pill);font-size:.85rem;color:var(--text-muted)">基础' + (d['基础题'] || 0) + ' / 中档' + (d['中档题'] || 0) + ' / 压轴' + (d['压轴题'] || 0) + '</span>';
+      }
+      html += '</div>';
+    }
+
+    // Weak points targeted
+    if (paper.weak_points_targeted && paper.weak_points_targeted.length > 0) {
+      html += '<div style="margin-bottom:24px;text-align:center">' +
+        '<span style="font-size:.85rem;color:var(--text-muted)">针对薄弱点：</span>';
+      paper.weak_points_targeted.forEach(function(kp) {
+        html += '<span class="kp-tag weak-tag" style="margin:0 4px">' + kp + '</span>';
+      });
+      html += '</div>';
+    }
+
+    // Progress bar
+    html += '<div class="progress-bar-wrap active" id="progressBar">' +
+      '<div class="progress-info">' +
+        '<span id="progressLabel">已完成 0 / ' + (paper.metadata?.questionCount || 17) + ' 题</span>' +
+        '<span id="progressPercent">0%</span>' +
+      '</div>' +
+      '<div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>' +
+    '</div>';
+
+    // Sections
+    (paper.sections || []).forEach(function(section, sIdx) {
+      html += '<div class="paper-section">' +
+        '<h2>' + section.section_name + '</h2>' +
+        '<p class="desc">' + (section.description || '') + '</p>';
+
+      (section.questions || []).forEach(function(q, qIdx) {
+        const qId = 'pq-' + sIdx + '-' + qIdx;
+        const answerId = 'pa-' + sIdx + '-' + qIdx;
+        totalQuestions++;
+
+        html += '<div class="question-item" id="qitem-' + sIdx + '-' + qIdx + '">' +
+          '<div class="q-number"><b>' + q.id + '.</b> ' + q.content + '</div>';
+
+        // Options (if present)
+        if (q.options && q.options.length > 0) {
+          html += '<div class="q-options" id="' + qId + '">';
+          q.options.forEach(function(opt, i) {
+            const optId = qId + '-opt-' + i;
+            html += '<div class="q-option" data-answer="' + (q.answer || '') + '" data-qid="' + qId + '" id="' + optId + '" onclick="selectOption(this)">' + opt + '</div>';
+          });
+          html += '</div>';
+        }
+
+        // Answer toggle
+        html += '<div class="answer-toggle" onclick="toggleAnswer(\'' + answerId + '\', \'' + sIdx + '-' + qIdx + '\')">▶ 查看答案与解析</div>';
+        html += '<div class="answer-content" id="' + answerId + '">';
+        html += '<b>【答案】' + (q.answer || '（略）') + '</b><br>';
+        html += (q.explanation || '') + '<br>';
+        if (q.knowledge_point) {
+          html += '<span class="kp-tag">知识点: ' + q.knowledge_point + '</span>';
+        }
+        if (q.is_weak_point) {
+          html += ' <span class="kp-tag weak-tag">⚠ 薄弱点题目</span>';
+        }
+        html += '</div>';
+
+        // AI action buttons
+        html += '<div class="ai-btn-row">' +
+          '<button class="ai-btn" onclick="openExplainer(\'' + (q.content || '').replace(/'/g, "\\'").replace(/"/g, '\\"') + '\', \'' + (q.subject || (paper.subject || 'math')) + '\', \'' + (q.knowledge_point || '') + '\')">💡 AI讲解</button>' +
+          '<button class="ai-btn" onclick="generateVariant(\'' + (q.content || '').replace(/'/g, "\\'").replace(/"/g, '\\"') + '\', \'' + (q.knowledge_point || '') + '\', ' + sIdx + ', ' + qIdx + ')">🔄 生成变式题</button>' +
+        '</div>';
+
+        html += '</div>';
+      });
+
+      html += '</div>';
+    });
+
+    // Actions
+    html += '<div class="paper-actions">' +
+      '<button class="paper-btn secondary" onclick="enableTimer()">⏱ 计时模式</button>' +
+      '<button class="paper-btn secondary" onclick="window.print()">🖨 打印试卷</button>' +
+      '<button class="paper-btn primary" onclick="location.href=\'my-weak-points.html\'">📊 返回薄弱点分析</button>' +
+    '</div>';
+
+    paperContent.innerHTML = html;
+
+    // Store counts for progress
+    window._paperTotal = totalQuestions;
+    window._paperAnswered = {};
+  }
+})();
+</script>
+
+<script>
+function toggleAnswer(id, qIdx) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('show');
+  // Update progress
+  if (window._paperAnswered && !window._paperAnswered[qIdx]) {
+    window._paperAnswered[qIdx] = true;
+    updateProgress();
+  }
+}
+
+function selectOption(el) {
+  const qId = el.dataset.qid;
+  const answer = el.dataset.answer;
+  const options = document.querySelectorAll('#' + qId + ' .q-option');
+  options.forEach(function(o) {
+    o.classList.remove('selected', 'correct', 'incorrect');
+  });
+  el.classList.add('selected');
+  const optText = el.textContent;
+  if (answer && optText.startsWith(answer)) {
+    el.classList.add('correct');
+  }
+}
+
+function updateProgress() {
+  const total = window._paperTotal || 17;
+  const answered = window._paperAnswered ? Object.keys(window._paperAnswered).length : 0;
+  const pct = Math.round((answered / total) * 100);
+  const label = document.getElementById('progressLabel');
+  const pctEl = document.getElementById('progressPercent');
+  const fill = document.getElementById('progressFill');
+  if (label) label.textContent = '已完成 ' + answered + ' / ' + total + ' 题';
+  if (pctEl) pctEl.textContent = pct + '%';
+  if (fill) fill.style.width = pct + '%';
+}
+
+function generateVariant(questionText, kp, sIdx, qIdx) {
+  openVariantModal(questionText, kp);
+}
+</script>
+
+
+<script type="module">
+      import { mount } from '../assets/js/navator.js';
+      mount({ active: 'home' });
+    </script>
+    </div>
+</body>
+</html>

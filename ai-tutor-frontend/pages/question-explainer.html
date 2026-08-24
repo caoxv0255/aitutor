@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="api-base" content="">
+    <title>题目讲解 - AI Tutor</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/aitutor.css">
+    <link rel="stylesheet" href="../assets/css/brand.css">
+    <link rel="stylesheet" href="../assets/css/router.css">
+    <style type="text/tailwindcss">
+@theme inline {
+  --color-primary-500: #d71920;
+  --color-primary-600: #b8151b;
+  --color-success-500: #059669;
+  --color-warning-500: #f59e0b;
+  --color-error-500: #ef4444;
+  --color-info-500: #0284c7;
+  --color-foreground: #0b1220;
+  --color-muted-foreground: #6b7280;
+  --color-surface: #ffffff;
+  --color-surface-container-low: #f6f8fa;
+  --color-border: #e5e7eb;
+  --color-border-light: #f1f3f5;
+}
+    </style>
+<script>
+      // D-Bug-D v3 (2026-08-24): F3 用 'aitutor.token', frontend 旧页用 'token'. 同步.
+      (function() {
+        const newTok = localStorage.getItem('aitutor.token');
+        if (newTok && !localStorage.getItem('token')) {
+          localStorage.setItem('token', newTok);
+        }
+        const newUser = localStorage.getItem('aitutor.user');
+        if (newUser && !localStorage.getItem('currentUser')) {
+          localStorage.setItem('currentUser', newUser);
+        }
+      })();
+    </script>
+</head>
+<body class="min-h-screen p-4" style="background:var(--color-surface);color:var(--color-foreground)">
+    <div class="lg:ml-60 md:ml-[72px] min-h-screen" style="background:var(--color-surface);color:var(--color-foreground)">
+
+<div class="explainer-wrap">
+  <div class="explainer-header">
+    <h1>问AI</h1>
+    <p>输入任意题目，获取AI深度讲解与变式题</p>
+  </div>
+
+  <div class="input-section">
+    <div class="input-row">
+      <select id="subjectSelect">
+        <option value="math">数学</option>
+        <option value="physics">物理</option>
+        <option value="chemistry">化学</option>
+        <option value="chinese">语文</option>
+        <option value="english">英语</option>
+        <option value="politics">政治</option>
+      </select>
+      <input type="text" id="knowledgePoint" placeholder="知识点（可选）">
+    </div>
+    <div class="input-row">
+      <textarea id="questionInput" placeholder="请输入题目内容...&#10;&#10;例如：已知函数f(x)=x³-3x，求f'(1)的值"></textarea>
+    </div>
+    <button class="explain-btn" id="explainBtn" onclick="explainQuestion()">🔍 获取AI讲解</button>
+  </div>
+
+  <div class="loading-state" id="loadingState" style="display:none">
+    <div class="loading-spinner"></div>
+    <p>AI正在分析题目，请稍候...</p>
+  </div>
+
+  <div class="error-state" id="errorState" style="display:none">
+    <div class="error-icon">⚠️</div>
+    <p id="errorMessage">出错了，请重试</p>
+  </div>
+
+  <div class="result-section" id="resultSection">
+    <div class="result-question" id="originalQuestion">
+      <h3>📝 原始题目</h3>
+      <p id="displayQuestion"></p>
+    </div>
+
+    <h2>📖 详细讲解</h2>
+    <div class="explanation-content" id="explanationContent"></div>
+
+    <h2>💡 关键知识点</h2>
+    <div class="keypoints" id="keyPoints"></div>
+
+    <div class="variant-section" id="variantSection">
+      <h2>🔄 变式题（同一知识点，不同考法）</h2>
+      <div id="variantProblems"></div>
+    </div>
+
+    <div class="variant-section" id="similarSection">
+      <h2>📚 同类题（相似解题思路）</h2>
+      <div id="similarProblems"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px">
+      <button class="next-btn" onclick="generateNext()">下一题 →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const token = localStorage.getItem('token');
+  if (!token) { location.href = 'login.html'; return; }
+
+  // Check for URL params
+  const params = new URLSearchParams(location.search);
+  if (params.get('question')) {
+    document.getElementById('questionInput').value = decodeURIComponent(params.get('question'));
+  }
+  if (params.get('subject')) {
+    document.getElementById('subjectSelect').value = params.get('subject');
+  }
+  if (params.get('knowledgePoint')) {
+    document.getElementById('knowledgePoint').value = decodeURIComponent(params.get('knowledgePoint'));
+  }
+})();
+
+async function explainQuestion() {
+  const question = document.getElementById('questionInput').value.trim();
+  const subject = document.getElementById('subjectSelect').value;
+  const knowledgePoint = document.getElementById('knowledgePoint').value.trim();
+
+  if (!question) {
+    alert('请输入题目内容');
+    return;
+  }
+
+  const btn = document.getElementById('explainBtn');
+  const loading = document.getElementById('loadingState');
+  const error = document.getElementById('errorState');
+  const result = document.getElementById('resultSection');
+
+  btn.disabled = true;
+  loading.style.display = 'block';
+  error.style.display = 'none';
+  result.classList.remove('active');
+
+  try {
+    const token = localStorage.getItem('token');
+    // P1-fix (2026-08-24 audit): /api/explain-question → /api/tutor/ask (compat 给 410)
+    const res = await fetch('/api/tutor/ask', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ question, subject, knowledgePoint })
+    });
+
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      location.href = 'login.html';
+      return;
+    }
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || err.error || '请求失败');
+    }
+
+    const data = await res.json();
+    renderResult(data);
+
+  } catch (err) {
+    loading.style.display = 'none';
+    error.style.display = 'block';
+    document.getElementById('errorMessage').textContent = err.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function renderResult(data) {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('resultSection').classList.add('active');
+
+  // Original question
+  document.getElementById('displayQuestion').textContent = data.question;
+
+  // Explanation
+  document.getElementById('explanationContent').innerHTML = formatExplanation(data.explanation);
+
+  // Key points
+  const keyPointsEl = document.getElementById('keyPoints');
+  keyPointsEl.innerHTML = '';
+  if (data.keyPoints && data.keyPoints.length > 0) {
+    data.keyPoints.forEach(kp => {
+      const tag = document.createElement('span');
+      tag.className = 'keypoint-tag';
+      tag.textContent = kp;
+      keyPointsEl.appendChild(tag);
+    });
+  }
+
+  // Variant problems
+  const variantEl = document.getElementById('variantProblems');
+  const variantSection = document.getElementById('variantSection');
+  variantEl.innerHTML = '';
+  if (data.variantProblems && data.variantProblems.length > 0) {
+    variantSection.style.display = 'block';
+    data.variantProblems.forEach((vp, i) => {
+      variantEl.innerHTML += '<div class="variant-item">' +
+        '<div class="variant-label">变式题' + (i + 1) + '</div>' +
+        '<div class="variant-question">' + vp.question + '</div>' +
+        '<div class="variant-answer"><strong>答案：</strong>' + vp.answer + '</div>' +
+      '</div>';
+    });
+  } else {
+    variantSection.style.display = 'none';
+  }
+
+  // Similar problems
+  const similarEl = document.getElementById('similarProblems');
+  const similarSection = document.getElementById('similarSection');
+  similarEl.innerHTML = '';
+  if (data.similarProblems && data.similarProblems.length > 0) {
+    similarSection.style.display = 'block';
+    data.similarProblems.forEach((sp, i) => {
+      similarEl.innerHTML += '<div class="variant-item">' +
+        '<div class="variant-label">同类题' + (i + 1) + '</div>' +
+        '<div class="variant-question">' + sp.question + '</div>' +
+        '<div class="variant-answer"><strong>答案：</strong>' + sp.answer + '</div>' +
+      '</div>';
+    });
+  } else {
+    similarSection.style.display = 'none';
+  }
+}
+
+function formatExplanation(text) {
+  if (!text) return '';
+  // Split by double newlines to create paragraphs
+  return text.split('\n\n').map(p => {
+    if (!p.trim()) return '';
+    return '<p>' + p.replace(/\n/g, '<br>') + '</p>';
+  }).join('');
+}
+
+function generateNext() {
+  // Generate next variation by calling API again
+  explainQuestion();
+}
+
+// Handle Enter key in textarea to submit with Ctrl+Enter
+document.getElementById('questionInput').addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.key === 'Enter') {
+    explainQuestion();
+  }
+});
+</script>
+
+
+<script type="module">
+      import { mount } from '../assets/js/navator.js';
+      mount({ active: 'home' });
+    </script>
+    </div>
+</body>
+</html>

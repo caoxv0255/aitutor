@@ -126,6 +126,8 @@ async function initTables(pool) {
       reviewed INTEGER DEFAULT 0,
       review_count INTEGER DEFAULT 0,
       analysis_note TEXT,
+      mastered INTEGER DEFAULT 0,
+      mastered_at TIMESTAMPTZ,
       timestamp TIMESTAMPTZ DEFAULT NOW(),
       created_at TIMESTAMPTZ DEFAULT NOW(),
       updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -335,7 +337,9 @@ async function initTables(pool) {
 
     CREATE TABLE IF NOT EXISTS task_metrics (
       id SERIAL PRIMARY KEY,
-      task_id INTEGER NOT NULL REFERENCES task_queue(id),
+      -- Phase C1-fix (2026-08-24): P0-1 task_id FK 加 ON DELETE CASCADE
+      --   防止 purgeOldFailedTasks 清理 task_queue 后留下孤儿 metrics (migration 011 同步)
+      task_id INTEGER NOT NULL REFERENCES task_queue(id) ON DELETE CASCADE,
       processing_time_ms INTEGER,
       model VARCHAR(50),
       prompt_version VARCHAR(20),
@@ -349,12 +353,14 @@ async function initTables(pool) {
 
     -- 方案B：微观向量检索表（题库语义索引）
     -- knowledge_point_id 为逻辑外键，关联方案A Apache AGE 中的 KnowledgePoint.id
-    -- 向量维度: 768 (Ollama nomic-embed-text, 替代原 DashScope text-embedding-v3 1536)
+    -- P0-fix (2026-08-24): 向量维度同步到 1024 (与 services/embedding.js 默认 ollama bge-m3 + migration 006 一致)
+    --   历史: 768 (Ollama nomic-embed-text) → 1024 (Ollama bge-m3, BAAI 多语言)
+    --   注意: 旧 768 dim 数据需 migration 006 truncate + 重建 (DESTRUCTIVE)
     CREATE TABLE IF NOT EXISTS rag_questions (
       id SERIAL PRIMARY KEY,
       content TEXT NOT NULL,
       content_hash VARCHAR(64) UNIQUE,  -- SHA-256 of content (dedup), 跟 migration 005 同步
-      embedding vector(768),
+      embedding vector(1024),           -- D068: bge-m3 (1024 dim), 跟 migration 006 一致
       knowledge_point_id VARCHAR(20),
       subject_code VARCHAR(20),
       difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
@@ -369,7 +375,7 @@ async function initTables(pool) {
     );
 
     -- 多模态知识对象：四向量检索表（Q/S/K/A 向量）
-    -- 维度统一 768
+    -- P0-fix (2026-08-24): 维度统一 1024 (与 rag_questions.embedding + embedding.js bge-m3 一致)
     CREATE TABLE IF NOT EXISTS question_vectors (
       id SERIAL PRIMARY KEY,
       question_id INTEGER UNIQUE REFERENCES exam_questions(id) ON DELETE CASCADE,
@@ -377,10 +383,10 @@ async function initTables(pool) {
       subject_code VARCHAR(20),
       question_type VARCHAR(30),
       difficulty INTEGER CHECK (difficulty BETWEEN 1 AND 5),
-      q_embedding vector(768),
-      s_embedding vector(768),
-      k_embedding vector(768),
-      a_embedding vector(768),
+      q_embedding vector(1024),
+      s_embedding vector(1024),
+      k_embedding vector(1024),
+      a_embedding vector(1024),
       q_text TEXT,
       s_text TEXT,
       k_text TEXT,
@@ -674,6 +680,13 @@ async function initTables(pool) {
     `ALTER TABLE wrong_questions ADD COLUMN IF NOT EXISTS analysis_note TEXT`,
     `ALTER TABLE wrong_questions ADD COLUMN IF NOT EXISTS reviewed INTEGER DEFAULT 0`,
     `ALTER TABLE wrong_questions ADD COLUMN IF NOT EXISTS review_count INTEGER DEFAULT 0`,
+    // P0-fix (2026-08-24): mastered/mastered_at 字段缺失 (供 review/mastered API 用)
+    `ALTER TABLE wrong_questions ADD COLUMN IF NOT EXISTS mastered INTEGER DEFAULT 0`,
+    `ALTER TABLE wrong_questions ADD COLUMN IF NOT EXISTS mastered_at TIMESTAMPTZ`,
+    // Phase C1-fix (2026-08-24): P0-1 task_metrics.task_id FK 加 ON DELETE CASCADE
+    //   PG 不支持 ADD CONSTRAINT IF NOT EXISTS, 但现有 try-catch 会捕获 "constraint already exists"
+    //   配合 migration 011 DROP IF EXISTS 实现幂等 (新库 + 旧库升级均安全)
+    `ALTER TABLE task_metrics ADD CONSTRAINT fk_task_metrics_task_id FOREIGN KEY (task_id) REFERENCES task_queue(id) ON DELETE CASCADE`,
   ];
   for (const sql of alterStatements) {
     try {
@@ -683,6 +696,36 @@ async function initTables(pool) {
       if (!err.message.includes('already exists')) {
         console.warn(`[DB Migration] ${sql.substring(0, 60)}... failed: ${err.message}`);
       }
+    }
+  }
+
+  // P0-fix (2026-08-24): 向量列维度从 768 → 1024 迁移 (与 services/embedding.js bge-m3 一致)
+  // ALTER COLUMN TYPE 不可幂等, 需先查维度, 已为 1024 则跳过; 否则 truncate + alter
+  // (D068 历史: migration 006_bge_m3_1024.sql 已 DESTRUCTIVE 升级, 这里是新库场景兜底)
+  const dimMigrationAlters = [
+    { table: 'rag_questions', column: 'embedding' },
+    { table: 'question_vectors', column: 'q_embedding' },
+    { table: 'question_vectors', column: 's_embedding' },
+    { table: 'question_vectors', column: 'k_embedding' },
+    { table: 'question_vectors', column: 'a_embedding' },
+  ];
+  for (const { table, column } of dimMigrationAlters) {
+    try {
+      const dimCheck = await pool.query(`
+        SELECT format_type(atttypid, atttypmod) AS typname
+        FROM pg_attribute
+        WHERE attrelid = $1::regclass AND attname = $2
+      `, [table, column]);
+      const typname = dimCheck.rows[0]?.typname || '';
+      // vector(768) → vector(1024), 中间步骤需 truncate (dim 不兼容, 跟 migration 006 一致)
+      if (typname === 'vector(768)') {
+        console.warn(`[DB Migration] ${table}.${column} 维度为 768, 升级到 1024 (DESTRUCTIVE truncate)`);
+        await pool.query(`TRUNCATE ${table} RESTART IDENTITY CASCADE`);
+        await pool.query(`ALTER TABLE ${table} ALTER COLUMN ${column} TYPE vector(1024)`);
+      }
+      // vector(1024) 已正确, 跳过
+    } catch (err) {
+      console.warn(`[DB Migration] ${table}.${column} 维度检查失败: ${err.message}`);
     }
   }
 
@@ -697,6 +740,7 @@ async function initTables(pool) {
   `);
 
   // D069 (2026-08-17): ai_trace 表 (LLM 调用追踪, P2-2)
+  // Phase B (2026-08-24): 加 request_id 列 (P0-3 观测能力), 同步迁移 010_ai_trace_request_id.sql
   await pool.query(`
     CREATE TABLE IF NOT EXISTS ai_trace (
       id BIGSERIAL PRIMARY KEY,
@@ -712,13 +756,17 @@ async function initTables(pool) {
       cost_cny NUMERIC(10, 6) DEFAULT 0,
       success BOOLEAN DEFAULT true,
       error_message TEXT,
+      request_id VARCHAR(64),
       created_at TIMESTAMPTZ DEFAULT NOW()
     );
     CREATE INDEX IF NOT EXISTS idx_ai_trace_created_at ON ai_trace(created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_ai_trace_user ON ai_trace(user_email, created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_ai_trace_model ON ai_trace(model, created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_ai_trace_task ON ai_trace(task_type, created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_ai_trace_request_id ON ai_trace(request_id) WHERE request_id IS NOT NULL;
   `);
+  // 兼容旧库 (009 之前): 增量加 request_id 列 + 索引
+  await pool.query(`ALTER TABLE ai_trace ADD COLUMN IF NOT EXISTS request_id VARCHAR(64);`);
 }
 
 async function seedReferenceData(pool) {

@@ -2,10 +2,15 @@
  * services/embedding.js — Embedding 向量服务
  *
  * 封装文本 Embedding API 调用，返回浮点数向量数组。
- * 支持 3 种模式:
+ * 支持 3 种模式 (默认 1024 dim, 与 db.js rag_questions/question_vectors schema 一致):
  *   1. local:    本地 sentence-transformers (embedding_server.py, 768 dim)
- *   2. ollama:   本地 Ollama /api/embeddings (nomic-embed-text, 768 dim)
- *   3. remote:   OpenAI 兼容 / DashScope (text-embedding-v3, 1536 dim)
+ *   2. ollama:   本地 Ollama /api/embeddings (bge-m3, 1024 dim, BAAI 多语言)
+ *   3. remote:   OpenAI 兼容 / DashScope (text-embedding-v3, 1024 dim, 显式传 dimensions)
+ *
+ * P0-fix (2026-08-24): 统一 dim 到 1024
+ *   - 历史: local 768 / ollama 768 (nomic-embed-text) / remote 1536
+ *   - v0.7: 全部改 1024, 跟 db.js vector(1024) schema + migration 006 一致
+ *   - 旧 768 dim 数据需 migrate-multimodal-questions.js / migration 006 重建
  *
  * 通过 EMBEDDING_PROVIDER=local|ollama|remote 控制
  *
@@ -16,23 +21,26 @@
  *   EMBEDDING_API_KEY  — API 密钥（本地/ollama 不需要）
  *   EMBEDDING_BASE_URL — API 基础地址
  *   EMBEDDING_MODEL    — 模型名称
- *   EMBEDDING_DIMS     — 向量维度
+ *   EMBEDDING_DIMS     — 向量维度 (默认 1024)
  *   OLLAMA_URL         — Ollama 端点 (默认 http://localhost:11434)
  */
 
 import axios from 'axios';
+// Phase-B-fix (2026-08-24): B5 — Embedding 埋点 (record provider/model/dim)
+// services/aiTrace.js 同层, lazy DB, fire-and-forget
+import { recordAiTraceAsync, generateTraceId } from './aiTrace.js';
 
 const EMBEDDING_PROVIDER = process.env.EMBEDDING_PROVIDER || 'remote';
 const EMBEDDING_API_KEY = process.env.EMBEDDING_API_KEY || process.env.DASHSCOPE_API_KEY || '';
 
-// 各 provider 默认 endpoint + model + dim
-// v0.7: ollama 默认改 bge-m3 (1024 dim, BAAI 多语言, 中文 OK), 跟 migration 006 配
-//   备选: shaw/dmeta-embedding-zh (768 dim, 中文专化, 不用改 schema 但 768 → 不匹配)
-//   备选: mxbai-embed-large (1024 dim, 英文优)
+// P0-fix (2026-08-24): 全部 provider dim 统一为 1024, 跟 db.js schema 一致
+//   local 原 768 (shibing624/text2vec-base-chinese) → 1024 (改用同 dim 的多语言模型, 例如 BAAI/bge-base-en-v1.5 或 sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 的 1024 变体)
+//   remote 原 1536 (text-embedding-v3) → 1024 (v3 支持 dimensions 参数)
+//   注意: local 切换模型需重启 embedding_server.py; remote 通过 dimensions=1024 显式传参
 const PROVIDER_DEFAULTS = {
-  local:  { base_url: 'http://localhost:8000/v1',   model: 'shibing624/text2vec-base-chinese', dim: 768  },
-  ollama: { base_url: 'http://localhost:11434',     model: 'bge-m3',                             dim: 1024 },
-  remote: { base_url: 'https://dashscope.aliyuncs.com/compatible-mode/v1', model: 'text-embedding-v3', dim: 1536 },
+  local:  { base_url: 'http://localhost:8000/v1',   model: 'BAAI/bge-base-en-v1.5',          dim: 1024 },
+  ollama: { base_url: 'http://localhost:11434',     model: 'bge-m3',                          dim: 1024 },
+  remote: { base_url: 'https://dashscope.aliyuncs.com/compatible-mode/v1', model: 'text-embedding-v3', dim: 1024 },
 };
 
 const DEFAULTS = PROVIDER_DEFAULTS[EMBEDDING_PROVIDER] || PROVIDER_DEFAULTS.remote;
@@ -47,15 +55,27 @@ console.log(`[Embedding] provider=${EMBEDDING_PROVIDER} url=${EMBEDDING_BASE_URL
 /**
  * 获取文本的 Embedding 向量
  * @param {string} text - 输入文本
+ * @param {object} [opts] - 透传选项 (Phase B 2026-08-24)
+ * @param {string} [opts.request_id] - 调用方 trace_id
+ * @param {string} [opts.user_id]    - 调用方 user_id
  * @returns {Promise<number[]>} 浮点数向量数组
  */
-export async function getEmbedding(text) {
+export async function getEmbedding(text, opts = {}) {
   if (!text || typeof text !== 'string' || text.trim().length === 0) {
     throw new Error('Embedding 输入文本不能为空');
   }
   if (NEEDS_AUTH && !EMBEDDING_API_KEY) {
     throw new Error('Embedding API Key 未配置，请设置 EMBEDDING_API_KEY 或 DASHSCOPE_API_KEY 环境变量');
   }
+
+  // Phase-B-fix (2026-08-24): B5 — ai_trace 埋点
+  const tStart = Date.now();
+  const request_id = opts.request_id || generateTraceId();
+  const user_id = opts.user_id || 'system';
+  let embeddingLen = 0;
+  let errorMsg = null;
+  // 粗略估算 prompt tokens: text 字符数 / 2 (中英文均值), 与 llm.js 流式估算一致
+  const promptTokensEstimate = Math.ceil((text?.length || 0) / 2);
 
   try {
     let body, endpoint, headers = { 'Content-Type': 'application/json' };
@@ -88,15 +108,37 @@ export async function getEmbedding(text) {
     if (embedding.length !== EMBEDDING_DIMS) {
       console.warn(`Embedding 维度不匹配: 期望 ${EMBEDDING_DIMS}，实际 ${embedding.length}`);
     }
+    embeddingLen = embedding.length;
 
     return embedding;
   } catch (err) {
     if (axios.isAxiosError(err)) {
       const status = err.response?.status;
       const apiMsg = err.response?.data?.error?.message || err.message;
-      throw new Error(`Embedding API 请求失败 [${status || 'NETWORK'}] (${EMBEDDING_PROVIDER}): ${apiMsg}`);
+      errorMsg = `Embedding API 请求失败 [${status || 'NETWORK'}] (${EMBEDDING_PROVIDER}): ${apiMsg}`;
+    } else {
+      errorMsg = err.message || String(err);
     }
-    throw err;
+    throw new Error(errorMsg);
+  } finally {
+    // Phase-B-fix (2026-08-24): B5 — 写 ai_trace, provider/model/dim 显式记录
+    // 特殊字段: provider (local/ollama/remote), model, dim — 通过 session_id 或
+    //   error_message 字段塞 dim (避免改 schema). 严格说应加列, 但 Phase B 不破坏表.
+    //   这里用 session_id 存 dim (后续 Phase C 可加专用列).
+    recordAiTraceAsync({
+      request_id,
+      user_id,
+      session_id: `dim=${embeddingLen || EMBEDDING_DIMS}`,
+      task_type: 'embedding',
+      provider: EMBEDDING_PROVIDER,
+      model: EMBEDDING_MODEL,
+      prompt_tokens: promptTokensEstimate,
+      completion_tokens: 0, // embedding 无 completion
+      latency_ms: Date.now() - tStart,
+      // 不传 cost_cny → aiTrace.js 用 COST_TABLE[model] 估算 (text-embedding-v3=0.7/百万)
+      success: !errorMsg,
+      error_message: errorMsg,
+    });
   }
 }
 

@@ -183,6 +183,8 @@ async function preprocessImage(imageBase64, options = {}) {
  * @param {object} [userHint] - 用户可选的辅助信息
  * @param {string} [userHint.subject] - 用户指定的学科
  * @param {string} [userHint.knowledge_point_id] - 用户指定的知识点
+ * @param {string} [userHint.request_id] - 调用方 trace_id (Phase B 2026-08-24)
+ * @param {string} [userHint.user_email] - 调用方 user_id (Phase B 2026-08-24)
  * @returns {Promise<object>} 解析结果
  */
 async function parseImageToQuestion(imageBase64, userHint = {}) {
@@ -191,11 +193,15 @@ async function parseImageToQuestion(imageBase64, userHint = {}) {
   }
 
   // ── Step 1: 调用 Vision LLM ──
+  // Phase-B-fix (2026-08-24): B3 — 透传 task_type='vision_parse' / request_id / user_id 到 ai_trace
   const llmResult = await visionChatCompletion(VISION_SYSTEM_PROMPT, VISION_USER_PROMPT, imageBase64, {
     model: VISION_MODEL,
     temperature: 0.2,
     max_tokens: 4000,
     jsonMode: true,
+    task_type: 'vision_parse',
+    user_id: userHint.user_email || 'system',
+    request_id: userHint.request_id,
   });
 
   // ── Step 2: 解析 JSON 输出 ──
@@ -284,9 +290,12 @@ router.post('/parse', authMiddleware, async (req, res) => {
     }
 
     // ── 调用 Vision 解析 ──
+    // Phase-B-fix (2026-08-24): 透传 trace_id + user_email 用于 ai_trace (B7 middleware + auth)
     const parseResult = await parseImageToQuestion(base64Data, {
       subject,
       knowledge_point_id,
+      request_id: req.traceId,
+      user_email: req.user?.email,
     });
 
     // ── 拍照即入库（方案 B 协同）──

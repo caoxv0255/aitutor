@@ -1,4 +1,4 @@
-﻿import express from 'express';
+import express from 'express';
 import tutorRoutes from './tutor/routes.js';
 import examRoutes from './exam/routes.js';
 import ragRoutes from './rag/routes.js';
@@ -8,7 +8,6 @@ import analyticsRoutes from './analytics/routes.js';
 import gamificationRoutes from './gamification/routes.js';
 import authRoutes from './auth/routes.js';
 import userRoutes from './user/routes.js';
-import trendsRoutes from './trends/routes.js';
 import knowledgeRoutes from './knowledge/routes.js';
 import reviewRoutes from './review/routes.js';
 
@@ -23,7 +22,6 @@ router.use('/analytics', analyticsRoutes);
 router.use('/gamification', gamificationRoutes);
 router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
-router.use('/trends', trendsRoutes);
 router.use('/knowledge', knowledgeRoutes);
 router.use('/review', reviewRoutes);
 

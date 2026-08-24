@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="api-base" content="">
+    <title>家长报告样例 - AI Tutor</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/aitutor.css">
+    <link rel="stylesheet" href="../assets/css/brand.css">
+    <link rel="stylesheet" href="../assets/css/router.css">
+    <style type="text/tailwindcss">
+@theme inline {
+  --color-primary-500: #d71920;
+  --color-primary-600: #b8151b;
+  --color-success-500: #059669;
+  --color-warning-500: #f59e0b;
+  --color-error-500: #ef4444;
+  --color-info-500: #0284c7;
+  --color-foreground: #0b1220;
+  --color-muted-foreground: #6b7280;
+  --color-surface: #ffffff;
+    --color-surface-container-low: #f6f8fa;
+  --color-border: #e5e7eb;
+  --color-border-light: #f1f3f5;
+}
+    </style>
+</head>
+<body class="min-h-screen p-4" style="background:var(--color-surface);color:var(--color-foreground)">
+    <div class="lg:ml-60 md:ml-[72px] min-h-screen" style="background:var(--color-surface);color:var(--color-foreground)">
+    <div class="lg:ml-60 md:ml-[72px] min-h-screen" style="background:var(--color-surface);color:var(--color-foreground)">
+
+<a href="index.html" class="back-link">&#8592; 返回首页</a>
+
+<div class="report-container">
+  <span class="sample-badge">&#127891; 样例报告 - 家长版</span>
+
+  <div class="report-header">
+    <h1>孩子学习周报</h1>
+    <p style="color:var(--text-muted);margin:0">第20周（5.16-5.22）学习情况总结</p>
+    <div class="child-info">
+      <div class="child-avatar">&#128100;</div>
+      <div class="child-details">
+        <div class="child-name">张同学</div>
+        <div class="child-meta">高三 · 目标：北京高考 · 本周学习时长：6.5小时</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-summary">
+    <h3 style="margin:0 0 20px;text-align:center">本周学习概览</h3>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <div class="progress-ring">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle class="bg" cx="60" cy="60" r="52"/>
+            <circle class="progress" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="65.35"/>
+          </svg>
+          <div class="progress-ring text">80%</div>
+        </div>
+        <div class="label">任务完成率</div>
+      </div>
+      <div class="summary-item">
+        <div class="number">12</div>
+        <div class="label">完成练习数</div>
+      </div>
+      <div class="summary-item">
+        <div class="number warning">3</div>
+        <div class="label">薄弱知识点</div>
+      </div>
+      <div class="summary-item">
+        <div class="number">+5</div>
+        <div class="label">数学提分</div>
+      </div>
+      <div class="summary-item">
+        <div class="number">8</div>
+        <div class="label">连续学习天数</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128200;</span> 学习趋势</h2>
+    <div class="trend-chart">
+      <div class="trend-line"></div>
+      <div class="trend-points">
+        <div class="trend-point">
+          <div class="dot"></div>
+          <div class="label">5.16</div>
+          <div class="score">73</div>
+        </div>
+        <div class="trend-point">
+          <div class="dot up"></div>
+          <div class="label">5.17</div>
+          <div class="score">75</div>
+        </div>
+        <div class="trend-point">
+          <div class="dot up"></div>
+          <div class="label">5.18</div>
+          <div class="score">78</div>
+        </div>
+        <div class="trend-point">
+          <div class="dot down"></div>
+          <div class="label">5.19</div>
+          <div class="score">76</div>
+        </div>
+        <div class="trend-point">
+          <div class="dot up"></div>
+          <div class="label">5.20</div>
+          <div class="score">79</div>
+        </div>
+        <div class="trend-point">
+          <div class="dot up"></div>
+          <div class="label">5.21</div>
+          <div class="score">80</div>
+        </div>
+        <div class="trend-point">
+          <div class="dot"></div>
+          <div class="label">5.22</div>
+          <div class="score">78</div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--text-muted);font-size:14px;margin-top:16px">本周数学综合得分从73分提升至78分，整体呈上升趋势 &#128200;</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128203;</span> 本周学习任务</h2>
+    <div class="task-list">
+      <div class="task-item completed">
+        <div class="checkbox">&#10003;</div>
+        <div class="content">
+          <div class="title completed">函数单调性专项训练</div>
+          <div class="desc">完成15道练习题，正确率80%</div>
+        </div>
+        <div class="time">周一</div>
+      </div>
+      <div class="task-item completed">
+        <div class="checkbox">&#10003;</div>
+        <div class="content">
+          <div class="title completed">导数应用专题测试</div>
+          <div class="desc">测试得分68分，较上次提升8分</div>
+        </div>
+        <div class="time">周二</div>
+      </div>
+      <div class="task-item completed">
+        <div class="checkbox">&#10003;</div>
+        <div class="content">
+          <div class="title completed">错题回顾与整理</div>
+          <div class="desc">复习本周错题12道，掌握薄弱点</div>
+        </div>
+        <div class="time">周三</div>
+      </div>
+      <div class="task-item">
+        <div class="checkbox"></div>
+        <div class="content">
+          <div class="title">椭圆与双曲线综合训练</div>
+          <div class="desc">目标：完成20道练习题</div>
+        </div>
+        <div class="time">进行中</div>
+      </div>
+      <div class="task-item">
+        <div class="checkbox"></div>
+        <div class="content">
+          <div class="title">数学预测卷限时训练</div>
+          <div class="desc">目标：120分钟内完成，争取85分</div>
+        </div>
+        <div class="time">周末</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128161;</span> 本周学习洞察</h2>
+    <div class="insight-box positive">
+      <h4>&#128077; 进步亮点</h4>
+      <ul>
+        <li><strong>导数应用</strong>：本周测试得分68分，较上周提升8分，极值点判断准确率明显提高</li>
+        <li><strong>学习连续性</strong>：已连续8天保持学习，学习习惯养成良好</li>
+        <li><strong>错题回顾</strong>：主动复习错题，同类题正确率从50%提升至75%</li>
+      </ul>
+    </div>
+    <div class="insight-box warning">
+      <h4>&#128295; 需要关注</h4>
+      <ul>
+        <li><strong>解析几何</strong>：椭圆离心率计算仍是薄弱点，建议加强专项训练</li>
+        <li><strong>周三学习时长</strong>：周三学习时长仅30分钟，低于平均水平</li>
+        <li><strong>周末规划</strong>：建议提前规划周末学习任务，避免临时抱佛脚</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128218;</span> 各学科进度</h2>
+    <div class="subject-status">
+      <div class="subject-card">
+        <div class="header">
+          <div class="icon">&#128290;</div>
+          <div>
+            <div class="name">数学</div>
+            <div class="status">稳步提升中</div>
+          </div>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width:78%;background:var(--green)"></div>
+        </div>
+      </div>
+      <div class="subject-card">
+        <div class="header">
+          <div class="icon">&#128214;</div>
+          <div>
+            <div class="name">语文</div>
+            <div class="status">保持稳定</div>
+          </div>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width:82%;background:var(--green)"></div>
+        </div>
+      </div>
+      <div class="subject-card">
+        <div class="header">
+          <div class="icon">&#127758;</div>
+          <div>
+            <div class="name">英语</div>
+            <div class="status">需要加强</div>
+          </div>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width:65%;background:var(--amber)"></div>
+        </div>
+      </div>
+      <div class="subject-card">
+        <div class="header">
+          <div class="icon">&#9889;</div>
+          <div>
+            <div class="name">物理</div>
+            <div class="status">稳步提升中</div>
+          </div>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width:72%;background:var(--green)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">&#128640;</span> 下周学习建议</h2>
+    <div class="insight-box">
+      <ul>
+        <li><strong>重点突破</strong>：优先完成"椭圆与双曲线综合训练"，这是当前最薄弱的知识点</li>
+        <li><strong>时间规划</strong>：建议每天保持45-60分钟数学学习，周三适当增加学习时长</li>
+        <li><strong>错题巩固</strong>：继续复习本周错题，特别是解析几何类题目</li>
+        <li><strong>模拟实战</strong>：周末完成一套完整预测卷，检验本周学习成果</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <h2>查看孩子的完整学习报告</h2>
+    <p>登录后可查看详细的知识点分析、错题记录和个性化学习路径</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="login.html" class="btn" style="background:#fff;color:var(--accent);font-weight:700;padding:14px 28px">家长登录</a>
+      <a href="sample-report-student.html" class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.5);padding:14px 28px">查看学生版报告</a>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+      import { mount } from '../assets/js/navator.js';
+      mount({ active: 'home' });
+    </script>
+    </div>
+<script type="module">
+      import { mount } from '../assets/js/navator.js';
+      mount({ active: 'home' });
+    </script>
+    </div>
+</body>
+</html>

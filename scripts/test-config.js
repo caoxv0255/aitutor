@@ -20,7 +20,8 @@ try {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: 'qwen3.7-plus',
+      // P0-fix (2026-08-24): 模型名修正 'qwen3.7-plus' → 'qwen-plus' (DashScope 官方模型名)
+      model: 'qwen-plus',
       messages: [{ role: 'user', content: '简单描述函数f(x)=x³的单调区间' }],
       temperature: 0.3,
       max_tokens: 200
@@ -68,7 +69,8 @@ try {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: 'qwen3.7-plus',
+      // P0-fix (2026-08-24): 模型名修正 'qwen3.7-plus' → 'qwen-plus' (DashScope 官方模型名)
+      model: 'qwen-plus',
       messages: [{ role: 'user', content: '简单描述函数f(x)=x³的单调区间' }],
       temperature: 0.3,
       max_tokens: 200

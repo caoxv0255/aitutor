@@ -35,7 +35,12 @@ def get_index_root(index_name: str) -> Path:
 
 def index_exists(index_name: str) -> bool:
     root = get_index_root(index_name)
-    return (root / "output" / "artifacts").exists()
+    # 兼容两种输出结构:
+    #   新版 graphrag CLI: output/artifacts/*.parquet
+    #   本仓库已有索引:   output/*.parquet (平铺, 无 artifacts/ 子目录)
+    if (root / "output" / "artifacts").exists():
+        return True
+    return (root / "output").exists() and any((root / "output").glob("*.parquet"))
 
 
 @asynccontextmanager

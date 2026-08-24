@@ -75,7 +75,7 @@ export async function getProvinceStats(req, res) {
     
     res.json({ ...data, cached });
   } catch (error) {
-    console.error('获取省份统计失败:', error.message);
+    console.error('获取省份统计失败:', error.message, error.stack);
     res.status(500).json(errorResponse('获取省份统计失败'));
   }
 }

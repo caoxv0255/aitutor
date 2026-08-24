@@ -44,12 +44,15 @@ resolve_bct_url() {
 BCT_URL=$(resolve_bct_url || true)
 
 # ── 1. npm test (Vitest) ──
+# Audit-2026-08-24 Fix-1: 严格判断 vitest 全绿
+# 旧逻辑 grep "Test Files .+ passed" 会误判 — vitest 失败时也输出 "passed" 字符串 (如 "1 failed | 12 passed")
+# 新逻辑: 检查 vitest 输出没有 "failed" 标记 (失败时 vitest 会输出 "×" + "Failed Tests N" + "Tests  N failed")
 step "1/5 单元测试 (vitest)"
 VITEST_OUT=$(npx vitest run --reporter=dot 2>&1 || true)
-if echo "$VITEST_OUT" | grep -qE "Test Files .+ passed"; then
-  ok "vitest 全绿"
+if echo "$VITEST_OUT" | grep -qE "Failed Tests|× |failed "; then
+  fail "vitest 失败: $(echo "$VITEST_OUT" | grep -E "× |Failed Tests" | head -3 | tr '\n' ' ')"
 else
-  fail "vitest 失败: $(echo "$VITEST_OUT" | tail -2 | tr '\n' ' ')"
+  ok "vitest 全绿"
 fi
 
 # ── 2. contract test (mock) ──
@@ -89,6 +92,17 @@ elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
   else
     fail "镜像构建失败 (5 分钟 timeout)"
   fi
+
+# Audit-2026-08-24 Fix-4: server.js 直挂端点守门
+# 当前基线 7 个直挂 endpoint (provinces + province-trends + exam-pdf + adaptive-difficulty +
+# class-detail + proxy + cache/clear-provinces + provinces/seed). 任何新增必须走 api/modules/*.
+# 非 API 的前端/重定向路由不算 (/, /index.html, /app, /frontend, /api-docs, /api/health)
+DIRECT=$(grep -cE "^app\.(get|post|put|delete)\('/api/" server.js || true)
+if [ "$DIRECT" -le 12 ]; then
+  ok "server.js 直挂 endpoint 数: $DIRECT (基线 ≤ 12, 避免绕过 modules)"
+else
+  fail "server.js 直挂 endpoint 过多 ($DIRECT), 新增请走 api/modules/*"
+fi
 else
   echo "  (跳过: docker 不可用)"
 fi

@@ -132,9 +132,9 @@ export async function getProvinceTrends(req, res) {
                SUM(pk.total_score) as total_score
         FROM province_knowledge_stats pk
         LEFT JOIN knowledge_points kp ON pk.knowledge_point_id = kp.id
-        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3 AND pk.exam_level = $4
+        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3
       `;
-      let knowledgeParams = [code, startYear, endYear, exam_level];
+      let knowledgeParams = [code, startYear, endYear];
       paramIdx = 5;
       if (subject) {
         knowledgeParams.push(subject);
@@ -213,9 +213,9 @@ export async function getProvinceTrends(req, res) {
                SUM(pk.frequency) as total_frequency, AVG(pk.avg_difficulty) as avg_difficulty
         FROM province_knowledge_stats pk
         LEFT JOIN knowledge_points kp ON pk.knowledge_point_id = kp.id
-        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3 AND pk.exam_level = $4
+        WHERE pk.province_code = $1 AND pk.year BETWEEN $2 AND $3
       `;
-      let topKnowledgeParams = [code, startYear, endYear, exam_level];
+      let topKnowledgeParams = [code, startYear, endYear];
       paramIdx = 5;
       if (subject) {
         topKnowledgeParams.push(subject);

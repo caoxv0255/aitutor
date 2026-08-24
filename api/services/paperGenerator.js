@@ -77,15 +77,20 @@ export class PaperGenerator {
 
   static async calculateAdaptiveDifficulty(pool, email, subject) {
     try {
+      // P0-fix (2026-08-24): 原查 exam_session_answers 表不存在 (audit 404)
+      //   fallback 到 practice_records (字段: subject_code, difficulty, created_at)
+      //   LIMIT 50 + ORDER BY created_at DESC 取最近 50 题的难度均值
       const result = await pool.query(`
-        SELECT AVG(difficulty) as avg_difficulty
-        FROM exam_session_answers
-        WHERE user_email = $1 AND subject = $2 AND difficulty IS NOT NULL
-        ORDER BY timestamp DESC LIMIT 50
+        SELECT difficulty
+        FROM practice_records
+        WHERE user_email = $1 AND subject_code = $2 AND difficulty IS NOT NULL
+        ORDER BY created_at DESC
+        LIMIT 50
       `, [email, subject]);
 
-      if (result.rows.length > 0 && result.rows[0].avg_difficulty) {
-        const avg = parseFloat(result.rows[0].avg_difficulty);
+      if (result.rows.length > 0) {
+        const sum = result.rows.reduce((s, r) => s + Number(r.difficulty || 0), 0);
+        const avg = sum / result.rows.length;
         return Math.max(1, Math.min(5, avg));
       }
     } catch (error) {

@@ -20,8 +20,13 @@ class AIAdapter {
 
   /**
    * 请求题目解答
+   * @param {string} imageBase64
+   * @param {string} subject
+   * @param {string} grade
+   * @param {object} [opts]
+   * @param {AbortSignal} [opts.signal]  — P0-fix (2026-08-24): AbortController 取消
    */
-  async requestSolution(imageBase64, subject, grade) {
+  async requestSolution(imageBase64, subject, grade, { signal } = {}) {
     const isEssay = subject === '作文';
     const prompt = isEssay
       ? `你是一位拥有20年教学经验的语文特级教师和写作指导专家。请仔细阅读图片中这篇${grade}学生作文，逐句分析后严格按以下三部分输出。
@@ -91,7 +96,8 @@ class AIAdapter {
           ],
           temperature: this.config.temperature,
           max_tokens: this.config.maxTokens
-        })
+        }),
+        signal // P0-fix (2026-08-24): 传递取消信号
       });
 
       if (!response.ok) {
@@ -112,6 +118,11 @@ class AIAdapter {
       const content = data.choices[0].message.content;
       return this.parseResponse(content);
     } catch (error) {
+      // P0-fix (2026-08-24): 区分 abort 与其他错误, 避免污染用户文案
+      if (error.name === 'AbortError') {
+        console.log('AI请求已取消');
+        throw error;
+      }
       console.error('AI请求错误:', error);
       throw error;
     }

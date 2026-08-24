@@ -12,7 +12,9 @@ export function calculateUserAbility(examHistory) {
   for (let i = 0; i < recentExams.length; i++) {
     const exam = recentExams[i];
     const recencyWeight = 1 / (1 + i * 0.3);
-    const accuracy = exam.correct_count / Math.max(exam.total_questions, 1);
+    // Audit-2026-08-24 Fix-2: 兼容 DB 字段 question_count 与测试字段 total_questions
+    const totalQ = exam.question_count ?? exam.total_questions ?? 0;
+    const accuracy = exam.correct_count / Math.max(totalQ, 1);
     const difficultyFactor = (exam.avg_difficulty || 3) / 5;
     const performance = accuracy * (0.5 + 0.5 * difficultyFactor);
     weightedSum += performance * recencyWeight;
@@ -46,13 +48,10 @@ export async function getUserAbilityForSubject(email, subject) {
   const subjectName = resolveSubjectName(subject) || subject;
 
   const historyResult = await pool.query(
-    `SELECT es.*, 
-       AVG(CAST(qp.difficulty AS DOUBLE PRECISION)) as avg_difficulty
+    `SELECT es.*
      FROM exam_sessions es
-     LEFT JOIN wrong_questions wq ON es.user_email = wq.user_email
      WHERE es.user_email = $1 AND (es.subject = $2 OR es.subject = $3)
-     GROUP BY es.id
-     ORDER BY es.created_at DESC
+     ORDER BY es.started_at DESC
      LIMIT 10`,
     [email, subject, subjectName]
   );

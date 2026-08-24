@@ -17,8 +17,11 @@ export default async function handler(req, res) {
     return res.status(400).json(errorResponse(validation.message));
   }
 
+  // 提前获取 pool, 让 catch 块也能访问 (修复 pool is not defined 杀进程)
+  let pool;
+  let inTransaction = false;
   try {
-    const pool = await getDb();
+    pool = await getDb();
 
     const provinceResult = await pool.query('SELECT id FROM provinces WHERE code = $1', [province_code]);
     if (provinceResult.rows.length === 0) {
@@ -33,6 +36,7 @@ export default async function handler(req, res) {
     const exam_level = gradeResult.rows[0].level;
 
     await pool.query('BEGIN');
+    inTransaction = true;
 
     await pool.query(`
       INSERT INTO user_profiles (
@@ -55,6 +59,7 @@ export default async function handler(req, res) {
     }
 
     await pool.query('COMMIT');
+    inTransaction = false;
 
     return res.status(200).json({
       success: true,
@@ -69,7 +74,15 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('[User Initialize] Initialize error:', error);
-    await pool.query('ROLLBACK');
+    // 只对已开始的事务做 ROLLBACK, 防止 "ROLLBACK without BEGIN" 二次崩溃
+    if (inTransaction && pool) {
+      try {
+        await pool.query('ROLLBACK');
+      } catch (rollbackErr) {
+        console.error('[User Initialize] ROLLBACK failed:', rollbackErr.message);
+      }
+      inTransaction = false;
+    }
     return res.status(500).json(errorResponse('初始化失败'));
   }
 }

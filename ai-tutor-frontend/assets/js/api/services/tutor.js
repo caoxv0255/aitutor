@@ -135,13 +135,16 @@ export const tutor = {
     }
 
     // SSE parser: pipe through TextDecoderStream, split on \n\n frames
+    // P0-fix (2026-08-24): 兼容 \r\n\r\n (某些后端代理 / Express 默认 CRLF 转换)
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
     let buf = '';
+    // 标准化: 把 CRLF 当作 LF, 避免 \r\n\r\n 帧边界识别失败
+    const normalize = (s) => s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
       if (signal && signal.aborted) return;
-      buf += value;
+      buf += normalize(value);
       let idx;
       while ((idx = buf.indexOf('\n\n')) !== -1) {
         const frame = buf.slice(0, idx);

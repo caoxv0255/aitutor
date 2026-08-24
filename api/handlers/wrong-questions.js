@@ -154,9 +154,9 @@ export async function updateWrongQuestion(req, res) {
     }
 
     if (mastered !== undefined) {
-      // P0.4: schema column is boolean, accept bool or 0/1 from client
+      // P0.4 + P0-fix (2026-08-24): schema column is INTEGER 0/1, accept bool or int from client
       query += `mastered = $` + (paramIdx++) + `, `;
-      params.push(mastered === true || mastered === 1);
+      params.push((mastered === true || mastered === 1) ? 1 : 0);
       if (mastered === true || mastered === 1) {
         query += `mastered_at = NOW(), `;
       }
@@ -215,8 +215,8 @@ export async function getWrongQuestionStats(req, res) {
     const statsResult = await pool.query(`
       SELECT 
         COUNT(*) as total_count,
-        SUM(CASE WHEN reviewed = true THEN 1 ELSE 0 END) as reviewed_count,
-        SUM(CASE WHEN reviewed = false THEN 1 ELSE 0 END) as unreviewed_count
+        SUM(CASE WHEN reviewed = 1 THEN 1 ELSE 0 END) as reviewed_count,
+        SUM(CASE WHEN reviewed = 0 THEN 1 ELSE 0 END) as unreviewed_count
       FROM wrong_questions WHERE user_email = $1
     `, [email]);
 

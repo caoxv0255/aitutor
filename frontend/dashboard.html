@@ -370,7 +370,8 @@ async function submitPhotoSearch() {
         'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({
-        model: 'qwen3-vl-plus',
+        // P0-fix (2026-08-24): 模型名修正 'qwen3-vl-plus' → 'qwen-vl-plus' (DashScope 官方模型名)
+        model: 'qwen-vl-plus',
         messages: [{
           role: 'user',
           content: [

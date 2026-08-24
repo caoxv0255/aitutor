@@ -67,11 +67,12 @@ describe('P2-1: Vision model accuracy monitoring', () => {
   });
 
   it('createTaskMetrics should build correct metrics object', () => {
-    const metrics = createTaskMetrics(42, 1000, 2500, 'qwen3-vl-plus', { prompt: 100, completion: 200, total: 300 }, 80, false);
+    // P0-fix (2026-08-24): 模型名修正 'qwen3-vl-plus' → 'qwen-vl-plus'
+    const metrics = createTaskMetrics(42, 1000, 2500, 'qwen-vl-plus', { prompt: 100, completion: 200, total: 300 }, 80, false);
 
     expect(metrics.task_id).toBe(42);
     expect(metrics.processing_time_ms).toBe(1500);
-    expect(metrics.model).toBe('qwen3-vl-plus');
+    expect(metrics.model).toBe('qwen-vl-plus');
     expect(metrics.prompt_version).toBe('2.0.0');
     expect(metrics.quality_score).toBe(80);
     expect(metrics.is_fallback).toBe(false);
@@ -92,7 +93,8 @@ describe('P2-2: Prompt version management', () => {
   });
 
   it('should have model config in each prompt', () => {
-    expect(PROMPTS.IMAGE_RECOGNITION.model).toBe('qwen3-vl-plus');
+    // P0-fix (2026-08-24): 模型名修正 'qwen3-vl-plus' → 'qwen-vl-plus'
+    expect(PROMPTS.IMAGE_RECOGNITION.model).toBe('qwen-vl-plus');
     expect(PROMPTS.IMAGE_RECOGNITION.temperature).toBe(0.7);
     expect(PROMPTS.IMAGE_RECOGNITION.maxTokens).toBe(2000);
     expect(PROMPTS.QUESTION_EXPLAIN.model).toBe('qwen-plus');

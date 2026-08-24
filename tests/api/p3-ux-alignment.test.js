@@ -118,7 +118,8 @@ describe('P3-2: PC photo search feature', () => {
 
     expect(source).toContain('submitPhotoSearch');
     expect(source).toContain('/api/proxy');
-    expect(source).toContain('qwen3-vl-plus');
+    // P0-fix (2026-08-24): 模型名修正 'qwen3-vl-plus' → 'qwen-vl-plus'
+    expect(source).toContain('qwen-vl-plus');
   });
 
   it('should properly stop camera stream on close', async () => {

@@ -34,17 +34,18 @@ describe('auth.js', () => {
       mockError.mockRestore();
     });
 
-    it('should warn if JWT_SECRET is shorter than 32 chars but not exit', () => {
+    it('should exit if JWT_SECRET is shorter than 32 chars (P0-fix 2026-08-24)', () => {
       process.env.JWT_SECRET = 'short-key-29-chars-long-xxxxx';
       const mockExit = vi.spyOn(process, 'exit').mockImplementation(() => {});
-      const mockWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const mockError = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       validateJWTSecret();
 
-      expect(mockWarn).toHaveBeenCalled();
-      expect(mockExit).not.toHaveBeenCalled();
+      // P0-fix (2026-08-24): 弱密钥现在阻断启动 (防止 JWT 爆破)
+      expect(mockExit).toHaveBeenCalledWith(1);
+      expect(mockError).toHaveBeenCalled();
       mockExit.mockRestore();
-      mockWarn.mockRestore();
+      mockError.mockRestore();
     });
 
     it('should pass with a strong JWT_SECRET', () => {

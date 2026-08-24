@@ -3,7 +3,8 @@ export const PROMPT_VERSION = '2.0.0';
 export const PROMPTS = {
   IMAGE_RECOGNITION: {
     version: '2.0.0',
-    model: 'qwen3-vl-plus',
+    // P0-fix (2026-08-24): 模型名修正 'qwen3-vl-plus' → 'qwen-vl-plus' (DashScope 官方模型名)
+    model: 'qwen-vl-plus',
     temperature: 0.7,
     maxTokens: 2000,
     build: (subject, grade) => {

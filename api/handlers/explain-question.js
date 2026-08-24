@@ -2,7 +2,8 @@ import dotenv from 'dotenv';
 import { PROMPTS } from '../utils/prompts.js';
 import { parseExplainResponse } from '../utils/llmParser.js';
 import { errorResponse } from '../utils/response.js';
-import { getDb } from '../core/db.js';
+// Phase-B-fix (2026-08-24): B10 — 改用 services/aiTrace.js 统一埋点
+import { recordAiTraceAsync } from '../../services/aiTrace.js';
 dotenv.config();
 
 export default async function handler(req, res) {
@@ -64,15 +65,21 @@ export default async function handler(req, res) {
     const content = data.choices[0].message.content;
     const { parsed, isFallback, quality } = parseExplainResponse(content);
 
-    // D069 (2026-08-17): ai_trace — 异步写入 LLM 调用追踪
-    try {
-      const tLatency = Date.now() - tStart;
-      getDb().then(p => p.query(
-        `INSERT INTO ai_trace (user_email, provider, model, task_type, prompt_tokens, completion_tokens, latency_ms, success)
-         VALUES ($1, 'dashscope', $2, 'explain_question', $3, $4, $5, $6)`,
-        [req.user?.email||null, promptConfig.model, data.usage?.prompt_tokens||0, data.usage?.completion_tokens||0, tLatency, response.ok]
-      )).catch(()=>{});
-    } catch {}
+    // Phase-B-fix (2026-08-24): B10 — ai_trace 改用统一 recordAiTrace
+    const tLatency = Date.now() - tStart;
+    recordAiTraceAsync({
+      request_id: req.traceId,
+      user_id: req.user?.email,
+      task_type: 'explain_question',
+      provider: 'dashscope',
+      model: promptConfig.model,
+      prompt_tokens: data.usage?.prompt_tokens || 0,
+      completion_tokens: data.usage?.completion_tokens || 0,
+      latency_ms: tLatency,
+      cost_cny: ((data.usage?.total_tokens || 0) / 1_000_000) * 0.8,
+      success: response.ok,
+      error_message: response.ok ? null : (data.error?.message || 'API error'),
+    });
 
     if (isFallback || quality < 30) {
       console.warn(`[Explain] Low quality response for question (quality=${quality}, fallback=${isFallback})`);
@@ -87,6 +94,16 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
+    // Phase-B-fix (2026-08-24): B10 — 异常路径 ai_trace
+    recordAiTraceAsync({
+      request_id: req.traceId,
+      user_id: req.user?.email,
+      task_type: 'explain_question',
+      provider: 'dashscope',
+      latency_ms: Date.now() - tStart,
+      success: false,
+      error_message: error.message,
+    });
     console.error('Explain question error:', error);
     return res.status(500).json(errorResponse('生成讲解失败，请重试'));
   }

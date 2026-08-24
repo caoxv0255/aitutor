@@ -1024,9 +1024,14 @@ class App {
   }
 
   async loadSolution() {
+    // P0-fix (2026-08-24): AbortController 跟踪, 切页时取消挂起请求
+    const controller = this._addAbortController(new AbortController());
     try {
       const base64 = context.croppedImage.split(',')[1];
-      const result = await aiService.requestSolution(base64, context.currentSubject, context.grade);
+      const result = await aiService.requestSolution(base64, context.currentSubject, context.grade, { signal: controller.signal });
+
+      // 检查是否已 abort (cleanupPage 在解析途中切走了)
+      if (controller.signal.aborted) return;
 
       context.addWrongQuestion(result);
 
@@ -1055,6 +1060,10 @@ class App {
         </div>
       `;
     } catch (error) {
+      if (error.name === 'AbortError') {
+        // 切页取消, 静默
+        return;
+      }
       const container = document.getElementById('solutionContainer');
       container.innerHTML = `<div style="text-align: center; color: red;">解析失败: ${this.sanitize(error.message)}</div>`;
     }

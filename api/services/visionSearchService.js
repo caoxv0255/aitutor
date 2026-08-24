@@ -183,9 +183,12 @@ export class VisionSearchService {
     };
 
     try {
+      // Phase-B-fix (2026-08-24): B4 — 透传 trace_id / user_email 给 vision-parse (B3)
       result.parse = await parseImageToQuestion(imageBase64, {
         subject,
-        knowledge_point_id
+        knowledge_point_id,
+        request_id: options.request_id,
+        user_email: options.user_email,
       });
 
       if (autoIngest && result.parse.full_content.length >= 10) {
@@ -216,10 +219,14 @@ export class VisionSearchService {
       const subjectName = subjectMap[result.parse.subject_code] || result.parse.subject_code || '数学';
 
       const analysisPrompt = ERROR_ANALYSIS_PROMPT(subjectName, result.parse.full_content, studentAnswer);
+      // Phase-B-fix (2026-08-24): B4 — task_type='error_analysis' 用于 ai_trace
       const analysisResponse = await llm.chat(analysisPrompt, {
         model: MODELS.QWEN_TURBO,
         temperature: 0.3,
-        maxTokens: 2500
+        maxTokens: 2500,
+        task_type: 'error_analysis',
+        user_id: options.user_email || 'system',
+        request_id: options.request_id,
       });
 
       try {
@@ -256,7 +263,11 @@ export class VisionSearchService {
         const planResponse = await llm.chat(planPrompt, {
           model: MODELS.QWEN_TURBO,
           temperature: 0.5,
-          maxTokens: 2000
+          maxTokens: 2000,
+          // Phase-B-fix (2026-08-24): B4 — task_type='learning_plan' 用于 ai_trace
+          task_type: 'learning_plan',
+          user_id: options.user_email || 'system',
+          request_id: options.request_id,
         });
 
         try {
@@ -380,7 +391,11 @@ export class VisionSearchService {
         model: MODELS.QWEN_VL_PLUS,
         temperature: 0.2,
         maxTokens: 3000,
-        feature: 'vision_multimodal'
+        feature: 'vision_multimodal',
+        // Phase-B-fix (2026-08-24): B4 — task_type='vision_multimodal' 用于 ai_trace
+        task_type: 'vision_multimodal',
+        user_id: options.user_email || 'system',
+        request_id: options.request_id,
       });
       
       try {
@@ -425,7 +440,7 @@ export class VisionSearchService {
     }
   }
 
-  static async parseFormula(imageBase64) {
+  static async parseFormula(imageBase64, options = {}) {
     const prompt = `请将图片中的数学公式转换为LaTeX格式，并提供语义解释。
 
 返回格式：
@@ -442,7 +457,11 @@ export class VisionSearchService {
         model: MODELS.QWEN_VL_PLUS,
         temperature: 0.1,
         maxTokens: 1500,
-        feature: 'vision_multimodal'
+        feature: 'vision_multimodal',
+        // Phase-B-fix (2026-08-24): B4 — task_type='vision_multimodal' 用于 ai_trace
+        task_type: 'vision_multimodal',
+        user_id: options.user_email || 'system',
+        request_id: options.request_id,
       });
       
       try {
@@ -464,7 +483,7 @@ export class VisionSearchService {
     }
   }
 
-  static async analyzeDiagram(imageBase64, subject = 'physics') {
+  static async analyzeDiagram(imageBase64, subject = 'physics', options = {}) {
     const subjectMap = {
       math: '数学几何图形',
       physics: '物理电路图/力学图',
@@ -496,7 +515,11 @@ export class VisionSearchService {
         model: MODELS.QWEN_VL_PLUS,
         temperature: 0.2,
         maxTokens: 2000,
-        feature: 'vision_multimodal'
+        feature: 'vision_multimodal',
+        // Phase-B-fix (2026-08-24): B4 — task_type='vision_multimodal' 用于 ai_trace
+        task_type: 'vision_multimodal',
+        user_id: options.user_email || 'system',
+        request_id: options.request_id,
       });
       
       try {

@@ -29,8 +29,9 @@ export const exam = {
 
   /**
    * F3.7.4: 下载试卷 PDF
-   * - 真后端: 直接 fetch 拿 blob, 返回 { blob, filename, contentType }
-   * - mock 模式: 返回 { url, expiresAt } (前端 window.open 触发)
+   * - P0-fix (2026-08-24): 统一返回 { mock, url, filename?, expiresAt? }
+   *   mock 模式返回预设 URL, 真后端模式返回 blob: URL (createObjectURL).
+   *   page 层只需看 res.mock + res.url, 不再分支处理 blob/filename.
    */
   async getExamPdf(paperId) {
     if (getMockEnabled()) {
@@ -64,7 +65,9 @@ export const exam = {
       const m2 = cd.match(/filename="?([^";]+)/);
       if (m2) filename = m2[1];
     }
-    return { mock: false, blob, filename, contentType: blob.type };
+    // 把 blob 包装成 object URL, 与 mock 路径形态同构
+    const url = URL.createObjectURL(blob);
+    return { mock: false, url, filename, blob, contentType: blob.type };
   },
 
   async getPapers({ subject, year } = {}) {
