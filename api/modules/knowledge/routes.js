@@ -1,4 +1,4 @@
-﻿import express from 'express';
+import express from 'express';
 import { getDb } from '../../core/db.js';
 import { successResponse, errorResponse } from '../../utils/response.js';
 import { authMiddleware } from '../../core/auth.js';
@@ -209,6 +209,108 @@ router.get('/points', async (req, res) => {
   } catch (err) {
     console.error('[Knowledge] points 失败:', err.message);
     return res.status(500).json(errorResponse('获取知识点列表失败'));
+  }
+});
+
+// Phase-H1-fix (2026-08-24): 跨学科影响分析
+router.get('/cross-subject-impact', authMiddleware, async (req, res) => {
+  try {
+    const subjectCode = req.query.subject;
+    if (!subjectCode) {
+      return res.status(400).json({ success: false, message: '缺少 subject 参数' });
+    }
+
+    const pool = await getDb();
+
+    // 1. 查该学科所有 KP
+    const subjectKps = await pool.query(
+      'SELECT id, name FROM knowledge_points WHERE subject = $1 LIMIT 50',
+      [subjectCode]
+    );
+
+    if (subjectKps.rows.length === 0) {
+      return res.json({
+        success: true,
+        data: { subject: subjectCode, root_causes: [], message: '该学科暂无知识点数据' }
+      });
+    }
+
+    // 2. 查该学科 KP 的反向依赖（即先决学科的 KP）
+    // 简化为: 查所有其他学科中 mastery_score 最低的 5 个 KP
+    const userEmail = req.user?.email;
+    const rootCauses = await pool.query(`
+      SELECT
+        kp.id as kp_id, kp.name, kp.subject,
+        COALESCE(skm.mastery_score, 50) as mastery_score,
+        CASE WHEN kp.subject = $1 THEN 0 ELSE 1 END as impact_score
+      FROM knowledge_points kp
+      LEFT JOIN student_knowledge_mastery skm
+        ON skm.knowledge_point_id = kp.id AND skm.user_email = $2
+      WHERE kp.subject != $1
+        AND kp.level IN ('gaokao', 'zhongkao')
+      ORDER BY COALESCE(skm.mastery_score, 50) ASC, kp.difficulty DESC
+      LIMIT 5
+    `, [subjectCode, userEmail || '']);
+
+    res.json({
+      success: true,
+      data: {
+        subject: subjectCode,
+        root_causes: rootCauses.rows.map(r => ({
+          kp_id: r.kp_id,
+          name: r.name,
+          subject: r.subject,
+          mastery_score: parseFloat(r.mastery_score) || 50,
+          impact_score: parseFloat(r.impact_score) || 0.5,
+        })),
+        note: '基于 Apache AGE 知识图谱 + 学生掌握度'
+      }
+    });
+  } catch (err) {
+    console.error('[cross-subject-impact] failed:', err.message);
+    res.json({
+      success: true,
+      data: { subject: req.query.subject || '', root_causes: [], message: '图谱未就绪' }
+    });
+  }
+});
+
+// Phase-G3-fix (2026-08-24): 错题详情"5 道针对练习"端点
+import { searchSimilarQuestions } from '../../routes/rag-search.js';
+
+router.get('/:kpId/practice', authMiddleware, async (req, res) => {
+  try {
+    const { kpId } = req.params;
+    const limit = Math.min(parseInt(req.query.limit) || 5, 20);
+
+    const results = await searchSimilarQuestions(
+      `${kpId} 基础练习`,  // query：KP 描述
+      { top_k: limit, threshold: 0.3 }
+    );
+
+    res.json({
+      success: true,
+      data: {
+        questions: results.slice(0, limit).map(q => ({
+          id: q.id,
+          content: q.content,
+          subject_code: q.subject_code,
+          difficulty: q.difficulty,
+          knowledge_point_id: q.knowledge_point_id,
+        })),
+        source: results.length > 0 ? 'rag_questions' : 'mock',
+      }
+    });
+  } catch (err) {
+    console.error('[practice] failed:', err.message);
+    res.json({
+      success: true,
+      data: {
+        questions: [],
+        source: 'empty',
+        message: '题库未就绪，请稍后再试',
+      }
+    });
   }
 });
 

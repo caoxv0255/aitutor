@@ -764,6 +764,20 @@ async function initTables(pool) {
     CREATE INDEX IF NOT EXISTS idx_ai_trace_model ON ai_trace(model, created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_ai_trace_task ON ai_trace(task_type, created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_ai_trace_request_id ON ai_trace(request_id) WHERE request_id IS NOT NULL;
+    -- Phase-G1-fix (2026-08-24): 用户反馈通道 (1-5 星 + 评论), request_id 关联 ai_trace
+    CREATE TABLE IF NOT EXISTS ai_feedback (
+      id BIGSERIAL PRIMARY KEY,
+      user_email VARCHAR(255),
+      request_id VARCHAR(64),
+      task_type VARCHAR(50) NOT NULL,
+      rating SMALLINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+      comment TEXT,
+      metadata JSONB DEFAULT '{}',
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_ai_feedback_user ON ai_feedback(user_email, created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_ai_feedback_request ON ai_feedback(request_id);
+    CREATE INDEX IF NOT EXISTS idx_ai_feedback_created ON ai_feedback(created_at DESC);
   `);
   // 兼容旧库 (009 之前): 增量加 request_id 列 + 索引
   await pool.query(`ALTER TABLE ai_trace ADD COLUMN IF NOT EXISTS request_id VARCHAR(64);`);

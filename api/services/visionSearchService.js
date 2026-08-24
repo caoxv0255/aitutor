@@ -374,6 +374,82 @@ export class VisionSearchService {
     }
   }
 
+  /**
+   * P0-fix (2026-08-24): Phase D — D5
+   * 批量解析多张图片 (整卷拍照场景). 并发限制 3, 单题失败不影响整批.
+   *
+   * @param {string[]} images  base64 编码图片数组 (已剥离 data:image/...;base64, 前缀)
+   * @param {object}   userHint 透传给 parseImageToQuestion (subject / knowledge_point_id / request_id / user_email / preprocess 等)
+   * @param {object}   options  { concurrency?: number }
+   * @returns {Promise<{success:boolean, questions:Array, total_count:number, success_count:number, failed_count:number, errors:Array}>}
+   */
+  static async batchParse(images, userHint = {}, options = {}) {
+    if (!Array.isArray(images)) {
+      return {
+        success: false,
+        questions: [],
+        total_count: 0,
+        success_count: 0,
+        failed_count: 0,
+        errors: [{ index: -1, error: 'images must be an array' }],
+      };
+    }
+    if (images.length === 0) {
+      return {
+        success: true,
+        questions: [],
+        total_count: 0,
+        success_count: 0,
+        failed_count: 0,
+        errors: [],
+      };
+    }
+    const concurrency = Math.max(1, Math.min(options.concurrency ?? 3, 10));
+    const results = new Array(images.length);
+    const errors = [];
+    let cursor = 0;
+
+    async function worker() {
+      while (true) {
+        const idx = cursor++;
+        if (idx >= images.length) return;
+        const img = images[idx];
+        try {
+          // Phase-B-fix (2026-08-24): B4 — 每张图片的 batch 索引记到 trace,
+          // 便于失败排查整卷里的具体哪一题.
+          const localHint = {
+            ...userHint,
+            request_id: userHint.request_id
+              ? `${userHint.request_id}_batch${idx}`
+              : undefined,
+          };
+          const parsed = await parseImageToQuestion(img, localHint);
+          results[idx] = { index: idx, success: true, parse: parsed };
+        } catch (err) {
+          logger.warn(`[VisionSearch] batchParse idx=${idx} 失败: ${err.message}`);
+          results[idx] = { index: idx, success: false, error: err.message };
+          errors.push({ index: idx, error: err.message });
+        }
+      }
+    }
+
+    const workers = Array.from({ length: Math.min(concurrency, images.length) }, () => worker());
+    await Promise.all(workers);
+
+    const questions = results.filter((r) => r && r.success).map((r) => r.parse);
+    const successCount = questions.length;
+    const failedCount = images.length - successCount;
+
+    return {
+      success: failedCount === 0,
+      questions,
+      total_count: images.length,
+      success_count: successCount,
+      failed_count: failedCount,
+      errors,
+    };
+  }
+
   static async analyzeImage(imageBase64, options = {}) {
     const { subject = 'math' } = options;
     
@@ -539,6 +615,298 @@ export class VisionSearchService {
       logger.error(`[VisionSearch] 图表分析失败: ${error.message}`);
       return { success: false, error: error.message };
     }
+  }
+
+  // ────────────────────────────────────────────────────────────────────────
+  // Phase E (2026-08-24): 整卷 OCR — 批量解析多张图片 / 多页 PDF
+  //
+  // 设计原则 (核心 UX):
+  //   - 单题失败不影响整批 (返回 success=false 但不抛, 由 caller 聚合展示)
+  //   - 受控并发 (默认 3, 可由 options.concurrency 调整)
+  //   - 复用 parseImageToQuestion (Phase B 已实施, ai_trace / kp_validated 完备)
+  //   - 返回结构: { questions: [...], failed: [...], total_count, success_count, failed_count }
+  //
+  // 入参:
+  //   images: [{ data: <base64>, subject?, pageIndex? }]   — 数组, 长度 1..N
+  //   userHint: { user_email?, request_id?, default_subject? }  — 透传给单题 parse
+  //   options: { concurrency?, mock? }   — mock=true 时跳过真实 LLM, 返回示例数据
+  // ────────────────────────────────────────────────────────────────────────
+
+  /**
+   * 整卷 OCR 批量解析 (Phase E, 2026-08-24)
+   * @param {Array<{data:string, subject?:string, pageIndex?:number}>} images
+   * @param {{user_email?:string, request_id?:string, default_subject?:string}} [userHint]
+   * @param {{concurrency?:number, mock?:boolean}} [options]
+   * @returns {Promise<{questions:Array, failed:Array, total_count:number, success_count:number, failed_count:number}>}
+   */
+  static async batchParse(images, userHint = {}, options = {}) {
+    if (!Array.isArray(images) || images.length === 0) {
+      return { questions: [], failed: [], total_count: 0, success_count: 0, failed_count: 0 };
+    }
+
+    const concurrency = Math.max(1, Math.min(10, options.concurrency || 3));
+    const useMock = options.mock === true || process.env.USE_MOCK === 'true';
+
+    // ── Mock 路径: 返回示例整卷数据, 跳过真实 LLM ──
+    if (useMock) {
+      return this._batchParseMock(images, userHint);
+    }
+
+    // ── 真路径: 受控并发解析 (手写 worker pool, 不依赖 p-limit) ──
+    const queue = images.slice();
+    const results = [];
+    const workerLock = { busy: 0 };
+
+    async function worker() {
+      while (true) {
+        const img = queue.shift();
+        if (!img) break;
+        workerLock.busy++;
+        const idx = (img.pageIndex != null) ? img.pageIndex : (images.length - queue.length);
+        const start = Date.now();
+        try {
+          if (!img.data || typeof img.data !== 'string') {
+            throw new Error('image.data 缺失或非字符串');
+          }
+          const parsed = await parseImageToQuestion(img.data, {
+            subject: img.subject || userHint.default_subject,
+            knowledge_point_id: img.knowledge_point_id,
+            user_email: userHint.user_email,
+            request_id: userHint.request_id
+              ? `${userHint.request_id}_p${idx}`
+              : undefined,
+          });
+          results.push({
+            success: true,
+            pageIndex: idx,
+            duration_ms: Date.now() - start,
+            ...parsed,
+          });
+        } catch (err) {
+          logger.warn(`[VisionSearch.batchParse] 第 ${idx} 张解析失败: ${err.message}`);
+          results.push({
+            success: false,
+            pageIndex: idx,
+            duration_ms: Date.now() - start,
+            error: err.message,
+          });
+        } finally {
+          workerLock.busy--;
+        }
+      }
+    }
+
+    const workers = [];
+    for (let i = 0; i < concurrency; i++) workers.push(worker());
+    await Promise.all(workers);
+
+    // 按 pageIndex 升序, 让前端展示稳定
+    results.sort((a, b) => (a.pageIndex || 0) - (b.pageIndex || 0));
+
+    const questions = results.filter((r) => r.success);
+    const failed = results.filter((r) => !r.success);
+
+    return {
+      questions,
+      failed,
+      total_count: images.length,
+      success_count: questions.length,
+      failed_count: failed.length,
+    };
+  }
+
+  /**
+   * Mock 模式整卷数据 (Phase E, 2026-08-24)
+   * 给前端 demo / 离线开发用, 不调用真实 LLM.
+   */
+  static _batchParseMock(images, userHint = {}) {
+    const sampleSubjects = ['math', 'physics', 'chemistry', 'chinese', 'english'];
+    const sampleTypes = ['choice', 'fill', 'calculation', 'short_answer', 'proof'];
+    const sampleKps = ['kp_math_015', 'kp_phys_008', 'kp_chem_022', 'kp_chi_003', 'kp_eng_011'];
+    const questions = [];
+    const failed = [];
+    images.forEach((img, i) => {
+      const idx = (img.pageIndex != null) ? img.pageIndex : (i + 1);
+      // 偶数下标 i%4==3 模拟失败, 让前端可见"部分失败"分支 (UX 测试)
+      if (i % 4 === 3) {
+        failed.push({
+          success: false,
+          pageIndex: idx,
+          error: 'mock: 模拟图片模糊导致 OCR 失败',
+        });
+        return;
+      }
+      const sub = img.subject || sampleSubjects[i % sampleSubjects.length];
+      const kpId = sampleKps[i % sampleKps.length];
+      const type = sampleTypes[i % sampleTypes.length];
+      questions.push({
+        success: true,
+        pageIndex: idx,
+        raw_text: `[Mock 题 ${idx}] 已知集合 A = {${i + 1},${i + 2},${i + 3}}, 求 A ∩ B 的元素个数 (mock 演示)`,
+        latex_formulas: [`$A \\cap B$`],
+        subject_code: sub,
+        difficulty: (i % 5) + 1,
+        question_type: type,
+        inferred_kp_id: kpId,
+        inferred_kp_name: kpId,
+        full_content: `[Mock 题 ${idx}] 已知集合 A = {${i + 1},${i + 2},${i + 3}}, 求 A ∩ B 的元素个数`,
+        kp_validated: true,
+        duration_ms: 800 + Math.floor(Math.random() * 400),
+      });
+    });
+    // 按 pageIndex 升序, 与真路径保持一致 (前端展示稳定)
+    const sortByPageIndex = (a, b) => (a.pageIndex || 0) - (b.pageIndex || 0);
+    questions.sort(sortByPageIndex);
+    failed.sort(sortByPageIndex);
+    return {
+      questions,
+      failed,
+      total_count: images.length,
+      success_count: questions.length,
+      failed_count: failed.length,
+    };
+  }
+
+  // ────────────────────────────────────────────────────────────────────────
+  // Phase E (2026-08-24): 整卷批量入库 — 错题 + mastery + SRS + ai_trace
+  //
+  // 设计原则:
+  //   - 单题失败不中断整批 (每题独立 try/catch, mini-tx)
+  //   - mastery -10 触发薄弱点标记 (方案 C 业务表)
+  //   - SRS 调度: next_review_at = NOW() + 1 day (待复盘)
+  //   - ai_trace: 整批聚合一条 batch_ingest (fire-and-forget, 与 Phase B 一致)
+  // ────────────────────────────────────────────────────────────────────────
+
+  /**
+   * 批量入库 (Phase E, 2026-08-24)
+   * @param {Array<object>} questions — 已 parse 过的题目 (含 full_content, subject_code, inferred_kp_id 等)
+   * @param {string} userEmail
+   * @param {{request_id?:string, source?:string}} [options]
+   * @returns {Promise<{ingested:Array, failed:Array, total_count:number, success_count:number, failed_count:number, mastery_updates:number, srs_scheduled:number}>}
+   */
+  static async batchIngest(questions, userEmail, options = {}) {
+    if (!Array.isArray(questions) || questions.length === 0) {
+      return { ingested: [], failed: [], total_count: 0, success_count: 0, failed_count: 0, mastery_updates: 0, srs_scheduled: 0 };
+    }
+    if (!userEmail) {
+      return {
+        ingested: [],
+        failed: questions.map((q, i) => ({ error: 'userEmail 缺失', pageIndex: q.pageIndex ?? i + 1 })),
+        total_count: questions.length, success_count: 0, failed_count: questions.length,
+        mastery_updates: 0, srs_scheduled: 0,
+      };
+    }
+
+    let pool;
+    try {
+      pool = await getDb();
+    } catch (err) {
+      logger.error(`[VisionSearch.batchIngest] DB 连接失败: ${err.message}`);
+      return {
+        ingested: [], failed: questions.map((q, i) => ({ error: 'DB 不可用', pageIndex: q.pageIndex ?? i + 1 })),
+        total_count: questions.length, success_count: 0, failed_count: questions.length,
+        mastery_updates: 0, srs_scheduled: 0,
+      };
+    }
+
+    const ingested = [];
+    const failed = [];
+    let mastery_updates = 0;
+    let srs_scheduled = 0;
+
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      const idx = (q.pageIndex != null) ? q.pageIndex : (i + 1);
+      try {
+        // 1) INSERT INTO wrong_questions (mini-tx, 单题失败不影响后续)
+        const insResult = await pool.query(
+          `INSERT INTO wrong_questions (
+             user_email, content, subject_code, knowledge_point_id, knowledge_point_name,
+             difficulty, question_type, correct_answer, error_analysis,
+             error_types, error_category
+           ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+           RETURNING id, created_at`,
+          [
+            userEmail,
+            q.full_content || q.raw_text || '',
+            q.subject_code || 'math',
+            q.inferred_kp_id || null,
+            q.inferred_kp_name || null,
+            q.difficulty || 3,
+            q.question_type || 'short_answer',
+            q.correct_answer || null,
+            q.error_analysis || null,
+            JSON.stringify(q.error_types || []),
+            q.error_category || 'unknown',
+          ]
+        );
+
+        // 2) mastery -10 (方案 C: 每错一题掌握度 -10, 触发薄弱点标记)
+        if (q.inferred_kp_id) {
+          try {
+            await pool.query(
+              `INSERT INTO student_knowledge_mastery
+                 (user_email, knowledge_point_id, mastery_score, attempt_count, last_practice_at, next_review_at)
+               VALUES ($1, $2, 90, 1, NOW(), NOW() + INTERVAL '1 day')
+               ON CONFLICT (user_email, knowledge_point_id)
+               DO UPDATE SET
+                 mastery_score = GREATEST(0, student_knowledge_mastery.mastery_score - 10),
+                 attempt_count = student_knowledge_mastery.attempt_count + 1,
+                 last_practice_at = NOW(),
+                 next_review_at = NOW() + INTERVAL '1 day',
+                 updated_at = NOW()`,
+              [userEmail, q.inferred_kp_id]
+            );
+            mastery_updates += 1;
+            srs_scheduled += 1;
+          } catch (mrErr) {
+            // mastery 失败不阻塞错题入库 (核心数据已写入)
+            logger.warn(`[VisionSearch.batchIngest] mastery 更新失败 (kp=${q.inferred_kp_id}): ${mrErr.message}`);
+          }
+        }
+
+        ingested.push({
+          success: true,
+          pageIndex: idx,
+          id: insResult.rows[0].id,
+          created_at: insResult.rows[0].created_at,
+        });
+      } catch (err) {
+        logger.error(`[VisionSearch.batchIngest] 第 ${idx} 题入库失败: ${err.message}`);
+        failed.push({
+          success: false,
+          pageIndex: idx,
+          error: err.message,
+        });
+      }
+    }
+
+    // 3) 异步 ai_trace (fire-and-forget, 与 Phase B 一致; 失败不抛)
+    try {
+      const { recordAiTraceAsync } = await import('../../services/aiTrace.js');
+      recordAiTraceAsync({
+        request_id: options.request_id,
+        user_id: userEmail,
+        task_type: 'vision_batch_ingest',
+        provider: 'local',
+        model: 'batch_ingest',
+        latency_ms: 0,
+        success: failed.length === 0,
+        error_message: failed.length > 0 ? `${failed.length}/${questions.length} 题入库失败` : null,
+      });
+    } catch (_) {
+      // ai_trace 失败不影响主流程
+    }
+
+    return {
+      ingested,
+      failed,
+      total_count: questions.length,
+      success_count: ingested.length,
+      failed_count: failed.length,
+      mastery_updates,
+      srs_scheduled,
+    };
   }
 }
 

@@ -10,6 +10,8 @@ import authRoutes from './auth/routes.js';
 import userRoutes from './user/routes.js';
 import knowledgeRoutes from './knowledge/routes.js';
 import reviewRoutes from './review/routes.js';
+// Phase-G1-fix (2026-08-24): 用户反馈通道 (1-5 星 + 评论)
+import feedbackRoutes from './feedback/routes.js';
 
 const router = express.Router();
 
@@ -24,5 +26,6 @@ router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
 router.use('/knowledge', knowledgeRoutes);
 router.use('/review', reviewRoutes);
+router.use('/feedback', feedbackRoutes);
 
 export default router;

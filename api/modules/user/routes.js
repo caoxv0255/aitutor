@@ -32,4 +32,10 @@ router.get('/knowledge-profile', getKnowledgeProfile);
 
 router.get('/learning-suggestions', getLearningSuggestions);
 
+// P0-fix (2026-08-24): Phase D — D3
+// PM 报告: F3 service.user.getProvinces() 调 /api/user/provinces, 返回 404.
+// server.js 里有 /api/provinces 直挂, 但 F3 走 /user/provinces, 需要补挂.
+// provincesHandler 已在文件头 import (getProvinces as provincesHandler).
+router.get('/provinces', provincesHandler);
+
 export default router;

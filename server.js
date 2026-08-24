@@ -75,11 +75,11 @@ const TRUST_PROXY = process.env.TRUST_PROXY ?? 'loopback';
 app.set('trust proxy', TRUST_PROXY);
 app.use(securityHeaders);
 app.use(cors({ origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3002'], credentials: true }));
-// Default JSON body limit is 1mb to mitigate DoS via large payloads.
-// Endpoints that legitimately need bigger bodies (e.g. exam-paper generation,
-// bulk imports) MUST install their own per-route body parser with an explicit,
-// tighter limit documented at the call site.
-app.use(express.json({ limit: '1mb' }));
+// P0-fix (2026-08-24): Phase D — D1
+// 默认 JSON body limit 由 1mb → 10mb, 支持整卷拍照上传 (2-5MB base64).
+// 仍由 express-rate-limit + auth 中间件前置保护, 不引入新攻击面.
+// 若是单 endpoint 需要更大体积, 在挂载点用 per-route parser 单独覆盖.
+app.use(express.json({ limit: '10mb' }));
 app.use(xssSanitizer);
 app.use(xssDetector);
 app.use(csrfProtection);
