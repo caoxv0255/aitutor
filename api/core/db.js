@@ -763,7 +763,8 @@ async function initTables(pool) {
     CREATE INDEX IF NOT EXISTS idx_ai_trace_user ON ai_trace(user_email, created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_ai_trace_model ON ai_trace(model, created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_ai_trace_task ON ai_trace(task_type, created_at DESC);
-    CREATE INDEX IF NOT EXISTS idx_ai_trace_request_id ON ai_trace(request_id) WHERE request_id IS NOT NULL;
+    -- 注意: idx_ai_trace_request_id 必须移到 ALTER 之后（Phase B 修复 #2026-08-24）
+    -- 否则既存库 (009 之前无 request_id 列) 会立即报 "column does not exist"
     -- Phase-G1-fix (2026-08-24): 用户反馈通道 (1-5 星 + 评论), request_id 关联 ai_trace
     CREATE TABLE IF NOT EXISTS ai_feedback (
       id BIGSERIAL PRIMARY KEY,
@@ -780,7 +781,11 @@ async function initTables(pool) {
     CREATE INDEX IF NOT EXISTS idx_ai_feedback_created ON ai_feedback(created_at DESC);
   `);
   // 兼容旧库 (009 之前): 增量加 request_id 列 + 索引
+  // Phase B 修复 #2026-08-24: 必须先 ALTER 加列, 再创建依赖该列的索引
   await pool.query(`ALTER TABLE ai_trace ADD COLUMN IF NOT EXISTS request_id VARCHAR(64);`);
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_ai_trace_request_id ON ai_trace(request_id) WHERE request_id IS NOT NULL;
+  `);
 }
 
 async function seedReferenceData(pool) {
