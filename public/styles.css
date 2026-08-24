@@ -15,6 +15,12 @@
   --system-teal: #5ac8fa;
   --system-indigo: #5856d6;
 
+  /* AI Tutor Brand (2026-08-24 D071 统一品牌色) */
+  --aitutor-primary: #d71920;
+  --aitutor-primary-dark: #b8151b;
+  --aitutor-primary-light: #ffe0e0;
+  --aitutor-primary-glow: rgba(215, 25, 32, 0.25);
+
   /* iOS Grays */
   --gray-50: #f9f9fb;
   --gray-100: #f2f2f7;
@@ -349,7 +355,8 @@ body {
   padding: 16px;
   border: none;
   border-radius: var(--radius-md);
-  background: var(--system-blue);
+  /* D071 (2026-08-24): 主 CTA 用 aitutor 品牌红, 跟 F3 端 + 登录页 + 报告页统一 */
+  background: var(--aitutor-primary);
   color: white;
   font-size: 17px;
   font-weight: 600;
@@ -360,6 +367,7 @@ body {
   overflow: hidden;
   -webkit-appearance: none;
   appearance: none;
+  box-shadow: 0 4px 12px var(--aitutor-primary-glow);
 }
 
 .btn-primary:active {
@@ -483,7 +491,8 @@ body {
 }
 
 .menu-card-icon.camera {
-  background: linear-gradient(135deg, #007aff, #5856d6);
+  /* D071 (2026-08-24): 拍照主 CTA icon 用品牌红渐变, 跟 .btn-primary 一致 */
+  background: linear-gradient(135deg, var(--aitutor-primary), var(--aitutor-primary-dark));
 }
 
 .menu-card-icon.book {
