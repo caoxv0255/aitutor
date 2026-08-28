@@ -118,8 +118,10 @@ form.addEventListener('submit', async (e) => {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || data.error || '注册失败');
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
+    // D076-fix (2026-08-27): 同 login, envelope 双路径兼容 ({success, message, data} vs flat)
+    const payload = data.data || data;
+    localStorage.setItem('token', payload.token);
+    localStorage.setItem('user', JSON.stringify(payload.user));
     location.href = 'dashboard.html';
   } catch (err) {
     showError(err.message);

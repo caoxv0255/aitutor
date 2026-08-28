@@ -97,7 +97,7 @@
     </main>
 
     <script type="module">
-      import { exam, wrong } from "../assets/js/api/services/index.js";
+      import { exam, wrong, learningLoop } from "../assets/js/api/services/index.js";
       import { mountErrorBoundary } from "../assets/js/components/error-boundary.js";
       import { setUseMock } from "../assets/js/api/USE_MOCK.js";
       import { mount as mountNav } from "../assets/js/navator.js";
@@ -276,22 +276,47 @@
           const data = (res && res.data) || {};
           showResultView(data.score != null ? data.score : 0, data.correct_count != null ? data.correct_count : 0, data.wrong_count != null ? data.wrong_count : 0, data.empty_count != null ? data.empty_count : 0);
           // F3.7.3: auto-add wrong questions to wrong-book
+          // R2 修复: 后端 api/handlers/exam-session.js line 179-188 真实返 camelCase
+          //   (questionId / isCorrect / knowledgePoints), 原代码用 snake_case 永远拿不到错题
           if (Array.isArray(data.results)) {
-            const wrongItems = data.results.filter((r) => r && r.is_correct === false);
+            const wrongItems = data.results.filter((r) => r && r.isCorrect === false);
             if (wrongItems.length > 0) {
               const qMap = Object.fromEntries(questions.map((q) => [q.id, q]));
               Promise.allSettled(wrongItems.map((r) => {
-                const q = qMap[r.question_id] || {};
+                const q = qMap[r.questionId] || {};
                 return wrong.createQuestion({
-                  question: q.stem || q.question || r.question_id,
+                  question: q.stem || q.question || r.questionId,
                   subject: q.subject || currentSubject || 'unknown',
-                  answer: r.correct_answer || '',
+                  answer: r.correctAnswer || r.correct_answer || '',
                   analysis: r.analysis || '',
                   difficulty: q.difficulty || 3,
+                  knowledge_point_id: (r.knowledgePoints && r.knowledgePoints[0]) || q.knowledge_point_id || undefined,
                 }).catch((e) => { console.warn('[F3.7.3] createQuestion fail', e); });
               })).then(() => {
                 toast.info('已加入 ' + wrongItems.length + ' 道错题到错题本');
               });
+            }
+          }
+
+          // Sprint 1 (D078): 整卷结果批量回写 Learning Loop → mastery / SRS 调度
+          // fire-and-forget: 不阻塞"显示考试结果"主流程; 失败仅 console.warn
+          if (Array.isArray(data.results)) {
+            const loopFeedbacks = data.results
+              .filter((r) => r && Array.isArray(r.knowledgePoints) && r.knowledgePoints.length > 0)
+              .map((r) => ({
+                knowledge_point_id: r.knowledgePoints[0],
+                is_correct: r.isCorrect === true,
+                time_spent_ms: 0,  // 当前无计时, 后续 Sprint 加
+              }));
+            if (loopFeedbacks.length > 0) {
+              learningLoop.submitBatch({ feedbacks: loopFeedbacks })
+                .then((res2) => {
+                  if (res2 && res2.success) {
+                    const ok = (res2.data && res2.data.succeeded) || loopFeedbacks.length;
+                    toast.info(`已更新 ${ok} 个知识点的掌握度`);
+                  }
+                })
+                .catch((e) => { console.warn('[Sprint1] loop batch failed:', e); });
             }
           }
 

@@ -373,7 +373,7 @@
           </section>
 
           <script type="module">
-            import { wrong, rag } from '../assets/js/api/services/index.js';
+            import { wrong, rag, learningLoop } from '../assets/js/api/services/index.js';
             import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
             import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
             import { setUseMock } from '../assets/js/api/USE_MOCK.js';
@@ -765,6 +765,16 @@
                 if (card) card.style.opacity = '0.5';
                 try {
                   await wrong.markMastered(qid, { mastered: true, is_correct: true });
+                  // Sprint 1 (D078): 用户主动标记掌握 = 强信号 is_correct=true, 回写 Learning Loop
+                  // 从 listRes.data 反查该题的 KP id (mastered 按钮无 data-kp)
+                  const s = listRes.read();
+                  const list = (s && s.data && (s.data.data?.list || s.data.list)) || [];
+                  const row = list.find((q) => q.id === qid || q.question_id === qid);
+                  const kpId = row && row.knowledge_point_id;
+                  if (kpId) {
+                    learningLoop.submitFeedback({ knowledge_point_id: kpId, is_correct: true })
+                      .catch((e) => { console.warn('[Sprint1] mastered feedback failed:', e); });
+                  }
                   listRes.refetch();
                 } catch (err) {
                   if (card) card.style.opacity = '';
