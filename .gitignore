@@ -92,15 +92,12 @@ database/rag_build/exports/kg/**/*.csv
 
 # RAG 临时 / 缓存
 scripts/__pycache__/
-# .ai/ 入库策略: D066 (2026-08-17)
+# .ai/ 入库策略: D066 (2026-08-17) + D084 (2026-08-28)
 #   status/     → 入库 (alpha reference 验证用)
 #   decisions/  → 部分入 (D061-D068 原子决策入, legacy/ gitignore)
 #   integrations/ → 入库 (Hermes 协议契约 + 建议)
+#   agents/ runbooks/ architecture/ operations/ → 入库 (D084, D066 Deviation)
 #   其他子目录/文件 → gitignore
-.ai/architecture/
-.ai/operations/
-.ai/agents/
-.ai/runbooks/
 .ai/known-bugs.md
 .ai/runbook.md
 .ai/architecture.md
