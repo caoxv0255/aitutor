@@ -33,6 +33,9 @@
 }
 
 html { font-size: 15px; scroll-behavior: smooth; }
+/* D076-css: 让浏览器 select/滚动条等 UA 组件跟随主题 (浅/深色) */
+:root { color-scheme: light dark; }
+html { color-scheme: light dark; }
 body {
   font-family: var(--font);
   background: var(--bg);
@@ -43,6 +46,29 @@ body {
 }
 a { color: #6ea8fe; text-decoration: none; transition: var(--transition); }
 a:hover { color: var(--accent); }
+
+/* D076-css (2026-08-27): 全局 select/option/input 默认主题感知
+   - color-scheme 早设过, 让 UA select 面板走主题
+   - 这里加 form 控件的 fg/bg, 避免未知页面用裸 select 时不可见
+*/
+select, input, textarea, button { font-family: inherit; }
+select, input, textarea {
+  background: var(--bg-secondary);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+select:focus, input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(215, 25, 32, .18);
+}
+[data-theme="dark"] select,
+[data-theme="dark"] input,
+[data-theme="dark"] textarea {
+  background: #1a1d27;
+  color: #e8ecf1;
+  border-color: #2a2d38;
+}
 
 /* ── 顶部导航 ── */
 .site-header {
