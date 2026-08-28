@@ -51,5 +51,7 @@ export default async function handler(req, res) {
 
   const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-  res.status(201).json({ success: true, token, user: { email, grade } });
+  // 双格式响应: 信封 data 字段 (D062, PWA/F3 消费) + 顶层兼容字段 (legacy 页面/契约测试消费)
+  const userData = { email, grade };
+  res.status(201).json({ success: true, message: '注册成功', token, user: userData, data: { token, user: userData } });
 }

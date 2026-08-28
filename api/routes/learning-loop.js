@@ -246,6 +246,7 @@ async function processSingleFeedback(client, feedback) {
  */
 router.post('/feedback', authMiddleware, async (req, res) => {
   const pool = await getDb();
+  let sqlClient = null;
   let ageClient = null;
 
   try {
@@ -257,30 +258,44 @@ router.post('/feedback', authMiddleware, async (req, res) => {
 
     const userEmail = req.user.email;
 
-    // 借用 AGE 客户端（同时用于 Cypher 查询和 SQL 事务）
-    ageClient = await borrowAgeClient(pool);
-
-    // ── 开启事务：直接更新 + 涟漪效应在同一事务内 ──
-    await ageClient.query('BEGIN');
+    // ── D080 (Sprint 1 R-AGE 修复): mastery 写入走纯 SQL 事务, 与 AGE 涟漪解耦 ──
+    // 原则: 宁可只记录高置信度的学习行为, 也不要为了覆盖率制造错误学习数据
+    // - mastery UPSERT + srs_review_log 写入: 强信号, 必须 commit
+    // - ripple effect (AGE Cypher): 增强信号, 失败仅 warn, 不影响 mastery
+    sqlClient = await pool.connect();
+    await sqlClient.query('BEGIN');
 
     let result;
     try {
-      result = await processSingleFeedback(ageClient, {
+      result = await processSingleFeedbackSql(sqlClient, {
         userEmail,
         knowledge_point_id,
         is_correct,
         time_spent_ms: time_spent_ms || 0,
         hint_requested: hint_requested || false,
       });
-
-      await ageClient.query('COMMIT');
-    } catch (txErr) {
-      await ageClient.query('ROLLBACK');
-      throw new Error(`事务回滚: ${txErr.message}`);
+      await sqlClient.query('COMMIT');
+    } catch (sqlErr) {
+      await sqlClient.query('ROLLBACK');
+      throw new Error(`主写入事务回滚: ${sqlErr.message}`);
     }
 
-    // ── 构建日志 ──
-    const rippleCount = result.ripple.upward.length + result.ripple.downward.length;
+    // ── 涟漪效应: best-effort, 失败仅 warn, 不影响主流程 ──
+    let ripple = { upward: [], downward: [] };
+    try {
+      ageClient = await borrowAgeClient(pool);
+      ripple = await processRippleEffect(ageClient, {
+        userEmail,
+        knowledge_point_id,
+        newScore: result.new_score,
+      });
+    } catch (rippleErr) {
+      console.warn(`[LearningLoop] ripple 失败 (kp=${knowledge_point_id}): ${rippleErr.message} — mastery 已保留`);
+    }
+
+    result.ripple = ripple;
+
+    const rippleCount = ripple.upward.length + ripple.downward.length;
     console.log(
       `[LearningLoop] user=${userEmail} kp=${knowledge_point_id} ` +
         `score=${result.old_score}→${result.new_score} (Δ${result.delta}) ` +
@@ -292,10 +307,10 @@ router.post('/feedback', authMiddleware, async (req, res) => {
         {
           feedback: result,
           ripple_summary: {
-            upward_count: result.ripple.upward.length,
-            upward_nodes: result.ripple.upward.map((r) => r.id),
-            downward_count: result.ripple.downward.length,
-            downward_nodes: result.ripple.downward.map((r) => r.id),
+            upward_count: ripple.upward.length,
+            upward_nodes: ripple.upward.map((r) => r.id),
+            downward_count: ripple.downward.length,
+            downward_nodes: ripple.downward.map((r) => r.id),
           },
         },
         '学习反馈已处理'
@@ -305,9 +320,8 @@ router.post('/feedback', authMiddleware, async (req, res) => {
     console.error('[LearningLoop] 反馈处理失败:', err.message);
     return res.status(500).json(errorResponse(`反馈处理失败: ${err.message}`));
   } finally {
-    if (ageClient) {
-      ageClient.release();
-    }
+    if (sqlClient) sqlClient.release();
+    if (ageClient) ageClient.release();
   }
 });
 
@@ -319,6 +333,7 @@ router.post('/feedback', authMiddleware, async (req, res) => {
  */
 router.post('/batch', authMiddleware, async (req, res) => {
   const pool = await getDb();
+  let sqlClient = null;
   let ageClient = null;
 
   try {
@@ -333,49 +348,72 @@ router.post('/batch', authMiddleware, async (req, res) => {
     }
 
     const userEmail = req.user.email;
-    ageClient = await borrowAgeClient(pool);
 
-    // 整个批量操作在一个事务内
-    await ageClient.query('BEGIN');
+    // D080: mastery 写入走纯 SQL 事务, 与 AGE 涟漪解耦
+    sqlClient = await pool.connect();
+    await sqlClient.query('BEGIN');
 
     const results = [];
+    const succeeded = [];
+    const failed = [];
     try {
       for (const fb of feedbacks) {
         if (!fb.knowledge_point_id || typeof fb.is_correct !== 'boolean') {
-          continue; // 跳过无效条目
+          failed.push({ ...fb, error: 'invalid' });
+          continue;
         }
-
-        const result = await processSingleFeedback(ageClient, {
-          userEmail,
-          knowledge_point_id: fb.knowledge_point_id,
-          is_correct: fb.is_correct,
-          time_spent_ms: fb.time_spent_ms || 0,
-          hint_requested: fb.hint_requested || false,
-        });
-        results.push(result);
+        try {
+          const result = await processSingleFeedbackSql(sqlClient, {
+            userEmail,
+            knowledge_point_id: fb.knowledge_point_id,
+            is_correct: fb.is_correct,
+            time_spent_ms: fb.time_spent_ms || 0,
+            hint_requested: fb.hint_requested || false,
+          });
+          results.push(result);
+          succeeded.push(fb);
+        } catch (itemErr) {
+          failed.push({ ...fb, error: itemErr.message });
+        }
       }
-
-      await ageClient.query('COMMIT');
+      await sqlClient.query('COMMIT');
     } catch (txErr) {
-      await ageClient.query('ROLLBACK');
-      throw new Error(`批量事务回滚: ${txErr.message}`);
+      await sqlClient.query('ROLLBACK');
+      throw new Error(`批量主写入事务回滚: ${txErr.message}`);
+    }
+
+    // ripple effect: best-effort, 失败仅 warn
+    for (const r of results) {
+      try {
+        if (!ageClient) ageClient = await borrowAgeClient(pool);
+        await processRippleEffect(ageClient, {
+          userEmail,
+          knowledge_point_id: r.knowledge_point_id,
+          newScore: r.new_score,
+        });
+      } catch (e) { /* ripple 失败不影响主流程 */ }
     }
 
     console.log(`[LearningLoop] batch user=${userEmail} processed=${results.length}/${feedbacks.length}`);
 
     return res.json(
       successResponse(
-        { processed: results.length, total: feedbacks.length, results },
-        `批量反馈已处理: ${results.length}/${feedbacks.length}`
+        {
+          total: feedbacks.length,
+          succeeded: succeeded.length,
+          failed: failed.length,
+          results,
+          failures: failed,
+        },
+        `批量反馈已处理: ${succeeded.length}/${feedbacks.length}`
       )
     );
   } catch (err) {
     console.error('[LearningLoop] 批量反馈失败:', err.message);
     return res.status(500).json(errorResponse(`批量反馈失败: ${err.message}`));
   } finally {
-    if (ageClient) {
-      ageClient.release();
-    }
+    if (sqlClient) sqlClient.release();
+    if (ageClient) ageClient.release();
   }
 });
 
@@ -533,5 +571,121 @@ router.get('/graph', authMiddleware, async (req, res) => {
     }
   }
 });
+
+// =============================================================================
+// D080 (Sprint 1 R-AGE 修复): Mastery SQL 写入 + Ripple AGE 涟漪 — 解耦实现
+// =============================================================================
+
+/**
+ * 纯 SQL 路径: mastery UPSERT + srs_review_log 写入
+ * 不依赖 AGE / AGE Cypher 任何调用
+ * 强信号, 事务必须 commit
+ *
+ * @param {object} client - 普通 pg client
+ * @param {object} feedback - { userEmail, knowledge_point_id, is_correct, time_spent_ms, hint_requested }
+ * @returns {Promise<{old_score, new_score, delta}>}
+ */
+async function processSingleFeedbackSql(client, feedback) {
+  const { userEmail, knowledge_point_id, is_correct, time_spent_ms, hint_requested } = feedback;
+  const delta = computeDelta(is_correct, hint_requested);
+
+  // Step 1: 读取当前 mastery
+  const currentResult = await client.query(
+    `SELECT mastery_score, attempt_count, correct_count
+     FROM student_knowledge_mastery
+     WHERE user_email = $1 AND knowledge_point_id = $2`,
+    [userEmail, knowledge_point_id]
+  );
+  const currentRow = currentResult.rows[0];
+  const oldScore = currentRow ? parseFloat(currentRow.mastery_score) : 0;
+  const attemptCount = currentRow ? currentRow.attempt_count : 0;
+  const correctCount = currentRow ? currentRow.correct_count : 0;
+
+  // Step 2: 计算新分数 (clamp [0, 1])
+  const newScore = Math.max(0, Math.min(1, oldScore + delta / 100));
+  const newAttemptCount = attemptCount + 1;
+  const newCorrectCount = correctCount + (is_correct ? 1 : 0);
+
+  // Step 3: UPSERT mastery
+  await client.query(
+    `INSERT INTO student_knowledge_mastery
+       (user_email, knowledge_point_id, mastery_score, attempt_count, correct_count, last_practice_at, updated_at)
+     VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
+     ON CONFLICT (user_email, knowledge_point_id)
+     DO UPDATE SET
+       mastery_score = $3,
+       attempt_count = $4,
+       correct_count = $5,
+       last_practice_at = NOW(),
+       updated_at = NOW()`,
+    [userEmail, knowledge_point_id, newScore, newAttemptCount, newCorrectCount]
+  );
+
+  // Step 4: 写 srs_review_log (SM-2 quality 转换)
+  const reviewQuality = isCorrectToQuality(is_correct, time_spent_ms);
+  await client.query(
+    `INSERT INTO srs_review_log
+       (user_email, knowledge_point_id, is_correct, time_spent_ms, review_quality, old_mastery, new_mastery, created_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
+    [userEmail, knowledge_point_id, is_correct, time_spent_ms, reviewQuality, oldScore, newScore]
+  );
+
+  return { old_score: oldScore, new_score: newScore, delta };
+}
+
+/**
+ * is_correct + time_spent_ms → SM-2 quality (0-5)
+ * 简化版: 对直接 SQL 路径足够, 不复用 srs-engine 复杂算法
+ */
+function isCorrectToQuality(isCorrect, timeSpentMs) {
+  if (!isCorrect) {
+    return timeSpentMs > 30000 ? 2 : 1;
+  }
+  if (timeSpentMs < 10000) return 5;
+  if (timeSpentMs < 30000) return 4;
+  if (timeSpentMs < 60000) return 3;
+  return 2;
+}
+
+/**
+ * AGE 路径: ripple effect (前置节点 +2, 后置节点 -5)
+ * 独立事务, 失败不阻断主流程
+ * 返回 { upward: [...], downward: [...] }
+ */
+async function processRippleEffect(client, { userEmail, knowledge_point_id, newScore }) {
+  const ripple = { upward: [], downward: [] };
+
+  if (newScore >= 0.8) {
+    const upstreamIds = await queryUpstreamNodes(client, knowledge_point_id).catch(() => []);
+    for (const preId of upstreamIds) {
+      try {
+        await client.query(
+          `UPDATE student_knowledge_mastery
+           SET mastery_score = LEAST(1.0, mastery_score + 0.02), updated_at = NOW()
+           WHERE user_email = $1 AND knowledge_point_id = $2`,
+          [userEmail, preId]
+        );
+        ripple.upward.push({ id: preId, delta: 0.02 });
+      } catch (e) { /* 继续 */ }
+    }
+  }
+
+  if (newScore <= 0.4) {
+    const downstreamIds = await queryDownstreamNodes(client, knowledge_point_id).catch(() => []);
+    for (const postId of downstreamIds) {
+      try {
+        await client.query(
+          `UPDATE student_knowledge_mastery
+           SET mastery_score = GREATEST(0.0, mastery_score - 0.05), updated_at = NOW()
+           WHERE user_email = $1 AND knowledge_point_id = $2`,
+          [userEmail, postId]
+        );
+        ripple.downward.push({ id: postId, delta: -0.05 });
+      } catch (e) { /* 继续 */ }
+    }
+  }
+
+  return ripple;
+}
 
 export default router;

@@ -158,11 +158,23 @@ export function securityHeaders(req, res, next) {
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  // CSP: development-only 允许 inline styles/scripts (F3 Tailwind CDN 需要); production收紧
-  if (process.env.NODE_ENV === 'production') {
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self' https://dashscope.aliyuncs.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com");
+  // CSP: 三档 (D-Bug-F3-CSP, 2026-08-27)
+  //   - dev:        node server.js        → 含 unsafe-inline + jsdelivr/unpkg CDN
+  //   - F3 enabled: NODE_ENV=production + SERVE_F3=true → F3 走 CDN, 走 unsafe-inline (CDN script 需要)
+  //                          这是显式 opt-in, .env 里有 SERVE_F3=true 才生效, 默认拒绝
+  //   - prod严格:   NODE_ENV=production + SERVE_F3≠true → 'self' only, F3 不服务
+  // 生产门禁仍守 (D067): NODE_ENV=production 时必须 SERVE_F3=true 才能开 F3, 否则 CSP 收紧
+  const isProd = process.env.NODE_ENV === 'production';
+  const F3_ENABLED = isProd ? process.env.SERVE_F3 === 'true' : true; // dev 模式默认开 F3
+  if (!isProd) {
+    // dev: 全宽松, 匹配旧行为
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self' https://dashscope.aliyuncs.com https://cloudflareinsights.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com");
+  } else if (F3_ENABLED) {
+    // production + SERVE_F3=true (显式 opt-in): 允许 F3 CDN + 内联脚本 + Cloudflare Analytics beacon
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self' https://dashscope.aliyuncs.com https://cloudflareinsights.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com");
   } else {
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self' https://dashscope.aliyuncs.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com");
+    // 严格 production: 'self' only (旧行为不变)
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' data: blob:; connect-src 'self' https://dashscope.aliyuncs.com; font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com");
   }
   res.removeHeader('X-Powered-By');
   next();

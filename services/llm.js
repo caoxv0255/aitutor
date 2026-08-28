@@ -11,6 +11,8 @@
  *   DASHSCOPE_BASE_URL   — DashScope 自定义 Base URL
  *   DASHSCOPE_API_MODE   — API 模式: "compatible" 或 "native"
  *   DEEPSEEK_API_KEY     — DeepSeek API 密钥（备选）
+ *   MINIMAX_API_KEY      — MiniMax CN API 密钥（备选; api.minimaxi.com, OpenAI 兼容）
+ *   LLM_DEFAULT_MODEL    — 默认模型覆盖（未设置时按已配置的 Key 自动选择）
  *   LLM_MAX_RETRIES      — 最大重试次数（默认 2）
  *   LLM_BUDGET_DAILY     — 每日预算（元，默认 100）
  */
@@ -18,6 +20,11 @@
 const DEFAULT_DASHSCOPE_COMPATIBLE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
 const DEFAULT_DASHSCOPE_NATIVE_URL = 'https://dashscope.aliyuncs.com/api/v1';
 const DEEPSEEK_ENDPOINT = 'https://api.deepseek.com/v1/chat/completions';
+// MiniMax CN 开放平台 (2026 实测): OpenAI 兼容 /v1/chat/completions, Bearer 认证,
+// 支持 response_format json_object; 思考内容以 <think> 标签混入 content (safeParseLLMJson 已剥离)
+const MINIMAX_ENDPOINT = process.env.MINIMAX_BASE_URL || 'https://api.minimaxi.com/v1/chat/completions';
+// 本地 Ollama (OpenAI 兼容 /v1). 用于视觉模型兜底 (MiniMax CN 无 VL 模型)
+const OLLAMA_ENDPOINT = ((process.env.OLLAMA_URL || '').replace(/\/$/, '') || 'http://127.0.0.1:11434') + '/v1/chat/completions';
 
 // Phase-B-fix (2026-08-24): 引入 ai_trace 统一埋点 (B1)
 // - recordAiTrace 异步 fire-and-forget, 写入失败不抛
@@ -49,21 +56,48 @@ const MODEL_CONFIGS = {
   'qwen-vl-plus': { endpoint: DASHSCOPE_ENDPOINT, keyEnv: 'DASHSCOPE_API_KEY', mode: DASHSCOPE_API_MODE, costPerMillionTokens: 6 },
   'deepseek-chat': { endpoint: DEEPSEEK_ENDPOINT, keyEnv: 'DEEPSEEK_API_KEY', mode: 'compatible', costPerMillionTokens: 0.14 },
   'deepseek-reasoner': { endpoint: DEEPSEEK_ENDPOINT, keyEnv: 'DEEPSEEK_API_KEY', mode: 'compatible', costPerMillionTokens: 2.0 },
+  // MiniMax CN (2026-08 实测可用; costPerMillionTokens 为混合进出近似价)
+  'MiniMax-M2.7': { endpoint: MINIMAX_ENDPOINT, keyEnv: 'MINIMAX_API_KEY', mode: 'compatible', costPerMillionTokens: 3 },
+  'MiniMax-M2.7-highspeed': { endpoint: MINIMAX_ENDPOINT, keyEnv: 'MINIMAX_API_KEY', mode: 'compatible', costPerMillionTokens: 2 },
+  'MiniMax-M2': { endpoint: MINIMAX_ENDPOINT, keyEnv: 'MINIMAX_API_KEY', mode: 'compatible', costPerMillionTokens: 2 },
+  // 本地 Ollama llava — 视觉兜底 (本地推理, 成本 0); key=上游真实模型名
+  'llava': { endpoint: OLLAMA_ENDPOINT, keyEnv: 'OLLAMA_API_KEY', mode: 'compatible', costPerMillionTokens: 0 },
 };
 
 // P0-fix (2026-08-24): 删除 'deepseek-v4-pro' (DeepSeek 官方无此模型),
 // 添加 'deepseek-reasoner' (DeepSeek 官方推理模型) 作为替代.
 const FALLBACK_MATRIX = {
-  'qwen-plus': ['qwen-turbo', 'deepseek-chat'],
-  'qwen-max': ['qwen-plus', 'qwen-turbo'],
-  'qwen-turbo': ['deepseek-chat'],
-  'qwen-vl-max': ['qwen-vl-plus'],
-  'qwen-vl-plus': ['qwen-vl-max'],
-  'deepseek-chat': [],
+  'qwen-plus': ['qwen-turbo', 'deepseek-chat', 'MiniMax-M2.7-highspeed'],
+  'qwen-max': ['qwen-plus', 'qwen-turbo', 'MiniMax-M2.7'],
+  'qwen-turbo': ['deepseek-chat', 'MiniMax-M2.7-highspeed'],
+  'qwen-vl-max': ['qwen-vl-plus', 'llava'],
+  'qwen-vl-plus': ['qwen-vl-max', 'llava'],
+  'deepseek-chat': ['MiniMax-M2.7-highspeed'],
   'deepseek-reasoner': ['deepseek-chat'],
+  'MiniMax-M2.7': ['MiniMax-M2.7-highspeed', 'MiniMax-M2'],
+  'MiniMax-M2.7-highspeed': ['MiniMax-M2'],
+  'MiniMax-M2': [],
 };
 
-const DEFAULT_MODEL = 'qwen-plus';
+// 默认模型自动选择 (2026-08-25): 按已配置的 API Key 决定主模型,
+// 未设置任何 Key 时保持 qwen-plus 以便错误信息与历史行为一致.
+function resolveDefaultModel() {
+  const override = process.env.LLM_DEFAULT_MODEL;
+  if (override && MODEL_CONFIGS[override]) return override;
+  if (process.env.DASHSCOPE_API_KEY) return 'qwen-plus';
+  if (process.env.MINIMAX_API_KEY) return 'MiniMax-M2.7';
+  if (process.env.DEEPSEEK_API_KEY) return 'deepseek-chat';
+  return 'qwen-plus';
+}
+
+const DEFAULT_MODEL = resolveDefaultModel();
+
+// ai_trace provider 归属: MiniMax-* → minimax, deepseek-* → deepseek, 其余(默认 qwen) → dashscope
+function providerOf(model) {
+  if (typeof model === 'string' && model.startsWith('MiniMax-')) return 'minimax';
+  if (typeof model === 'string' && model.startsWith('deepseek-')) return 'deepseek';
+  return 'dashscope';
+}
 const REQUEST_TIMEOUT_MS = 120000;
 const MAX_RETRIES = parseInt(process.env.LLM_MAX_RETRIES) || 3;
 const DAILY_BUDGET = parseFloat(process.env.LLM_BUDGET_DAILY) || 100;
@@ -280,7 +314,7 @@ export async function chatCompletion(systemPrompt, userPrompt, options = {}) {
       user_id,
       session_id: options.session_id,
       task_type,
-      provider: currentModel.startsWith('deepseek-') ? 'deepseek' : 'dashscope',
+      provider: providerOf(currentModel),
       model: currentModel,
       prompt_tokens: usage.prompt_tokens || 0,
       completion_tokens: usage.completion_tokens || 0,
@@ -475,7 +509,7 @@ export async function* streamChatCompletion(systemPrompt, userPrompt, options = 
       user_id,
       session_id: options.session_id,
       task_type,
-      provider: resolvedModel.startsWith('deepseek-') ? 'deepseek' : 'dashscope',
+      provider: providerOf(resolvedModel),
       model: resolvedModel,
       prompt_tokens: promptTokensEstimate,
       completion_tokens: completionTokensEstimate,
@@ -589,7 +623,7 @@ export async function visionChatCompletion(systemPrompt, userText, imageBase64, 
       user_id,
       session_id: options.session_id,
       task_type,
-      provider: currentModel.startsWith('deepseek-') ? 'deepseek' : 'dashscope',
+      provider: providerOf(currentModel),
       model: currentModel,
       prompt_tokens: usage.prompt_tokens || 0,
       completion_tokens: usage.completion_tokens || 0,
@@ -656,6 +690,10 @@ export const MODELS = {
   DEEPSEEK_CHAT: 'deepseek-chat',
   // P0-fix (2026-08-24): DeepSeek 官方无 'deepseek-v4-pro', 改用官方推理模型 'deepseek-reasoner'
   DEEPSEEK_REASONER: 'deepseek-reasoner',
+  // MiniMax CN (2026-08-25 接入)
+  MINIMAX_M27: 'MiniMax-M2.7',
+  MINIMAX_M27_HS: 'MiniMax-M2.7-highspeed',
+  MINIMAX_M2: 'MiniMax-M2',
 };
 
 export default {

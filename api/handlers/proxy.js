@@ -21,6 +21,12 @@ const API_CONFIGS = {
     endpoint: 'https://api.deepseek.com/v1/chat/completions',
     keyEnv: 'DEEPSEEK_API_KEY',
     models: ['deepseek-chat', 'deepseek-reasoner']
+  },
+  // MiniMax CN 开放平台 (2026-08 实测): OpenAI 兼容 /v1/chat/completions
+  minimax: {
+    endpoint: 'https://api.minimaxi.com/v1/chat/completions',
+    keyEnv: 'MINIMAX_API_KEY',
+    models: ['MiniMax-M2.7', 'MiniMax-M2.7-highspeed', 'MiniMax-M2']
   }
 };
 
@@ -76,7 +82,9 @@ export default async function handler(req, res) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   const tStart = Date.now();
-  const tProvider = apiConfig.endpoint.includes('deepseek') ? 'deepseek' : 'dashscope';
+  const tProvider = apiConfig.endpoint.includes('deepseek') ? 'deepseek'
+    : apiConfig.endpoint.includes('minimax') ? 'minimax'
+    : 'dashscope';
 
   try {
     const response = await fetch(apiConfig.endpoint, {

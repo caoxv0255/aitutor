@@ -20,11 +20,9 @@ export default async function handler(req, res) {
 
     if (user) {
       const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
-      return res.json({
-        success: true,
-        token,
-        user: { email: user.email, grade: user.grade }
-      });
+      // 双格式响应: 信封 data 字段 (D062, PWA/F3 消费) + 顶层兼容字段 (legacy 页面/契约测试消费)
+      const payload = { token, user: { email: user.email, grade: user.grade } };
+      return res.json({ success: true, message: '游客登录成功', ...payload, data: payload });
     }
   }
 
@@ -46,9 +44,7 @@ export default async function handler(req, res) {
 
   const token = jwt.sign({ email: guestEmail }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-  res.json({
-    success: true,
-    token,
-    user: { email: guestEmail, grade: defaultGrade }
-  });
+  // 双格式响应: 信封 data 字段 (D062, PWA/F3 消费) + 顶层兼容字段 (legacy 页面/契约测试消费)
+  const payload = { token, user: { email: guestEmail, grade: defaultGrade } };
+  res.json({ success: true, message: '游客登录成功', ...payload, data: payload });
 }

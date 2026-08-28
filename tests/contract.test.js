@@ -35,7 +35,7 @@ global.window = { location: { search: '?mock=true' } };
 globalThis.document = { querySelector: () => null };
 
 const services = await import('../ai-tutor-frontend/assets/js/api/services/index.js');
-const { auth, user, exam, rag, knowledge, review, vision } = services;
+const { auth, user, exam, rag, knowledge, review, vision, wrong, tutor, srs, gamification, feedback, classAnalysis, learningLoop } = services;
 
 // ===== helpers =====
 let pass = 0, fail = 0;
@@ -251,6 +251,33 @@ await TEST('silent opt 不抛 toast 抛 ApiError', async () => {
 await TEST('timeout 默认 30s', async () => {
   const { DEFAULT_TIMEOUT_MS } = await import('../ai-tutor-frontend/assets/js/api/client.js?v=' + Date.now());
   assert(DEFAULT_TIMEOUT_MS === 30000, '默认 timeout 必须 30s (bge 1024 慢), 实际: ' + DEFAULT_TIMEOUT_MS);
+});
+
+// ===== learningLoop (Sprint 1, D078) =====
+console.log('learningLoop (3):');
+await TEST('learningLoop.submitFeedback', async () => {
+  const r = await learningLoop.submitFeedback({ knowledge_point_id: 'math_002', is_correct: true });
+  assert(isObject(r), 'r 必须是 object');
+  assert(r.success === true, 'success 必须 true');
+  assert(isObject(r.data), 'data 必须是 object');
+  assert(isObject(r.data.feedback), 'data.feedback 必须是 object');
+});
+await TEST('learningLoop.submitBatch', async () => {
+  const r = await learningLoop.submitBatch({
+    feedbacks: [
+      { knowledge_point_id: 'math_002', is_correct: true },
+      { knowledge_point_id: 'math_007', is_correct: false, time_spent_ms: 30000 },
+    ],
+  });
+  assert(isObject(r), 'r 必须是 object');
+  assert(r.success === true, 'success 必须 true');
+  assert(typeof r.data.succeeded === 'number', 'data.succeeded 必须是 number');
+});
+await TEST('learningLoop.getMastery', async () => {
+  const r = await learningLoop.getMastery();
+  assert(isObject(r), 'r 必须是 object');
+  assert(r.success === true, 'success 必须 true');
+  assert(Array.isArray(r.data.masteries), 'data.masteries 必须是 array');
 });
 
 // ===== 总结 =====

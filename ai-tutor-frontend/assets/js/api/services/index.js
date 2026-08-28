@@ -15,3 +15,5 @@ export { srs } from './srs.js';
 export { feedback } from './feedback.js';
 // Phase-I-fix (2026-08-24): 教师/家长视角 (PM P1-9)
 export { classAnalysis } from './class-analysis.js';
+// Sprint 1 (2026-Q4): Learning Loop feedback 通道 (D078 + docs/learning-loop-v1/SPEC.md)
+export { learningLoop } from './learning-loop.js';
