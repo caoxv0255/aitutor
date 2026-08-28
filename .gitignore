@@ -206,3 +206,8 @@ scripts/check-pg-extensions.js
 # headed-tests 工具运行产物 (manifest + 截图, 按需重生成)
 frontend/dev/runs/
 frontend/dev/screenshots/
+
+# Production env (contains real secrets)
+.env.prod
+# Compose override for v1.0.0 (deprecated after compose.yml update)
+docker-compose.v1.yml
