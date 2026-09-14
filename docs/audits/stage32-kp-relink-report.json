@@ -1,0 +1,50 @@
+{
+  "run_label": "stage32-kp-relink-full",
+  "timestamp": "2026-09-14T01:49:04.424Z",
+  "method": "rules (9 subjects) + pg_trgm fallback (no LLM)",
+  "input_unmapped_questions": 5603,
+  "rule_hit_questions": 2715,
+  "trgm_backup_questions": 246,
+  "no_hit_questions": 2642,
+  "rule_hit_by_subject": {
+    "biology": 493,
+    "chemistry": 379,
+    "english": 323,
+    "geography": 198,
+    "history": 150,
+    "math": 338,
+    "physics": 453,
+    "politics": 381
+  },
+  "inserted": 6504,
+  "skipped": 41,
+  "coverage_after": {
+    "questions_with_kp": 3577,
+    "total_questions": 6219,
+    "total_links": 7361,
+    "kps_used": 260,
+    "coverage_pct": 57.52
+  },
+  "remaining_unmapped_sample": [
+    718,
+    724,
+    725,
+    732,
+    737,
+    738,
+    741,
+    742,
+    744,
+    2062,
+    2065,
+    2070,
+    2078,
+    2081,
+    2088,
+    2091,
+    2092,
+    2094,
+    2099,
+    2100
+  ]
+}

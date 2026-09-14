@@ -549,7 +549,7 @@ async function initTables(pool) {
     CREATE INDEX IF NOT EXISTS idx_exam_papers_composite ON exam_papers(province_code, year, subject);
     CREATE INDEX IF NOT EXISTS idx_exam_papers_composite2 ON exam_papers(province_code, subject, year);
     CREATE INDEX IF NOT EXISTS idx_exam_questions_paper ON exam_questions(paper_id);
-    CREATE INDEX IF NOT EXISTS idx_exam_questions_paper_number ON exam_questions(paper_id, question_number);
+    -- D088-9: idx_exam_questions_paper_number removed (uq_exam_questions_paper_number 已替代)
     CREATE INDEX IF NOT EXISTS idx_exam_questions_difficulty ON exam_questions(difficulty);
     CREATE INDEX IF NOT EXISTS idx_exam_questions_type ON exam_questions(question_type);
     CREATE INDEX IF NOT EXISTS idx_exam_questions_subject ON exam_questions(subject_code);
