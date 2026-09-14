@@ -1,0 +1,264 @@
+/* ============================================================
+ * design-system.css — D093-frontend (2026-09-14)
+ *
+ * 设计原则 (3 状态 × 2 主题):
+ *   - 对比度: 文字 vs 背景 >= 4.5:1 (WCAG AA)
+ *   - hover: 颜色互换而非同化 (浅色: fg 暗; 深色: fg 亮)
+ *   - active: 实色填充 + 内阴影模拟"按下"
+ *   - focus: 3px outline + 2px offset, 不抢眼但高对比
+ *
+ * 用法:
+ *   <html data-theme="light"> (默认, 也可不写)
+ *   <html data-theme="dark">  (用户切换)
+ *   元素 class="ds-btn ds-btn-primary" / "ds-card" 等
+ * ============================================================ */
+
+:root,
+[data-theme="light"] {
+  /* 浅色主题: bg=白/浅灰, fg=深色 */
+  --ds-bg-page:      #f8f9fb;
+  --ds-bg-surface:   #ffffff;
+  --ds-bg-elevated:  #ffffff;
+  --ds-bg-subtle:    #f1f5f9;
+
+  --ds-fg-primary:   #0b1220;   /* 深色文字 — 对比度 16:1 vs 白底 */
+  --ds-fg-secondary: #475569;   /* 灰色说明文字 — 7:1 */
+  --ds-fg-muted:     #64748b;   /* 弱化文字 — 4.6:1 */
+  --ds-fg-on-accent: #ffffff;   /* 红色按钮上的白字 — 5.8:1 */
+
+  --ds-accent:        #d71920;  /* 品牌红 */
+  --ds-accent-hover-bg: #fef2f2; /* hover 浅红底 */
+  --ds-accent-hover-fg: #d71920; /* hover 红字 */
+  --ds-accent-active: #b8151b;  /* active 深红 */
+
+  --ds-border:       #e5e7eb;
+  --ds-border-strong:#cbd5e1;
+
+  --ds-focus-ring:   #d71920;   /* 焦点环 — 浅色用品牌红 */
+}
+
+[data-theme="dark"] {
+  /* 深色主题: bg=深蓝黑, fg=浅色
+     hover 颜色互换原则: bg 比 fg 暗 (深红底 #7a1014 + 浅红 fg #fff1f1) */
+  --ds-bg-page:      #0f1419;
+  --ds-bg-surface:   #1a1d27;
+  --ds-bg-elevated:  #232634;
+  --ds-bg-subtle:    #15181f;
+
+  --ds-fg-primary:   #f1f5f9;   /* 浅色文字 — 对比度 15:1 */
+  --ds-fg-secondary: #cbd5e1;   /* 灰色 — 9:1 */
+  --ds-fg-muted:     #94a3b8;   /* 弱化 — 4.5:1 (刚好达 WCAG AA) */
+  --ds-fg-on-accent: #ffffff;   /* 红色按钮白字 — 5.8:1 */
+
+  --ds-accent:        #d71920;
+  --ds-accent-hover-bg: #7a1014; /* hover 深红底 */
+  --ds-accent-hover-fg: #fff1f1; /* hover 浅红字 */
+  --ds-accent-active: #941218;   /* active 更深红 */
+
+  --ds-border:       #2d3340;
+  --ds-border-strong:#475569;
+
+  --ds-focus-ring:   #ffa0a0;   /* 焦点环 — 深色用浅红 */
+}
+
+/* ============================================================
+ * 基础组件类 (3 状态)
+ * ============================================================ */
+
+/* ---- 按钮: 主操作 (红色 CTA) ---- */
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: var(--ds-accent);
+  color: var(--ds-fg-on-accent);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.05s ease;
+  text-decoration: none;
+  user-select: none;
+}
+
+.ds-btn:hover {
+  background: var(--ds-accent-hover-bg);
+  color: var(--ds-accent-hover-fg);
+  box-shadow: 0 2px 8px rgba(215, 25, 32, 0.25);
+}
+
+.ds-btn:active {
+  background: var(--ds-accent-active);
+  color: var(--ds-fg-on-accent);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
+}
+
+.ds-btn:focus-visible {
+  outline: 3px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+
+.ds-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--ds-bg-subtle);
+  color: var(--ds-fg-muted);
+}
+
+/* ---- 次要按钮 (浅色背景) ---- */
+.ds-btn-secondary {
+  background: var(--ds-bg-surface);
+  color: var(--ds-fg-primary);
+  border-color: var(--ds-border-strong);
+}
+
+.ds-btn-secondary:hover {
+  background: var(--ds-bg-subtle);
+  border-color: var(--ds-accent);
+  color: var(--ds-accent);
+}
+
+.ds-btn-secondary:active {
+  background: var(--ds-accent-hover-bg);
+  color: var(--ds-accent);
+  border-color: var(--ds-accent);
+}
+
+.ds-btn-secondary:focus-visible {
+  outline: 3px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- 卡片: 可交互 ---- */
+.ds-card {
+  display: block;
+  background: var(--ds-bg-surface);
+  color: var(--ds-fg-primary);
+  border: 1px solid var(--ds-border);
+  border-radius: 12px;
+  padding: 24px 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.15s ease;
+}
+
+.ds-card:hover {
+  border-color: var(--ds-accent);
+  background: var(--ds-bg-elevated);
+  box-shadow: 0 8px 24px rgba(215, 25, 32, 0.15);
+  transform: translateY(-2px);
+}
+
+.ds-card:active {
+  background: var(--ds-accent-hover-bg);
+  color: var(--ds-accent);
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ds-card:focus-visible {
+  outline: 3px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+
+/* 深色模式下的 hover: 颜色互换 (bg 暗 + fg 亮) */
+[data-theme="dark"] .ds-card:hover {
+  background: var(--ds-accent-hover-bg);
+  color: var(--ds-accent-hover-fg);
+}
+
+[data-theme="dark"] .ds-card:active {
+  background: var(--ds-accent);
+  color: var(--ds-fg-on-accent);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* ---- 链接 ---- */
+.ds-link {
+  color: var(--ds-accent);
+  text-decoration: none;
+  transition: color 0.15s ease, text-decoration 0.15s ease;
+}
+
+.ds-link:hover {
+  color: var(--ds-accent-active);
+  text-decoration: underline;
+}
+
+.ds-link:focus-visible {
+  outline: 3px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---- 主题切换按钮 ---- */
+.ds-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--ds-border-strong);
+  background: var(--ds-bg-surface);
+  color: var(--ds-fg-primary);
+  font-size: 18px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.05s ease;
+}
+
+.ds-theme-toggle:hover {
+  background: var(--ds-accent-hover-bg);
+  border-color: var(--ds-accent);
+  color: var(--ds-accent);
+}
+
+.ds-theme-toggle:active {
+  background: var(--ds-accent-active);
+  color: var(--ds-fg-on-accent);
+  transform: scale(0.95);
+}
+
+.ds-theme-toggle:focus-visible {
+  outline: 3px solid var(--ds-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- 全局页面 ---- */
+html, body {
+  background: var(--ds-bg-page);
+  color: var(--ds-fg-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+[data-theme="dark"] body {
+  background: var(--ds-bg-page);
+  color: var(--ds-fg-primary);
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .ds-btn, .ds-card, .ds-link, .ds-theme-toggle {
+    transition: none !important;
+    transform: none !important;
+  }
+}

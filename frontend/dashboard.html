@@ -6,6 +6,7 @@
 <title>个人中心 - AI Tutor</title>
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/custom-listbox.css">
+<link rel="stylesheet" href="css/design-system.css">
 <style>
 .dash-wrap{max-width:900px;margin:0 auto;padding:40px 24px 60px}
 .dash-header{margin-bottom:36px}
@@ -92,9 +93,15 @@
 <body>
 
 <div class="dash-wrap">
-  <div class="dash-header">
-    <h1>欢迎回来</h1>
-    <p id="userGreeting">加载中...</p>
+  <div class="dash-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div>
+      <h1>欢迎回来</h1>
+      <p id="userGreeting">加载中...</p>
+    </div>
+    <!-- D093: 主题切换按钮 -->
+    <button class="ds-theme-toggle" id="themeToggle" type="button" aria-label="切换主题" title="切换深色/浅色主题">
+      <span id="themeIcon">🌙</span>
+    </button>
   </div>
 
   <div class="dash-stats" id="dashStats">
@@ -142,32 +149,32 @@
 
   <div class="dash-section-title">学习工具</div>
   <div class="dash-grid">
-    <a href="wrong-book.html" class="dash-card">
+    <a href="wrong-book.html" class="dash-card ds-card">
       <div class="card-icon">&#128210;</div>
       <div class="card-title">我的错题本</div>
       <div class="card-desc">查看错题记录，按学科分类浏览</div>
     </a>
-    <a href="my-reports.html" class="dash-card">
+    <a href="my-reports.html" class="dash-card ds-card">
       <div class="card-icon">&#128202;</div>
       <div class="card-title">我的报告</div>
       <div class="card-desc">查看各学科分析报告与成绩记录</div>
     </a>
-    <a href="my-weak-points.html" class="dash-card">
+    <a href="my-weak-points.html" class="dash-card ds-card">
       <div class="card-icon">&#127919;</div>
       <div class="card-title">薄弱点分析</div>
       <div class="card-desc">精准定位知识盲区与能力短板</div>
     </a>
-    <a href="personalized-paper.html" class="dash-card">
+    <a href="personalized-paper.html" class="dash-card ds-card">
       <div class="card-icon">&#128203;</div>
       <div class="card-title">个性化预测卷</div>
       <div class="card-desc">基于薄弱点生成专属预测卷</div>
     </a>
-    <a href="question-explainer.html" class="dash-card">
+    <a href="question-explainer.html" class="dash-card ds-card">
       <div class="card-icon">&#128161;</div>
       <div class="card-title">AI讲题</div>
       <div class="card-desc">输入任意题目，获取AI深度讲解</div>
     </a>
-    <a href="learning-path.html" class="dash-card">
+    <a href="learning-path.html" class="dash-card ds-card">
       <div class="card-icon">&#128218;</div>
       <div class="card-title">学习路径</div>
       <div class="card-desc">个性化分阶段学习计划与每日目标</div>
@@ -176,22 +183,22 @@
 
   <div class="dash-section-title">练习与分析</div>
   <div class="dash-grid">
-    <a href="chinese-exam.html" class="dash-card">
+    <a href="chinese-exam.html" class="dash-card ds-card">
       <div class="card-icon">&#128221;</div>
       <div class="card-title">高考预测卷</div>
       <div class="card-desc">六科模拟预测练习卷</div>
     </a>
-    <a href="zhongkao.html" class="dash-card">
+    <a href="zhongkao.html" class="dash-card ds-card">
       <div class="card-icon">&#128214;</div>
       <div class="card-title">中考专区</div>
       <div class="card-desc">九科知识点与趋势分析</div>
     </a>
-    <a href="2026-policy.html" class="dash-card">
+    <a href="2026-policy.html" class="dash-card ds-card">
       <div class="card-icon">&#128203;</div>
       <div class="card-title">高考政策</div>
       <div class="card-desc">2026年北京高考最新政策</div>
     </a>
-    <a href="methodology.html" class="dash-card">
+    <a href="methodology.html" class="dash-card ds-card">
       <div class="card-icon">&#128269;</div>
       <div class="card-title">预测方法</div>
       <div class="card-desc">了解数据来源与预测生成逻辑</div>
@@ -205,7 +212,7 @@
       <div class="card-title">拍照搜题</div>
       <div class="card-desc">上传题目图片或使用摄像头拍照，AI智能解题</div>
     </div>
-    <div class="dash-card" onclick="document.getElementById('photoFileInput').click()" style="cursor:pointer">
+    <div class="dash-card ds-card" onclick="document.getElementById('photoFileInput').click()" style="cursor:pointer">
       <div class="card-icon">&#128444;</div>
       <div class="card-title">上传图片</div>
       <div class="card-desc">从电脑中选择题目图片上传</div>
@@ -245,9 +252,30 @@
   </div>
 
   <div class="logout-bar">
-    <button class="logout-btn" id="logoutBtn">退出登录</button>
+    <button class="logout-btn ds-btn ds-btn-secondary" id="logoutBtn">退出登录</button>
   </div>
 </div>
+
+<script>
+// D093: 主题切换逻辑 (浅/深双模式 + localStorage 记忆 + system 偏好检测)
+(function() {
+  const root = document.documentElement;
+  const KEY = 'aitutor.theme';
+  const saved = localStorage.getItem(KEY);
+  const initial = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  root.setAttribute('data-theme', initial);
+  const icon = document.getElementById('themeIcon');
+  if (icon) icon.textContent = initial === 'dark' ? '☀️' : '🌙';
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem(KEY, next);
+    if (icon) icon.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+})();
+</script>
 
 <script>
 (function() {

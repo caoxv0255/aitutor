@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Design System Demo - AI Tutor</title>
+<link rel="stylesheet" href="../assets/css/aitutor.css">
+<link rel="stylesheet" href="../assets/css/design-system.css">
+<style>
+body { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.demo-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.demo-state { padding: 12px; border-radius: 8px; background: var(--ds-bg-subtle); margin-bottom: 16px; }
+.demo-state h3 { margin: 0 0 8px; font-size: 14px; font-weight: 700; color: var(--ds-fg-secondary); }
+.demo-state .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.demo-card-wrap { padding: 8px; border-radius: 8px; }
+.demo-label { font-size: 11px; color: var(--ds-fg-muted); text-align: center; margin-top: 6px; }
+.demo-section-title { font-size: 14px; font-weight: 800; margin: 24px 0 12px; color: var(--ds-fg-primary); }
+.demo-focusable { padding: 10px 16px; border: 1px solid var(--ds-border); border-radius: 8px; background: var(--ds-bg-surface); color: var(--ds-fg-primary); cursor: pointer; }
+.demo-focusable:focus-visible { outline: 3px solid var(--ds-focus-ring); outline-offset: 2px; }
+.demo-toggle { position: fixed; top: 16px; right: 24px; }
+</style>
+</head>
+<body>
+
+<button class="ds-theme-toggle demo-toggle" id="themeToggle" aria-label="切换主题" title="切换深色/浅色主题">
+  <span id="themeIcon">🌙</span>
+</button>
+
+<h1 style="margin:0 0 16px;font-size:22px;font-weight:900;">D093 Design System Demo</h1>
+<p style="margin:0 0 24px;color:var(--ds-fg-muted);font-size:13px;">
+  浅色 + 深色 × 3 状态（normal / hover / active）+ focus 焦点环。<br>
+  右上角 🌙 切换深色。点击按钮/卡片观察状态。Tab 键导航看焦点环。
+</p>
+
+<!-- ============ 卡片 ============ -->
+<div class="demo-section-title">📦 卡片 (.ds-card)</div>
+<div class="demo-state">
+  <h3>浅色 (Light)</h3>
+  <div class="demo-row">
+    <div class="demo-card-wrap">
+      <a href="#" class="ds-card">
+        <div style="font-size:2rem;line-height:1;margin-bottom:10px;">📘</div>
+        <div style="font-weight:700;margin-bottom:8px;">Normal</div>
+        <div style="font-size:12px;opacity:.85;">鼠标移开 + 静止</div>
+      </a>
+      <div class="demo-label">:hover → 浅红底 + 红字 + 阴影</div>
+    </div>
+  </div>
+</div>
+
+<div class="demo-state">
+  <h3>深色 (Dark)</h3>
+  <div class="demo-row">
+    <div class="demo-card-wrap">
+      <a href="#" class="ds-card">
+        <div style="font-size:2rem;line-height:1;margin-bottom:10px;">📘</div>
+        <div style="font-weight:700;margin-bottom:8px;">Normal</div>
+        <div style="font-size:12px;opacity:.85;">深色背景</div>
+      </a>
+      <div class="demo-label">:hover → 深红底 + 浅红字 (颜色互换)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 按钮 ============ -->
+<div class="demo-section-title">🔘 按钮 (.ds-btn)</div>
+
+<div class="demo-state">
+  <h3>主按钮 (Primary - 红色 CTA)</h3>
+  <div class="demo-row">
+    <button class="ds-btn">Normal 状态</button>
+    <button class="ds-btn">Hover 状态 (鼠标移到我身上)</button>
+    <button class="ds-btn">Active 状态 (点击按住)</button>
+  </div>
+  <div class="demo-row" style="margin-top:12px;">
+    <button class="ds-btn">Disabled</button>
+    <button class="ds-btn" style="background:#ccc;">Focus 状态 (Tab 键)</button>
+  </div>
+</div>
+
+<div class="demo-state">
+  <h3>次按钮 (Secondary)</h3>
+  <div class="demo-row">
+    <button class="ds-btn ds-btn-secondary">Normal</button>
+    <button class="ds-btn ds-btn-secondary">Hover (鼠标移到我)</button>
+    <button class="ds-btn ds-btn-secondary">Active (按住)</button>
+  </div>
+</div>
+
+<!-- ============ 链接 ============ -->
+<div class="demo-section-title">🔗 链接 (.ds-link)</div>
+
+<div class="demo-state">
+  <h3>深浅色对比</h3>
+  <p style="margin:8px 0;"><a href="#" class="ds-link">这是一个普通链接，hover 变深红 + 下划线</a></p>
+  <p style="margin:8px 0;"><a href="#" class="ds-link">另一个链接测试对比度</a></p>
+</div>
+
+<!-- ============ Focus 焦点环测试 ============ -->
+<div class="demo-section-title">🎯 焦点环 (Tab 键导航)</div>
+<div class="demo-state">
+  <h3>按 Tab 键，焦点环颜色需满足对比度 ≥ 4.5:1</h3>
+  <div class="demo-row">
+    <button class="ds-btn ds-btn-secondary demo-focusable">焦点 1 (按钮)</button>
+    <a href="#" class="ds-btn demo-focusable">焦点 2 (链接按钮)</a>
+    <button class="ds-btn ds-btn-secondary demo-focusable">焦点 3</button>
+  </div>
+</div>
+
+<script>
+// 主题切换 (浅/深 + localStorage + 系统偏好)
+(function() {
+  const root = document.documentElement;
+  const KEY = 'aitutor.theme';
+  const saved = localStorage.getItem(KEY);
+  const initial = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  root.setAttribute('data-theme', initial);
+  const icon = document.getElementById('themeIcon');
+  if (icon) icon.textContent = initial === 'dark' ? '☀️' : '🌙';
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem(KEY, next);
+    if (icon) icon.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+})();
+</script>
+
+</body>
+</html>
