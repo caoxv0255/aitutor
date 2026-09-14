@@ -61,8 +61,8 @@ router.get('/questions', async (req, res) => {
     params.push(safeOffset);
 
     const rows = await pool.query(
-      `SELECT eq.id, eq.question_number, eq.question_type, eq.stem, eq.options, eq.score,
-              eq.difficulty, eq.subject_code, eq.knowledge_points,
+      `SELECT eq.id, eq.question_number, eq.question_type, eq.stem, eq.options, eq.answer, eq.analysis, eq.score,
+              eq.difficulty, eq.subject_code, eq.knowledge_points, eq.file_path,
               ep.id AS paper_id, ep.year, ep.paper_type,
               p.name AS province_name, p.code AS province_code
        FROM exam_questions eq
