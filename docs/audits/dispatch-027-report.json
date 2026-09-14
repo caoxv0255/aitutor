@@ -1,0 +1,62 @@
+{
+  "dispatch": "027",
+  "title": "Schema 升级 + 文件名侦察 + Pipeline 改造 + 小样本验证",
+  "timestamp": "2026-09-11T07:20:00Z",
+  "executer": "DSH",
+  "actions": {
+    "action_1_migration": {
+      "status": "OK",
+      "file": "database/migrations/023_paper_type.sql",
+      "change": "ADD CONSTRAINT ck_exam_papers_paper_type",
+      "values": ["independent","national_i","national_ii","national_iii","national_a","national_b","new_gaokao_i","new_gaokao_ii","national_legacy","unknown"],
+      "cleanup": {"beijing_to_independent": 35, "national_to_legacy": 31},
+      "stage29_exit": 0
+    },
+    "action_2_recon": {
+      "status": "OK",
+      "files_scanned": 18,
+      "total_docx_in_zips": 3270,
+      "deduped_papers": 1630,
+      "by_paper_type": {"independent":1420,"national_i":75,"national_ii":73,"national_a":26,"national_b":18,"new_gaokao_ii":9,"new_gaokao_i":9},
+      "by_subject": {"english":167,"math":176,"physics":196,"chemistry":192,"biology":189,"geography":189,"history":187,"politics":175,"chinese":159},
+      "by_variant": {"analysis":1596,"real":5},
+      "unknown_province": 255,
+      "key_finding": "8 个 unknown province 都是全国甲卷/乙卷, 归 national 聚合即可"
+    },
+    "action_3_pipeline": {
+      "status": "OK",
+      "file": "scripts/batch02/01-ingest-pipeline.mjs",
+      "changes": [
+        "新增 parseChineseFilename() 函数: 支持中文文件名 → (year, paper_type, province_code, subject, variant, level)",
+        "兼容旧 DSH 命名规范 (year_province_subject_level_variant.docx)",
+        "8 种 paper_type 完整映射 (含旧/新课标 I/II, 全国甲乙丙, 新高考 I/II)",
+        "全国卷 + province=unknown 自动降级为 national (聚合)",
+        "修复 REQUIRED_FIELDS 拼写错误: question_numbe→question_number, yea→year"
+      ]
+    },
+    "action_4_small_sample_2024": {
+      "status": "OK",
+      "files_processed": 169,
+      "questions_parsed": 4126,
+      "questions_valid": 4103,
+      "questions_invalid": 23,
+      "inserted_to_staging": 2837,
+      "duplicates_detected": 1266,
+      "stage29_exit_after": 0,
+      "staging_total_before": 3909,
+      "staging_total_after": 6938
+    }
+  },
+  "known_limitations": [
+    "中文文件名中 '全国甲卷' 等无省份字样 → province_code 默认 unknown, 后续可结合 zip 路径补全省份",
+    "heuristic 将 '2024年' 解析为 qnum=2024 是反例 (重复问题), 需要后续优化",
+    "全国卷 (national_a 等) 默认 paper_type 正确, province_code 自动降为 'national' (聚合)",
+    "23 个 invalid (missing stem) 主要来自文档结尾的 '答案页' 或空白"
+  ],
+  "next_steps": [
+    "Action 5: 用户确认 2024 解析结果 (4126 题, 99.4% 成功率) 后授权解压剩余 17 个 zip (2025 + 2008-2023)",
+    "Action 6: 对 30 套 national_legacy 试卷人工识别 paper_type (national_i/ii/iii/a/b) 后回填",
+    "Action 7: 入库所有 ~2,870 套待入库试卷到 public.exam_papers",
+    "Action 8: 解决 282 项 HIGH 缺口 (新高考I/II 主科 × 2023-2025)"
+  ]
+}

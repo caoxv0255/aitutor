@@ -1,0 +1,1445 @@
+{
+  "run_label": "batch02-08-sample-audit",
+  "timestamp": "2026-09-10T23:39:43.032Z",
+  "total_groups": 84,
+  "total_samples": 163,
+  "sample_limit": 60,
+  "groups": [
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "chongqing",
+      "n": 32,
+      "avg_stem_length": 367,
+      "image_expected_count": 5,
+      "image_expected_pct": 15.63
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "guangdong",
+      "n": 20,
+      "avg_stem_length": 145,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "hainan",
+      "n": 20,
+      "avg_stem_length": 206,
+      "image_expected_count": 1,
+      "image_expected_pct": 5
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "jiangsu",
+      "n": 29,
+      "avg_stem_length": 463,
+      "image_expected_count": 5,
+      "image_expected_pct": 17.24
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "shanghai",
+      "n": 150,
+      "avg_stem_length": 73,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "zhejiang",
+      "n": 33,
+      "avg_stem_length": 183,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "beijing",
+      "n": 35,
+      "avg_stem_length": 103,
+      "image_expected_count": 2,
+      "image_expected_pct": 5.71
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "chongqing",
+      "n": 27,
+      "avg_stem_length": 324,
+      "image_expected_count": 5,
+      "image_expected_pct": 18.52
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "hebei",
+      "n": 18,
+      "avg_stem_length": 155,
+      "image_expected_count": 2,
+      "image_expected_pct": 11.11
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "jiangsu",
+      "n": 17,
+      "avg_stem_length": 459,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "national",
+      "n": 64,
+      "avg_stem_length": 262,
+      "image_expected_count": 9,
+      "image_expected_pct": 14.06
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "shandong",
+      "n": 25,
+      "avg_stem_length": 143,
+      "image_expected_count": 6,
+      "image_expected_pct": 24
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "shanghai",
+      "n": 30,
+      "avg_stem_length": 86,
+      "image_expected_count": 2,
+      "image_expected_pct": 6.67
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "tianjin",
+      "n": 5,
+      "avg_stem_length": 711,
+      "image_expected_count": 1,
+      "image_expected_pct": 20
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "fujian",
+      "n": 21,
+      "avg_stem_length": 410,
+      "image_expected_count": 1,
+      "image_expected_pct": 4.76
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "guangdong",
+      "n": 35,
+      "avg_stem_length": 740,
+      "image_expected_count": 1,
+      "image_expected_pct": 2.86
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "hebei",
+      "n": 21,
+      "avg_stem_length": 410,
+      "image_expected_count": 1,
+      "image_expected_pct": 4.76
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "hubei",
+      "n": 21,
+      "avg_stem_length": 410,
+      "image_expected_count": 1,
+      "image_expected_pct": 4.76
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "hunan",
+      "n": 21,
+      "avg_stem_length": 410,
+      "image_expected_count": 1,
+      "image_expected_pct": 4.76
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "jiangsu",
+      "n": 21,
+      "avg_stem_length": 410,
+      "image_expected_count": 1,
+      "image_expected_pct": 4.76
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "national",
+      "n": 116,
+      "avg_stem_length": 355,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "shandong",
+      "n": 21,
+      "avg_stem_length": 410,
+      "image_expected_count": 1,
+      "image_expected_pct": 4.76
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "shanghai",
+      "n": 50,
+      "avg_stem_length": 262,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "tianjin",
+      "n": 23,
+      "avg_stem_length": 259,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "zhejiang",
+      "n": 28,
+      "avg_stem_length": 560,
+      "image_expected_count": 1,
+      "image_expected_pct": 3.57
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "anhui",
+      "n": 148,
+      "avg_stem_length": 354,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "beijing",
+      "n": 56,
+      "avg_stem_length": 565,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "hunan",
+      "n": 63,
+      "avg_stem_length": 281,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "national",
+      "n": 357,
+      "avg_stem_length": 417,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "shaanxi",
+      "n": 251,
+      "avg_stem_length": 202,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "shanghai",
+      "n": 57,
+      "avg_stem_length": 568,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "sichuan",
+      "n": 53,
+      "avg_stem_length": 258,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "tianjin",
+      "n": 23,
+      "avg_stem_length": 818,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "zhejiang",
+      "n": 166,
+      "avg_stem_length": 436,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "geography",
+      "province": "chongqing",
+      "n": 21,
+      "avg_stem_length": 95,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "geography",
+      "province": "hebei",
+      "n": 18,
+      "avg_stem_length": 103,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "geography",
+      "province": "shandong",
+      "n": 19,
+      "avg_stem_length": 511,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "geography",
+      "province": "zhejiang",
+      "n": 49,
+      "avg_stem_length": 58,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "beijing",
+      "n": 20,
+      "avg_stem_length": 229,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "guangdong",
+      "n": 66,
+      "avg_stem_length": 30,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "hainan",
+      "n": 60,
+      "avg_stem_length": 122,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "hunan",
+      "n": 36,
+      "avg_stem_length": 309,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "jiangsu",
+      "n": 26,
+      "avg_stem_length": 114,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "national",
+      "n": 29,
+      "avg_stem_length": 563,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "shandong",
+      "n": 23,
+      "avg_stem_length": 650,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "shanghai",
+      "n": 31,
+      "avg_stem_length": 52,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "sichuan",
+      "n": 43,
+      "avg_stem_length": 388,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "history",
+      "province": "tianjin",
+      "n": 35,
+      "avg_stem_length": 82,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "anhui",
+      "n": 21,
+      "avg_stem_length": 50,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "fujian",
+      "n": 31,
+      "avg_stem_length": 52,
+      "image_expected_count": 1,
+      "image_expected_pct": 3.23
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "guangdong",
+      "n": 31,
+      "avg_stem_length": 52,
+      "image_expected_count": 1,
+      "image_expected_pct": 3.23
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "hebei",
+      "n": 31,
+      "avg_stem_length": 52,
+      "image_expected_count": 1,
+      "image_expected_pct": 3.23
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "hubei",
+      "n": 31,
+      "avg_stem_length": 52,
+      "image_expected_count": 1,
+      "image_expected_pct": 3.23
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "hunan",
+      "n": 31,
+      "avg_stem_length": 52,
+      "image_expected_count": 1,
+      "image_expected_pct": 3.23
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "jiangsu",
+      "n": 31,
+      "avg_stem_length": 52,
+      "image_expected_count": 1,
+      "image_expected_pct": 3.23
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "national",
+      "n": 105,
+      "avg_stem_length": 106,
+      "image_expected_count": 3,
+      "image_expected_pct": 2.86
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "shandong",
+      "n": 31,
+      "avg_stem_length": 52,
+      "image_expected_count": 1,
+      "image_expected_pct": 3.23
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "shanghai",
+      "n": 135,
+      "avg_stem_length": 51,
+      "image_expected_count": 2,
+      "image_expected_pct": 1.48
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "tianjin",
+      "n": 21,
+      "avg_stem_length": 258,
+      "image_expected_count": 2,
+      "image_expected_pct": 9.52
+    },
+    {
+      "level": "gaokao",
+      "subject": "math",
+      "province": "zhejiang",
+      "n": 53,
+      "avg_stem_length": 63,
+      "image_expected_count": 3,
+      "image_expected_pct": 5.66
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "anhui",
+      "n": 10,
+      "avg_stem_length": 119,
+      "image_expected_count": 1,
+      "image_expected_pct": 10
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "chongqing",
+      "n": 15,
+      "avg_stem_length": 406,
+      "image_expected_count": 7,
+      "image_expected_pct": 46.67
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "fujian",
+      "n": 16,
+      "avg_stem_length": 218,
+      "image_expected_count": 9,
+      "image_expected_pct": 56.25
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "guangdong",
+      "n": 11,
+      "avg_stem_length": 229,
+      "image_expected_count": 2,
+      "image_expected_pct": 18.18
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "hebei",
+      "n": 11,
+      "avg_stem_length": 148,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "jiangsu",
+      "n": 17,
+      "avg_stem_length": 18,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "national",
+      "n": 79,
+      "avg_stem_length": 272,
+      "image_expected_count": 10,
+      "image_expected_pct": 12.66
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "shandong",
+      "n": 12,
+      "avg_stem_length": 455,
+      "image_expected_count": 1,
+      "image_expected_pct": 8.33
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "shanghai",
+      "n": 23,
+      "avg_stem_length": 138,
+      "image_expected_count": 3,
+      "image_expected_pct": 13.04
+    },
+    {
+      "level": "gaokao",
+      "subject": "physics",
+      "province": "zhejiang",
+      "n": 22,
+      "avg_stem_length": 173,
+      "image_expected_count": 16,
+      "image_expected_pct": 72.73
+    },
+    {
+      "level": "gaokao",
+      "subject": "politics",
+      "province": "anhui",
+      "n": 20,
+      "avg_stem_length": 302,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "politics",
+      "province": "fujian",
+      "n": 20,
+      "avg_stem_length": 656,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "politics",
+      "province": "guangdong",
+      "n": 20,
+      "avg_stem_length": 241,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "politics",
+      "province": "hainan",
+      "n": 31,
+      "avg_stem_length": 473,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "politics",
+      "province": "hubei",
+      "n": 30,
+      "avg_stem_length": 163,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "gaokao",
+      "subject": "politics",
+      "province": "jiangsu",
+      "n": 21,
+      "avg_stem_length": 194,
+      "image_expected_count": 1,
+      "image_expected_pct": 4.76
+    },
+    {
+      "level": "gaokao",
+      "subject": "politics",
+      "province": "national",
+      "n": 34,
+      "avg_stem_length": 327,
+      "image_expected_count": 1,
+      "image_expected_pct": 2.94
+    },
+    {
+      "level": "gaokao",
+      "subject": "politics",
+      "province": "tianjin",
+      "n": 18,
+      "avg_stem_length": 139,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "zhongkao",
+      "subject": "chemistry",
+      "province": "beijing",
+      "n": 45,
+      "avg_stem_length": 81,
+      "image_expected_count": 1,
+      "image_expected_pct": 2.22
+    },
+    {
+      "level": "zhongkao",
+      "subject": "english",
+      "province": "beijing",
+      "n": 81,
+      "avg_stem_length": 347,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "zhongkao",
+      "subject": "geography",
+      "province": "beijing",
+      "n": 107,
+      "avg_stem_length": 93,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    },
+    {
+      "level": "zhongkao",
+      "subject": "math",
+      "province": "beijing",
+      "n": 82,
+      "avg_stem_length": 89,
+      "image_expected_count": 5,
+      "image_expected_pct": 6.1
+    },
+    {
+      "level": "zhongkao",
+      "subject": "physics",
+      "province": "beijing",
+      "n": 74,
+      "avg_stem_length": 100,
+      "image_expected_count": 20,
+      "image_expected_pct": 27.03
+    },
+    {
+      "level": "zhongkao",
+      "subject": "politics",
+      "province": "beijing",
+      "n": 25,
+      "avg_stem_length": 164,
+      "image_expected_count": 0,
+      "image_expected_pct": 0
+    }
+  ],
+  "samples": [
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "chongqing",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列细胞结构中，对真核细胞合成多肽链，作用最小的是（    ）\n【答案】A\n【解析】\n【分析】1、转录：转录是指以DNA的一条链为模板，按照碱基互补配对原则，合",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "chongqing",
+      "type": "non_choice",
+      "qnum": 2,
+      "stem_preview": "翻译：翻译是指以mRNA为模板，合成具有一定氨基酸排列顺序的蛋白质的过程。翻译的场所：细胞质的核糖体上。\n【详解】真核细胞合成多肽链包括转录和翻译两个过程，转录",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "guangdong",
+      "type": "non_choice",
+      "qnum": 0,
+      "stem_preview": "96（89.72）\n注：括号内为与同种植物对照实验的相对百分比。\n（1）叶绿素位于叶绿体内的___________上，提取后经层析分离，扩散最慢的色素带呈___",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "hainan",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "脊髓灰质炎病毒已被科学家人工合成。该人工合成病毒能够引发小鼠脊髓灰质炎，但其毒性比天然病毒小得多。下列有关叙述正确的是（    ）",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "hainan",
+      "type": "non_choice",
+      "qnum": 16,
+      "stem_preview": "细胞膜上存在的多种蛋白质参与细胞的生命活动。回答下列问题。\n（1）细胞膜上不同的通道蛋白、载体蛋白等膜蛋白，对不同物质的跨膜运输起着决定性作用，这些膜蛋白能够体",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "jiangsu",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "关于蛋白质、磷脂和淀粉，下列叙述正确的是（    ）\n【答案】B\n【解析】\n【详解】蛋白质的基本单位是氨基酸，磷脂属于脂质，淀粉属于多糖。\n【分析】A、蛋白质的",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "jiangsu",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "生物安全性‌：RNA农药具有高度的靶向性，能够实现对某一害虫的精准防控，不会对非靶生物造成负面影响。",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "shanghai",
+      "type": "choice",
+      "qnum": 0,
+      "stem_preview": "7\n表2",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "shanghai",
+      "type": "non_choice",
+      "qnum": 0,
+      "stem_preview": "9",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "zhejiang",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "关于生物技术的安全与伦理问题在我国相关法规明令禁止的是（    ）",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "zhejiang",
+      "type": "non_choice",
+      "qnum": 0,
+      "stem_preview": "99",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "beijing",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "2022年3月神舟十三号航天员在中国空间站进行了“天宫课堂”授课活动。其中太空“冰雪实验”演示了过饱和醋酸钠溶液的结晶现象。下列说法不正确的是",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "beijing",
+      "type": "non_choice",
+      "qnum": 0,
+      "stem_preview": "06",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "chongqing",
+      "type": "choice",
+      "qnum": 0,
+      "stem_preview": "77\n①体系平衡后，增加压强，反应1的平衡_______(填“正向移动”“逆向移动”或“不移动”)。\n②平衡时，和的体积比值为_______。\n③根据上表数据推",
+      "has_options": true,
+      "image_expected": true
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "chongqing",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "作答前，考生务必将自己的姓名、考场号、座位号填写在试卷的规定位置上。",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "hebei",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "河北省古建筑数量大，历史跨度长，种类齐全，在我国建筑史上占有非常重要地位。下列古建筑组件主要成分属于有机物的是\nA．基石\nB．斗拱\nC．青瓦\nD．琉璃",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "hebei",
+      "type": "non_choice",
+      "qnum": 15,
+      "stem_preview": "氢碘酸常用于合成碘化物。某化学兴趣小组用如图装置(夹持装置等略)制备氢碘酸。\n步骤如下：\nⅰ．在A中加入和，快速搅拌，打开通入，反应完成后，关闭，静置、过滤得滤",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "jiangsu",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "我国提出2060年实现碳中和的目标，体现了大国担当。碳中和中的碳是指\n【答案】B\n【解析】\n【详解】碳中和中的碳是指二氧化碳，减少二氧化碳的排放和充分利用二氧化",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "jiangsu",
+      "type": "non_choice",
+      "qnum": 14,
+      "stem_preview": "催化剂能催化脱除烟气中的NO，反应为  。\n（1）催化剂的制备。将预先制备的一定量的粉末置于80℃的水中，在搅拌下加入一定量的溶液，经蒸发、焙烧等工序得到颗粒状",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "national",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "生活中处处有化学，下列叙述正确的是",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "national",
+      "type": "non_choice",
+      "qnum": 0,
+      "stem_preview": "8640\n153\n丙酮\n58",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "shandong",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列在化学史上产生重要影响的成果中，不涉及氧化还原反应的是",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "shandong",
+      "type": "non_choice",
+      "qnum": 0,
+      "stem_preview": "00 24.98 0.00 0.00 0.00 /\n滴定后读数\n/",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "shanghai",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "实施碳达峰，碳中和是应对国际新变局、构建新发展格局、落实新发展理念的重大战略布局，上海自2013年起作为全国7个试点城市之一开展碳交易试点，以下符合碳中和目的的",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "shanghai",
+      "type": "non_choice",
+      "qnum": 9,
+      "stem_preview": "关于二氯甲烷，以下说法错误的是（     ）",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chemistry",
+      "province": "tianjin",
+      "type": "non_choice",
+      "qnum": 0,
+      "stem_preview": "1000 mol.L−1\nNa2CO3溶液\n除去Cl2中的HCl\n蒸馏用冷凝管\n盛装Na2SiO3溶液的试剂瓶\nA\nB\nC\nD\n6．检验下列物质所选用的试剂正确",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "fujian",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列对原文相关内容的理解和分析，正确的一项是（3分）(   )",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "fujian",
+      "type": "non_choice",
+      "qnum": 3,
+      "stem_preview": "①地势比平地稍高   ②泥土与根系相和洽  ③不利于植株的呼吸\n4．根据上下文，问四提出的问题可能是什么？请写出一个并阐述理由。（4分）",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "guangdong",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列对原文相关内容的理解和分析，正确的一项是（3分）(   )",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "guangdong",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "答题前，考生务必用黑色字迹的钢笔或签字笔将自己的姓名和考生号、座号填写在答题卡上。用2B铅笔将试卷类型（A）填涂在答题卡相应位置上，将条形码横贴在答题卡右上角“",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "hebei",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列对原文相关内容的理解和分析，正确的一项是（3分）(   )",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "hebei",
+      "type": "non_choice",
+      "qnum": 3,
+      "stem_preview": "①地势比平地稍高   ②泥土与根系相和洽  ③不利于植株的呼吸\n4．根据上下文，问四提出的问题可能是什么？请写出一个并阐述理由。（4分）",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "hubei",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列对原文相关内容的理解和分析，正确的一项是（3分）(   )",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "hubei",
+      "type": "non_choice",
+      "qnum": 3,
+      "stem_preview": "①地势比平地稍高   ②泥土与根系相和洽  ③不利于植株的呼吸\n4．根据上下文，问四提出的问题可能是什么？请写出一个并阐述理由。（4分）",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "hunan",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列对原文相关内容的理解和分析，正确的一项是（3分）(   )",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "hunan",
+      "type": "non_choice",
+      "qnum": 3,
+      "stem_preview": "①地势比平地稍高   ②泥土与根系相和洽  ③不利于植株的呼吸\n4．根据上下文，问四提出的问题可能是什么？请写出一个并阐述理由。（4分）",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "jiangsu",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列对原文相关内容的理解和分析，正确的一项是（3分）(   )",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "jiangsu",
+      "type": "non_choice",
+      "qnum": 3,
+      "stem_preview": "①地势比平地稍高   ②泥土与根系相和洽  ③不利于植株的呼吸\n4．根据上下文，问四提出的问题可能是什么？请写出一个并阐述理由。（4分）",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "national",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列对材料相关内容的理解和分析，不正确的一项是（    ）",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "national",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "答卷前，考生务必用黑色碳素笔将自己的姓名、准考证号、考场号、座位号填写在答题卡上，并认真核准条形码上的准考证号、姓名、考场号、座位号及科目，在规定的位置贴好条形",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "shandong",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列对原文相关内容的理解和分析，正确的一项是（3分）(   )",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "shandong",
+      "type": "non_choice",
+      "qnum": 3,
+      "stem_preview": "①地势比平地稍高   ②泥土与根系相和洽  ③不利于植株的呼吸\n4．根据上下文，问四提出的问题可能是什么？请写出一个并阐述理由。（4分）",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "shanghai",
+      "type": "choice",
+      "qnum": 2,
+      "stem_preview": "按要求选择。（5 分)\n(1）小王遇到挫折，一蹶不振，朋友用一句话激励他，以下合适的一项是（  ）。（2 分）\n（2）下列选项中用语得体的一句是（  ）。（3 ",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "shanghai",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "按要求填空。 (5 分)\n(1）遥岑远目，          ，玉簪螺髻。 (辛弃疾《水龙吟·登建康赏心亭》）\n(2)                     ",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "tianjin",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "依次填入文中括号内的词语，下列最恰当的一组词语是（   ）",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "tianjin",
+      "type": "non_choice",
+      "qnum": 12,
+      "stem_preview": "把文言文阅读材料中画横线的句子翻译成现代汉语。\n（1）君之及此言也，百姓之惠也，固臣敢无辞而对？\n（2）治官莫若平，临财莫若廉。\n（3）内不相训而外相谤，非亲睦",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "zhejiang",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "下列词语中加点字的读音，完全相同的一组是",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "chinese",
+      "province": "zhejiang",
+      "type": "non_choice",
+      "qnum": 3,
+      "stem_preview": "①地势比平地稍高   ②泥土与根系相和洽  ③不利于植株的呼吸\n4．根据上下文，问四提出的问题可能是什么？请写出一个并阐述理由。（4分）",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "anhui",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "What time is it now?",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "anhui",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "采访的对象；",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "beijing",
+      "type": "choice",
+      "qnum": 21,
+      "stem_preview": "In PASS, students ________.\n22 What can students do if a session is full?",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "beijing",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "A. caused\tB. spotted\tC. checked\tD. imagined",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "hunan",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "Who used the car this morning?",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "hunan",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "简要描述下图内容，并点名主题；",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "national",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "What is the man doing?\n【答案】A\n【解析】\n【原文】M: Excuse me, I got lost. I took a bus to ",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "national",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "答卷前，考生务必将自己的姓名、准考证号填写在答题卡上。",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "shaanxi",
+      "type": "choice",
+      "qnum": 1,
+      "stem_preview": "regard",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "shaanxi",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "活动的策划；",
+      "has_options": false,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "shanghai",
+      "type": "choice",
+      "qnum": 2,
+      "stem_preview": "A. The museum opens at 8 every day. \tB. She can’t see the sign clearly.",
+      "has_options": true,
+      "image_expected": false
+    },
+    {
+      "level": "gaokao",
+      "subject": "english",
+      "province": "shanghai",
+      "type": "non_choice",
+      "qnum": 1,
+      "stem_preview": "Listening Comprehension\nDirections：In Section A, you will hear ten short convers",
+      "has_options": false,
+      "image_expected": false
+    }
+  ],
+  "polluted_count": 30,
+  "polluted_examples": [
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "hainan",
+      "qnum": 17,
+      "stem": "人体运动需要神经系统对肌群进行精确的调控来实现。肌萎缩侧索硬化（ALS）是一种神经肌肉退行性疾病，患者神经肌肉接头示意图如下。回答下列问题。\n（1）轴突末梢中突"
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "chongqing",
+      "qnum": 10,
+      "stem": "哺乳动物可利用食物中的NAM或NA合成NAD+，进而转化为NADH（[H]）。研究者以小鼠为模型，探究了哺乳动物与肠道菌群之间NAD+代谢的关系，如图所示。下列"
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "chongqing",
+      "qnum": 14,
+      "stem": "药物甲常用于肿瘤治疗，但对正常细胞有一定的毒副作用。某小组利用试剂K（可将细胞阻滞在细胞周期某时期）研究了药物甲的毒性与细胞周期的关系，实验流程和结果如图所示。"
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "chongqing",
+      "qnum": 15,
+      "stem": "某小组以拟南芥原生质体为材料，研究了生长素（IAA）、组蛋白乙酰化及R基因对原生质体形成愈伤组织的影响。野生型（WT）和R基因突变型（rr）的原生质体分别经下表"
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "chongqing",
+      "qnum": 16,
+      "stem": "妊娠与子宫内膜基质细胞的功能密切相关。某研究小组通过如图所示的实验流程获得了子宫内膜基质细胞，以期用于妊娠相关疾病的研究。\n（1）手术获得的皮肤组织需在低温下运"
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "chongqing",
+      "qnum": 18,
+      "stem": "某些过敏性哮喘患者体内B细胞活化的部分机制如图所示，呼吸道上皮细胞接触过敏原后，分泌细胞因子IL-33，活化肺部的免疫细胞ILC2．活化的ILC2细胞分泌细胞因"
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "jiangsu",
+      "qnum": 10,
+      "stem": "脂肪细胞分泌的生物活性蛋白Leptin可使兴奋性递质5-羟色胺的合成和释放减少，阻碍神经元之间的兴奋传递，如图所示。下列相关叙述错误的是（    ）\n【答案】B"
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "jiangsu",
+      "qnum": 15,
+      "stem": "甲基化读取蛋白Y识别甲基化修饰的mRNA，引起基因表达效应改变，如图所示。下列相关叙述正确的是（    ）\n【答案】D\n【解析】\n【分析】表观遗传是指DNA序列"
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "jiangsu",
+      "qnum": 16,
+      "stem": "研究小组开展了Cl-胁迫下，添加脱落酸（ABA）对植物根系应激反应的实验，机理如图所示。下列相关叙述错误的有（    ）\n【答案】ABC\n【解析】\n【分析】自由"
+    },
+    {
+      "level": "gaokao",
+      "subject": "biology",
+      "province": "jiangsu",
+      "qnum": 23,
+      "stem": "川金丝猴是我国特有的珍稀濒危物种，为了更好地保护这一物种，研究者开展了以下研究。请回答下列问题：\n（1）川金丝猴警戒行为具有监测捕食者和同种个体的功能，这说明生"
+    }
+  ],
+  "ticket_match": {
+    "image_expected_in_staging": 140,
+    "image_missing_tickets": 140,
+    "coverage_ratio": 1
+  }
+}

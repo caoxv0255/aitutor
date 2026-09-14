@@ -1,0 +1,576 @@
+{
+  "run_label": "dispatch-026-csv-analysis",
+  "timestamp": "2026-09-11T02:35:00Z",
+  "csv_stats": {
+    "parsed.csv": 3270,
+    "gap.csv": 2660,
+    "all.csv": 4465
+  },
+  "parsed_field_completeness": {
+    "has_stem": false,
+    "has_options": false,
+    "has_answer": false,
+    "has_analysis": false,
+    "conclusion": "parsed.csv 是元数据索引, 不含题目正文; 必须解压 zip + mammoth 解析 docx"
+  },
+  "parsed_distribution": {
+    "paper_type_total": {
+      "independent": 1248,
+      "national_ii": 958,
+      "national_i": 434,
+      "national_iii": 225,
+      "new_gaokao_ii": 21,
+      "new_gaokao_i": 48,
+      "national_b": 222,
+      "national_a": 114
+    },
+    "subject_total": {
+      "biology": 363,
+      "chemistry": 365,
+      "chinese": 350,
+      "english": 376,
+      "geography": 362,
+      "history": 362,
+      "math": 370,
+      "physics": 368,
+      "politics": 354
+    },
+    "province_top10": {
+      "beijing": 154,
+      "tianjin": 154,
+      "zhejiang": 150,
+      "jiangsu": 147,
+      "sichuan": 143,
+      "shanghai": 135,
+      "hainan": 133,
+      "shandong": 114,
+      "fujian": 112,
+      "liaoning": 110
+    },
+    "by_year_paper_type": {}
+  },
+  "cross_check": {
+    "dsh_unique": 169,
+    "parsed_unique": 3270,
+    "overlap": 0,
+    "dsh_only": 169,
+    "parsed_only_inc": 3270,
+    "parsed_only_by_paper_type": {
+      "independent": 1248,
+      "national_ii": 958,
+      "national_i": 434,
+      "national_iii": 225,
+      "new_gaokao_ii": 21,
+      "new_gaokao_i": 48,
+      "national_b": 222,
+      "national_a": 114
+    }
+  },
+  "gap_priority": {
+    "high": 282,
+    "medium": 859,
+    "low": 1519,
+    "top_50": [
+      {
+        "year": "2023",
+        "province": "zhejiang",
+        "province_cn": "浙江",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "zhejiang",
+        "province_cn": "浙江",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "zhejiang",
+        "province_cn": "浙江",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "zhejiang",
+        "province_cn": "浙江",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "zhejiang",
+        "province_cn": "浙江",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "zhejiang",
+        "province_cn": "浙江",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "shandong",
+        "province_cn": "山东",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "shandong",
+        "province_cn": "山东",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "shandong",
+        "province_cn": "山东",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "shandong",
+        "province_cn": "山东",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "shandong",
+        "province_cn": "山东",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "shandong",
+        "province_cn": "山东",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "shandong",
+        "province_cn": "山东",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "shandong",
+        "province_cn": "山东",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "shandong",
+        "province_cn": "山东",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "hainan",
+        "province_cn": "海南",
+        "paper_type": "new_gaokao_ii",
+        "paper_type_cn": "新高考II卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "hainan",
+        "province_cn": "海南",
+        "paper_type": "new_gaokao_ii",
+        "paper_type_cn": "新高考II卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "hainan",
+        "province_cn": "海南",
+        "paper_type": "new_gaokao_ii",
+        "paper_type_cn": "新高考II卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "hainan",
+        "province_cn": "海南",
+        "paper_type": "new_gaokao_ii",
+        "paper_type_cn": "新高考II卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "hainan",
+        "province_cn": "海南",
+        "paper_type": "new_gaokao_ii",
+        "paper_type_cn": "新高考II卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "hainan",
+        "province_cn": "海南",
+        "paper_type": "new_gaokao_ii",
+        "paper_type_cn": "新高考II卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "hainan",
+        "province_cn": "海南",
+        "paper_type": "new_gaokao_ii",
+        "paper_type_cn": "新高考II卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "hainan",
+        "province_cn": "海南",
+        "paper_type": "new_gaokao_ii",
+        "paper_type_cn": "新高考II卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "hainan",
+        "province_cn": "海南",
+        "paper_type": "new_gaokao_ii",
+        "paper_type_cn": "新高考II卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "hebei",
+        "province_cn": "河北",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "hebei",
+        "province_cn": "河北",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "hebei",
+        "province_cn": "河北",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "hebei",
+        "province_cn": "河北",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "hebei",
+        "province_cn": "河北",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "hebei",
+        "province_cn": "河北",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "hebei",
+        "province_cn": "河北",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "hebei",
+        "province_cn": "河北",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "hebei",
+        "province_cn": "河北",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "jiangsu",
+        "province_cn": "江苏",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "jiangsu",
+        "province_cn": "江苏",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "jiangsu",
+        "province_cn": "江苏",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "jiangsu",
+        "province_cn": "江苏",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "jiangsu",
+        "province_cn": "江苏",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "jiangsu",
+        "province_cn": "江苏",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "jiangsu",
+        "province_cn": "江苏",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "jiangsu",
+        "province_cn": "江苏",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "jiangsu",
+        "province_cn": "江苏",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "fujian",
+        "province_cn": "福建",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "fujian",
+        "province_cn": "福建",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2023",
+        "province": "fujian",
+        "province_cn": "福建",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "fujian",
+        "province_cn": "福建",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "fujian",
+        "province_cn": "福建",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      },
+      {
+        "year": "2024",
+        "province": "fujian",
+        "province_cn": "福建",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "english",
+        "subject_cn": "英语",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "fujian",
+        "province_cn": "福建",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "chinese",
+        "subject_cn": "语文",
+        "score": 2500
+      },
+      {
+        "year": "2025",
+        "province": "fujian",
+        "province_cn": "福建",
+        "paper_type": "new_gaokao_i",
+        "paper_type_cn": "新高考I卷",
+        "subject": "math",
+        "subject_cn": "数学",
+        "score": 2500
+      }
+    ]
+  }
+}

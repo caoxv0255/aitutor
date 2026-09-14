@@ -1,0 +1,302 @@
+{
+  "run_label": "QB-TAR-20260904-B01-1789001046-STAGE15",
+  "produced_at": "2026-09-10T00:44:06.373Z",
+  "note": "Dispatch expected questions=75; actual in 3 SAFE papers = 25+25+20 = 70. Flagged in w3f2.",
+  "approved_scope": {
+    "paper_uids": [
+      "b4ab624a4e7460d8",
+      "35dccaaf93229ff4",
+      "99e1a3bc2dd808ff"
+    ],
+    "excluded_paper_uids": [
+      "299a49bf489ab027"
+    ]
+  },
+  "W3_F1_papers": [
+    {
+      "paper_uid": "b4ab624a4e7460d8",
+      "status": "SAFE_UPDATE",
+      "existing_id": 10,
+      "existing_paper_uid": "",
+      "existing_q_count": 25,
+      "plan_q_count": 25,
+      "before_sha": "b963ad26ec9f805ea43c07f15ac969b07c157d4ec3209aad35492b3ef475694b",
+      "after_sha": "2209a73360703fc56ad54db40462bb127f9b1eefd763bb96301aab3af0844cda"
+    },
+    {
+      "paper_uid": "35dccaaf93229ff4",
+      "status": "SAFE_UPDATE",
+      "existing_id": 11,
+      "existing_paper_uid": "",
+      "existing_q_count": 25,
+      "plan_q_count": 25,
+      "before_sha": "a57606b70ad66d5fcd1d2917e72e725625c307b4c474da6fe7cbdd9db3ac1fb9",
+      "after_sha": "47f5ab5447edf76e27ea10ae257141b8809c00bb763af1061094c6d11a990ae0"
+    },
+    {
+      "paper_uid": "99e1a3bc2dd808ff",
+      "status": "SAFE_UPDATE",
+      "existing_id": 20,
+      "existing_paper_uid": "",
+      "existing_q_count": 20,
+      "plan_q_count": 20,
+      "before_sha": "a0aea0e6034b6afc82b6ac785e8e67d2763fbe5000358790c53ff9b9f3ef3707",
+      "after_sha": "6b63cfb0d0bdacb0c51301117374398a08ce36193ac181f336c355b94863a672"
+    }
+  ],
+  "W3_F2_questions": {
+    "candidates_in_3_papers": 70,
+    "existing_q_uids_in_3_papers": [],
+    "collision_count": 0,
+    "by_paper": {
+      "chinese|2025": {
+        "count": 25,
+        "uids": [
+          "chinese_2025_beijing_023",
+          "chinese_2025_beijing_010",
+          "chinese_2025_beijing_006",
+          "chinese_2025_beijing_012",
+          "chinese_2025_beijing_013",
+          "chinese_2025_beijing_015",
+          "chinese_2025_beijing_016",
+          "chinese_2025_beijing_018",
+          "chinese_2025_beijing_019",
+          "chinese_2025_beijing_020",
+          "chinese_2025_beijing_021",
+          "chinese_2025_beijing_022",
+          "chinese_2025_beijing_024",
+          "chinese_2025_beijing_025",
+          "chinese_2025_beijing_011",
+          "chinese_2025_beijing_004",
+          "chinese_2025_beijing_003",
+          "chinese_2025_beijing_001",
+          "chinese_2025_beijing_002",
+          "chinese_2025_beijing_005",
+          "chinese_2025_beijing_007",
+          "chinese_2025_beijing_008",
+          "chinese_2025_beijing_009",
+          "chinese_2025_beijing_014",
+          "chinese_2025_beijing_017"
+        ]
+      },
+      "chinese|2024": {
+        "count": 25,
+        "uids": [
+          "chinese_2024_beijing_006",
+          "chinese_2024_beijing_021",
+          "chinese_2024_beijing_008",
+          "chinese_2024_beijing_014",
+          "chinese_2024_beijing_012",
+          "chinese_2024_beijing_013",
+          "chinese_2024_beijing_016",
+          "chinese_2024_beijing_017",
+          "chinese_2024_beijing_018",
+          "chinese_2024_beijing_019",
+          "chinese_2024_beijing_020",
+          "chinese_2024_beijing_022",
+          "chinese_2024_beijing_023",
+          "chinese_2024_beijing_024",
+          "chinese_2024_beijing_025",
+          "chinese_2024_beijing_001",
+          "chinese_2024_beijing_002",
+          "chinese_2024_beijing_003",
+          "chinese_2024_beijing_004",
+          "chinese_2024_beijing_005",
+          "chinese_2024_beijing_007",
+          "chinese_2024_beijing_009",
+          "chinese_2024_beijing_010",
+          "chinese_2024_beijing_011",
+          "chinese_2024_beijing_015"
+        ]
+      },
+      "history|2024": {
+        "count": 20,
+        "uids": [
+          "history_2024_beijing_009",
+          "history_2024_beijing_015",
+          "history_2024_beijing_016",
+          "history_2024_beijing_017",
+          "history_2024_beijing_018",
+          "history_2024_beijing_020",
+          "history_2024_beijing_001",
+          "history_2024_beijing_002",
+          "history_2024_beijing_003",
+          "history_2024_beijing_004",
+          "history_2024_beijing_013",
+          "history_2024_beijing_005",
+          "history_2024_beijing_006",
+          "history_2024_beijing_007",
+          "history_2024_beijing_008",
+          "history_2024_beijing_019",
+          "history_2024_beijing_010",
+          "history_2024_beijing_011",
+          "history_2024_beijing_012",
+          "history_2024_beijing_014"
+        ]
+      }
+    }
+  },
+  "W3_F3_collision_classes": {
+    "papers": [
+      {
+        "paper_uid": "b4ab624a4e7460d8",
+        "status": "SAFE_UPDATE",
+        "existing_id": 10,
+        "existing_paper_uid": "",
+        "existing_q_count": 25,
+        "plan_q_count": 25,
+        "before_sha": "b963ad26ec9f805ea43c07f15ac969b07c157d4ec3209aad35492b3ef475694b",
+        "after_sha": "2209a73360703fc56ad54db40462bb127f9b1eefd763bb96301aab3af0844cda"
+      },
+      {
+        "paper_uid": "35dccaaf93229ff4",
+        "status": "SAFE_UPDATE",
+        "existing_id": 11,
+        "existing_paper_uid": "",
+        "existing_q_count": 25,
+        "plan_q_count": 25,
+        "before_sha": "a57606b70ad66d5fcd1d2917e72e725625c307b4c474da6fe7cbdd9db3ac1fb9",
+        "after_sha": "47f5ab5447edf76e27ea10ae257141b8809c00bb763af1061094c6d11a990ae0"
+      },
+      {
+        "paper_uid": "99e1a3bc2dd808ff",
+        "status": "SAFE_UPDATE",
+        "existing_id": 20,
+        "existing_paper_uid": "",
+        "existing_q_count": 20,
+        "plan_q_count": 20,
+        "before_sha": "a0aea0e6034b6afc82b6ac785e8e67d2763fbe5000358790c53ff9b9f3ef3707",
+        "after_sha": "6b63cfb0d0bdacb0c51301117374398a08ce36193ac181f336c355b94863a672"
+      }
+    ],
+    "conclusion": "PASS"
+  },
+  "W3_F4_images": {
+    "image_rows_PRESENT": 320,
+    "image_rows_MISSING_SOURCE": 1315,
+    "image_BLOCKED_count": 0,
+    "image_BLOCKED_samples": [],
+    "conclusion": "PASS"
+  },
+  "W3_F5_kp": {
+    "mapped": 3,
+    "mapped_details": [
+      {
+        "staging_q": "chinese_2025_beijing_014",
+        "kp": "CHIN-G0-167",
+        "conf": 0.5
+      },
+      {
+        "staging_q": "chinese_2025_beijing_014",
+        "kp": "CHIN-G0-154",
+        "conf": 0.5
+      },
+      {
+        "staging_q": "chinese_2025_beijing_015",
+        "kp": "CHIN-G0-159",
+        "conf": 0.5
+      }
+    ],
+    "unmapped_remaining_staging_only": 263,
+    "conclusion": "PASS"
+  },
+  "W3_F6_paper21_excluded": {
+    "paper_21_in_target": false,
+    "paper_21_state": {
+      "id": 21,
+      "paper_uid": null,
+      "subject": "history",
+      "year": 2025,
+      "question_count": 20
+    },
+    "conclusion": "PASS — paper 21 NOT in approved scope"
+  },
+  "target_snapshot": {
+    "captured_at": "2026-09-10T00:44:06.373Z",
+    "run_label": "QB-TAR-20260904-B01-1789001046-STAGE15",
+    "target_papers": [
+      {
+        "paper_uid": "b4ab624a4e7460d8",
+        "existing_id": 10,
+        "classification": "SAFE_UPDATE",
+        "plan_q_count": 25,
+        "existing_q_count": 25
+      },
+      {
+        "paper_uid": "35dccaaf93229ff4",
+        "existing_id": 11,
+        "classification": "SAFE_UPDATE",
+        "plan_q_count": 25,
+        "existing_q_count": 25
+      },
+      {
+        "paper_uid": "99e1a3bc2dd808ff",
+        "existing_id": 20,
+        "classification": "SAFE_UPDATE",
+        "plan_q_count": 20,
+        "existing_q_count": 20
+      }
+    ],
+    "target_questions_in_3_papers": 70,
+    "target_questions_existing_in_3_papers": 70,
+    "target_question_uid_collisions": 0,
+    "target_image_rows_PRESENT": 320,
+    "target_image_rows_MISSING_SOURCE": 1315,
+    "target_kp_deterministic": 3,
+    "target_kp_existing": 0,
+    "excluded_paper_21": {
+      "paper_uid": "299a49bf489ab027",
+      "reason": "15/20 content CONFLICT (Addendum F)"
+    }
+  },
+  "ledger_protocol": {
+    "table": "qb_recovery.canonical_migration_ledger",
+    "columns": [
+      "id",
+      "run_label",
+      "entity_type",
+      "canonical_uid",
+      "canonical_id",
+      "action",
+      "before_sha",
+      "after_sha",
+      "detail",
+      "occurred_at"
+    ],
+    "actions_allowed": [
+      "BEGIN",
+      "INSERTED",
+      "UPDATED",
+      "UNCHANGED",
+      "ROLLED_BACK"
+    ],
+    "expected_entries_for_3_papers": {
+      "BEGIN": 1,
+      "UPSERT_paper_id_10_SAFE_UPDATE": 1,
+      "UPSERT_paper_id_11_SAFE_UPDATE": 1,
+      "UPSERT_paper_id_20_SAFE_UPDATE": 1,
+      "INSERT_question": 70,
+      "INSERT_image_PRESENT": 320,
+      "INSERT_kp_deterministic": 3,
+      "COMMIT": 1,
+      "estimated_total_rows": 398
+    },
+    "rollback_protocol": [
+      "1. SELECT all ledger entries WHERE run_label = $1 ORDER BY id DESC",
+      "2. For each entry, determine reversal by action:",
+      "   - INSERTED → DELETE FROM public.<table> WHERE id = canonical_id",
+      "   - UPDATED → read current row, compare sha to after_sha; if matches → restore from before_sha via UPDATE; if not matches → log \"external modification; skip\" and DO NOT touch",
+      "   - UNCHANGED → no-op",
+      "3. Papers: action=UPDATED → restore from before_sha",
+      "4. Questions: action=INSERTED → DELETE",
+      "5. Images: action=INSERTED → DELETE FROM public.question_images",
+      "6. KP: action=INSERTED → DELETE FROM public.question_knowledge_points",
+      "7. After each DELETE/UPDATE, re-read sha to verify",
+      "8. Commit per-entity to allow partial rollback",
+      "9. Mark each reversed entry as ROLLED_BACK in the ledger",
+      "10. CRITICAL: never blindly DELETE/restore; only act when current sha matches after_sha (post-migration state)"
+    ]
+  },
+  "OVERALL": "READY_FOR_USER_AUTHORIZATION",
+  "blockers": []
+}

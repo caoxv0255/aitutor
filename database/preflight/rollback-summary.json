@@ -1,0 +1,17 @@
+{
+  "produced_at": "2026-09-09T15:40:21.122Z",
+  "migration_target": {
+    "papers": 4,
+    "questions": 90,
+    "images_PRESENT": 460,
+    "kp_deterministic": 3
+  },
+  "rollback_scope": {
+    "papers_to_delete": 4,
+    "questions_to_delete": 90,
+    "images_to_delete": 460,
+    "kp_to_delete": 3
+  },
+  "rollback_idempotent": "yes (DELETE WHERE id IN (SELECT) pattern; safe to re-run)",
+  "verified_safe": true
+}

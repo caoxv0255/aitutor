@@ -1,0 +1,17 @@
+{
+  "run_label": "stage32-batch02-commit",
+  "timestamp": "2026-09-10T11:33:30.813Z",
+  "mode": "dry-run",
+  "before": {
+    "public.exam_papers": 35,
+    "public.exam_questions": 679,
+    "public.question_knowledge_points": 203,
+    "public.question_images": 320
+  },
+  "plan": {
+    "new_papers": 2,
+    "existing_papers": 0,
+    "new_questions": 6,
+    "duplicates": 0
+  }
+}

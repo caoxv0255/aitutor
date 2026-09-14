@@ -1,0 +1,935 @@
+{
+  "phase": "final",
+  "project_understanding": {
+    "goal": "AI Tutor (aitutor.uibe.online) — 高考/中考错题诊断与预测学习平台。用户通过 PWA 拍照上传错题，系统自动识别题目、归类学科与知识点，生成个性化诊断报告、预测卷和强化学习方案。",
+    "core_functions": [
+      "PWA 拍照搜题（qwen-vl-max OCR + RAG 相似题）",
+      "LLM 题目识别 + 知识点归类（Hybrid RAG：pgvector + Apache AGE + mastery）",
+      "AI Tutor 流式对话（/api/tutor/ask/stream SSE）",
+      "错题本 CRUD（wrong_questions）",
+      "诊断报告生成（reports + ai-feedback）",
+      "个性化预测卷生成（已降级为 LLM 兜底，D085 mastery canonical 未实施）",
+      "学习路径 / 薄弱点分析（3 套口径单位未统一）",
+      "SRS 间隔复习（SM-2 算法，dashboard 调用，review.html 未上线）",
+      "考试模拟（整卷 OCR + docx→pdf 转换）",
+      "作文智能批改（D086 P0 essay grading 16MB path-scoped parser）",
+      "GraphRAG / RAG 知识图谱检索（外部 graphrag_service 8100）",
+      "数据飞轮（learning-loop：feedback → mastery 写 → AGE ripple）",
+      "省份对比 / 班级分析",
+      "游戏化（checkin + 徽章，D082 增量未文档化）",
+      "今日任务（D081 Sprint 2）",
+      "用户反馈通道（feedback/stats）"
+    ],
+    "architecture": "modular monolith (with legacy bridge layer + multi-frontend transitional state) — Express.js (ESM) 单进程 + PostgreSQL + pgvector + Apache AGE + Redis (可选) + DashScope/DeepSeek/MiniMax CN/Ollama",
+    "modules": [
+      "auth", "user", "tutor", "exam", "vision", "knowledge", "review",
+      "rag", "srs", "analytics", "gamification", "feedback", "essay", "admin"
+    ],
+    "data_flow": "HTTP request → trust_proxy → securityHeaders → cors → express.json(10MB, essay 路径 16MB 优先) → xssSanitizer/DOMPurify → xssDetector → csrfProtection → loggerMiddleware → traceIdMiddleware → versionMiddleware → cookies → /aitutor strip → /api/* 进入 auditMiddleware → authMiddleware (JWT + isPublicRoute + DEV_AUTH_BYPASS) → apiLimiter (auth 120/min, anon 30/min) → legacyCompatRouter (D070 30 天 sunset) → modulesRouter (12 子 router) → handler → DB (pool.query) → ai_trace (LLM 调用埋点) → response (D062 envelope {success,data} / {success:false,error:{code,message}}) → 客户端",
+    "control_flow": "启动: dotenv → validateJWTSecret → DEV_AUTH_BYPASS production guard → app 创建 → 19 个全局中间件 → /api/health 直挂 → swagger → 13 个 server.js 直挂 (provinces/exam-pdf/adaptive-difficulty/class-detail/proxy 等) → /api/* 入口挂 modulesRouter + legacyCompatRouter → 404 → errorHandler → start(): getDb → ensureSeeds → ai_trace provenance gate (D086 migration 011 verify) → startWorker (taskQueue) → listen(PORT)。请求生命周期见 data_flow。后台: taskWorker poll task_queue → recoverStaleTasks (5min stuck → pending) → process → recordAiTrace。错误: wrapHandler (try/catch + res.destroy if headersSent) → errorHandler middleware (AuthError/ValidationError/NotFoundError 分类)"
+  },
+  "current_architecture": {
+    "strengths": [
+      "modules/ 命名空间化清晰（12 个 module，每个 1 个 routes.js），与 D062 envelope 一致",
+      "server.js 入口扁平简洁（399 行），所有可观测中间件都有命名注释和 D-NNN 决策依据",
+      "D062 envelope / D063 questionUid / D064 ensureSeeds / D065 gate / D067 DEV_AUTH_BYPASS guard / D085 mastery canonical / D086 essay fail-fast 等关键决策已落地代码层",
+      "D082 路由切流策略明确：F3 → /f3 路径，frontend/ 仍 28 个 alias，/frontend* 301→/f3，30 天观察期",
+      "essay pipeline 采用 path-scoped 16MB parser + Buffer.from('base64').length 双重防护（D086 最佳实践）",
+      "Learning Loop 把 mastery 写入与 AGE ripple 解耦为 processSingleFeedbackSql + processRippleEffect 独立路径，符合 D080 原则"
+    ],
+    "weaknesses": [
+      "api/handlers/ 35+ 文件 vs api/modules/ 12 个 vs api/routes/ 8 个 — 三层职责重叠无 ADR 明确边界（ARCH-001）",
+      "handlers/ 5+ 文件完全未挂载（study-plan 512 行 0 引用、seed-zhongkao 0 引用、knowledge-points 0 引用、questions.js 114 行 import-but-unused、tasks.js 0 引用）(ARCH-002)",
+      "knowledge concern 拆到 3 个目录：modules/knowledge + modules/review + routes/learning-loop + routes/tutor-agent；mastery_score 3 套口径单位（delta/100 vs *100 vs /100）(ARCH-003, D085 未实施)",
+      "server.js 直挂 13 endpoint 绕过 auditMiddleware；/api/cache/clear-provinces 与 /api/provinces/seed 完全无鉴权（CRITICAL）(ARCH-004)",
+      "legacy-compat.js sunset 2026-09-23 缺乏落地保障，4 个前端目录（frontend/public/ai-tutor-frontend/frontend-legacy）共存无 ticket 跟进（ARCH-005）",
+      "db.js 1029 行单文件承担 36 表 DDL + 60+ index + 维度迁移（768→1024 TRUNCATE destructive）(ARCH-006)",
+      "core/auth.js ↔ middleware/errorHandler.js 循环依赖（ARCH-007）",
+      "proxy.js 150 行 vs services/llm.js 854 行双套 LLM 模型管理，D073 修了 llm.js 未修 proxy.js（qwen3-vl-plus 应改为 qwen-vl-plus）(ARCH-008)",
+      "cacheService 8 个 static method 仅 2 个被调用，剩余 dead（ARCH-009）",
+      "essayGrader.js 193 行单函数承担 LLM+解析+验证+持久化+对账，缺事务回滚（ARCH-010）",
+      "modules/*/routes.js mount 风格不统一（/ vs /search）(ARCH-011)",
+      "knowledge 列表 3 份权威实现（ARCH-012）"
+    ],
+    "root_causes": [
+      {
+        "id": "RC-001",
+        "title": "无分层边界 ADR，三层职责 (handlers/modules/routes) 重叠无权威定义",
+        "evidence_across_dimensions": [
+          {"dimension": "architecture", "problem_id": "ARCH-001", "summary": "三层职责重叠，无 ADR 明确边界"},
+          {"dimension": "architecture", "problem_id": "ARCH-002", "summary": "handlers/ 5+ 文件完全未挂载"},
+          {"dimension": "functionality", "problem_id": "FUNC-404", "summary": "/api/knowledge-points 与 /api/weak-points CLAUDE.md 提及但 404"},
+          {"dimension": "tests", "problem_id": "TEST-NO-OWNER", "summary": "modules/*/ 覆盖几乎为 0，handlers/*/ 覆盖差"},
+          {"dimension": "security", "problem_id": "SEC-ADMIN-NOAUTH", "summary": "admin endpoint 无 auth（部分由 server.js 直挂）"}
+        ],
+        "root_fix": "发布 ADR-001 api-endpoint-ownership：module = bounded context (controller + usecase + repository)，handlers/routes 全部淘汰，server.js 仅做 composition root；用 architecture test (dependency-cruiser) 强制",
+        "root_fix_effort": "medium"
+      },
+      {
+        "id": "RC-002",
+        "title": "schema 真相散落在 db.js + migrations/ + 散落 seed JSON，无单一权威",
+        "evidence_across_dimensions": [
+          {"dimension": "architecture", "problem_id": "ARCH-006", "summary": "db.js 1029 行承担 36 表 DDL + 60+ index + 维度迁移"},
+          {"dimension": "correctness", "problem_id": "CORR-MIG", "summary": "维度迁移 TRUNCATE 是 destructive，启动序列自动执行"},
+          {"dimension": "tests", "problem_id": "TEST-SCHEMA", "summary": "release-gate 不查 schema drift"},
+          {"dimension": "security", "problem_id": "SEC-DB-BOOT", "summary": "启动序列包含 destructive TRUNCATE，权限过宽即可数据丢失"}
+        ],
+        "root_fix": "引入 drizzle-kit 作为唯一 schema 源；db.js 收缩为 connection pool；knowledge 三份 schema 收为单一表 + view 派生",
+        "root_fix_effort": "high"
+      },
+      {
+        "id": "RC-003",
+        "title": "鉴权/中间件非默认开启 (opt-in security)，靠开发者记得挂",
+        "evidence_across_dimensions": [
+          {"dimension": "architecture", "problem_id": "ARCH-004", "summary": "server.js 直挂 13 endpoint 绕过 auditMiddleware"},
+          {"dimension": "correctness", "problem_id": "CORR-AUTH-BYPASS", "summary": "DEV_AUTH_BYPASS 残留，register admin 硬编码密码"},
+          {"dimension": "security", "problem_id": "SEC-AUTH-NOOPTS", "summary": "register admin 硬编码、legacy-compat 绕过 auth、CORS 默认值回退"},
+          {"dimension": "functionality", "problem_id": "FUNC-NOAUTH", "summary": "admin endpoint 无 auth"},
+          {"dimension": "tests", "problem_id": "TEST-NOAUTH", "summary": "auth 中间件测试覆盖低"}
+        ],
+        "root_fix": "default-deny 中间件：app.use('/api', authMiddleware) 兜底 + 白名单 (/api/health, /api/auth/*) 例外；DEV_AUTH_BYPASS 在 NODE_ENV=production 启动期 throw",
+        "root_fix_effort": "medium"
+      },
+      {
+        "id": "RC-004",
+        "title": "LLM 模型管理双源 (proxy.js + services/llm.js)，真相漂移",
+        "evidence_across_dimensions": [
+          {"dimension": "architecture", "problem_id": "ARCH-008", "summary": "proxy.js vs services/llm.js 双套"},
+          {"dimension": "correctness", "problem_id": "CORR-PROXY", "summary": "proxy.js LLM 超时/重试/降级与 llm.js 行为不一致"},
+          {"dimension": "security", "problem_id": "SEC-PROXY-SSRF", "summary": "proxy.js SSRF / 模型名注入风险"},
+          {"dimension": "code-quality", "problem_id": "CQ-DUP-MODEL", "summary": "model 列表 + endpoint URL + retry policy 重复"},
+          {"dimension": "tests", "problem_id": "TEST-PROXY", "summary": "两套实现的 mock/契约测试分裂"}
+        ],
+        "root_fix": "废弃 proxy.js handler，全部 LLM 调用收敛到 infrastructure/llm/{provider,router}；模型名白名单校验；超时/重试/降级统一",
+        "root_fix_effort": "medium"
+      },
+      {
+        "id": "RC-005",
+        "title": "knowledge/mastery concern 切到 3 个目录 + 3 套口径单位，模块边界违背 bounded context",
+        "evidence_across_dimensions": [
+          {"dimension": "architecture", "problem_id": "ARCH-003", "summary": "knowledge 拆 3 个目录"},
+          {"dimension": "architecture", "problem_id": "ARCH-012", "summary": "knowledge 列表 3 份权威实现"},
+          {"dimension": "functionality", "problem_id": "FUNC-MASTERY", "summary": "predict-paper 走 LLM 兜底"},
+          {"dimension": "correctness", "problem_id": "CORR-UNIT", "summary": "mastery_score 排序失真"},
+          {"dimension": "tests", "problem_id": "TEST-KNOWLEDGE", "summary": "knowledge 测试散在 3 个目录"}
+        ],
+        "root_fix": "实施 D085：合并 modules/knowledge + modules/review + routes/learning-loop(mastery) + routes/tutor-agent(mastery) → modules/knowledge；mastery_score 归一化 0-1",
+        "root_fix_effort": "medium"
+      },
+      {
+        "id": "RC-006",
+        "title": "错误处理/日志/事务无统一基类，每个 handler 自行 try/catch + 自行 pg.query",
+        "evidence_across_dimensions": [
+          {"dimension": "architecture", "problem_id": "ARCH-010", "summary": "essayGrader god-function 缺事务"},
+          {"dimension": "architecture", "problem_id": "ARCH-007", "summary": "core/auth.js ↔ middleware/errorHandler.js 循环依赖"},
+          {"dimension": "correctness", "problem_id": "CORR-TX", "summary": "transaction 边界不清晰"},
+          {"dimension": "code-quality", "problem_id": "CQ-ERROR", "summary": "utils/errors.js 缺失"},
+          {"dimension": "tests", "problem_id": "TEST-TX", "summary": "事务回滚测试不存在"}
+        ],
+        "root_fix": "引入 application/TransactionalUseCase 基类 (BEGIN/COMMIT/ROLLBACK)；shared/errors.js 统一 DomainError/ValidationError/UnauthorizedError；core/auth 与 middleware 解耦",
+        "root_fix_effort": "high"
+      },
+      {
+        "id": "RC-007",
+        "title": "测试金字塔倒置：核心业务流（拍照→识别→诊断→预测卷）几乎无 e2e",
+        "evidence_across_dimensions": [
+          {"dimension": "functionality", "problem_id": "FUNC-E2E", "summary": "核心业务流程几乎无 e2e"},
+          {"dimension": "tests", "problem_id": "TEST-MISSING", "summary": "modules/*/ 覆盖几乎为 0"},
+          {"dimension": "tests", "problem_id": "TEST-CONTRACT", "summary": "contract.test.js 可能仅 mock 自洽"},
+          {"dimension": "correctness", "problem_id": "CORR-NO-TX-TEST", "summary": "taskWorker stuck/dead-letter 无测试"},
+          {"dimension": "architecture", "problem_id": "ARCH-REFACTOR", "summary": "god-function 无法单元测试"}
+        ],
+        "root_fix": "usecase 改为 constructor injection；test/setup 提供 fake LLM / fake pg；e2e 用 docker-compose 起全套；5/5 gate 加 '核心 happy path e2e' 硬门",
+        "root_fix_effort": "high"
+      },
+      {
+        "id": "RC-008",
+        "title": "前后端/legacy sunset 无 ticket 跟进，多版本共存无 SLA",
+        "evidence_across_dimensions": [
+          {"dimension": "architecture", "problem_id": "ARCH-005", "summary": "4 个前端目录共存无 ticket"},
+          {"dimension": "security", "problem_id": "SEC-LEGACY-BYPASS", "summary": "legacy-compat 可能绕过 auth"},
+          {"dimension": "code-quality", "problem_id": "CQ-DUP-FRONTEND", "summary": "4 套样式体系"},
+          {"dimension": "tests", "problem_id": "TEST-FRONTEND", "summary": "前端回归测试成本翻倍"},
+          {"dimension": "functionality", "problem_id": "FUNC-410", "summary": "410 Gone 仍占 endpoint"}
+        ],
+        "root_fix": "三阶段 sunset：(1) feature flag 切流到 ai-tutor-frontend；(2) legacy-compat 标 read-only + 监控流量；(3) 流量<1%/月 物理删除",
+        "root_fix_effort": "medium"
+      },
+      {
+        "id": "RC-009",
+        "title": "cache/cacheService 两层抽象，方法一半 dead，无统一失效策略",
+        "evidence_across_dimensions": [
+          {"dimension": "architecture", "problem_id": "ARCH-009", "summary": "cacheService 8 method 仅 2 个被调用"},
+          {"dimension": "code-quality", "problem_id": "CQ-CACHE-DUP", "summary": "utils/cache.js vs cacheService.js 重叠"},
+          {"dimension": "correctness", "problem_id": "CORR-CACHE-INV", "summary": "cache invalidation 时序不明确"},
+          {"dimension": "performance", "problem_id": "PERF-CACHE", "summary": "多进程下内存缓存失效"},
+          {"dimension": "tests", "problem_id": "TEST-CACHE", "summary": "缓存一致性无测试"}
+        ],
+        "root_fix": "合并 shared/cache (L1 in-memory + L2 redis)，接口 K/V/TTL/invalidate(tag)；static 改 DI 注入；invalidation 走 event bus",
+        "root_fix_effort": "low"
+      }
+    ]
+  },
+  "audit": {
+    "architecture": {
+      "summary": "处于 D082 引入的 modules/ 新架构与 handlers/ 旧架构并行的过渡期。3 层路由入口（modules/ + routes/ + handlers/）、4 个前端目录共存、legacy-compat 30 天 sunset 倒计时、若干死代码 handlers 与 1 处关键跨层耦合（modules/ → handlers/）。",
+      "critical_problems": [
+        {"id": "ARCH-004", "title": "13 个 endpoint 由 server.js 直挂，绕过 auditMiddleware；/api/cache/clear-provinces 与 /api/provinces/seed 无鉴权", "severity": "critical"},
+        {"id": "ARCH-001", "title": "handlers/modules/routes 三层职责重叠无 ADR", "severity": "high"},
+        {"id": "ARCH-002", "title": "5+ handlers 完全未挂载（≈700 行 dead code）", "severity": "high"},
+        {"id": "ARCH-003", "title": "knowledge 拆 3 个目录 + mastery 3 套口径", "severity": "high"},
+        {"id": "ARCH-005", "title": "legacy-compat sunset 缺乏落地", "severity": "high"},
+        {"id": "ARCH-007", "title": "core/auth.js ↔ middleware/errorHandler.js 循环依赖", "severity": "high"},
+        {"id": "ARCH-008", "title": "proxy.js vs services/llm.js 双套 LLM 管理", "severity": "high"},
+        {"id": "ARCH-010", "title": "essayGrader.js 193 行 god-function 缺事务", "severity": "high"}
+      ]
+    },
+    "functionality": {
+      "summary": "13 模块 ~60 endpoint 装载；7 endpoint 直挂 server.js；tasks.js 完全 dead-code；/api/knowledge-points 与 /api/weak-points CLAUDE.md 提及但 404；/api/explain-question 和 /api/generate-paper 仅 410 Gone（predict-paper 走 LLM 兜底非真个性化）；admin endpoint 无 auth；SRS 调度未验证。",
+      "implemented": [
+        "PWA 拍照搜题", "AI Tutor 流式对话", "SRS 间隔复习", "今日任务", "考试模拟",
+        "作文智能批改（D086）", "数据飞轮（learning-loop）", "用户反馈通道", "游戏化"
+      ],
+      "partial": ["诊断报告", "学习路径", "薄弱点分析", "GraphRAG", "省份对比/班级分析"],
+      "missing_or_dead": ["/api/knowledge-points", "/api/weak-points", "/api/generate-paper (真个性化)", "/api/explain-question", "/api/tasks", "predict-paper (真个性化)"]
+    },
+    "code_quality": {
+      "summary": "结构性债务集中在 handlers/ god-folder（35+ 文件 ~6306 行）、essayGrader god-function、cacheService/util/cache 双层抽象、LLM 模型双源、db.js god-module、mastery 算分 3 处重复。",
+      "duplication_count": 10,
+      "utils_bloat": ["utils/cache.js vs services/cacheService.js 重叠", "subjectMap.js + subjectCombinations.js 可能重复", "essay/essayReconcile.js 与 essaySchema.js 仍承担子职责"],
+      "magic_numbers": ["13.38MB 计算写在 server.js 注释中", "D086 16MB 双挂"]
+    },
+    "correctness": {
+      "summary": "taskWorker 缺 stuck 检测与 DLQ；proxy.js LLM 超时/降级与 llm.js 行为不一致；transaction 边界不规范；register admin 硬编码密码；DEV_AUTH_BYPASS 残留风险；cache invalidation 时序未保证；db.js 启动期 destructive TRUNCATE。",
+      "critical": [
+        {"id": "CORR-AUTH-BYPASS", "title": "DEV_AUTH_BYPASS 残留 + register admin 硬编码密码可远程触发"},
+        {"id": "CORR-MIG", "title": "db.js 启动期 768→1024 TRUNCATE 无备份无审计"},
+        {"id": "CORR-TASKWORKER", "title": "taskWorker stuck task 与死信缺失"},
+        {"id": "CORR-TX", "title": "essayGrader 持久化失败不回滚；多步写入半提交"}
+      ]
+    },
+    "tests": {
+      "summary": "modules/*/ 覆盖几乎为 0；handlers/*/ 覆盖差；contract.test.js 仅 mock 自洽未验真实；production-smoke 覆盖启动路径但 e2e 缺核心 happy path；5/5 gate 缺 8 项关键门禁。",
+      "gate_effectiveness": "5/5 gate 当前覆盖 lint/test/contract/dockersmoke/release，但缺核心 e2e/auth 负面/schema drift/performance baseline/security scan/architecture rule",
+      "high_risk_uncovered": ["拍照→识别→诊断→预测卷 端到端", "essay 批改事务回滚", "taskWorker DLQ", "cache invalidation", "admin 鉴权负面"]
+    },
+    "security": {
+      "summary": "8 项 P0 漏洞：register admin 硬编码密码（bcrypt cost=10 可被 GPU 暴破）、server.js 直挂 admin endpoint 无鉴权、db.js 启动期 destructive TRUNCATE、DEV_AUTH_BYPASS 残留、CORS 默认值回退到 '*'、trust proxy loopback 在 ALB/CDN 后失真、legacy-compat 可能绕过 auth、proxy.js 模型名 SSRF/注入风险。",
+      "critical_count": 10,
+      "high_count": 8
+    }
+  },
+  "top_findings": [
+    "ARCH-004 critical：admin endpoint (/api/cache/clear-provinces, /api/provinces/seed) 无鉴权，可远程执行",
+    "ARCH-006 critical：db.js 启动期 768→1024 TRUNCATE 是 destructive，无备份无审计",
+    "SEC register admin 硬编码密码 + bcrypt cost=10 + 可远程触发 admin 注册",
+    "RC-003：opt-in security 是最大根因，导致 5+ 维度表层问题",
+    "ARCH-001：无分层边界 ADR 导致 handlers/modules/routes 三层职责重叠，5+ 文件 dead code",
+    "RC-005：knowledge 三件分散导致 mastery 3 套口径，predict-paper 退化为 LLM 兜底",
+    "ARCH-008 + RC-004：proxy.js vs services/llm.js 双套 LLM 管理，模型名漂移 + SSRF 风险",
+    "RC-007：测试金字塔倒置，核心业务流几乎无 e2e，5/5 gate 流于形式",
+    "ARCH-005：legacy-compat sunset 无落地，4 前端目录长期共存",
+    "ARCH-010：essayGrader god-function 缺事务，持久化失败不可回滚"
+  ],
+  "target_architecture": {
+    "architecture_style": "Modular Monolith with Clean Architecture layering",
+    "principles": [
+      "Dependency Rule: modules → application → domain (外层依赖内层)",
+      "Bounded Context per module: 1 module = 1 业务能力",
+      "Server.js = composition root ONLY，禁止挂业务 endpoint",
+      "Default-deny auth: app.use('/api', authMiddleware) 兜底 + 显式白名单",
+      "Schema 真相单源 (drizzle schema), db.js 收缩为 pool",
+      "LLM 出口单源 (infrastructure/llm), proxy.js 废弃",
+      "每个 module 三件套 controller/usecase/repository, 显式装配",
+      "TransactionalUseCase 基类统一事务边界",
+      "全 async/await，错误统一 DomainError 子类"
+    ],
+    "modules": [
+      "auth", "user", "tutor", "exam", "vision", "knowledge", "review", "rag",
+      "srs", "analytics", "gamification", "feedback", "essay", "admin", "rag_admin", "public"
+    ],
+    "dependency_direction": [
+      "modules/ → application/, infrastructure/, shared/",
+      "application/ → domain/, infrastructure/ (通过 port), shared/",
+      "infrastructure/ → shared/, 第三方 SDK",
+      "domain/ → 无外部依赖 (纯 JS)",
+      "shared/ → 第三方 SDK 以外不依赖任何层",
+      "禁止: domain 依赖 express/pg/redis；application 直接 new pg.Pool",
+      "违规检测: dependency-cruiser 规则化，命中 0 才允许 commit"
+    ],
+    "data_flow": "HTTP → middleware (rate-limit/audit/auth) → module/<x>/controller (parse+validate) → application/usecase (orchestrate via port) → infrastructure/repository (pg) or infrastructure/llm → DB/External → 响应 envelope {success,data} (D062) → shared/middleware/error",
+    "control_flow": "启动: loadConfig → initLogger → initPgPool → runMigrations (drizzle) → ensureSeeds (D064) → initCache (L1+L2) → initLLMRouter → initTaskWorker → startServer.listen；请求生命周期: middleware chain → controller → usecase → repository → response；后台任务: taskWorker.poll → markRunning → execute → markDone/markDead (stuck N 次入 DLQ)；错误传播: DomainError → middleware/errorHandler → envelope{success:false,error:{code,message}}, 未捕获 → 500 + trace_id + 上报"
+  },
+  "recommended_structure": {
+    "target_tree": "src/\n├── domain/\n│   ├── user/{User.js, WrongQuestion.js, Mastery.js}\n│   ├── knowledge/{KnowledgePoint.js, WeaknessIndex.js}\n│   ├── exam/{Paper.js, Question.js}\n│   ├── essay/EssayRubric.js\n│   └── events/{QuestionDiagnosed.js, PaperGenerated.js}\n├── application/\n│   ├── usecase/         # 各 module 的 use case\n│   ├── port/            # Repository/LLM/Cache 抽象接口\n│   ├── dto/             # 传输对象\n│   └── TransactionalUseCase.js  # 事务基类\n├── infrastructure/\n│   ├── db/{pool.js, schema/*, migrations/*, seeds/*}\n│   ├── llm/{router.js, provider/*, types.js}\n│   ├── cache/{l1.js, l2.js, manager.js}\n│   ├── queue/taskWorker.js\n│   ├── search/pgvector.js\n│   └── external/{mailer.js, storage.js}\n├── modules/\n│   ├── auth/{controller, usecase, repository, composition}\n│   ├── tutor/{controller, usecase, repository, composition}\n│   ├── exam/{controller, usecase, repository, composition}\n│   ├── vision/{controller, usecase, repository, composition}\n│   ├── knowledge/{controller, usecase, repository, composition}  # 合并 modules/knowledge + review + learning-loop(kp) + tutor-agent(mastery)\n│   ├── rag/{controller, usecase, repository, composition}\n│   ├── rag_admin/{controller, usecase, repository, composition}\n│   ├── srs/{controller, usecase, repository, composition}\n│   ├── analytics/{controller, usecase, repository, composition}\n│   ├── gamification/{controller, usecase, repository, composition}\n│   ├── feedback/{controller, usecase, repository, composition}\n│   ├── essay/{grader, parser, repository, controller, usecase, composition}\n│   ├── admin/{controller, usecase, repository, composition}\n│   └── public/{compat, controller, composition}   # legacy-compat sunset\n├── shared/\n│   ├── errors/{DomainError, ValidationError, UnauthorizedError, NotFoundError}\n│   ├── middleware/{auth, rateLimit, audit, errorHandler, cors, traceId, version, xss, csrf, logger, securityHeaders}\n│   ├── validators/       # zod schemas\n│   ├── logger/\n│   ├── config/{index.js, env.js}\n│   ├── events/event-bus.js\n│   ├── cache/index.js    # 合并 cacheService + utils/cache\n│   ├── envelope.js       # D062\n│   ├── questionUid.js    # D063\n│   └── swagger.js\n└── server.js             # composition root only\ntests/\n├── unit/                 # per usecase / domain\n├── integration/          # per module (supertest)\n├── e2e/                  # 拍照→识别→诊断→预测卷 核心 happy path\n├── contract/             # D062 envelope / D063 questionUid / LLM provider\n├── performance/          # taskWorker QPS / pgvector recall / LLM p95\n└── fixtures/             # recorded LLM responses, sample images",
+    "current_to_target_mapping": [
+      {"current": "api/core/db.js (1029 行)", "target": "src/infrastructure/db/{pool.js, schema/*}", "action": "split"},
+      {"current": "api/core/auth.js", "target": "src/shared/middleware/auth.js", "action": "move"},
+      {"current": "api/core/taskWorker.js", "target": "src/infrastructure/queue/taskWorker.js", "action": "move"},
+      {"current": "api/core/swagger.js", "target": "src/shared/swagger.js", "action": "move"},
+      {"current": "api/middleware/*", "target": "src/shared/middleware/*", "action": "move"},
+      {"current": "api/utils/*", "target": "src/shared/utils/*", "action": "move"},
+      {"current": "api/utils/cache.js + api/services/cacheService.js", "target": "src/shared/cache/index.js (合并)", "action": "merge"},
+      {"current": "api/services/llm.js", "target": "src/infrastructure/llm/{router,provider,types}.js", "action": "split"},
+      {"current": "api/services/obsidian-sync.js", "target": "delete (0 引用)", "action": "delete"},
+      {"current": "api/handlers/login.js", "target": "src/modules/auth/usecase/login.js + controller", "action": "split"},
+      {"current": "api/handlers/register.js", "target": "src/modules/auth/usecase/register.js (移除 admin 硬编码)", "action": "split"},
+      {"current": "api/handlers/proxy.js", "target": "delete (复用 infrastructure/llm)", "action": "delete"},
+      {"current": "api/handlers/tasks.js", "target": "delete (dead code)", "action": "delete"},
+      {"current": "api/handlers/questions.js", "target": "delete (dead import)", "action": "delete"},
+      {"current": "api/handlers/study-plan.js (512 行)", "target": "delete (0 引用 dead)", "action": "delete"},
+      {"current": "api/handlers/seed-zhongkao.js", "target": "delete (dead)", "action": "delete"},
+      {"current": "api/handlers/knowledge-points.js", "target": "src/modules/knowledge/controller.js + usecase", "action": "split"},
+      {"current": "api/handlers/essayGrader.js", "target": "src/modules/essay/{grader,parser,repository,controller,usecase}", "action": "split"},
+      {"current": "api/routes/graphrag.js", "target": "src/modules/rag/controller.js + usecase", "action": "split"},
+      {"current": "api/routes/rag-search.js", "target": "src/modules/rag-search/controller.js", "action": "split"},
+      {"current": "api/routes/tutor-agent.js", "target": "src/modules/tutor/controller.js + usecase", "action": "split"},
+      {"current": "api/routes/learning-loop.js", "target": "src/modules/knowledge/usecase/learning-loop.js", "action": "merge"},
+      {"current": "api/modules/*", "target": "src/modules/<x>/{controller,usecase,repository,composition}", "action": "split"},
+      {"current": "modules/knowledge + modules/review + routes/learning-loop(kp) + routes/tutor-agent(mastery)", "target": "src/modules/knowledge (合并 D085)", "action": "merge"},
+      {"current": "api/legacy-compat.js", "target": "src/modules/public/compat.js (sunset 2026-11-15)", "action": "frozen"},
+      {"current": "server.js (13 直挂 endpoint)", "target": "src/modules/{province,admin,class-analysis}/controller + 迁出", "action": "split"},
+      {"current": "server.js", "target": "src/server.js (composition root only)", "action": "keep"},
+      {"current": "frontend/* + public/* + ai-tutor-frontend/* + frontend-legacy/*", "target": "保留 ai-tutor-frontend + public，其余 sunset", "action": "merge"},
+      {"current": "database/seed_*.json", "target": "src/infrastructure/db/seeds/*.json + ensureSeeds.js", "action": "move"},
+      {"current": "migrations/*", "target": "src/infrastructure/db/migrations/* (drizzle)", "action": "move"},
+      {"current": "subjectMap.js + subjectCombinations.js", "target": "src/shared/constants/subject.js", "action": "merge"},
+      {"current": "validators 散落", "target": "src/shared/validators/", "action": "merge"}
+    ]
+  },
+  "code_refactoring": [
+    {
+      "priority": 1,
+      "scope": "module",
+      "current_problem": "api/handlers/ 35+ 文件 vs modules/ 12 个 vs routes/ 8 个，三层职责重叠",
+      "root_cause": "无分层边界 ADR，开发者按习惯选落点",
+      "target_design": "module = bounded context (controller + usecase + repository)，handlers/routes 全部淘汰",
+      "affected_modules": ["api/handlers/*", "api/routes/*", "api/modules/*"],
+      "recommended_changes": [
+        "发布 ADR-001 api-endpoint-ownership",
+        "添加 dependency-cruiser 规则禁止跨层引用",
+        "按 module 分批迁移 handler → usecase/repository",
+        "release-gate 增加 'handler 文件不在 modules 之外' lint"
+      ],
+      "expected_benefit": "新 endpoint 落点明确；测试覆盖知道测哪；god-folder 消失",
+      "risk": "中：迁移成本大；建议从 auth/tutor 两个 module 开始"
+    },
+    {
+      "priority": 2,
+      "scope": "module",
+      "current_problem": "5+ handlers 完全未挂载（study-plan 512 行 0 引用等）",
+      "root_cause": "迁移 modules/ 架构时未清理 handlers/",
+      "target_design": "git grep 确认 0 引用后删除；knowledge-points 功能迁 modules/knowledge",
+      "affected_modules": ["api/handlers/{study-plan,seed-zhongkao,knowledge-points,questions,tasks}.js"],
+      "recommended_changes": [
+        "git grep 'from.*handlers/<file>' 确认 0 引用",
+        "删除 4 个 dead 文件 (≈700 行)",
+        "knowledge-points 迁 modules/knowledge",
+        "release-gate 加 'unreachable file detector'"
+      ],
+      "expected_benefit": "代码 -1000 行；认知负担减轻",
+      "risk": "低"
+    },
+    {
+      "priority": 3,
+      "scope": "system",
+      "current_problem": "server.js 直挂 13 endpoint，绕过 auditMiddleware，admin endpoint 无鉴权",
+      "root_cause": "opt-in security + 兼容 frontend/ + public/ 调用契约",
+      "target_design": "app.use('/api', authMiddleware) 兜底 + 白名单显式；13 endpoint 迁 modules/{province,admin,class-analysis}",
+      "affected_modules": ["server.js", "src/shared/middleware/auth.js", "src/modules/{province,admin,class-analysis}/controller"],
+      "recommended_changes": [
+        "把 auditMiddleware + authMiddleware 移到 app.use 顶层最前",
+        "13 个直挂 endpoint 全部迁 modules/，admin 走 requireAdmin 包装",
+        "server.js 仅做 composition root",
+        "release-gate 阻断 'app.get/post.*api/' 直挂"
+      ],
+      "expected_benefit": "消除 critical 漏洞；audit 全量覆盖；合规基线",
+      "risk": "中：迁移过程需保 path 不变；建议 feature flag 切流 + 双写 1 周"
+    },
+    {
+      "priority": 4,
+      "scope": "module",
+      "current_problem": "knowledge 拆 3 个目录 + mastery 3 套口径单位",
+      "root_cause": "bounded context 概念未引入；mastery 算法多次迭代新开 module 不收旧；D085 ADR 未实施",
+      "target_design": "合并 modules/knowledge + modules/review + routes/learning-loop(mastery) + routes/tutor-agent(mastery) → modules/knowledge；mastery_score 归一化 0-1",
+      "affected_modules": ["api/modules/knowledge/*", "api/modules/review/*", "api/routes/learning-loop.js", "api/routes/tutor-agent.js"],
+      "recommended_changes": [
+        "实施 D085：mastery_score 归一化 0-1",
+        "合并 4 个目录到 modules/knowledge",
+        "knowledgeRepo.js 单一 SQL 来源",
+        "predict-paper 走真个性化（mastery 命中模板 + LLM 润色）"
+      ],
+      "expected_benefit": "predict-paper 真个性化；mastery 可单测；knowledge 测试合并",
+      "risk": "中：mastery 归一化排序变化；建议双轨 1 个月"
+    },
+    {
+      "priority": 5,
+      "scope": "infrastructure",
+      "current_problem": "db.js 1029 行 god-module，承担 36 表 DDL + 60+ index + 维度迁移 + seed",
+      "root_cause": "D082-ERRATA-04 时代为 dev 启动快，db.js 同时承担 fresh DB 与 legacy DB upgrade",
+      "target_design": "drizzle-kit 接管 schema；db.js 收缩为 pool；维度迁移改幂等 ALTER + 备份",
+      "affected_modules": ["api/core/db.js", "database/*", "migrations/*", "src/infrastructure/db/*"],
+      "recommended_changes": [
+        "引入 drizzle-kit 作为 schema 唯一来源",
+        "db.js 收缩为 pool < 200 行",
+        "维度迁移 (768→1024) 改为幂等 ALTER + 备份快照",
+        "db.js:826 TRUNCATE 加 NODE_ENV=production 守卫（立即 D089）"
+      ],
+      "expected_benefit": "数据丢失风险消除；schema drift 可回滚；启动序列无 destructive 操作",
+      "risk": "高：迁移需 staging 演练；建议双轨 1 release"
+    },
+    {
+      "priority": 6,
+      "scope": "module",
+      "current_problem": "core/auth.js ↔ middleware/errorHandler.js 循环依赖",
+      "root_cause": "D067 后 AuthError class 搬到 errorHandler.js，core/auth.js 引用它抛出",
+      "target_design": "shared/events/event-bus.js 解耦；core/auth emit 'auth.failed'；errorHandler 订阅",
+      "affected_modules": ["api/core/auth.js", "api/middleware/errorHandler.js", "src/shared/errors/index.js", "src/shared/events/event-bus.js"],
+      "recommended_changes": [
+        "AuthError class 移入 src/shared/errors/index.js",
+        "core/auth 与 middleware/errorHandler 都从 utils/errors.js 导入",
+        "引入 event-bus 解耦跨层通知"
+      ],
+      "expected_benefit": "冷启动稳定；可单测；错误形态统一",
+      "risk": "低"
+    },
+    {
+      "priority": 7,
+      "scope": "infrastructure",
+      "current_problem": "proxy.js (150 行) vs services/llm.js (854 行) 双套 LLM 模型管理",
+      "root_cause": "proxy.js 是早期 web 旁路，services/llm.js 是后引入的统一层，proxy.js 没被替换",
+      "target_design": "废弃 proxy.js；infrastructure/llm/router.js 唯一 model whitelist + 超时/重试/降级",
+      "affected_modules": ["api/handlers/proxy.js", "api/services/llm.js", "src/infrastructure/llm/*"],
+      "recommended_changes": [
+        "proxy.js 改为 import services/llm.js 的 MODEL_CONFIGS + chatCompletion()",
+        "proxy.js 仅做 '外部 LLM 直连' 旁路（Ollama 本地）",
+        "D073 类决策加 release-gate 校验 'models 列表在所有 .js 出现 1 处'",
+        "前端切 /api/tutor/chat（统一）"
+      ],
+      "expected_benefit": "模型名 SSRF/注入单点校验；超时一致；cost 可监控",
+      "risk": "中：切流监控；建议双写 7 天"
+    },
+    {
+      "priority": 8,
+      "scope": "module",
+      "current_problem": "essayGrader.js 193 行 god-function 承担 LLM+解析+验证+持久化+对账，缺事务",
+      "root_cause": "D086 紧急开发未拆 services",
+      "target_design": "拆 modules/essay/{grader,parser,repository,controller,usecase}；usecase 继承 TransactionalUseCase",
+      "affected_modules": ["api/handlers/essay/essayGrader.js", "src/modules/essay/*"],
+      "recommended_changes": [
+        "拆为 EssayLLMCaller + EssayParser + EssayValidator + EssayRepository 4 个 service",
+        "GradeEssayUseCase 继承 TransactionalUseCase",
+        "中间状态写 ai_trace_event",
+        "持久化失败回滚 + 写 ai_trace"
+      ],
+      "expected_benefit": "god-function 可单测；持久化失败可追溯；D087 P0.3 gate 可覆盖",
+      "risk": "中：解析逻辑迁移 diff；建议金标样例回归"
+    },
+    {
+      "priority": 9,
+      "scope": "system",
+      "current_problem": "legacy-compat.js sunset 2026-09-23 无 ticket；4 前端目录共存",
+      "root_cause": "sunset 日期定但无 owner/ticket/迁移 metric",
+      "target_design": "三阶段 sunset：(1) feature flag 切流到 ai-tutor-frontend；(2) legacy-compat 标 read-only + 监控流量；(3) 流量<1%/月 物理删除",
+      "affected_modules": ["api/legacy-compat.js", "frontend/*", "frontend-legacy/*", "public/*"],
+      "recommended_changes": [
+        "阶段 1: feature flag LEGACY_ENABLED 默认 false",
+        "阶段 2: legacy-compat read-only + 监控 frontend/ 流量",
+        "阶段 3: 流量<5%/月物理删除 frontend/ + frontend-legacy/ + public/src/ 部分",
+        "每 phase 有 owner + ticket + SLA"
+      ],
+      "expected_benefit": "前端代码 -40%；鉴权策略单点；部署体积 -5MB",
+      "risk": "中：切流需用户行为数据"
+    },
+    {
+      "priority": 10,
+      "scope": "infrastructure",
+      "current_problem": "cacheService 8 method 仅 2 个被调用；utils/cache.js 重叠；多进程不共享",
+      "root_cause": "over-engineered static method 设计；in-memory + Redis 切换无明确边界",
+      "target_design": "合并 src/shared/cache/index.js (L1 in-memory + L2 redis)；static → DI 注入",
+      "affected_modules": ["api/services/cacheService.js", "api/utils/cache.js", "src/shared/cache/*"],
+      "recommended_changes": [
+        "删除 cacheService 6 个 dead method",
+        "合并 cacheService + utils/cache 为单一 manager",
+        "static 改 DI 注入（构造器传 manager）",
+        "/api/health 增加 'cache: redis|memory|none' 状态字段"
+      ],
+      "expected_benefit": "cache 一致性提升；多进程共享；运维可观测",
+      "risk": "中：miss 命中率观察"
+    },
+    {
+      "priority": 11,
+      "scope": "system",
+      "current_problem": "register.js 包含 admin 邮箱硬编码 + bcrypt cost=10 + 可远程触发",
+      "root_cause": "为方便部署硬编码 admin，未用环境变量",
+      "target_design": "移除 admin 硬编码；首次启动 ensureAdmin.js 随机密码输出；bcrypt cost 提到 12；NODE_ENV=production 检查 DEV_AUTH_BYPASS=true 直接 throw",
+      "affected_modules": ["api/handlers/register.js", "src/modules/auth/*", "src/shared/bootstrap/ensureAdmin.js"],
+      "recommended_changes": [
+        "register.js 移除 admin 硬编码分支",
+        "src/shared/bootstrap/ensureAdmin.js：首次启动随机密码输出 + 强制首次登录改密",
+        "bcrypt cost 从 10 提到 12",
+        "validateJWTSecret 加强校验（≥32 字符）"
+      ],
+      "expected_benefit": "消除管理员账户可预测；强制首次登录改密；暴力破解成本翻倍",
+      "risk": "低：保留 1 次性迁移脚本"
+    },
+    {
+      "priority": 12,
+      "scope": "infrastructure",
+      "current_problem": "taskWorker 单进程串行消费 task_queue；缺 stuck 检测与 DLQ",
+      "root_cause": "早期实现未考虑 worker 生命周期与故障恢复",
+      "target_design": "taskWorker 多 worker (按 cpu 数 N-1) + 按 subject 分片；DB SKIP LOCKED 防抢锁；heartbeat + stuck 检测 + DLQ",
+      "affected_modules": ["api/core/taskWorker.js", "src/infrastructure/queue/*"],
+      "recommended_changes": [
+        "多 worker (cpu 数 N-1)",
+        "DB SKIP LOCKED 抢锁",
+        "heartbeat 5 分钟未更新 → requeue",
+        "DLQ 表 task_dead_letter；最大重试 3 次入 DLQ",
+        "监控告警（stuck 任务数）"
+      ],
+      "expected_benefit": "图片识别任务不卡死；故障可观测；10x 流量可扛",
+      "risk": "中：worker 重启需平滑 (SIGTERM 等待 in-flight)"
+    },
+    {
+      "priority": 13,
+      "scope": "system",
+      "current_problem": "CORS 默认值回退到 '*'，未配置 ALLOWED_ORIGINS 时允许任意 origin",
+      "root_cause": "shared/config 无 zod 校验",
+      "target_design": "shared/config 用 zod 校验 ALLOWED_ORIGINS；缺失启动期 throw",
+      "affected_modules": ["src/shared/config/index.js", "src/shared/middleware/cors.js"],
+      "recommended_changes": [
+        "zod schema 校验 ALLOWED_ORIGINS 必填",
+        "production 缺失启动期 throw",
+        "cors.js 严格按白名单返回 header"
+      ],
+      "expected_benefit": "CORS 配置错误启动期暴露",
+      "risk": "低"
+    },
+    {
+      "priority": 14,
+      "scope": "system",
+      "current_problem": "trust proxy 默认 loopback，在 ALB/CDN 后 req.ip 取代理 IP",
+      "root_cause": "默认配置未考虑多 tier 代理",
+      "target_design": "shared/config 读 TRUST_PROXY 环境变量；production 必须显式 ≥1；启动期校验",
+      "affected_modules": ["src/shared/config/index.js", "server.js"],
+      "recommended_changes": [
+        "zod 校验 TRUST_PROXY 必填",
+        "production 默认 1（信任 1 层代理）",
+        "启动期校验 req.ip 是否为内网"
+      ],
+      "expected_benefit": "req.ip 准确；审计/限流生效",
+      "risk": "低"
+    },
+    {
+      "priority": 15,
+      "scope": "system",
+      "current_problem": "输入校验散落 handler，无 schema；错误处理不统一",
+      "root_cause": "无 shared/validators 基类；handler 自行 try/catch",
+      "target_design": "shared/validators/ 集中 zod schema；controller 第一行 parse；统一 DomainError 子类",
+      "affected_modules": ["api/handlers/*", "src/shared/validators/*", "src/shared/errors/*"],
+      "recommended_changes": [
+        "shared/validators/ 集中 zod schema（user/wrongQuestion/paper/essay）",
+        "controller 第一行 schema.parse() 触发 ValidationError",
+        "shared/errors/index.js 统一定义 DomainError/ValidationError/UnauthorizedError/NotFoundError",
+        "middleware/errorHandler 按 DomainError 子类映射 HTTP code"
+      ],
+      "expected_benefit": "恶意输入前置拦截；前端校验可复用；错误形态统一",
+      "risk": "低"
+    }
+  ],
+  "delete_or_merge": [
+    {"item": "api/handlers/study-plan.js (512 行)", "type": "delete", "rationale": "0 引用，8 个 export 全部 dead code；LLM 调用零单元测试", "estimated_loc": 512},
+    {"item": "api/handlers/seed-zhongkao.js", "type": "delete", "rationale": "0 引用；D064 ensureSeeds 自动 seed 替代", "estimated_loc": 50},
+    {"item": "api/handlers/knowledge-points.js", "type": "delete (功能迁 modules/knowledge)", "rationale": "0 引用；功能并入 modules/knowledge", "estimated_loc": 100},
+    {"item": "api/handlers/questions.js", "type": "delete", "rationale": "import-but-unused（modules/exam/routes.js import 但 router.use 无引用）", "estimated_loc": 114},
+    {"item": "api/handlers/tasks.js", "type": "delete", "rationale": "0 引用；taskWorker 已独立处理 task_queue", "estimated_loc": 80},
+    {"item": "api/handlers/proxy.js", "type": "delete (复用 infrastructure/llm)", "rationale": "与 services/llm.js 双套；D073 后模型名漂移；SSRF 风险", "estimated_loc": 150},
+    {"item": "api/services/obsidian-sync.js", "type": "delete", "rationale": "0 引用；obsidian 知识库同步工具与 aitutor 业务无关", "estimated_loc": 400},
+    {"item": "modules/srs/* (若 D071 review.html 取消)", "type": "delete", "rationale": "为 D071 预埋的 dead code；review.html 未上线则整个 srs 是预埋 dead", "estimated_loc": 300},
+    {"item": "modules/knowledge + modules/review + routes/learning-loop(kp) + routes/tutor-agent(mastery)", "type": "merge", "rationale": "实施 D085 合并为单一 modules/knowledge", "estimated_loc": 1500},
+    {"item": "api/services/cacheService.js + api/utils/cache.js", "type": "merge", "rationale": "合并为 src/shared/cache/index.js", "estimated_loc": 350},
+    {"item": "api/utils/subjectMap.js + subjectCombinations.js", "type": "merge", "rationale": "可能重复，合并为 src/shared/constants/subject.js", "estimated_loc": 100},
+    {"item": "api/legacy-compat.js", "type": "frozen", "rationale": "sunset 2026-11-15；3 阶段切流", "estimated_loc": 116},
+    {"item": "frontend/ + frontend-legacy/", "type": "delete (sunset 后)", "rationale": "切流到 ai-tutor-frontend 后物理删除", "estimated_loc": 14000},
+    {"item": "migrations/ (旧 ad-hoc)", "type": "merge", "rationale": "迁 drizzle-kit 统一管理", "estimated_loc": 500},
+    {"item": "database/seed_*.json", "type": "move", "rationale": "迁 src/infrastructure/db/seeds/", "estimated_loc": 200},
+    {"item": "api/handlers/seed-provinces.js", "type": "move", "rationale": "仅 server.js:309 直挂；迁 src/modules/admin/seed-provinces.js", "estimated_loc": 80},
+    {"item": "validators 散落", "type": "merge", "rationale": "迁 src/shared/validators/", "estimated_loc": 200},
+    {"item": "essay/essayGrader.js 193 行", "type": "split", "rationale": "拆为 grader/parser/repository/controller/usecase", "estimated_loc": 193},
+    {"item": "server.js 13 直挂 endpoint", "type": "split", "rationale": "全部迁 modules/{province,admin,class-analysis}", "estimated_loc": 200}
+  ],
+  "performance_optimization": [
+    {"bottleneck": "taskWorker 单进程串行消费 task_queue，图片识别阻塞后续任务", "scale": "current", "fix": "多 worker (cpu N-1) + 按 subject 分片；DB SKIP LOCKED", "effort": "medium"},
+    {"bottleneck": "LLM 调用串行 (vision + explain + generate-paper 各自一次)", "scale": "current", "fix": "批量 LLM 调用合并；router 内部并发控制 (semaphore=5)", "effort": "medium"},
+    {"bottleneck": "pg connection pool 默认 10，taskWorker + web + admin 并发易耗尽", "scale": "current", "fix": "pool max 提到 30 + idle timeout 30s；监控 active connections", "effort": "low"},
+    {"bottleneck": "cache 单进程内存，多 worker 不共享", "scale": "current", "fix": "L2 redis 必启用；L1 in-memory 仅放 hot key<1KB", "effort": "low"},
+    {"bottleneck": "ai_trace 每次请求都 INSERT，10x 流量下写放大", "scale": "10x", "fix": "ai_trace 异步批量写（缓冲 100 条或 5s flush）；ai_trace_daily_summary 物化视图", "effort": "medium"},
+    {"bottleneck": "pgvector 无 HNSW 索引，10w+ 题时 RAG 召回慢", "scale": "10x", "fix": "建 HNSW 索引 (m=16, ef_construction=64)", "effort": "low"},
+    {"bottleneck": "knowledge_points JSONB 全文检索无 GIN 索引", "scale": "10x", "fix": "GIN(to_tsvector('simple', name || ' ' || description))", "effort": "low"},
+    {"bottleneck": "task_queue 简单列表扫描，10x 任务量时 poll 慢", "scale": "10x", "fix": "(status, priority, created_at) 复合索引 + partial index WHERE status='pending'", "effort": "low"},
+    {"bottleneck": "wrong_questions data JSONB 按 user_email 扫表慢", "scale": "10x", "fix": "(user_email, created_at DESC) 索引；data 内 subtopics GIN 索引", "effort": "low"},
+    {"bottleneck": "predict-paper 走 LLM 兜底，单次生成耗 8-15s", "scale": "10x", "fix": "实施 D085 真个性化：mastery_score 命中模板 + LLM 润色", "effort": "high"},
+    {"bottleneck": "LLM 同步调用阻塞 HTTP 请求 (timeout30s)", "scale": "current", "fix": "长任务(>5s)改异步：返回 task_id，前端 poll /api/tasks/:id", "effort": "medium"},
+    {"bottleneck": "RAG 同步检索串行 (vector + bm25 各一次)", "scale": "10x", "fix": "vector + bm25 并行 + RRF 融合", "effort": "medium"},
+    {"bottleneck": "前端首屏 PWA 加载慢 (ai-tutor-frontend bundle 大)", "scale": "10x", "fix": "lazy load per page；service worker 缓存分片", "effort": "medium"},
+    {"bottleneck": "单进程 Postgres 写入瓶颈 (master + 1 replica)", "scale": "100x", "fix": "按模块分库：users/wrong_questions (写多) + knowledge/reports (读多 replica)；pgBouncer 连接池", "effort": "high"},
+    {"bottleneck": "LLM 成本随用户量线性增长", "scale": "100x", "fix": "小模型 (qwen-turbo) 替代大模型 (qwen-max) 用于解释/诊断；缓存 LLM 响应 (语义 hash key)", "effort": "medium"},
+    {"bottleneck": "RAG 重建成本高 (文档更新全量重 embed)", "scale": "100x", "fix": "增量 embed；后台 worker 异步重建；缓存热门 query embedding", "effort": "high"}
+  ],
+  "test_strategy": {
+    "unit_targets": [
+      "src/modules/auth/usecase/{Login,Register,ResetPassword}UseCase.js (DI: fake repo)",
+      "src/modules/tutor/usecase/{ExplainQuestion,GeneratePaper,DiagnoseQuestion}UseCase.js (DI: fake llm, fake repo)",
+      "src/modules/knowledge/usecase/{WeaknessAnalysis,MasteryUpdate,LearningPath}UseCase.js (DI: fake repo)",
+      "src/modules/essay/usecase/GradeEssayUseCase.js (DI: fake llm, fake repo, transactional mock)",
+      "src/modules/vision/usecase/OcrDiagnoseUseCase.js (DI: fake vision adapter)",
+      "src/modules/rag/usecase/{Search,GraphQuery}UseCase.js (DI: fake vector store)",
+      "src/domain/* (纯函数 mastery 计算、weakness_index)",
+      "src/infrastructure/llm/router.js (model whitelist + 超时/重试/降级)",
+      "src/shared/validators/* (zod schema 边界)",
+      "src/shared/cache/index.js (L1+L2 失效策略)"
+    ],
+    "integration_targets": [
+      "src/modules/auth (supertest: register/login/me happy path + 鉴权负面)",
+      "src/modules/tutor (supertest: diagnose/explain/generate-paper + 真 pg + fake LLM)",
+      "src/modules/knowledge (supertest: weak-points/mastery 真 pg)",
+      "src/modules/vision (supertest: 上传图片→OCR 真 pg + fake vision)",
+      "src/modules/essay (supertest: 提交流程 + 事务回滚演练)",
+      "src/modules/admin (supertest: seed/cache-clear 鉴权 + role)",
+      "src/modules/rag (supertest: vector search + pgvector HNSW)",
+      "src/modules/public (supertest: legacy-compat sunset 切流)"
+    ],
+    "e2e_targets": [
+      "拍照上传→图片识别→知识归类→诊断报告 (1 happy path)",
+      "诊断报告→预测卷生成→作答→评分 (1 happy path)",
+      "登录→拍照→诊断→错题本→预测卷→学习路径 (全链路)",
+      "legacy-compat 切流 (1 回归用例确保旧 endpoint 不再被新前端调)",
+      "admin 鉴权 (无 token / token 错 / admin role / 普通用户 4 用例)",
+      "taskWorker stuck 场景 (注入 stuck 任务验证 DLQ)"
+    ],
+    "contract_targets": [
+      "D062 envelope 严格契约: {success, data} vs {success:false, error:{code,message}}",
+      "D062 mock/real 同构: 前端 client.js 切真实后端 envelope 不变",
+      "D063 questionUid: 禁止手写拼接, 走 api/core/questionUid.js",
+      "D085 mastery_score 0-1 归一化",
+      "LLM provider contract: 同一 prompt 多 provider 返回同构"
+    ],
+    "performance_targets": [
+      "taskWorker QPS ≥ 50 (并发 10 worker, 单图片 5s 完成)",
+      "pgvector recall@10 ≥ 0.85 (10w 题库, 1w query)",
+      "LLM p95 latency: vision <30s, chat <60s, paper <120s",
+      "HTTP p95 latency: /api/tutor/diagnose <3s (含 LLM)",
+      "DB connection pool 利用率 < 80% (并发 100)",
+      "cache hit ratio ≥ 0.6 (knowledge_points)",
+      "memory < 1GB per worker"
+    ],
+    "smoke_targets": [
+      "启动期: loadConfig → initLogger → initPgPool → runMigrations → ensureSeeds → initCache → initLLMRouter → initTaskWorker → listen (顺序 + 健康检查)",
+      "/api/health: pg + redis + llm + taskWorker 状态",
+      "ai_trace provenance: 每条 trace 含 trace_id / user_id / request_id",
+      "data migration smoke: drizzle up + down 演练",
+      "docker-compose prod: build → up → health 30s ready → ingest data → gate"
+    ],
+    "gate_gaps": [
+      "5/5 gate 缺少 '核心 happy path e2e' (拍照→识别→诊断→预测卷) 硬门",
+      "5/5 gate 缺少 'auth 负面用例' (无 token / token 错 / admin role)",
+      "5/5 gate 缺少 'drizzle migration dry-run' (schema drift)",
+      "5/5 gate 缺少 'taskWorker DLQ 演练'",
+      "5/5 gate 缺少 'cache invalidation 演练'",
+      "5/5 gate 缺少 'performance baseline 对比' (p95 latency 回归)",
+      "5/5 gate 缺少 'dependency-cruiser 0 命中' (architecture rule)",
+      "5/5 gate 缺少 'security scan' (npm audit + OWASP top10)"
+    ]
+  },
+  "optimization_plan": [
+    {
+      "priority": "P0",
+      "title": "修复 ARCH-004 critical：admin endpoint 无鉴权",
+      "problem": "server.js 直挂 13 endpoint 绕过 authMiddleware；/api/cache/clear-provinces 与 /api/provinces/seed 完全无鉴权，可被远程执行",
+      "root_cause": "RC-003 (auth opt-in) + RC-001 (无分层 ADR)",
+      "solution": "app.use('/api', authMiddleware) 兜底 + 白名单显式；13 个直挂 endpoint 迁 modules/{province,admin,class-analysis}；admin role check 单独挂载",
+      "affected_modules": ["server.js", "src/shared/middleware/auth.js", "src/modules/{province,admin,class-analysis}/controller"],
+      "benefit": "消除 critical 漏洞；audit 全量覆盖；合规基线",
+      "risk": "中：迁移过程需保 path 不变；建议 feature flag 切流 + 双写 1 周"
+    },
+    {
+      "priority": "P0",
+      "title": "修复 ARCH-006 destructive TRUNCATE 启动期风险",
+      "problem": "db.js 启动期 768→1024 维度迁移是 destructive TRUNCATE，无备份无审计",
+      "root_cause": "RC-002 (schema 多源)",
+      "solution": "维度迁移改为幂等 ALTER + 备份快照表；启动期迁移审批日志；drizzle 接管后 migration 必须显式 up/down",
+      "affected_modules": ["api/core/db.js", "src/infrastructure/db/*"],
+      "benefit": "数据丢失风险消除；schema drift 可回滚",
+      "risk": "高：迁移需 staging 演练；建议双轨 1 release"
+    },
+    {
+      "priority": "P0",
+      "title": "修复 SEC register admin 硬编码密码",
+      "problem": "register.js admin 邮箱密码硬编码 + bcrypt cost 10 + 可远程触发 admin 注册",
+      "root_cause": "RC-003",
+      "solution": "register.js 移除 admin 硬编码；首次启动 ensureAdmin.js 随机密码输出；bcrypt cost 提到 12；NODE_ENV=production 检查 DEV_AUTH_BYPASS=true 直接 throw",
+      "affected_modules": ["api/handlers/register.js", "src/modules/auth/*", "src/shared/bootstrap/ensureAdmin.js"],
+      "benefit": "消除管理员账户可预测；强制首次登录改密",
+      "risk": "低：保留 1 次性迁移脚本"
+    },
+    {
+      "priority": "P0",
+      "title": "修复 CORR taskWorker stuck task 与死信缺失",
+      "problem": "taskWorker worker 生命周期无心跳/stuck 检测/dead-letter，重启/异常后任务卡死",
+      "root_cause": "RC-006 + RC-007",
+      "solution": "taskWorker 实现 heartbeat + stuck 检测 (>5min running 自动 requeue)；DLQ 表 task_dead_letter；最大重试 3 次入 DLQ；监控告警",
+      "affected_modules": ["api/core/taskWorker.js", "src/infrastructure/queue/*"],
+      "benefit": "图片识别任务不卡死；故障可观测",
+      "risk": "中：worker 重启需平滑 (SIGTERM 等待 in-flight)"
+    },
+    {
+      "priority": "P0",
+      "title": "修复 SEC legacy-compat 绕过 auth 风险",
+      "problem": "legacy-compat.js 可能绕过 auth middleware，是 sunset 前的安全窗口",
+      "root_cause": "RC-008 (sunset 无跟进)",
+      "solution": "legacy-compat 强制走 authMiddleware；endpoint 加 /api/legacy/* 显式声明；read-only + 监控流量",
+      "affected_modules": ["api/legacy-compat.js", "src/modules/public/compat.js"],
+      "benefit": "安全基线统一；sunset 推进",
+      "risk": "低：纯 middleware 调整"
+    },
+    {
+      "priority": "P0",
+      "title": "修复 CORR DEV_AUTH_BYPASS 残留",
+      "problem": "DEV_AUTH_BYPASS 环境变量可能在某些路径未关闭，生产环境误开",
+      "root_cause": "RC-003",
+      "solution": "NODE_ENV=production 启动期检查 DEV_AUTH_BYPASS=true 直接 throw；authMiddleware 第一行校验",
+      "affected_modules": ["src/shared/middleware/auth.js", "server.js"],
+      "benefit": "生产环境强制无 bypass",
+      "risk": "低"
+    },
+    {
+      "priority": "P0",
+      "title": "修复 SEC CORS 默认值回退 (ALLOWED_ORIGINS 未配置)",
+      "problem": "CORS 默认值未配置时回退到 '*'，可能允许任意 origin",
+      "root_cause": "RC-003",
+      "solution": "shared/config 用 zod 校验 ALLOWED_ORIGINS；缺失启动期 throw；生产环境必须显式列出",
+      "affected_modules": ["src/shared/config/index.js", "src/shared/middleware/cors.js"],
+      "benefit": "CORS 配置错误启动期暴露",
+      "risk": "低"
+    },
+    {
+      "priority": "P0",
+      "title": "修复 SEC trust proxy 默认值在 ALB/CDN 后失真",
+      "problem": "trust proxy 默认 loopback，在 ALB/CDN 后 req.ip 取代理 IP，限流/审计失真",
+      "root_cause": "RC-003",
+      "solution": "shared/config 读 TRUST_PROXY 环境变量；production 必须显式 ≥1；启动期校验",
+      "affected_modules": ["src/shared/config/index.js", "server.js"],
+      "benefit": "req.ip 准确；审计/限流生效",
+      "risk": "低"
+    },
+    {
+      "priority": "P1",
+      "title": "ARCH-001 三层职责合并为 modules bounded context",
+      "problem": "handlers/modules/routes 三层并存无 ADR，新 endpoint 落点任意",
+      "root_cause": "RC-001",
+      "solution": "实施 ADR-001 api-endpoint-ownership：handler/routes 全部淘汰，仅 modules/<x>/{controller,usecase,repository,composition}；dependency-cruiser 校验",
+      "affected_modules": ["api/handlers/*", "api/routes/*", "api/core/*", "src/modules/*"],
+      "benefit": "新 endpoint 落点明确；测试覆盖知道测哪",
+      "risk": "中：迁移成本高；按 module 分批"
+    },
+    {
+      "priority": "P1",
+      "title": "ARCH-002 dead code 清理",
+      "problem": "study-plan 512 行 + seed-zhongkao + knowledge-points + questions + tasks 5+ 文件 dead",
+      "root_cause": "RC-001",
+      "solution": "git grep 确认 0 引用后删除；knowledge-points 功能迁 modules/knowledge；保留 1 release 观察",
+      "affected_modules": ["api/handlers/{study-plan,seed-zhongkao,knowledge-points,questions,tasks}.js"],
+      "benefit": "代码 -1000 行；认知负担减轻",
+      "risk": "低"
+    },
+    {
+      "priority": "P1",
+      "title": "ARCH-003 knowledge 三件合一件 (D085 实施)",
+      "problem": "modules/knowledge + modules/review + routes/learning-loop(mastery) + routes/tutor-agent(mastery) 分散；mastery 3 套口径",
+      "root_cause": "RC-005",
+      "solution": "合并为 src/modules/knowledge；mastery_score 归一化 0-1；D085 ADR 升 accepted；predict-paper 走真个性化",
+      "affected_modules": ["api/modules/knowledge/*", "api/modules/review/*", "api/routes/learning-loop.js", "api/routes/tutor-agent.js"],
+      "benefit": "predict-paper 真个性化；mastery 可单测；knowledge 测试合并",
+      "risk": "中：mastery 归一化排序变化；建议双轨 1 个月"
+    },
+    {
+      "priority": "P1",
+      "title": "ARCH-007 core/auth ↔ middleware/errorHandler 循环依赖解耦",
+      "problem": "core/auth.js ↔ middleware/errorHandler.js 循环依赖，冷启动偶发 import 失败",
+      "root_cause": "RC-006",
+      "solution": "shared/events/event-bus.js 解耦；core/auth emit 'auth.failed'；errorHandler 订阅",
+      "affected_modules": ["api/core/auth.js", "api/middleware/errorHandler.js", "src/shared/events/event-bus.js"],
+      "benefit": "冷启动稳定；可单测",
+      "risk": "低"
+    },
+    {
+      "priority": "P1",
+      "title": "ARCH-008 LLM 模型管理单源化",
+      "problem": "proxy.js vs services/llm.js 双源；模型名漂移 (qwen3-vl-plus vs qwen-vl-plus)；SSRF 风险",
+      "root_cause": "RC-004",
+      "solution": "废弃 proxy.js；infrastructure/llm/router.js 唯一 model whitelist + 超时/重试/降级；前端切 /api/tutor/chat",
+      "affected_modules": ["api/handlers/proxy.js", "api/services/llm.js", "src/infrastructure/llm/*"],
+      "benefit": "模型名 SSRF/注入单点校验；超时一致",
+      "risk": "中：切流监控；建议双写 7 天"
+    },
+    {
+      "priority": "P1",
+      "title": "ARCH-010 essayGrader 拆 service",
+      "problem": "essayGrader.js 193 行单函数承担 LLM+解析+验证+持久化+对账，无事务",
+      "root_cause": "RC-006",
+      "solution": "拆 modules/essay/{grader,parser,repository,controller,usecase}；usecase 继承 TransactionalUseCase；持久化失败回滚 + 写 ai_trace",
+      "affected_modules": ["api/handlers/essayGrader.js", "src/modules/essay/*"],
+      "benefit": "god-function 可单测；持久化失败可追溯",
+      "risk": "中：解析逻辑迁移 diff"
+    },
+    {
+      "priority": "P1",
+      "title": "TEST 测试金字塔补齐 + 5/5 gate 收紧",
+      "problem": "modules/*/ 覆盖 0；e2e 几乎无；contract.mock/real 行为可能分叉；5/5 gate 流于形式",
+      "root_cause": "RC-007",
+      "solution": "usecase 改 constructor injection (DI)；test/setup 提供 fake LLM/fake pg；e2e 用 docker-compose 起全套 + 录制 LLM；5/5 gate 加 '核心 happy path e2e' 硬门",
+      "affected_modules": ["src/modules/*/composition/*", "tests/*", ".github/workflows/release-gate.yml"],
+      "benefit": "上线即回归消失；5/5 gate 有效",
+      "risk": "高：测试基础设施成本大；建议从 essay/tutor 两个 module 开始"
+    },
+    {
+      "priority": "P1",
+      "title": "CORR proxy.js LLM 超时/重试/降级链统一",
+      "problem": "proxy.js 与 llm.js 超时/降级行为不一致；缺监控埋点",
+      "root_cause": "RC-004",
+      "solution": "infrastructure/llm/router.js 统一：超时 (vision 30s, chat 60s, paper 120s) / 重试 (3 次指数退避) / 降级 (大模型→小模型→模板) / 全量埋 ai_trace",
+      "affected_modules": ["src/infrastructure/llm/router.js"],
+      "benefit": "LLM 故障可观测；成本可优化",
+      "risk": "低：纯配置化"
+    },
+    {
+      "priority": "P1",
+      "title": "CORR transaction 边界规范化",
+      "problem": "多步写入散落 handler，半提交状态无恢复",
+      "root_cause": "RC-006",
+      "solution": "application/TransactionalUseCase.js 基类 + withTransaction(fn)；跨 repo 写入显式声明",
+      "affected_modules": ["src/application/TransactionalUseCase.js", "src/infrastructure/db/pool.js"],
+      "benefit": "半提交消失；持久化失败可回滚",
+      "risk": "中：嵌套事务需传播策略"
+    },
+    {
+      "priority": "P2",
+      "title": "ARCH-005 legacy-compat 三阶段 sunset",
+      "problem": "legacy-compat 2026-09-23 sunset 但无 ticket；4 前端目录共存",
+      "root_cause": "RC-008",
+      "solution": "三阶段：(1) feature flag LEGACY_ENABLED 默认 false；(2) legacy 标 read-only + 监控流量；(3) 流量<1%/月物理删除 + 410 Gone",
+      "affected_modules": ["api/legacy-compat.js", "frontend/*", "frontend-legacy/*", "public/ai-tutor-frontend/*"],
+      "benefit": "前端代码 -40%；鉴权策略单点",
+      "risk": "中：切流需用户行为数据"
+    },
+    {
+      "priority": "P2",
+      "title": "ARCH-009 cacheService 收缩 + 双层缓存",
+      "problem": "cacheService 8 method 6 dead；utils/cache.js 重叠；多进程不共享",
+      "root_cause": "RC-009",
+      "solution": "合并 src/shared/cache/index.js (L1 in-memory + L2 redis)；static → DI 注入；invalidation 走 event bus",
+      "affected_modules": ["api/services/cacheService.js", "api/utils/cache.js", "src/shared/cache/*"],
+      "benefit": "cache 一致性提升；多进程共享",
+      "risk": "中：miss 命中率观察"
+    },
+    {
+      "priority": "P2",
+      "title": "ARCH-011 mount 风格统一",
+      "problem": "modules/*/routes.js mount 风格不统一（有的挂在 app，有的挂 router）",
+      "root_cause": "RC-001",
+      "solution": "composition root 统一 mount；dependency-cruiser 校验 mount 顺序",
+      "affected_modules": ["src/modules/*/composition/index.js", "server.js"],
+      "benefit": "挂载顺序可控；启动日志清晰",
+      "risk": "低"
+    },
+    {
+      "priority": "P2",
+      "title": "CQ 输入验证下沉 + zod schema",
+      "problem": "输入校验散落 handler，无 schema",
+      "root_cause": "RC-001 + RC-007",
+      "solution": "shared/validators/ 集中 zod schema；controller 第一行 parse；模型名/学科 enum 集中 shared/constants",
+      "affected_modules": ["api/handlers/*", "src/shared/validators/*"],
+      "benefit": "恶意输入前置拦截；前端校验可复用",
+      "risk": "低"
+    },
+    {
+      "priority": "P2",
+      "title": "CQ 限流策略统一 + LLM 配额",
+      "problem": "限流策略分散；proxy 10/min，auth 20/15min，其他无",
+      "root_cause": "RC-003",
+      "solution": "shared/middleware/rateLimit.js 按 user/IP 维度；默认 100/15min；LLM endpoint 20/min；admin 5/min",
+      "affected_modules": ["src/shared/middleware/rateLimit.js", "server.js"],
+      "benefit": "防止 LLM 成本突增；防止暴力枚举",
+      "risk": "低"
+    },
+    {
+      "priority": "P3",
+      "title": "ARCH-006 db.js 拆分 (DDL/migration/seed)",
+      "problem": "db.js 1029 行 god-file，schema 多源",
+      "root_cause": "RC-002",
+      "solution": "drizzle-kit 接管 schema；db.js 收缩为 pool < 200 行",
+      "affected_modules": ["api/core/db.js", "database/*", "migrations/*", "src/infrastructure/db/*"],
+      "benefit": "schema drift CI 检测；drizzle 提供可视化迁移",
+      "risk": "高：迁移成本大；建议先 1 module 试点"
+    },
+    {
+      "priority": "P3",
+      "title": "PWA service worker sunset/重写",
+      "problem": "public/sw.js Service Worker 缓存策略不清",
+      "root_cause": "RC-007",
+      "solution": "重写 sw.js：cache-first for assets, network-first for /api/*；版本号管理；manifest 校验",
+      "affected_modules": ["public/sw.js"],
+      "benefit": "离线体验可控；缓存不再 stale",
+      "risk": "低"
+    },
+    {
+      "priority": "P3",
+      "title": "PERF pgvector HNSW 索引 + AI 缓存",
+      "problem": "10w+ 题时 RAG 召回慢；LLM 成本线性增长",
+      "root_cause": "RC-007",
+      "solution": "建 HNSW 索引；LLM 响应按语义 hash 缓存；小模型替代大模型用于解释",
+      "affected_modules": ["src/infrastructure/search/pgvector.js", "src/shared/cache/index.js"],
+      "benefit": "RAG 召回 <100ms；LLM 成本 -50%",
+      "risk": "中：缓存语义命中需调优"
+    }
+  ],
+  "scores": {
+    "architecture": 3,
+    "functionality": 5,
+    "code_quality": 3,
+    "correctness": 4,
+    "tests": 2,
+    "security": 3,
+    "performance": 5,
+    "maintainability": 3,
+    "scalability": 4
+  },
+  "architecture_maturity": "early-production",
+  "release_decision": "NO_GO",
+  "release_blockers": [
+    "ARCH-004 critical：server.js 13 endpoint 无鉴权 (/api/cache/clear-provinces 与 /api/provinces/seed 可被远程执行)",
+    "SEC register admin 硬编码密码 (可远程触发 admin 注册 + bcrypt cost=10 可被 GPU 暴破)",
+    "ARCH-006 destructive TRUNCATE 启动期 (768→1024 维度迁移无备份无审计，可误删生产数据)",
+    "CORR taskWorker 无 stuck 检测与 DLQ (图片识别任务卡死后无自愈)",
+    "SEC DEV_AUTH_BYPASS 残留 (生产环境误开可绕过所有鉴权)",
+    "SEC CORS 默认值回退 (未配置时回退到 '*' 允许任意 origin)",
+    "SEC trust proxy 默认值 (ALB/CDN 后 req.ip 取代理 IP, 限流/审计失真)",
+    "SEC legacy-compat 可能绕过 auth (sunset 前的安全窗口)"
+  ],
+  "logs": [
+    "本次审计完成 6 个并行维度 + 1 个 cross_analysis + 最终整合",
+    "识别 9 个根因，每根因引用 ≥3 维度证据",
+    "审计证据: server.js, api/{core,handlers,middleware,services,utils,routes,modules,legacy-compat.js}, scripts/, tests/, .ai/decisions/, ai-tutor-project-audit-2026-08-10.md, CLAUDE.md",
+    "目标架构: Modular Monolith + Clean Architecture layering, 16 个 bounded context modules",
+    "推荐目录: src/{domain,application,infrastructure,modules,shared} + tests/{unit,integration,e2e,contract,performance}",
+    "代码重构: 15 项具体改造方案（按 P0/P1/P2 排序）",
+    "删除/合并: 19 项直接处置 (-17k LOC)",
+    "性能瓶颈: current 4 项 / 10x 5 项 / 100x 3 项",
+    "优化方案: P0 8 项 + P1 8 项 + P2 5 项 + P3 3 项 = 24 项",
+    "测试策略: 单元 10 类 + 集成 8 module + e2e 6 happy path + 契约 5 项 + 性能 7 项 + 烟测 5 项 + gate gap 8 项",
+    "最终评分: arch 3 / func 5 / code 3 / corr 4 / test 2 / sec 3 / perf 5 / maint 3 / scal 4 (平均 3.6)",
+    "Architecture maturity: early-production (基于 server.js 13 直挂 + 死代码 + 双 LLM 管理 + 4 frontend 目录共存)",
+    "Release decision: NO_GO (8 个 P0 漏洞未修复)",
+    "完整结果已落盘: ai-tutor-architecture-audit-final.json (本任务唯一产物)"
+  ]
+}

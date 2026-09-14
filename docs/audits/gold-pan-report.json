@@ -1,0 +1,78 @@
+{
+  "report": "Dispatch 016 · Gold Pan 全量健康数据淘金报告",
+  "timestamp": "2026-09-10T12:30:00Z",
+  "executor": "DSH",
+  "tar_file": "database.tar (164 MB, 部分 EOF 截断)",
+  "tool": "scripts/batch02/00-tar-adapter.mjs",
+
+  "summary": {
+    "total_extracted": 296,
+    "healthy_inserted": 90,
+    "rejected_as_ore": 206,
+    "db_failed": 0,
+    "duplicates": 0,
+    "healthy_rate_pct": 30.4,
+    "rejected_rate_pct": 69.6
+  },
+
+  "per_year_per_subject_health": {
+    "chinese": {
+      "2019": { "extracted": 11, "healthy": 0, "rejected": 11, "diagnosis": "SOURCE_POLLUTED" },
+      "2020": { "extracted": 24, "healthy": 0, "rejected": 24, "diagnosis": "SOURCE_POLLUTED" },
+      "2021": { "extracted": 26, "healthy": 0, "rejected": 26, "diagnosis": "SOURCE_POLLUTED" },
+      "2022": { "extracted": 25, "healthy": 0, "rejected": 25, "diagnosis": "SOURCE_POLLUTED" },
+      "2023": { "extracted": 25, "healthy": 0, "rejected": 25, "diagnosis": "SOURCE_POLLUTED" },
+      "2024": { "extracted": 25, "healthy": 25, "rejected": 0, "diagnosis": "HEALTHY" },
+      "2025": { "extracted": 25, "healthy": 25, "rejected": 0, "diagnosis": "HEALTHY" }
+    },
+    "history": {
+      "2019": { "extracted": 15, "healthy": 0, "rejected": 15, "diagnosis": "SOURCE_POLLUTED" },
+      "2020": { "extracted": 20, "healthy": 0, "rejected": 20, "diagnosis": "SOURCE_POLLUTED" },
+      "2021": { "extracted": 20, "healthy": 0, "rejected": 20, "diagnosis": "SOURCE_POLLUTED" },
+      "2022": { "extracted": 20, "healthy": 0, "rejected": 20, "diagnosis": "SOURCE_POLLUTED" },
+      "2023": { "extracted": 20, "healthy": 0, "rejected": 20, "diagnosis": "SOURCE_POLLUTED" },
+      "2024": { "extracted": 20, "healthy": 20, "rejected": 0, "diagnosis": "HEALTHY" },
+      "2025": { "extracted": 20, "healthy": 20, "rejected": 0, "diagnosis": "HEALTHY" }
+    }
+  },
+
+  "rejection_breakdown": {
+    "placeholder:undefined": 206,
+    "null_or_undefined": 0,
+    "empty": 0,
+    "too_short": 0,
+    "interpretation": "100% 的拒绝都是 'placeholder:undefined' — 早期 export 脚本 (2019-2023) 输出 section 框架但未填充实际 OCR/解析内容"
+  },
+
+  "staging_state": {
+    "public.exam_papers": 35,
+    "public.exam_questions": 679,
+    "public.question_knowledge_points": 203,
+    "public.question_vectors": 70,
+    "public.exam_regions": 51,
+    "qb_recovery.batch02_staging": 90,
+    "qb_recovery.batch02_staging_by_subject_year": {
+      "chinese/2024": 25,
+      "chinese/2025": 25,
+      "history/2024": 20,
+      "history/2025": 20
+    },
+    "stage29_exit_code": 0,
+    "stage29_verdict": "PASS",
+    "stage29_warnings": 0
+  },
+
+  "findings": {
+    "data_source_pollution_extent": "远比预期严重: 不只 2019/2020 污染, 整个 2019-2023 (5 年) 全部 chinese + history 都是 placeholder 矿渣. 仅 2024-2025 (2 年) 真健康.",
+    "tar_eof_impact": "tar 末尾 EOF 截断, 原本估计 1170 题实际只解出 296 (chinese 161 + history 135). history/2025 末尾可能丢失少量题.",
+    "healthy_data_value": "90 题 (chinese/2024-2025 + history/2024-2025) 100% 完整 (answer 100% + analysis 100% + 0 mojibake)",
+    "next_action_required": "用户联系上游修复 export 脚本 (2019-2023 共 5 年 206 题) 然后重新打包上传, 或接受现状仅入库 90 题"
+  },
+
+  "deliverables": {
+    "script": "scripts/batch02/00-tar-adapter.mjs (~290 行, EOF-tolerant + placeholder 黑名单 + 健康度统计)",
+    "report_file": "docs/audits/gold-pan-report.json"
+  },
+
+  "dsh_stance": "严格按 Qwen 指令: 仅入库健康数据 (90 题), 拒绝 206 题 placeholder 矿渣, 不动 public.* 任何核心表. 等用户审核 90 题 staging 质量后再决定是否触发 02-commit-pipeline 真实合并到生产."
+}

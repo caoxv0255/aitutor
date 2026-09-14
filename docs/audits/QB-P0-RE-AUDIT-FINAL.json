@@ -1,0 +1,572 @@
+{
+  "run_label": "stage29-final-re-audit",
+  "audit_timestamp": "2026-09-13T12:28:49.393Z",
+  "dispatch": "010-physical-aligned",
+  "mvp_paper_ids": [
+    10,
+    11,
+    20
+  ],
+  "dimension_a": {
+    "dim": "A.关系与拓扑完整性",
+    "checks": {
+      "mvp_counts": {
+        "papers": "3",
+        "questions": "70"
+      },
+      "embedding_coverage": {
+        "severity": "PASS",
+        "embedded": 70,
+        "total": 70,
+        "coverage_pct": 100,
+        "note": "Dispatch 013 后续 stage30-embedding-backfill 已完成 (DashScope text-embedding-v3, 1024-dim)。"
+      },
+      "kp_coverage": {
+        "severity": "WARN",
+        "kp_links": "85",
+        "unique_kps": "17",
+        "questions_with_kp": "69",
+        "note": "Dispatch 011 stage31-kp-relink 已用纯规则引擎从 3/70 → 65/70 (92.86%)；剩余 5 题无明确 KP 归属。"
+      },
+      "exam_regions": {
+        "severity": "INFO",
+        "total": "52",
+        "macro_regions": "8",
+        "provinces": "44",
+        "note": "基于真实 public.provinces (44 行) seed；真实值取代沙盘 66"
+      },
+      "expected_new_tables": {
+        "severity": "BLOCK",
+        "expected": [
+          "exam_regions",
+          "exam_materials",
+          "exam_sub_questions",
+          "exam_question_history",
+          "issue_tickets"
+        ],
+        "present": [
+          "exam_materials",
+          "exam_question_history",
+          "exam_regions",
+          "exam_sub_questions",
+          "issue_tickets"
+        ],
+        "missing": []
+      },
+      "sub_questions_fk_orphans": 0,
+      "exam_materials_fk_orphans": 0,
+      "paper_unique_violations": 0,
+      "question_unique_violations": 0,
+      "cross_paper_type_duplicates": [],
+      "uid_format": {
+        "null_uids": "0",
+        "malformed": "0",
+        "total": "70"
+      }
+    },
+    "block_stops": [],
+    "warn_stops": []
+  },
+  "dimension_b": {
+    "dim": "B.Schema 与索引健康度",
+    "checks": {
+      "extensions": [
+        {
+          "extname": "age",
+          "extversion": "1.6.0"
+        },
+        {
+          "extname": "pg_trgm",
+          "extversion": "1.6"
+        },
+        {
+          "extname": "vector",
+          "extversion": "0.7.0"
+        }
+      ],
+      "hnsw_index_count": 4,
+      "scd2_columns": {
+        "severity": "BLOCK",
+        "present": [
+          "snapshot",
+          "valid_from",
+          "valid_to"
+        ],
+        "missing": []
+      }
+    },
+    "block_stops": [],
+    "warn_stops": []
+  },
+  "dimension_c": {
+    "dim": "C.服务就绪度探针",
+    "checks": {
+      "file_existence": {
+        "p03_module_route": {
+          "path": "/home/flaskappuser/Desktop/NewDisk_2T/aitutor/api/modules/p03/routes.js",
+          "exists": true
+        },
+        "p03_service": {
+          "path": "/home/flaskappuser/Desktop/NewDisk_2T/aitutor/api/services/p03Adapter.js",
+          "exists": true
+        },
+        "asset_module_route": {
+          "path": "/home/flaskappuser/Desktop/NewDisk_2T/aitutor/api/modules/assets/routes.js",
+          "exists": true
+        },
+        "asset_service": {
+          "path": "/home/flaskappuser/Desktop/NewDisk_2T/aitutor/api/services/assetService.js",
+          "exists": true
+        },
+        "server_entry": {
+          "path": "/home/flaskappuser/Desktop/NewDisk_2T/aitutor/server.js",
+          "exists": true
+        },
+        "modules_index": {
+          "path": "/home/flaskappuser/Desktop/NewDisk_2T/aitutor/api/modules/index.js",
+          "exists": true
+        }
+      },
+      "server_mounts": {
+        "p03_module_imported": true,
+        "assets_module_imported": true,
+        "p03_mounted": true,
+        "assets_mounted_v1": true
+      },
+      "http_probes": {
+        "p03_health": {
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "bodyLen": 146,
+          "body": "{\"success\":true,\"data\":{\"ok\":true,\"version\":\"v1-deterministic\",\"stem_pool_size\":5834,\"trgm_threshold\":0.3,\"timestamp\":\"2026-09-13T12:28:49.782Z\"}}"
+        },
+        "p03_match": {
+          "status": 200,
+          "contentType": "application/json; charset=utf-8",
+          "body": "{\"success\":true,\"data\":{\"match_count\":0,\"matches\":[],\"mode\":\"no_match\",\"query_meta\":{\"stem_length\":20,\"filter\":{\"subject\":\"chinese\"},\"topK\":3,\"trgm_threshold\":0.3}}}"
+        },
+        "asset_ok": {
+          "status": 200,
+          "contentType": "image/svg+xml; charset=utf-8",
+          "bodyLen": 1009,
+          "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"512\" height=\"320\" viewBox=\"0 0 512 320\">\n  <defs>\n    <linearGradient id=\"bg\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#10B981\" stop-opacity=\"1\"/>\n      <stop offset=\"100%\" stop-color=\"#10B981\" stop-opacity=\"0.65\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"100%\" height=\"100%\" fill=\"u"
+        },
+        "asset_v1_alias": {
+          "status": 200,
+          "contentType": "image/svg+xml; charset=utf-8",
+          "bodyLen": 997,
+          "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"512\" height=\"320\" viewBox=\"0 0 512 320\">\n  <defs>\n    <linearGradient id=\"bg\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#10B981\" stop-opacity=\"1\"/>\n      <stop offset=\"100%\" stop-color=\"#10B981\" stop-opacity=\"0.65\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"100%\" height=\"100%\" fill=\"u"
+        },
+        "asset_traversal1": {
+          "status": 400,
+          "contentType": "application/json; charset=utf-8",
+          "bodyLen": 72,
+          "body": "{\"success\":false,\"error\":\"unsafe_uri\",\"reason\":\"uri_contains_traversal\"}"
+        },
+        "asset_traversal2": {
+          "status": 400,
+          "contentType": "application/json; charset=utf-8",
+          "bodyLen": 65,
+          "body": "{\"success\":false,\"error\":\"unsafe_uri\",\"reason\":\"uri_is_absolute\"}"
+        },
+        "asset_traversal3": {
+          "status": 400,
+          "contentType": "application/json; charset=utf-8",
+          "bodyLen": 72,
+          "body": "{\"success\":false,\"error\":\"unsafe_uri\",\"reason\":\"uri_contains_null_byte\"}"
+        },
+        "asset_root_alias": {
+          "status": 200,
+          "contentType": "image/svg+xml; charset=utf-8",
+          "bodyLen": 1009,
+          "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"512\" height=\"320\" viewBox=\"0 0 512 320\">\n  <defs>\n    <linearGradient id=\"bg\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#4F46E5\" stop-opacity=\"1\"/>\n      <stop offset=\"100%\" stop-color=\"#4F46E5\" stop-opacity=\"0.65\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"100%\" height=\"100%\" fill=\"u"
+        }
+      }
+    },
+    "block_stops": [],
+    "warn_stops": []
+  },
+  "dimension_d": {
+    "dim": "D.Ledger 审计链",
+    "checks": {
+      "run_labels": [
+        {
+          "run_label": "QB-TAR-20260904-B01-1789002481-STAGE16-WRITE",
+          "ops": "398",
+          "first_op": "2026-09-10T01:08:01.354Z",
+          "last_op": "2026-09-10T01:08:01.354Z"
+        },
+        {
+          "run_label": "QB-TAR-B01-S19-9011577092",
+          "ops": "72",
+          "first_op": "2026-09-10T03:39:37.091Z",
+          "last_op": "2026-09-10T03:39:37.091Z"
+        },
+        {
+          "run_label": "QB-TAR-B01-S19-9011590832",
+          "ops": "72",
+          "first_op": "2026-09-10T03:39:50.831Z",
+          "last_op": "2026-09-10T03:39:50.831Z"
+        },
+        {
+          "run_label": "dispatch-010-020-migration",
+          "ops": "3",
+          "first_op": "2026-09-10T09:49:59.479Z",
+          "last_op": "2026-09-10T09:49:59.479Z"
+        },
+        {
+          "run_label": "stage31-kp-relink",
+          "ops": "78",
+          "first_op": "2026-09-10T09:59:35.120Z",
+          "last_op": "2026-09-10T10:00:30.520Z"
+        },
+        {
+          "run_label": "batch02-01-ingest-pipeline",
+          "ops": "7072",
+          "first_op": "2026-09-10T10:03:21.681Z",
+          "last_op": "2026-09-11T07:20:31.177Z"
+        },
+        {
+          "run_label": "migration-021-batch02-staging",
+          "ops": "2",
+          "first_op": "2026-09-10T11:11:46.202Z",
+          "last_op": "2026-09-10T11:11:46.202Z"
+        },
+        {
+          "run_label": "stage30-embedding-backfill",
+          "ops": "2226",
+          "first_op": "2026-09-10T11:39:16.382Z",
+          "last_op": "2026-09-13T11:50:45.959Z"
+        },
+        {
+          "run_label": "batch02-03-purge-test-data",
+          "ops": "1",
+          "first_op": "2026-09-10T11:49:41.955Z",
+          "last_op": "2026-09-10T11:49:41.955Z"
+        },
+        {
+          "run_label": "batch02-00-tar-adapter",
+          "ops": "90",
+          "first_op": "2026-09-10T12:23:13.493Z",
+          "last_op": "2026-09-10T12:23:13.729Z"
+        },
+        {
+          "run_label": "batch02-02-commit-pipeline",
+          "ops": "6038",
+          "first_op": "2026-09-10T23:42:28.205Z",
+          "last_op": "2026-09-11T08:10:14.162Z"
+        },
+        {
+          "run_label": "batch02-11-embed-all",
+          "ops": "3608",
+          "first_op": "2026-09-11T01:15:50.156Z",
+          "last_op": "2026-09-11T01:24:56.217Z"
+        },
+        {
+          "run_label": "migration-023-paper-type",
+          "ops": "1",
+          "first_op": "2026-09-11T04:43:28.097Z",
+          "last_op": "2026-09-11T04:43:28.097Z"
+        },
+        {
+          "run_label": "dispatch-028-cleanup",
+          "ops": "1",
+          "first_op": "2026-09-11T07:17:52.991Z",
+          "last_op": "2026-09-11T07:17:52.991Z"
+        },
+        {
+          "run_label": "dispatch-029-backfill-paper-type",
+          "ops": "1",
+          "first_op": "2026-09-11T07:41:55.678Z",
+          "last_op": "2026-09-11T07:41:55.678Z"
+        },
+        {
+          "run_label": "dispatch-031-stage1-cleanup",
+          "ops": "1",
+          "first_op": "2026-09-11T08:04:27.379Z",
+          "last_op": "2026-09-11T08:04:27.379Z"
+        },
+        {
+          "run_label": "migration-024-paper-identity-unique",
+          "ops": "1",
+          "first_op": "2026-09-11T08:09:26.612Z",
+          "last_op": "2026-09-11T08:09:26.612Z"
+        },
+        {
+          "run_label": "dispatch-031-step5-dedup",
+          "ops": "4",
+          "first_op": "2026-09-11T08:16:47.517Z",
+          "last_op": "2026-09-11T08:16:47.517Z"
+        },
+        {
+          "run_label": "migration-026-uid-discriminators",
+          "ops": "353",
+          "first_op": "2026-09-11T08:31:43.599Z",
+          "last_op": "2026-09-11T08:31:43.599Z"
+        },
+        {
+          "run_label": "dispatch-032-legacy-uid-fix",
+          "ops": "33",
+          "first_op": "2026-09-11T08:36:56.970Z",
+          "last_op": "2026-09-11T08:36:56.970Z"
+        },
+        {
+          "run_label": "migration-027-finalize-b-bucket",
+          "ops": "10",
+          "first_op": "2026-09-11T09:15:09.427Z",
+          "last_op": "2026-09-11T09:15:09.427Z"
+        },
+        {
+          "run_label": "dispatch-033-question-number-sanitize",
+          "ops": "86",
+          "first_op": "2026-09-11T09:16:36.399Z",
+          "last_op": "2026-09-11T09:21:03.851Z"
+        },
+        {
+          "run_label": "dispatch-034-split-answer-from-stem",
+          "ops": "2056",
+          "first_op": "2026-09-11T09:36:37.065Z",
+          "last_op": "2026-09-11T09:36:37.065Z"
+        },
+        {
+          "run_label": "dispatch-034-split-options-from-stem",
+          "ops": "24",
+          "first_op": "2026-09-11T09:56:29.135Z",
+          "last_op": "2026-09-11T09:56:29.135Z"
+        },
+        {
+          "run_label": "dispatch-034-source-defect-tickets",
+          "ops": "1",
+          "first_op": "2026-09-11T09:56:40.076Z",
+          "last_op": "2026-09-11T09:56:40.076Z"
+        },
+        {
+          "run_label": "dispatch-034-llm-split-staging",
+          "ops": "1",
+          "first_op": "2026-09-11T10:00:39.503Z",
+          "last_op": "2026-09-11T10:00:39.503Z"
+        },
+        {
+          "run_label": "dispatch-034-commit-225",
+          "ops": "3",
+          "first_op": "2026-09-13T10:04:53.352Z",
+          "last_op": "2026-09-13T10:04:53.352Z"
+        },
+        {
+          "run_label": "dispatch-035-reclassify-marker-tickets",
+          "ops": "8",
+          "first_op": "2026-09-13T10:25:38.014Z",
+          "last_op": "2026-09-13T10:25:59.136Z"
+        },
+        {
+          "run_label": "dispatch-036-extract-images-pilot",
+          "ops": "23",
+          "first_op": "2026-09-13T11:34:09.377Z",
+          "last_op": "2026-09-13T11:36:20.456Z"
+        },
+        {
+          "run_label": "dispatch-036-extract-images-v3",
+          "ops": "261",
+          "first_op": "2026-09-13T11:42:32.027Z",
+          "last_op": "2026-09-13T11:42:32.028Z"
+        },
+        {
+          "run_label": "dispatch-038-fix-source-defects",
+          "ops": "25",
+          "first_op": "2026-09-13T12:25:14.392Z",
+          "last_op": "2026-09-13T12:28:36.975Z"
+        }
+      ],
+      "action_distribution": [
+        {
+          "action": "ANSWER_SPLIT",
+          "cnt": "2056"
+        },
+        {
+          "action": "BATCH_INSERT",
+          "cnt": "2"
+        },
+        {
+          "action": "BEGIN",
+          "cnt": "3"
+        },
+        {
+          "action": "COMMIT",
+          "cnt": "3"
+        },
+        {
+          "action": "COMMITTED_Q_NEW",
+          "cnt": "5516"
+        },
+        {
+          "action": "COMMIT_PAPER_EXIST",
+          "cnt": "274"
+        },
+        {
+          "action": "COMMIT_PAPER_NEW",
+          "cnt": "248"
+        },
+        {
+          "action": "DEFECT_TICKETS",
+          "cnt": "1"
+        },
+        {
+          "action": "DELETED_DUPLICATE",
+          "cnt": "1"
+        },
+        {
+          "action": "EMBEDDED",
+          "cnt": "5834"
+        },
+        {
+          "action": "INSERTED",
+          "cnt": "393"
+        },
+        {
+          "action": "ISSUE_TYPE_RENAMED",
+          "cnt": "4"
+        },
+        {
+          "action": "OPTIONS_SPLIT",
+          "cnt": "24"
+        },
+        {
+          "action": "PAPER_TYPE_SET",
+          "cnt": "9"
+        },
+        {
+          "action": "PAPER_TYPE_UPDATED",
+          "cnt": "1"
+        },
+        {
+          "action": "PILOT_EXTRACT",
+          "cnt": "1"
+        },
+        {
+          "action": "PILOT_EXTRACT_V2",
+          "cnt": "1"
+        },
+        {
+          "action": "PILOT_EXTRACT_V3",
+          "cnt": "1"
+        },
+        {
+          "action": "PURGED",
+          "cnt": "1"
+        },
+        {
+          "action": "PURGED_FIXTURES",
+          "cnt": "1"
+        },
+        {
+          "action": "QNUM_SANITIZED",
+          "cnt": "86"
+        },
+        {
+          "action": "RECLASSIFIED",
+          "cnt": "4"
+        },
+        {
+          "action": "RESOLVED_PILOT_V2",
+          "cnt": "21"
+        },
+        {
+          "action": "RESOLVED_PILOT_V3",
+          "cnt": "260"
+        },
+        {
+          "action": "SCHEMA_CREATED",
+          "cnt": "2"
+        },
+        {
+          "action": "SCHEMA_UPGRADED",
+          "cnt": "3"
+        },
+        {
+          "action": "SEED_INSERTED",
+          "cnt": "2"
+        },
+        {
+          "action": "STAGED",
+          "cnt": "7072"
+        },
+        {
+          "action": "STAGED_FROM_TAR",
+          "cnt": "90"
+        },
+        {
+          "action": "STEM_PATCHED",
+          "cnt": "2"
+        },
+        {
+          "action": "STEM_REEXTRACTED",
+          "cnt": "25"
+        },
+        {
+          "action": "TABLE_CREATED",
+          "cnt": "1"
+        },
+        {
+          "action": "TICKETS_OPENED",
+          "cnt": "1"
+        },
+        {
+          "action": "TRIGGER_CREATED",
+          "cnt": "1"
+        },
+        {
+          "action": "UID_LEVEL_SEG",
+          "cnt": "352"
+        },
+        {
+          "action": "UID_REGION_FIXED",
+          "cnt": "33"
+        },
+        {
+          "action": "UNCHANGED",
+          "cnt": "140"
+        },
+        {
+          "action": "UPDATED",
+          "cnt": "83"
+        },
+        {
+          "action": "VOCAB_EXTENDED",
+          "cnt": "1"
+        }
+      ],
+      "tx_balance": {
+        "begins": "3",
+        "commits": "3"
+      }
+    },
+    "block_stops": [],
+    "warn_stops": []
+  },
+  "final_baseline": {
+    "public.exam_papers": 282,
+    "public.exam_questions": 6173,
+    "public.question_images": 601,
+    "public.question_knowledge_points": 857,
+    "public.knowledge_points": 426,
+    "public.question_vectors": 5834,
+    "public.rag_questions": 4,
+    "public.subjects": 9,
+    "public.provinces": 45,
+    "public.exam_levels": 2,
+    "public.ai_trace": 6201,
+    "public.exam_regions": 52,
+    "public.exam_materials": 225,
+    "public.exam_sub_questions": 839,
+    "public.exam_question_history": 0,
+    "public.issue_tickets": 456,
+    "qb_recovery.canonical_migration_ledger": 22553,
+    "qb_recovery.asset_inventory": 2160,
+    "qb_recovery.qb_staging": 296,
+    "qb_recovery.kp_staging_candidate": 266,
+    "qb_recovery.batch02_staging": 6977
+  },
+  "block_stops": [],
+  "warn_stops": [],
+  "verdict": "PASS"
+}

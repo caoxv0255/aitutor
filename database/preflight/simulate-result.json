@@ -1,0 +1,14 @@
+{
+  "run_label": "QB-TAR-20260904-B01-1788968426-STAGE10",
+  "sim_papers": 4,
+  "sim_questions": 90,
+  "sim_distinct_question_uids": 90,
+  "sim_distinct_paper_uids": 4,
+  "duplicate_question_uid": 0,
+  "duplicate_paper_uid": 0,
+  "question_orphan": 0,
+  "sim_images_inserted": 460,
+  "sim_kp_inserted": 3,
+  "image_fk_failures": 0,
+  "kp_fk_failures": 0
+}

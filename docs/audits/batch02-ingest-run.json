@@ -1,0 +1,51 @@
+{
+  "run_label": "batch02-01-ingest-pipeline",
+  "timestamp": "2026-09-11T07:11:00.422Z",
+  "flags": {
+    "commit": true,
+    "withLlm": false,
+    "limit": null
+  },
+  "summary": {
+    "files_processed": 169,
+    "questions_parsed": 4126,
+    "questions_valid": 4103,
+    "questions_invalid": 23,
+    "inserted": 2837,
+    "duplicates": 1266,
+    "failed_mojibake": 0,
+    "image_tickets_created": 241,
+    "validation_errors": [
+      {
+        "source": "database/incoming/gaokao/english/2024/2024_zhejiang_english_gaokao_blank.docx",
+        "errors": [
+          "missing stem"
+        ]
+      },
+      {
+        "source": "database/incoming/gaokao/english/2024/2024_zhejiang_english_gaokao_blank.docx",
+        "errors": [
+          "missing stem"
+        ]
+      },
+      {
+        "source": "database/incoming/gaokao/english/2024/2024_zhejiang_english_gaokao_blank.docx",
+        "errors": [
+          "missing stem"
+        ]
+      },
+      {
+        "source": "database/incoming/gaokao/english/2024/2024_zhejiang_english_gaokao_blank.docx",
+        "errors": [
+          "missing stem"
+        ]
+      },
+      {
+        "source": "database/incoming/gaokao/english/2024/2024_zhejiang_english_gaokao_blank.docx",
+        "errors": [
+          "missing stem"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "run_label": "stage30-embedding-backfill",
+  "timestamp": "2026-09-13T11:50:45.967Z",
+  "mode": "commit",
+  "candidates_total": 916,
+  "inserted": 916,
+  "failed": 0,
+  "mvp_coverage_after": 70,
+  "errors_sample": []
+}

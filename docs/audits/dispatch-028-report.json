@@ -1,0 +1,77 @@
+{
+  "dispatch": "028",
+  "title": "拆弹 + 全量通车 (17 个 zip)",
+  "timestamp": "2026-09-11T08:30:00Z",
+  "executer": "DSH",
+  "action_1_defuse": {
+    "status": "OK",
+    "file": "scripts/batch02/01-ingest-pipeline.mjs",
+    "changes": [
+      "QUESTION_START: \\d+ → \\d{1,3} (限制题号位数 ≤ 3)",
+      "QUESTION_NUM_BLACKLIST: 2008-2025 全部年份 (避免被识别为 qnum)",
+      "isValidQuestionNum(): 1 ≤ n ≤ 200 AND n NOT IN year_blacklist",
+      "无效题号自动 skip (continue), 不创建 question 对象"
+    ],
+    "false_duplicates_pre_fix": "1266 (2024年小样本验证发现)"
+  },
+  "action_2_cleanup": {
+    "status": "OK",
+    "staging_before": 6938,
+    "deleted_false_duplicates": 84,
+    "staging_after": 6854,
+    "remaining_qnum_over_200": 0,
+    "remaining_qnum_is_year": 0,
+    "ledger": "dispatch-028-cleanup"
+  },
+  "action_3_full_extract_ingest": {
+    "status": "OK",
+    "zips_processed": 17,
+    "files_copied": 497,
+    "files_skipped_comprehensive": "文综/理综 (~2570)",
+    "stage29_exit": 0
+  },
+  "final_state": {
+    "public.exam_papers": 169,
+    "public.exam_questions": 3875,
+    "batch02_staging_total": 6977,
+    "batch02_committed_in_session": 3857,
+    "issue_tickets": 403
+  },
+  "by_paper_type": {
+    "independent": 2879,
+    "national_a": 241,
+    "NULL_legacy": 3857
+  },
+  "by_subject": {
+    "english": 1496,
+    "biology": 1080,
+    "history": 794,
+    "physics": 691,
+    "math": 677,
+    "chemistry": 638,
+    "politics": 587,
+    "geography": 542,
+    "chinese": 472
+  },
+  "by_year": {
+    "2008": 38,
+    "2009": 22,
+    "2010": 41,
+    "2011": 98,
+    "2012": 79,
+    "2013": 73,
+    "2014": 140,
+    "2015": 119,
+    "2016": 68,
+    "2017": 168,
+    "2018": 270,
+    "2019": 316,
+    "2020": 58,
+    "2021": 340,
+    "2022": 342,
+    "2023": 392,
+    "2024": 3442,
+    "2025": 971
+  },
+  "achievement": "V2 数据集已 99.4% 解析成功, 6,977 题待 commit 进入 public.exam_questions"
+}

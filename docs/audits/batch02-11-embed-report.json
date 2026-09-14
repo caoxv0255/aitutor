@@ -1,0 +1,15 @@
+{
+  "run_label": "batch02-11-embed-all",
+  "timestamp": "2026-09-11T01:24:56.241Z",
+  "candidates_total": 3608,
+  "inserted": 3608,
+  "failed": 0,
+  "elapsed_seconds": 546.5,
+  "rate_per_sec": 6.6,
+  "coverage": {
+    "total_questions": 3875,
+    "with_embedding": 3678,
+    "coverage_pct": 94.92
+  },
+  "errors_sample": []
+}

@@ -1,0 +1,18 @@
+{
+  "test_image_id": 642,
+  "test_question_id": 895,
+  "test_status": "PRESENT",
+  "external_modification_detected": true,
+  "before_sha": "dd56d1db32517250...",
+  "after_external_mod_sha": "d9d3e90b348ad0ff...",
+  "rollback_would_be_SAFE": false,
+  "rollback_protocol_decision": "SKIP (sha mismatch — safe)",
+  "ledger_recorded_after_sha": "dd56d1db32517250...",
+  "current_sha_after_external_mod": "d9d3e90b348ad0ff...",
+  "simulation": {
+    "setup": "Image id=642 (status=PRESENT)",
+    "action_1": "External modification changed status to MISSING_SOURCE",
+    "action_2": "Computed current sha vs ledger-recorded after_sha",
+    "decision": "safeToRollback=false → SKIP (sha mismatch — safe)"
+  }
+}

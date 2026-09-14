@@ -1,0 +1,20 @@
+{
+  "run_label": "QB-TAR-B01-S19-9011590832",
+  "q_updated": 0,
+  "q_unchanged": 70,
+  "q_failed": 0,
+  "pre_70": [
+    {
+      "image_status": "BACKFILL_PENDING",
+      "image_expected": true,
+      "image_available": true,
+      "c": "70"
+    }
+  ],
+  "post_70": [
+    {
+      "image_status": "BACKFILL_PENDING",
+      "c": "70"
+    }
+  ]
+}

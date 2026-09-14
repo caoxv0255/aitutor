@@ -1,0 +1,954 @@
+{
+  "W1": {
+    "columns_present": {
+      "paper_uid_exists": true,
+      "paper_variant_exists": true,
+      "q_image_status": true,
+      "q_image_expected": true,
+      "q_image_available": true,
+      "img_asset_uri": true,
+      "img_status": true,
+      "img_file_path": true,
+      "img_source_page": true,
+      "kp_q": true,
+      "kp_id": true,
+      "kp_score": true
+    },
+    "missing_columns": [],
+    "conclusion": "PASS"
+  },
+  "W2": {
+    "classification": {
+      "IMAGE_COMPLETE": [],
+      "IMAGE_BACKFILLABLE": [
+        {
+          "question_uid": "chinese_2024_beijing_001",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 1,
+          "stem_excerpt": "根据材料一，下列理解不正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_002",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 2,
+          "stem_excerpt": "根据材料一，brGDGTs 被用于我国古温度重建，下列能说明其依据的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_003",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 3,
+          "stem_excerpt": "根据材料一，关于我国北方地区气候总体变冷、变干的主要原因，下列表述正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_004",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 4,
+          "stem_excerpt": "对于材料一和材料二内容的比较分析，下列表述不正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_005",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 5,
+          "stem_excerpt": "结合材料一和材料二，简要概括气候影响我国古代社会文明发展规律，并说明影响的复杂性。",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_006",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 6,
+          "stem_excerpt": "下列对语句中加点词的解释，不正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_007",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 7,
+          "stem_excerpt": "下列各组语句中，加点词的意义和用法都相同的一组是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_008",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 8,
+          "stem_excerpt": "下列对文中语句的理解，不正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_009",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 9,
+          "stem_excerpt": "根据文意，下列理解与推断，不正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_010",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 10,
+          "stem_excerpt": "墨子论述“非命”时，提出“言必有三表”，“三表”即本之、原之、用之。请分别谈谈你对三表的理解，并概括说明第三段和第四段是怎样体现三表的。",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_011",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 11,
+          "stem_excerpt": "下列对四首诗的依次解读，不正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_012",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 12,
+          "stem_excerpt": "下列对四首诗的整体分析，正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_013",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 13,
+          "stem_excerpt": "清人王琦评论说：“《马诗二十三首》，俱是借题抒意，或美，或讥，或悲……”请结合以上诗中表达这三种情感的诗句，分别说明作者如何“借题抒意”。",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_014",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 14,
+          "stem_excerpt": "在横线处填写作品原句。要求：字迹清晰。\n（1）春光旖旎，佳客临门，杜甫诗兴盎然：“舍南舍北皆春水，但见群鸥日日来。____________，____________。”\n（2）优美的神话传说常成为诗人",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_015",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 15,
+          "stem_excerpt": "《红楼梦》第三十五回：\n贾母听了，笑道：“猴儿，把你乖的！拿着官中的钱你做人。”说的大家笑了。凤姐也忙笑道：“这不相干。这个小东道我还孝敬的起。”便回头吩咐妇人，“说给厨房里，只管好生添补着做了，在我",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_016",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 16,
+          "stem_excerpt": "下列对文中加点词语的解说，不正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_017",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 17,
+          "stem_excerpt": "下列对文章的理解与赏析，不正确的一项是（   ）",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_018",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 18,
+          "stem_excerpt": "有学者认为这篇散文有“以轻松之行文，写厚重之情味”的特点，请结合第⑧段的相关语句，谈谈你对此特点的理解。",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_019",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 19,
+          "stem_excerpt": "请结合全文内容，分析最后一段中“魔法”的涵义。",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_020",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 20,
+          "stem_excerpt": "阅读下面文字，完成下列小题。\n①振奋人心的音乐能产生千军万马\n．．．．的力量。②《黄河大合唱》就是这样一部庄严有力而不失\n．．热情和诗意的不朽之作，它诞生于1939 年的延安。③本．作品一经问世，便在",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_021",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 21,
+          "stem_excerpt": "微信朋友圈有“点赞”功能。有人关注“点赞”数量，有人热衷于给人“点赞”……对“点赞”现象，你有什么看法？请说明你的观点和理由。\n要求：观点明确，言之有理。不超过150 字。不透露所在区、学校及个人信息",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_022",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 22,
+          "stem_excerpt": "年级准备开展“走进名人故乡”主题研学活动，计划在目的地研学两天，现征询同学们对目的地的建议。你建议去哪里？请说说理由。要求：明确写出名人及其故乡，重点陈述理由，理由合理。不超过150 字。不透露所在区",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_023",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 23,
+          "stem_excerpt": "请以“月的独白”为题目，用月亮的口吻，写一首小诗或一段抒情文字。要求：感情真挚，语言生动，有感染力。不超过150 字。不透露所在区、学校及个人信息。",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_024",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 24,
+          "stem_excerpt": "根据要求作文。\n几千年来，古老的经典常读常新，杰出的思想常用常新，中华民族的伟大精神亘古常新……很多事物，在时间的淬炼中，愈显活力和价值。\n请以“历久弥新”为题目，写一篇议论文。\n要求：论点明确，论据",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2024_beijing_025",
+          "subject": "chinese",
+          "year": 2024,
+          "qn": 25,
+          "stem_excerpt": "根据要求作文。\n个人成长需要打开视野，人际交往需要打开心扉，科技创新需要打开思路……打开，发现新的自己；打开，带来新的气象。每一次“打开”，都有一段故事。\n请以“打开”为题目，写一篇记叙文。\n要求：思",
+          "image_refs": 26,
+          "image_present": 4,
+          "image_missing": 22,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_001",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 1,
+          "stem_excerpt": "根据材料一，下列理解不正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_002",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 2,
+          "stem_excerpt": "根据材料一，下列情况不支持语言学习关键期假说的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_003",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 3,
+          "stem_excerpt": "根据材料二，下列对语言学习关键期的存在或作用的解释，不正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_004",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 4,
+          "stem_excerpt": "根据材料一和材料二，下列理解与推断，正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_005",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 5,
+          "stem_excerpt": "结合材料一和材料二，请分别谈谈语言学习关键期假说对母语学习和第二语言学习有何启示，并写出相应的理论依据。",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_006",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 6,
+          "stem_excerpt": "下列对句中加点词的解释，不正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_007",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 7,
+          "stem_excerpt": "下列各组语句中，加点词的意义和用法都相同的一组是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_008",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 8,
+          "stem_excerpt": "下列对文中语句的理解，不正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_009",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 9,
+          "stem_excerpt": "根据文意，下列理解与推断，不正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_010",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 10,
+          "stem_excerpt": "请结合文章第三、四段，分析作者关于识士的见解。",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_011",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 11,
+          "stem_excerpt": "下列对三首诗的解读，不正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_012",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 12,
+          "stem_excerpt": "下列对三首诗的赏析，正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_013",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 13,
+          "stem_excerpt": "请分别简述三首诗对诸葛亮的评价。",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_014",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 14,
+          "stem_excerpt": "在横线处填写作品原句。要求：字迹清晰。\n（1）孔子认为，君子应该“文质彬彬”，如果处理不好文质关系，就会产生两种结果：“_______________，_______________。”\n（2）很多成",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_015",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 15,
+          "stem_excerpt": "根据要求，回答问题\n《红楼梦》第七十回：\n宝玉一壁走，一壁看那纸上写着《桃花行》一篇，曰：“桃花帘外东风软，桃花帘内晨妆懒。……一声杜宇春归尽，寂寞帘栊空月痕！”宝玉看了并不称赞，却滚下泪来。便知出自",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_016",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 16,
+          "stem_excerpt": "下列对文中加点词语的解说，不正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_017",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 17,
+          "stem_excerpt": "下列对文章的理解与赏析，不正确的一项是（   ）",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_018",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 18,
+          "stem_excerpt": "文章多用问句，请分别解说【甲】【乙】两处画线句的内涵和作用。",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_019",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 19,
+          "stem_excerpt": "请结合文章内容，谈谈标题“故乡的纹路”有哪些涵义。",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_020",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 20,
+          "stem_excerpt": "请在第⑤句横线处将句子补充完整。要求：语句通顺，使文段语意连贯，不超过18个字；将答案写在答题卡上。",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_021",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 21,
+          "stem_excerpt": "学校国学社拟邀请一名学者来校做题为“古人的修身观”的讲座，请你给社团公众号写一段关于讲座的宣传语，吸引更多同学来听。\n要求：语言得体，有吸引力；不超过150字。",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_022",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 22,
+          "stem_excerpt": "教师节到来之际，班级准备开一次班会，为老师们颁奖，请你参与奖项设计。你最想设计一个什么奖，为什么？\n要求：写出该奖项的名称；言之成理，条理清晰。不超过150字。",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_023",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 23,
+          "stem_excerpt": "请以“轻”为题目，写一首小诗或一段抒情文字。\n要求：感情真挚，语言生动，有感染力，不超过150字。",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_024",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 24,
+          "stem_excerpt": "运动员在中长跑时会出现“极点”反应：呼吸艰难，四肢乏力。但通过调整节奏、激发斗志，越过极点后，身体会重获活力，奔跑会进入新阶段。这样的现象被称为“第二次呼吸”。其实，很多领域都存在类似现象。\n请以“由",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "chinese_2025_beijing_025",
+          "subject": "chinese",
+          "year": 2025,
+          "qn": 25,
+          "stem_excerpt": "生活中，到处都有数字在闪耀，如比赛记分牌、新年倒计时、车站电子时刻表、智能家电显示屏等。数字闪耀之时，可能是激动的时刻，可能是收获的见证，也可能是幸福的日常……\n请以“当数字闪耀时”为题，写一篇记叙文",
+          "image_refs": 25,
+          "image_present": 4,
+          "image_missing": 21,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_001",
+          "subject": "history",
+          "year": 2024,
+          "qn": 1,
+          "stem_excerpt": "古代玉器礼之重器，孔子用玉比喻理想人格：温润而泽，仁也；缜密以栗（坚硬），知（智）也；廉（棱角）而不刿（割），义也；垂之如队（坠），礼也。这一比喻寄托了（    ）",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_002",
+          "subject": "history",
+          "year": 2024,
+          "qn": 2,
+          "stem_excerpt": "西汉官员朱邑，少时为舒桐乡啬夫，为政“廉平不苛”“存问耆老孤寡”“所部吏民爱敬焉”，后“举贤良为大司农丞……以治行第一入为大司农”。上述材料可以印证西汉时期（    ）\n①社会基层组织开始建立    ",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_003",
+          "subject": "history",
+          "year": 2024,
+          "qn": 3,
+          "stem_excerpt": "“判”是古时官员断决狱讼的文本，也是唐代铨选官吏的考试科目之一。唐代的《龙筋凤髓判》是我国完整传世的一部判例集，通过模拟判例的形式陈述案例缘由，给出判决意见，并进行解释，为应试者提供了“判”的写作程式",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_004",
+          "subject": "history",
+          "year": 2024,
+          "qn": 4,
+          "stem_excerpt": "《永乐大典》辑录了先秦到明初的书籍8000多种，明成祖撰序：“昔者圣王之治天下也，尽开物成务之道，极裁成辅相之宜，修礼乐而明教化，阐理至而宣人文……惟有大混一之时，必有一统之制作，所以齐政治而同风俗。",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_005",
+          "subject": "history",
+          "year": 2024,
+          "qn": 5,
+          "stem_excerpt": "乾隆元年所纂《山东通志·田赋志》：“任之土者谓之赋，任之力者谓之役。今则滋生人丁已免其徭，而原额之丁又编入地亩，是无所谓役也。故以‘田赋’总之。”对上述材料理解正确的是（    ）\n①地丁合并征收  ",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_006",
+          "subject": "history",
+          "year": 2024,
+          "qn": 6,
+          "stem_excerpt": "《万国公法》译成中文时，某法国外交官说：“那个打算让中国人领悟我们欧洲国际法的人是谁？……他会让我们陷于无尽的麻烦之中。”另有英文报纸评论道：“我们为中国提供的武器在日后到底是会瞄准我们，还是只会转向",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_007",
+          "subject": "history",
+          "year": 2024,
+          "qn": 7,
+          "stem_excerpt": "《史记》记有商王世系。1917年，王国维利用新发现的甲骨卜辞与《史记》《尚书》等古籍相互补正，进一步论证了商朝的历史。陈垣后来对考证方法进行了总结，其中包括：\n①理证：“无证而以理断之者”；\n②书证：",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_008",
+          "subject": "history",
+          "year": 2024,
+          "qn": 8,
+          "stem_excerpt": "1920年，在上海的共产党早期组织领导下，上海机器工会成立。与此同时，陈独秀主编的《劳动界》也发文指出，“神圣不可侵犯的工人，竟被资本家压迫了！真是可恼！我们此时应当要去抵抗他，我们此时就应该要有团体",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_009",
+          "subject": "history",
+          "year": 2024,
+          "qn": 9,
+          "stem_excerpt": "1937年3月，毛泽东在讨论同国民党的谈判时说，谈判的方针，无疑是无产阶级政党与资产阶级政党的合作的方向，而不是无产阶级做资产阶级的尾巴。如果这样，我们便要失去信仰。这表明（    ）",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_010",
+          "subject": "history",
+          "year": 2024,
+          "qn": 10,
+          "stem_excerpt": "1955年，针对中法建交，周恩来与法国议员代表团会谈时说，现在世界上有人以为中国可以容许“两个中国”的存在，“中国人民决不能接受这种情况……中国本来是统一的，中国内战的结果是中国人民取得了彻底的胜利…",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_011",
+          "subject": "history",
+          "year": 2024,
+          "qn": 11,
+          "stem_excerpt": "书信是研究古代两河流域历史的重要材料。古巴比伦国王汉谟拉比给地方总督写了大量泥版书信，命令其征收椰枣、谷物、芝麻、皮毛服装，如数上缴征收的货币，清理运河便于灌溉，为王室牧场派遣剪羊毛工人，查办官员贿赂",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_012",
+          "subject": "history",
+          "year": 2024,
+          "qn": 12,
+          "stem_excerpt": "2008年，时任希腊总理在一个拜占庭艺术主题展上致辞，强调拜占庭的遗产“不但被欧洲人分享，而且也为其一度覆盖的三大洲民族的公民所分享”。能支撑此观点的是（    ）\n①拜占庭首次统一了西亚和北非文明区",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_013",
+          "subject": "history",
+          "year": 2024,
+          "qn": 13,
+          "stem_excerpt": "透视法是15世纪欧洲艺术家在实践中探索出的一种理论，又称“数学透视法”，在绘画和浮雕创作上掀起划时代的技法革命。哥白尼曾说“日心说”是按透视法合理构建的宇宙空间结构，伽利略也说他发明天文望远镜受到透视",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_014",
+          "subject": "history",
+          "year": 2024,
+          "qn": 14,
+          "stem_excerpt": "马克思主义在俄国社会主义革命时期得到了丰富和发展。下列符合这一论断的是（    ）",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_015",
+          "subject": "history",
+          "year": 2024,
+          "qn": 15,
+          "stem_excerpt": "1920年，有思维的机器人首次出现在文学作品中。1962年，工业机器人实现商业化。2007年，全球机器人安装量达650万台。近年，欧盟出台了《欧洲机器人技术民事法律规则》《机器人技术工程师伦理行为准则",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_016",
+          "subject": "history",
+          "year": 2024,
+          "qn": 16,
+          "stem_excerpt": "城与都\n材料一  今北京在唐朝称幽州，是中原与东北地区、北方草原的交通枢纽。朝廷曾在此设节度使，以掌军政。随着漕运、海运的发展，幽州与各地经济往来日益频繁。\n材料二  今北京在辽时称南京（燕京），为五",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_017",
+          "subject": "history",
+          "year": 2024,
+          "qn": 17,
+          "stem_excerpt": "经略海洋\n材料一  孙中山沿海港口建设规划示意图\n材料二 新中国与海洋相关的文献及内容（部分）\n1958 《中华人民共和国政府关于领海的声明》：中华人民共和国的领海宽度为十二海里\n1982 第六个五年",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_018",
+          "subject": "history",
+          "year": 2024,
+          "qn": 18,
+          "stem_excerpt": "英国与印度\n英国关于印度的法案\n法案名称 部分内容\n东印度公司特许状（1600） 东印度公司为法人和政治实体，选举产生理事会和总督，可制定法律；依法在东印度地区获得土地、租金，享有自由、司法、特许经营",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_019",
+          "subject": "history",
+          "year": 2024,
+          "qn": 19,
+          "stem_excerpt": "和平与发展\n材料一  在从以霸权为基础的旧秩序向以各国合作为基础以及建立在自由、平等和促进繁荣的社会正义之上的新秩序的过渡中，存在着导向世界冲突的危机……\n当前世界的特征是存在着不同的社会制度。与会国",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        },
+        {
+          "question_uid": "history_2024_beijing_020",
+          "subject": "history",
+          "year": 2024,
+          "qn": 20,
+          "stem_excerpt": "端午故事\n材料一  端午节由来已久，其起源有纪念屈原、吴越民族图腾祭、恶月恶日避毒除害等说法。古代各地的端午习俗包括，“以五彩丝系臂”祈求“不病瘟”“采艾以为人（人形），悬门户上，以攘毒气”，以竹筒贮",
+          "image_refs": 18,
+          "image_present": 6,
+          "image_missing": 12,
+          "dep_match": null
+        }
+      ],
+      "IMAGE_BLOCKED": []
+    },
+    "counts": {
+      "IMAGE_COMPLETE": 0,
+      "IMAGE_BACKFILLABLE": 70,
+      "IMAGE_BLOCKED": 0
+    },
+    "conclusion": "PASS",
+    "note": "all 90 candidates pass semantic dependency check"
+  },
+  "W3": {
+    "paper_collisions": [
+      {
+        "plan_paper_uid": "b4ab624a4e7460d8",
+        "existing_id": 10,
+        "class": "UNCHANGED",
+        "before_sha": "2209a73360703fc56ad54db40462bb127f9b1eefd763bb96301aab3af0844cda",
+        "after_sha": "2209a73360703fc56ad54db40462bb127f9b1eefd763bb96301aab3af0844cda",
+        "existing_paper_uid": "b4ab624a4e7460d8"
+      },
+      {
+        "plan_paper_uid": "35dccaaf93229ff4",
+        "existing_id": 11,
+        "class": "UNCHANGED",
+        "before_sha": "47f5ab5447edf76e27ea10ae257141b8809c00bb763af1061094c6d11a990ae0",
+        "after_sha": "47f5ab5447edf76e27ea10ae257141b8809c00bb763af1061094c6d11a990ae0",
+        "existing_paper_uid": "35dccaaf93229ff4"
+      },
+      {
+        "plan_paper_uid": "99e1a3bc2dd808ff",
+        "existing_id": 20,
+        "class": "UNCHANGED",
+        "before_sha": "6b63cfb0d0bdacb0c51301117374398a08ce36193ac181f336c355b94863a672",
+        "after_sha": "6b63cfb0d0bdacb0c51301117374398a08ce36193ac181f336c355b94863a672",
+        "existing_paper_uid": "99e1a3bc2dd808ff"
+      }
+    ],
+    "question_uid_collisions": 70,
+    "question_collision_details": [
+      {
+        "question_uid": "chinese_2024_beijing_006",
+        "existing_id": 865,
+        "class": "UNCHANGED",
+        "existing_stem_len": 25,
+        "staging_stem_len": 25
+      },
+      {
+        "question_uid": "chinese_2024_beijing_008",
+        "existing_id": 867,
+        "class": "UNCHANGED",
+        "existing_stem_len": 23,
+        "staging_stem_len": 23
+      },
+      {
+        "question_uid": "chinese_2024_beijing_014",
+        "existing_id": 873,
+        "class": "UNCHANGED",
+        "existing_stem_len": 307,
+        "staging_stem_len": 312
+      },
+      {
+        "question_uid": "chinese_2024_beijing_012",
+        "existing_id": 871,
+        "class": "UNCHANGED",
+        "existing_stem_len": 23,
+        "staging_stem_len": 23
+      },
+      {
+        "question_uid": "chinese_2024_beijing_013",
+        "existing_id": 872,
+        "class": "UNCHANGED",
+        "existing_stem_len": 69,
+        "staging_stem_len": 69
+      }
+    ],
+    "conclusion": "PASS",
+    "note": "70 existing question_uids detected. UPSERT...ON CONFLICT will be no-op if content matches (UNCHANGED class). If staging content differs, escalation required."
+  },
+  "W4": {
+    "table_exists": true,
+    "columns_present": [
+      "id",
+      "canonical_id",
+      "detail",
+      "occurred_at",
+      "after_sha",
+      "action",
+      "before_sha",
+      "run_label",
+      "entity_type",
+      "canonical_uid"
+    ],
+    "missing_columns": [],
+    "test_query_for_non_existent_run_returns_zero": true,
+    "rollback_protocol": [
+      "SELECT all rows WHERE run_label = $1 (scope limited)",
+      "INSERTED → DELETE WHERE id = canonical_id",
+      "UPDATED → compare current sha to after_sha; if match → restore from before_sha; else skip (external modification)",
+      "UNCHANGED → no-op",
+      "INSERT new ledger rows with action=ROLLED_BACK (audit trail)"
+    ],
+    "conclusion": "PASS"
+  },
+  "W5": {
+    "snapshot": {
+      "captured_at": "2026-09-10T03:40:26.680Z",
+      "run_label": "QB-TAR-20260904-B01-WRITESAFETY-001",
+      "public_exam_papers_total": 0,
+      "public_exam_papers_with_paper_uid": 0,
+      "public_exam_questions_total": 0,
+      "public_exam_questions_in_3_target_papers": 0,
+      "public_question_images_total": 0,
+      "public_question_images_PRESENT": 0,
+      "public_question_knowledge_points_total": 0
+    },
+    "mode": "READ-ONLY",
+    "conclusion": "PASS"
+  },
+  "W6": {
+    "transaction_order": [
+      "1. BEGIN",
+      "2. INSERT qb_recovery.runs (status=RUNNING) [staging only]",
+      "3. INSERT ledger meta=BEGIN",
+      "4. UPSERT 3 papers (id 10/11/20) ON CONFLICT (province,year,subject,level); record ledger (action=INSERTED|UPDATED|UNCHANGED)",
+      "5. INSERT 70 eligible questions (exclude IMAGE_BLOCKED) ON CONFLICT (paper_id, question_number); record ledger",
+      "6. INSERT 320 PRESENT images; record ledger",
+      "7. INSERT 3 KP mappings; record ledger",
+      "8. PRE-CHECK: count(public.exam_questions WHERE paper_id IN 10,11,20) = expected",
+      "9. PRE-CHECK: count(public.question_images WHERE status=PRESENT, question_id IN 3-papers) = 320",
+      "10. PRE-CHECK: count(public.question_knowledge_points IN 3-papers) = 3",
+      "11. POST-CHECK: SHA of all 3 papers == recorded after_sha",
+      "12. POST-CHECK: ledger count = 1 BEGIN + 3 papers + N questions + 320 images + 3 KP + 1 COMMIT",
+      "13. INSERT ledger meta=COMMIT",
+      "14. UPDATE runs SET status=COMPLETED",
+      "15. COMMIT (public.* + qb_recovery as single tx)"
+    ],
+    "abort_conditions": [
+      "ANY FK or UNIQUE failure",
+      "PRE-CHECK count mismatch",
+      "POST-CHECK SHA mismatch",
+      "IMAGE_BLOCKED > 0 in scope",
+      "Paper 21 question_uids in scope",
+      "orphan central assets in scope"
+    ],
+    "expected_writes": {
+      "papers": 3,
+      "questions": 70,
+      "images": 320,
+      "kp": 3,
+      "total_ledger_entries": 398
+    },
+    "conclusion": "PASS — plan documented"
+  },
+  "OVERALL": {
+    "verdict": "AUTHORIZED",
+    "all_pass": true,
+    "eligible_after_exclusion": 70,
+    "blocked_excluded": 0
+  }
+}

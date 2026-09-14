@@ -1,0 +1,17 @@
+{
+  "run_label": "batch02-02-commit-pipeline",
+  "timestamp": "2026-09-11T08:10:22.294Z",
+  "mode": "commit",
+  "committed_papers": 5,
+  "committed_questions": 123,
+  "duplicate_questions": 4921,
+  "failed_questions_skipped": 0,
+  "delta": {
+    "exam_papers": 5,
+    "exam_questions": 123
+  },
+  "cascaded": {
+    "stage30_embedding": false,
+    "stage31_kp_relink": false
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "_warn": "paper_uid col missing; ",
+  "W5_target_snapshot": {
+    "exam_papers": {
+      "n": 35,
+      "min_id": 1,
+      "max_id": 35
+    },
+    "exam_questions": {
+      "n": 679,
+      "min_id": 691,
+      "max_id": 1369
+    },
+    "question_images": {
+      "n": 0,
+      "min_id": null,
+      "max_id": null
+    },
+    "question_knowledge_points": {
+      "n": 122,
+      "min_id": 130,
+      "max_id": 251
+    },
+    "pre_existing_paper_uid_match": [],
+    "pre_existing_question_uid_match_count": 0
+  },
+  "W1_schema": {
+    "exam_questions_missing": [
+      "image_status",
+      "image_expected",
+      "image_available"
+    ],
+    "exam_papers_missing": [
+      "paper_uid",
+      "paper_variant"
+    ],
+    "question_images_missing": [
+      "asset_uri",
+      "status",
+      "source_page"
+    ],
+    "status": "FAIL"
+  },
+  "W3_collision": {
+    "pre_existing_paper_uids": [],
+    "pre_existing_question_uids_count": 0,
+    "would_be_INSERTED_papers": 4,
+    "would_be_INSERTED_questions": 90,
+    "would_be_UPDATED_papers": 0,
+    "would_be_UPDATED_questions": 0,
+    "rollback_safety": "SAFE: rollback would only delete rows this run inserted (idempotent, no pre-existing row affected)"
+  },
+  "W2_image_semantic": {
+    "IMAGE_COMPLETE": 0,
+    "IMAGE_BACKFILLABLE": 88,
+    "IMAGE_BLOCKED": 2,
+    "BLOCKED_samples": [
+      {
+        "q": "history_2025_beijing_004",
+        "p": 0,
+        "m": 12,
+        "reason": "stem references image"
+      },
+      {
+        "q": "history_2025_beijing_015",
+        "p": 0,
+        "m": 12,
+        "reason": "stem references image"
+      }
+    ],
+    "BLOCKED_candidate_uids": [
+      "history_2025_beijing_004",
+      "history_2025_beijing_015"
+    ]
+  },
+  "W4_ledger": {
+    "existing": false,
+    "recommendation": "CREATE qb_recovery.canonical_migration_ledger (run_id, op, schema, row_id, before_sha, after_sha, executed_at) — each INSERT/UPDATE writes a row; rollback filters by run_id",
+    "current_state": "NO LEDGER TABLE EXISTS — rollback via paper_uid IN (...) is at risk if prior run inserted same UIDs (currently W3=0 pre-existing but not structurally safe)"
+  },
+  "W6_plan": {
+    "precondition": [
+      "W1.PASS required (image_status/image_expected/image_available/asset_uri/status/source_page/paper_uid/paper_variant columns must exist)",
+      "W2.PASS required (IMAGE_BLOCKED count must be 0; otherwise abort)",
+      "W3: pre-existing paper_uid/question_uid count must be 0 (or run with explicit --force-update flag)",
+      "W4: canonical_migration_ledger table must exist and run must write to it within same tx",
+      "W5: snapshot must be persisted to preflight/snapshot-<runid>.json"
+    ],
+    "transaction_order": [
+      "1. BEGIN",
+      "2. INSERT INTO qb_recovery.canonical_migration_ledger (run_id, op, schema, key) VALUES ($runid, BEGIN, public.exam_papers, NULL)",
+      "3. UPSERT public.exam_papers (4 rows) ON CONFLICT (province_code, year, subject, exam_level) DO UPDATE; capture returned paper_id; record each to ledger",
+      "4. INSERT qb_recovery.canonical_migration_ledger (run_id, op, schema, row_id, before_sha, after_sha) per paper",
+      "5. UPSERT public.exam_questions (90 rows) ON CONFLICT ON CONSTRAINT uq_exam_questions_paper_number; record per row",
+      "6. INSERT public.question_images (460 rows) with status=PRESENT; record per row",
+      "7. INSERT public.question_knowledge_points (3 rows) with confidence=0.50, source=rule; record per row",
+      "8. PRE-CHECK: select count(*) = 90 from public.exam_questions where question_uid IN (90 list) [must equal 90]",
+      "9. POST-CHECK: count questions with image_expected=true AND image_available=false should equal 1555? (NO — only present/missing counts; re-verify)",
+      "10. COMMIT"
+    ],
+    "pre_check": "count(exam_questions WHERE question_uid IN 90) must equal 90 (no duplicate inserts)",
+    "post_check": "count(qb_recovery.canonical_migration_ledger WHERE run_id=...) must equal 1+BEGIN + 4 papers + 90 questions + 460 images + 3 KP",
+    "abort_conditions": [
+      "ANY public.* FK or UNIQUE failure",
+      "W1 still FAIL (image_status / image_expected / image_available not in target schema)",
+      "IMAGE_BLOCKED count > 0",
+      "W3 pre-existing UID match > 0 (without --force-update)",
+      "W4 ledger table missing"
+    ],
+    "stop_immediate_on": [
+      "W1 FAIL (migration SQL would 500)",
+      "W2 IMAGE_BLOCKED > 0 (semantic violation)",
+      "cardinality mismatch between plan and run"
+    ]
+  },
+  "overall": {
+    "W1_schema": "FAIL",
+    "W2_image_blocked": 2,
+    "W3_collision_safe": true,
+    "W4_ledger_exists": false,
+    "W5_snapshot_recorded": true,
+    "W6_plan_documented": true
+  }
+}

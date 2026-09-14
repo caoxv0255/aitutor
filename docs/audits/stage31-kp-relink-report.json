@@ -1,0 +1,16 @@
+{
+  "run_label": "stage31-kp-relink",
+  "timestamp": "2026-09-11T07:39:30.276Z",
+  "mvp_total": 70,
+  "rule_hit_questions": 65,
+  "trgm_backup_questions": 0,
+  "no_hit_questions": 5,
+  "inserted": 0,
+  "skipped": 0,
+  "coverage": {
+    "questions_with_kp": 69,
+    "total_links": 85,
+    "coverage_pct": 98.57
+  },
+  "sample_plan": []
+}

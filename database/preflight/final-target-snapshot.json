@@ -1,0 +1,38 @@
+{
+  "captured_at": "2026-09-10T00:44:06.373Z",
+  "run_label": "QB-TAR-20260904-B01-1789001046-STAGE15",
+  "target_papers": [
+    {
+      "paper_uid": "b4ab624a4e7460d8",
+      "existing_id": 10,
+      "classification": "SAFE_UPDATE",
+      "plan_q_count": 25,
+      "existing_q_count": 25
+    },
+    {
+      "paper_uid": "35dccaaf93229ff4",
+      "existing_id": 11,
+      "classification": "SAFE_UPDATE",
+      "plan_q_count": 25,
+      "existing_q_count": 25
+    },
+    {
+      "paper_uid": "99e1a3bc2dd808ff",
+      "existing_id": 20,
+      "classification": "SAFE_UPDATE",
+      "plan_q_count": 20,
+      "existing_q_count": 20
+    }
+  ],
+  "target_questions_in_3_papers": 70,
+  "target_questions_existing_in_3_papers": 70,
+  "target_question_uid_collisions": 0,
+  "target_image_rows_PRESENT": 320,
+  "target_image_rows_MISSING_SOURCE": 1315,
+  "target_kp_deterministic": 3,
+  "target_kp_existing": 0,
+  "excluded_paper_21": {
+    "paper_uid": "299a49bf489ab027",
+    "reason": "15/20 content CONFLICT (Addendum F)"
+  }
+}

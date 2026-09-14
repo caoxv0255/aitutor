@@ -1,0 +1,689 @@
+{
+  "produced_at": "2026-09-10T00:06:08.807Z",
+  "paper_uid": "299a49bf489ab027",
+  "paper_key": "history|2025|beijing|gaokao",
+  "r1_public_count": 20,
+  "r2_staging_count": 20,
+  "r4_held_in_public": [
+    {
+      "qn": 4,
+      "public_id": 1093,
+      "public_uid": "history_2025_beijing_4"
+    },
+    {
+      "qn": 15,
+      "public_id": 1104,
+      "public_uid": "history_2025_beijing_15"
+    }
+  ],
+  "r5_classification": {
+    "CONFLICT": 15,
+    "SAFE_UPDATE": 5
+  },
+  "r6_image_state": {
+    "IMAGE_BACKFILLABLE": 18,
+    "IMAGE_BLOCKED": 2
+  },
+  "r7_reconciliation": {
+    "declared_question_count": 20,
+    "existing_child_count": 20,
+    "staging_identity_count": 20,
+    "eligible_count": 18,
+    "held_count": 2,
+    "diff": {
+      "declared_vs_existing": 0,
+      "declared_vs_staging": 0,
+      "declared_vs_eligible": 2,
+      "existing_vs_staging": 0
+    }
+  },
+  "recommendations": {
+    "CONFLICT": 13,
+    "SAFE_UPDATE": 5,
+    "HOLD": 2
+  },
+  "pairs": [
+    {
+      "question_number": 1,
+      "public": {
+        "id": 1090,
+        "question_uid": "history_2025_beijing_1",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "90ad68e7449060341313fe4e1e3bbf7e1b6253b982161082d3b80ab950df6ed1",
+        "ans_sha": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd",
+        "opt_sha": "3b86d53cca92ef09f6c649e8a67ed4151ed72d4a99ddb28659d66eeba2cf252c"
+      },
+      "staging": {
+        "id": 277,
+        "question_uid": "history_2025_beijing_001",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "dfa108ad152c45639be8fa78c9ad9e741e5a393c94e216c694c1c3db21c67c2e",
+        "ans_sha": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd",
+        "opt_sha": "47f7b6a35e067d5a682d64c7caf5ffadab48967b498ef3c7fe200c9ecdb95536"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 2,
+      "public": {
+        "id": 1091,
+        "question_uid": "history_2025_beijing_2",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "1290a115f8ac8b46154dcaa3a7ecc8ca52d38d99a80d3f4f60d5ea544ad1a041",
+        "ans_sha": "6b23c0d5f35d1b11f9b683f0b0a617355deb11277d91ae091d399c655b87940d",
+        "opt_sha": "6f82b3fff99accc88929356799005b363fb6f66757f9910ad6bfa33b8b51ab91"
+      },
+      "staging": {
+        "id": 278,
+        "question_uid": "history_2025_beijing_002",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "1290a115f8ac8b46154dcaa3a7ecc8ca52d38d99a80d3f4f60d5ea544ad1a041",
+        "ans_sha": "6b23c0d5f35d1b11f9b683f0b0a617355deb11277d91ae091d399c655b87940d",
+        "opt_sha": "716183bbaf3112cf8d32f9bcd87f2ccdc96996900597f16edf5005c5dc662773"
+      },
+      "classification": "SAFE_UPDATE",
+      "notes": ""
+    },
+    {
+      "question_number": 3,
+      "public": {
+        "id": 1092,
+        "question_uid": "history_2025_beijing_3",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "3ebedc49aebee7fb77e882a8b00b6ab6ef50aba96298430f47be89e5cc448931",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "67ebce3f77ab4772f6964eed450da8be0d96770189182d6aaf5ecfaea74c9ace"
+      },
+      "staging": {
+        "id": 279,
+        "question_uid": "history_2025_beijing_003",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "3ebedc49aebee7fb77e882a8b00b6ab6ef50aba96298430f47be89e5cc448931",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "0439c8542631175f756c59b6018a2f2d6447d4201e506a1243c2f67f8c47b388"
+      },
+      "classification": "SAFE_UPDATE",
+      "notes": ""
+    },
+    {
+      "question_number": 4,
+      "public": {
+        "id": 1093,
+        "question_uid": "history_2025_beijing_4",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "18884c161e5b01aacb64f55adb9f8ab752c0bc42d36a11742f5ccee9b3190290",
+        "ans_sha": "6b23c0d5f35d1b11f9b683f0b0a617355deb11277d91ae091d399c655b87940d",
+        "opt_sha": "de3b48b6d9e8dbd5eb88916b9958d956615c9d32969952060649e1a2843b0e9f"
+      },
+      "staging": {
+        "id": 280,
+        "question_uid": "history_2025_beijing_004",
+        "canonical_status": "HOLD_IMAGE_BACKFILL",
+        "canonical_ready_step": "image_pending",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "03f54b262f630a1a468b663522552265ccdfb913759216007747d2537c663781",
+        "ans_sha": "6b23c0d5f35d1b11f9b683f0b0a617355deb11277d91ae091d399c655b87940d",
+        "opt_sha": "6e449275ce2ac2d4cf11e8f12a4c88dec46f3ee059b06459e17bf7b08b881321"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 5,
+      "public": {
+        "id": 1094,
+        "question_uid": "history_2025_beijing_5",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "61d6b695c101482529e3a9bb048350745b9d48b5f621db51a17d0cc687a984da",
+        "ans_sha": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "opt_sha": "3b86d53cca92ef09f6c649e8a67ed4151ed72d4a99ddb28659d66eeba2cf252c"
+      },
+      "staging": {
+        "id": 281,
+        "question_uid": "history_2025_beijing_005",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "f4efd387721a997951d8c8a655f367784ef1cb6e017cc799327f851f8f25cacc",
+        "ans_sha": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "opt_sha": "47f7b6a35e067d5a682d64c7caf5ffadab48967b498ef3c7fe200c9ecdb95536"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 6,
+      "public": {
+        "id": 1095,
+        "question_uid": "history_2025_beijing_6",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "d784d976dfd5642f9996cc51e713915f87a52891198f810e35a88213bb8557bf",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "ceb78185e40d908530c6a82867538da13679a52e598b179d744eb96cb162147c"
+      },
+      "staging": {
+        "id": 282,
+        "question_uid": "history_2025_beijing_006",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "d784d976dfd5642f9996cc51e713915f87a52891198f810e35a88213bb8557bf",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "aa7a99cc672f3a37958046ace2ae112ef512dd0f04d9e0d07151037ec4d6848f"
+      },
+      "classification": "SAFE_UPDATE",
+      "notes": ""
+    },
+    {
+      "question_number": 7,
+      "public": {
+        "id": 1096,
+        "question_uid": "history_2025_beijing_7",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "6a19e14c27e67dfc7c197c758494f3534334b7b8abfc1388d71bc65bda3ea6d2",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "d92fcc0624c73d3b3ef0c6d2e5cbb9109500ad54a0fea0f5486a884a41a3d35d"
+      },
+      "staging": {
+        "id": 283,
+        "question_uid": "history_2025_beijing_007",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "710889f358d63a65dd2f3823d6d57ba7c46669f6ae7886fd9f073f8c182d6210",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "4109bc7e25ac86a70dcbb46f05f82b1dec3ea0fb82908f810831b294574261f5"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 8,
+      "public": {
+        "id": 1097,
+        "question_uid": "history_2025_beijing_8",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "ebe94b53dba00d2172692dc721cb0b583570630b7ad0013e5a521cbcfa9903d2",
+        "ans_sha": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd",
+        "opt_sha": "a63829a32529ecf148769faef12e7b5d0f9ed2336b799db2583afcb2658e83f5"
+      },
+      "staging": {
+        "id": 284,
+        "question_uid": "history_2025_beijing_008",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "ebe94b53dba00d2172692dc721cb0b583570630b7ad0013e5a521cbcfa9903d2",
+        "ans_sha": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd",
+        "opt_sha": "25806d8d81d9a92e988913fab656cb40113050014952d87c0a8ba662432bfa26"
+      },
+      "classification": "SAFE_UPDATE",
+      "notes": ""
+    },
+    {
+      "question_number": 9,
+      "public": {
+        "id": 1098,
+        "question_uid": "history_2025_beijing_9",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "b45b055da179326ddc7bb804576a9c27c37fbb11e249ba3a3de2997e4459cf68",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "3b86d53cca92ef09f6c649e8a67ed4151ed72d4a99ddb28659d66eeba2cf252c"
+      },
+      "staging": {
+        "id": 285,
+        "question_uid": "history_2025_beijing_009",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "9296c4659df92f10dd4bd5958368687434447dc925932dcda0d0ec7eb36ebc96",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "47f7b6a35e067d5a682d64c7caf5ffadab48967b498ef3c7fe200c9ecdb95536"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 10,
+      "public": {
+        "id": 1099,
+        "question_uid": "history_2025_beijing_10",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "d17469e6ebac1aa2d3983c6b406266bfd7eff06d4ae86ea08f822b6cac24fb6d",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "de3b48b6d9e8dbd5eb88916b9958d956615c9d32969952060649e1a2843b0e9f"
+      },
+      "staging": {
+        "id": 286,
+        "question_uid": "history_2025_beijing_010",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "2704639e8b2f61eb94faa5d51d6519326fff3c894c55614cf2c12fabed3baf0a",
+        "ans_sha": "df7e70e5021544f4834bbee64a9e3789febc4be81470df629cad6ddb03320a5c",
+        "opt_sha": "6e449275ce2ac2d4cf11e8f12a4c88dec46f3ee059b06459e17bf7b08b881321"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 11,
+      "public": {
+        "id": 1100,
+        "question_uid": "history_2025_beijing_11",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "f7c312932a9c7ff3ef8bba763b80fa581cd4507e4744a078c918f2e54763d3db",
+        "ans_sha": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd",
+        "opt_sha": "3b86d53cca92ef09f6c649e8a67ed4151ed72d4a99ddb28659d66eeba2cf252c"
+      },
+      "staging": {
+        "id": 287,
+        "question_uid": "history_2025_beijing_011",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "f281cbfc8f893d29009af4d10ac4fffbf01c2e21e91afe81786f327c5a1f153d",
+        "ans_sha": "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd",
+        "opt_sha": "47f7b6a35e067d5a682d64c7caf5ffadab48967b498ef3c7fe200c9ecdb95536"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 12,
+      "public": {
+        "id": 1101,
+        "question_uid": "history_2025_beijing_12",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "4a695e91a37ef8fb4b91bff5e0d42719c3ca12d08f38f34740d23c7e3d9f7d76",
+        "ans_sha": "6b23c0d5f35d1b11f9b683f0b0a617355deb11277d91ae091d399c655b87940d",
+        "opt_sha": "de3b48b6d9e8dbd5eb88916b9958d956615c9d32969952060649e1a2843b0e9f"
+      },
+      "staging": {
+        "id": 288,
+        "question_uid": "history_2025_beijing_012",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "9b544e1c8205c3725f897354c5f5f8dd88a70cba3042afe29d3d638d3fd3ae33",
+        "ans_sha": "6b23c0d5f35d1b11f9b683f0b0a617355deb11277d91ae091d399c655b87940d",
+        "opt_sha": "6e449275ce2ac2d4cf11e8f12a4c88dec46f3ee059b06459e17bf7b08b881321"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 13,
+      "public": {
+        "id": 1102,
+        "question_uid": "history_2025_beijing_13",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "011259c95aa3e674a11c7ddee0a529f07a2a76dc69c174517fb5fbfe4f45d296",
+        "ans_sha": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "opt_sha": "3b86d53cca92ef09f6c649e8a67ed4151ed72d4a99ddb28659d66eeba2cf252c"
+      },
+      "staging": {
+        "id": 289,
+        "question_uid": "history_2025_beijing_013",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "05fd42389d5224d144c8e1d61872b9965314d14a7caab5f2b087094fa1807bfd",
+        "ans_sha": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "opt_sha": "47f7b6a35e067d5a682d64c7caf5ffadab48967b498ef3c7fe200c9ecdb95536"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 14,
+      "public": {
+        "id": 1103,
+        "question_uid": "history_2025_beijing_14",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "8fbb06e9e8d383b7bff93ba2456cdc309a3f1d6db3c5e07f6806b06bed99db3b",
+        "ans_sha": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "opt_sha": "a2916ef620466806bd3a5e9ecf82dfbbc58a2bff62a4f12aa40d93e94af016c0"
+      },
+      "staging": {
+        "id": 290,
+        "question_uid": "history_2025_beijing_014",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "8fbb06e9e8d383b7bff93ba2456cdc309a3f1d6db3c5e07f6806b06bed99db3b",
+        "ans_sha": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "opt_sha": "107e49dabb4339afd99341a43d354ba28d3472f6b058edfbed1fc21b93e36767"
+      },
+      "classification": "SAFE_UPDATE",
+      "notes": ""
+    },
+    {
+      "question_number": 15,
+      "public": {
+        "id": 1104,
+        "question_uid": "history_2025_beijing_15",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "72d6edf4ab6694f00a2c7a1fa8de7aeecffddac01234b1c87f75915593a9b742",
+        "ans_sha": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "opt_sha": "3b86d53cca92ef09f6c649e8a67ed4151ed72d4a99ddb28659d66eeba2cf252c"
+      },
+      "staging": {
+        "id": 291,
+        "question_uid": "history_2025_beijing_015",
+        "canonical_status": "HOLD_IMAGE_BACKFILL",
+        "canonical_ready_step": "image_pending",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "428f1a9ef402cbd8f082ab75a5d2f21e833f29ea562f20224f1b147bbcba7f69",
+        "ans_sha": "3f39d5c348e5b79d06e842c114e6cc571583bbf44e4b0ebfda1a01ec05745d43",
+        "opt_sha": "47f7b6a35e067d5a682d64c7caf5ffadab48967b498ef3c7fe200c9ecdb95536"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=false opt_diff=true"
+    },
+    {
+      "question_number": 16,
+      "public": {
+        "id": 1105,
+        "question_uid": "history_2025_beijing_16",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "fc6f88476f20a8d74bbdf42541bc13a9e54be245d8a3eb3f187d6df1a86bf5e2",
+        "ans_sha": "6b1757d1a1c09887abff7264ed727abd3c4a953aa97bdb7afb8ffe6817d8f30f",
+        "opt_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "staging": {
+        "id": 292,
+        "question_uid": "history_2025_beijing_016",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "85140f27427b739759dfdf25cb1ca5d372772bfd57a9be2965fea6f9760485b2",
+        "ans_sha": "c8c9f0f98376c80028f90866df12575b53de5100c8b5e6507a5c647ee2788ad4",
+        "opt_sha": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=true opt_diff=true"
+    },
+    {
+      "question_number": 17,
+      "public": {
+        "id": 1106,
+        "question_uid": "history_2025_beijing_17",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "f355148a4c8609cb6e9fe391912c7dd7851fe01376e7755064f1483265e880f6",
+        "ans_sha": "11338210e4678d35e867a8fe15c797b54fbfb3a52032a2300e8446818f5a94cc",
+        "opt_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "staging": {
+        "id": 293,
+        "question_uid": "history_2025_beijing_017",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "90df489adf2e353ce2450d422e78ab8cf02060870dbe6f644b47f95ee9c4d17f",
+        "ans_sha": "e808ff2238c528b2005e1ff5815bb00736f06d045729394fcd7fee179c7239f9",
+        "opt_sha": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=true opt_diff=true"
+    },
+    {
+      "question_number": 18,
+      "public": {
+        "id": 1107,
+        "question_uid": "history_2025_beijing_18",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "bc99c29e285151927f70f7cf56e5328b8dc150daa658452ace6389cf50bd357a",
+        "ans_sha": "af50aec778c3b0df3e7d1ff7464edcc09d021c6dbb0156e051c94a39caa91c68",
+        "opt_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "staging": {
+        "id": 294,
+        "question_uid": "history_2025_beijing_018",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "207aeb12204c8c1e8d4050952c36b85575b8f6db2ca673b5bdaf507d46e0db9f",
+        "ans_sha": "7e935af88645d381a2d1fc9655581e493c549090a1f449bc488a5a15b34b2633",
+        "opt_sha": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=true opt_diff=true"
+    },
+    {
+      "question_number": 19,
+      "public": {
+        "id": 1108,
+        "question_uid": "history_2025_beijing_19",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "2e825020b7bd5c3a7acfd73cbccb80063a6798bad6cc4c48eeae5f44056c3b85",
+        "ans_sha": "ee76fe98916923f048b1cf91c2896f0ecf73142a3905e63a80ce5423b7058249",
+        "opt_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "staging": {
+        "id": 295,
+        "question_uid": "history_2025_beijing_019",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "84fbdd5c8ebe9c9f247403fd39105fdb25ef8bc81c700cb916e13a60760a65b1",
+        "ans_sha": "21fa777136d2cb755a62aa949a39e4dcaf395887a5f256dab0d41564d21dea25",
+        "opt_sha": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=true opt_diff=true"
+    },
+    {
+      "question_number": 20,
+      "public": {
+        "id": 1109,
+        "question_uid": "history_2025_beijing_20",
+        "has_image": false,
+        "image_status": "NOT_EXPECTED",
+        "stem_sha": "2c6d7cbce00d8f1dc1f68f2f54ba1c9e01eaeace0050b211e24bdd41858f03c9",
+        "ans_sha": "3ddcc9d42b9b7b189bccaff300bf125abfe9254b3ba9796658d7493a9d04e11d",
+        "opt_sha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "staging": {
+        "id": 296,
+        "question_uid": "history_2025_beijing_020",
+        "canonical_status": "ACCEPTED",
+        "canonical_ready_step": "canonical_candidate",
+        "has_image_meta": true,
+        "img_refs": 19,
+        "stem_sha": "75fe5ab1440e918abf5a2f4cc2119e90fc11030cd78854b3d6bdd9851f904d72",
+        "ans_sha": "312aecf151ef462fb7e3cdbe422955d22f19175fc5e335797aa966e68aa7bfcc",
+        "opt_sha": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "classification": "CONFLICT",
+      "notes": "stem_diff=true ans_diff=true opt_diff=true"
+    }
+  ],
+  "image_states": [
+    {
+      "question_number": 1,
+      "public_uid": "history_2025_beijing_1",
+      "staging_uid": "history_2025_beijing_001",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 2,
+      "public_uid": "history_2025_beijing_2",
+      "staging_uid": "history_2025_beijing_002",
+      "classification": "SAFE_UPDATE",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 3,
+      "public_uid": "history_2025_beijing_3",
+      "staging_uid": "history_2025_beijing_003",
+      "classification": "SAFE_UPDATE",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 4,
+      "public_uid": "history_2025_beijing_4",
+      "staging_uid": "history_2025_beijing_004",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BLOCKED"
+    },
+    {
+      "question_number": 5,
+      "public_uid": "history_2025_beijing_5",
+      "staging_uid": "history_2025_beijing_005",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 6,
+      "public_uid": "history_2025_beijing_6",
+      "staging_uid": "history_2025_beijing_006",
+      "classification": "SAFE_UPDATE",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 7,
+      "public_uid": "history_2025_beijing_7",
+      "staging_uid": "history_2025_beijing_007",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 8,
+      "public_uid": "history_2025_beijing_8",
+      "staging_uid": "history_2025_beijing_008",
+      "classification": "SAFE_UPDATE",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 9,
+      "public_uid": "history_2025_beijing_9",
+      "staging_uid": "history_2025_beijing_009",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 10,
+      "public_uid": "history_2025_beijing_10",
+      "staging_uid": "history_2025_beijing_010",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 11,
+      "public_uid": "history_2025_beijing_11",
+      "staging_uid": "history_2025_beijing_011",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 12,
+      "public_uid": "history_2025_beijing_12",
+      "staging_uid": "history_2025_beijing_012",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 13,
+      "public_uid": "history_2025_beijing_13",
+      "staging_uid": "history_2025_beijing_013",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 14,
+      "public_uid": "history_2025_beijing_14",
+      "staging_uid": "history_2025_beijing_014",
+      "classification": "SAFE_UPDATE",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 15,
+      "public_uid": "history_2025_beijing_15",
+      "staging_uid": "history_2025_beijing_015",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BLOCKED"
+    },
+    {
+      "question_number": 16,
+      "public_uid": "history_2025_beijing_16",
+      "staging_uid": "history_2025_beijing_016",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 17,
+      "public_uid": "history_2025_beijing_17",
+      "staging_uid": "history_2025_beijing_017",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 18,
+      "public_uid": "history_2025_beijing_18",
+      "staging_uid": "history_2025_beijing_018",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 19,
+      "public_uid": "history_2025_beijing_19",
+      "staging_uid": "history_2025_beijing_019",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    },
+    {
+      "question_number": 20,
+      "public_uid": "history_2025_beijing_20",
+      "staging_uid": "history_2025_beijing_020",
+      "classification": "CONFLICT",
+      "image_state": "IMAGE_BACKFILLABLE"
+    }
+  ]
+}
