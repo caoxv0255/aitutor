@@ -1,131 +1,142 @@
 import { getDb } from '../core/db.js';
 import { errorResponse, successResponse } from '../utils/response.js';
 
+// D092-front-loop-2026-09-14: 拆分为按 paperId 与按 questionId 两端点
+//   getExamQuestions(req, res)   路由 /questions/:paperId  (保留原行为, 试卷级题目列表)
+//   getQuestionById(req, res)    路由 /questions/detail/:qid  (新增, 题目级单题详情)
+
+// === 试卷级题目列表 (保持原行为, 兼容旧调用) ===
 export async function getExamQuestions(req, res) {
   const pool = await getDb();
   const { paperId } = req.params;
   const { type, difficulty, knowledge_point, v2_kp, limit = 100, offset = 0 } = req.query;
 
   const SUBJECT_MAP = {
-    'chinese': '语文',
-    'math': '数学',
-    'english': '英语',
-    'physics': '物理',
-    'chemistry': '化学',
-    'biology': '生物',
-    'politics': '政治',
-    'history': '历史',
-    'geography': '地理',
-    'science': '理综',
-    'liberal_arts': '文综',
-    'comprehensive': '综合'
+    'chinese': '语文', 'math': '数学', 'english': '英语', 'physics': '物理',
+    'chemistry': '化学', 'biology': '生物', 'politics': '政治',
+    'history': '历史', 'geography': '地理'
   };
 
   try {
     const paperResult = await pool.query('SELECT * FROM exam_papers WHERE id = $1', [paperId]);
-
     if (paperResult.rows.length === 0) {
       return res.status(404).json(errorResponse('试卷不存在'));
     }
-
     const paper = paperResult.rows[0];
     paper.title = `${paper.year}年${SUBJECT_MAP[paper.subject] || paper.subject}试卷`;
     paper.name = paper.title;
 
-    let query = `
-      SELECT
-        eq.*,
-        p.name as province_name
-      FROM exam_questions eq
-      JOIN exam_papers ep ON eq.paper_id = ep.id
-      LEFT JOIN provinces p ON ep.province_code = p.code
-      WHERE eq.paper_id = $1
-    `;
-    const conditions = [];
+    const conditions = ['eq.paper_id = $1'];
     const params = [paperId];
-    let paramIdx = 2;
-
-    if (type) {
-      params.push(type);
-      conditions.push(`eq.question_type = $${paramIdx++}`);
-    }
-
-    if (difficulty) {
-      params.push(parseInt(difficulty));
-      conditions.push(`eq.difficulty = $${paramIdx++}`);
-    }
-
+    let idx = 2;
+    if (type) { conditions.push(`eq.question_type = $${idx++}`); params.push(type); }
+    if (difficulty) { conditions.push(`eq.difficulty = $${idx++}`); params.push(parseInt(difficulty)); }
     if (knowledge_point) {
+      conditions.push(`eq.id IN (SELECT question_id FROM question_knowledge_points WHERE knowledge_point_id = $${idx++})`);
       params.push(knowledge_point);
-      conditions.push(`eq.id IN (SELECT question_id FROM question_knowledge_points WHERE knowledge_point_id = $${paramIdx++})`);
     }
-
     if (v2_kp) {
-      // D091-front-loop-2026-09-14: v2 KP ID 精确筛选 (基于 question_kp_v2 表)
+      conditions.push(`eq.id IN (SELECT question_id FROM question_kp_v2 WHERE kp_id = $${idx++})`);
       params.push(v2_kp);
-      conditions.push(`eq.id IN (SELECT question_id FROM question_kp_v2 WHERE kp_id = $${paramIdx++})`);
     }
-
-    if (conditions.length > 0) {
-      query += ' AND ' + conditions.join(' AND ');
-    }
-
-    query += ' ORDER BY eq.question_number';
-
+    const where = 'WHERE ' + conditions.join(' AND ');
     params.push(parseInt(limit));
-    query += ` LIMIT $${paramIdx++}`;
+    const limitIdx = idx++;
     params.push(parseInt(offset));
-    query += ` OFFSET $${paramIdx}`;
+    const offsetIdx = idx++;
 
-    const rows = await pool.query(query, params);
+    const rows = await pool.query(
+      `SELECT eq.*, p.name AS province_name
+         FROM exam_questions eq
+         JOIN exam_papers ep ON eq.paper_id = ep.id
+         LEFT JOIN provinces p ON ep.province_code = p.code
+         ${where}
+         ORDER BY eq.question_number
+         LIMIT $${limitIdx} OFFSET $${offsetIdx}`,
+      params
+    );
 
-    // D091: 同时查 v1 + v2 KP (合并返回)
-    const questionIds = rows.rows.map(r => r.id);
-    let v1KpsByQ = {}, v2KpsByQ = {};
-    if (questionIds.length > 0) {
-      const v1Res = await pool.query(`
-        SELECT qkp.question_id, kp.id AS kp_id, kp.name AS kp_name
-        FROM question_knowledge_points qkp
-        JOIN knowledge_points kp ON kp.id = qkp.knowledge_point_id
-        WHERE qkp.question_id = ANY($1::int[])
-      `, [questionIds]);
+    // D091: 加载 v1 + v2 KP
+    const ids = rows.rows.map(r => r.id);
+    const v1Map = new Map(), v2Map = new Map();
+    if (ids.length > 0) {
+      const v1Res = await pool.query(
+        `SELECT qkp.question_id, kp.id AS kp_id, kp.name AS kp_name
+         FROM question_knowledge_points qkp
+         JOIN knowledge_points kp ON kp.id = qkp.knowledge_point_id
+         WHERE qkp.question_id = ANY($1::int[])`, [ids]);
       for (const r of v1Res.rows) {
-        if (!v1KpsByQ[r.question_id]) v1KpsByQ[r.question_id] = [];
-        v1KpsByQ[r.question_id].push({ kp_id: r.kp_id, name: r.kp_name, source: 'v1' });
+        if (!v1Map.has(r.question_id)) v1Map.set(r.question_id, []);
+        v1Map.get(r.question_id).push({ kp_id: r.kp_id, name: r.kp_name, source: 'v1' });
       }
-      const v2Res = await pool.query(`
-        SELECT q.question_id, kp.kp_id, kp.name, kp.dimension_type, q.confidence, q.reasoning
-        FROM question_kp_v2 q
-        JOIN knowledge_points_v2 kp ON kp.kp_id = q.kp_id
-        WHERE q.question_id = ANY($1::int[])
-        ORDER BY q.confidence DESC NULLS LAST
-      `, [questionIds]);
+      const v2Res = await pool.query(
+        `SELECT q.question_id, kp.kp_id, kp.name, kp.dimension_type, q.confidence, q.reasoning
+         FROM question_kp_v2 q
+         JOIN knowledge_points_v2 kp ON kp.kp_id = q.kp_id
+         WHERE q.question_id = ANY($1::int[])
+         ORDER BY q.confidence DESC NULLS LAST`, [ids]);
       for (const r of v2Res.rows) {
-        if (!v2KpsByQ[r.question_id]) v2KpsByQ[r.question_id] = [];
-        v2KpsByQ[r.question_id].push({
-          kp_id: r.kp_id, name: r.name, dimension_type: r.dimension_type,
-          confidence: r.confidence, reasoning: r.reasoning, source: 'v2'
-        });
+        if (!v2Map.has(r.question_id)) v2Map.set(r.question_id, []);
+        v2Map.get(r.question_id).push({ kp_id: r.kp_id, name: r.name, dimension_type: r.dimension_type, confidence: r.confidence, reasoning: r.reasoning, source: 'v2' });
       }
     }
     for (const r of rows.rows) {
-      r.knowledge_points_v1 = v1KpsByQ[r.id] || [];
-      r.knowledge_points_v2 = v2KpsByQ[r.id] || [];
+      r.knowledge_points_v1 = v1Map.get(r.id) || [];
+      r.knowledge_points_v2 = v2Map.get(r.id) || [];
     }
 
-    const countResult = await pool.query('SELECT COUNT(*) as count FROM exam_questions WHERE paper_id = $1', [paperId]);
-
+    const countResult = await pool.query('SELECT COUNT(*) AS count FROM exam_questions WHERE paper_id = $1', [paperId]);
     res.json({
-      success: true,
-      paper: paper,
-      data: rows.rows,
+      success: true, paper, data: rows.rows,
       total: parseInt(countResult.rows[0]?.count || 0),
-      limit: parseInt(limit),
-      offset: parseInt(offset)
+      limit: parseInt(limit), offset: parseInt(offset)
     });
   } catch (error) {
-    console.error('获取试卷题目失败:', error.message);
+    console.error('[getExamQuestions] 失败:', error.message);
     res.status(500).json(errorResponse('获取试卷题目失败'));
+  }
+}
+
+// === 题目级单题详情 (新增, D092 修复) ===
+// GET /api/exam/questions/detail/:qid?include_kp=true
+export async function getQuestionById(req, res) {
+  const pool = await getDb();
+  const { qid } = req.params;
+  const { include_kp = 'true' } = req.query;
+  if (!qid || isNaN(parseInt(qid, 10))) {
+    return res.status(400).json(errorResponse('题目 ID 必填且为整数'));
+  }
+  try {
+    const r = await pool.query(
+      `SELECT eq.*, ep.id AS paper_id, ep.year, ep.paper_type,
+              p.name AS province_name, p.code AS province_code
+         FROM exam_questions eq
+         JOIN exam_papers ep ON eq.paper_id = ep.id
+         LEFT JOIN provinces p ON ep.province_code = p.code
+         WHERE eq.id = $1`, [parseInt(qid, 10)]);
+    if (r.rows.length === 0) {
+      return res.status(404).json(errorResponse('题目不存在'));
+    }
+    const q = r.rows[0];
+    if (include_kp === 'true') {
+      const v1Res = await pool.query(
+        `SELECT kp.id AS kp_id, kp.name
+         FROM question_knowledge_points qkp
+         JOIN knowledge_points kp ON kp.id = qkp.knowledge_point_id
+         WHERE qkp.question_id = $1`, [q.id]);
+      q.knowledge_points_v1 = v1Res.rows.map(r => ({ kp_id: r.kp_id, name: r.name, source: 'v1' }));
+      const v2Res = await pool.query(
+        `SELECT kp.kp_id, kp.name, kp.dimension_type, q.confidence, q.reasoning
+         FROM question_kp_v2 q
+         JOIN knowledge_points_v2 kp ON kp.kp_id = q.kp_id
+         WHERE q.question_id = $1
+         ORDER BY q.confidence DESC NULLS LAST`, [q.id]);
+      q.knowledge_points_v2 = v2Res.rows.map(r => ({ kp_id: r.kp_id, name: r.name, dimension_type: r.dimension_type, confidence: r.confidence, reasoning: r.reasoning, source: 'v2' }));
+    }
+    return res.json(successResponse({ data: q }, '获取题目详情成功'));
+  } catch (e) {
+    console.error('[getQuestionById] 失败:', e.message);
+    return res.status(500).json(errorResponse('获取题目详情失败'));
   }
 }
 

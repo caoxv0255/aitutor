@@ -341,7 +341,7 @@
             modal.style.display = 'flex';
             body.innerHTML = '<div style="padding:32px;text-align:center;color:var(--color-muted-foreground);">⏳ 加载详情…</div>';
             try {
-                const res = await request('GET', `/api/exam/questions/${encodeURIComponent(qid)}`, null, { mockName: 'exam_question' });
+                const res = await request('GET', `/api/exam/questions/detail/${encodeURIComponent(qid)}`, null, { mockName: 'exam_question' });
                 const q = res?.data || res || {};
                 const subZh = SUBJECT_ZH[q.subject_code] || q.subject_code || '';
                 const provZh = PROVINCE_ZH[q.province_code] || q.province_code || '';

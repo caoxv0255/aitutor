@@ -1,6 +1,6 @@
 import express from 'express';
 import { getExamPapers, getExamPaperById, createExamPaper } from '../../handlers/exam-papers.js';
-import { getExamQuestions, createExamQuestion, batchCreateQuestions, getSimilarQuestionsByV2Kp } from '../../handlers/exam-questions.js';
+import { getExamQuestions, createExamQuestion, batchCreateQuestions, getSimilarQuestionsByV2Kp, getQuestionById } from '../../handlers/exam-questions.js';
 import { startExamSession, submitExamSession, getExamHistory } from '../../handlers/exam-session.js';
 import generatePaperRouter from '../../handlers/generate-paper.js';
 import { generateExamPdf } from '../../handlers/exam-pdf.js';
@@ -120,6 +120,8 @@ router.get('/questions', async (req, res) => {
   }
 });
 router.get('/questions/:paperId', getExamQuestions);
+// D092-front-loop-2026-09-14: 题目级详情 (按 question_id 而非 paper_id)
+router.get('/questions/detail/:qid', getQuestionById);
 
 router.post('/session/start', startExamSession);
 router.post('/session/submit', submitExamSession);
