@@ -211,3 +211,30 @@ frontend/dev/screenshots/
 .env.prod
 # Compose override for v1.0.0 (deprecated after compose.yml update)
 docker-compose.v1.yml
+
+# ─────────────────────────────────────────────────────────────
+# Tier-A 大文件防护 (2026-09-10 release-readiness pass)
+# 防止 git add . 误将下列资产入库:
+#   - database.tar: 157 MB 题库快照, 应走 GitHub Release assets
+#   - hermes_pack/: 16 GB 历年中考真题 (题库已入库, raw 资源不入)
+#   - lost_exam_pack_2026-09-10/: 672 MB 题库丢失数据
+#   - database/incoming/: 1.6 GB staging 数据
+#   - database/assets/: 183 MB 题图资产 (不入仓, 走对象存储)
+#   - database/canonical/: 1.8 MB (allowlist EXCEPTION - 可入)
+#   - database/preflight/: 824 KB (allowlist EXCEPTION - 可入)
+#   - database/knowledge-points/ / question-bank/ / textbooks/ 已有顶层 ignore
+# ─────────────────────────────────────────────────────────────
+/database.tar
+/hermes_pack/
+/lost_exam_pack_2026-09-10/
+/database/incoming/
+/database/assets/
+/database/backups/
+
+# 但保留 canonical/ 与 preflight/ (manifest 数据)
+/!database/canonical/
+/!database/preflight/
+
+# hercules + Hermes 本地缓存
+/.gitnexus/lbug
+/.gitnexus/parse-cache/
