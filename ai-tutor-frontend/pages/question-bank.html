@@ -152,8 +152,17 @@
     </div>
 
     <script type="module">
-        // ─── D089-front-loop-2026-09-14: 题库浏览 ───
+        // ─── D091-front-loop-2026-09-14: 题库浏览 (v2 KP 升级) ───
         import { request } from '../assets/js/api/client.js';
+
+        // v2 KP dimension_type → 颜色 (D091 设计: 概念/章节/能力/单元)
+        const DIM_COLOR = {
+          concept:     { bg: '#dbeafe', fg: '#1e40af', label: '概念' },
+          chapter:     { bg: '#e2e8f0', fg: '#334155', label: '章节' },
+          ability:     { bg: '#ede9fe', fg: '#6d28d9', label: '能力' },
+          textbook_unit: { bg: '#dcfce7', fg: '#15803d', label: '单元' }
+        };
+        function dimStyle(dt) { return DIM_COLOR[dt] || { bg: '#f1f5f9', fg: '#475569', label: dt || '其他' }; }
 
         // 硬编码 fallback (TD-005 Phase 2 + D090 验证值)
         const FALLBACK_STATS = {
@@ -350,9 +359,22 @@
                 let answerHtml = q.answer ? `<div style="margin:14px 0;padding:10px 14px;background:#ecfdf5;border-radius:8px;border:1px solid #d1fae5;"><span style="font-size:12px;color:#065f46;font-weight:700;">【答案】</span> <span style="font-family:'JetBrains Mono','SF Mono',monospace;font-size:14px;">${esc(q.answer)}</span></div>` : '<div style="margin:14px 0;padding:10px 14px;background:#f3f4f6;border-radius:8px;font-size:12px;color:var(--color-muted-foreground);">📭 答案未在当前接口返回 (D089-known: 列表接口不含 answer)</div>';
                 let analysisHtml = q.analysis ? `<div style="margin:14px 0;"><div style="font-size:12px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:6px;">【解析】</div><div style="line-height:1.7;font-size:14px;color:var(--color-foreground);">${esc(q.analysis)}</div></div>` : '';
                 let kpHtml = '';
-                if (q.knowledge_points && Array.isArray(q.knowledge_points) && q.knowledge_points.length > 0) {
-                    kpHtml = '<div style="margin:14px 0;"><div style="font-size:12px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:6px;">关联知识点：</div>' +
-                        q.knowledge_points.map(kp => `<span class="qb-chip qb-kp-chip" style="margin-right:4px;">${esc(typeof kp === 'string' ? kp : (kp.name || kp.id || ''))}</span>`).join('') + '</div>';
+                // D091: 优先展示 v2 KP (按 dimension_type 染色), 无则 fallback v1
+                const v2Kps = q.knowledge_points_v2 || [];
+                const v1Kps = q.knowledge_points_v1 || (Array.isArray(q.knowledge_points) ? q.knowledge_points.map(kp => typeof kp === 'string' ? { kp_id: kp, name: kp } : kp) : []);
+                if (v2Kps.length > 0) {
+                    kpHtml = '<div style="margin:14px 0;"><div style="font-size:12px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">关联 v2 知识点 (细粒度) <span style="font-size:10px;background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:4px;font-weight:700;">' + v2Kps.length + ' 个</span></div><div style="display:flex;flex-wrap:wrap;gap:6px;">' +
+                        v2Kps.map(kp => {
+                            const d = dimStyle(kp.dimension_type);
+                            return `<a href="question-bank.html?v2_kp=${encodeURIComponent(kp.kp_id)}" title="${esc(d.label)} · ${esc(kp.reasoning || kp.name)}" style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:${d.bg};color:${d.fg};border-radius:999px;font-size:12px;font-weight:700;text-decoration:none;line-height:1.2;" data-dim="${esc(kp.dimension_type || '')}">${esc(d.label)}·${esc(kp.name)}</a>`;
+                        }).join('') + '</div></div>';
+                    if (v1Kps.length > 0) {
+                        kpHtml += '<div style="margin-top:10px;"><div style="font-size:11px;color:var(--color-foreground-muted);font-weight:700;margin-bottom:4px;">v1 (章节级)：</div><div style="display:flex;flex-wrap:wrap;gap:4px;">' +
+                            v1Kps.map(kp => `<span style="display:inline-flex;align-items:center;padding:2px 8px;background:#f1f5f9;color:#475569;border-radius:999px;font-size:11px;">${esc(kp.name || kp.kp_id || '')}</span>`).join('') + '</div></div>';
+                    }
+                } else if (v1Kps.length > 0) {
+                    kpHtml = '<div style="margin:14px 0;"><div style="font-size:12px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:6px;">关联 v1 知识点：</div><div style="display:flex;flex-wrap:wrap;gap:4px;">' +
+                        v1Kps.map(kp => `<span style="display:inline-flex;align-items:center;padding:3px 9px;background:#f1f5f9;color:#475569;border-radius:999px;font-size:12px;">${esc(kp.name || kp.kp_id || '')}</span>`).join('') + '</div></div>';
                 }
                 let meta = '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--color-muted-foreground);">';
                 if (provZh) meta += `<span>📍 ${esc(provZh)}</span>`;

@@ -10,11 +10,14 @@ export async function getWrongQuestions(req, res) {
     const pool = await getDb();
     
     let query = `
-      SELECT wq.*, sc.name as subject_name, kp.name as knowledge_point_name, wc.name as category_name
+      SELECT wq.*, sc.name as subject_name, kp.name as knowledge_point_name, wc.name as category_name,
+             v2_kp.kp_id AS v2_kp_id, v2_kp.name AS v2_kp_name, v2_kp.dimension_type AS v2_kp_dimension_type, v2_kp.confidence AS v2_kp_confidence
       FROM wrong_questions wq
       LEFT JOIN subjects sc ON wq.subject_code = sc.code
       LEFT JOIN knowledge_points kp ON wq.knowledge_point_id = kp.id
       LEFT JOIN wrong_question_categories wc ON wq.error_category = wc.code
+      LEFT JOIN question_kp_v2 v2_q ON v2_q.question_id = wq.question_id
+      LEFT JOIN knowledge_points_v2 v2_kp ON v2_kp.kp_id = v2_q.kp_id
       WHERE wq.user_email = $1
     `;
     
@@ -261,11 +264,14 @@ export async function exportWrongQuestions(req, res) {
     const pool = await getDb();
 
     let query = `
-      SELECT wq.*, sc.name as subject_name, kp.name as knowledge_point_name, wc.name as category_name
+      SELECT wq.*, sc.name as subject_name, kp.name as knowledge_point_name, wc.name as category_name,
+             v2_kp.kp_id AS v2_kp_id, v2_kp.name AS v2_kp_name, v2_kp.dimension_type AS v2_kp_dimension_type, v2_kp.confidence AS v2_kp_confidence
       FROM wrong_questions wq
       LEFT JOIN subjects sc ON wq.subject_code = sc.code
       LEFT JOIN knowledge_points kp ON wq.knowledge_point_id = kp.id
       LEFT JOIN wrong_question_categories wc ON wq.error_category = wc.code
+      LEFT JOIN question_kp_v2 v2_q ON v2_q.question_id = wq.question_id
+      LEFT JOIN knowledge_points_v2 v2_kp ON v2_kp.kp_id = v2_q.kp_id
       WHERE wq.user_email = $1
     `;
     

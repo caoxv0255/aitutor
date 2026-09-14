@@ -1,6 +1,6 @@
 import express from 'express';
 import { getExamPapers, getExamPaperById, createExamPaper } from '../../handlers/exam-papers.js';
-import { getExamQuestions, createExamQuestion, batchCreateQuestions } from '../../handlers/exam-questions.js';
+import { getExamQuestions, createExamQuestion, batchCreateQuestions, getSimilarQuestionsByV2Kp } from '../../handlers/exam-questions.js';
 import { startExamSession, submitExamSession, getExamHistory } from '../../handlers/exam-session.js';
 import generatePaperRouter from '../../handlers/generate-paper.js';
 import { generateExamPdf } from '../../handlers/exam-pdf.js';
@@ -17,6 +17,9 @@ router.post('/papers', createExamPaper);
 
 router.post('/questions', createExamQuestion);
 router.post('/questions/batch', batchCreateQuestions);
+
+// D091-front-loop-2026-09-14: 同类题推荐 (基于 v2 KP ID 精确匹配, 比 RAG 文本匹配更准)
+router.get('/questions/similar', getSimilarQuestionsByV2Kp);
 
 // P0-fix (2026-08-24): Phase D — D2
 // F3 (ai-tutor-frontend) 调 /api/exam/questions (query: subject/year/paper_type/page/page_size).
@@ -38,6 +41,7 @@ router.get('/questions', async (req, res) => {
       type,
       difficulty,
       knowledge_point,
+      v2_kp,
     } = req.query;
     const safeLimit = Math.min(Math.max(parseInt(limit ?? page_size ?? pageSize) || 20, 1), 200);
     const safePage = Math.max(parseInt(page) || 1, 1);
@@ -55,6 +59,11 @@ router.get('/questions', async (req, res) => {
     if (knowledge_point) {
       conditions.push(`eq.id IN (SELECT question_id FROM question_knowledge_points WHERE knowledge_point_id = $${idx++})`);
       params.push(knowledge_point);
+    }
+    // D091: v2 KP 精确筛选
+    if (v2_kp) {
+      conditions.push(`eq.id IN (SELECT question_id FROM question_kp_v2 WHERE kp_id = $${idx++})`);
+      params.push(v2_kp);
     }
     const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
     params.push(safeLimit);
@@ -80,6 +89,23 @@ router.get('/questions', async (req, res) => {
        ${where}`,
       params.slice(0, params.length - 2)
     );
+    // D091: 加载 v2 KP (按 question_id 聚合)
+    const questionIds = rows.rows.map(r => r.id);
+    const v2Map = new Map();
+    if (questionIds.length > 0) {
+      const v2Res = await pool.query(`
+        SELECT q.question_id, kp.kp_id, kp.name, kp.dimension_type, q.confidence
+        FROM question_kp_v2 q
+        JOIN knowledge_points_v2 kp ON kp.kp_id = q.kp_id
+        WHERE q.question_id = ANY($1::int[])
+        ORDER BY q.confidence DESC NULLS LAST
+      `, [questionIds]);
+      for (const r of v2Res.rows) {
+        if (!v2Map.has(r.question_id)) v2Map.set(r.question_id, []);
+        v2Map.get(r.question_id).push({ kp_id: r.kp_id, name: r.name, dimension_type: r.dimension_type, confidence: r.confidence });
+      }
+    }
+    for (const r of rows.rows) r.knowledge_points_v2 = v2Map.get(r.id) || [];
     return res.json(successResponse({
       data: rows.rows,
       total: totalRow.rows[0]?.c || 0,

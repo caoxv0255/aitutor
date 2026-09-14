@@ -81,9 +81,9 @@ async function main() {
 
   const targets = [
     { url: '/f3/pages/dashboard.html', file: 'screenshot-dashboard.png', wait: 3500 },
-    { url: '/f3/pages/question-bank.html', file: 'screenshot-question-bank.png', wait: 3500 },
-    { url: '/f3/pages/question-bank.html?subject=math', file: 'screenshot-question-bank-math.png', wait: 3500 },
+    { url: '/f3/pages/question-bank.html?subject=math', file: 'screenshot-question-bank-math.png', wait: 3500, clickFirstQuestion: true, postClickWait: 2500, fileAfter: 'screenshot-question-bank-detail.png' },
     { url: '/f3/pages/math-exam.html', file: 'screenshot-math-exam-cta.png', wait: 1500 },
+    { url: '/f3/pages/wrong-book.html', file: 'screenshot-wrong-book.png', wait: 3500 },
   ];
   for (const t of targets) {
     console.log('  → ' + t.url);
@@ -92,6 +92,18 @@ async function main() {
     const out = path.join(OUT_DIR, t.file);
     await page.screenshot({ path: out, fullPage: true });
     console.log('    ✓ ' + out);
+    if (t.clickFirstQuestion) {
+      const card = await page.$('.qb-card[data-qid]');
+      if (card) {
+        await card.click();
+        await page.waitForTimeout(t.postClickWait || 2500);
+        const out2 = path.join(OUT_DIR, t.fileAfter);
+        await page.screenshot({ path: out2, fullPage: false });
+        console.log('    ✓ (after click) ' + out2);
+      } else {
+        console.log('    ⚠ no .qb-card[data-qid] found');
+      }
+    }
   }
   await browser.close();
   console.log('\n=== 截图完成 ===');
