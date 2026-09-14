@@ -18,11 +18,12 @@
 .dash-stat .label{font-size:.8rem;color:var(--text-muted);margin-top:4px}
 .dash-section-title{font-size:1rem;font-weight:700;color:var(--text-muted);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 .dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:32px}
-.dash-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;transition:var(--transition);cursor:pointer;text-decoration:none;display:block;color:var(--text)}
+.dash-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;transition:var(--transition);cursor:pointer;text-decoration:none;display:block;color:var(--text);overflow:hidden}
 .dash-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 32px rgba(215,25,32,.15);color:#fff}
-.dash-card .card-icon{font-size:2rem;margin-bottom:14px;display:block}
-.dash-card .card-title{font-size:1.05rem;font-weight:700;margin-bottom:6px}
-.dash-card .card-desc{font-size:.8rem;color:var(--text-muted);line-height:1.5}
+.dash-card .card-icon{font-size:2rem;margin-bottom:14px;display:block;line-height:1}
+.dash-card .card-title{font-size:1.05rem;font-weight:700;margin-bottom:10px;display:block;line-height:1.4;color:inherit}
+.dash-card .card-desc{font-size:.8rem;color:var(--text-muted);line-height:1.6;display:block;opacity:.85}
+.dash-card:hover .card-desc{color:rgba(255,255,255,.92);opacity:1}
 .dash-card.scan{border:2px dashed var(--accent);background:var(--accent-soft)}
 .dash-card.scan:hover{background:var(--accent);color:#fff}
 .logout-bar{margin-top:40px;text-align:center}
@@ -142,72 +143,72 @@
   <div class="dash-section-title">学习工具</div>
   <div class="dash-grid">
     <a href="wrong-book.html" class="dash-card">
-      <span class="card-icon">&#128210;</span>
-      <span class="card-title">我的错题本</span>
-      <span class="card-desc">查看错题记录，按学科分类浏览</span>
+      <div class="card-icon">&#128210;</div>
+      <div class="card-title">我的错题本</div>
+      <div class="card-desc">查看错题记录，按学科分类浏览</div>
     </a>
     <a href="my-reports.html" class="dash-card">
-      <span class="card-icon">&#128202;</span>
-      <span class="card-title">我的报告</span>
-      <span class="card-desc">查看各学科分析报告与成绩记录</span>
+      <div class="card-icon">&#128202;</div>
+      <div class="card-title">我的报告</div>
+      <div class="card-desc">查看各学科分析报告与成绩记录</div>
     </a>
     <a href="my-weak-points.html" class="dash-card">
-      <span class="card-icon">&#127919;</span>
-      <span class="card-title">薄弱点分析</span>
-      <span class="card-desc">精准定位知识盲区与能力短板</span>
+      <div class="card-icon">&#127919;</div>
+      <div class="card-title">薄弱点分析</div>
+      <div class="card-desc">精准定位知识盲区与能力短板</div>
     </a>
     <a href="personalized-paper.html" class="dash-card">
-      <span class="card-icon">&#128203;</span>
-      <span class="card-title">个性化预测卷</span>
-      <span class="card-desc">基于薄弱点生成专属预测卷</span>
+      <div class="card-icon">&#128203;</div>
+      <div class="card-title">个性化预测卷</div>
+      <div class="card-desc">基于薄弱点生成专属预测卷</div>
     </a>
     <a href="question-explainer.html" class="dash-card">
-      <span class="card-icon">&#128161;</span>
-      <span class="card-title">AI讲题</span>
-      <span class="card-desc">输入任意题目，获取AI深度讲解</span>
+      <div class="card-icon">&#128161;</div>
+      <div class="card-title">AI讲题</div>
+      <div class="card-desc">输入任意题目，获取AI深度讲解</div>
     </a>
     <a href="learning-path.html" class="dash-card">
-      <span class="card-icon">&#128218;</span>
-      <span class="card-title">学习路径</span>
-      <span class="card-desc">个性化分阶段学习计划与每日目标</span>
+      <div class="card-icon">&#128218;</div>
+      <div class="card-title">学习路径</div>
+      <div class="card-desc">个性化分阶段学习计划与每日目标</div>
     </a>
   </div>
 
   <div class="dash-section-title">练习与分析</div>
   <div class="dash-grid">
     <a href="chinese-exam.html" class="dash-card">
-      <span class="card-icon">&#128221;</span>
-      <span class="card-title">高考预测卷</span>
-      <span class="card-desc">六科模拟预测练习卷</span>
+      <div class="card-icon">&#128221;</div>
+      <div class="card-title">高考预测卷</div>
+      <div class="card-desc">六科模拟预测练习卷</div>
     </a>
     <a href="zhongkao.html" class="dash-card">
-      <span class="card-icon">&#128214;</span>
-      <span class="card-title">中考专区</span>
-      <span class="card-desc">九科知识点与趋势分析</span>
+      <div class="card-icon">&#128214;</div>
+      <div class="card-title">中考专区</div>
+      <div class="card-desc">九科知识点与趋势分析</div>
     </a>
     <a href="2026-policy.html" class="dash-card">
-      <span class="card-icon">&#128203;</span>
-      <span class="card-title">高考政策</span>
-      <span class="card-desc">2026年北京高考最新政策</span>
+      <div class="card-icon">&#128203;</div>
+      <div class="card-title">高考政策</div>
+      <div class="card-desc">2026年北京高考最新政策</div>
     </a>
     <a href="methodology.html" class="dash-card">
-      <span class="card-icon">&#128269;</span>
-      <span class="card-title">预测方法</span>
-      <span class="card-desc">了解数据来源与预测生成逻辑</span>
+      <div class="card-icon">&#128269;</div>
+      <div class="card-title">预测方法</div>
+      <div class="card-desc">了解数据来源与预测生成逻辑</div>
     </a>
   </div>
 
   <div class="dash-section-title">拍照搜题</div>
   <div class="dash-grid">
     <div class="dash-card scan" id="scanCard" onclick="openPhotoSearch()" style="cursor:pointer">
-      <span class="card-icon">&#128247;</span>
-      <span class="card-title">拍照搜题</span>
-      <span class="card-desc">上传题目图片或使用摄像头拍照，AI智能解题</span>
+      <div class="card-icon">&#128247;</div>
+      <div class="card-title">拍照搜题</div>
+      <div class="card-desc">上传题目图片或使用摄像头拍照，AI智能解题</div>
     </div>
     <div class="dash-card" onclick="document.getElementById('photoFileInput').click()" style="cursor:pointer">
-      <span class="card-icon">&#128444;</span>
-      <span class="card-title">上传图片</span>
-      <span class="card-desc">从电脑中选择题目图片上传</span>
+      <div class="card-icon">&#128444;</div>
+      <div class="card-title">上传图片</div>
+      <div class="card-desc">从电脑中选择题目图片上传</div>
     </div>
     <input type="file" id="photoFileInput" accept="image/*" style="display:none">
   </div>
