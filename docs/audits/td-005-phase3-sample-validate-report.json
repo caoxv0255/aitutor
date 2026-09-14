@@ -1,0 +1,355 @@
+{
+  "run_label": "td-005-phase3-sample-validate",
+  "timestamp": "2026-09-14T03:23:05.620Z",
+  "sample_size": 50,
+  "sample_by_subject": {
+    "chinese": 6,
+    "math": 6,
+    "english": 6,
+    "physics": 6,
+    "chemistry": 6,
+    "biology": 6,
+    "politics": 6,
+    "history": 6,
+    "geography": 6
+  },
+  "stats": {
+    "total_sampled": 50,
+    "file_found": 40,
+    "extract_ok": 30,
+    "healthy": 24,
+    "healthy_pct": 48,
+    "reason_breakdown": {
+      "dir_missing": 10,
+      "unhealthy:header_or_page_marker": 6,
+      "extract_error": 10
+    }
+  },
+  "recommendation": "⚠️ 谨慎启动, docx 健康度偏低, 部分题需 LLM 辅助",
+  "next_step_threshold": {
+    "full_phase3_recommended": false,
+    "partial_recommended": false,
+    "llm_assist_required": true
+  },
+  "sample_details": [
+    {
+      "question_id": 2834,
+      "subject": "chinese",
+      "paper_uid": "11f74f1890dc3e7b",
+      "outcome": "dir_missing",
+      "file_path": "database/incoming/gaokao/chinese/2025/"
+    },
+    {
+      "question_id": 2894,
+      "subject": "chinese",
+      "paper_uid": "6625b18fb70ba1d5",
+      "outcome": "dir_missing",
+      "file_path": "database/incoming/gaokao/chinese/2025/"
+    },
+    {
+      "question_id": 2977,
+      "subject": "chinese",
+      "paper_uid": "91d22b71c23f045f",
+      "outcome": "dir_missing",
+      "file_path": "database/incoming/gaokao/chinese/2025/"
+    },
+    {
+      "question_id": 2739,
+      "subject": "chinese",
+      "paper_uid": "f9c38aae37386d57",
+      "matched_file": "2023年高考语文试卷（上海）（春考）（解析卷）.docx",
+      "docx_text_length": 13366,
+      "db_stem_preview": "下列句子中的“谁”和“耳机一戴，谁也不爱”中的“谁”，意义和用法相同的一项是（   ）",
+      "docx_preview": "2023 年上海春考语文试卷及答案 一、积累运用 10 分 1.按要求填空。 （5 分） （1） 子曰： “ ， 小人喻于利 。 ” （《论语 · 里仁》） （2） 后人哀之而不鉴之， 。 （杜牧《 》） ",
+      "health": {
+        "ok": true,
+        "len": 13364
+      }
+    },
+    {
+      "question_id": 2814,
+      "subject": "chinese",
+      "paper_uid": "f13a7f6f4a355fd6",
+      "outcome": "dir_missing",
+      "file_path": "database/incoming/gaokao/chinese/2025/"
+    },
+    {
+      "question_id": 2964,
+      "subject": "chinese",
+      "paper_uid": "8392c6bc84e8fd24",
+      "outcome": "dir_missing",
+      "file_path": "database/incoming/gaokao/chinese/2025/"
+    },
+    {
+      "question_id": 5158,
+      "subject": "math",
+      "paper_uid": "c3fcd354f113e1d9",
+      "matched_file": "2024年高考数学试卷（上海）（秋考）（回忆版）（解析卷）.docx",
+      "docx_text_length": 5950,
+      "db_stem_preview": "已知椭圆椭圆的离心率．左顶点为，下顶点为是线段的中点，其中．\n（1）求椭圆方程．\n（2）过点的动直线与椭圆有两个交点．在",
+      "docx_preview": "2024年上海市高考数学试卷（网络回忆版） 2024.06 一、填空题（本大题共有12题，满分54分.其中第1-6题每题4分，第7-12题每题满分5分)考生应在答题纸相应编号的空格内直接填写结果. 1. 设全集，集合，则______． 【答案】 【解析】 【分析】根据补集的定义可求. 【详解】由题设有， 故答案为： 2. 已知则______． 【答案】 【解析】 【分析】利",
+      "health": {
+        "ok": true,
+        "len": 5944
+      }
+    },
+    {
+      "question_id": 1132,
+      "subject": "math",
+      "paper_uid": null,
+      "outcome": "dir_missing",
+      "file_path": "parsed:math_2023.json"
+    },
+    {
+      "question_id": 5013,
+      "subject": "math",
+      "paper_uid": "d69c044e5d2ddf90",
+      "matched_file": "2019年高考数学试卷（上海）（春考）（解析卷）.docx",
+      "docx_text_length": 2423,
+      "db_stem_preview": "79",
+      "docx_preview": "2019年上海市春季高考数学试卷 2019.01 一. 填空题（本大题共12题，满分54分，第1~6题每题4分，第7~12题每题5分） 1. 已知集合，，则 2. 计算： 3. 不等式的解集为 4. 函数的反函数为 5. 设为虚数单位，，则的值为 6. 已知二元线性方程组有无穷多解，则实数 ",
+      "health": {
+        "ok": true,
+        "len": 2418
+      }
+    },
+    {
+      "question_id": 5237,
+      "subject": "math",
+      "paper_uid": "0c12b331a518fdee",
+      "matched_file": "2025年高考数学试卷（北京）（解析卷）.docx",
+      "docx_text_length": 6813,
+      "db_stem_preview": "若一个正项等比数列的前4项和为4，前8项和为68，则该等比数列的公比为_________.",
+      "docx_preview": "2025年普通高等学校招生全国统一考试（北京卷） 数学 本试卷共12页，150分.考试时长120分钟.考生务必将答案答在答题卡上，在试卷上作答无效.考试结束后，将本试卷和答题卡一并交回. 第一部分（选择题 共40分） 一、选择题共10小题，每小题4分，共40分.在每小题列出的四个选项中，选出符合题目要求的一项． 1. 集合，则（ ） A. B. C. D. 【答案】D",
+      "health": {
+        "ok": false,
+        "reason": "header_or_page_marker",
+        "pattern": "答题卡"
+      }
+    },
+    {
+      "question_id": 4994,
+      "subject": "math",
+      "paper_uid": "d69c044e5d2ddf90",
+      "matched_file": "2019年高考数学试卷（上海）（春考）（解析卷）.docx",
+      "docx_text_length": 2423,
+      "db_stem_preview": "若是等差数列，公差，数列满足：，，\n记.\n（1）设，，求集合；\n（2）设，试求的值，使得集合恰有两个元素；\n（3）若集合",
+      "docx_preview": "2019年上海市春季高考数学试卷 2019.01 一. 填空题（本大题共12题，满分54分，第1~6题每题4分，第7~12题每题5分） 1. 已知集合，，则 2. 计算： 3. 不等式的解集为 4. 函数的反函数为 5. 设为虚数单位，，则的值为 6. 已知二元线性方程组有无穷多解，则实数 ",
+      "health": {
+        "ok": true,
+        "len": 2418
+      }
+    },
+    {
+      "question_id": 4889,
+      "subject": "math",
+      "paper_uid": "adb86659622afe28",
+      "matched_file": "2018年高考数学试卷（上海）（春考）（解析卷）.docx",
+      "docx_text_length": 2054,
+      "db_stem_preview": "如图，点，，，在上，，，，则________．",
+      "docx_preview": " 2018年上海市春季高考数学试卷 2018.01 一、填空题 1. 不等式的解集为____________ 2. 计算：____________ 3. 设集合，，则____________ 4. 若复数（i是虚数单位），则____________ 5. 已知是等差数列，若，则____________ 6. 已知平面上动点P到两个定点和的距离之和等于4",
+      "health": {
+        "ok": true,
+        "len": 2037
+      }
+    },
+    {
+      "question_id": 3115,
+      "subject": "english",
+      "paper_uid": "b4f803ed99c6678d",
+      "outcome": "extract_error",
+      "matched_file": "2012年高考英语试卷（上海）（秋考）（解析卷）.doc",
+      "error": "Can't find end of central directory : is this a zip file ? If it is, see https://stuk.github.io/jszi"
+    },
+    {
+      "question_id": 3808,
+      "subject": "english",
+      "paper_uid": "ba2a3eb690a74f5f",
+      "matched_file": "2022年高考英语试卷（上海）（秋考）（解析卷）.docx",
+      "docx_text_length": 58203,
+      "db_stem_preview": "A. limitations\tB. requirements\tC. theories\tD. findings",
+      "docx_preview": "2022年上海市高考英语试卷 参考答案与试题解析 I. Listening Comprehension Section A Directions:In Section A, you will hear ten short conversations between two speakers. At the end of each conversation, a question will be",
+      "health": {
+        "ok": true,
+        "len": 58201
+      }
+    },
+    {
+      "question_id": 3598,
+      "subject": "english",
+      "paper_uid": "729b56450037b0e2",
+      "outcome": "extract_error",
+      "matched_file": "2019年高考英语试卷（上海）（春考）（解析卷）.doc",
+      "error": "Can't find end of central directory : is this a zip file ? If it is, see https://stuk.github.io/jszi"
+    },
+    {
+      "question_id": 3698,
+      "subject": "english",
+      "paper_uid": "9a74cf947c9b03ff",
+      "matched_file": "2021年高考英语试卷（上海）（春考）（解析卷）.docx",
+      "docx_text_length": 56844,
+      "db_stem_preview": "A. attempting\tB. choosing\tC. pausing\tD. promising",
+      "docx_preview": "2021年上海市高考英语试卷（1月份） 参考答案与试题解析 I. Listening Comprehension Section A Directions： In Section A， you will hear ten short conversations between two speakers. At the end of each conversation， a question w",
+      "health": {
+        "ok": true,
+        "len": 56842
+      }
+    },
+    {
+      "question_id": 3765,
+      "subject": "english",
+      "paper_uid": "ba2a3eb690a74f5f",
+      "matched_file": "2022年高考英语试卷（上海）（秋考）（解析卷）.docx",
+      "docx_text_length": 58203,
+      "db_stem_preview": "What can we learn about the girls from paragraph 3?",
+      "docx_preview": "2022年上海市高考英语试卷 参考答案与试题解析 I. Listening Comprehension Section A Directions:In Section A, you will hear ten short conversations between two speakers. At the end of each conversation, a question will be",
+      "health": {
+        "ok": true,
+        "len": 58201
+      }
+    },
+    {
+      "question_id": 3544,
+      "subject": "english",
+      "paper_uid": "4159f0c6dd77f3d7",
+      "outcome": "extract_error",
+      "matched_file": "2018年高考英语试卷（上海）（春考）（解析卷）.doc",
+      "error": "Can't find end of central directory : is this a zip file ? If it is, see https://stuk.github.io/jszi"
+    },
+    {
+      "question_id": 1227,
+      "subject": "physics",
+      "paper_uid": "557b2f6d93724af5",
+      "outcome": "dir_missing",
+      "file_path": "parsed:physics_2024.json"
+    },
+    {
+      "question_id": 5657,
+      "subject": "physics",
+      "paper_uid": "adbdd49c181b89b5",
+      "matched_file": "2023年高考物理试卷（上海）（解析卷）.docx",
+      "docx_text_length": 11766,
+      "db_stem_preview": "如图，绝缘水平面上四根完全相同的光滑金属杆围成矩形，彼此接触良好，匀强磁场方向竖直向下。金属杆2、3固定不动，1、4同时",
+      "docx_preview": "2023年上海市高考物理试卷（回忆版） 一、选择题(共40分，第1-8小题，每题3分；第9-12小题，每题4分。每小题只有一个正确答案) 1．（3分）关于α粒子散射实验正确的是（ ） A．实验要在真空中进行 B．荧光屏是为了阻挡α粒子 C．实验中显微镜必须正对放射源 D．证明了原子核中有质子存在 2．（3分）如图所示，四个完全相同的灯泡，亮度最高的是（ ） A．L1 ",
+      "health": {
+        "ok": true,
+        "len": 11764
+      }
+    },
+    {
+      "question_id": 8471,
+      "subject": "physics",
+      "paper_uid": "d204a1fd8d1675f0",
+      "matched_file": "2024年高考物理试卷（上海）（回忆版）（解析卷）.docx",
+      "docx_text_length": 5830,
+      "db_stem_preview": "磁流体发电机的原理如图所示，MN和PQ是两平行金属极板，匀强磁场垂直于纸面向里。等离子体（即高温下电离的气体，含有大量正",
+      "docx_preview": "2024年上海市普通高中学业水平等级性考试 物理 试卷 （考试时间60分钟，满分100分） “试题来自网络，非官方渠道，学科网不对真实性负责，请自行鉴别” 特别提示： 1．本试卷标注“多选”的试题，每小题有2~3个正确选项，漏选给一半分，错选不给分；未特别标注的选择类试题，每小题只有1个正确选项。 2．在列式计算、逻辑推理以及回答问题过程中，须给出必要的图示、文字说明、公式、演算等。",
+      "health": {
+        "ok": true,
+        "len": 5826
+      }
+    },
+    {
+      "question_id": 5543,
+      "subject": "physics",
+      "paper_uid": "2eaed922de8f0bc7",
+      "outcome": "extract_error",
+      "matched_file": "2018年高考物理试卷（上海）（解析卷）.doc",
+      "error": "Can't find end of central directory : is this a zip file ? If it is, see https://stuk.github.io/jszi"
+    },
+    {
+      "question_id": 8591,
+      "subject": "physics",
+      "paper_uid": "73ecb18f5e59d57e",
+      "matched_file": "2024年高考物理试卷（上海）（回忆版）（解析卷）.docx",
+      "docx_text_length": 5830,
+      "db_stem_preview": "如图甲所示，质量为M的轨道静止在光滑水平面上，轨道水平部分的上表面粗糙，竖直半圆形部分的表面光滑，两部分在P点平滑连接，",
+      "docx_preview": "2024年上海市普通高中学业水平等级性考试 物理 试卷 （考试时间60分钟，满分100分） “试题来自网络，非官方渠道，学科网不对真实性负责，请自行鉴别” 特别提示： 1．本试卷标注“多选”的试题，每小题有2~3个正确选项，漏选给一半分，错选不给分；未特别标注的选择类试题，每小题只有1个正确选项。 2．在列式计算、逻辑推理以及回答问题过程中，须给出必要的图示、文字说明、公式、演算等。",
+      "health": {
+        "ok": true,
+        "len": 5826
+      }
+    },
+    {
+      "question_id": 8443,
+      "subject": "physics",
+      "paper_uid": "fb1204340383704f",
+      "matched_file": "2024年高考物理试卷（上海）（回忆版）（解析卷）.docx",
+      "docx_text_length": 5830,
+      "db_stem_preview": "如图，弹簧测力计下端挂有一质量为的光滑均匀球体，球体静止于带有固定挡板的斜面上，斜面倾角为，挡板与斜面夹角为．若弹簧测力",
+      "docx_preview": "2024年上海市普通高中学业水平等级性考试 物理 试卷 （考试时间60分钟，满分100分） “试题来自网络，非官方渠道，学科网不对真实性负责，请自行鉴别” 特别提示： 1．本试卷标注“多选”的试题，每小题有2~3个正确选项，漏选给一半分，错选不给分；未特别标注的选择类试题，每小题只有1个正确选项。 2．在列式计算、逻辑推理以及回答问题过程中，须给出必要的图示、文字说明、公式、演算等。",
+      "health": {
+        "ok": true,
+        "len": 5826
+      }
+    },
+    {
+      "question_id": 2476,
+      "subject": "chemistry",
+      "paper_uid": "7f60dba317b2d908",
+      "outcome": "extract_error",
+      "matched_file": "2022年高考化学试卷（上海）（解析卷）.doc",
+      "error": "Can't find end of central directory : is this a zip file ? If it is, see https://stuk.github.io/jszi"
+    },
+    {
+      "question_id": 2409,
+      "subject": "chemistry",
+      "paper_uid": "088ad8c3e50b1aa7",
+      "matched_file": "2021年高考化学试卷（上海）（解析卷）.docx",
+      "docx_text_length": 8168,
+      "db_stem_preview": "阅读下面科普短文。\n碳元素是人类接触和利用最早的元素之一。由碳元素组成的单质可分为无定形碳、过液态碳和晶形碳三大类，如图",
+      "docx_preview": "2021年上海等级性考试化学试卷 一、选择题（本大题共20小题） 1.实施碳达峰，碳中和是应对国际新变局、构建新发展格局、落实新发展理念的重大战略布局，上海自2013年起作为全国7个试点城市之一开展碳交易试点，以下符合碳中和目的的是（ ） A.完全不排放CO2 B.CO2排放量相对为零 C.只用风能、",
+      "health": {
+        "ok": true,
+        "len": 8146
+      }
+    },
+    {
+      "question_id": 2477,
+      "subject": "chemistry",
+      "paper_uid": "7f60dba317b2d908",
+      "outcome": "extract_error",
+      "matched_file": "2022年高考化学试卷（上海）（解析卷）.doc",
+      "error": "Can't find end of central directory : is this a zip file ? If it is, see https://stuk.github.io/jszi"
+    },
+    {
+      "question_id": 6950,
+      "subject": "chemistry",
+      "paper_uid": "cba1b0b9e9b58183",
+      "matched_file": "2024年高考化学试卷（上海）（解析卷）.docx",
+      "docx_text_length": 7452,
+      "db_stem_preview": "是火箭固体燃料重要的氧载体，与某些易燃物作用可全部生成气态产物，如：。下列有关化学用语或表述正确的是",
+      "docx_preview": "2024年上海市普通高中学业水平等级性考试化学试卷 (考试时间60分钟，满分100分) 注意：试卷为回忆版。试题来自网络，非官方渠道，学科网不对真实性负责，请自行鉴别。 一、氟及其化合物 氟元素及其化合物具有广泛用途。 1. 下列关于氟元素的性质说法正确的是 A. 原子半径最小 B. 原子第一电离能最大 C. 元素的电负性最强 D. 最高正化合价为+7 【答案】C 【解析】 【",
+      "health": {
+        "ok": true,
+        "len": 7450
+      }
+    },
+    {
+      "question_id": 2430,
+      "subject": "chemistry",
+      "paper_uid": "27fc41cfcaab303c",
+      "matched_file": "2021年高考化学试卷（上海）（解析卷）.docx",
+      "docx_text_length": 8168,
+      "db_stem_preview": "如图所示的有机物的一氯代物有几种（     ）",
+      "docx_preview": "2021年上海等级性考试化学试卷 一、选择题（本大题共20小题） 1.实施碳达峰，碳中和是应对国际新变局、构建新发展格局、落实新发展理念的重大战略布局，上海自2013年起作为全国7个试点城市之一开展碳交易试点，以下符合碳中和目的的是（ ） A.完全不排放CO2 B.CO2排放量相对为零 C.只用风能、",
+      "health": {
+        "ok": true,
+        "len": 8146
+      }
+    },
+    {
+      "question_id": 6915,
+      "subject": "chemistry",
+      "paper_uid": "0803085df821e309",
+      "matched_file": "2024年高考化学试卷（上海）（解析卷）.docx",
+      "docx_text_length": 7452,
+      "db_stem_preview": "氨磺必利是一种多巴胺拮抗剂。以下为其合成路线之一(部分试剂和条件已略去)。\n回答下列问题：\n（1）Ⅰ的结构简式是____",
+      "docx_preview": "2024年上海市普通高中学业水平等级性考试化学试卷 (考试时间60分钟，满分100分) 注意：试卷为回忆版。试题来自网络，非官方渠道，学科网不对真实性负责，请自行鉴别。 一、氟及其化合物 氟元素及其化合物具有广泛用途。 1. 下列关于氟元素的性质说法正确的是 A. 原子半径最小 B. 原子第一电离能最大 C. 元素的电负性最强 D. 最高正化合价为+7 【答案】C 【解析】 【",
+      "health": {
+        "ok": true,
+        "len": 7450
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "run_label": "td-005-phase2-backfill-fp",
+  "timestamp": "2026-09-14T03:20:24.852Z",
+  "mode": "commit",
+  "expected_recover": 5494,
+  "actual_updated": 5494,
+  "before": {
+    "null_fp": 5494
+  },
+  "after": {
+    "null_fp": 0,
+    "not_null_fp": 6219,
+    "total_questions": 6219,
+    "fp_completeness_pct": 100
+  },
+  "sample_validation": {
+    "sample_size": 100,
+    "exists": 94,
+    "missing": 6,
+    "missing_pct": 6
+  },
+  "duplicate_source_files": [
+    {
+      "source_file": "database/incoming/gaokao/english/2014/2014_shaanxi_english_gaokao_blank_201.docx",
+      "count": 99
+    },
+    {
+      "source_file": "database/incoming/gaokao/english/2024/2024年高考英语试卷（天津）（第一次）（解析卷）.docx",
+      "count": 96
+    },
+    {
+      "source_file": "database/incoming/gaokao/english/2021/2021_national_a_english_gaokao_analysis_61.docx",
+      "count": 89
+    },
+    {
+      "source_file": "database/incoming/gaokao/biology/2024/2024年高考生物试卷（甘肃）（解析卷）.docx",
+      "count": 88
+    },
+    {
+      "source_file": "database/incoming/gaokao/english/2024/2024年高考英语试卷（全国甲卷）（解析卷）.docx",
+      "count": 86
+    },
+    {
+      "source_file": "database/incoming/gaokao/english/2023/2023_national_a_english_gaokao_analysis_98.docx",
+      "count": 86
+    },
+    {
+      "source_file": "database/incoming/gaokao/english/2015/2015_anhui_english_gaokao_blank_3.docx",
+      "count": 82
+    },
+    {
+      "source_file": "database/incoming/gaokao/english/2012/2012_shaanxi_english_gaokao_blank_192.docx",
+      "count": 79
+    },
+    {
+      "source_file": "database/incoming/gaokao/english/2013/2013_shaanxi_english_gaokao_blank_196.docx",
+      "count": 73
+    },
+    {
+      "source_file": "database/incoming/gaokao/english/2024/2024_national_a_english_gaokao_analysis_115.docx",
+      "count": 66
+    }
+  ],
+  "ledger_writes": 5494,
+  "next_step": "Phase 3 Step 1 — incoming docx 抽样验证"
+}
