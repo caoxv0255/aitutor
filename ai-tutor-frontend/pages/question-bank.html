@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor · 题库浏览</title>
+    <meta name="api-base" content="">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+@theme inline {
+  --color-primary-500: #d71920;
+  --color-primary-600: #b8151b;
+  --color-success-500: #059669;
+  --color-warning-500: #f59e0b;
+  --color-error-500: #ef4444;
+  --color-info-500: #0284c7;
+  --color-foreground: #0b1220;
+  --color-muted-foreground: #6b7280;
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f8f9fb;
+  --color-surface-tertiary: #f1f5f9;
+  --color-border: #e5e7eb;
+  --color-border-light: #f1f3f5;
+}
+    </style>
+    <style>
+      body { background: var(--color-surface-secondary); }
+      .qb-card { background: white; border: 1px solid var(--color-border-light); border-radius: 14px; }
+      .qb-stat { font-family: 'DM Sans', 'Noto Sans SC', sans-serif; }
+      .qb-chip { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+      .qb-stem { font-size: 14px; line-height: 1.6; color: var(--color-foreground); white-space: pre-wrap; word-break: break-word; }
+      .qb-opt { display: inline-block; margin: 2px 6px 2px 0; padding: 4px 10px; background: #f3f4f6; border-radius: 8px; font-size: 13px; }
+      .qb-modal-back { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; }
+      .qb-modal { background: white; border-radius: 16px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; }
+      .qb-subject-btn.active { background: var(--color-primary-500); color: white; }
+      .qb-subject-btn:not(.active) { background: white; color: var(--color-foreground); border: 1px solid var(--color-border); }
+      .qb-subject-btn:not(.active):hover { background: var(--color-surface-tertiary); }
+      .qb-page-btn { min-width: 32px; height: 32px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--color-border); background: white; font-size: 13px; font-weight: 600; }
+      .qb-page-btn.active { background: var(--color-primary-500); color: white; border-color: var(--color-primary-500); }
+      .qb-page-btn:disabled { opacity: .4; cursor: not-allowed; }
+      .qb-kp-chip { background: #ecfdf5; color: #047857; border: 1px solid #d1fae5; }
+    </style>
+</head>
+<body class="min-h-screen" style="background:var(--color-surface-secondary);color:var(--color-foreground);">
+    <div class="lg:ml-60 md:ml-[72px] min-h-screen" style="padding:24px;max-width:1280px;margin:0 auto;">
+        <!-- 顶部 -->
+        <div style="display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px;flex-wrap:wrap;">
+            <div>
+                <div style="font-size:11px;letter-spacing:.35em;color:var(--color-primary-500);font-weight:900;text-transform:uppercase;">QUESTION BANK</div>
+                <h2 style="font-size:30px;line-height:1.1;margin:6px 0 0;font-weight:950;letter-spacing:-.03em;">📚 题库浏览</h2>
+                <p style="font-size:13px;color:var(--color-muted-foreground);margin:6px 0 0;">9 学科 · 22 省 · 2008-2025 · 6219 道真题</p>
+            </div>
+            <a href="/f3/pages/dashboard.html" style="text-decoration:none;font-size:13px;color:var(--color-muted-foreground);font-weight:600;">← 返回 Dashboard</a>
+        </div>
+
+        <!-- 统计卡片 -->
+        <div id="qb-stats" class="qb-card" style="padding:14px 18px;margin-bottom:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+            <div>
+                <div style="font-size:11px;color:var(--color-muted-foreground);font-weight:700;text-transform:uppercase;">真题总数</div>
+                <div id="qb-stat-questions" class="qb-stat" style="font-size:24px;font-weight:900;color:var(--color-primary-600);margin-top:2px;">—</div>
+            </div>
+            <div>
+                <div style="font-size:11px;color:var(--color-muted-foreground);font-weight:700;text-transform:uppercase;">试卷卷数</div>
+                <div id="qb-stat-papers" class="qb-stat" style="font-size:24px;font-weight:900;color:var(--color-warning-500);margin-top:2px;">—</div>
+            </div>
+            <div>
+                <div style="font-size:11px;color:var(--color-muted-foreground);font-weight:700;text-transform:uppercase;">KP 覆盖率</div>
+                <div id="qb-stat-coverage" class="qb-stat" style="font-size:24px;font-weight:900;color:var(--color-success-500);margin-top:2px;">—</div>
+            </div>
+            <div>
+                <div style="font-size:11px;color:var(--color-muted-foreground);font-weight:700;text-transform:uppercase;">已筛选结果</div>
+                <div id="qb-stat-current" class="qb-stat" style="font-size:24px;font-weight:900;color:var(--color-info-500);margin-top:2px;">—</div>
+            </div>
+        </div>
+
+        <!-- 学科切换 -->
+        <div class="qb-card" style="padding:14px 18px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                <span style="font-size:12px;color:var(--color-muted-foreground);font-weight:700;margin-right:6px;">学科：</span>
+                <button data-subject="" class="qb-subject-btn active" style="border:0;cursor:pointer;">全部</button>
+                <button data-subject="chinese" class="qb-subject-btn" style="border:0;cursor:pointer;">语文</button>
+                <button data-subject="math" class="qb-subject-btn" style="border:0;cursor:pointer;">数学</button>
+                <button data-subject="english" class="qb-subject-btn" style="border:0;cursor:pointer;">英语</button>
+                <button data-subject="physics" class="qb-subject-btn" style="border:0;cursor:pointer;">物理</button>
+                <button data-subject="chemistry" class="qb-subject-btn" style="border:0;cursor:pointer;">化学</button>
+                <button data-subject="biology" class="qb-subject-btn" style="border:0;cursor:pointer;">生物</button>
+                <button data-subject="history" class="qb-subject-btn" style="border:0;cursor:pointer;">历史</button>
+                <button data-subject="geography" class="qb-subject-btn" style="border:0;cursor:pointer;">地理</button>
+                <button data-subject="politics" class="qb-subject-btn" style="border:0;cursor:pointer;">政治</button>
+            </div>
+        </div>
+
+        <!-- 筛选器 -->
+        <div class="qb-card" style="padding:14px 18px;margin-bottom:20px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end;">
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:4px;">省份</label>
+                    <select id="qb-filter-province" style="width:100%;padding:8px 10px;border:1px solid var(--color-border);border-radius:8px;font-size:13px;background:white;">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:4px;">年份</label>
+                    <select id="qb-filter-year" style="width:100%;padding:8px 10px;border:1px solid var(--color-border);border-radius:8px;font-size:13px;background:white;">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:4px;">知识点 (KP)</label>
+                    <select id="qb-filter-kp" style="width:100%;padding:8px 10px;border:1px solid var(--color-border);border-radius:8px;font-size:13px;background:white;">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:4px;">每页</label>
+                    <select id="qb-filter-pagesize" style="width:100%;padding:8px 10px;border:1px solid var(--color-border);border-radius:8px;font-size:13px;background:white;">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div>
+                    <button id="qb-apply-btn" style="width:100%;padding:8px 14px;background:var(--color-primary-500);color:white;border:0;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">应用筛选</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 题目列表 -->
+        <div id="qb-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;"></div>
+
+        <!-- 分页 -->
+        <div id="qb-pagination" style="display:flex;justify-content:center;gap:6px;margin:24px 0 40px;flex-wrap:wrap;"></div>
+
+        <!-- 来源说明 -->
+        <div style="text-align:center;font-size:11px;color:var(--color-foreground-muted);padding:20px;">
+            题库数据 <code style="background:#e2e8f0;padding:1px 6px;border-radius:4px;">exam_questions</code> ·
+            TD-005 Phase 2 (file_path 100%) + D090 (KP 覆盖率 57.52%) ·
+            验证于 2026-09-14
+        </div>
+    </div>
+
+    <!-- 题目详情弹窗 -->
+    <div id="qb-modal" class="qb-modal-back" style="display:none;">
+        <div class="qb-modal" style="padding:24px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                <h3 style="margin:0;font-size:18px;font-weight:900;" id="qb-modal-title">题目详情</h3>
+                <button id="qb-modal-close" style="background:transparent;border:0;font-size:24px;cursor:pointer;line-height:1;color:var(--color-muted-foreground);">×</button>
+            </div>
+            <div id="qb-modal-body"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // ─── D089-front-loop-2026-09-14: 题库浏览 ───
+        import { request } from '../assets/js/api/client.js';
+
+        // 硬编码 fallback (TD-005 Phase 2 + D090 验证值)
+        const FALLBACK_STATS = {
+            exam_papers: 283,
+            exam_questions: 6219,
+            knowledge_points: 426,
+            kp_coverage_pct: 57.52,
+            file_path_coverage_pct: 100.00,
+            provinces: ['beijing', 'national', 'zhejiang', 'shanghai', 'guangdong', 'jiangsu', 'tianjin', 'shandong', 'anhui', 'hunan', 'hebei', 'hainan', 'fujian', 'hubei', 'chongqing', 'gansu', 'jiangxi', 'liaoning', 'guangxi', 'guizhou', 'sichuan', 'shaanxi'],
+            year_range: [2008, 2025],
+            subject_breakdown: [
+                { subject_code: 'english', count: 1249 }, { subject_code: 'biology', count: 796 },
+                { subject_code: 'history', count: 740 }, { subject_code: 'politics', count: 632 },
+                { subject_code: 'physics', count: 616 }, { subject_code: 'chemistry', count: 595 },
+                { subject_code: 'geography', count: 575 }, { subject_code: 'math', count: 564 },
+                { subject_code: 'chinese', count: 452 }
+            ]
+        };
+
+        const PROVINCE_ZH = {
+            beijing: '北京', national: '全国卷', zhejiang: '浙江', shanghai: '上海',
+            guangdong: '广东', jiangsu: '江苏', tianjin: '天津', shandong: '山东',
+            anhui: '安徽', hunan: '湖南', hebei: '河北', hainan: '海南',
+            fujian: '福建', hubei: '湖北', chongqing: '重庆', gansu: '甘肃',
+            jiangxi: '江西', liaoning: '辽宁', guangxi: '广西', guizhou: '贵州',
+            sichuan: '四川', shaanxi: '陕西'
+        };
+        const SUBJECT_ZH = {
+            chinese: '语文', math: '数学', english: '英语', physics: '物理',
+            chemistry: '化学', biology: '生物', history: '历史', geography: '地理', politics: '政治'
+        };
+
+        // 状态
+        const state = {
+            subject: '',
+            province: '',
+            year: '',
+            kp: '',
+            page: 1,
+            pageSize: 20,
+            total: 0,
+            items: [],
+            kpCache: {},
+            stats: FALLBACK_STATS
+        };
+
+        // URL 参数预填 (从 exam-*.html 跳转过来)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('subject')) state.subject = urlParams.get('subject');
+        if (urlParams.get('kp')) state.kp = urlParams.get('kp');
+
+        // ─── 工具 ───
+        const fmt = n => n == null ? '—' : Number(n).toLocaleString();
+        const esc = s => { const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
+        const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+
+        // ─── 加载统计 ───
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/analytics/system/stats', { credentials: 'include' });
+                if (res.ok) {
+                    const j = await res.json();
+                    if (j && j.success && j.data) {
+                        state.stats = j.data;
+                        console.log('[D089] 题库统计 from API');
+                    }
+                } else {
+                    console.log('[D089] 题库统计 fallback (HTTP ' + res.status + ')');
+                }
+            } catch (e) {
+                console.log('[D089] 题库统计 fallback (' + e.message + ')');
+            }
+            setText('qb-stat-questions', fmt(state.stats.exam_questions));
+            setText('qb-stat-papers', fmt(state.stats.exam_papers));
+            setText('qb-stat-coverage',
+                (state.stats.kp_coverage_pct != null ? Number(state.stats.kp_coverage_pct).toFixed(2) + '%' : '—'));
+        }
+
+        // ─── 初始化筛选器 ───
+        function initFilters() {
+            // 省份
+            const provSel = document.getElementById('qb-filter-province');
+            for (const p of state.stats.provinces || []) {
+                const opt = document.createElement('option');
+                opt.value = p;
+                opt.textContent = PROVINCE_ZH[p] || p;
+                provSel.appendChild(opt);
+            }
+            // 年份
+            const yearSel = document.getElementById('qb-filter-year');
+            const [yMin, yMax] = state.stats.year_range || [2008, 2025];
+            for (let y = yMax; y >= yMin; y--) {
+                const opt = document.createElement('option');
+                opt.value = String(y);
+                opt.textContent = String(y);
+                yearSel.appendChild(opt);
+            }
+            // 应用预填值
+            if (state.subject) {
+                document.querySelectorAll('.qb-subject-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.subject === state.subject);
+                });
+            }
+        }
+
+        // ─── 加载题目列表 ───
+        async function loadQuestions() {
+            setText('qb-stat-current', '加载中…');
+            const listEl = document.getElementById('qb-list');
+            listEl.innerHTML = '<div class="qb-card" style="padding:24px;text-align:center;color:var(--color-muted-foreground);">⏳ 加载中…</div>';
+            try {
+                const params = new URLSearchParams();
+                if (state.subject) params.set('subject', state.subject);
+                if (state.province) params.set('province', state.province);
+                if (state.year) params.set('year', state.year);
+                if (state.kp) params.set('knowledge_point', state.kp);
+                params.set('limit', String(state.pageSize));
+                params.set('offset', String((state.page - 1) * state.pageSize));
+                const res = await request('GET', `/api/exam/questions?${params}`, null, { mockName: 'exam_questions' });
+                // D089-fix: response envelope {success, data:{data:[...], total, ...}}
+                // 后端实际返回: {success, data: {data: [...], total: 564, page, page_size}}
+                const payload = res?.data || res || {};
+                const items = Array.isArray(payload) ? payload : (payload.data || payload.items || payload.questions || []);
+                state.total = payload.total || items.length;
+                state.items = items;
+                setText('qb-stat-current', fmt(items.length) + ' / ' + fmt(state.total));
+                renderList();
+                renderPagination();
+            } catch (e) {
+                console.error('[D089] loadQuestions 失败:', e);
+                listEl.innerHTML = '<div class="qb-card" style="padding:24px;text-align:center;color:var(--color-error-500);">加载失败: ' + esc(e.message || '未知错误') + '</div>';
+            }
+        }
+
+        // ─── 渲染列表 ───
+        function renderList() {
+            const listEl = document.getElementById('qb-list');
+            if (state.items.length === 0) {
+                listEl.innerHTML = '<div class="qb-card" style="padding:32px;text-align:center;color:var(--color-muted-foreground);">😶 无匹配题目。请调整筛选器。</div>';
+                return;
+            }
+            listEl.innerHTML = state.items.map((q, idx) => {
+                const subZh = SUBJECT_ZH[q.subject_code] || q.subject_code;
+                const provZh = PROVINCE_ZH[q.province_code] || q.province_code || '';
+                const stem = (q.stem || '').replace(/\s+/g, ' ').slice(0, 220);
+                const qn = q.question_number != null ? q.question_number : '?';
+                const kpCount = q.knowledge_points ? (Array.isArray(q.knowledge_points) ? q.knowledge_points.length : 1) : 0;
+                return `
+                <div class="qb-card" style="padding:14px 18px;display:flex;gap:14px;align-items:start;cursor:pointer;transition:box-shadow .15s;" data-qid="${esc(q.id)}">
+                    <div style="flex-shrink:0;width:42px;height:42px;border-radius:10px;background:${subZh ? 'var(--color-surface-tertiary)' : 'transparent'};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--color-muted-foreground);">
+                        ${qn}
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+                            <span class="qb-chip" style="background:${subZh === '语文' ? '#fee2e2' : subZh === '数学' ? '#dbeafe' : '#f3f4f6'};color:var(--color-foreground);">${esc(subZh)}</span>
+                            ${provZh ? `<span class="qb-chip" style="background:#fef3c7;color:#92400e;">${esc(provZh)}</span>` : ''}
+                            ${q.year ? `<span class="qb-chip" style="background:#e0e7ff;color:#3730a3;">${esc(q.year)}</span>` : ''}
+                            <span class="qb-chip" style="background:#f3f4f6;color:var(--color-muted-foreground);">第 ${qn} 题</span>
+                            ${kpCount > 0 ? `<span class="qb-chip qb-kp-chip">📚 ${kpCount} KP</span>` : '<span class="qb-chip" style="background:#fef2f2;color:#991b1b;">⚠️ 无 KP</span>'}
+                        </div>
+                        <div class="qb-stem" style="margin:0;">${esc(stem)}${stem.length >= 220 ? '…' : ''}</div>
+                    </div>
+                </div>`;
+            }).join('');
+            // 点击事件
+            listEl.querySelectorAll('.qb-card[data-qid]').forEach(card => {
+                card.addEventListener('click', () => openQuestionDetail(card.dataset.qid));
+            });
+        }
+
+        // ─── 详情弹窗 ───
+        async function openQuestionDetail(qid) {
+            const modal = document.getElementById('qb-modal');
+            const body = document.getElementById('qb-modal-body');
+            const title = document.getElementById('qb-modal-title');
+            modal.style.display = 'flex';
+            body.innerHTML = '<div style="padding:32px;text-align:center;color:var(--color-muted-foreground);">⏳ 加载详情…</div>';
+            try {
+                const res = await request('GET', `/api/exam/questions/${encodeURIComponent(qid)}`, null, { mockName: 'exam_question' });
+                const q = res?.data || res || {};
+                const subZh = SUBJECT_ZH[q.subject_code] || q.subject_code || '';
+                const provZh = PROVINCE_ZH[q.province_code] || q.province_code || '';
+                title.textContent = `${subZh} · 第 ${q.question_number ?? '?'} 题`;
+                let optionsHtml = '';
+                if (q.options) {
+                    try {
+                        const opts = typeof q.options === 'string' ? JSON.parse(q.options) : q.options;
+                        if (Array.isArray(opts) && opts.length > 0) {
+                            optionsHtml = '<div style="margin:12px 0;"><div style="font-size:12px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:6px;">选项：</div>' +
+                                opts.map(o => `<span class="qb-opt">${esc(typeof o === 'string' ? o : JSON.stringify(o))}</span>`).join('') + '</div>';
+                        }
+                    } catch {}
+                }
+                let answerHtml = q.answer ? `<div style="margin:14px 0;padding:10px 14px;background:#ecfdf5;border-radius:8px;border:1px solid #d1fae5;"><span style="font-size:12px;color:#065f46;font-weight:700;">【答案】</span> <span style="font-family:'JetBrains Mono','SF Mono',monospace;font-size:14px;">${esc(q.answer)}</span></div>` : '<div style="margin:14px 0;padding:10px 14px;background:#f3f4f6;border-radius:8px;font-size:12px;color:var(--color-muted-foreground);">📭 答案未在当前接口返回 (D089-known: 列表接口不含 answer)</div>';
+                let analysisHtml = q.analysis ? `<div style="margin:14px 0;"><div style="font-size:12px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:6px;">【解析】</div><div style="line-height:1.7;font-size:14px;color:var(--color-foreground);">${esc(q.analysis)}</div></div>` : '';
+                let kpHtml = '';
+                if (q.knowledge_points && Array.isArray(q.knowledge_points) && q.knowledge_points.length > 0) {
+                    kpHtml = '<div style="margin:14px 0;"><div style="font-size:12px;color:var(--color-muted-foreground);font-weight:700;margin-bottom:6px;">关联知识点：</div>' +
+                        q.knowledge_points.map(kp => `<span class="qb-chip qb-kp-chip" style="margin-right:4px;">${esc(typeof kp === 'string' ? kp : (kp.name || kp.id || ''))}</span>`).join('') + '</div>';
+                }
+                let meta = '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--color-muted-foreground);">';
+                if (provZh) meta += `<span>📍 ${esc(provZh)}</span>`;
+                if (q.year) meta += `<span>📅 ${esc(q.year)}</span>`;
+                if (q.difficulty) meta += `<span>📊 难度 ${esc(q.difficulty)}</span>`;
+                if (q.question_type) meta += `<span>📝 ${esc(q.question_type)}</span>`;
+                meta += '</div>';
+                body.innerHTML = `
+                    ${meta}
+                    <div class="qb-stem" style="font-size:15px;margin-bottom:10px;">${esc(q.stem || '—')}</div>
+                    ${optionsHtml}
+                    ${answerHtml}
+                    ${analysisHtml}
+                    ${kpHtml || '<div style="margin-top:14px;font-size:11px;color:#991b1b;">⚠️ 此题暂无 KP 关联</div>'}
+                    <div style="margin-top:14px;font-size:11px;color:var(--color-foreground-muted);border-top:1px solid var(--color-border-light);padding-top:10px;">file_path: <code>${esc(q.file_path || '— (D089 已知: 列表接口不含 file_path, 详情需调用单题接口)')}</code></div>
+                `;
+            } catch (e) {
+                body.innerHTML = '<div style="padding:24px;color:var(--color-error-500);">加载失败: ' + esc(e.message || '') + '</div>';
+            }
+        }
+        document.getElementById('qb-modal-close').addEventListener('click', () => {
+            document.getElementById('qb-modal').style.display = 'none';
+        });
+        document.getElementById('qb-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'qb-modal') e.target.style.display = 'none';
+        });
+
+        // ─── 分页 ───
+        function renderPagination() {
+            const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
+            const el = document.getElementById('qb-pagination');
+            const buttons = [];
+            const mkBtn = (label, p, opts = {}) => {
+                const cls = opts.active ? 'qb-page-btn active' : 'qb-page-btn';
+                const dis = opts.disabled ? 'disabled' : '';
+                return `<button class="${cls}" ${dis} data-page="${p}" style="${opts.disabled ? '' : 'cursor:pointer;'}">${label}</button>`;
+            };
+            buttons.push(mkBtn('« 上一页', state.page - 1, { disabled: state.page <= 1 }));
+            const start = Math.max(1, state.page - 2);
+            const end = Math.min(totalPages, state.page + 2);
+            if (start > 1) buttons.push(mkBtn('1…', 1));
+            for (let p = start; p <= end; p++) buttons.push(mkBtn(p, p, { active: p === state.page }));
+            if (end < totalPages) buttons.push(mkBtn('…' + totalPages, totalPages));
+            buttons.push(mkBtn('下一页 »', state.page + 1, { disabled: state.page >= totalPages }));
+            el.innerHTML = buttons.join('');
+            el.querySelectorAll('.qb-page-btn:not([disabled])').forEach(b => {
+                b.addEventListener('click', () => { state.page = parseInt(b.dataset.page, 10); loadQuestions(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+            });
+        }
+
+        // ─── 学科切换 ───
+        document.querySelectorAll('.qb-subject-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.qb-subject-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.subject = btn.dataset.subject;
+                state.page = 1;
+                loadQuestions();
+            });
+        });
+        // 筛选应用
+        document.getElementById('qb-apply-btn').addEventListener('click', () => {
+            state.province = document.getElementById('qb-filter-province').value;
+            state.year = document.getElementById('qb-filter-year').value;
+            state.kp = document.getElementById('qb-filter-kp').value;
+            state.pageSize = parseInt(document.getElementById('qb-filter-pagesize').value, 10);
+            state.page = 1;
+            loadQuestions();
+        });
+
+        // ─── 启动 ───
+        (async () => {
+            await loadStats();
+            initFilters();
+            await loadQuestions();
+        })();
+    </script>
+</body>
+</html>

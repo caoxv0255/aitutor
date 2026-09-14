@@ -157,6 +157,11 @@
         <p class="ait-card-desc">review.getWeakPoints() 服务调用, 验证 ErrorType.BUSINESS.code 路径</p>
         <ul id="weak-list" style="margin:12px 0 0;padding:0;list-style:none;"></ul>
       </div>
+
+      <!-- D089-front-loop-2026-09-14: 系统题库宏观统计 (题库原子化成果展示)
+           数据来源: TD-005 Phase 2 (file_path 100%) + D090 (KP 覆盖率 57.52%)
+           优先尝试 /api/analytics/system/stats (后端 systemd 启动生效后即用真数据)
+           失败 fallback 硬编码 (dashboard 立即可见) — 见 main 元素开头 -->
     </section>
 
     <script type="module">
@@ -432,9 +437,95 @@
           }
         });
       }
+
+      // D089-front-loop-2026-09-14: 系统题库宏观统计加载
+      // 优先: GET /api/analytics/system/stats (后端 systemd 启动后即生效)
+      // 失败 fallback: 硬编码常量 (2026-09-14 验证值, 数据源 D090 + TD-005 Phase 2)
+      const SYS_STATS_FALLBACK = {
+        exam_papers: 283,
+        exam_questions: 6219,
+        knowledge_points: 426,
+        qkp_links: 7361,
+        questions_with_kp: 3577,
+        kp_coverage_pct: 57.52,
+        file_path_coverage_pct: 100.00,
+        provinces: 22,
+        year_min: 2008,
+        year_max: 2025
+      };
+      const renderSystemStats = (s, source) => {
+        const fmt = n => n == null ? '—' : Number(n).toLocaleString();
+        const pct = n => n == null ? '—' : Number(n).toFixed(2) + '%';
+        const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+        setText('sys-stat-questions', fmt(s.exam_questions));
+        setText('sys-stat-questions-sub', `${fmt(s.exam_papers)} 卷 · ${s.year_min}-${s.year_max} · ${s.provinces} 省`);
+        setText('sys-stat-coverage', pct(s.kp_coverage_pct));
+        setText('sys-stat-coverage-sub', `${fmt(s.questions_with_kp)}/${fmt(s.exam_questions)} · ${fmt(s.qkp_links)} 链接`);
+        setText('sys-stat-kps', fmt(s.knowledge_points));
+        setText('sys-stat-kps-sub', `${fmt(s.kps_used || (s.knowledge_points - 0))} 已使用`);
+        setText('sys-stat-papers', fmt(s.exam_papers));
+        setText('sys-stat-papers-sub', `file_path ${pct(s.file_path_coverage_pct)}`);
+        console.log('[D089] 系统题库统计加载完成, source=' + source);
+      };
+      // 异步加载: 优先 API, 失败 fallback
+      (async () => {
+        try {
+          const res = await fetch('/api/analytics/system/stats', {
+            headers: { 'Accept': 'application/json' },
+            credentials: 'include'
+          });
+          if (res.ok) {
+            const j = await res.json();
+            if (j && j.success && j.data && j.data.exam_questions) {
+              renderSystemStats(j.data, 'api');
+              return;
+            }
+          }
+          console.warn('[D089] /api/analytics/system/stats 不可用, 使用硬编码 fallback');
+          renderSystemStats(SYS_STATS_FALLBACK, 'fallback');
+        } catch (e) {
+          console.warn('[D089] stats API 调用失败:', e.message);
+          renderSystemStats(SYS_STATS_FALLBACK, 'fallback');
+        }
+      })();
     </script>
 
     <main class="min-h-screen bg-surface-secondary">
+      <!-- D089-front-loop-2026-09-14: 系统题库宏观统计 (题库原子化成果展示)
+           数据来源: TD-005 Phase 2 (file_path 100%) + D090 (KP 覆盖率 57.52%)
+           优先尝试 /api/analytics/system/stats (后端 systemd 启动生效后即用真数据)
+           失败 fallback 硬编码 (dashboard 立即可见) -->
+      <div class="ait-card" id="system-macro-stats" style="margin:24px;background:linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);border:1px solid var(--color-border-light);">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+          <div>
+            <h3 class="ait-card-title" style="margin-bottom:4px;">📚 系统题库宏观统计</h3>
+            <p class="ait-card-desc" style="margin:0;">题库原子化成果 · 数据来源 <code style="background:#e2e8f0;padding:2px 6px;border-radius:4px;font-size:11px;">/api/analytics/system/stats</code> · 验证于 2026-09-14</p>
+          </div>
+          <a href="/f3/pages/question-bank.html" class="ait-btn ait-btn-primary" style="text-decoration:none;font-size:13px;font-weight:700;">浏览全部真题 →</a>
+        </div>
+        <div class="stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;" id="system-stats-grid">
+          <div class="stat" style="background:white;padding:14px;border-radius:10px;border:1px solid var(--color-border-light);">
+            <div class="num ait-stat-num" id="sys-stat-questions" style="font-size:28px;font-weight:900;color:var(--color-primary-600);line-height:1;">—</div>
+            <div class="lbl" style="font-size:12px;color:var(--color-muted-foreground);margin-top:4px;">真题总数</div>
+            <div style="font-size:10px;color:var(--color-foreground-muted);margin-top:2px;" id="sys-stat-questions-sub">—</div>
+          </div>
+          <div class="stat" style="background:white;padding:14px;border-radius:10px;border:1px solid var(--color-border-light);">
+            <div class="num ait-stat-num" id="sys-stat-coverage" style="font-size:28px;font-weight:900;color:var(--color-success-600);line-height:1;">—</div>
+            <div class="lbl" style="font-size:12px;color:var(--color-muted-foreground);margin-top:4px;">KP 覆盖率</div>
+            <div style="font-size:10px;color:var(--color-foreground-muted);margin-top:2px;" id="sys-stat-coverage-sub">—</div>
+          </div>
+          <div class="stat" style="background:white;padding:14px;border-radius:10px;border:1px solid var(--color-info-600);color:var(--color-info-600);">
+            <div class="num ait-stat-num" id="sys-stat-kps" style="font-size:28px;font-weight:900;line-height:1;">—</div>
+            <div class="lbl" style="font-size:12px;color:var(--color-muted-foreground);margin-top:4px;">KP 节点数</div>
+            <div style="font-size:10px;color:var(--color-foreground-muted);margin-top:2px;" id="sys-stat-kps-sub">—</div>
+          </div>
+          <div class="stat" style="background:white;padding:14px;border-radius:10px;border:1px solid var(--color-border-light);">
+            <div class="num ait-stat-num" id="sys-stat-papers" style="font-size:28px;font-weight:900;color:var(--color-warning-600);line-height:1;">—</div>
+            <div class="lbl" style="font-size:12px;color:var(--color-muted-foreground);margin-top:4px;">试卷卷数</div>
+            <div style="font-size:10px;color:var(--color-foreground-muted);margin-top:2px;" id="sys-stat-papers-sub">—</div>
+          </div>
+        </div>
+      </div>
       <!-- 注入位置：main 开头 -->
       <script>
         // Phase-G2-fix (2026-08-24): 新手引导卡片
