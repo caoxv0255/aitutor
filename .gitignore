@@ -238,3 +238,31 @@ docker-compose.v1.yml
 # hercules + Hermes 本地缓存
 /.gitnexus/lbug
 /.gitnexus/parse-cache/
+
+# ─────────────────────────────────────────────────────────────
+# Local-only one-off artifacts on this workstation (2026-09-15)
+# Added during caoxv0255/aitutor merge prep. Do NOT add broad
+# wildcards like /scripts or /database that would mask upstream-
+# tracked files in those trees.
+# ─────────────────────────────────────────────────────────────
+
+# Additional local pack variants (upstream already ignores 2026-09-10/)
+/lost_exam_pack_2026-09-10_lib/
+/lost_exam_pack_2026-09-10_tier1/
+/lost_exam_pack_2026-09-11_v2/
+
+# Local one-off batch scripts under tracked scripts/ tree
+/scripts/build_gaokao_lib.mjs
+/scripts/build_gaokao_lib_v2.mjs
+/scripts/match_tier1.mjs
+/scripts/pack_lost_exams.mjs
+/scripts/pack_lost_exams_dryrun.mjs
+/scripts/pack_v2_for_upload.mjs
+
+# Local Windows/WSL repair scripts
+/fix_rsync_via_windows.ps1
+/fix_sangfor_wsl.sh
+
+# Local incident notes & verification scripts
+/.ai/operations/cloudflare-tunnel-1033-incident-2026-09-01.md
+/.verify_zhongkao.py
