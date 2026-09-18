@@ -266,3 +266,6 @@ docker-compose.v1.yml
 # Local incident notes & verification scripts
 /.ai/operations/cloudflare-tunnel-1033-incident-2026-09-01.md
 /.verify_zhongkao.py
+
+# qb-extract pipeline bytecode
+/scripts/qb-extract/__pycache__/
