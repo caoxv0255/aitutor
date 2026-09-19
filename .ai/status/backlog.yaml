@@ -85,6 +85,26 @@ items:
     estimate: 已完成
     blocks: nothing
     unblocked_by: n_a_done
+  - id: QB-P2-MULTIMODAL-READPATH
+    title: "P2b 多模态读端可达: ⟦IMG:⟧/⟦F:⟧ → 资产 **已完成** (公式 latex 残) (2026-09-19)"
+    priority: P2
+    decision: docs/database/p4b-multimodal-readpath-2026-09-19.md
+    description: |
+      ✅ 结论: **读端裸 token 归零**。治理前 14790 题(40%)任一字段带裸
+        ⟦IMG:rId⟧/⟦F:rId⟧/⟦OMML⟧ 直达用户; 治理后 0。
+      机制: migration 036 exam_questions.media_refs + 30-backfill-media-refs.py
+        (rid→资产 是整份 docx 全局关系, 卷级 map 按 token 查, 不做题号对齐);
+        server.js 挂 /qb-media 静态路由; questionTables.js 富化 media;
+        placeholder-render.js 渲染 <img>/latex/OMML 文本, 不可渲染降级为标记。
+      实测: 1460 卷 / 14706 题(99.4%) / 117609 ref (图片 55870 / 公式 57968 / 缺失 3771);
+        资产文件 0 缺失; 幂等+备份; G1–G17 17 PASS; vitest 基线。
+      残留 (未解决): ①公式 latex 命中 0 —— VLM 缓存按 HTML 渲染图 sha 建键, 与 wmf sha
+        不同源, 需用 out/html 的 para_idx/question_number 再对一次; 故公式暂降级「［公式］」
+        (无裸 token, 但无公式本体)。②wmf/emf 浏览器不可渲染, out/render 公式 PNG 仅 80 张
+        (03-render-media 未全量)。③84 题未覆盖(无 docx / media 缺该 rId)。
+    estimate: TBD
+    blocks: nothing
+    unblocked_by: n_a_done
   - id: QB-TABLE-ATTRIBUTION
     title: "523 张表格归属歧义 — 人工裁决回填 question_id"
     priority: P3
