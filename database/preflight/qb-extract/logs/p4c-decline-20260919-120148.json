@@ -1,0 +1,236 @@
+{
+  "generated_at": "20260919-120148",
+  "papers": 60,
+  "questions": 2252,
+  "with_answer": 1626,
+  "stats": {
+    "papers": 60,
+    "e4_paras_total": 18181,
+    "e4_paras_in_table": 3250,
+    "questions": 2252,
+    "with_answer": 1626,
+    "h3_papers_with_anchor": 52,
+    "e2_qnum_all": 1923,
+    "e2_qnum_in_table": 266,
+    "e2_qnum_decimal": 252,
+    "e2_qnum_realish": 14,
+    "h1_answer_in_table": 12,
+    "e1_answer_table": 40,
+    "e2_papers_with_qnum_in_table": 24
+  },
+  "samples": {
+    "answer_in_table": [
+      {
+        "paper_id": 3715,
+        "subject": "biology",
+        "year": 2008,
+        "number": 39,
+        "answer": "方面战略或措施优化产业结构通过自主创新，发展高新技术产业和现代服务业。转变消费结构对外开放发展对外经济关系，最大限度地分",
+        "hit_cell": "战略或措施",
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2008/2008年高考生物试卷（北京）（解析卷）.docx"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "number": 1,
+        "answer": "A",
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "number": 2,
+        "answer": "D",
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "number": 3,
+        "answer": "B",
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "number": 4,
+        "answer": "B",
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "number": 5,
+        "answer": "D",
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "number": 6,
+        "answer": "C",
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "number": 7,
+        "answer": "A",
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "number": 8,
+        "answer": "B",
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "number": 10,
+        "answer": "B",
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx"
+      }
+    ],
+    "qnum_in_table": [
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx",
+        "qnum_all": 64,
+        "qnum_in_table": 5,
+        "decimal_like": 5,
+        "realish": 0,
+        "examples": [
+          "0.01",
+          "0.25",
+          "0.25",
+          "0.12"
+        ]
+      },
+      {
+        "paper_id": 3720,
+        "subject": "biology",
+        "year": 2008,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2008/2008年高考生物试卷（江苏）（解析卷）.docx",
+        "qnum_all": 47,
+        "qnum_in_table": 8,
+        "decimal_like": 8,
+        "realish": 0,
+        "examples": [
+          "88.0",
+          "6.7",
+          "1.8",
+          "3.5"
+        ]
+      },
+      {
+        "paper_id": 3726,
+        "subject": "biology",
+        "year": 2009,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2009/2009年高考生物试卷（四川）（解析卷）.docx",
+        "qnum_all": 49,
+        "qnum_in_table": 22,
+        "decimal_like": 22,
+        "realish": 0,
+        "examples": [
+          "2.18",
+          "3.74",
+          "3.62",
+          "5.81"
+        ]
+      },
+      {
+        "paper_id": 3730,
+        "subject": "biology",
+        "year": 2009,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2009/2009年高考生物试卷（江苏）（解析卷）.docx",
+        "qnum_all": 40,
+        "qnum_in_table": 6,
+        "decimal_like": 6,
+        "realish": 0,
+        "examples": [
+          "0.5",
+          "0.5",
+          "0.5",
+          "0.5"
+        ]
+      },
+      {
+        "paper_id": 3734,
+        "subject": "biology",
+        "year": 2010,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2010/2010年高考生物试卷（上海）（解析卷）.docx",
+        "qnum_all": 133,
+        "qnum_in_table": 14,
+        "decimal_like": 14,
+        "realish": 0,
+        "examples": [
+          "5.5",
+          "5.5",
+          "0.8",
+          "0.6"
+        ]
+      },
+      {
+        "paper_id": 3737,
+        "subject": "biology",
+        "year": 2010,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2010/2010年高考生物试卷（天津）（解析卷）.docx",
+        "qnum_all": 11,
+        "qnum_in_table": 3,
+        "decimal_like": 3,
+        "realish": 0,
+        "examples": [
+          "25.0",
+          "49.1",
+          "78.0"
+        ]
+      },
+      {
+        "paper_id": 3740,
+        "subject": "biology",
+        "year": 2010,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2010/2010年高考生物试卷（江苏）（解析卷）.docx",
+        "qnum_all": 68,
+        "qnum_in_table": 31,
+        "decimal_like": 31,
+        "realish": 0,
+        "examples": [
+          "0.2g/mL蔗糖溶液中洋葱表皮细胞质壁分离现象更明显",
+          "2.34",
+          "0.11",
+          "2.23"
+        ]
+      },
+      {
+        "paper_id": 3745,
+        "subject": "biology",
+        "year": 2011,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2011/2011年高考生物试卷（北京）（解析卷）.docx",
+        "qnum_all": 24,
+        "qnum_in_table": 9,
+        "decimal_like": 9,
+        "realish": 0,
+        "examples": [
+          "21.7%",
+          "15.1%",
+          "10.2%",
+          "41.3%"
+        ]
+      }
+    ],
+    "anchor_in_table": []
+  }
+}
