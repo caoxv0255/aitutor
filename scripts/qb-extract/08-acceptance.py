@@ -312,26 +312,33 @@ async def main():
             gates['G9'] = ('FAIL', f'original={n_orig}/{n_ana}, ai_generated={n_ai}, ref={n_ref}, scoring={n_scoring}')
         # G11: 规范只写「关键公式 >=F2」, **F0–F3 定义与阈值均缺失**(外部 §24)。
         # 本轮进展: §5.3b 未实施的部分**已补齐** —— 建 formula_quality 列 + 修 16 条不可渲染 +
-        # 闸门 20-formula-gate.py (F0=0 → 退出码 0, 含**独立复验**, 翻标记骗不过)。
+        # 闸门 20-formula-gate.py (可渲染率 ≥99.5% → 退出码 0, 含**独立复验**, 翻标记骗不过)。
         # 判据口径: **可渲染**(KaTeX throwOnError), 不是 strict:'error' —— 后者是 lint 级,
+        # 会把 `\text{∪}` 这类实际能渲染的公式误判 (实测 38 vs 真实 21)。
+        # 判据 (D093 ③): **可渲染率 ≥99.5%** —— F0=0 是零缺陷口径, 与「残留 5 条不硬修」的
+        # 裁决直接冲突 (那 5 条修了会变成更坏的东西), 零缺陷下闸门永久 FAIL, 把已知且已接受的
+        # 缺陷伪装成阻塞项。改比率后, 残留条数仍逐条可见 (见 detail), 但不阻塞。
+        # 口径: **可渲染**(KaTeX throwOnError), 不是 strict:'error' —— 后者是 lint 级,
         # 会把 `\text{∪}` 这类实际能渲染的公式误判 (实测 38 vs 真实 21)。
         # 结构密度**已证伪为 F2 坏代理**; JSON 外壳行抽不出字段时**不硬修**(修了会成"能渲染的垃圾")。
         # 完整记录: docs/database/g11-threshold-proposal.md
+        MIN_RATE = 0.995
         fq_col = await q1(conn, "SELECT to_regclass('public.question_formulas') IS NOT NULL")
         if fq_col:
             fq_dist = {r['formula_quality']: r['n'] for r in await conn.fetch(
                 "SELECT formula_quality, count(*) n FROM question_formulas GROUP BY 1")}
             n_f0 = fq_dist.get('F0', 0)
             fq_tot = sum(fq_dist.values())
+            rate = (fq_tot - n_f0) / fq_tot if fq_tot else 0.0
             d = (f'方案A(可渲染口径)已实施: 总数={fq_tot}, F0={n_f0}, F1={fq_dist.get("F1", 0)}, '
                  f'F2={fq_dist.get("F2", 0)}; 已修 16 条(原文存 latex_original); '
-                 f'闸门 20-formula-gate.py 双向验证(FAIL→1/PASS→0, 含独立复验); '
+                 f'可渲染率={rate:.2%} (达标线 {MIN_RATE:.1%}, D093③); '
+                 f'闸门 20-formula-gate.py 独立复验(翻标记骗不过); '
                  f'⚠️ 规范 F2 阈值仍缺(外部 §24) → 本条为**方案A自评口径**, 非规范判定; ')
-            if n_f0 == 0:
-                gates['G11'] = ('PASS', d + 'F0=0 → 可渲染 100%')
+            if rate >= MIN_RATE:
+                gates['G11'] = ('PASS', d + f'残留 {n_f0} 条不可渲染(不硬修, 见 known-issues K1)')
             else:
-                gates['G11'] = ('PARTIAL', d + f'残留 {n_f0} 条不可渲染(不硬修, 清单见提案文档); '
-                                               f'「关键公式」定义与是否做方案B(OMML结构比对)待拍板')
+                gates['G11'] = ('FAIL', d + f'残留 {n_f0} 条不可渲染 —— 可渲染率低于达标线')
         else:
             gates['G11'] = ('N/A', 'question_formulas 表不存在')
 

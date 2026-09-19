@@ -91,10 +91,25 @@
 ## 4. 执行顺序（用户指定）
 
 1. ✅ 提交 `scripts/qb-extract/` + `docs/database/` 文档（含本记录）
-2. kill libreoffice 死进程（PID 1523706，`/tmp/fb/profile`，死锁 1235 分钟 CPU）
-3. 写 G11 决策文档（内嵌 §1 ①②）
-4. LLM 答案分级 migration + ledger 留痕
-5. 复跑 G1–G17 确认无回归，输出收官报告
+2. ✅ kill libreoffice 死进程 —— 2026-09-18 复查：PID 1523706 已不存在，`ps` 无 soffice/oosplash 残留，无需处理
+3. ✅ 写 G11 决策文档 —— `.ai/decisions/D093-g11-formula-gate-criteria.md`（已含 §1①②③）
+4. ✅ LLM 答案分级 migration + ledger 留痕 —— 2026-09-19 执行完毕
+   - `database/migrations/029_llm_answer_grading.sql`：
+     chinese(57.1%) / geography(68.2%) 的 LLM 值撤出答案位转存 `answer_provenance`；
+     ≥70% 学科只把学科实测准确率写进 provenance（答案位与 `LLM_PROPOSED` 不变）；
+     CONFLICT 逐条作废转 `MISSING_SOURCE` + 建 `issue_tickets` 工单；ledger 记 BEGIN/ANSWER_GRADED/COMMIT。
+   - 幂等（各段靠改前状态守卫，重跑 0 行）；离线校验：在 `education` 库搭桩跑通三条路径并
+     验证「连跑两遍第二遍全 0」，全部 ROLLBACK。回滚语句见该文件 §7。
+   - **实测**: §2=0 行（两科本就没有 LLM 答案写入 —— 补答案阶段已按学科排除）、§3=2034 行、
+     §4=103 行、§5=103 工单；重跑全 0。CONFLICT 清零，MISSING_SOURCE 7500→7603。
+4b. ✅ D093 §3 判据落地（此前只改文档注释，代码未改）—— `20-formula-gate.py` 改可渲染率判据
+     （`--min-rate` 默认 0.995，保留独立复验 + 标记漂移 warning），`08-acceptance.py` G11 段同步。
+     实测 99.95%；双向验证 `--min-rate 1.0` → FAIL / exit 1。
+4c. ✅ `030_formula_known_issue_tickets.sql` —— K1 残留 5 条逐条建工单（不硬修）。
+5. ✅ 复跑 G1–G17 确认无回归 —— **PASS 17 / PARTIAL 0 / FAIL 0**
+   （基线 16 PASS / 1 PARTIAL）。G8② 91.1%→90.9%（029 直接后果，仍 ≥90% 基线阈值）；
+   G11 PARTIAL→PASS（判据落地，残留仍是 5 条）。
+   收官报告: `docs/database/qb-v1.0-final-report-2026-09-19.md`
 
 **顺序理由**：43k 题已在库而管线无版本保护，是当前唯一不可逆风险点 —— 代码入库优先于一切文档工作。
 
@@ -104,12 +119,14 @@
 
 | # | 问题 | 状态 |
 |---|---|---|
-| K1 | 5 条不可渲染公式（方案 A 口径，见 §1③） | 建工单，不硬修 |
-| K2 | G11 方案 B（OMML 结构比对）未做 | backlog |
+| K1 | 5 条不可渲染公式（方案 A 口径，见 §1③） | 工单已建（`030`，×5），不硬修 |
+| K2 | G11 方案 B（OMML 结构比对）未做 | backlog `G11-PLAN-B` |
 | K3 | 既有 `llm_b2` 引用注册表外 kp_id 6387 条 | 既有缺口，另案 |
 | K4 | 英语 KP 覆盖 0%（词表无 ENG 单元） | 待词表扩充 |
 | K5 | LLM 补答案约 16.7% 错误率 | 已按 §3 分级隔离，永不判分 |
-| K6 | CONFLICT 103 条 | 按 MISSING_SOURCE 处理 + 建工单 |
+| K6 | CONFLICT 103 条 | 已转 MISSING_SOURCE + 103 工单待人工裁决 |
+
+> 收官状态见 `docs/database/qb-v1.0-final-report-2026-09-19.md`。
 
 ---
 

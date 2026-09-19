@@ -1,7 +1,65 @@
 schema_version: "1.0"
-generated_at: "2026-08-18T04:10:02Z"
+generated_at: "2026-09-14T03:55:00Z"
 # Known Issues & Backlog — Hermes TUI 数据源
 # 合并 known-bugs + 已知 P0/P1/P2 backlog
 # 决策性内容由人工维护, 本脚本只刷 schema 元数据
-items: []  # TODO 人工维护 backlog 内容
+items:
+  - id: TD-005-P4
+    title: "TD-005 Phase 4 — 防再犯 (1h)"
+    priority: P2
+    decision: .ai/decisions/TD-005-batch02-null-file-path.md
+    description: |
+      Phase 1-3 已完成. Phase 4 待启动:
+      1. 灌入脚本加 file_path 必填断言
+      2. 加 docx 解析校验: 若 docx 抽出纯数字/卷头说明则报警
+      3. qb-acceptance.mjs 加 P0-QB-12 严格检查 + 题干质量抽样检查
+    estimate: 1h
+    blocks: nothing
+    unblocked_by: phase3_done
+  - id: TD-005-P5
+    title: "TD-005 Phase 5 — KP 覆盖率再冲刺 + 公式/图片抽取"
+    priority: P2
+    decision: .ai/decisions/TD-005-batch02-null-file-path.md
+    description: |
+      Phase 3 已修复 73 题 stem, 预期 KP 覆盖率可能从 57.52% 提升 (需验证).
+      剩余 broken stem (~461 题) 主要分:
+      - .doc 旧格式 (27 题) - 需转换 .doc→.docx (libreoffice / 在线工具)
+      - 数学表格/数据值匹配 (138+ 题) - 需智能题号匹配或 ordinal 兜底
+      - 数学 LaTeX 抽空 (-- 题) - 需 OCR/公式识别 (如 mathpix / pix2tex)
+      Phase 5 需结合 LLM 辅助 + docx→text 增强.
+    estimate: 5h+
+    blocks: nothing
+    unblocked_by: phase4_done
+  - id: TD-005-v2-kp
+    title: "knowledge_points_v2 (1558 KP) 是否整合进 qkp 链路?"
+    priority: P3
+    decision: .ai/decisions/TD-005-batch02-null-file-path.md#10
+    description: |
+      待用户裁决. 选项 A: 保持现状 / B: 扩展 schema 加 kp_v2_id / C: 全量迁移到 v2 表.
+    estimate: TBD (决策后评估)
+    blocks: nothing
+    unblocked_by: user_decision
+  - id: G11-PLAN-B
+    title: "G11 方案 B — OMML 结构比对 (为 F2 判级提供辩护)"
+    priority: P3
+    decision: .ai/decisions/D093-g11-formula-gate-criteria.md#2②
+    description: |
+      D093 ② 裁决: 不做, 记入 backlog. 方案A 可渲染率 99.95% 已满足 v1.0 发布要求;
+      方案B 唯一增量价值是为规范 F2 判级提供辩护, 属增强项.
+      前置风险未消: 需把 docx-cache/*.docx 的 m:oMath 节点与 VLM 公式按「题号+出现顺序」配对,
+      而配对率未知 —— 配对本身是主要失效点.
+      启动前先测配对率, 配对率不达标则本项无意义.
+    estimate: TBD (先做配对率验证)
+    blocks: nothing
+    unblocked_by: pairing_rate_probe
+  - id: QB-LLM-ANSWER-BADGE
+    title: "前端: LLM 补答案「AI 补·未核验」徽标"
+    priority: P2
+    decision: docs/database/qb-v1.0-acceptance-verdict-2026-09-18.md#3
+    description: |
+      数据源已就绪 —— exam_questions.answer_provenance.subject_accuracy (029 已写 2034 条).
+      徽标渲染单独派单, 不阻塞 v1.0. 注意: LLM_PROPOSED 永不参与判分, 徽标只影响展示.
+    estimate: TBD
+    blocks: nothing
+    unblocked_by: frontend_dispatch
 alerts: []
