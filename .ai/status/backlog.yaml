@@ -53,13 +53,22 @@ items:
     blocks: nothing
     unblocked_by: pairing_rate_probe
   - id: QB-P4-c
-    title: "P4-c — 表格结构化: 路线 A「分层处理」**已全量应用** (2026-09-19)"
+    title: "P4-c — 表格结构化: 路线 A 已应用 + 治本双投影单通道**已完成** (2026-09-19)"
     priority: P3
     decision: docs/database/p4c-layered-report-2026-09-19.md
     description: |
       ✅ 结论: **已落地 (路线 A)**。只换 stem, 切分与答案照旧 (按构造不退化)。
         全量 703 卷 / 667 题 stem 变干净 (平均 399→294 字), 含 ⟦TABLE:n⟧ 占位符。
         验收 G6 回填后回到 PASS (split 填空题无填空标记=0), G1–G17 全 17 PASS / 0 FAIL。
+
+      ✅ **治本 (2026-09-19, 补)**: `extract_paper(table_aware=True)` **单通道**即复现
+        base 的切分/答案, 不再依赖外部双跑。全量 760 卷双跑对齐:
+        题号/答案/options/stem 不一致全 0。base 行为零改动 (全量 stem_seg==stem 0 违例),
+        G1–G17 仍 17 PASS。报告 docs/database/p4c-zhiben-2026-09-19.md;
+        验证脚本 scripts/qb-extract/27-verify-zhiben.py。
+        要点: paras_seg(展开)==base 供切分/答案/判定; paras(干净=⟦TABLE:n⟧)供 stem;
+        碎片/非题目判定 + assign_sections 去重键一律用展开 stem。
+      残留: 26-p4c-layered.py 仍是外部双跑+四护栏 (治本后 ta 已自足, 可简化但属独立变更)。
 
       历程:
       1. 表感知整卷重抽取 pilot —— 实测下降 (有答案 -3.7%), 已否决回滚

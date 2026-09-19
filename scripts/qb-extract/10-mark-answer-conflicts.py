@@ -87,7 +87,7 @@ async def main():
         if not p:
             continue
         try:
-            paras, z = qbx.read_paras(p); z.close()
+            paras, _, z = qbx.read_paras(p); z.close()
         except Exception:
             continue
         pool = recon_pool(paras)

@@ -38,7 +38,7 @@ def main() -> int:
         if not p:
             continue
         try:
-            paras, z = qbx.read_paras(p)
+            paras, _, z = qbx.read_paras(p)
             z.close()
         except Exception:
             continue

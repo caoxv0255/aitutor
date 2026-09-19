@@ -242,64 +242,65 @@ def _walk_table(tbl, rels):
     return rows, media
 
 
-def _emit_table(tbl, rels, paras, tables):
-    """把一张 w:tbl 按「角色 + 索引守恒」摊成 k 个段落。见 _walk_body 的说明。"""
-    rows, media = _walk_table(tbl, rels)
-    tables.append(rows)
-    k = max(1, len(list(tbl.iter(W + 'p'))))
-    first_col = [r[0] for r in rows if r and r[0].strip()]
-    opt_hits = sum(1 for c in first_col if OPT_LEAD.match(c))
-    if first_col and opt_hits / len(first_col) >= 0.5:
-        flat = [c for row in rows for c in row if c.strip()]
-        for i in range(k):
-            paras.append((flat[i] if i < len(flat) else '', media if i == 0 else []))
-    else:
-        paras.append((f'⟦TABLE:{len(tables)}⟧', media))
-        for _ in range(k - 1):
-            paras.append(('', []))
+# ───────────────────────── 治本: 占位符携带结构化旁路 ─────────────────────────
+#
+# 「分层处理」治本 (P4-c 路线 A): 表格不进 stem (→ ⟦TABLE:n⟧),
+# 但切分/答案回填在同一通道内仍拿到表内文本 —— 「双投影」:
+#   · paras_seg (展开, == base 通道): 每张 data_table 摊成 k 个单元格段落
+#       (与 base 逐 w:p 读出一致), 供 mask_regions / split_questions / backfill_* 做逻辑与答案回填;
+#   · paras     (干净): data_table **每个**单元格都放 1 个 ⟦TABLE:n⟧ 占位符 (索引守恒仍 k 段),
+#       split_questions 用它对题组装出干净 stem。每格都放占位符是为了表内含多题时
+#       (每题占一格, 实测 2016 浙江生物 1-8 题落同一表) 每题都能拿到非空干净 stem;
+#       单题表 (锚点在表前、表作其 stem) 由 _append_stem 续行去重 → 仍只出现一个占位符。
+# 两投影段落数/位置逐一对齐, 故 extract_paper(table_aware=True) 单通道即复现 base 的切分与答案,
+# 且 stem 干净; 读端用 expand_tables 把 ⟦TABLE:n⟧ 展开成结构化表。
+
+TABLE_TOKEN_RE = re.compile(r'⟦TABLE:(\d+)⟧')
 
 
-def _walk_body(el, rels, paras, tables):
-    """按文档顺序遍历 body 子树 —— **分层处理**（P4-c 路线 A）。
+def expand_tables(stem, tables, fmt='md'):
+    """读端展开: ⟦TABLE:n⟧ → 结构化表 (markdown / html)。治本的「读端可展开」。"""
+    def rep(m):
+        n = int(m.group(1))
+        rows = tables[n - 1] if 1 <= n <= len(tables) else []
+        return _render_table_md(rows) if fmt == 'md' else _render_table_html(rows)
+    return TABLE_TOKEN_RE.sub(rep, stem or '')
 
-    两种表分处置:
-      data_table    → 整块换 ⟦TABLE:n⟧, 不进 stem (要清理的噪声)
-      option_layout → **保留原文**: 这类表格就是选项 (语文/英语常见),
-                      换占位符等于删选项 (pilot 实测 12 题里 11 题选项受损)
 
-    **索引守恒**: 原口径下这张表贡献 k 个 w:p 段落, 这里也必须产出 k 个,
-    否则答案区 region 索引 (mask_regions / candidate_layouts 的 (start,end))
-    会整体前移, 布局择优随之改变 —— pilot 里 2/30 题的「切分漂移」就是这么来的。
+def _render_table_md(rows):
+    if not rows:
+        return '(表格)'
+    out = []
+    for i, row in enumerate(rows):
+        out.append('| ' + ' | '.join(row) + ' |')
+        if i == 0:
+            out.append('| ' + ' | '.join('---' for _ in row) + ' |')
+    return '\n'.join(out)
 
-    其他容器 (w:sdt / 文本框) 照旧下降, 避免丢正文。
-    """
-    for child in el:
-        tag = child.tag
-        if tag == W + 'p':
-            out, media = [], []
-            _walk(child, rels, out, media)
-            paras.append((''.join(out), media))
-            # 文本框 (w:txbxContent) 里的**嵌套表格**: base 口径 body.iter(w:p) 会把
-            # 它们的 w:p 也数进来, 而这里 w:p 是不下降的 —— 必须补齐, 否则段落数变少,
-            # 答案区 region 索引越界 (实测 2010 生物上海: base 534 / ta 518 → mask_regions
-            # IndexError)。补发时按同一套「角色 + 索引守恒」规则处理。
-            for ntbl in child.iter(W + 'tbl'):
-                _emit_table(ntbl, rels, paras, tables)
-        elif tag == W + 'tbl':
-            _emit_table(child, rels, paras, tables)
-        else:
-            _walk_body(child, rels, paras, tables)
+
+def _render_table_html(rows):
+    if not rows:
+        return '<table></table>'
+    head, *body = rows
+    th = ''.join(f'<th>{c}</th>' for c in head)
+    trs = ''.join('<tr>' + ''.join(f'<td>{c}</td>' for c in r) + '</tr>' for r in body)
+    return f'<table><thead><tr>{th}</tr></thead><tbody>{trs}</tbody></table>'
 
 
 def read_paras(path: Path, table_aware: bool = False, tables_out: list | None = None):
-    """返回 (段落列表[(文本, media)], ZipFile)。
+    """返回 (干净段落列表, 展开段落列表, ZipFile)。
 
-    table_aware=False (默认) = 原行为: body.iter(w:p), 表内段落当正文读出。
-    table_aware=True = 分层处理 (P4-c 路线 A): data_table 整块换 ⟦TABLE:n⟧,
-                      option_layout 保留原文, **段落数守恒**, 结构化表进 tables_out。
-
-    用途: 与 base 通道**双跑** —— 切分/答案/统计仍由 base 通道负责 (表内文本可见,
-    不丢答案表证据与题号计数), 只有 stem 用 table-aware 那一遍的结果。
+    table_aware=False (默认) = 原行为: 两投影都等于 base (body.iter(w:p))。
+    table_aware=True = 分层处理 (P4-c 路线 A):
+        · 展开投影 paras_seg **逐段 == base** (直接用 body.iter(w:p)); 这是关键不变量 ——
+          只要 paras_seg 与 base 的段落列表逐段一致, 切分/选项/答案回填就必然复现 base,
+          不再依赖 _walk_body 去逐一复刻 base 的段落数 (复杂表/文本框嵌套曾导致段落数漂移,
+          实测 2009 广东生物 154→132, 表内选项/答案与 base 错位)。
+        · 干净投影 paras 在 paras_seg 基础上把每张 data_table 的**每个**单元格段落换成
+          ⟦TABLE:n⟧ (索引守恒: 占几格留几段), option_layout 保留原文;
+          每格都放占位符才能保表内含多题时 (实测 2016 浙江生物 1-8 题落同一表) 每题都拿到
+          非空干净 stem; 单题表由 _append_stem 续行去重 → 仍只出现一个占位符。
+        · 两投影段落数/位置逐一对齐; 结构化表进 tables_out。
     """
     z = zipfile.ZipFile(path)
     rels = load_rels(z)
@@ -309,17 +310,49 @@ def read_paras(path: Path, table_aware: bool = False, tables_out: list | None = 
         raise ValueError(f'document.xml 解析失败: {e}') from e
     body = root.find(W + 'body')
     paras = []
+    paras_seg = []
     tables = tables_out if tables_out is not None else []
     if body is None:
-        return paras, z
+        return paras, paras_seg, z
     if table_aware:
-        _walk_body(body, rels, paras, tables)
+        # 展开投影: 直接复用 base 的段落序列, 保证与 base 逐段一致。
+        para_elems = []
+        for p in body.iter(W + 'p'):
+            out, media = [], []
+            _walk(p, rels, out, media)
+            paras_seg.append((''.join(out), media))
+            para_elems.append(p)
+        idx_of = {id(p): i for i, p in enumerate(para_elems)}
+        # 干净投影: 在展开投影基础上替换表内段落。
+        paras = [[t, list(m)] for t, m in paras_seg]
+        for tbl in body.iter(W + 'tbl'):
+            rows, media = _walk_table(tbl, rels)
+            first_col = [r[0] for r in rows if r and r[0].strip()]
+            opt_hits = sum(1 for c in first_col if OPT_LEAD.match(c))
+            cell_ps = [p for p in tbl.iter(W + 'p') if id(p) in idx_of]
+            n = len(tables) + 1
+            tables.append(rows)
+            if first_col and opt_hits / len(first_col) >= 0.5:
+                # option_layout: 保留原文, 不换占位符 (换占位符等于删选项)
+                continue
+            # data_table: 每个单元格都换占位符 (索引守恒)
+            seen = set()
+            for j, p in enumerate(cell_ps):
+                i = idx_of[id(p)]
+                if i in seen:
+                    continue
+                seen.add(i)
+                paras[i][0] = f'⟦TABLE:{n}⟧'
+                paras[i][1] = media if j == 0 else []
+        paras = [(t, m) for t, m in paras]
     else:
         for p in body.iter(W + 'p'):
             out, media = [], []
             _walk(p, rels, out, media)
-            paras.append((''.join(out), media))
-    return paras, z
+            item = (''.join(out), media)
+            paras.append(item)
+            paras_seg.append(item)
+    return paras, paras_seg, z
 
 
 # ───────────────────────── 锚点与切分 ─────────────────────────
@@ -387,9 +420,25 @@ SECTION_HEAD = re.compile(
     r'综合题|计算题|实验题|简答题|论述题|材料题|现代文|文言文|书面表达|作文|语言知识|阅读理解|完形填空)')
 
 
-def _route_line(cur, t, media):
+def _append_stem(cur, s):
+    """把干净投影文本 s 接进 cur['stem'], 但连续相同的 ⟦TABLE:n⟧ 占位符只保留一个
+    (data_table 每个单元格都带占位符, 单题表续行会把 k 个连成一串 → 去重成 1 个)。
+    展开投影文本始终另存 cur['stem_seg'] (供 finalize 的碎片判定, 复现 base 行为)。"""
+    if not s:
+        return
+    if TABLE_TOKEN_RE.fullmatch(s.strip()) and cur['stem'].rstrip().endswith(s.strip()):
+        return
+    cur['stem'] += s
+
+
+def _route_line(cur, t, media, t_stem=None):
     """把一行文本按当前段落状态路由到 stem / options / answer / analysis。
-    统一处理「题号锚点之后紧跟答案/解析」的形态 (如 "1.答案 C"、"12.B【解析】…")。"""
+    统一处理「题号锚点之后紧跟答案/解析」的形态 (如 "1.答案 C"、"12.B【解析】…")。
+
+    t_stem: 治本投影 —— 仅 stem 显示文本用它 (干净投影, 表=⟦TABLE:n⟧);
+            选项/答案/解析的判定与存储仍用 t (展开投影, == base), 以复现 base 行为。
+    """
+    s = t_stem if t_stem is not None else t
     # 1) 行内答案锚点 (【答案】X / 答案 X / B【解析..)
     if HAS_ANS_TAG.search(t):
         mm = ANS_INLINE.search(t)
@@ -439,7 +488,8 @@ def _route_line(cur, t, media):
             return
         if SECTION_HEAD.match(t):
             return
-        cur['stem'] += t
+        _append_stem(cur, s)
+        cur['stem_seg'] += t
         cur['media'].extend(media)
         return
     # 4) 选项区续行
@@ -452,7 +502,8 @@ def _route_line(cur, t, media):
             if last:
                 cur['options'][last] = (cur['options'][last] + t).strip()
             else:
-                cur['stem'] += t
+                _append_stem(cur, s)
+                cur['stem_seg'] += t
         cur['media'].extend(media)
         return
     # 5) 答案区 / 解析区续行
@@ -634,10 +685,17 @@ def _looks_like_answer_continuation(t: str) -> bool:
     return True
 
 
-def split_questions(paras):
+def split_questions(paras, stem_paras=None):
     """Pass A: 按题号锚点切片 (只切题目区; 答案区由 find_answer_section 分离).
     锚点规则: 题号单调递增即视为新题 —— 修正「大跨度跳号被并入上一题」的缺陷
-    (实测: 英语陕西2014 语音知识 5 题后接 11 题, 旧规则只切出 5 题, 应为 40+)."""
+    (实测: 英语陕西2014 语音知识 5 题后接 11 题, 旧规则只切出 5 题, 应为 40+).
+
+    stem_paras: 治本投影 —— 题面/选项/答案文本从它取 (干净投影, 表=⟦TABLE:n⟧),
+    而锚点/路由判定仍用 paras (展开投影, == base)。两投影段落数/位置对齐。
+    默认 None = 单投影 (原行为)。
+    """
+    if stem_paras is None:
+        stem_paras = paras
     qs, cur = [], None
 
     def flush():
@@ -647,7 +705,9 @@ def split_questions(paras):
         cur = None
 
     for _pi, (text, media) in enumerate(paras):
+        s_text, s_media = stem_paras[_pi]
         t = text.replace('\u3000', ' ').replace('\xa0', ' ').strip()
+        st = s_text.replace('\u3000', ' ').replace('\xa0', ' ').strip()
         if not t and not media:
             continue
         m = QNUM.match(t)
@@ -657,7 +717,7 @@ def split_questions(paras):
         # 「题号全卷唯一」→ 整批挡死, 该卷 51 道客观题**一个答案都没进来**。
         # 判据安全: 整行只有「数字+分隔符+单个字母」, 不可能是题干。
         # 跳过之后, 这些答案由 backfill_compact_all 扫全段落时按题号归属
-        # (`_expand_compact_runs('1．C')` → {1:'C'})。
+        # (`_expand_compact_runs('1．C')` → {1:'C'}).
         if m and (ANS_ONLY_LINE.match(t) or ANS_STANDALONE.match(t)):
             continue
         if m:
@@ -668,18 +728,25 @@ def split_questions(paras):
                 cur = {'number': n, 'stem': '', 'options': {},
                        'answer': None, 'analysis': None,
                        'sub_questions': [], 'media': [],
-                       'seg': 'stem', 'raw': [], 'para_index': _pi}
+                       'seg': 'stem', 'raw': [], 'para_index': _pi,
+                       'stem_seg': ''}
                 rest = t[m.end():].strip()
-                cur['raw'].append(t)
-                cur['media'].extend(media)
+                cur['raw'].append(st)
+                cur['media'].extend(s_media)
                 if rest:
-                    _route_line(cur, rest, media)
+                    # 治本: 干净 stem (st) 与展开文本 (t) 只在**段落级**对齐, 不在字符级对齐 —
+                    # 占位符 ⟦TABLE:n⟧ 比展开文本短得多, 用 t 里 QNUM 的偏移去切 st 会把
+                    # 占位符截坏 (实测 "⟦TABLE:2⟧" → "ABLE:2⟧")。改为在 st 自身里找题号偏移,
+                    # 没有就整段作为 t_stem (占位符单元格正是这种情形)。
+                    m2 = QNUM.match(st)
+                    t_stem_rest = st[m2.end():].strip() if m2 else st.strip()
+                    _route_line(cur, rest, s_media, t_stem=t_stem_rest)
                 continue
             # n <= 上一题号: 正文里的编号引用, 不视为题号
         if cur is None:
             continue
-        cur['raw'].append(t)
-        _route_line(cur, t, media)
+        cur['raw'].append(st)
+        _route_line(cur, t, s_media, t_stem=st)
 
     flush()
     return qs
@@ -1010,10 +1077,11 @@ def _quality_score(stats, n):
     return 0.35 * ans + 0.15 * ana + 0.10 * opt + 0.10 * known + 0.30 * usable
 
 
-def run_strategy(paras, doc_kind, regions):
-    """按给定布局策略跑一遍, 返回 (qs, section_map, filled)"""
+def run_strategy(paras, doc_kind, regions, stem_paras=None):
+    """按给定布局策略跑一遍, 返回 (qs, section_map, filled)。
+    stem_paras: 治本投影 (见 split_questions); None = 单投影。"""
     mask = regions if doc_kind == 'tail' else []
-    qs = split_questions(mask_regions(paras, mask))
+    qs = split_questions(mask_regions(paras, mask), stem_paras=stem_paras)
     section_map = {}
     for s, e in regions:
         for n, rec in parse_answer_section(paras, s).items():
@@ -1067,14 +1135,10 @@ def is_fragment(q) -> bool:
 
     只在无选项、无答案、无解析时才判 (真带答案的短题多半是有效填空题)。
     实测 (无选项/无答案/无解析的题共 4452 道) 的分布与样例:
-      · 数值碎片 394   : '35' '30' '00' '0图1' '18.5m'          (表格单元格)
-      · 短<12   551   : '词数80左右；' '参加者；' '时间、地点；'
-      · 短12-30 574   : '所续写短文的词数应为150左右；' '应使用5个以上短文…'
-                        'a，考查冠词，model是可数名词，前应使用冠词a．'   (语法填空解析行)
-      · 单个英文词    : 'if' 'the' 'and' "shouldn't" 'Select'      (语法填空的空格词)
-    判据刻意保守: 只在**形态上不像题干**时才命中, 宁可漏也不误杀。
-    """
-    st = (q.get('stem') or '').strip()
+      ⚠️ 治本: 碎片判定一律用**展开 stem** (q['stem_seg'], 无则 q['stem'])。
+         分层处理下 q['stem'] 是 ⟦TABLE:n⟧ 占位符, 若用它本身判会把真有表的题
+         当碎片误杀 (2016 浙江生物 14→6); 用展开 stem 则复现 base 的判定, 与 base 一致。"""
+    st = (q.get('stem_seg') or q.get('stem') or '').strip()
     L = len(st)
     if L == 0:
         return True
@@ -1111,7 +1175,7 @@ def is_fragment(q) -> bool:
 
 def is_boilerplate(q) -> bool:
     """是否是「非题目」内容被误切成题（试卷说明 / 答案串 / 听力原文 / 碎片）。"""
-    st = (q.get('stem') or '').strip()
+    st = (q.get('stem_seg') or q.get('stem') or '').strip()
     if not st:
         return True
     if BOILERPLATE_STRONG.search(st) or BOILERPLATE_HEAD(st):
@@ -1420,6 +1484,13 @@ def finalize(qs, prefix, media_root, z):
     # 反答案污染: 答案字段里其实是整段正文的, 一律清掉 —— 见 purge_prose_answers 文档。
     # 必须在这里调用 (question_type 已推定), 判据分 choice / fill|solve 两档。
     ans_purged = purge_prose_answers(qs)
+    # ⚠️ stem_seg 必须保留到 is_boilerplate 判定之后才能清掉 —— 它承载展开投影的题干,
+    # 治本的碎片/非题目判定要复现 base (展开), 否则表题会被当成非题目误留 (实测 3820: 41→46)。
+    #
+    # ⚠️ **不在 finalize 里 pop**: assign_sections 的去重键也必须用展开投影 (见其文档)。
+    # 分层处理下 base 的两条重复题 stem 展开后相同 → 去重; 若用干净 stem (⟦TABLE:n⟧)
+    # 则占位符编号不同 → 去重键不同 → ta 多留一条带 from_analysis 答案的题,
+    # 有答案题数与 base 分叉 (实测 3856: base 5 / ta 7)。统一在 assign_sections 之后清。
     good = [q for q in qs if q['stem_len'] >= 2 and not is_boilerplate(q)]
     # 丢弃数必须显式落盘 —— 静默跳过是这套管线最危险的失败模式 (见 SKILL「静默跳过必须先对账」)。
     dropped_boilerplate = sum(1 for q in qs if q['stem_len'] >= 2) - len(good)
@@ -1452,27 +1523,33 @@ def extract_paper(path: Path, media_root: Path | None = None, subject_hint=None,
     取质量分最高者。理由: 各卷的答案排布差异极大 (逐题内联 / 卷末集中 / 答案区在头部 /
     学科网五段式), 单一锚点规则会上演「修一个坏一个」的地鼠效应。
 
-    table_aware=True  → 分层处理 (P4-c 路线 A): data_table 换 ⟦TABLE:n⟧,
+    table_aware=True  → 分层处理 (治本, P4-c 路线 A): data_table 换 ⟦TABLE:n⟧,
                         option_layout 保留原文, 结构化表随 'tables' 键带回。
-                        默认 False = 原行为不变。
+                        **单通道内**切分/答案回填用展开投影 paras_seg (== base) 透传表内文本,
+                        stem 用干净投影 paras 组装 (表=⟦TABLE:n⟧), 复现 base 通道结果,
+                        不再依赖外部双跑。默认 False = 原行为不变。
     force_strategy=(kind, regions) → 跳过布局择优, 直接用给定策略。
                         双跑时必须锁同一策略, 否则题的边界会漂移, 无法逐题对齐。
     """
     ident = parse_identity(path, subject_hint)
     tables = []
-    paras, z = read_paras(path, table_aware=table_aware, tables_out=tables)
+    paras, paras_seg, z = read_paras(path, table_aware=table_aware, tables_out=tables)
+    # 治本双投影: table_aware 下 paras_seg 是展开序列 (== base, 供切分/答案回填),
+    # paras 是干净序列 (表=⟦TABLE:n⟧, 供组装 stem)。两者段落数/位置对齐 →
+    # 单通道即复现 base 的切分与答案, 不依赖外部双跑。
     if force_strategy is not None:
         kind0, regs0 = force_strategy
         candidates = [(kind0, [tuple(r) for r in regs0])]
     else:
-        candidates = candidate_layouts(paras)
+        candidates = candidate_layouts(paras_seg)
     prefix = f'{ident["subject"] or "na"}/{ident["year"] or "na"}'
 
     best = None
     trials = []
     for ci, (kind, regs) in enumerate(candidates):
         try:
-            qs, sec_map, filled = run_strategy(paras, kind, regs)
+            qs, sec_map, filled = run_strategy(paras_seg, kind, regs,
+                                               stem_paras=paras if table_aware else None)
         except Exception as e:                      # 单策略失败不影响其他策略
             trials.append({'kind': kind, 'regions': [list(r) for r in regs],
                            'error': str(e)[:80], 'score': None})
@@ -1536,27 +1613,34 @@ def extract_paper(path: Path, media_root: Path | None = None, subject_hint=None,
             }
             if win['score'] < best[0]:
                 regs = [tuple(r) for r in win['regions']]
-                qs_w, sec_w, filled_w = run_strategy(paras, win['kind'], regs)
+                qs_w, sec_w, filled_w = run_strategy(paras_seg, win['kind'], regs,
+                                                     stem_paras=paras if table_aware else None)
                 good_w, st_w = finalize([dict(q) for q in qs_w], prefix, None, z)
                 best = (win['score'], win['kind'], regs, good_w, len(good_w), st_w, sec_w, filled_w)
 
     sc, kind, regs, good, n, st, sec_map, filled = best
-    # 用胜出策略 (含胜出的 regions) 重跑一次以落盘媒体
-    qs2, sec_map2, filled2 = run_strategy(paras, kind, regs)
+    # 用胜出策略 (含胜出的 regions) 重跑一次以落盘媒体 + 答案回填。
+    # 逻辑用展开投影 paras_seg (== base), stem 文本用干净投影 paras (表=⟦TABLE:n⟧)。
+    qs2, sec_map2, filled2 = run_strategy(paras_seg, kind, regs,
+                                         stem_paras=paras if table_aware else None)
     # 全段落扫紧凑答案串 + 独立答案行回填 (不止答案区) —— 见两个 backfill 函数文档
-    compact_filled = backfill_compact_all(qs2, paras)
-    answer_line_filled = backfill_answers_all(qs2, paras)
+    compact_filled = backfill_compact_all(qs2, paras_seg)
+    answer_line_filled = backfill_answers_all(qs2, paras_seg)
     # ⚠️ backfill_section_matched (解多节卷答案归属): 曾因 _expand_compact_runs 把
     # 选项行 `21. A. xxx` 读成「21 题答案是 A」而在独立核对中 FAIL (18/173=10.4% 错)。
     # **根因已在 _expand_compact_runs 里修掉** (段落级 + 匹配级双闸), 重新启用;
     # 但启用/停用一律以独立核对为准 —— 见 10-mark-answer-conflicts.py 的准入判定。
-    section_filled = backfill_section_matched(qs2, paras)
+    section_filled = backfill_section_matched(qs2, paras_seg)
     # 双行表格答案 (『题号 1 2 3…』+『答案 B D A…』被摊平成段落) —— 见 expand_answer_tables
-    table_filled = backfill_answer_tables(qs2, paras)
+    table_filled = backfill_answer_tables(qs2, paras_seg)
     # 分叉卷 (A组/B组) 按段落位置归属 —— 见 backfill_table_positional
-    positional_filled = backfill_table_positional(qs2, paras)
+    positional_filled = backfill_table_positional(qs2, paras_seg)
     good2, st2 = finalize(qs2, prefix, media_root, z)
     good2 = assign_sections(good2)     # 分节 + 同卷重复抽取去重 (见 assign_sections 文档)
+    # 去重键已用过展开投影, 这里清掉中间字段, 不落进输出 (见 finalize 的说明)
+    for q in good2:
+        q.pop('stem_seg', None)
+    # stem 已在 split_questions 投影阶段直接组装成干净形态 (表=⟦TABLE:n⟧), 无需再清理。
     z.close()
 
     return {
@@ -1600,6 +1684,11 @@ def assign_sections(questions):
     实测 10096 个重复对里只有 573 对 (5.7%) 属于这种真冗余。
 
     分节与去重必须同时做: 仅去重会丢 95% 的真题, 仅分节会把 5.7% 的冗余留进库。
+
+    **去重键用展开投影** (`stem_seg`, 无则 `stem`): 分层处理下 `stem` 是干净投影
+    (表=⟦TABLE:n⟧), 同一题在正文与解析区重复出现时占位符编号不同 (`⟦TABLE:1⟧` /
+    `⟦TABLE:3⟧`), 用干净 stem 做键会判成两道不同题而漏去重; 展开投影两处文本相同,
+    去重行为与 base 一致 (实测 3856: 用干净 stem 时有答案题数 5→7)。
     """
     kept, seen, secs, prev = [], set(), [], None
     for q in questions:
@@ -1609,7 +1698,8 @@ def assign_sections(questions):
         else:
             secs.append(secs[-1] if secs else 1)
         prev = n
-        key = (n, _DUP_NORM.sub('', (q.get('stem') or ''))[:80])
+        raw = q.get('stem_seg') or q.get('stem') or ''
+        key = (n, _DUP_NORM.sub('', raw)[:80])
         if key in seen:
             continue
         seen.add(key)
