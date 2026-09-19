@@ -1,0 +1,34 @@
+{
+ "sample_order": 1,
+ "question_uid": "chinese_2025_fujian_023",
+ "subject_code": "chinese",
+ "request": {
+  "model": "qwen-plus",
+  "temperature": 0.1,
+  "max_tokens": 200,
+  "jsonMode": true,
+  "task_type": "kp_classify_b1_pilot",
+  "session_id": "plan_b_v1"
+ },
+ "response": {
+  "model": "qwen-plus",
+  "usage": {
+   "total_tokens": 1571,
+   "completion_tokens": 200,
+   "prompt_tokens": 1371,
+   "prompt_tokens_details": {
+    "cached_tokens": 0
+   }
+  },
+  "cost": 0.0012568,
+  "latency_ms": 4983,
+  "content": "{\n  \"picks\": [\n    { \"kp_id\": \"CHI_H_0009\", \"confidence\": 0.95, \"reason\": \"题干所引三则材料均出自现代诗歌，且与人教版高中语文必修一第2课《诗两首》（含《雨巷》《再别康桥》，延伸关联《我爱这土地》《赞美》等抗战时期抒情诗）在主题、情感基调和时代语境上高度契合，该单元聚焦现代新诗的意象、情感张力与家国情怀表达\" },\n    { \"kp_id\": \"CHI_H_0010\", \"confidence\": 0.85, \"reason\": \"《记念刘和珍君》同属现代抒情性议论文典范，承载强烈社会责任感与悲愤激越的情感力量，与题干中‘带血的手’‘民族已经"
+ },
+ "parse_error": "无法解析 LLM 返回的 JSON: {\n  \"picks\": [\n    { \"kp_id\": \"CHI_H_0009\", \"confidence\": 0.95, \"reason\": \"题干所引三则材料均出自现代诗歌，且与人教版高中语文必修一第2课《诗两首》（含《雨巷》《再别康桥》，延伸关联《我爱这土地》《赞美》等抗战时期抒情诗）在主题、情感基调和时代语境上高度契合，该单元聚焦现代新诗的意象、情感张力与家国情怀表达\" },\n    ...",
+ "parsed_fallback": {
+  "kp_ids_detected": [
+   "CHI_H_0009",
+   "CHI_H_0010"
+  ]
+ }
+}

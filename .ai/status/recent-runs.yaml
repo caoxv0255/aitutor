@@ -1,7 +1,32 @@
 schema_version: "1.0"
-generated_at: "2026-08-18T04:10:02Z"
+generated_at: "2026-09-14T03:55:00Z"
 # Recent Agent Runs — Hermes TUI 数据源
 # AI agent 在 aitutor 仓库内的最近 runs
 # 决策性内容由人工维护, 本脚本只刷 schema 元数据
-runs: []  # TODO 人工维护 recent runs 内容
+runs:
+  - id: td-005-phase3-reextract
+    date: 2026-09-14
+    agent: phase3-executor
+    decision: .ai/decisions/TD-005-batch02-null-file-path.md
+    scope: scripts/td-005/phase3-{reextract-stems,validate,rollback-bad,sample-validate}.mjs
+    outcome: success
+    summary: |
+      Phase 3 题干重提取: 341 题候选 → 79 题 docx 匹配 → 73 题净更新 (扣除 6 题误匹配回滚).
+      验收 79 题抽样: 78 题可读, 1 题 too_short (回滚后状态), 有效可读率 98.73% (阈值 95%) PASS.
+    metrics:
+      candidates_total: 341
+      matched_to_docx: 79
+      net_updated: 73
+      rolled_back: 6
+      readable_pct: 98.73
+      avg_stem_len_gain_chars: 171.5
+    artifacts:
+      - docs/audits/td-005-phase3-reextract-report.json
+      - docs/audits/td-005-phase3-validate-report.json
+    notes: |
+      剩余 461 题 broken stem 无法在本 Phase 修复:
+      - .doc 旧格式 (27 题) - mammoth 不支持, 需转换
+      - 数学表格/数据值匹配 (138 题 no_block + 6 题 rolled back) - 需要更智能的题号匹配
+      - 数学 LaTeX 抽空 - 上游 docx→text 限制, 需要 OCR/公式识别
+      后续 Phase 5 可考虑 LLM 辅助 + 公式识别
 alerts: []

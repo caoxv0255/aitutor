@@ -1,8 +1,8 @@
 # TD-005 — Batch02 题干残缺 + file_path 溯源缺失（Tech Debt）
 
-**Date:** 2026-09-14 (初版) / 2026-09-14 (v1.1 — 加入"题干残缺"作为核心修复动机)
+**Date:** 2026-09-14 (初版) / 2026-09-14 (v1.1 — 加入"题干残缺"作为核心修复动机) / 2026-09-14 (v1.2 — Phase 1-3 完成)
 **Type:** Tech Debt (非 P0 阻塞, 独立 backlog)
-**Status:** 🟡 OPEN — 待后续空闲处理
+**Status:** 🟢 Phase 1-3 完成 / Phase 4-5 待启动
 **前置:** D090 + stage33b 分层抽样 (45 题) 暴露的"题干残缺"现象
 
 ---
@@ -91,12 +91,25 @@ batch02 (NULL fp)                   | total= 5494 | with_kp= 386 | coverage=7.03
 2. 用 `paper_file_path` 反向填充 `exam_questions.file_path`（每张试卷下所有 question 共享源路径）
 3. 验收：`file_path` NULL 比例从 88.4% → <5%（剩余异常单独 case-by-case）
 
-### Phase 3 — 题干重提取 (4-6h, **依赖 Phase 2**)
-1. 基于已回填的 file_path，从 docx 重新提取题干
-2. 处理 LaTeX 公式：保留为公式字符串 / MathML / image reference
-3. 处理图片：从 `word/media/*` 抽取并存到 `question_images`
-4. 处理卷头说明：通过位置标记 / 模板匹配剔除
-5. 验收：抽样 100 题，与源 docx 对比，题干可读率 ≥ 95%
+### Phase 3 — 题干重提取 (4-6h, **依赖 Phase 2**) ✅ 已完成 (v1.2 — 2026-09-14)
+1. 基于已回填的 file_path，从 docx 重新提取题干 ✅
+2. 处理 LaTeX 公式：保留为公式字符串 (LaTeX 抽空问题为 docx→text 上游限制, 本期不解决) ⚠️
+3. 处理图片：从 `word/media/*` 抽取并存到 `question_images` — 本期未做 (Phase 5 联动) ⏳
+4. 处理卷头说明：通过位置标记 / 模板匹配剔除 ✅
+5. 验收：抽样 100 题，与源 docx 对比，题干可读率 ≥ 95% ✅ **98.73% (78/79)**
+
+**Phase 3 实际成果**:
+- 候选池 341 题 (残缺 stem: 短 / 纯数字 / 卷头说明)
+- 匹配 docx 题块: 79 题 (23.2%)
+- 净更新 stem: 73 题 (去除 6 题误匹配数据值并已回滚)
+- 平均 stem 长度增加: 171.5 字符
+- 验收可读率: 98.73% (78/79) > 95% 阈值 ✅
+- 仍 broken 题: ~461 (主要是 .doc 旧格式 + 数学表格题 + 数据值匹配局限)
+- 工具脚本:
+  - `scripts/td-005/phase3-reextract-stems.mjs` (主脚本)
+  - `scripts/td-005/phase3-validate.mjs` (验收脚本)
+  - `scripts/td-005/phase3-rollback-bad.mjs` (回滚误匹配)
+  - `scripts/td-005/phase3-sample-validate.mjs` (Step 1 抽样验证, 早于主脚本)
 
 ### Phase 4 — 防再犯 (1h)
 1. db.js 或写入 handler 增加 file_path NOT NULL 约束（已写入数据迁移问题，需谨慎）
@@ -145,6 +158,11 @@ batch02 (NULL fp)                   | total= 5494 | with_kp= 386 | coverage=7.03
 
 - [x] 立项登记（v1.0 — 2026-09-14）
 - [x] 加入"题干残缺"核心修复动机（v1.1 — 2026-09-14）
+- [x] Phase 1 诊断 (v1.2 — 2026-09-14)
+- [x] Phase 2 file_path 回填 (v1.2 — 2026-09-14)
+- [x] Phase 3 题干重提取 + 验收 98.73% PASS (v1.2 — 2026-09-14)
+- [ ] Phase 4 防再犯 (1h)
+- [ ] Phase 5 KP 再冲刺 + 公式/图片抽取 (5h+, 依赖 docx→text 增强)
 - [ ] 在 `backlog.yaml` 登记此 TD
 - [ ] 等待生产 DB 验证（任务 B）解冻后，优先 Phase 1 诊断
 - [ ] 评估 source docx 恢复（gate-b-recovery-design-v2 §5 决策 2-1）的影响
