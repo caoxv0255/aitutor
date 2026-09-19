@@ -62,10 +62,15 @@ items:
       且会挖掉合法正文 (实测「2002年和2007年」→「在和」)。
       **改为表感知重抽取**: 让 qbx.py/02-extract.py 把 w:tbl 当整块处理,
       stem 只留 ⟦TABLE:n⟧ 占位符, 内容进 question_tables (复用 TD-005 Phase 3 重提取套路)。
-      范围: 已归属表涉及 1371 题 (占 active 3.7%); 先在 FLATTENED_BLOCK 387 组里
-      抽 20–30 题 pilot, 人工复核「题干可读 / 答案解析未丢 / 选项完整」三条再谈扩大。
-      option_layout (63 题/75 表) 单独: 表格就是选项, 只补资产不动题面 (P4-a 已覆盖)。
-      NO_HIT_IN_STEM 的 346 组 (表格文本在解析里) 不在范围内 —— 题面本就未被污染。
+      **pilot 已跑** (docs/database/p4c-reextract-risk-2026-09-19.md + p4c-pilot-2026-09-19.md):
+      qbx.py 已加 table_aware 开关 (默认 False=原行为不变), w:tbl 整块换 ⟦TABLE:n⟧。
+      实测 data_table 30 题: IDENTICAL 20 / STEM_SHRUNK 6 (改善) / ANSWER_CHANGED 2 /
+      OPTIONS_TEXT_CHANGED 2 (切分漂移); option_layout 12 题: 11 题选项文本变化 → **排除**。
+      **全量前两个前置**:
+        1. 解决切分漂移 —— 表感知改变了段落序列, qbx 的布局择优(inline/tail/answer_only)
+           因此换了胜出策略, 会静默改变题的边界。要么让占位符段落仍参与切分判断,
+           要么在表感知模式下锁死 baseline 的胜出策略。
+        2. 扩大样本到 150–200 题 (覆盖 9 学科 + .doc 回退卷), 30 题样本不足以估全量比例。
     estimate: pilot 先做, 全量 TBD
     blocks: nothing
     unblocked_by: p4c_pilot_review
