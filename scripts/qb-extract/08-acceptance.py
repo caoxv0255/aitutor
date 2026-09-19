@@ -131,9 +131,28 @@ async def main():
         fml_ref_no_asset = await q1(conn, f"""
             SELECT count(*) {base} AND q.has_formula AND q.latex_formulas IS NULL AND q.image_descriptions IS NULL""")
         img_assets = await q1(conn, "SELECT count(*) FROM question_images qi JOIN exam_questions q ON q.id=qi.question_id JOIN exam_papers p ON p.id=q.paper_id WHERE " + F + " AND q.archive_state='active'")
+        # 表格 (P4-a, 2026-09-19): question_tables 已落地。规范 §25 只要求「表格结构化」,
+        # **没给覆盖率/归属率阈值** → 与 G8② / G12 同款处理: 报实测值, 不自造达标线。
+        # 注意「声明有表但无资产」目前**无法机械判定**: exam_questions 没有 has_table 列,
+        # 题干是否引用表只能靠文本匹配(有漏有噪), 故此处只报资产侧实测值, 不写反向判据。
+        tbl_tbl = await q1(conn, "SELECT to_regclass('public.question_tables') IS NOT NULL")
+        if tbl_tbl:
+            n_tbl = await q1(conn, """SELECT count(*) FROM public.question_tables t
+                                       JOIN public.exam_papers p ON p.id=t.paper_id WHERE """ + F)
+            n_tbl_q = await q1(conn, """SELECT count(*) FROM public.question_tables t
+                                         JOIN public.exam_papers p ON p.id=t.paper_id
+                                        WHERE """ + F + " AND t.question_id IS NOT NULL")
+            n_tbl_amb = await q1(conn, """SELECT count(*) FROM public.question_tables t
+                                           JOIN public.exam_papers p ON p.id=t.paper_id
+                                          WHERE """ + F + """ AND t.question_id IS NULL
+                                            AND t.candidate_question_ids IS NOT NULL""")
+            tbl_detail = (f' 表格资产={n_tbl} 张 (已归属题 {n_tbl_q}, '
+                          f'归属歧义待人工 {n_tbl_amb}) —— 规范未给阈值, 报实测值')
+        else:
+            tbl_detail = ' 表格资产表 question_tables 不存在 (P4-a 未落地)'
         gates['G10'] = ('PASS' if img_ref_no_asset == 0 else 'FAIL',
                         f'声明有图但无资产={img_ref_no_asset} (插图表 {img_assets} 行); '
-                        f'声明有公式但 latex 与图片描述都空={fml_ref_no_asset}')
+                        f'声明有公式但 latex 与图片描述都空={fml_ref_no_asset};{tbl_detail}')
 
         # ---------------- G12 KP ----------------
         # 规范要求: 「0 无效 id; source/confidence 分级」(§7 G12)。

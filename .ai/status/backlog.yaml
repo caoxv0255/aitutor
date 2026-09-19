@@ -52,6 +52,30 @@ items:
     estimate: TBD (先做配对率验证)
     blocks: nothing
     unblocked_by: pairing_rate_probe
+  - id: QB-P4-c
+    title: "P4-c — 重抽被表格污染题面 (高风险, 单独立项)"
+    priority: P2
+    decision: docs/database/table-contamination-diagnosis-2026-09-19.md#4
+    description: |
+      qbx.py 不处理 OOXML w:tbl, 表内段落被当正文塞进文本流 ——
+      3048 题 (strong 口径) 的 stem/options 里塞着扁平化表格, 另有 529 张表被拆给多题。
+      P4-a 已把 2492 张表结构化入库 (1694 张已归属题), 但**题面本身还没动**。
+      P4-c = 把题面里的表格文本抽出来换成占位符, 会动已验收的 stem/options,
+      可能牵动答案/解析/判分 → 必须先在新资产上做抽样验证再决定。
+    estimate: TBD (抽样验证后再评估)
+    blocks: nothing
+    unblocked_by: p4a_sample_validation
+  - id: QB-TABLE-ATTRIBUTION
+    title: "523 张表格归属歧义 — 人工裁决回填 question_id"
+    priority: P3
+    decision: docs/database/table-contamination-diagnosis-2026-09-19.md#4
+    description: |
+      question_tables 里 523 张表的单元格落在 ≥2 个题里, 机械无法确定归属,
+      已记 candidate_question_ids (强命中候选 ∪ 题面引用表候选), 等人工裁决后回填。
+      另有 275 张连候选都没有 (题面没引用表, 或表属于整卷材料)。
+    estimate: TBD
+    blocks: nothing
+    unblocked_by: manual_review
   - id: QB-LLM-ANSWER-BADGE
     title: "前端: LLM 补答案「AI 补·未核验」徽标"
     priority: P2
