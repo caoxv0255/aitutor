@@ -221,7 +221,10 @@ docker-compose.v1.yml
 #   - database/incoming/: 1.6 GB staging 数据
 #   - database/assets/: 183 MB 题图资产 (不入仓, 走对象存储)
 #   - database/canonical/: 1.8 MB (allowlist EXCEPTION - 可入)
-#   - database/preflight/: 824 KB (allowlist EXCEPTION - 可入)
+#   - database/preflight/: 2026-09-10 时 824 KB (allowlist EXCEPTION - 可入);
+#     ⚠️ 2026-09-19 复查: qb-extract/ 中间产物已涨到 5.9 GB (out 3.5G + html-raw 1.8G
+#     + docx-cache 605M), 一律不入仓 —— 均可由 hermes_pack 源卷重生成。
+#     仅保留 logs/ (覆盖报告) 与 manifest json, 见下方专项 ignore。
 #   - database/knowledge-points/ / question-bank/ / textbooks/ 已有顶层 ignore
 # ─────────────────────────────────────────────────────────────
 /database.tar
@@ -234,6 +237,14 @@ docker-compose.v1.yml
 # 但保留 canonical/ 与 preflight/ (manifest 数据)
 /!database/canonical/
 /!database/preflight/
+
+# qb-extract 中间产物 (2026-09-19) —— 5.9 GB, 可由源卷重生成, 不入仓
+# 保留 logs/ 与 *.json manifest (覆盖报告是对账依据)
+/database/preflight/qb-extract/out/
+/database/preflight/qb-extract/html-raw/
+/database/preflight/qb-extract/docx-cache/
+/database/preflight/qb-extract/backup/
+/database/preflight/qb-extract/lo-profile/
 
 # hercules + Hermes 本地缓存
 /.gitnexus/lbug
