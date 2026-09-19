@@ -98,10 +98,15 @@ items:
         placeholder-render.js 渲染 <img>/latex/OMML 文本, 不可渲染降级为标记。
       实测: 1460 卷 / 14706 题(99.4%) / 117609 ref (图片 55870 / 公式 57968 / 缺失 3771);
         资产文件 0 缺失; 幂等+备份; G1–G17 17 PASS; vitest 基线。
-      残留 (未解决): ①公式 latex 命中 0 —— VLM 缓存按 HTML 渲染图 sha 建键, 与 wmf sha
-        不同源, 需用 out/html 的 para_idx/question_number 再对一次; 故公式暂降级「［公式］」
-        (无裸 token, 但无公式本体)。②wmf/emf 浏览器不可渲染, out/render 公式 PNG 仅 80 张
-        (03-render-media 未全量)。③84 题未覆盖(无 docx / media 缺该 rId)。
+      ✅ **公式可见性已闭环 (2026-09-19, 补)**: 31-render-formula-assets.py 在**带 rId 的
+        通道内**把 wmf/emf 直接渲染成 PNG (token→sha→PNG 天然 1:1, 零对齐), 回填
+        media_refs.png_rel; 读端优先 /qb-media-png。实测公式 ref 可渲染率 0.9% → **99.6%**
+        (57230 渲染 + 523 原生 / 215 空白), wmf 图片 ref 7149 也可渲染, 5571 题受益。
+        报告 docs/database/p4c-formula-visibility-2026-09-19.md。
+        (为何不桥接 04 的 HTML/VLM: 四种 token 级对齐假设实测 ≤20%, 两通道无共同主键,
+         猜绑定会错公式; VLM latex 因此**明确不采用**。)
+      残留: ①~0.4% 真空白/转换失败仍降级标记; ②OMML (324 题) 仍是内联文本 (pandoc 可转
+        latex, 单列); ③84 题未覆盖 (无 docx / media 缺该 rId)。
     estimate: TBD
     blocks: nothing
     unblocked_by: n_a_done
