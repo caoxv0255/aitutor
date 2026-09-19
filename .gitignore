@@ -280,3 +280,6 @@ docker-compose.v1.yml
 
 # qb-extract pipeline bytecode
 /scripts/qb-extract/__pycache__/
+
+# 2026-09-19 清理归档（临时产物/冗余工具目录），暂不入库
+archive/
