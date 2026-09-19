@@ -214,59 +214,8 @@ def _walk(el, rels, out, media):
         _walk(child, rels, out, media)
 
 
-def _walk_table(tbl, rels):
-    """把 OOXML w:tbl 抽成 (rows, media)。
-
-    单元格里的多个 w:p 用全角空格连 (原本它们是被当正文段落逐条塞进文本流的,
-    单元格边界因此丢失 —— 见 docs/database/table-contamination-diagnosis-2026-09-19.md)。
-    """
-    rows, media = [], []
-    for tr in tbl.findall(W + 'tr'):
-        cells = []
-        for tc in tr.findall(W + 'tc'):
-            parts = []
-            for p in tc.iter(W + 'p'):
-                out, m = [], []
-                _walk(p, rels, out, m)
-                media.extend(m)
-                t = ''.join(out).strip()
-                if t:
-                    parts.append(t)
-            cells.append('　'.join(parts))
-        if any(cells):
-            rows.append(cells)
-    return rows, media
-
-
-def _walk_body(el, rels, paras, tables):
-    """按文档顺序遍历 body 子树, 遇到 w:tbl **不下降**, 整块换成占位符。
-
-    为什么不继续下降: 表内 w:p 一旦被当正文段落读出, 单元格边界就丢了
-    (0.01/1/10/30 → "0.0111030"), 后面无论怎么删都是部分删除 —— 见
-    docs/database/p4c-reextract-risk-2026-09-19.md §3。
-    其他容器 (w:sdt / 文本框等) 照旧下降, 避免丢正文。
-    """
-    for child in el:
-        tag = child.tag
-        if tag == W + 'p':
-            out, media = [], []
-            _walk(child, rels, out, media)
-            paras.append((''.join(out), media))
-        elif tag == W + 'tbl':
-            rows, media = _walk_table(child, rels)
-            tables.append(rows)
-            paras.append((f'⟦TABLE:{len(tables)}⟧', media))
-        else:
-            _walk_body(child, rels, paras, tables)
-
-
-def read_paras(path: Path, table_aware: bool = False, tables_out: list | None = None):
-    """返回 (段落列表[(文本, media)], ZipFile)。
-
-    table_aware=False (默认) = 原行为: body.iter(w:p), 表内段落被当正文读出。
-    table_aware=True = w:tbl 整块变 ⟦TABLE:n⟧ 占位符, 结构化表进 tables_out
-                       (P4-c 表感知重抽取, pilot 阶段专用)。
-    """
+def read_paras(path: Path):
+    """返回 (段落列表[(文本, media)], ZipFile)"""
     z = zipfile.ZipFile(path)
     rels = load_rels(z)
     try:
@@ -275,16 +224,10 @@ def read_paras(path: Path, table_aware: bool = False, tables_out: list | None = 
         raise ValueError(f'document.xml 解析失败: {e}') from e
     body = root.find(W + 'body')
     paras = []
-    tables = tables_out if tables_out is not None else []
-    if body is None:
-        return paras, z
-    if table_aware:
-        _walk_body(body, rels, paras, tables)
-    else:
-        for p in body.iter(W + 'p'):
-            out, media = [], []
-            _walk(p, rels, out, media)
-            paras.append((''.join(out), media))
+    for p in (body.iter(W + 'p') if body is not None else []):
+        out, media = [], []
+        _walk(p, rels, out, media)
+        paras.append((''.join(out), media))
     return paras, z
 
 
@@ -1409,20 +1352,15 @@ def finalize(qs, prefix, media_root, z):
     return good, st
 
 
-def extract_paper(path: Path, media_root: Path | None = None, subject_hint=None,
-                  debug=False, table_aware: bool = False) -> dict:
+def extract_paper(path: Path, media_root: Path | None = None, subject_hint=None, debug=False) -> dict:
     """提取一份原卷。
 
     布局策略自动择优: 同一份 docx 分别按 inline / tail / answer_only 三种假设跑一遍,
     取质量分最高者。理由: 各卷的答案排布差异极大 (逐题内联 / 卷末集中 / 答案区在头部 /
     学科网五段式), 单一锚点规则会上演「修一个坏一个」的地鼠效应。
-
-    table_aware=True 时 w:tbl 整块换成 ⟦TABLE:n⟧ 占位符, 结构化表随返回值的
-    'tables' 键带回 (**pilot 专用, 默认 False 保持原行为**)。
     """
     ident = parse_identity(path, subject_hint)
-    tables = []
-    paras, z = read_paras(path, table_aware=table_aware, tables_out=tables)
+    paras, z = read_paras(path)
     candidates = candidate_layouts(paras)
     prefix = f'{ident["subject"] or "na"}/{ident["year"] or "na"}'
 
@@ -1538,7 +1476,6 @@ def extract_paper(path: Path, media_root: Path | None = None, subject_hint=None,
         'strategy_gate': gate,
         'questions': good2,
         'stats': st2,
-        'tables': tables if table_aware else None,
     }
 
 

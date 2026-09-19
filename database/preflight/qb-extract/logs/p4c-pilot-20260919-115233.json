@@ -1,0 +1,24 @@
+{
+  "generated_at": "20260919-115233",
+  "sample_kind": "data_table",
+  "sample_size": 150,
+  "stats": {
+    "papers": 63,
+    "b_questions": 1132,
+    "b_with_answer": 863,
+    "b_with_analysis": 986,
+    "b_usable": 718,
+    "b_stem_len": 176669,
+    "b_with_table_ph": 0,
+    "n_questions": 1111,
+    "n_with_answer": 831,
+    "n_with_analysis": 969,
+    "n_usable": 703,
+    "n_stem_len": 168883,
+    "n_with_table_ph": 106,
+    "numbers_lost": 20,
+    "numbers_gained": 16,
+    "forced_failed": 7
+  },
+  "rows": []
+}

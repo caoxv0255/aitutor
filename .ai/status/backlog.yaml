@@ -53,15 +53,27 @@ items:
     blocks: nothing
     unblocked_by: pairing_rate_probe
   - id: QB-P4-c
-    title: "P4-c — 表感知重抽取 (先 20–30 题 pilot)"
-    priority: P2
-    decision: docs/database/p4c-reextract-risk-2026-09-19.md
+    title: "P4-c — 表感知重抽取: **实测下降, 已否决并回滚** (2026-09-19)"
+    priority: P3
+    decision: docs/database/p4c-pilot-2026-09-19.md
     description: |
-      ⚠️ 原方案「在现有 stem 上删掉表格文本」已被风险探针否证:
-      单元格边界在扁平化后丢失 (0.01/1/10/30 → "0.0111030"), 删除必然残留碎片;
-      且会挖掉合法正文 (实测「2002年和2007年」→「在和」)。
-      **改为表感知重抽取**: 让 qbx.py/02-extract.py 把 w:tbl 当整块处理,
-      stem 只留 ⟦TABLE:n⟧ 占位符, 内容进 question_tables (复用 TD-005 Phase 3 重提取套路)。
+      ⛔ 结论: **不推进**。修完切分漂移后卷级汇总仍是下降 ——
+        题数 1132→1111 (-1.9%) / 有答案 863→831 (-3.7%) / 可用题 718→703 (-2.1%)
+        stem 总字数 -4.4% (表格让位, 预期内) / 含占位符的题 +106 / 题号集合 丢失20 新增16
+      qbx.py 已回滚原样 (不留 table_aware 实验路径), pilot 脚本已删除, 只留报告与日志作证据。
+      **数据库全程未被写入** (pilot 只读), 无数据回滚项。
+      归因分析: docs/database/p4c-decline-analysis-2026-09-19.md
+
+      历程留档:
+      1. 原方案「在现有 stem 上删表格文本」被风险探针否证 —— 单元格边界丢失
+         (0.01/1/10/30 → "0.0111030"), 删除必然残留碎片, 且会挖掉合法正文
+      2. 改走「表感知重抽取」(w:tbl 整块 → ⟦TABLE:n⟧), pilot 30 题:
+         IDENTICAL 20 / STEM_SHRUNK 6 (改善) / ANSWER_CHANGED 2 / OPTIONS_TEXT_CHANGED 2
+         option_layout 12 题: 11 题选项文本变化 → 表格即选项, 已排除
+      3. 修切分漂移 (占位符索引守恒 + 锁 baseline 胜出策略) 后卷级汇总仍下降 → 否决
+    estimate: 已否决
+    blocks: nothing
+    unblocked_by: n_a_rejected
       **pilot 已跑** (docs/database/p4c-reextract-risk-2026-09-19.md + p4c-pilot-2026-09-19.md):
       qbx.py 已加 table_aware 开关 (默认 False=原行为不变), w:tbl 整块换 ⟦TABLE:n⟧。
       实测 data_table 30 题: IDENTICAL 20 / STEM_SHRUNK 6 (改善) / ANSWER_CHANGED 2 /
