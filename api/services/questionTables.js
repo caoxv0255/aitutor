@@ -10,6 +10,45 @@
 // 数据来源: exam_questions.table_refs (由 28-backfill-table-refs.py 生成, 键 = token n,
 //   值 = {table_id, kind} 或 {table_id:null, missing:<reason>}) + question_tables 的行。
 
+// 多模态资产 URL 前缀 (server.js 把 out/media 挂到 /qb-media)
+const MEDIA_BASE = process.env.QB_MEDIA_BASE || '/qb-media';
+// 浏览器可直接渲染的图片扩展名 (公式的 wmf/emf 不在其中)
+const BROWSER_IMAGE_EXT = new Set(['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp', '.svg']);
+
+/**
+ * 给若干行 question 富化多模态 `media` (⟦IMG:rId⟧ / ⟦F:rId⟧ → 资产)。
+ * 无 DB 依赖 (media_refs 里已含 rel_path/latex)。见 30-backfill-media-refs.py。
+ *   media 元素: {token, kind, ext, url?, latex?, renderable?, missing?}
+ *     · 图片 (ext 浏览器可渲染) → url 可用;
+ *     · 公式 → 有 latex 用 latex, 否则读端降级为标记;
+ *     · wmf/emf 不可直接渲染 → renderable:false。
+ */
+export function enrichQuestionsWithMedia(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) return rows;
+  for (const r of rows) {
+    const refs = parseTableRefs(r.media_refs);
+    delete r.media_refs;
+    if (!refs) continue;
+    const media = [];
+    for (const [token, v] of Object.entries(refs)) {
+      const kind = (v && v.kind) || (token.startsWith('IMG:') ? 'figure' : 'formula');
+      const rec = { token, kind };
+      if (v && v.rel_path && !v.missing) {
+        const ext = (v.ext || '').toLowerCase();
+        rec.ext = ext;
+        rec.renderable = BROWSER_IMAGE_EXT.has(ext);
+        rec.url = `${MEDIA_BASE}/${v.rel_path}`;
+      } else {
+        rec.missing = (v && v.missing) || 'asset_absent';
+      }
+      if (v && v.latex) rec.latex = v.latex;
+      media.push(rec);
+    }
+    r.media = media;
+  }
+  return rows;
+}
+
 /**
  * table_refs 可能是 JSONB(对象) 或 JSON 字符串, 统一解成对象; 无效返回 null。
  */
@@ -28,11 +67,15 @@ export function parseTableRefs(raw) {
 }
 
 /**
- * 纯文本出口 (PDF / 纯文本拼装) 用: 把 ⟦TABLE:n⟧ 换成短标记, 绝不输出裸 token。
- * 表格内容需结构化渲染, 纯文本管道拿不到 —— 至少不让占位符泄给用户。
+ * 纯文本出口 (PDF / 纯文本拼装) 用: 把所有管线占位符换成短标记, 绝不输出裸 token。
+ * 结构化内容需 DOM 渲染, 纯文本管道拿不到 —— 至少不让 ⟦TABLE:…⟧/⟦IMG:…⟧/⟦F:…⟧ 泄给用户。
  */
-export function tableTokenToText(text, marker = '［表格］') {
-  return String(text == null ? '' : text).replace(/⟦TABLE:\d+⟧/g, marker);
+export function placeholderToText(text) {
+  return String(text == null ? '' : text)
+    .replace(/⟦TABLE:\d+⟧/g, '［表格］')
+    .replace(/⟦IMG:[^⟧]*⟧/g, '［图片］')
+    .replace(/⟦F:[^⟧]*⟧/g, '［公式］')
+    .replace(/⟦OMML:?[^⟧]*⟧/g, '［公式］');
 }
 
 /**
@@ -46,6 +89,8 @@ export function tableTokenToText(text, marker = '［表格］') {
  */
 export async function enrichQuestionsWithTables(pool, rows) {
   if (!Array.isArray(rows) || rows.length === 0) return rows;
+  // 多模态 (⟦IMG:⟧/⟦F:⟧) 无 DB 依赖, 先富化 —— 即使本题没有 table_refs 也要带走 media。
+  enrichQuestionsWithMedia(rows);
 
   const refMap = new Map(); // questionId -> refs
   const tableIds = new Set();

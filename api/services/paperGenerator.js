@@ -1,7 +1,7 @@
 import { getDb } from '../core/db.js';
 import { llm, MODELS } from '../../services/llm.js';
 import { logger } from '../core/logger.js';
-import { enrichQuestionsWithTables, tableTokenToText } from './questionTables.js';
+import { enrichQuestionsWithTables, placeholderToText } from './questionTables.js';
 
 const DIFFICULTY_MAPPING = {
   easy: { min: 1, max: 2.5 },
@@ -274,7 +274,7 @@ export class PaperGenerator {
         questions: selectionQuestions.map((q, i) => ({
           id: `S${i + 1}`,
           question_uid: q.question_uid,
-          content: tableTokenToText(q.stem),
+          content: placeholderToText(q.stem),
           tables: q.tables || undefined,
           options: q.options ? JSON.parse(q.options) : [],
           answer: includeAnswer ? q.answer : null,
@@ -300,7 +300,7 @@ export class PaperGenerator {
         questions: fillQuestions.map((q, i) => ({
           id: `F${i + 1}`,
           question_uid: q.question_uid,
-          content: tableTokenToText(q.stem),
+          content: placeholderToText(q.stem),
           tables: q.tables || undefined,
           options: q.options ? JSON.parse(q.options) : [],
           answer: includeAnswer ? q.answer : null,
@@ -327,7 +327,7 @@ export class PaperGenerator {
         questions: solutionQuestions.map((q, i) => ({
           id: `J${i + 1}`,
           question_uid: q.question_uid,
-          content: tableTokenToText(q.stem),
+          content: placeholderToText(q.stem),
           tables: q.tables || undefined,
           options: q.options ? JSON.parse(q.options) : [],
           answer: includeAnswer ? q.answer : null,

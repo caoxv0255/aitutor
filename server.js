@@ -199,6 +199,15 @@ app.use(
   })
 );
 app.use('/uploads', express.static('uploads'));
+// P4 多模态读端 (路线图 P2b): 题目里的 ⟦IMG:rId⟧/⟦F:rId⟧ 渲染所用资产。
+// 资产按 sha256 内容寻址 → immutable 缓存安全。见 api/services/questionTables.js。
+app.use(
+  '/qb-media',
+  express.static('database/preflight/qb-extract/out/media', {
+    maxAge: '7d',
+    immutable: true,
+  })
+);
 
 // wrapHandler: catch both sync throws and async rejections, and respect
 // the case where the handler already started writing the response.

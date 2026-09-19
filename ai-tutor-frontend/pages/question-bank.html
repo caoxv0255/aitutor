@@ -45,6 +45,12 @@
       .qb-table th, .qb-table td { border: 1px solid var(--color-border-light); padding: 4px 10px; text-align: left; vertical-align: top; white-space: normal; }
       .qb-table th { background: var(--color-surface-tertiary); font-weight: 700; }
       .qb-table-missing { color: #991b1b; font-size: 12px; }
+      /* P4 P2b: 图片 / 公式 */
+      .qb-figure { max-width: 100%; max-height: 320px; display: block; margin: 8px 0; border-radius: 6px; }
+      .qb-formula { font-family: 'JetBrains Mono','SF Mono',monospace; background: var(--color-surface-tertiary); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+      .qb-formula-img { display: inline-block; max-height: 48px; vertical-align: middle; }
+      .qb-media-missing { color: #92400e; font-size: 12px; background: #fef3c7; padding: 1px 6px; border-radius: 4px; }
+      .qb-media-link { color: #1e40af; font-size: 12px; }
     </style>
 </head>
 <body class="min-h-screen" style="background:var(--color-surface-secondary);color:var(--color-foreground);">
@@ -331,7 +337,7 @@
                             <span class="qb-chip" style="background:#f3f4f6;color:var(--color-muted-foreground);">第 ${qn} 题</span>
                             ${kpCount > 0 ? `<span class="qb-chip qb-kp-chip">📚 ${kpCount} KP</span>` : '<span class="qb-chip" style="background:#fef2f2;color:#991b1b;">⚠️ 无 KP</span>'}
                         </div>
-                        <div class="qb-stem" style="margin:0;">${esc(stemInfo.text)}${stemInfo.hasTable ? ' <span class="qb-chip" style="background:#e0e7ff;color:#3730a3;">表</span>' : ''}</div>
+                        <div class="qb-stem" style="margin:0;">${esc(stemInfo.text)}${stemInfo.hasTable ? ' <span class="qb-chip" style="background:#e0e7ff;color:#3730a3;">表</span>' : ''}${stemInfo.hasMedia ? ' <span class="qb-chip" style="background:#fef3c7;color:#92400e;">图/式</span>' : ''}</div>
                     </div>
                 </div>`;
             }).join('');
@@ -399,8 +405,8 @@
                     ${kpHtml || '<div style="margin-top:14px;font-size:11px;color:#991b1b;">⚠️ 此题暂无 KP 关联</div>'}
                     <div style="margin-top:14px;font-size:11px;color:var(--color-foreground-muted);border-top:1px solid var(--color-border-light);padding-top:10px;">file_path: <code>${esc(q.file_path || '— (D089 已知: 列表接口不含 file_path, 详情需调用单题接口)')}</code></div>
                 `;
-                // P4-c: 题面 ⟦TABLE:n⟧ → 结构化表格 (DOM 构建, 防 XSS)
-                renderStemInto(body.querySelector('#qb-modal-stem'), q.stem || '—', q.tables);
+                // P4: 题面 ⟦TABLE:n⟧/⟦IMG:⟧/⟦F:⟧ → 结构化表格/图片/公式 (DOM 构建, 防 XSS)
+                renderStemInto(body.querySelector('#qb-modal-stem'), q.stem || '—', q.tables, q.media);
             } catch (e) {
                 body.innerHTML = '<div style="padding:24px;color:var(--color-error-500);">加载失败: ' + esc(e.message || '') + '</div>';
             }
