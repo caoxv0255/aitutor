@@ -12,6 +12,8 @@
 
 // 多模态资产 URL 前缀 (server.js 把 out/media 挂到 /qb-media)
 const MEDIA_BASE = process.env.QB_MEDIA_BASE || '/qb-media';
+// 公式渲染 PNG 前缀 (31-render-formula-assets.py 产出, server.js 挂到 /qb-media-png)
+const MEDIA_PNG_BASE = process.env.QB_MEDIA_PNG_BASE || '/qb-media-png';
 // 浏览器可直接渲染的图片扩展名 (公式的 wmf/emf 不在其中)
 const BROWSER_IMAGE_EXT = new Set(['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp', '.svg']);
 
@@ -33,7 +35,13 @@ export function enrichQuestionsWithMedia(rows) {
     for (const [token, v] of Object.entries(refs)) {
       const kind = (v && v.kind) || (token.startsWith('IMG:') ? 'figure' : 'formula');
       const rec = { token, kind };
-      if (v && v.rel_path && !v.missing) {
+      if (v && !v.missing && v.png_rel) {
+        // 根治: 向量公式 (wmf/emf) 的渲染 PNG 优先 (来自 31-render-formula-assets.py)
+        rec.ext = '.png';
+        rec.renderable = true;
+        rec.url = `${MEDIA_PNG_BASE}/${v.png_rel}`;
+        rec.source = 'rendered';
+      } else if (v && v.rel_path && !v.missing) {
         const ext = (v.ext || '').toLowerCase();
         rec.ext = ext;
         rec.renderable = BROWSER_IMAGE_EXT.has(ext);

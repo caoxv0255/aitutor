@@ -208,6 +208,14 @@ app.use(
     immutable: true,
   })
 );
+// 公式渲染 PNG (31-render-formula-assets.py 把 wmf/emf 渲成 png, 内容寻址)
+app.use(
+  '/qb-media-png',
+  express.static('database/preflight/qb-extract/out/media-png', {
+    maxAge: '7d',
+    immutable: true,
+  })
+);
 
 // wrapHandler: catch both sync throws and async rejections, and respect
 // the case where the handler already started writing the response.
