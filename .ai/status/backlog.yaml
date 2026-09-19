@@ -53,39 +53,29 @@ items:
     blocks: nothing
     unblocked_by: pairing_rate_probe
   - id: QB-P4-c
-    title: "P4-c — 表感知重抽取: **实测下降, 已否决并回滚** (2026-09-19)"
+    title: "P4-c — 表格结构化: 路线 A「分层处理」**已全量应用** (2026-09-19)"
     priority: P3
-    decision: docs/database/p4c-pilot-2026-09-19.md
+    decision: docs/database/p4c-layered-report-2026-09-19.md
     description: |
-      ⛔ 结论: **不推进**。修完切分漂移后卷级汇总仍是下降 ——
-        题数 1132→1111 (-1.9%) / 有答案 863→831 (-3.7%) / 可用题 718→703 (-2.1%)
-        stem 总字数 -4.4% (表格让位, 预期内) / 含占位符的题 +106 / 题号集合 丢失20 新增16
-      qbx.py 已回滚原样 (不留 table_aware 实验路径), pilot 脚本已删除, 只留报告与日志作证据。
-      **数据库全程未被写入** (pilot 只读), 无数据回滚项。
-      归因分析: docs/database/p4c-decline-analysis-2026-09-19.md
+      ✅ 结论: **已落地 (路线 A)**。只换 stem, 切分与答案照旧 (按构造不退化)。
+        全量 703 卷 / 667 题 stem 变干净 (平均 399→294 字), 含 ⟦TABLE:n⟧ 占位符。
+        验收 G6 回填后回到 PASS (split 填空题无填空标记=0), G1–G17 全 17 PASS / 0 FAIL。
 
-      历程留档:
-      1. 原方案「在现有 stem 上删表格文本」被风险探针否证 —— 单元格边界丢失
-         (0.01/1/10/30 → "0.0111030"), 删除必然残留碎片, 且会挖掉合法正文
-      2. 改走「表感知重抽取」(w:tbl 整块 → ⟦TABLE:n⟧), pilot 30 题:
-         IDENTICAL 20 / STEM_SHRUNK 6 (改善) / ANSWER_CHANGED 2 / OPTIONS_TEXT_CHANGED 2
-         option_layout 12 题: 11 题选项文本变化 → 表格即选项, 已排除
-      3. 修切分漂移 (占位符索引守恒 + 锁 baseline 胜出策略) 后卷级汇总仍下降 → 否决
-    estimate: 已否决
+      历程:
+      1. 表感知整卷重抽取 pilot —— 实测下降 (有答案 -3.7%), 已否决回滚
+         (docs/database/p4c-pilot-2026-09-19.md, p4c-decline-analysis-2026-09-19.md)
+      2. 路线 A 分层处理: base 通道管切分/答案 (表内文本可见, 证据不丢);
+         table-aware 通道只生成 stem (data_table→⟦TABLE:n⟧, option_layout 保留原文)
+      3. 四道机械护栏: 题号集合一致 / options 键一致 / 段落数守恒 / 填空标记守恒
+         —— 任一不满足整卷回退 base, 宁可不改也不静默改坏
+      4. G6 回归: 5 道填空标记随表格被 ⟦TABLE:n⟧ 吃掉 → 回滚迁移
+         033_restore_fill_blank_stems.sql 恢复这 5 题, 第 4 护栏补防 (重跑 0 新增退化)
+
+      残留: option_layout 题的表格即选项 (11/12 变化) 按设计保留原文, 不换占位符;
+        B 路线 (展示层在 stem 里原位渲染表格) 仍可作为未来选项, 本轮不做。
+    estimate: 已完成
     blocks: nothing
-    unblocked_by: n_a_rejected
-      **pilot 已跑** (docs/database/p4c-reextract-risk-2026-09-19.md + p4c-pilot-2026-09-19.md):
-      qbx.py 已加 table_aware 开关 (默认 False=原行为不变), w:tbl 整块换 ⟦TABLE:n⟧。
-      实测 data_table 30 题: IDENTICAL 20 / STEM_SHRUNK 6 (改善) / ANSWER_CHANGED 2 /
-      OPTIONS_TEXT_CHANGED 2 (切分漂移); option_layout 12 题: 11 题选项文本变化 → **排除**。
-      **全量前两个前置**:
-        1. 解决切分漂移 —— 表感知改变了段落序列, qbx 的布局择优(inline/tail/answer_only)
-           因此换了胜出策略, 会静默改变题的边界。要么让占位符段落仍参与切分判断,
-           要么在表感知模式下锁死 baseline 的胜出策略。
-        2. 扩大样本到 150–200 题 (覆盖 9 学科 + .doc 回退卷), 30 题样本不足以估全量比例。
-    estimate: pilot 先做, 全量 TBD
-    blocks: nothing
-    unblocked_by: p4c_pilot_review
+    unblocked_by: n_a_done
   - id: QB-TABLE-ATTRIBUTION
     title: "523 张表格归属歧义 — 人工裁决回填 question_id"
     priority: P3

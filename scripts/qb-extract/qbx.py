@@ -32,6 +32,10 @@ V = '{urn:schemas-microsoft-com:vml}'
 A = '{http://schemas.openxmlformats.org/drawingml/2006/main}'
 M = '{http://schemas.openxmlformats.org/officeDocument/2006/math}'
 
+# 选项行前缀 (A. / B．/ C、) —— 判定一张表是不是「把 A-D 选项排成表格」用的排版容器。
+# 与 21/22/25 号脚本同一口径, 保证诊断、回填、抽取三处的表型分类一致。
+OPT_LEAD = re.compile(r'^\s*[A-D][．.、)）]')
+
 # ───────────────────────── 身份识别 ─────────────────────────
 
 PROVINCE_BY_NAME = {
@@ -214,8 +218,89 @@ def _walk(el, rels, out, media):
         _walk(child, rels, out, media)
 
 
-def read_paras(path: Path):
-    """返回 (段落列表[(文本, media)], ZipFile)"""
+def _walk_table(tbl, rels):
+    """把 OOXML w:tbl 抽成 (rows, media)。
+
+    单元格里的多个 w:p 用全角空格连 —— 原口径下它们是被当正文段落逐条读出的,
+    单元格边界因此丢失 (0.01/1/10/30 → "0.0111030")。
+    """
+    rows, media = [], []
+    for tr in tbl.findall(W + 'tr'):
+        cells = []
+        for tc in tr.findall(W + 'tc'):
+            parts = []
+            for p in tc.iter(W + 'p'):
+                out, m = [], []
+                _walk(p, rels, out, m)
+                media.extend(m)
+                t = ''.join(out).strip()
+                if t:
+                    parts.append(t)
+            cells.append('　'.join(parts))
+        if any(cells):
+            rows.append(cells)
+    return rows, media
+
+
+def _emit_table(tbl, rels, paras, tables):
+    """把一张 w:tbl 按「角色 + 索引守恒」摊成 k 个段落。见 _walk_body 的说明。"""
+    rows, media = _walk_table(tbl, rels)
+    tables.append(rows)
+    k = max(1, len(list(tbl.iter(W + 'p'))))
+    first_col = [r[0] for r in rows if r and r[0].strip()]
+    opt_hits = sum(1 for c in first_col if OPT_LEAD.match(c))
+    if first_col and opt_hits / len(first_col) >= 0.5:
+        flat = [c for row in rows for c in row if c.strip()]
+        for i in range(k):
+            paras.append((flat[i] if i < len(flat) else '', media if i == 0 else []))
+    else:
+        paras.append((f'⟦TABLE:{len(tables)}⟧', media))
+        for _ in range(k - 1):
+            paras.append(('', []))
+
+
+def _walk_body(el, rels, paras, tables):
+    """按文档顺序遍历 body 子树 —— **分层处理**（P4-c 路线 A）。
+
+    两种表分处置:
+      data_table    → 整块换 ⟦TABLE:n⟧, 不进 stem (要清理的噪声)
+      option_layout → **保留原文**: 这类表格就是选项 (语文/英语常见),
+                      换占位符等于删选项 (pilot 实测 12 题里 11 题选项受损)
+
+    **索引守恒**: 原口径下这张表贡献 k 个 w:p 段落, 这里也必须产出 k 个,
+    否则答案区 region 索引 (mask_regions / candidate_layouts 的 (start,end))
+    会整体前移, 布局择优随之改变 —— pilot 里 2/30 题的「切分漂移」就是这么来的。
+
+    其他容器 (w:sdt / 文本框) 照旧下降, 避免丢正文。
+    """
+    for child in el:
+        tag = child.tag
+        if tag == W + 'p':
+            out, media = [], []
+            _walk(child, rels, out, media)
+            paras.append((''.join(out), media))
+            # 文本框 (w:txbxContent) 里的**嵌套表格**: base 口径 body.iter(w:p) 会把
+            # 它们的 w:p 也数进来, 而这里 w:p 是不下降的 —— 必须补齐, 否则段落数变少,
+            # 答案区 region 索引越界 (实测 2010 生物上海: base 534 / ta 518 → mask_regions
+            # IndexError)。补发时按同一套「角色 + 索引守恒」规则处理。
+            for ntbl in child.iter(W + 'tbl'):
+                _emit_table(ntbl, rels, paras, tables)
+        elif tag == W + 'tbl':
+            _emit_table(child, rels, paras, tables)
+        else:
+            _walk_body(child, rels, paras, tables)
+
+
+def read_paras(path: Path, table_aware: bool = False, tables_out: list | None = None):
+    """返回 (段落列表[(文本, media)], ZipFile)。
+
+    table_aware=False (默认) = 原行为: body.iter(w:p), 表内段落当正文读出。
+    table_aware=True = 分层处理 (P4-c 路线 A): data_table 整块换 ⟦TABLE:n⟧,
+                      option_layout 保留原文, **段落数守恒**, 结构化表进 tables_out。
+
+    用途: 与 base 通道**双跑** —— 切分/答案/统计仍由 base 通道负责 (表内文本可见,
+    不丢答案表证据与题号计数), 只有 stem 用 table-aware 那一遍的结果。
+    """
     z = zipfile.ZipFile(path)
     rels = load_rels(z)
     try:
@@ -224,10 +309,16 @@ def read_paras(path: Path):
         raise ValueError(f'document.xml 解析失败: {e}') from e
     body = root.find(W + 'body')
     paras = []
-    for p in (body.iter(W + 'p') if body is not None else []):
-        out, media = [], []
-        _walk(p, rels, out, media)
-        paras.append((''.join(out), media))
+    tables = tables_out if tables_out is not None else []
+    if body is None:
+        return paras, z
+    if table_aware:
+        _walk_body(body, rels, paras, tables)
+    else:
+        for p in body.iter(W + 'p'):
+            out, media = [], []
+            _walk(p, rels, out, media)
+            paras.append((''.join(out), media))
     return paras, z
 
 
@@ -1352,16 +1443,29 @@ def finalize(qs, prefix, media_root, z):
     return good, st
 
 
-def extract_paper(path: Path, media_root: Path | None = None, subject_hint=None, debug=False) -> dict:
+def extract_paper(path: Path, media_root: Path | None = None, subject_hint=None,
+                  debug=False, table_aware: bool = False,
+                  force_strategy: tuple | None = None) -> dict:
     """提取一份原卷。
 
     布局策略自动择优: 同一份 docx 分别按 inline / tail / answer_only 三种假设跑一遍,
     取质量分最高者。理由: 各卷的答案排布差异极大 (逐题内联 / 卷末集中 / 答案区在头部 /
     学科网五段式), 单一锚点规则会上演「修一个坏一个」的地鼠效应。
+
+    table_aware=True  → 分层处理 (P4-c 路线 A): data_table 换 ⟦TABLE:n⟧,
+                        option_layout 保留原文, 结构化表随 'tables' 键带回。
+                        默认 False = 原行为不变。
+    force_strategy=(kind, regions) → 跳过布局择优, 直接用给定策略。
+                        双跑时必须锁同一策略, 否则题的边界会漂移, 无法逐题对齐。
     """
     ident = parse_identity(path, subject_hint)
-    paras, z = read_paras(path)
-    candidates = candidate_layouts(paras)
+    tables = []
+    paras, z = read_paras(path, table_aware=table_aware, tables_out=tables)
+    if force_strategy is not None:
+        kind0, regs0 = force_strategy
+        candidates = [(kind0, [tuple(r) for r in regs0])]
+    else:
+        candidates = candidate_layouts(paras)
     prefix = f'{ident["subject"] or "na"}/{ident["year"] or "na"}'
 
     best = None
@@ -1476,6 +1580,7 @@ def extract_paper(path: Path, media_root: Path | None = None, subject_hint=None,
         'strategy_gate': gate,
         'questions': good2,
         'stats': st2,
+        'tables': tables if table_aware else None,
     }
 
 

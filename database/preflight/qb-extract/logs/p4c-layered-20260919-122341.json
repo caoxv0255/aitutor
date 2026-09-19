@@ -1,0 +1,186 @@
+{
+  "generated_at": "20260919-122341",
+  "mode": "apply",
+  "papers": 703,
+  "stats": {
+    "papers": 703,
+    "stem_changed": 667,
+    "stem_len_before": 266177,
+    "stem_len_after": 196301,
+    "papers_adopted": 378,
+    "papers_adopted_q": 653,
+    "revert_options_mismatch": 64,
+    "papers_no_change": 163,
+    "revert_number_mismatch": 162,
+    "revert_index_mismatch": 57,
+    "revert_fill_blank_lost": 8
+  },
+  "samples": {
+    "adopted": [
+      {
+        "paper_id": 3714,
+        "subject": "biology",
+        "year": 2008,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2008/2008年高考生物试卷（上海）（解析卷）.docx",
+        "question_id": 84772,
+        "stem_before": "（11分）利用纤维素解决能源问题的关键是高性能纤维素酶的获取。请完善实验方案，并回答相关问题。【实验目的】比较三种微生物所产生的纤维素酶的活性。【实验原理】纤维素酶催化纤维素分解为葡萄糖，用葡萄糖的产生速率表示酶活性大小；用呈色反应表示葡萄糖的生成量。【实验材料】三种微生物（A～C）培养物的纤维素酶提取液，提取液中酶蛋",
+        "stem_after": "（11分）利用纤维素解决能源问题的关键是高性能纤维素酶的获取。请完善实验方案，并回答相关问题。【实验目的】比较三种微生物所产生的纤维素酶的活性。【实验原理】纤维素酶催化纤维素分解为葡萄糖，用葡萄糖的产生速率表示酶活性大小；用呈色反应表示葡萄糖的生成量。【实验材料】三种微生物（A～C）培养物的纤维素酶提取液，提取液中酶蛋"
+      },
+      {
+        "paper_id": 3715,
+        "subject": "biology",
+        "year": 2008,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2008/2008年高考生物试卷（北京）（解析卷）.docx",
+        "question_id": 84785,
+        "stem_before": "（25分）科技革命使世界发生广泛而深刻的变化，一些国家结合自身条件，抓住机遇，实现了经济的跨越式发展。这是世界经济发展史上的重要经验。回答下列问题。（3）当今世界，新的科技革命促进了信息化的迅猛发展。给我国带来了“跨越式发展”的历史机遇。结合经济常识，从下表所列的几个方面说明国家应采取哪些战略或措施，促进我国经济的“跨",
+        "stem_after": "（25分）科技革命使世界发生广泛而深刻的变化，一些国家结合自身条件，抓住机遇，实现了经济的跨越式发展。这是世界经济发展史上的重要经验。回答下列问题。（3）当今世界，新的科技革命促进了信息化的迅猛发展。给我国带来了“跨越式发展”的历史机遇。结合经济常识，从下表所列的几个方面说明国家应采取哪些战略或措施，促进我国经济的“跨"
+      },
+      {
+        "paper_id": 3717,
+        "subject": "biology",
+        "year": 2008,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2008/2008年高考生物试卷（天津）（解析卷）.docx",
+        "question_id": 84801,
+        "stem_before": "（16分）莠去津是一种含氮的有机化合物，它是广泛使用的除草剂之一。（1）莠去津的作用机理之一是阻断光反应中的电子传递过程，影响NADP+形成 NADPH ，进而影响在 叶绿体基质 中进行光合作用的暗反应过程，最终抑制杂草生长。（2）从使用莠去津的农田中，选到了能遗传的耐莠去津杂草，将它与敏感型植株杂交，结果见下表：杂交",
+        "stem_after": "（16分）莠去津是一种含氮的有机化合物，它是广泛使用的除草剂之一。（1）莠去津的作用机理之一是阻断光反应中的电子传递过程，影响NADP+形成 NADPH ，进而影响在 叶绿体基质 中进行光合作用的暗反应过程，最终抑制杂草生长。（2）从使用莠去津的农田中，选到了能遗传的耐莠去津杂草，将它与敏感型植株杂交，结果见下表：⟦T"
+      },
+      {
+        "paper_id": 3719,
+        "subject": "biology",
+        "year": 2008,
+        "docx": "database/incoming/gaokao/biology/2008/2008年高考生物试卷（广东）（解析卷）.docx",
+        "question_id": 84847,
+        "stem_before": "（11分）生产中使用的普通淀粉酶的最适温度在40℃—60℃之间，而极端耐热淀粉酶在100℃仍能保持较高的活性，因此具有更为广泛的应用前景。某同学正在设计一个实验以探究温度对两种淀粉酶活性的影响，其中有些问题需要你的帮助。（1）此实验中除自变量和因变量外，还需要考虑           、             及  ",
+        "stem_after": "（11分）生产中使用的普通淀粉酶的最适温度在40℃—60℃之间，而极端耐热淀粉酶在100℃仍能保持较高的活性，因此具有更为广泛的应用前景。某同学正在设计一个实验以探究温度对两种淀粉酶活性的影响，其中有些问题需要你的帮助。（1）此实验中除自变量和因变量外，还需要考虑           、             及  "
+      },
+      {
+        "paper_id": 3725,
+        "subject": "biology",
+        "year": 2009,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2009/2009年高考生物试卷（北京）（解析卷）.docx",
+        "question_id": 85005,
+        "stem_before": "（9分）区域合作成为当今世界经济发展的趋向，在增进各国经济互惠与文化交流、促进区域发展中发挥着越来越重要的作用。回答下列问题。表中案例反映了中国与欧盟多方面的经济关系，概括案例中体现的经济学道理。案例经济学道理示例  2008年，欧盟取消了对中国纺织品进口配额限制。中国对欧盟出口环境得到了改善，欧盟消费者也可以购买到更",
+        "stem_after": "（9分）区域合作成为当今世界经济发展的趋向，在增进各国经济互惠与文化交流、促进区域发展中发挥着越来越重要的作用。回答下列问题。表中案例反映了中国与欧盟多方面的经济关系，概括案例中体现的经济学道理。⟦TABLE:2⟧"
+      },
+      {
+        "paper_id": 3727,
+        "subject": "biology",
+        "year": 2009,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2009/2009年高考生物试卷（天津）（解析卷）.docx",
+        "question_id": 85038,
+        "stem_before": "（14分）人的血型是由红细胞表面抗原决定的。左表为A型和O型血的红细胞表面抗原及其决定基因，如图为某家庭的血型遗传图谱。血型红细胞表面A抗原抗原决定基因A有IA（显性）O无i（隐性）⟦IMG:rId4⟧据图表回答问题：（1）控制人血型的基因位于 常 （常/性）染色体上，判断依据是 若IA在X染色体上，女孩应全部为A型血",
+        "stem_after": "（14分）人的血型是由红细胞表面抗原决定的。左表为A型和O型血的红细胞表面抗原及其决定基因，如图为某家庭的血型遗传图谱。⟦TABLE:2⟧⟦IMG:rId4⟧据图表回答问题：（1）控制人血型的基因位于 常 （常/性）染色体上，判断依据是 若IA在X染色体上，女孩应全部为A型血。若IA只在Y染色体上，女孩应全部为O型血（"
+      },
+      {
+        "paper_id": 3730,
+        "subject": "biology",
+        "year": 2009,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2009/2009年高考生物试卷（江苏）（解析卷）.docx",
+        "question_id": 85116,
+        "stem_before": "（8分）动物器官的体外培养技术对于研究器官的生理、病理过程及其机制意义重大。如图是一个新生小鼠的肝脏小块培养装置示意图。请回答下列问题。⟦IMG:rId29⟧（1）肝脏切成小薄片，这有利于肝脏细胞 吸收氧气和营养物质、排出代谢废物 。（2）气室中充入5%C02气体的主要作用是 维持培养液适宜的pH 。（3）培养液中添加",
+        "stem_after": "（8分）动物器官的体外培养技术对于研究器官的生理、病理过程及其机制意义重大。如图是一个新生小鼠的肝脏小块培养装置示意图。请回答下列问题。⟦IMG:rId29⟧（1）肝脏切成小薄片，这有利于肝脏细胞 吸收氧气和营养物质、排出代谢废物 。（2）气室中充入5%C02气体的主要作用是 维持培养液适宜的pH 。（3）培养液中添加"
+      },
+      {
+        "paper_id": 3732,
+        "subject": "biology",
+        "year": 2009,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2009/2009年高考生物试卷（海南）（解析卷）.docx",
+        "question_id": 85133,
+        "stem_before": "现有与某种植物种子萌发有关的4组实验处理如下表。实验组ⅠⅡⅢⅣ处理种皮完整，25℃蒸馏水浸泡24h机械破损种皮，25℃蒸馏水浸泡24h种皮完整,0.05%赤霉素水溶液25℃浸泡24h机械破损种皮，0.05%赤霉素水溶液25℃浸泡24h下列组合不能达到相应目的的是仅做Ⅰ组与Ⅱ组实验，可探究机械破损对该种子萌发的影响仅做Ⅰ",
+        "stem_after": "现有与某种植物种子萌发有关的4组实验处理如下表⟦TABLE:4⟧下列组合不能达到相应目的的是仅做Ⅰ组与Ⅱ组实验，可探究机械破损对该种子萌发的影响仅做Ⅰ组与Ⅲ组实验，可探究种皮完整条件下赤霉素对该种子萌发的影响仅做Ⅱ组与Ⅲ组实验，可探究赤霉素或机械破损对该种子萌发的影响仅做Ⅱ组与Ⅳ组实验，可探究机械破损条件下赤霉素对该种"
+      }
+    ],
+    "reverted": [
+      {
+        "paper_id": 3720,
+        "subject": "biology",
+        "year": 2008,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2008/2008年高考生物试卷（江苏）（解析卷）.docx",
+        "reason": "第3题 options 键不一致",
+        "base_keys": [],
+        "ta_keys": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      {
+        "paper_id": 3726,
+        "subject": "biology",
+        "year": 2009,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2009/2009年高考生物试卷（四川）（解析卷）.docx",
+        "reason": "题号集合不一致",
+        "base_only": [
+          15
+        ],
+        "ta_only": []
+      },
+      {
+        "paper_id": 3728,
+        "subject": "biology",
+        "year": 2009,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2009/2009年高考生物试卷（山东）（解析卷）.docx",
+        "reason": "段落数不守恒 base=154 ta=132"
+      },
+      {
+        "paper_id": 3729,
+        "subject": "biology",
+        "year": 2009,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2009/2009年高考生物试卷（广东）（解析卷）.docx",
+        "reason": "段落数不守恒 base=413 ta=395"
+      },
+      {
+        "paper_id": 3737,
+        "subject": "biology",
+        "year": 2010,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2010/2010年高考生物试卷（天津）（解析卷）.docx",
+        "reason": "题号集合不一致",
+        "base_only": [
+          78
+        ],
+        "ta_only": [
+          6,
+          7,
+          8
+        ]
+      },
+      {
+        "paper_id": 3740,
+        "subject": "biology",
+        "year": 2010,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2010/2010年高考生物试卷（江苏）（解析卷）.docx",
+        "reason": "第1题 options 键不一致",
+        "base_keys": [],
+        "ta_keys": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      {
+        "paper_id": 3745,
+        "subject": "biology",
+        "year": 2011,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2011/2011年高考生物试卷（北京）（解析卷）.docx",
+        "reason": "题号集合不一致",
+        "base_only": [
+          46
+        ],
+        "ta_only": [
+          13,
+          14,
+          15
+        ]
+      },
+      {
+        "paper_id": 3749,
+        "subject": "biology",
+        "year": 2011,
+        "docx": "database/preflight/qb-extract/docx-cache/gaokao/biology/2011/2011年高考生物试卷（广东）（解析卷）.docx",
+        "reason": "段落数不守恒 base=165 ta=151"
+      }
+    ]
+  }
+}
