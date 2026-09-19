@@ -53,18 +53,22 @@ items:
     blocks: nothing
     unblocked_by: pairing_rate_probe
   - id: QB-P4-c
-    title: "P4-c — 重抽被表格污染题面 (高风险, 单独立项)"
+    title: "P4-c — 表感知重抽取 (先 20–30 题 pilot)"
     priority: P2
-    decision: docs/database/table-contamination-diagnosis-2026-09-19.md#4
+    decision: docs/database/p4c-reextract-risk-2026-09-19.md
     description: |
-      qbx.py 不处理 OOXML w:tbl, 表内段落被当正文塞进文本流 ——
-      3048 题 (strong 口径) 的 stem/options 里塞着扁平化表格, 另有 529 张表被拆给多题。
-      P4-a 已把 2492 张表结构化入库 (1694 张已归属题), 但**题面本身还没动**。
-      P4-c = 把题面里的表格文本抽出来换成占位符, 会动已验收的 stem/options,
-      可能牵动答案/解析/判分 → 必须先在新资产上做抽样验证再决定。
-    estimate: TBD (抽样验证后再评估)
+      ⚠️ 原方案「在现有 stem 上删掉表格文本」已被风险探针否证:
+      单元格边界在扁平化后丢失 (0.01/1/10/30 → "0.0111030"), 删除必然残留碎片;
+      且会挖掉合法正文 (实测「2002年和2007年」→「在和」)。
+      **改为表感知重抽取**: 让 qbx.py/02-extract.py 把 w:tbl 当整块处理,
+      stem 只留 ⟦TABLE:n⟧ 占位符, 内容进 question_tables (复用 TD-005 Phase 3 重提取套路)。
+      范围: 已归属表涉及 1371 题 (占 active 3.7%); 先在 FLATTENED_BLOCK 387 组里
+      抽 20–30 题 pilot, 人工复核「题干可读 / 答案解析未丢 / 选项完整」三条再谈扩大。
+      option_layout (63 题/75 表) 单独: 表格就是选项, 只补资产不动题面 (P4-a 已覆盖)。
+      NO_HIT_IN_STEM 的 346 组 (表格文本在解析里) 不在范围内 —— 题面本就未被污染。
+    estimate: pilot 先做, 全量 TBD
     blocks: nothing
-    unblocked_by: p4a_sample_validation
+    unblocked_by: p4c_pilot_review
   - id: QB-TABLE-ATTRIBUTION
     title: "523 张表格归属歧义 — 人工裁决回填 question_id"
     priority: P3
