@@ -1,5 +1,6 @@
 import { getDb } from '../core/db.js';
 import { errorResponse, successResponse } from '../utils/response.js';
+import { enrichQuestionsWithTables } from '../services/questionTables.js';
 
 // D092-front-loop-2026-09-14: 拆分为按 paperId 与按 questionId 两端点
 //   getExamQuestions(req, res)   路由 /questions/:paperId  (保留原行为, 试卷级题目列表)
@@ -84,6 +85,8 @@ export async function getExamQuestions(req, res) {
       r.knowledge_points_v1 = v1Map.get(r.id) || [];
       r.knowledge_points_v2 = v2Map.get(r.id) || [];
     }
+    // P4-c 治本: 把 ⟦TABLE:n⟧ 富化成结构化 tables (见 services/questionTables.js)
+    await enrichQuestionsWithTables(pool, rows.rows);
 
     const countResult = await pool.query('SELECT COUNT(*) AS count FROM exam_questions WHERE paper_id = $1', [paperId]);
     res.json({
@@ -133,6 +136,8 @@ export async function getQuestionById(req, res) {
          ORDER BY q.confidence DESC NULLS LAST`, [q.id]);
       q.knowledge_points_v2 = v2Res.rows.map(r => ({ kp_id: r.kp_id, name: r.name, dimension_type: r.dimension_type, confidence: r.confidence, reasoning: r.reasoning, source: 'v2' }));
     }
+    // P4-c 治本: ⟦TABLE:n⟧ → 结构化 tables
+    await enrichQuestionsWithTables(pool, [q]);
     return res.json(successResponse({ data: q }, '获取题目详情成功'));
   } catch (e) {
     console.error('[getQuestionById] 失败:', e.message);
@@ -153,7 +158,7 @@ export async function getSimilarQuestionsByV2Kp(req, res) {
     const sql = `
       SELECT eq.id, eq.question_number, eq.question_type, eq.stem, eq.options,
              eq.answer, eq.analysis, eq.score, eq.difficulty, eq.subject_code,
-             eq.file_path, ep.year, p.code AS province_code, p.name AS province_name
+             eq.file_path, eq.table_refs, ep.year, p.code AS province_code, p.name AS province_name
       FROM question_kp_v2 q
       JOIN exam_questions eq ON eq.id = q.question_id
       JOIN exam_papers ep ON eq.paper_id = ep.id
@@ -181,6 +186,8 @@ export async function getSimilarQuestionsByV2Kp(req, res) {
     for (const r of rows.rows) {
       r.knowledge_points_v2 = kpMap.get(r.id) || [];
     }
+    // P4-c 治本: ⟦TABLE:n⟧ → 结构化 tables
+    await enrichQuestionsWithTables(pool, rows.rows);
     const countR = await pool.query('SELECT COUNT(*)::int AS c FROM question_kp_v2 WHERE kp_id = $1', [v2_kp]);
     return res.json(successResponse({
       v2_kp, total: countR.rows[0].c, data: rows.rows, limit: parseInt(limit), offset: parseInt(offset)

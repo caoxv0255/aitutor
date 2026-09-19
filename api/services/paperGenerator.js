@@ -1,6 +1,7 @@
 import { getDb } from '../core/db.js';
 import { llm, MODELS } from '../../services/llm.js';
 import { logger } from '../core/logger.js';
+import { enrichQuestionsWithTables, tableTokenToText } from './questionTables.js';
 
 const DIFFICULTY_MAPPING = {
   easy: { min: 1, max: 2.5 },
@@ -58,6 +59,8 @@ export class PaperGenerator {
       years,
       weakKPIds
     );
+    // P4-c 治本: 题面 ⟦TABLE:n⟧ → 结构化 tables (纯文本 content 用短标记兜底, 不泄裸 token)
+    await enrichQuestionsWithTables(pool, questions);
 
     const paper = this.assemblePaper(
       subject, 
@@ -271,7 +274,8 @@ export class PaperGenerator {
         questions: selectionQuestions.map((q, i) => ({
           id: `S${i + 1}`,
           question_uid: q.question_uid,
-          content: q.stem,
+          content: tableTokenToText(q.stem),
+          tables: q.tables || undefined,
           options: q.options ? JSON.parse(q.options) : [],
           answer: includeAnswer ? q.answer : null,
           explanation: includeAnswer ? q.analysis : null,
@@ -296,7 +300,8 @@ export class PaperGenerator {
         questions: fillQuestions.map((q, i) => ({
           id: `F${i + 1}`,
           question_uid: q.question_uid,
-          content: q.stem,
+          content: tableTokenToText(q.stem),
+          tables: q.tables || undefined,
           options: q.options ? JSON.parse(q.options) : [],
           answer: includeAnswer ? q.answer : null,
           explanation: includeAnswer ? q.analysis : null,
@@ -322,7 +327,8 @@ export class PaperGenerator {
         questions: solutionQuestions.map((q, i) => ({
           id: `J${i + 1}`,
           question_uid: q.question_uid,
-          content: q.stem,
+          content: tableTokenToText(q.stem),
+          tables: q.tables || undefined,
           options: q.options ? JSON.parse(q.options) : [],
           answer: includeAnswer ? q.answer : null,
           explanation: includeAnswer ? q.analysis : null,

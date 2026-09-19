@@ -40,6 +40,11 @@
       .qb-page-btn.active { background: var(--color-primary-500); color: white; border-color: var(--color-primary-500); }
       .qb-page-btn:disabled { opacity: .4; cursor: not-allowed; }
       .qb-kp-chip { background: #ecfdf5; color: #047857; border: 1px solid #d1fae5; }
+      /* P4-c: ⟦TABLE:n⟧ 渲染出的结构化表格 */
+      .qb-table { border-collapse: collapse; margin: 8px 0; font-size: 13px; max-width: 100%; display: block; overflow-x: auto; }
+      .qb-table th, .qb-table td { border: 1px solid var(--color-border-light); padding: 4px 10px; text-align: left; vertical-align: top; white-space: normal; }
+      .qb-table th { background: var(--color-surface-tertiary); font-weight: 700; }
+      .qb-table-missing { color: #991b1b; font-size: 12px; }
     </style>
 </head>
 <body class="min-h-screen" style="background:var(--color-surface-secondary);color:var(--color-foreground);">
@@ -154,6 +159,8 @@
     <script type="module">
         // ─── D091-front-loop-2026-09-14: 题库浏览 (v2 KP 升级) ───
         import { request } from '../assets/js/api/client.js';
+        // P4-c 表格读端渲染 (⟦TABLE:n⟧ → 结构化表)
+        import { renderStemInto, tokenAwareSlice } from '../assets/js/utils/placeholder-render.js';
 
         // v2 KP dimension_type → 颜色 (D091 设计: 概念/章节/能力/单元)
         const DIM_COLOR = {
@@ -307,7 +314,8 @@
             listEl.innerHTML = state.items.map((q, idx) => {
                 const subZh = SUBJECT_ZH[q.subject_code] || q.subject_code;
                 const provZh = PROVINCE_ZH[q.province_code] || q.province_code || '';
-                const stem = (q.stem || '').replace(/\s+/g, ' ').slice(0, 220);
+                // token 感知截断: 绝不切断 ⟦…⟧, 表格 token 记作 [表]
+                const stemInfo = tokenAwareSlice((q.stem || '').replace(/\s+/g, ' '), 220);
                 const qn = q.question_number != null ? q.question_number : '?';
                 const kpCount = q.knowledge_points ? (Array.isArray(q.knowledge_points) ? q.knowledge_points.length : 1) : 0;
                 return `
@@ -323,7 +331,7 @@
                             <span class="qb-chip" style="background:#f3f4f6;color:var(--color-muted-foreground);">第 ${qn} 题</span>
                             ${kpCount > 0 ? `<span class="qb-chip qb-kp-chip">📚 ${kpCount} KP</span>` : '<span class="qb-chip" style="background:#fef2f2;color:#991b1b;">⚠️ 无 KP</span>'}
                         </div>
-                        <div class="qb-stem" style="margin:0;">${esc(stem)}${stem.length >= 220 ? '…' : ''}</div>
+                        <div class="qb-stem" style="margin:0;">${esc(stemInfo.text)}${stemInfo.hasTable ? ' <span class="qb-chip" style="background:#e0e7ff;color:#3730a3;">表</span>' : ''}</div>
                     </div>
                 </div>`;
             }).join('');
@@ -384,13 +392,15 @@
                 meta += '</div>';
                 body.innerHTML = `
                     ${meta}
-                    <div class="qb-stem" style="font-size:15px;margin-bottom:10px;">${esc(q.stem || '—')}</div>
+                    <div class="qb-stem" id="qb-modal-stem" style="font-size:15px;margin-bottom:10px;"></div>
                     ${optionsHtml}
                     ${answerHtml}
                     ${analysisHtml}
                     ${kpHtml || '<div style="margin-top:14px;font-size:11px;color:#991b1b;">⚠️ 此题暂无 KP 关联</div>'}
                     <div style="margin-top:14px;font-size:11px;color:var(--color-foreground-muted);border-top:1px solid var(--color-border-light);padding-top:10px;">file_path: <code>${esc(q.file_path || '— (D089 已知: 列表接口不含 file_path, 详情需调用单题接口)')}</code></div>
                 `;
+                // P4-c: 题面 ⟦TABLE:n⟧ → 结构化表格 (DOM 构建, 防 XSS)
+                renderStemInto(body.querySelector('#qb-modal-stem'), q.stem || '—', q.tables);
             } catch (e) {
                 body.innerHTML = '<div style="padding:24px;color:var(--color-error-500);">加载失败: ' + esc(e.message || '') + '</div>';
             }

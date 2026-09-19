@@ -1,6 +1,7 @@
 import { getDb } from '../core/db.js';
 import crypto from 'crypto';
 import { errorResponse } from '../utils/response.js';
+import { enrichQuestionsWithTables } from '../services/questionTables.js';
 
 const SUBJECT_MAP = {
   数学: 'math',
@@ -65,6 +66,8 @@ export async function startExamSession(req, res) {
       [sessionId, email, subject, province_code || null, safeTimeLimit, questions.rows.length]
     );
 
+    // P4-c 治本: 题面 ⟦TABLE:n⟧ → 结构化 tables
+    await enrichQuestionsWithTables(pool, questions.rows);
     const cleanQuestions = questions.rows.map((q) => ({
       id: q.id,
       question_number: q.question_number,
@@ -75,6 +78,7 @@ export async function startExamSession(req, res) {
       difficulty: q.difficulty,
       year: q.year,
       province_name: q.province_name,
+      tables: q.tables || undefined,
     }));
 
     res.json({

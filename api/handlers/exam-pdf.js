@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { getDb } from '../core/db.js';
 import { errorResponse } from '../utils/response.js';
+import { tableTokenToText } from '../services/questionTables.js';
 import mammoth from 'mammoth';
 import { execSync } from 'child_process';
 
@@ -212,7 +213,7 @@ async function generateFromDatabase(paper, questions, includeAnswer, includeAnal
 
       typeQuestions.forEach((q) => {
         doc.fontSize(11).font('simsun');
-        doc.text(`${globalNum}. ${q.stem || ''}`, { indent: 0 });
+        doc.text(`${globalNum}. ${tableTokenToText(q.stem)}`, { indent: 0 });
 
         const options = parseOptions(q.options);
         if (options.length > 0) {
