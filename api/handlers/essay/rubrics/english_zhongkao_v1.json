@@ -1,0 +1,63 @@
+{
+  "id": "english_zhongkao_v1",
+  "subject": "english",
+  "exam_level": "zhongkao",
+  "version": "1.0.0",
+  "updated_at": "2026-09-15",
+  "description": "中考英语作文评分标准 (应用文为主, 4 维各 20 分, 满分 80)",
+  "dimensions": [
+    {
+      "key": "content",
+      "name_cn": "内容",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "完整覆盖所有要点，主题鲜明，内容充实" },
+        { "band": "good",      "range": [13, 16], "desc": "覆盖所有要点，主题较清楚" },
+        { "band": "average",   "range": [9, 12],  "desc": "基本覆盖要点" },
+        { "band": "weak",      "range": [0, 8],   "desc": "遗漏要点或偏离主题" }
+      ]
+    },
+    {
+      "key": "language",
+      "name_cn": "语言",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "语法准确，词汇丰富，句式多样，语感好" },
+        { "band": "good",      "range": [13, 16], "desc": "语法较准确，词汇较丰富" },
+        { "band": "average",   "range": [9, 12],  "desc": "语法基本正确，词汇较简单" },
+        { "band": "weak",      "range": [0, 8],   "desc": "语法错误较多，影响理解" }
+      ]
+    },
+    {
+      "key": "structure",
+      "name_cn": "结构",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "段落清晰，衔接自然，格式规范 (应用文)" },
+        { "band": "good",      "range": [13, 16], "desc": "段落较清晰，格式较规范" },
+        { "band": "average",   "range": [9, 12],  "desc": "段落基本清晰" },
+        { "band": "weak",      "range": [0, 8],   "desc": "段落不清，格式混乱" }
+      ]
+    },
+    {
+      "key": "development",
+      "name_cn": "发展等级",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "使用了高级词汇和复合句，表达有亮点和创意" },
+        { "band": "good",      "range": [13, 16], "desc": "使用了一些高级表达" },
+        { "band": "average",   "range": [9, 12],  "desc": "偶有亮点" },
+        { "band": "weak",      "range": [0, 8],   "desc": "无明显发展等级亮点" }
+      ]
+    }
+  ],
+  "type_distribution": {
+    "highlight":      { "min": 1, "max": 5 },
+    "masterstroke":   { "min": 1, "max": 2 },
+    "grammar_error":  { "min": 0, "max": 6 },
+    "advanced_vocab": { "min": 1, "max": 4 },
+    "logic_issue":    { "min": 0, "max": 3 }
+  },
+  "summary_length": { "min": 40, "max": 250 },
+  "annotation_count": { "min": 4, "max": 10 }
+}

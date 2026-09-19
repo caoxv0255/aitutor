@@ -36,7 +36,9 @@ describe('reset-password.js', () => {
   describe('handler (reset password)', () => {
     it('should reject without verification code', async () => {
       const { default: handler } = await import('../../api/handlers/reset-password.js');
-      const req = { method: 'POST', body: { email: 'test@test.com', newPassword: '123456' } };
+      // P1-5 (2026-09-17): 密码先过 strict 校验 (8位+大小写+数字),
+      // 本用例只验证「缺验证码」分支, 故先用合规密码隔离变量.
+      const req = { method: 'POST', body: { email: 'test@test.com', newPassword: 'Abcd1234' } };
       const res = createMockRes();
 
       await handler(req, res);
@@ -67,7 +69,7 @@ describe('reset-password.js', () => {
 
     it('should reject if no verification code was sent', async () => {
       const { default: handler } = await import('../../api/handlers/reset-password.js');
-      const req = { method: 'POST', body: { email: 'new@test.com', newPassword: '123456', code: '123456' } };
+      const req = { method: 'POST', body: { email: 'new@test.com', newPassword: 'Abcd1234', code: '123456' } };
       const res = createMockRes();
 
       await handler(req, res);

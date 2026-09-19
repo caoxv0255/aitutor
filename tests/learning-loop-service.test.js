@@ -150,6 +150,7 @@ describe('learningLoop.getMastery', () => {
   it('returns mastery list', async () => {
     const r = await learningLoop.getMastery();
     expect(r.success).toBe(true);
-    expect(Array.isArray(r.data.masteries)).toBe(true);
+    // 后端 GET /api/tutor/loop/mastery 返回 { items, total } (api/routes/learning-loop.js)
+    expect(Array.isArray(r.data.items)).toBe(true);
   });
 });

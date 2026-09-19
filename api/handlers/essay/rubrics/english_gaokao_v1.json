@@ -1,0 +1,63 @@
+{
+  "id": "english_gaokao_v1",
+  "subject": "english",
+  "exam_level": "gaokao",
+  "version": "1.0.0",
+  "updated_at": "2026-09-15",
+  "description": "高考英语作文评分标准 (应用文/读后续写, 4 维各 20 分, 满分 80)",
+  "dimensions": [
+    {
+      "key": "content",
+      "name_cn": "内容",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "完整覆盖所有要点，主题鲜明，观点独到，情感丰富" },
+        { "band": "good",      "range": [13, 16], "desc": "覆盖所有要点，主题清楚，观点较明确" },
+        { "band": "average",   "range": [9, 12],  "desc": "基本覆盖要点，主题尚清楚" },
+        { "band": "weak",      "range": [0, 8],   "desc": "遗漏要点，主题模糊" }
+      ]
+    },
+    {
+      "key": "language",
+      "name_cn": "语言",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "语法准确多变，词汇丰富高级，句式灵活地道，衔接自然" },
+        { "band": "good",      "range": [13, 16], "desc": "语法较准确，词汇较丰富，有一定句式变化" },
+        { "band": "average",   "range": [9, 12],  "desc": "语法基本正确，词汇较单一" },
+        { "band": "weak",      "range": [0, 8],   "desc": "语法错误较多，词汇贫乏" }
+      ]
+    },
+    {
+      "key": "structure",
+      "name_cn": "结构",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "段落分明，逻辑严密，过渡自然连贯，衔接词使用恰当" },
+        { "band": "good",      "range": [13, 16], "desc": "段落较分明，逻辑较清楚" },
+        { "band": "average",   "range": [9, 12],  "desc": "段落基本分明，逻辑尚可" },
+        { "band": "weak",      "range": [0, 8],   "desc": "段落不清，逻辑混乱" }
+      ]
+    },
+    {
+      "key": "development",
+      "name_cn": "发展等级",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "使用了丰富的高级词汇和复杂句式，情节/论述有创意，情感表达细腻" },
+        { "band": "good",      "range": [13, 16], "desc": "使用了一些高级词汇和复合句，有一定创意" },
+        { "band": "average",   "range": [9, 12],  "desc": "偶有亮点但不突出" },
+        { "band": "weak",      "range": [0, 8],   "desc": "缺乏发展等级亮点" }
+      ]
+    }
+  ],
+  "type_distribution": {
+    "highlight":      { "min": 1, "max": 5 },
+    "masterstroke":   { "min": 1, "max": 3 },
+    "grammar_error":  { "min": 0, "max": 6 },
+    "advanced_vocab": { "min": 1, "max": 5 },
+    "logic_issue":    { "min": 0, "max": 3 }
+  },
+  "summary_length": { "min": 50, "max": 300 },
+  "annotation_count": { "min": 5, "max": 12 }
+}

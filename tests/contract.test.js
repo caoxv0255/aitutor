@@ -277,7 +277,8 @@ await TEST('learningLoop.getMastery', async () => {
   const r = await learningLoop.getMastery();
   assert(isObject(r), 'r 必须是 object');
   assert(r.success === true, 'success 必须 true');
-  assert(Array.isArray(r.data.masteries), 'data.masteries 必须是 array');
+  // 后端 GET /api/tutor/loop/mastery 返回 { items, total } (api/routes/learning-loop.js)
+  assert(Array.isArray(r.data.items), 'data.items 必须是 array');
 });
 
 // ===== 总结 =====

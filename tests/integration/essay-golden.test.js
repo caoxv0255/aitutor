@@ -30,7 +30,12 @@ function normalizeModel(m) {
   return m.replace(/-\d{4}(-([a-z0-9-]+))?$/i, '');
 }
 
-describe('Essay Golden Sample — synthetic fixtures (P0 fixture gate)', () => {
+// 默认跳过: 该 golden 需要 (1) :3003 上的 essay 路由 + (2) 真实 VL 模型调用 (付费且非确定性),
+// 不适合进 npm run gate 的快门禁. 需要时显式开:
+//   RUN_ESSAY_GOLDEN=1 BCT_URL=http://localhost:3003 npx vitest run tests/integration/essay-golden.test.js
+const RUN_GOLDEN = process.env.RUN_ESSAY_GOLDEN === '1';
+
+describe.skipIf(!RUN_GOLDEN)('Essay Golden Sample — synthetic fixtures (P0 fixture gate)', () => {
   it('fixture gate: LICENSE-SYNTHETIC.md + 3 essays present', () => {
     expect(fs.existsSync(resolve(FIXTURE_DIR, 'LICENSE-SYNTHETIC.md'))).toBe(true);
     for (const f of ESSAYS) {
@@ -39,7 +44,7 @@ describe('Essay Golden Sample — synthetic fixtures (P0 fixture gate)', () => {
   });
 });
 
-describe('Essay Golden Sample — dual-gate E2E', () => {
+describe.skipIf(!RUN_GOLDEN)('Essay Golden Sample — dual-gate E2E', () => {
   let token = null;
 
   beforeAll(async () => {

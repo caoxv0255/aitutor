@@ -314,4 +314,103 @@ router.get('/:kpId/practice', authMiddleware, async (req, res) => {
   }
 });
 
+
+/**
+ * GET /api/knowledge/star-map — 知识星图 (PM §F.2, knowledge-star.html)
+ *
+ * 返回 9 学科节点 + 跨学科连线 + 9×6 热力矩阵
+ * { nodes: [...], edges: [...], heatmap: {...}, subjects: [...] }
+ */
+router.get('/star-map', authMiddleware, async (req, res) => {
+  try {
+    const pool = await getDb();
+    const userEmail = req.user.email;
+    const SUBJECT_ORDER = ['chinese','math','english','physics','chemistry','biology','history','geography','politics'];
+
+    // 1. 节点: 该用户练过的所有 KP, 附 mastery_score / is_weak
+    const nodes = await pool.query(
+      `SELECT
+         kp.id AS kp_id, kp.name, kp.subject AS subject_code, kp.level, kp.difficulty,
+         skm.mastery_score, skm.attempt_count
+       FROM knowledge_points kp
+       LEFT JOIN student_knowledge_mastery skm
+         ON skm.user_email = $1 AND skm.knowledge_point_id = kp.id
+       WHERE skm.attempt_count > 0 OR kp.id IN (
+         SELECT DISTINCT knowledge_point_id FROM wrong_questions WHERE user_email = $1
+       )
+       ORDER BY kp.subject, kp.id`,
+      [userEmail]
+    );
+
+    // 2. 跨学科连线: 同级 KP 链 (subtopics 关联 / 手动 cross-subject 标记)
+    // knowledge_cross_subject_links 尚未建表 (无 migration) —— 表缺失时降级为空连线,
+    // 避免整个星图 500 (实测: 该端点此前 500, 无任何页面能消费).
+    let edgeRows = [];
+    try {
+      const edges = await pool.query(
+        `SELECT from_kp, to_kp, strength, type
+         FROM knowledge_cross_subject_links
+         WHERE from_kp IN (SELECT DISTINCT knowledge_point_id FROM wrong_questions WHERE user_email = $1)
+            OR to_kp   IN (SELECT DISTINCT knowledge_point_id FROM wrong_questions WHERE user_email = $1)`,
+        [userEmail]
+      );
+      edgeRows = edges.rows;
+    } catch (edgeErr) {
+      console.warn(`[star-map] 跨学科连线不可用, 降级为空: ${edgeErr.message}`);
+    }
+
+    // 3. 热力矩阵: 9 学科 × 6 KP 类别 (基础/方法/综合/计算/推理/案例)
+    const KP_CATEGORIES = ['基础概念', '方法应用', '综合运用', '计算', '推理', '案例'];
+    const heatmap = {};
+    for (const subj of SUBJECT_ORDER) {
+      heatmap[subj] = {};
+      for (const cat of KP_CATEGORIES) heatmap[subj][cat] = null;
+    }
+    for (const row of nodes.rows) {
+      const subj = row.subject_code;
+      if (!heatmap[subj]) continue;
+      // 简化: 用 kp.id 哈希到 category index (真实场景应基于 kp.category 字段)
+      const catIdx = (row.kp_id || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0) % KP_CATEGORIES.length;
+      const cat = KP_CATEGORIES[catIdx];
+      const m = row.mastery_score != null ? parseFloat(row.mastery_score) : null;
+      if (heatmap[subj][cat] == null || (m != null && (heatmap[subj][cat] == null || m < heatmap[subj][cat]))) {
+        heatmap[subj][cat] = m;
+      }
+    }
+
+    // 4. 9 学科定义 (固定顺序)
+    const subjects = [
+      { code: 'chinese',   name: '语文', color: '#c2410c' },
+      { code: 'math',      name: '数学', color: '#d71920' },
+      { code: 'english',   name: '英语', color: '#7c3aed' },
+      { code: 'physics',   name: '物理', color: '#2563eb' },
+      { code: 'chemistry', name: '化学', color: '#059669' },
+      { code: 'biology',   name: '生物', color: '#0891b2' },
+      { code: 'history',   name: '历史', color: '#b45309' },
+      { code: 'geography', name: '地理', color: '#65a30d' },
+      { code: 'politics',  name: '政治', color: '#be185d' },
+    ];
+
+    return res.json(successResponse({
+      subjects,
+      nodes: nodes.rows.map(r => ({
+        kp_id: r.kp_id,
+        name: r.name,
+        subject_code: r.subject_code,
+        level: r.level,
+        difficulty: r.difficulty,
+        mastery: r.mastery_score != null ? parseFloat(r.mastery_score) : null,
+        is_weak: r.mastery_score != null ? parseFloat(r.mastery_score) < 0.5 : false,
+        attempt_count: r.attempt_count || 0,
+      })),
+      edges: edgeRows.map(r => ({ from: r.from_kp, to: r.to_kp, strength: r.strength, type: r.type })),
+      heatmap,
+      generated_at: new Date().toISOString(),
+    }, `${nodes.rows.length} KP 节点 · ${edgeRows.length} 跨学科连线`));
+  } catch (err) {
+    console.error('[star-map] failed:', err.message);
+    return res.status(500).json(errorResponse(`星图查询失败: ${err.message}`));
+  }
+});
+
 export default router;

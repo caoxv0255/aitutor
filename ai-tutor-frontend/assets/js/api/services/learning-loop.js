@@ -65,7 +65,7 @@ export const learningLoop = {
 
   /**
    * 获取全量掌握度 (Sprint 1 不被任何页面消费, 但 service 保留以便 Sprint 2 dashboard 接)
-   * @returns {Promise<{success, data: {masteries: Array}}>}
+   * @returns {Promise<{success, message, data: {items: Array, total: number}}>}
    */
   async getMastery() {
     return request('GET', '/api/tutor/loop/mastery', null, { mockName: 'tutor_loop_mastery' });

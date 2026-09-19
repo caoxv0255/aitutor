@@ -1,0 +1,32 @@
+{
+  "success": true,
+  "message": "批量反馈已处理: 2/2",
+  "data": {
+    "total": 2,
+    "succeeded": 2,
+    "failed": 0,
+    "results": [
+      {
+        "knowledge_point_id": "math_002",
+        "old_score": 0.62,
+        "new_score": 0.7,
+        "delta": 0.08,
+        "is_correct": true,
+        "hint_requested": false,
+        "time_spent_ms": 15000,
+        "ripple": { "upward": [], "downward": [] }
+      },
+      {
+        "knowledge_point_id": "math_007",
+        "old_score": 0.55,
+        "new_score": 0.47,
+        "delta": -0.08,
+        "is_correct": false,
+        "hint_requested": false,
+        "time_spent_ms": 30000,
+        "ripple": { "upward": [], "downward": [] }
+      }
+    ],
+    "failures": []
+  }
+}

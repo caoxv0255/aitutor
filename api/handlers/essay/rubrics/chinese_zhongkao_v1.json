@@ -1,0 +1,63 @@
+{
+  "id": "chinese_zhongkao_v1",
+  "subject": "chinese",
+  "exam_level": "zhongkao",
+  "version": "1.0.0",
+  "updated_at": "2026-09-15",
+  "description": "中考语文作文评分标准 (北京/全国通用, 4 维各 20 分, 满分 80)",
+  "dimensions": [
+    {
+      "key": "content",
+      "name_cn": "内容",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "中心突出，材料具体充实，感情真挚，符合题意" },
+        { "band": "good",      "range": [13, 16], "desc": "中心明确，材料较充实，感情真实，基本符合题意" },
+        { "band": "average",   "range": [9, 12],  "desc": "中心较明确，材料不够具体，感情较平淡" },
+        { "band": "weak",      "range": [0, 8],   "desc": "中心不明确，材料空洞，偏离题意" }
+      ]
+    },
+    {
+      "key": "language",
+      "name_cn": "语言",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "语句通顺流畅，用词生动形象，有文采" },
+        { "band": "good",      "range": [13, 16], "desc": "语句通顺，用词得当" },
+        { "band": "average",   "range": [9, 12],  "desc": "基本通顺，偶有语病" },
+        { "band": "weak",      "range": [0, 8],   "desc": "语句不通，语病较多" }
+      ]
+    },
+    {
+      "key": "structure",
+      "name_cn": "结构",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "段落分明，条理清楚，详略得当，首尾呼应" },
+        { "band": "good",      "range": [13, 16], "desc": "段落较分明，条理较清楚" },
+        { "band": "average",   "range": [9, 12],  "desc": "段落基本分明" },
+        { "band": "weak",      "range": [0, 8],   "desc": "段落不清，条理混乱" }
+      ]
+    },
+    {
+      "key": "development",
+      "name_cn": "发展等级",
+      "max": 20,
+      "criteria": [
+        { "band": "excellent", "range": [17, 20], "desc": "感情真挚，有创意，描写生动，蕴含深刻" },
+        { "band": "good",      "range": [13, 16], "desc": "感情真实，有一定描写" },
+        { "band": "average",   "range": [9, 12],  "desc": "略有描写或感悟" },
+        { "band": "weak",      "range": [0, 8],   "desc": "缺乏发展等级亮点" }
+      ]
+    }
+  ],
+  "type_distribution": {
+    "highlight":      { "min": 1, "max": 5 },
+    "masterstroke":   { "min": 1, "max": 2 },
+    "grammar_error":  { "min": 0, "max": 5 },
+    "advanced_vocab": { "min": 0, "max": 3 },
+    "logic_issue":    { "min": 0, "max": 4 }
+  },
+  "summary_length": { "min": 40, "max": 250 },
+  "annotation_count": { "min": 4, "max": 10 }
+}

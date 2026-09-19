@@ -1,4 +1,6 @@
 import express from 'express';
+import fs from 'fs';
+import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
@@ -21,6 +23,8 @@ import legacyCompatRouter from './api/legacy-compat.js';
 import { getProvinces, getProvinceByCode, getProvinceStats } from './api/handlers/provinces.js';
 import { getClassDetail } from './api/handlers/class-analysis.js';
 import adaptiveDifficultyHandler from './api/handlers/adaptive-difficulty.js';
+import { gradeEssayHandler, listEssaysHandler, getEssayHandler } from './api/handlers/essay/index.js';
+import { uploadImageHandler } from './api/handlers/upload/imageHandler.js';
 import { getProvinceTrends, getProvinceCompare } from './api/handlers/province-trends.js';
 import { seedProvinces } from './api/handlers/seed-provinces.js';
 import { CacheService } from './api/services/cacheService.js';
@@ -109,6 +113,91 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// V2-DESIGN-BEGIN  —— /v2 设计稿托管（PM-BRIEF v2，24 页静态稿）
+//
+// 交付目标：https://aitutor.uibe.online/v2
+//
+// 此前这批设计稿只挂在 lab.uibe.edu.cn/v2（nginx → :8090 的
+// server-design-v2.js）。现在改为由本站点自身（aitutor.uibe.online → :3002）
+// 在 /v2 子路径下提供，不依赖 lab 域名，也不需要新增/修改任何 nginx 规则。
+//
+// 为什么能直接挂子路径：24 页全部用相对路径引用资源
+// （href="login.html" / src="assets/js/auth-nav.js"），仅 hero.html 有一处
+// href="/" 指向站点根；页内 /api/* 调用是绝对路径，仍归还到同域名后端。
+//
+// 目录解析：DESIGN_V2_DIR 环境变量优先，默认 ./docs/design（本项目内）
+// 对外屏蔽：*.md 内部文档 与 _e2e-screenshots/
+// ═══════════════════════════════════════════════════════════════════════════
+const DESIGN_V2_DIR = path.resolve(process.env.DESIGN_V2_DIR || 'docs/design');
+
+if (fs.existsSync(path.join(DESIGN_V2_DIR, 'hero.html'))) {
+  const DESIGN_V2_404 = path.join(DESIGN_V2_DIR, 'error-404.html');
+  const sendDesign404 = (res) => {
+    if (fs.existsSync(DESIGN_V2_404)) {
+      return res.status(404).sendFile(DESIGN_V2_404);
+    }
+    return res.status(404).type('html').send('<!doctype html><meta charset="utf-8"><title>404</title><h1>404 Not Found</h1>');
+  };
+
+  // /v2 → /v2/（补斜杠）；/v2/ → hero.html（与 :8090 现行行为保持一致）
+  //
+  // ⚠️ 必须用正则而不是 app.get('/v2') / app.get('/v2/')：
+  // Express 默认 strict:false，字符串路由 '/v2' 会把 '/v2/' 一并匹配，
+  // 导致 /v2/ 被自己 301 到 /v2/ —— 死循环。
+  app.get(/^\/v2\/?$/, (req, res) => {
+    if (req.path === '/v2') {
+      return res.redirect(301, '/v2/');
+    }
+    return res.sendFile(path.join(DESIGN_V2_DIR, 'hero.html'), (err) => {
+      if (err && !res.headersSent) {
+        res.status(500).type('html').send('design v2: hero.html 读取失败');
+      }
+    });
+  });
+
+  // 无后缀直达 /v2/essay → 301 /v2/essay.html（仅当目标文件确实存在）
+  app.get(/^\/v2\/([A-Za-z0-9_-]+)$/, (req, res, next) => {
+    const slug = req.params[0];
+    if (fs.existsSync(path.join(DESIGN_V2_DIR, `${slug}.html`))) {
+      return res.redirect(301, `/v2/${slug}.html`);
+    }
+    return next();
+  });
+
+  // 内部资料不对外：_e2e-screenshots/ 与 *.md
+  app.use('/v2', (req, res, next) => {
+    if (req.path.startsWith('/_e2e-screenshots') || /\.md$/i.test(req.path)) {
+      return sendDesign404(res);
+    }
+    return next();
+  });
+
+  // 静态资源（*.html / *.png / assets/**）
+  app.use(
+    '/v2',
+    express.static(DESIGN_V2_DIR, {
+      index: false,
+      etag: true,
+      maxAge: '7d',
+      setHeaders(res, filePath) {
+        if (filePath.endsWith('.html')) {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        }
+      },
+    })
+  );
+
+  // /v2/* 未命中 → 设计稿自带的 404 页
+  app.use('/v2', (_req, res) => sendDesign404(res));
+
+  logger.info(`[v2] 设计稿已挂载到 /v2 → ${DESIGN_V2_DIR}`);
+} else {
+  logger.warn(`[v2] 未挂载：找不到 ${DESIGN_V2_DIR}/hero.html`);
+}
+// V2-DESIGN-END
+// ═══════════════════════════════════════════════════════════════════════════
 
 app.get('/', (req, res) => {
   const userAgent = req.headers['user-agent'] || '';
@@ -291,6 +380,20 @@ app.post('/api/cache/clear-provinces', async (req, res) => {
 app.get('/api/exam-pdf/:paperId', generateExamPdf);
 app.get('/api/adaptive-difficulty', authMiddleware, wrapHandler(adaptiveDifficultyHandler));
 app.get('/api/class-detail', authMiddleware, wrapHandler(getClassDetail));
+// P11 (2026-09): /api/learning-path/current 已迁入 api/modules/learning-path/routes.js
+//   (release-gate 直挂 endpoint 基线 ≤ 12; 路径不变, 只是不再由 server.js 直挂)
+// 向后兼容：旧版 /api/learning-path?subject=...（D070 sunset 时移除）
+
+// D086 §12 L4 · 作文批改（拍照 / 上传 → AI 4 维评分 + 锚定回原文）
+//   注: V1.0 两阶段管线 (/api/essay/transcribe + /api/essay/grade) 待 Phase 1 单测通过后注册.
+//   现存 D086 L4 端点保留 30 天 (D070 sunset).
+app.post ('/api/essay/grade', authMiddleware, wrapHandler(gradeEssayHandler));
+app.get  ('/api/essay',         authMiddleware, wrapHandler(listEssaysHandler));
+app.get  ('/api/essay/:id',     authMiddleware, wrapHandler(getEssayHandler));
+// D086 §12 L4 V1.0 · 图片上传 (Patch 2 强制: 转录前必须先上传拿 URL)
+app.post ('/api/upload/image', authMiddleware, wrapHandler(uploadImageHandler));
+// Round 10: essay 上传走统一端点 (D086 V1.0 适配 PM §F.2)
+app.post ('/api/essay/upload',  authMiddleware, wrapHandler(uploadImageHandler));
 // /api/proxy — MUST stay behind a fixed endpoint whitelist.
 // The handler (api/handlers/proxy.js) refuses any model not in API_CONFIGS,
 // which means the upstream URL is hardcoded and not user-controllable, so

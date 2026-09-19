@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "message": "操作成功",
+  "data": {
+    "items": [
+      {
+        "knowledge_point_id": "math_002",
+        "mastery_score": 0.7,
+        "attempt_count": 12,
+        "correct_count": 9,
+        "last_practice_at": "2026-09-18T09:12:00Z",
+        "updated_at": "2026-09-18T09:12:00Z"
+      },
+      {
+        "knowledge_point_id": "math_007",
+        "mastery_score": 0.47,
+        "attempt_count": 8,
+        "correct_count": 3,
+        "last_practice_at": "2026-09-18T09:20:00Z",
+        "updated_at": "2026-09-18T09:20:00Z"
+      },
+      {
+        "knowledge_point_id": "physics_014",
+        "mastery_score": 0.83,
+        "attempt_count": 5,
+        "correct_count": 4,
+        "last_practice_at": "2026-09-17T20:05:00Z",
+        "updated_at": "2026-09-17T20:05:00Z"
+      }
+    ],
+    "total": 3
+  }
+}

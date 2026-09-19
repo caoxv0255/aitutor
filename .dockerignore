@@ -2,6 +2,10 @@
 database/*
 !database/init/
 node_modules/
+# 16G / 672M: 不进构建上下文 (此前未忽略, docker build 因上下文过大 5 分钟超时)
+hermes_pack/
+lost_exam_pack_*/
+archive/
 
 # ===== Python / Node 隐藏缓存 =====
 .venv/

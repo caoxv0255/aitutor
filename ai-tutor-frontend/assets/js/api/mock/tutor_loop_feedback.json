@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "message": "学习反馈已处理",
+  "data": {
+    "feedback": {
+      "knowledge_point_id": "math_002",
+      "old_score": 0.62,
+      "new_score": 0.7,
+      "delta": 0.08,
+      "is_correct": true,
+      "hint_requested": false,
+      "time_spent_ms": 15000,
+      "ripple": { "upward": [], "downward": [] }
+    },
+    "ripple_summary": {
+      "upward_count": 0,
+      "upward_nodes": [],
+      "downward_count": 0,
+      "downward_nodes": []
+    }
+  }
+}
