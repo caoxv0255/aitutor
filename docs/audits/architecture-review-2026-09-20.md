@@ -272,6 +272,17 @@ find api -type d -name services ; ls -d services                    # → api/se
 
 验证：`npm run gate` → **6/6 全绿**；`check-tracked-refs.mjs` 通过（**619** 个 tracked HTML/JS 的引用全部已入库）—— 新入库的 `essay.html` / `practice-hub.html` / `mastery.html` / `review.html` 所引用资产均一并在库。
 
+### 追加：部署模板校验进门禁（`61d4efa`，非评审原列项）
+
+R1/R4 的**发现过程本身**暴露了一个缺口：`deploy/*.conf` 是模板，既不参与构建也不参与任何门禁 ——
+所以 2026-09-17 那次 `uibe.conf` 重复 `upstream` 的语法错误能存活 3 天，直到人工 review 才被发现。
+故把「部署模板校验」加进门禁第 6 项：
+
+- `scripts/check-nginx-conf.mjs`：静态（花括号平衡 + `upstream` 块重名）+ 打桩 `nginx -t`
+  （ssl 证书用 openssl 自签、`access_log`/`error_log`/`pid` 重定向到临时目录，规避「本机不是部署机」）。
+- 判据：`emerg` 带 `.conf:行号` = 配置错 → 失败；不带行号的 `bind()`/`open()` 权限型 `emerg` = 环境噪音 → 忽略并计数。
+- 无 `nginx`/`openssl` 时降级为仅静态检查并显式打印 SKIP，不伪装成通过；CI 里先确保安装。
+
 ### 仍未实施
 
 - **方向 4–10**：冗余变体清理、legacy `frontend/` 护栏、后端路由收敛、超长文件拆分、ESLint ratchet、可观测落地、git 历史瘦身。
