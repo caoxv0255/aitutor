@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   gate:
-    name: release-gate (5/5)
+    name: release-gate (6/6)
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -95,7 +95,7 @@ jobs:
         env:
           OLLAMA_URL: http://mock-ollama:11434
 
-      - name: Run release gate (5/5)
+      - name: Run release gate (6/6)
         run: npm run gate
         env:
           BCT_URL: http://localhost:3000
@@ -121,7 +121,7 @@ jobs:
         if: always()
         run: |
           if [ "${{ job.status }}" = "success" ]; then
-            echo "✅ release-gate passed (5/5)"
+            echo "✅ release-gate passed (6/6)"
           else
             echo "❌ release-gate failed"
             exit 1

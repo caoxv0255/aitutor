@@ -7,7 +7,7 @@
 #   3. docker compose -f docker-compose.prod.yml up -d
 #   4. 等健康检查通过
 #   5. 灌入题目数据 (P2-1)
-#   6. 跑 release gate (5/5)
+#   6. 跑 release gate (6/6)
 #
 # 用法:
 #   sudo bash deploy/setup-prod.sh

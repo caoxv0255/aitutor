@@ -12,6 +12,7 @@
 #   3. Backend Contract  — 真后端 envelope/契约测试 (19 项, 需运行中的后端)
 #   4. docker build      — 镜像可构建 (app)
 #   5. health check      — 后端 /api/health dbReady=true
+#   6. repo consistency  — tracked 引用完整性 + .dockerignore 的 D079 边界
 #
 # 说明: lint 基线未清 (2445 项既有债务), 不作为硬门禁;
 #       lighthouse / security scan 为人工门禁 (见 docs/v1.0_RELEASE_GATE.md).
@@ -47,7 +48,7 @@ BCT_URL=$(resolve_bct_url || true)
 # Audit-2026-08-24 Fix-1: 严格判断 vitest 全绿
 # 旧逻辑 grep "Test Files .+ passed" 会误判 — vitest 失败时也输出 "passed" 字符串 (如 "1 failed | 12 passed")
 # 新逻辑: 检查 vitest 输出没有 "failed" 标记 (失败时 vitest 会输出 "×" + "Failed Tests N" + "Tests  N failed")
-step "1/5 单元测试 (vitest)"
+step "1/6 单元测试 (vitest)"
 VITEST_OUT=$(npx vitest run --reporter=dot 2>&1 || true)
 if echo "$VITEST_OUT" | grep -qE "Failed Tests|× |failed "; then
   fail "vitest 失败: $(echo "$VITEST_OUT" | grep -E "× |Failed Tests" | head -3 | tr '\n' ' ')"
@@ -56,7 +57,7 @@ else
 fi
 
 # ── 2. contract test (mock) ──
-step "2/5 前端 contract test (mock)"
+step "2/6 前端 contract test (mock)"
 CT_OUT=$(node tests/contract.test.js 2>&1 || true)
 if echo "$CT_OUT" | tail -1 | grep -qE "0 failed"; then
   ok "contract test 全绿"
@@ -65,7 +66,7 @@ else
 fi
 
 # ── 3. Backend Contract Test (真后端) ──
-step "3/5 Backend Contract Test (真后端)"
+step "3/6 Backend Contract Test (真后端)"
 if [ "${SKIP_BCT:-0}" = "1" ]; then
   echo "  (跳过: SKIP_BCT=1)"
 elif [ -z "$BCT_URL" ]; then
@@ -82,7 +83,7 @@ else
 fi
 
 # ── 4. docker build ──
-step "4/5 docker build (app 镜像)"
+step "4/6 docker build (app 镜像)"
 if [ "${SKIP_DOCKER:-0}" = "1" ]; then
   echo "  (跳过: SKIP_DOCKER=1)"
 elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
@@ -111,9 +112,9 @@ else
 fi
 
 # ── 5. health check (使用 auto-detect 的 BCT_URL) ──
-step "5/5 health check"
+step "5/6 health check"
 if [ -z "$BCT_URL" ]; then
-  echo "  (跳过: 无 BCT_URL, 5/5 跳)"
+  echo "  (跳过: 无 BCT_URL, 6/6 跳)"
   fail "/api/health 未通过 (无后端)"
 else
   H=$(curl -s -m 5 "$BCT_URL/api/health" 2>/dev/null || echo "")
@@ -122,6 +123,27 @@ else
   else
     fail "/api/health 未通过 ($BCT_URL): ${H:-无响应}"
   fi
+fi
+
+# ── 6. 仓库一致性 (引用完整性 + D079 构建边界) ──
+# 2026-09-20 架构评审 R1/R4 (docs/audits/architecture-review-2026-09-20.md):
+#   R1 — tracked 文件引用的本地资源必须也在 git 里, 否则干净 clone 跑不起来;
+#   R4 — .dockerignore 必须排除 AI Agent 元数据 (D079 §2.4/§9).
+step "6/6 仓库一致性 (引用完整性 + D079 边界)"
+if node scripts/check-tracked-refs.mjs; then
+  ok "tracked 引用完整性 (无未入库的运行时依赖)"
+else
+  fail "存在被 tracked 引用但未入库的本地资源 (清单见上)"
+fi
+
+D079_ABSENT=""
+for p in '.ai/' 'openwiki/'; do
+  grep -qF -- "$p" .dockerignore || D079_ABSENT="$D079_ABSENT $p"
+done
+if [ -z "$D079_ABSENT" ]; then
+  ok ".dockerignore 已排除 .ai/ + openwiki/ (D079 §2.4/§9)"
+else
+  fail ".dockerignore 缺 D079 要求的排除项:$D079_ABSENT"
 fi
 
 echo

@@ -42,6 +42,10 @@ Dockerfile
 .idea/
 .vscode/
 
+# ===== AI Agent 元数据 (D079 §2.4/§9: 不进构建上下文) =====
+.ai/
+openwiki/
+
 # ===== 工具缓存(非隐藏) =====
 coverage/
 dist/

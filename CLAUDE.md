@@ -322,7 +322,7 @@ docker compose -f docker-compose.prod.yml up -d
 - nginx profile (启用 TLS, `--profile with-nginx`)
 
 **CI/CD** (`.github/workflows/release-gate.yml`):
-- push/PR main → 自动跑 5/5 gate
+- push/PR main → 自动跑 6/6 gate
 - pgvector 服务 (Docker) + Redis 服务
 - npm ci → 后端 init/seed → gate → production-smoke
 - 失败阻止 merge
