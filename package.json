@@ -11,6 +11,8 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint api/ server.js tests/",
     "lint:fix": "eslint api/ server.js tests/ --fix",
+    "lint:css": "stylelint 'frontend/**/*.css' 'frontend/**/*.html'",
+    "lint:css:fix": "stylelint 'frontend/**/*.css' 'frontend/**/*.html' --fix",
     "format": "prettier --write \"api/**/*.js\" server.js \"tests/**/*.js\"",
     "format:check": "prettier --check \"api/**/*.js\" server.js \"tests/**/*.js\"",
     "sync": "node scripts/sync-knowledge.js",

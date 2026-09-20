@@ -11,6 +11,7 @@ export const NAV_ITEMS = [
   { key: 'review',  label: '学情报告',   href: '/f3/pages/review.html',         icon: '📈' },
   { key: 'mastery', label: '掌握度',     href: '/f3/pages/mastery.html',        icon: '🎯' },
   { key: 'vision',  label: '拍照搜题',   href: '/f3/pages/vision.html',         icon: '📷' },
+  { key: 'essay',   label: '作文批改',   href: '/f3/pages/essay.html',          icon: '📝' },
   { key: 'exam',    label: '模拟考',     href: '/f3/pages/exam-simulation.html', icon: '✍️' },
   // Phase-H1-fix (2026-08-24): 跨学科溯源
   { key: 'cross', label: '跨学科', href: '/f3/pages/cross-subject.html', icon: '🔗' },

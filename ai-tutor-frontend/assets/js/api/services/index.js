@@ -17,3 +17,7 @@ export { feedback } from './feedback.js';
 export { classAnalysis } from './class-analysis.js';
 // Sprint 1 (2026-Q4): Learning Loop feedback 通道 (D078 + docs/learning-loop-v1/SPEC.md)
 export { learningLoop } from './learning-loop.js';
+// D086 §12 L4 V1.0 (2026-09-15): 作文批改 (transcribe + grade + upload + list)
+export { essay } from './essay.js';
+// Loop Hub v1 (2026-09-15): 8 功能闭环的汇总服务, Practice Hub 单入口
+export { loop } from './loop.js';
