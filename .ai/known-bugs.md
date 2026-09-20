@@ -1,10 +1,29 @@
 # Known Bugs — aitutor
 
-**Last Updated:** 2026-07-31
+**Last Updated:** 2026-09-20
 **Maintainer:** human
 **Review Frequency:** monthly
 
 > 已知坑。每次踩到了立刻记录，别让人（包括 Agent）重发明 bug。
+
+---
+
+## 2026-09 — emit-status.sh 无参调用会抹掉人工维护的 backlog
+
+**现象**：跑一次 `bash scripts/emit-status.sh`（不带子命令），`.ai/status/backlog.yaml` 的
+`items:` 全部变成 `items: []  # TODO 人工维护 backlog 内容`，`recent-runs.yaml` 的 `runs:` 同样清零。
+**根因**：`emit_backlog()` / `emit_recent_runs()` 的注释写的是「脚本不覆盖，只刷 schema 元数据」，
+但实现是先调 `write_header()`（内部 `cat > "$STATUS_DIR/$file"`，**截断重写**），再 append 模板，
+于是整个文件被模板覆盖。默认 `case "${1:-all}"` 又会同时执行 `backlog` 与 `runs` 两项。
+**触发条件**：任何无参调用 `scripts/emit-status.sh`；或显式 `bash scripts/emit-status.sh all`。
+**影响**：**中** — 决策性内容（backlog 待办、agent run 记录）被静默清空。文件已被 git 跟踪，
+默认能靠 `git checkout` 找回，但若与其它改动混在一起提交就会真丢。
+**修法（2026-09-20 记录，尚未改脚本）**：二选一 ——
+  1. 给 `all` 分支去掉 `emit_backlog` / `emit_recent_runs`（推荐，与注释一致）；或
+  2. 在这两个函数里只 sed 替换 `generated_at` 行，不做全文件重写。
+**回避**：刷状态时**永远带子命令**（如 `bash scripts/emit-status.sh version`、
+`bash scripts/emit-status.sh gate`），不要裸跑 `emit-status.sh`；
+跑完 `git status .ai/status/` 确认 `backlog.yaml` / `recent-runs.yaml` 未被改动。
 
 ---
 
