@@ -7,6 +7,8 @@ import { getProvinces as provincesHandler } from '../../handlers/provinces.js';
 import { getWrongQuestions, addWrongQuestion, updateWrongQuestion, deleteWrongQuestion, getWrongQuestionStats, exportWrongQuestions } from '../../handlers/wrong-questions.js';
 import { getKnowledgeProfile, updateKnowledgeMastery, getLearningSuggestions } from '../../handlers/knowledge-profile.js';
 import { getLearningDashboard } from '../../handlers/learning-dashboard.js';
+// Round 8 (2026-09-15): D082 Sprint 2 今日任务 lifecycle
+import todayRoutes from '../today/routes.js';
 
 const router = express.Router();
 
@@ -37,5 +39,9 @@ router.get('/learning-suggestions', getLearningSuggestions);
 // server.js 里有 /api/provinces 直挂, 但 F3 走 /user/provinces, 需要补挂.
 // provincesHandler 已在文件头 import (getProvinces as provincesHandler).
 router.get('/provinces', provincesHandler);
+
+// Round 8 (2026-09-15): 今日任务 lifecycle (D082 Sprint 2)
+// 路径: /api/user/today/*  →  GET list, POST generate, POST /:id/start|complete|skip
+router.use('/today', todayRoutes);
 
 export default router;

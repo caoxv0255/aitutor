@@ -45,7 +45,20 @@ export const ErrorCode = {
   SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
   SERVICE_RATE_LIMITED: 'SERVICE_RATE_LIMITED',
   SERVICE_TIMEOUT: 'SERVICE_TIMEOUT',
-  
+
+  // === D086 §12 L4 V1.0 · 作文批改专用 (Sprint 1) ===
+  ESSAY_TRANSCRIBE_PARSE_FAILED: 'ESSAY_TRANSCRIBE_PARSE_FAILED',
+  ESSAY_GRADE_PARSE_FAILED:      'ESSAY_GRADE_PARSE_FAILED',
+  ESSAY_RUBRIC_NOT_FOUND:        'ESSAY_RUBRIC_NOT_FOUND',
+  ESSAY_LLM_TIMEOUT:             'ESSAY_LLM_TIMEOUT',
+  ESSAY_LLM_UPSTREAM_ERROR:      'ESSAY_LLM_UPSTREAM_ERROR',
+
+  // === D086 §12 L4 V1.0 · 图片上传专用 (Sprint 1) ===
+  UPLOAD_INVALID_BASE64:    'UPLOAD_INVALID_BASE64',
+  UPLOAD_UNSUPPORTED_FORMAT:'UPLOAD_UNSUPPORTED_FORMAT',
+  UPLOAD_PROCESSING_FAILED: 'UPLOAD_PROCESSING_FAILED',
+  UPLOAD_DISK_ERROR:        'UPLOAD_DISK_ERROR',
+
   INTERNAL_ERROR: 'INTERNAL_ERROR'
 };
 
@@ -103,6 +116,28 @@ export const ErrorMap = {
   [ErrorCode.SERVICE_UNAVAILABLE]: { message: '服务暂时不可用', type: ErrorType.SYSTEM, statusCode: 503 },
   [ErrorCode.SERVICE_RATE_LIMITED]: { message: '请求过于频繁，请稍后再试', type: ErrorType.SYSTEM, statusCode: 429 },
   [ErrorCode.SERVICE_TIMEOUT]: { message: '请求超时', type: ErrorType.SYSTEM, statusCode: 504 },
+
+  // === 作文批改专用 (D086 §12 L4 V1.0) ===
+  [ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED]:
+    { message: 'AI 老师暂时无法理解这张作文图片，请重新拍摄或换张图片', type: ErrorType.BUSINESS, statusCode: 422 },
+  [ErrorCode.ESSAY_GRADE_PARSE_FAILED]:
+    { message: 'AI 老师暂时无法批改这篇作文，请重试', type: ErrorType.BUSINESS, statusCode: 422 },
+  [ErrorCode.ESSAY_RUBRIC_NOT_FOUND]:
+    { message: '评分标准配置缺失，请联系客服', type: ErrorType.SYSTEM, statusCode: 500 },
+  [ErrorCode.ESSAY_LLM_TIMEOUT]:
+    { message: 'AI 服务响应超时，请稍后重试', type: ErrorType.SYSTEM, statusCode: 504 },
+  [ErrorCode.ESSAY_LLM_UPSTREAM_ERROR]:
+    { message: 'AI 服务暂不可用，请稍后重试', type: ErrorType.SYSTEM, statusCode: 503 },
+
+  // === 图片上传专用 (D086 §12 L4 V1.0) ===
+  [ErrorCode.UPLOAD_INVALID_BASE64]:
+    { message: '图片数据格式错误 (非有效 base64)', type: ErrorType.VALIDATION, statusCode: 400 },
+  [ErrorCode.UPLOAD_UNSUPPORTED_FORMAT]:
+    { message: '图片格式不支持，请使用 JPG/PNG/WEBP/HEIC', type: ErrorType.VALIDATION, statusCode: 400 },
+  [ErrorCode.UPLOAD_PROCESSING_FAILED]:
+    { message: '图片处理失败，请重试', type: ErrorType.SYSTEM, statusCode: 500 },
+  [ErrorCode.UPLOAD_DISK_ERROR]:
+    { message: '图片保存失败，请稍后重试', type: ErrorType.SYSTEM, statusCode: 500 },
   
   [ErrorCode.INTERNAL_ERROR]: { message: '服务器内部错误', type: ErrorType.SYSTEM, statusCode: 500 }
 };

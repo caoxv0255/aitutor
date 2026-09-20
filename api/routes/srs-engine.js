@@ -378,5 +378,165 @@ router.get('/stats', authMiddleware, async (req, res) => {
   }
 });
 
+/**
+ * POST /api/srs/engine/review — PM §F.2/F.14 复习评分核心 (Round 10 后端补齐)
+ *
+ * 请求体: { wrong_id, quality 0-5, time_spent_ms, group_results }
+ * 返回: { new_ef, new_interval, mastery_delta, next_review_at, group_bonus }
+ */
+router.post('/review', authMiddleware, async (req, res) => {
+  const pool = await getDb();
+  let client = null;
+  try {
+    const { wrong_id, quality, time_spent_ms = 0, group_results = [] } = req.body || {};
+    if (!wrong_id || typeof quality !== 'number' || quality < 0 || quality > 5) {
+      return res.status(400).json(errorResponse('缺少或非法字段: wrong_id + quality(0-5)'));
+    }
+    const userEmail = req.user.email;
+    const MASTERY_DELTA_MAP = { 0: -0.15, 1: -0.10, 2: -0.05, 3: 0.04, 4: 0.08, 5: 0.12 };
+    const EF_INIT = 2.5;
+    client = await pool.connect();
+    await client.query('BEGIN');
+    const wrongQ = await client.query(
+      `SELECT id, subject_code, knowledge_point_id, knowledge_point_name FROM wrong_questions WHERE id=$1 AND user_email=$2`,
+      [wrong_id, userEmail]
+    );
+    if (wrongQ.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json(errorResponse('错题不存在或不属于当前用户'));
+    }
+    const wq = wrongQ.rows[0];
+    const kpId = wq.knowledge_point_id;
+    if (!kpId) { await client.query('ROLLBACK'); return res.status(400).json(errorResponse('该错题未关联知识点')); }
+    const cur = await client.query(
+      `SELECT mastery_score, ease_factor, interval_days FROM student_knowledge_mastery WHERE user_email=$1 AND knowledge_point_id=$2`,
+      [userEmail, kpId]
+    );
+    const oldEF = cur.rows[0] ? parseFloat(cur.rows[0].ease_factor) : EF_INIT;
+    const oldInterval = cur.rows[0] ? (cur.rows[0].interval_days || 0) : 0;
+    const oldMastery = cur.rows[0] ? parseFloat(cur.rows[0].mastery_score) : 0.5;
+    let groupBonus = 0;
+    let effectiveQuality = quality;
+    if (Array.isArray(group_results) && group_results.length > 0) {
+      const simResults = group_results.filter(r => r.card_index >= 2 && r.card_index <= 4);
+      if (simResults.length === 3) {
+        const correctCount = simResults.filter(r => r.correct).length;
+        if (correctCount >= 2) groupBonus = 0.05;
+        if (correctCount === 0) effectiveQuality = Math.min(2, quality);
+      }
+    }
+    const { newEF, newInterval } = sm2Calculate(effectiveQuality, oldEF, oldInterval);
+    const nextReview = new Date();
+    nextReview.setDate(nextReview.getDate() + newInterval);
+    const baseDelta = MASTERY_DELTA_MAP[effectiveQuality] ?? 0;
+    const totalDelta = parseFloat((baseDelta + groupBonus).toFixed(3));
+    const newMastery = Math.max(0, Math.min(1, oldMastery + totalDelta));
+    await client.query(
+      `INSERT INTO student_knowledge_mastery
+         (user_email, knowledge_point_id, mastery_score, attempt_count, correct_count,
+          last_practice_at, last_reviewed_at, ease_factor, interval_days, next_review_at, updated_at)
+       VALUES ($1,$2,$3,1,$4,NOW(),NOW(),$5,$6,$7,NOW())
+       ON CONFLICT (user_email, knowledge_point_id) DO UPDATE SET
+         mastery_score=$3, attempt_count=student_knowledge_mastery.attempt_count+1,
+         correct_count=student_knowledge_mastery.correct_count+$4,
+         last_practice_at=NOW(), last_reviewed_at=NOW(),
+         ease_factor=$5, interval_days=$6, next_review_at=$7, updated_at=NOW()`,
+      [userEmail, kpId, newMastery, effectiveQuality >= 3 ? 1 : 0, newEF, newInterval, nextReview]
+    );
+    await client.query(
+      `INSERT INTO srs_review_log
+         (user_email, knowledge_point_id, is_correct, time_spent_ms,
+          review_quality, old_mastery, new_mastery, old_interval, new_interval,
+          old_ease, new_ease, next_review_at, wrong_id, group_bonus, created_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,NOW())`,
+      [userEmail, kpId, effectiveQuality >= 3, time_spent_ms,
+       effectiveQuality, oldMastery, newMastery, oldInterval, newInterval,
+       oldEF, newEF, nextReview, wrong_id, groupBonus]
+    );
+    await client.query('COMMIT');
+    return res.json(successResponse({
+      wrong_id, knowledge_point_id: kpId,
+      new_ef: newEF, new_interval: newInterval,
+      mastery_delta: totalDelta, base_delta: baseDelta,
+      group_bonus: groupBonus, effective_quality: effectiveQuality,
+      next_review_at: nextReview.toISOString(),
+    }, `q=${effectiveQuality} · 间隔 ${newInterval}d · mastery ${totalDelta >= 0 ? '+' : ''}${totalDelta}`));
+  } catch (err) {
+    if (client) try { await client.query('ROLLBACK'); } catch {}
+    console.error('[SRS] review 失败:', err.message);
+    return res.status(500).json(errorResponse(`复习记录失败: ${err.message}`));
+  } finally {
+    if (client) client.release();
+  }
+});
+
+/**
+ * GET /api/srs/engine/queue — PM §F.2 今日 SRS 队列 (review-session 入口)
+ *
+ * 返回 [{ wrong_id, group: [主错题 + 3 相似题] }]
+ */
+router.get('/queue', authMiddleware, async (req, res) => {
+  try {
+    const pool = await getDb();
+    const userEmail = req.user.email;
+    const limit = Math.min(Math.max(parseInt(req.query.limit) || 10, 1), 50);
+    const tasks = await pool.query(
+      `SELECT wq.id AS wrong_id, wq.subject_code,
+              wq.knowledge_point_id AS kp_id,
+              wq.knowledge_point_name AS kp_name,
+              wq.content AS stem,
+              wq.user_answer, wq.correct_answer,
+              wq.difficulty,
+              skm.mastery_score, skm.ease_factor, skm.interval_days
+       FROM wrong_questions wq
+       LEFT JOIN student_knowledge_mastery skm
+         ON skm.user_email = wq.user_email
+         AND skm.knowledge_point_id = wq.knowledge_point_id
+       WHERE wq.user_email = $1
+         AND wq.mastered = 0
+         AND (skm.next_review_at <= NOW() OR skm.next_review_at IS NULL)
+       ORDER BY skm.mastery_score ASC NULLS LAST
+       LIMIT $2`,
+      [userEmail, limit]
+    );
+    const out = [];
+    for (const row of tasks.rows) {
+      const kpId = row.kp_id;
+      let similar = [];
+      if (kpId) {
+        const sims = await pool.query(
+          `SELECT id, data FROM similar_questions WHERE data::text LIKE $1 ORDER BY RANDOM() LIMIT 3`,
+          [kpId]
+        );
+        similar = sims.rows;
+      }
+      out.push({
+        wrong_id: row.wrong_id,
+        subject_code: row.subject_code,
+        kp_id: kpId,
+        kp_name: row.kp_name,
+        stem: row.stem,
+        user_answer: row.user_answer,
+        correct_answer: row.correct_answer,
+        mastery_score: row.mastery_score ? parseFloat(row.mastery_score) : 0,
+        ease_factor: row.ease_factor ? parseFloat(row.ease_factor) : 2.5,
+        is_weak: (row.mastery_score || 0) < 0.5,
+        group: [
+          { card_index: 1, kind: 'wrong', qid: row.wrong_id, stem: row.stem, options: null, difficulty: 3 },
+          ...similar.map((s, i) => ({ card_index: i + 2, kind: 'similar', ...s })),
+        ],
+        group_size: 1 + similar.length,
+      });
+    }
+    return res.json(successResponse({
+      queue: out, total: out.length,
+      generated_at: new Date().toISOString(),
+    }, `今日 ${out.length} 组复习 (1 组 = 1 错题 + 3 相似)`));
+  } catch (err) {
+    console.error('[SRS] queue 失败:', err.message);
+    return res.status(500).json(errorResponse(`队列查询失败: ${err.message}`));
+  }
+});
+
 export { sm2Calculate, toQualityScore };
 export default router;

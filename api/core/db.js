@@ -287,6 +287,28 @@ async function initTables(pool) {
       created_at TIMESTAMPTZ DEFAULT NOW()
     );
 
+    -- D082 Sprint 2: 今日任务 (Loop Hub 收口的今天要做的 1-3 个任务)
+    CREATE TABLE IF NOT EXISTS today_tasks (
+      id VARCHAR(40) PRIMARY KEY,
+      user_email VARCHAR(255) NOT NULL,
+      task_date DATE NOT NULL DEFAULT CURRENT_DATE,
+      kind VARCHAR(20) NOT NULL,           -- review / practice / predict / photo / wrong
+      title VARCHAR(200) NOT NULL,
+      kp_id VARCHAR(20),
+      kp_name VARCHAR(200),
+      subject VARCHAR(20),
+      reason TEXT,
+      minutes INTEGER DEFAULT 5,
+      start_url VARCHAR(500),
+      status VARCHAR(20) DEFAULT 'pending', -- pending / started / completed / skipped
+      weight NUMERIC(4,1) DEFAULT 5.0,
+      generated_at TIMESTAMPTZ DEFAULT NOW(),
+      started_at TIMESTAMPTZ,
+      completed_at TIMESTAMPTZ,
+      skip_reason TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+
     CREATE TABLE IF NOT EXISTS province_knowledge_stats (
       id SERIAL PRIMARY KEY,
       province_code VARCHAR(20) REFERENCES provinces(code),
@@ -918,6 +940,33 @@ async function seedReferenceData(pool) {
       ('knowledge', '知识漏洞', '相关知识点掌握不牢固', 'book-open', 7),
       ('other', '其他原因', '其他未分类的错误原因', 'more-horizontal', 8)
     ON CONFLICT (code) DO NOTHING;
+
+    -- D086 §12 · AI 作文批改报告（学生上传 + AI 评分）
+    CREATE TABLE IF NOT EXISTS essay_reports (
+      id SERIAL PRIMARY KEY,
+      report_id VARCHAR(64) UNIQUE NOT NULL,
+      user_email VARCHAR(255),
+      essay_title VARCHAR(255),
+      exam_level VARCHAR(10),
+      grade VARCHAR(50),
+      transcript JSONB NOT NULL,           -- { paragraphs: [{id, text}] }
+      annotations JSONB NOT NULL,         -- [{paragraph_id, start, end, original, type, comment}]
+      meta JSONB NOT NULL,                 -- { model, metrics, confidence, requested_model, fallback_used }
+      status VARCHAR(20) DEFAULT 'completed',  -- pending / completed / failed
+      error_message TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE INDEX IF NOT EXISTS idx_essay_reports_user_created
+      ON essay_reports (user_email, created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_essay_reports_report_id
+      ON essay_reports (report_id);
+
+    -- Round 8: today_tasks 索引 (按 user + date 查今天任务)
+    CREATE INDEX IF NOT EXISTS idx_today_tasks_user_date
+      ON today_tasks (user_email, task_date, status);
+    CREATE INDEX IF NOT EXISTS idx_today_tasks_status
+      ON today_tasks (user_email, status, weight DESC);
   `);
 }
 
