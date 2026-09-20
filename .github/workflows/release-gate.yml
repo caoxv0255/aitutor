@@ -95,6 +95,17 @@ jobs:
         env:
           OLLAMA_URL: http://mock-ollama:11434
 
+      # nginx 部署模板校验 (gate 6/6 子项) 需要 nginx 二进制;
+      # 无 nginx/openssl 时该子项会降级为「仅静态检查」, 故 CI 里先确保安装。
+      - name: Ensure nginx + openssl (供 nginx 模板校验)
+        run: |
+          if ! command -v nginx >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends nginx
+          fi
+          command -v openssl >/dev/null || sudo apt-get install -y --no-install-recommends openssl
+          nginx -v 2>&1 || true
+
       - name: Run release gate (6/6)
         run: npm run gate
         env:

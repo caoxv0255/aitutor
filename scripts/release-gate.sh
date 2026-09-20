@@ -12,7 +12,7 @@
 #   3. Backend Contract  — 真后端 envelope/契约测试 (19 项, 需运行中的后端)
 #   4. docker build      — 镜像可构建 (app)
 #   5. health check      — 后端 /api/health dbReady=true
-#   6. repo consistency  — tracked 引用完整性 + .dockerignore 的 D079 边界
+#   6. repo consistency  — tracked 引用完整性 + .dockerignore 的 D079 边界 + nginx 部署模板
 #
 # 说明: lint 基线未清 (2445 项既有债务), 不作为硬门禁;
 #       lighthouse / security scan 为人工门禁 (见 docs/v1.0_RELEASE_GATE.md).
@@ -125,11 +125,13 @@ else
   fi
 fi
 
-# ── 6. 仓库一致性 (引用完整性 + D079 构建边界) ──
+# ── 6. 仓库一致性 (引用完整性 + D079 构建边界 + nginx 部署模板) ──
 # 2026-09-20 架构评审 R1/R4 (docs/audits/architecture-review-2026-09-20.md):
 #   R1 — tracked 文件引用的本地资源必须也在 git 里, 否则干净 clone 跑不起来;
 #   R4 — .dockerignore 必须排除 AI Agent 元数据 (D079 §2.4/§9).
-step "6/6 仓库一致性 (引用完整性 + D079 边界)"
+# 2026-09-20 追加: deploy/*.conf 是模板, 不参与构建, 坏了没有任何地方会暴露
+#   (实例: uibe.conf 重复 upstream, nginx -t 报错但无人发现) → 在此拦截。
+step "6/6 仓库一致性 (引用完整性 + D079 边界 + nginx 模板)"
 if node scripts/check-tracked-refs.mjs; then
   ok "tracked 引用完整性 (无未入库的运行时依赖)"
 else
@@ -144,6 +146,12 @@ if [ -z "$D079_ABSENT" ]; then
   ok ".dockerignore 已排除 .ai/ + openwiki/ (D079 §2.4/§9)"
 else
   fail ".dockerignore 缺 D079 要求的排除项:$D079_ABSENT"
+fi
+
+if node scripts/check-nginx-conf.mjs; then
+  ok "nginx 部署模板语法 (deploy/*.conf)"
+else
+  fail "nginx 部署模板校验失败 (见上; 无 nginx/openssl 时会降级为仅静态检查)"
 fi
 
 echo
