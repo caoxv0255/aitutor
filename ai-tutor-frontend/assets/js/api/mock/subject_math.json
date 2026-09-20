@@ -1,0 +1,8 @@
+{
+  "success": true,
+  "data": {
+    "code": "math",
+    "note": "Real data served from GET /api/loop/subject/math",
+    "mock": true
+  }
+}

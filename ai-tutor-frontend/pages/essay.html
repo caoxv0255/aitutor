@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#d71920">
+    <title>AI tutor - 作文批改</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-primary-50: #fff1f1;
+    --color-primary-100: #ffe1e2;
+    --color-primary-200: #ffc7c9;
+    --color-primary-300: #ffa0a4;
+    --color-primary-400: #ff686d;
+    --color-primary-500: #d71920;
+    --color-primary-600: #b8151b;
+    --color-primary-700: #941218;
+    --color-primary-800: #7a1014;
+    --color-primary-900: #660f13;
+    --color-success-50: #ecfdf5;
+    --color-success-100: #d1fae5;
+    --color-success-200: #a7f3d0;
+    --color-success-300: #6ee7b7;
+    --color-success-400: #34d399;
+    --color-success-500: #059669;
+    --color-success-600: #047857;
+    --color-success-700: #065f46;
+    --color-success-800: #064e35;
+    --color-success-900: #022c22;
+    --color-warning-50: #fffbeb;
+    --color-warning-100: #fef3c7;
+    --color-warning-200: #fde68a;
+    --color-warning-300: #fcd34d;
+    --color-warning-400: #fbbf24;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+    --color-warning-800: #92400e;
+    --color-warning-900: #78350f;
+    --color-error-50: #fef2f2;
+    --color-error-100: #fee2e2;
+    --color-error-200: #fecaca;
+    --color-error-300: #fca5a5;
+    --color-error-400: #f87171;
+    --color-error-500: #ef4444;
+    --color-error-600: #dc2626;
+    --color-error-700: #b91c1c;
+    --color-error-800: #991b1b;
+    --color-error-900: #7f1d1b;
+    --color-info-50: #f0f9ff;
+    --color-info-100: #e0f2fe;
+    --color-info-200: #bae6fd;
+    --color-info-300: #7dd3fc;
+    --color-info-400: #38bdfd;
+    --color-info-500: #0284c7;
+    --color-info-600: #0369a1;
+    --color-info-700: #075985;
+    --color-info-800: #0c4a6e;
+    --color-info-900: #082f49;
+    --color-background: #f8f9fa;
+    --color-foreground: #1a1d27;
+    --color-muted-foreground: #64748b;
+    --color-border: #e2e8f0;
+    --color-surface: #ffffff;
+    --color-surface-dim: #f1f5f9;
+    --font-display: "DM Sans", "Noto Sans SC", sans-serif;
+    --font-body: "Noto Sans SC", "DM Sans", sans-serif;
+  }
+    </style>
+
+    <link rel="stylesheet" href="../css/essay.css">
+    <link rel="stylesheet" href="../css/tokens.css">
+</head>
+
+<body class="bg-[var(--color-background)] text-[var(--color-foreground)]">
+
+    <!-- 顶部导航 (复用 navator) -->
+    <div id="nav-mount"></div>
+
+    <main class="ess-page">
+
+        <!-- 页面头 -->
+        <header class="ess-header">
+            <div>
+                <h1>📝 作文批改</h1>
+                <p>AI 老师逐句点评, 锚定原文, 多维度评分</p>
+            </div>
+            <div id="ess-mock-badge" class="hidden">
+                <span class="ess-tag" style="background: var(--color-warning-100, #fef3c7); color: var(--color-warning-700, #b45309);">
+                    🧪 Mock 模式
+                </span>
+            </div>
+        </header>
+
+        <!-- 进度条 (横跨 5 步) -->
+        <div class="ess-progress" id="ess-progress">
+            <!-- 由 JS 渲染 -->
+        </div>
+
+        <!-- 主视图容器 (根据 state.step 切换内容) -->
+        <div id="ess-view-root">
+            <div class="ess-skeleton-wrap">
+                <div class="ess-skeleton-icon">⏳</div>
+                <p class="ess-skeleton-desc">加载中...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 移动端 Drawer (展示选中旁注详情) -->
+    <div class="ess-drawer-backdrop" id="ess-drawer-backdrop"></div>
+    <aside class="ess-drawer" id="ess-drawer" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="ess-drawer-handle"></div>
+        <div class="ess-drawer-header">
+            <h3 style="margin: 0; font-size: 16px; font-weight: 600;">批注详情</h3>
+            <button class="ess-drawer-close" id="ess-drawer-close" aria-label="关闭">×</button>
+        </div>
+        <div class="ess-drawer-body" id="ess-drawer-body">
+            <!-- 由 JS 注入 -->
+        </div>
+    </aside>
+
+    <script type="module">
+        // ─── 依赖导入 ──────────────────────────────────────────────────
+        import { renderNav } from '../js/navator.js';
+        import { essay as essayService } from '../js/api/services/essay.js';
+        import { useEssayFlow, getStepProgress, canPerformAction } from '../js/hooks/useEssayFlow.js';
+        import { EssaySourceView } from '../js/components/essay-anchor-highlight.js';
+        import { EssayAnnotationView } from '../js/components/essay-annotation-card.js';
+        import { escapeHtml } from '../js/utils/safe-text.js';
+        import { toast } from '../js/toast.js';
+        import { getMockEnabled } from '../js/api/USE_MOCK.js';
+
+        // ─── 全局状态 ────────────────────────────────────────────────
+        const flow = useEssayFlow();
+        let sourceView = null;
+        let cardView = null;
+        let isMobile = () => window.matchMedia('(max-width: 1023px)').matches;
+
+        // ─── 挂载导航 ─────────────────────────────────────────────────
+        renderNav('essay', document.getElementById('nav-mount'));
+
+        // ─── Mock 模式提示 ───────────────────────────────────────────
+        if (getMockEnabled()) {
+            document.getElementById('ess-mock-badge').classList.remove('hidden');
+        }
+
+        // ─── 状态 → 视图分发 ────────────────────────────────────────
+        flow.subscribe((state) => {
+            renderProgress(state.step);
+            renderView(state);
+        });
+
+        // ─── 渲染: 进度条 ───────────────────────────────────────────
+        function renderProgress(step) {
+            const STEPS = [
+                { key: 'idle', label: '上传' },
+                { key: 'uploading', label: '上传' },
+                { key: 'transcribing', label: '识别' },
+                { key: 'reviewing', label: '校对' },
+                { key: 'grading', label: '批改' },
+                { key: 'done', label: '完成' },
+            ];
+            const currentIdx = STEPS.findIndex(s => s.key === step);
+            const html = STEPS.slice(0, 5).map((s, i) => {
+                const isActive = i === currentIdx;
+                const isDone = i < currentIdx || step === 'done' && i === 4;
+                const cls = isActive ? 'ess-progress-step--active' : (isDone ? 'ess-progress-step--done' : '');
+                const num = isDone ? '✓' : (i + 1);
+                const div = i < 4 ? '<div class="ess-progress-divider"></div>' : '';
+                return `
+                    <div class="ess-progress-step ${cls}">
+                        <span class="ess-progress-num">${num}</span>
+                        <span>${s.label}</span>
+                    </div>
+                    ${div}
+                `;
+            }).join('');
+            document.getElementById('ess-progress').innerHTML = html;
+        }
+
+        // ─── 渲染: 主视图 ───────────────────────────────────────────
+        function renderView(state) {
+            const root = document.getElementById('ess-view-root');
+            switch (state.step) {
+                case 'idle':
+                case 'uploading':
+                    root.innerHTML = '';
+                    renderUploadView(root, state);
+                    break;
+                case 'transcribing':
+                case 'grading':
+                    renderLoadingView(root, state.step);
+                    break;
+                case 'reviewing':
+                    renderReviewView(root, state);
+                    break;
+                case 'done':
+                    renderDoneView(root, state);
+                    break;
+                case 'failed':
+                    renderFailedView(root, state);
+                    break;
+                default:
+                    root.innerHTML = '<p>未知状态</p>';
+            }
+        }
+
+        // ─── View 1: 上传 (idle / uploading) ─────────────────────────
+        function renderUploadView(root) {
+            root.innerHTML = `
+                <div class="ess-upload" id="ess-upload-zone">
+                    <div class="ess-upload-icon">📷</div>
+                    <h2 class="ess-upload-title">拍照或上传作文</h2>
+                    <p class="ess-upload-desc">支持手机拍照 / 相册选择, 文字需清晰可见</p>
+
+                    <div class="ess-form-grid">
+                        <div>
+                            <label for="ess-input-subject">学科</label>
+                            <select id="ess-input-subject">
+                                <option value="chinese">语文</option>
+                                <option value="english">英语</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="ess-input-exam-level">学段</label>
+                            <select id="ess-input-exam-level">
+                                <option value="gaokao">高考</option>
+                                <option value="zhongkao">中考</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="ess-input-grade">年级</label>
+                            <select id="ess-input-grade">
+                                <option value="高三">高三</option>
+                                <option value="高二">高二</option>
+                                <option value="高一">高一</option>
+                                <option value="初三">初三</option>
+                                <option value="初二">初二</option>
+                                <option value="初一">初一</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="ess-input-essay-title">作文标题</label>
+                            <input type="text" id="ess-input-essay-title" placeholder="可选, 留空则 AI 自行判断" maxlength="255">
+                        </div>
+                        <div class="ess-form-row-full">
+                            <input type="file" id="ess-input-file" accept="image/*" style="display:none;">
+                            <button class="ess-btn-primary" id="ess-btn-pick" type="button" style="width: 100%;">
+                                选择图片 / 拍照
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="ess-file-info" style="display:none; margin-top: 16px; padding: 12px; background: var(--color-surface-dim, #f1f5f9); border-radius: 8px; font-size: 14px;">
+                        <strong id="ess-file-name">未选择文件</strong>
+                        <button class="ess-btn-secondary" id="ess-btn-submit" type="button" style="margin-top: 12px; width: 100%;" disabled>
+                            开始批改 →
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const fileInput = document.getElementById('ess-input-file');
+            const pickBtn = document.getElementById('ess-btn-pick');
+            const submitBtn = document.getElementById('ess-btn-submit');
+            const fileInfo = document.getElementById('ess-file-info');
+            const fileName = document.getElementById('ess-file-name');
+
+            let pickedFile = null;
+
+            pickBtn.onclick = () => fileInput.click();
+
+            fileInput.onchange = (e) => {
+                pickedFile = e.target.files[0];
+                if (pickedFile) {
+                    fileName.textContent = `已选择: ${pickedFile.name} (${(pickedFile.size / 1024).toFixed(1)} KB)`;
+                    fileInfo.style.display = 'block';
+                    submitBtn.disabled = false;
+                }
+            };
+
+            submitBtn.onclick = async () => {
+                if (!pickedFile) return;
+                submitBtn.disabled = true;
+                submitBtn.textContent = '上传中...';
+                try {
+                    await flow.startTranscribe({
+                        image: pickedFile,
+                        subject: document.getElementById('ess-input-subject').value,
+                    });
+                } catch (err) {
+                    toast.error(err.message || '提交失败');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '开始批改 →';
+                }
+            };
+        }
+
+        // ─── View 2: 加载 (transcribing / grading) ────────────────────
+        function renderLoadingView(root, step) {
+            const isTranscribing = step === 'transcribing';
+            const icon = isTranscribing ? '📖' : '✍️';
+            const title = isTranscribing ? 'AI 老师正在阅读你的作文...' : 'AI 老师正在批改...';
+            const desc = isTranscribing
+                ? '通常需要 5-15 秒, 请稍候'
+                : '四维度评分 + 逐句批注, 请稍候';
+
+            root.innerHTML = `
+                <div class="ess-skeleton-wrap">
+                    <div class="ess-skeleton-icon">${icon}</div>
+                    <h2 class="ess-skeleton-title">${escapeHtml(title)}</h2>
+                    <p class="ess-skeleton-desc">${escapeHtml(desc)}</p>
+                    <div class="ess-skeleton-bar"></div>
+                </div>
+            `;
+        }
+
+        // ─── View 3: 校对 (reviewing) ─────────────────────────────────
+        function renderReviewView(root, state) {
+            const t = state.transcript;
+            const flatText = t.paragraphs.map(p => p.lines.map(l => l.text).join('')).join('\n\n');
+            const paraCount = t.paragraphs.length;
+            const lineCount = t.paragraphs.reduce((s, p) => s + p.lines.length, 0);
+            const uncertainCount = t.uncertain_total;
+
+            root.innerHTML = `
+                <div class="ess-review">
+                    <div class="ess-review-header">
+                        <h2 class="ess-review-title">📋 校对识别结果</h2>
+                        <div class="ess-review-actions">
+                            <span class="ess-tag" style="background: var(--color-success-50, #ecfdf5); color: var(--color-success-700, #065f46);">
+                                ${paraCount} 段 · ${lineCount} 行
+                            </span>
+                            ${uncertainCount > 0 ? `
+                                <span class="ess-tag" style="background: var(--color-warning-50, #fffbeb); color: var(--color-warning-700, #b45309);">
+                                    ⚠️ ${uncertainCount} 个不确定字符
+                                </span>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div class="ess-para-text" style="white-space: pre-wrap; font-size: 16px; line-height: 1.8; padding: 16px; background: var(--color-surface-dim, #f1f5f9); border-radius: 8px; max-height: 360px; overflow-y: auto;">
+${escapeHtml(flatText)}
+                    </div>
+                    <p style="margin: 16px 0 8px; font-size: 14px; color: var(--color-muted-foreground, #64748b);">
+                        ⚠️ V1.0 暂不支持手工修改识别结果, 请确认原文无误后继续。
+                    </p>
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                    <button class="ess-btn-secondary" id="ess-btn-retry">重新识别 (换学科)</button>
+                    <button class="ess-btn-primary" id="ess-btn-start-grade">开始批改 →</button>
+                </div>
+            `;
+
+            document.getElementById('ess-btn-retry').onclick = async () => {
+                try {
+                    await flow.retryTranscribe({
+                        subject: document.getElementById('ess-input-subject')?.value || 'chinese',
+                    });
+                } catch (err) {
+                    toast.error(err.message || '重新识别失败');
+                }
+            };
+
+            document.getElementById('ess-btn-start-grade').onclick = async () => {
+                const subject = document.getElementById('ess-input-subject')?.value || 'chinese';
+                const exam_level = document.getElementById('ess-input-exam-level')?.value || 'gaokao';
+                const grade = document.getElementById('ess-input-grade')?.value || '高三';
+                const title = document.getElementById('ess-input-essay-title')?.value || '未命名作文';
+                try {
+                    await flow.startGrade({
+                        essay_title: title,
+                        exam_level,
+                        grade,
+                        subject,
+                    });
+                } catch (err) {
+                    toast.error(err.message || '批改失败');
+                }
+            };
+        }
+
+        // ─── View 4: 完成 (done) ────────────────────────────────────
+        function renderDoneView(root, state) {
+            const report = state.report;
+            const annotations = report.annotations || [];
+            const transcript = state.transcript;
+            const scores = report.scores || {};
+            const dimNames = { content: '内容', language: '语言', structure: '结构', development: '发展' };
+
+            // 评分维度颜色阈值
+            const dimClass = (n) => n >= 17 ? 'ess-summary-dim-num--good' : n >= 13 ? 'ess-summary-dim-num--ok' : 'ess-summary-dim-num--weak';
+
+            root.innerHTML = `
+                <div class="ess-result-layout">
+                    <div class="ess-grid">
+                        <!-- 左: 原文 (源文 + 旁注高亮) -->
+                        <div class="ess-source-col">
+                            <div class="ess-source-card">
+                                <h2>📄 原文</h2>
+                                <div class="ess-source-card-meta">
+                                    <span class="ess-source-card-meta-item">📌 ${escapeHtml(state.imageInfo?.filename || '原图')}</span>
+                                    <span class="ess-source-card-meta-item">🎯 ${report.rubric_id || 'rubric'}</span>
+                                    <span class="ess-source-card-meta-item">🤖 ${report.meta?.model || 'qwen-plus'}</span>
+                                </div>
+                                <div id="ess-source-mount"></div>
+                            </div>
+                        </div>
+
+                        <!-- 右: 总评 (Sticky) + 旁注卡片流 -->
+                        <div class="ess-sidebar">
+                            <div class="ess-summary-card">
+                                <div class="ess-summary-score">
+                                    <span class="ess-summary-score-num">${scores.total ?? '?'}</span>
+                                    <span class="ess-summary-score-total">/ 80 分</span>
+                                </div>
+                                <div class="ess-summary-dims">
+                                    ${['content', 'language', 'structure', 'development'].map(k => `
+                                        <div class="ess-summary-dim">
+                                            <div class="ess-summary-dim-num ${dimClass(scores[k] || 0)}">${scores[k] ?? '-'}</div>
+                                            <div class="ess-summary-dim-name">${dimNames[k]}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div>
+                                    <div class="ess-summary-comment-label">AI 总评</div>
+                                    <p class="ess-summary-comment">${escapeHtml(report.comment || '暂无总评')}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="ess-ann-card-list-title">
+                                    <span>📌 旁注</span>
+                                    <span class="ess-ann-card-list-count">${annotations.length} 条</span>
+                                </h3>
+                                <div class="ess-ann-card-list" id="ess-cards-mount"></div>
+                            </div>
+
+                            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                                <button class="ess-btn-secondary" id="ess-btn-retry-all" style="flex: 1;">批改下一篇</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 挂载 B2: 原文 + 高亮
+            const sourceMount = document.getElementById('ess-source-mount');
+            sourceView = new EssaySourceView(sourceMount, {
+                paragraphs: transcript.paragraphs,
+                annotations,
+                onAnnotationClick: (annoId) => {
+                    if (isMobile()) {
+                        showDrawer(annoId);
+                    } else {
+                        if (cardView) cardView.setActive(annoId);
+                        if (cardView) cardView.scrollToCard(annoId);
+                    }
+                },
+            });
+            sourceView.render();
+
+            // 挂载 B3: 旁注卡片
+            const cardsMount = document.getElementById('ess-cards-mount');
+            cardView = new EssayAnnotationView(cardsMount, {
+                annotations,
+                onAnchorClick: (annoId) => {
+                    if (sourceView) sourceView.setActive(annoId);
+                    if (!isMobile() && sourceView) sourceView.scrollToAnno(annoId);
+                },
+            });
+            cardView.render();
+
+            // 重新识别按钮
+            document.getElementById('ess-btn-retry-all').onclick = () => {
+                flow.reset();
+            };
+        }
+
+        // ─── View 5: 失败 (failed) ───────────────────────────────────
+        function renderFailedView(root, state) {
+            // 根据 error.code 映射场景
+            const code = state.error?.code || state.error?.body?.errorCode || '';
+            const SCENES = {
+                ESSAY_TRANSCRIBE_PARSE_FAILED: {
+                    icon: '⚠️',
+                    title: 'AI 老师遇到了困难',
+                    desc: '作文图片识别失败, 请重新拍摄清晰的图片 (光线充足, 字迹清楚) 或手动输入文字。',
+                    action: { label: '重新拍摄', type: 'reset' },
+                },
+                ESSAY_GRADE_PARSE_FAILED: {
+                    icon: '⚠️',
+                    title: 'AI 老师暂时无法批改',
+                    desc: '批改引擎未能理解这篇作文, 请稍后重试或换一篇试试。',
+                    action: { label: '重试', type: 'retry' },
+                },
+                ESSAY_LLM_TIMEOUT: {
+                    icon: '⏱️',
+                    title: 'AI 老师思考超时',
+                    desc: '本次服务响应较慢 (超过 30s), 请稍后再试。',
+                    action: { label: '重试', type: 'retry' },
+                },
+                ESSAY_LLM_UPSTREAM_ERROR: {
+                    icon: '🔧',
+                    title: 'AI 服务暂不可用',
+                    desc: '工程师正在处理中, 请稍后重试。',
+                    action: { label: '重试', type: 'retry' },
+                },
+                AUTH_NOT_LOGIN: {
+                    icon: '🔐',
+                    title: '登录已过期',
+                    desc: '请重新登录后再使用作文批改。',
+                    action: { label: '去登录', type: 'login' },
+                },
+                VALIDATION_REQUIRED_FIELD: {
+                    icon: '📷',
+                    title: '请上传作文图片',
+                    desc: '图片不能为空, 请选择或拍摄一张。',
+                    action: { label: '重新选择', type: 'reset' },
+                },
+            };
+            const scene = SCENES[code] || {
+                icon: '❓',
+                title: '发生未知错误',
+                desc: state.error?.message || '请稍后重试或联系客服。',
+                action: { label: '重试', type: 'retry' },
+            };
+
+            root.innerHTML = `
+                <div class="ess-empty">
+                    <div class="ess-empty-icon">${scene.icon}</div>
+                    <h3 class="ess-empty-title">${escapeHtml(scene.title)}</h3>
+                    <p class="ess-empty-desc">${escapeHtml(scene.desc)}</p>
+                    <div class="ess-empty-actions">
+                        <button class="ess-btn-primary" id="ess-empty-action">${escapeHtml(scene.action.label)}</button>
+                    </div>
+                    ${state.error?.message ? `
+                        <details style="margin-top: 24px; max-width: 480px; width: 100%;">
+                            <summary style="font-size: 12px; color: var(--color-muted-foreground, #64748b); cursor: pointer;">技术详情</summary>
+                            <pre style="margin-top: 8px; padding: 12px; background: var(--color-surface-dim, #f1f5f9); border-radius: 8px; font-size: 11px; overflow-x: auto; color: var(--color-muted-foreground, #64748b);">${escapeHtml(JSON.stringify({code, message: state.error.message, details: state.error.details || null}, null, 2))}</pre>
+                        </details>
+                    ` : ''}
+                </div>
+            `;
+
+            document.getElementById('ess-empty-action').onclick = () => {
+                if (scene.action.type === 'reset') {
+                    flow.reset();
+                } else if (scene.action.type === 'retry') {
+                    flow.reset();
+                    // V1.1: 调用 retryAll() 重新跑整流程
+                } else if (scene.action.type === 'login') {
+                    window.location.href = '/f3/pages/login.html';
+                }
+            };
+        }
+
+        // ─── 移动端 Drawer ──────────────────────────────────────────
+        const drawer = document.getElementById('ess-drawer');
+        const drawerBackdrop = document.getElementById('ess-drawer-backdrop');
+        const drawerBody = document.getElementById('ess-drawer-body');
+        const drawerClose = document.getElementById('ess-drawer-close');
+
+        function showDrawer(annoId) {
+            if (!cardView || !isMobile()) return;
+            const anno = (flow.state.report?.annotations || []).find(a => a.id === annoId);
+            if (!anno) return;
+            // 用 B3 的 renderCard 方法直接生成 HTML
+            const html = cardView.renderCard(anno);
+            drawerBody.innerHTML = html;
+            drawer.classList.add('ess-drawer--open');
+            drawerBackdrop.classList.add('ess-drawer-backdrop--open');
+            drawer.setAttribute('aria-hidden', 'false');
+        }
+        function hideDrawer() {
+            drawer.classList.remove('ess-drawer--open');
+            drawerBackdrop.classList.remove('ess-drawer-backdrop--open');
+            drawer.setAttribute('aria-hidden', 'true');
+        }
+        drawerClose.onclick = hideDrawer;
+        drawerBackdrop.onclick = hideDrawer;
+
+        // ─── 移动端 resize 响应: 切换到 PC 时关闭 Drawer ────────────
+        window.matchMedia('(max-width: 1023px)').addEventListener('change', (e) => {
+            if (!e.matches) hideDrawer();
+        });
+
+        // ─── 初始渲染 ────────────────────────────────────────────────
+        // 触发初始 state 渲染 (idle 视图)
+        // (subscribe 在初始化时已触发, 但为显式起见, 再次调用)
+        renderProgress(flow.state.step);
+        renderView(flow.state);
+    </script>
+
+</body>
+</html>

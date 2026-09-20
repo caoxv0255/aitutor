@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Coach Mark Host · Test Fixture</title>
+  <style>body { margin: 0; padding: 40px; font-family: sans-serif; }</style>
+</head>
+<body>
+  <h1>Dashboard Test Page</h1>
+  <p>Simulating F3 dashboard entry</p>
+  <script src="../assets/js/components/coach-mark-v1.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        if (window.aitutorCoachMarkV1) window.aitutorCoachMarkV1.tryShow();
+      }, 600);
+    });
+  </script>
+</body>
+</html>

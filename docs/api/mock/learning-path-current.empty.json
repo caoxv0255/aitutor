@@ -1,0 +1,26 @@
+{
+  "success": true,
+  "data": {
+    "subject": "math",
+    "recommendation_reason": "还没有学习路径，因为我们还没有看到你的错题数据。",
+    "cited_stats": [],
+    "global_progress_pct": 0,
+    "stages": [],
+    "today_task": null,
+    "empty_state": {
+      "scenario": "newUser",
+      "title": "学习路径还没准备好",
+      "description": "先做几道诊断题，aitutor 就能为你定制专属学习路径。大约 5 分钟。",
+      "primary_action":   { "label": "去诊断一下", "target_url": "/onboarding.html?step=diagnose" },
+      "secondary_action": { "label": "去拍照录题", "target_url": "/photo-search.html" }
+    }
+  },
+  "message": "no_data_yet",
+  "meta": {
+    "request_id": "req_lpc_2026-09-15T09-00-new001",
+    "timestamp": "2026-09-15T09:00:00Z",
+    "api_version": "v1",
+    "cache_ttl_seconds": 60,
+    "server_now": "2026-09-15T09:00:00Z"
+  }
+}

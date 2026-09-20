@@ -1,0 +1,49 @@
+{
+  "success": true,
+  "message": "今日任务已生成",
+  "data": {
+    "date": "2026-09-15",
+    "streak_days": 12,
+    "tasks": [
+      {
+        "id": "t_001",
+        "kind": "review",
+        "title": "复习导数与切线错题",
+        "kp_id": "kp_derivative_tangent",
+        "kp_name": "导数与切线",
+        "subject": "数学",
+        "reason": "最近 2 天错 4 道, 薄弱度指数 9.6/10, 高频考点",
+        "minutes": 8,
+        "start_url": "/wrong-book.html?subject=math&kp=derivative_tangent",
+        "status": "pending",
+        "weight": 9.6
+      },
+      {
+        "id": "t_002",
+        "kind": "practice",
+        "title": "三角函数综合 · 5 题精练",
+        "kp_id": "kp_trig_composite",
+        "kp_name": "三角函数综合应用",
+        "subject": "数学",
+        "reason": "薄弱度指数 7.2/10, 系统按 SRS 间隔推荐",
+        "minutes": 12,
+        "start_url": "/exam-simulation.html?subject=math&kp=trig_composite",
+        "status": "pending",
+        "weight": 7.2
+      },
+      {
+        "id": "t_003",
+        "kind": "predict",
+        "title": "数学薄弱点预测卷",
+        "kp_id": null,
+        "kp_name": "数学 5 大薄弱点",
+        "subject": "数学",
+        "reason": "基于本周错题, AI 智能组卷 10 题",
+        "minutes": 25,
+        "start_url": "/personalized-paper.html?subject=math&mode=weak-points",
+        "status": "pending",
+        "weight": 8.4
+      }
+    ]
+  }
+}

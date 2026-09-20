@@ -1,0 +1,50 @@
+{
+  "success": true,
+  "data": {
+    "date": "2026-09-15",
+    "streak_days": 12,
+    "stats": {
+      "overall_score": 78,
+      "overall_score_delta": 5,
+      "weak_points_total": 247,
+      "weak_points_delta": -12,
+      "today_questions_done": 28,
+      "today_questions_target": 40,
+      "today_minutes_done": 42,
+      "today_minutes_target": 60
+    },
+    "subject_distribution": [
+      { "subject": "语文", "subject_code": "chinese",   "count": 18, "level": "low" },
+      { "subject": "数学", "subject_code": "math",      "count": 62, "level": "high" },
+      { "subject": "英语", "subject_code": "english",   "count": 28, "level": "mid" },
+      { "subject": "物理", "subject_code": "physics",   "count": 36, "level": "high" },
+      { "subject": "化学", "subject_code": "chemistry", "count": 22, "level": "mid" },
+      { "subject": "生物", "subject_code": "biology",   "count": 14, "level": "mid" },
+      { "subject": "历史", "subject_code": "history",   "count": 24, "level": "mid" },
+      { "subject": "地理", "subject_code": "geography", "count": 20, "level": "mid" },
+      { "subject": "政治", "subject_code": "politics",  "count": 23, "level": "mid" }
+    ],
+    "hot_kps": [
+      { "kp_id": "kp_derivative_tangent", "name": "导数与切线", "subject": "数学", "subject_code": "math", "weight": 9.6, "mastery_score": 0.32 },
+      { "kp_id": "kp_electromagnetic",    "name": "电磁感应",   "subject": "物理", "subject_code": "physics", "weight": 9.1, "mastery_score": 0.28 },
+      { "kp_id": "kp_metabolism",         "name": "代谢 · 光合", "subject": "生物", "subject_code": "biology", "weight": 6.0, "mastery_score": 0.35 },
+      { "kp_id": "kp_equilibrium",        "name": "速率与平衡", "subject": "化学", "subject_code": "chemistry", "weight": 6.8, "mastery_score": 0.39 },
+      { "kp_id": "kp_reading_infer",      "name": "阅读 · 推理", "subject": "英语", "subject_code": "english", "weight": 5.2, "mastery_score": 0.47 },
+      { "kp_id": "kp_sentence_disease",   "name": "病句辨析",   "subject": "语文", "subject_code": "chinese", "weight": 5.5, "mastery_score": 0.55 },
+      { "kp_id": "kp_argumentation",      "name": "论述题 · 史观","subject": "历史", "subject_code": "history", "weight": 4.5, "mastery_score": 0.65 },
+      { "kp_id": "kp_contour",            "name": "等高线判读", "subject": "地理", "subject_code": "geography", "weight": 4.0, "mastery_score": 0.58 },
+      { "kp_id": "kp_dialectics",         "name": "马原 · 矛盾", "subject": "政治", "subject_code": "politics", "weight": 3.0, "mastery_score": 0.78 }
+    ],
+    "next_actions": [
+      { "id": "na_001", "kind": "start_practice", "featured": true,  "icon": "play",          "title": "开始今日练习",     "desc": "基于薄弱点生成的 10 道精选题, 预计 25 分钟", "href": "/f3/pages/exam-simulation.html?mode=today" },
+      { "id": "na_002", "kind": "generate_paper", "featured": false, "icon": "file-text",     "title": "生成预测卷",       "desc": "按薄弱点智能组卷, 9 科覆盖, 难度自适应",     "href": "/f3/pages/personalized-paper.html" },
+      { "id": "na_003", "kind": "ai_tutor",        "featured": false, "icon": "message-circle","title": "AI 讲题",          "desc": "拍照或文字提问, AI 即时拆解思路与考点",       "href": "/f3/pages/tutor.html" },
+      { "id": "na_004", "kind": "learning_path",  "featured": false, "icon": "map",           "title": "学习路径",         "desc": "按你的目标与水平, 规划长期复习路线",         "href": "/f3/pages/learning-path.html" },
+      { "id": "na_005", "kind": "photo",           "featured": false, "icon": "camera",        "title": "拍照解题",         "desc": "PWA 拍照上传, AI 自动识别 + 解析",            "href": "/f3/pages/vision.html" },
+      { "id": "na_006", "kind": "wrong_book",      "featured": false, "icon": "book-x",        "title": "错题本",           "desc": "回顾错题记录, 加入复习计划",                 "href": "/f3/pages/wrong-book.html" },
+      { "id": "na_007", "kind": "knowledge_map",   "featured": false, "icon": "network",       "title": "知识图谱",         "desc": "9 学科 × 6 知识点, 跨学科联动",                "href": "/f3/pages/mastery.html" },
+      { "id": "na_008", "kind": "essay",           "featured": false, "icon": "pen-line",      "title": "作文 AI 批改",     "desc": "拍照/上传, AI 4 维评分 + 锚定原文",            "href": "/f3/pages/essay.html" }
+    ],
+    "today_tasks": []
+  }
+}

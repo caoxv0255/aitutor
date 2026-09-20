@@ -1,0 +1,26 @@
+{
+  "run_label": "td-005-phase3-validate",
+  "timestamp": "2026-09-14T03:53:39.534Z",
+  "sample_size": 79,
+  "stats": {
+    "readable": 78,
+    "header_leak": 0,
+    "too_short": 1,
+    "stem_not_in_docx": 0,
+    "no_docx": 0,
+    "parse_error": 0,
+    "readable_pct": 98.73,
+    "effective_readable_pct": 98.73
+  },
+  "threshold": 95,
+  "pass": true,
+  "failures_sample": [
+    {
+      "qid": 5007,
+      "qn": 30,
+      "reason": "too_short",
+      "stem_preview": "98",
+      "docx_block_preview": "30.14 2014 35312.40 B"
+    }
+  ]
+}

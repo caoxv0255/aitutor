@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "message": "上传成功",
+  "data": {
+    "url": "/uploads/essay/2026/09/er_mock_upload_abc123.jpg",
+    "filename": "er_mock_upload_abc123.jpg",
+    "size": 321,
+    "mime": "image/jpeg",
+    "purpose": "essay",
+    "width": 1,
+    "height": 1,
+    "uploaded_at": "2026-09-15T10:30:00.000Z"
+  }
+}

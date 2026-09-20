@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "message": "ok",
+  "data": {
+    "reports": [
+      {
+        "report_id": "er_lp7z3a_k8m2nq",
+        "essay_title": "春天来了",
+        "exam_level": "gaokao",
+        "grade": "高三",
+        "status": "completed",
+        "confidence": 0.85,
+        "model": "qwen-vl-plus",
+        "created_at": "2026-09-15T10:23:45.000Z"
+      },
+      {
+        "report_id": "er_8x2kfm_p4q9rs",
+        "essay_title": "论创新与传承",
+        "exam_level": "gaokao",
+        "grade": "高三",
+        "status": "completed",
+        "confidence": 0.91,
+        "model": "qwen-vl-plus",
+        "created_at": "2026-09-14T15:12:08.000Z"
+      },
+      {
+        "report_id": "er_3n7vht_z1m5wx",
+        "essay_title": "My Hometown",
+        "exam_level": "gaokao",
+        "grade": "高二",
+        "status": "completed",
+        "confidence": 0.78,
+        "model": "qwen-vl-plus",
+        "created_at": "2026-09-13T20:45:32.000Z"
+      }
+    ]
+  }
+}

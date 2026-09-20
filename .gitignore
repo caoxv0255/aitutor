@@ -298,3 +298,19 @@ __pycache__/
 
 # 时间戳备份文件 (如 deploy/uibe.conf.bak.1789527935)
 *.bak.*
+
+# qb-extract 运行日志: 只入库 .md 覆盖报告 + manifest
+# (89 files / 58M 里 82 个是带时间戳的 JSON 运行快照, 可由源卷重跑 → 不入库)
+# 决策: 2026-09-20 架构评审方向 3
+/database/preflight/qb-extract/logs/*.json
+/database/preflight/qb-extract/logs/*.jsonl
+
+# docs/design: 只入库设计文档 (.md); 原型 html / 原型资产 / 验证截图与脚本为本地设计产物
+# (png 已由上方全局 *.png 规则覆盖)
+# 决策: 2026-09-20 架构评审方向 3
+/docs/design/*.html
+/docs/design/assets/
+# 注意: 必须先用 `**/` 放行目录, 否则 git 不会进入被忽略的父目录, 嵌套 .md 无法被重新包含
+/docs/design/_e2e-screenshots/**
+!/docs/design/_e2e-screenshots/**/
+!/docs/design/_e2e-screenshots/**/*.md

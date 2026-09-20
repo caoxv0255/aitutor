@@ -1,0 +1,158 @@
+{
+  "$schema": "https://docs.sentry.io/schema/alerts/0.1/alert-schema.json",
+  "_comment": "aitutor V1.0 · D070 灰度 Sentry 告警规则 · 关联 frontend/assets/js/components/sentry-init.js",
+  "alerts": [
+    {
+      "id": "f3-js-error-rate",
+      "name": "[F3 前端] JS 错误率 > 1%",
+      "project": "aitutor-frontend",
+      "environment": "production",
+      "query": {
+        "event.type": "error",
+        "transaction": {"op": "pageload"},
+        "tags.use_legacy": "false"
+      },
+      "threshold": {
+        "id": "f3-js-error-spike",
+        "snooze": 600,
+        "trigger": {
+          "threshold_type": "percent",
+          "comparison": "above",
+          "value": 1.0,
+          "timeframe": 300
+        }
+      },
+      "actions": [
+        {"id": "slack-aitutor-oncall", "name": "Slack #aitutor-oncall", "type": "slack"},
+        {"id": "pagerduty-f3-rollback", "name": "PagerDuty F3 Rollback", "type": "pagerduty"}
+      ],
+      "_comment_action": "PagerDuty 集成 opsgenie / firehydrant 可触发 Kill Switch runbook"
+    },
+    {
+      "id": "f3-white-screen",
+      "name": "[F3 前端] 白屏率 > 2%",
+      "project": "aitutor-frontend",
+      "environment": "production",
+      "query": {
+        "event.type": "transaction",
+        "transaction": {"op": "pageload"},
+        "tags.fcp_ms": {"gte": 3000}
+      },
+      "threshold": {
+        "snooze": 600,
+        "trigger": {
+          "threshold_type": "percent",
+          "comparison": "above",
+          "value": 2.0,
+          "timeframe": 300
+        }
+      },
+      "actions": [
+        {"type": "slack", "name": "Slack #aitutor-oncall"}
+      ]
+    },
+    {
+      "id": "lp-api-p95",
+      "name": "[后端] /api/learning-path/current P95 > 300ms",
+      "project": "aitutor-backend",
+      "environment": "production",
+      "query": {
+        "event.type": "transaction",
+        "transaction": {"op": "http.server"},
+        "transaction": "/api/learning-path/current"
+      },
+      "threshold": {
+        "snooze": 300,
+        "trigger": {
+          "threshold_type": "percentile",
+          "percentile": 95,
+          "comparison": "above",
+          "value": 300,
+          "timeframe": 300
+        }
+      },
+      "actions": [
+        {"type": "slack", "name": "Slack #aitutor-oncall"},
+        {"type": "pagerduty", "name": "PagerDuty Backend"}
+      ]
+    },
+    {
+      "id": "lp-api-5xx",
+      "name": "[后端] /api/learning-path/current 5xx > 0.5%",
+      "project": "aitutor-backend",
+      "environment": "production",
+      "query": {
+        "event.type": "transaction",
+        "transaction": {"op": "http.server"},
+        "transaction": "/api/learning-path/current",
+        "http.response.status_code": {"gte": 500}
+      },
+      "threshold": {
+        "snooze": 60,
+        "trigger": {
+          "threshold_type": "percent",
+          "comparison": "above",
+          "value": 0.5,
+          "timeframe": 60
+        }
+      },
+      "actions": [
+        {"type": "slack", "name": "Slack #aitutor-oncall", "params": {"channel": "#aitutor-oncall", "mention": "oncall"}},
+        {"type": "pagerduty", "name": "PagerDuty Backend", "params": {"service_key": "BACKEND_PD_KEY"}}
+      ],
+      "_comment_critical": "Critical Alert · 触发即可能需要回滚"
+    },
+    {
+      "id": "home-today-api-5xx",
+      "name": "[后端] /api/home/today 5xx > 0.5%",
+      "project": "aitutor-backend",
+      "environment": "production",
+      "query": {
+        "event.type": "transaction",
+        "transaction": "/api/home/today",
+        "http.response.status_code": {"gte": 500}
+      },
+      "threshold": {
+        "snooze": 60,
+        "trigger": {
+          "threshold_type": "percent",
+          "comparison": "above",
+          "value": 0.5,
+          "timeframe": 60
+        }
+      },
+      "actions": [
+        {"type": "slack", "name": "Slack #aitutor-oncall", "params": {"mention": "oncall"}}
+      ]
+    },
+    {
+      "id": "rollback-events",
+      "name": "[运维] Kill Switch 触发事件（仅监控）",
+      "project": "aitutor-ops",
+      "environment": "production",
+      "query": {
+        "event.type": "event",
+        "message": "kill_switch_activated"
+      },
+      "threshold": {
+        "snooze": 0,
+        "trigger": {
+          "threshold_type": "count",
+          "comparison": "above",
+          "value": 0,
+          "timeframe": 60
+        }
+      },
+      "actions": [
+        {"type": "slack", "name": "Slack #aitutor-ops", "params": {"channel": "#aitutor-ops"}}
+      ],
+      "_comment": "Sentry.captureMessage('kill_switch_activated') 由 Kill Switch 触发器主动上报"
+    }
+  ],
+  "_meta": {
+    "version": "1.0",
+    "author": "Platform Team",
+    "deploy_command": "sentry-cli alerts import monitoring/sentry-alerts.json --project aitutor-frontend --project aitutor-backend",
+    "rollback_integration": "PagerDuty webhook → PagerDuty Runbook → 'Gray Rollback' → 1-command nginx -s reload"
+  }
+}

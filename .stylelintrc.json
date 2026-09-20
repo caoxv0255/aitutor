@@ -1,0 +1,96 @@
+{
+  "extends": [],
+  "plugins": [
+    "stylelint-declaration-strict-value",
+    "stylelint-no-unsupported-browser-features"
+  ],
+  "rules": {
+    /* ==========================================================================
+     * 命名空间强制（最重要）
+     * 禁止任何非 --ait-color-* 命名空间的设计 token
+     * ========================================================================== */
+    "custom-property-pattern": [
+      "^(?:--ait-color-(?:brand|primary|success|warning|danger|info|neutral)-(?:50|100|200|300|400|500|600|700|800|900|0)|--ait-(?:bg-(?:page|surface|soft|canvas|overlay)|fg-(?:strong|default|secondary|tertiary|disabled|onPrimary|onBrand|onDark|link)|border-(?:default|strong|focus)|space-[0-9]+|radius-(?:none|xs|sm|md|lg|xl|2xl|pill|button|card|input|modal|tag)|shadow-(?:none|sm|md|lg|xl|2xl|glow-(?:primary|primary-sm|danger|success))|text-(?:display|h1|h2|h3|h4|lead|body|small|caption|eyebrow|mini)|font-(?:family-(?:base|display|mono|num)|weight-(?:regular|medium|semibold|bold)|leading-(?:display|heading|body|tight))|duration-(?:instant|fast|default|slow|slower)|ease-(?:out|in|in-out|spring|bounce)|z-(?:base|sticky|tabbar|sidebar|dropdown|sticky-bar|modal-backdrop|modal|drawer|toast|tooltip|skip-link)|safe-(?:top|bottom|left|right)|tabbar-height|button-(?:height-(?:sm|md|lg|xl)|padding-x-(?:sm|md|lg|xl)|text-(?:sm|md|lg)|radius|focus-ring|transition|primary-(?:bg|bg-hover|bg-active|fg)|secondary-(?:bg|bg-hover|bg-active|fg|border)|tertiary-(?:bg|bg-hover|fg)|ghost-(?:bg|bg-hover|fg|border)|danger-(?:bg|bg-hover|fg)|brand-(?:bg|bg-hover|fg)|disabled-(?:bg|fg|border))|card-(?:bg|border|radius|padding|shadow|hover-(?:border|shadow|transform)|selected-(?:border|bg))|input-(?:height-(?:md|lg)|bg|border(?:-(?:hover|focus|error))?|radius|padding-x|text|placeholder|focus-shadow)|tag-(?:height-(?:sm|md|lg)|padding-x-(?:sm|md|lg)|radius|text-(?:sm|md)|(?:neutral|primary|success|warning|danger|brand|info|status-(?:mastered|strengthening|pending|archived))-(?:bg|fg))))$",
+      {
+        "message": "Token 命名必须遵循 --ait-color-* / --ait-{role}-{name} 规范，参考 frontend/assets/css/tokens.css"
+      }
+    ],
+
+    /* ==========================================================================
+     * 硬编码颜色字面量禁用
+     * ========================================================================== */
+    "color-no-hex": true,
+    "color-named": "never",
+
+    /* 禁止特定老蓝色（含 Tailwind blue-500/600） */
+    "declaration-property-value-disallowed-list": {
+      "/^background/": ["/#3B82F6/i", "/#3b82f6/i", "/#2563EB/i", "/#2563eb/i", "/#1D4ED8/i", "/#1d4ed8/i"],
+      "/^color/":        ["/#3B82F6/i", "/#3b82f6/i", "/#2563EB/i", "/#2563eb/i", "/#1D4ED8/i", "/#1d4ed8/i"],
+      "/^border/":       ["/#3B82F6/i", "/#3b82f6/i", "/#2563EB/i", "/#2563eb/i"],
+      "/^box-shadow/":   ["/#3B82F6/i", "/#3b82f6/i", "/#2563EB/i", "/#2563eb/i"],
+      "/^outline/":      ["/#3B82F6/i", "/#3b82f6/i", "/#2563EB/i", "/#2563eb/i"]
+    },
+
+    /* 禁止紫色 accent 硬编码 */
+    "/^background|color|border|box-shadow|outline/": ["/#8B5CF6/i", "/#8b5cf6/i", "/#7C3AED/i", "/#7c3aed/i", "/#A78BFA/i", "/#a78bfa/i"],
+
+    /* 允许白名单字面量（仅可写在此列表中） */
+    "color-no-invalid-hex": true,
+
+    /* ==========================================================================
+     * 禁止老命名
+     * ========================================================================== */
+    "declaration-property-value-disallowed-list": {
+      "/*": ["/--aitutor-/i"]
+    },
+    "selector-class-pattern": [
+      "^(ait-|ds-).*",
+      {
+        "message": "类名应使用 ait- 或 ds- 前缀"
+      }
+    ],
+
+    /* ==========================================================================
+     * Tailwind v4 蓝色 class 禁用
+     * ========================================================================== */
+    "declaration-property-value-disallowed-list": {
+      "/*": ["/\\bblue-?[0-9]00\\b/i", "/\\btext-blue-[0-9]+\\b/i", "/\\bbg-blue-[0-9]+\\b/i"]
+    },
+
+    /* ==========================================================================
+     * 通用规范
+     * ========================================================================== */
+    "indentation": 2,
+    "string-quotes": "single",
+    "no-duplicate-selectors": true,
+    "no-empty-source": null,
+    "color-hex-length": "short",
+    "color-hex-alpha": "never",
+    "shorthand-property-no-redundant-values": true,
+    "declaration-block-no-shorthand-property-overrides": true,
+    "no-unknown-animations": true,
+    "block-no-empty": true,
+    "no-empty-rules": null,
+    "selector-class-no-leading-zero": null
+  },
+  "ignoreFiles": [
+    "node_modules/**",
+    "**/*.min.css",
+    "public/**",
+    "frontend/vendor/**",
+    "frontend/dist/**",
+    "ai-tutor-frontend/**"
+  ],
+  "overrides": [
+    {
+      "files": ["frontend/index.html", "frontend/login.html", "frontend/dashboard.html", "frontend/**/*.html"],
+      "rules": {
+        "color-no-hex": true,
+        "declaration-property-value-disallowed-list": {
+          "/^background/": ["/#3B82F6/i", "/#3b82f6/i", "/#2563EB/i", "/#2563eb/i"],
+          "/^color/":       ["/#3B82F6/i", "/#3b82f6/i", "/#2563EB/i", "/#2563eb/i"]
+        }
+      }
+    }
+  ]
+}

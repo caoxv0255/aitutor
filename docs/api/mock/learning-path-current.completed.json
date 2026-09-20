@@ -1,0 +1,64 @@
+{
+  "success": true,
+  "data": {
+    "subject": "math",
+    "recommendation_reason": "本周所有阶段任务都已完成。明天 09:00 会自动开启下一周计划，先休息一下，复习已经做过的题巩固记忆。",
+    "cited_stats": [
+      { "icon": "check-circle-2", "label": "本周 100% 完成" },
+      { "icon": "trending-up",   "label": "掌握度 +12%" },
+      { "icon": "flame",         "label": "连续打卡 7 天" }
+    ],
+    "global_progress_pct": 100,
+    "stages": [
+      {
+        "id": "stage-math-basic-001",
+        "name": "基础巩固",
+        "status": "completed",
+        "description": "夯实二次函数图像的开口、对称轴、顶点判读",
+        "topics": ["二次函数图像", "开口方向", "对称轴", "顶点坐标"],
+        "estimated_days": 3
+      },
+      {
+        "id": "stage-math-method-002",
+        "name": "方法训练",
+        "status": "completed",
+        "description": "掌握「图像读系数」与「系数反推图像」两类题型",
+        "topics": ["图像与系数关系", "系数反推"],
+        "estimated_days": 4
+      },
+      {
+        "id": "stage-math-variant-003",
+        "name": "变式应用",
+        "status": "completed",
+        "description": "含参二次函数、动点问题、几何综合",
+        "topics": ["含参问题", "动点轨迹", "几何综合"],
+        "estimated_days": 5
+      },
+      {
+        "id": "stage-math-comprehensive-004",
+        "name": "综合提升",
+        "status": "current",
+        "progress_pct": 0,
+        "description": "跨章节综合题与压轴题",
+        "topics": ["综合压轴", "多函数嵌套", "函数与不等式"],
+        "estimated_days": 6
+      }
+    ],
+    "today_task": null,
+    "empty_state": {
+      "scenario": "newUser",
+      "title": "本周任务都完成啦",
+      "description": "明天 09:00 会开启新一周的学习计划。先去错题本复习一下巩固记忆吧。",
+      "primary_action":   { "label": "去看错题本", "target_url": "/wrong-book.html" },
+      "secondary_action": { "label": "休息一下",   "target_url": "/dashboard.html" }
+    }
+  },
+  "message": "ok",
+  "meta": {
+    "request_id": "req_lpc_2026-09-15T18-30-xyz789",
+    "timestamp": "2026-09-15T18:30:00Z",
+    "api_version": "v1",
+    "cache_ttl_seconds": 300,
+    "server_now": "2026-09-15T18:30:00Z"
+  }
+}

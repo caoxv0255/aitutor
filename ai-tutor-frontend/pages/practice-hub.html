@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="api-base" content="" />
+  <title>练习中心 - 智启AI导师</title>
+  <meta name="description" content="基于薄弱点的练习中心: 拍照解题、错题入库、知识点分析、相似题推荐、薄弱点分析、学习路径、强化练习、作文 AI 批改, 一站式闭环。" />
+
+  <!-- Tailwind 4 + Lucide (与 dashboard.html 一致) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <!-- 品牌 tokens (内联, 与 dashboard.html 同模式) -->
+  <style id="theme-vars">
+  {
+    "color": {
+      "primary": {
+        "aitutor-primary-900": { "hex": "#660f13", "opacity": "1" },
+        "aitutor-primary-800": { "hex": "#7a1014", "opacity": "1" },
+        "aitutor-primary-700": { "hex": "#941218", "opacity": "1" },
+        "aitutor-primary-600": { "hex": "#b8151b", "opacity": "1" },
+        "aitutor-primary-500": { "hex": "#d71920", "opacity": "1", "isPrimary": true },
+        "aitutor-primary-400": { "hex": "#f36b6b", "opacity": "1" },
+        "aitutor-primary-300": { "hex": "#ffa0a0", "opacity": "1" },
+        "aitutor-primary-200": { "hex": "#ffc5c5", "opacity": "1" },
+        "aitutor-primary-100": { "hex": "#ffe0e0", "opacity": "1" },
+        "aitutor-primary-50":  { "hex": "#fff1f1", "opacity": "1" }
+      },
+      "success": {
+        "aitutor-success-500": { "hex": "#059669", "opacity": "1", "isPrimary": true }
+      },
+      "warning": {
+        "aitutor-warning-500": { "hex": "#f59e0b", "opacity": "1", "isPrimary": true }
+      },
+      "error": {
+        "aitutor-error-500": { "hex": "#ef4444", "opacity": "1", "isPrimary": true }
+      },
+      "info": {
+        "aitutor-info-500": { "hex": "#0284c7", "opacity": "1", "isPrimary": true }
+      },
+      "blue": {
+        "aitutor-blue-500": { "hex": "#2563eb", "opacity": "1", "isPrimary": true }
+      }
+    },
+    "font": {
+      "display": "DM Sans, Noto Sans SC, sans-serif",
+      "heading": "DM Sans, Noto Sans SC, sans-serif",
+      "body":    "Noto Sans SC, DM Sans, sans-serif"
+    }
+  }
+  </style>
+
+  <!-- 品牌运行时变量 (与 .design_library/ai-tutor/colors_and_type.css 同步) -->
+  <style type="text/tailwindcss">
+    @theme inline {
+      --color-primary-500: #d71920;
+      --color-primary-600: #b8151b;
+      --color-primary-50:  #fff1f1;
+      --color-primary-100: #ffe0e0;
+      --color-primary-200: #ffc5c5;
+      --color-success-500: #059669;
+      --color-success-50:  #ecfdf5;
+      --color-warning-500: #f59e0b;
+      --color-warning-50:  #fffbeb;
+      --color-error-500:   #ef4444;
+      --color-error-50:    #fef2f2;
+      --color-info-500:    #0284c7;
+      --color-info-50:     #f0f9ff;
+      --color-blue-500:    #2563eb;
+      --color-blue-50:     #eff6ff;
+      --color-surface:     #ffffff;
+      --color-surface-tertiary: #f8fafc;
+      --color-foreground:  #0b1220;
+      --color-foreground-secondary: #4b5563;
+      --color-foreground-muted: #6b7280;
+      --color-border-light: #f1f3f5;
+      --color-border:      #e5e7eb;
+    }
+  </style>
+
+  <!-- 页面局部样式 (针对 Practice Hub 组件, 不污染全局) -->
+  <style>
+    .ph-page { background: var(--color-surface); color: var(--color-foreground); }
+
+    /* 学科 pill */
+    .subject-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 32px; padding: 0 16px;
+      background: transparent; border: 1px solid var(--color-border);
+      border-radius: 9999px;
+      color: var(--color-foreground-secondary);
+      font-size: 14px; font-weight: 600;
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .subject-pill:hover { background: var(--color-surface-tertiary); border-color: var(--color-primary-500); color: var(--color-primary-600); }
+    .subject-pill.active {
+      background: var(--color-primary-500); color: #fff; border-color: var(--color-primary-500);
+      box-shadow: 0 2px 8px rgba(215,25,32,0.25);
+    }
+    .subject-pill .pill-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 18px; height: 18px; padding: 0 6px;
+      background: rgba(0,0,0,0.06); color: var(--color-foreground-secondary);
+      border-radius: 9999px; font-size: 11px; font-weight: 700;
+    }
+    .subject-pill.active .pill-badge { background: rgba(255,255,255,0.25); color: #fff; }
+
+    /* 薄弱度进度条 */
+    .weak-bar-track { width: 100%; height: 8px; background: #f1f5f9; border-radius: 9999px; overflow: hidden; }
+    .weak-bar-fill  { height: 100%; border-radius: 9999px; transition: width .3s ease; }
+    .weak-bar-fill--high { background: linear-gradient(90deg, #f36b6b 0%, #b8151b 100%); }
+    .weak-bar-fill--mid  { background: linear-gradient(90deg, #fbbf24 0%, #b45309 100%); }
+    .weak-bar-fill--low  { background: linear-gradient(90deg, #38bdf8 0%, #075985 100%); }
+
+    /* action card featured 渐变 (与 .design_library 一致) */
+    .action-card--featured {
+      background: linear-gradient(135deg, var(--color-primary-50) 0%, #ffffff 100%);
+      border-color: var(--color-primary-200);
+    }
+    .action-card--featured .heading { color: var(--color-primary-600); }
+    .action-card--featured .footer  { color: var(--color-primary-600); }
+
+    /* task card 节奏 */
+    .task-card {
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: 14px; padding: 16px; transition: border-color .15s, transform .15s, box-shadow .15s;
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .task-card:hover { border-color: var(--color-primary-500); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .task-card__kind {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .task-card__kind--review { background: var(--color-primary-50); color: var(--color-primary-600); }
+    .task-card__kind--practice { background: var(--color-blue-50); color: var(--color-blue-500); }
+    .task-card__kind--predict { background: var(--color-warning-50); color: var(--color-warning-500); }
+
+    /* 加载/空/错误 三态 */
+    .state-block {
+      padding: 56px 24px; text-align: center; border-radius: 14px;
+      border: 1px dashed var(--color-border);
+      color: var(--color-foreground-secondary);
+    }
+    .state-block svg { width: 48px; height: 48px; margin: 0 auto 12px; color: var(--color-foreground-muted); }
+    .state-block h3 { font-size: 16px; font-weight: 600; color: var(--color-foreground); margin-bottom: 6px; }
+    .state-block p  { font-size: 14px; }
+    .state-block--error { background: var(--color-error-50); border-color: var(--color-error-500); color: #991b1b; }
+
+    /* skeleton */
+    .skeleton { background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px; }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+    /* 频率点 */
+    .freq-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .freq-dot--high { background: var(--color-primary-500); }
+    .freq-dot--mid  { background: var(--color-warning-500); }
+    .freq-dot--low  { background: var(--color-info-500); }
+
+    /* 难度星 */
+    .stars { display: inline-flex; gap: 2px; }
+    .stars svg { width: 14px; height: 14px; color: var(--color-warning-500); }
+    .stars svg.empty { color: var(--color-border); }
+
+    /* 主题切换 */
+    html.dark .ph-page { background: #0f1117; color: #e8ecf1; }
+    html.dark .task-card { background: #1a1d27; border-color: #2a2d38; }
+    html.dark .weak-bar-track { background: #2a2d38; }
+    html.dark .subject-pill { color: #94a3b8; border-color: #2a2d38; }
+    html.dark .subject-pill:hover { background: #1a1d27; color: #fff; }
+    html.dark .state-block { background: #1a1d27; border-color: #2a2d38; color: #94a3b8; }
+    html.dark .action-card--featured { background: linear-gradient(135deg, rgba(215,25,32,0.12) 0%, #1a1d27 100%); border-color: rgba(215,25,32,0.4); }
+    html.dark .action-card--featured .heading { color: var(--color-primary-200); }
+    html.dark .subject-pill.active .pill-badge { background: rgba(255,255,255,0.18); }
+
+    /* 响应式 */
+    @media (max-width: 900px) {
+      .ph-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      .ph-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    }
+    @media (max-width: 640px) {
+      .ph-grid-4 { grid-template-columns: 1fr !important; }
+      .ph-grid-3 { grid-template-columns: 1fr !important; }
+    }
+  </style>
+
+  <!-- token 同步 (兼容老 key: aitutor.token ↔ token) -->
+  <script>
+    (function() {
+      const newTok = localStorage.getItem('aitutor.token');
+      if (newTok && !localStorage.getItem('token')) localStorage.setItem('token', newTok);
+      const newUser = localStorage.getItem('aitutor.user');
+      if (newUser && !localStorage.getItem('currentUser')) localStorage.setItem('currentUser', newUser);
+    })();
+  </script>
+</head>
+<body class="min-h-screen p-0 ph-page">
+
+  <!-- ========== Dashboard Shell (F3 validated) ========== -->
+  <aside class="fixed left-0 top-0 h-screen w-60 bg-[#0f1117] border-r border-[#1a1d27] hidden md:flex md:flex-col z-40">
+    <div class="flex items-center gap-2.5 h-16 px-5 border-b border-[#1a1d27] md:justify-center lg:justify-start lg:px-5">
+      <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-500 text-white font-bold text-lg" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI</span>
+      <span class="text-lg font-semibold text-white hidden lg:inline truncate" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">AI tutor</span>
+    </div>
+    <nav class="flex-1 px-3 py-4 overflow-y-auto">
+      <ul class="space-y-1">
+        <li><a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-[#1a1d27] hover:text-white transition-colors md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="layout-dashboard" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">仪表盘</span>
+        </a></li>
+        <li><a href="practice-hub.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white bg-primary-500 shadow-[0_2px_8px_rgba(215,25,32,0.25)] md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="target" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">练习中心</span>
+        </a></li>
+        <li><a href="tutor.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-[#1a1d27] hover:text-white transition-colors md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="message-square-more" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">AI导师</span>
+        </a></li>
+        <li><a href="vision.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-[#1a1d27] hover:text-white transition-colors md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="camera" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">拍照解题</span>
+        </a></li>
+        <li><a href="wrong-book.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-[#1a1d27] hover:text-white transition-colors md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="book-x" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">错题本</span>
+        </a></li>
+        <li><a href="my-weak-points.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-[#1a1d27] hover:text-white transition-colors md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="alert-triangle" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">薄弱点</span>
+        </a></li>
+        <li><a href="learning-path.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-[#1a1d27] hover:text-white transition-colors md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="route" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">学习路径</span>
+        </a></li>
+        <li><a href="personalized-paper.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-[#1a1d27] hover:text-white transition-colors md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="file-text" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">预测卷</span>
+        </a></li>
+        <li><a href="mastery.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-[#1a1d27] hover:text-white transition-colors md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="network" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">知识图谱</span>
+        </a></li>
+        <li><a href="essay.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground-secondary hover:bg-[#1a1d27] hover:text-white transition-colors md:justify-center lg:justify-start lg:px-3">
+          <i data-lucide="pen-line" class="w-5 h-5 shrink-0"></i>
+          <span class="truncate hidden lg:inline">作文批改</span>
+        </a></li>
+      </ul>
+    </nav>
+    <div class="px-3 py-3 border-t border-[#1a1d27]">
+      <button id="themeToggle" class="flex items-center gap-3 w-full px-2 py-2 rounded-xl text-foreground-muted hover:text-white hover:bg-[#1a1d27] transition-colors md:justify-center lg:justify-start lg:px-2">
+        <i data-lucide="moon" class="w-4 h-4 shrink-0"></i>
+        <span class="text-sm hidden lg:inline">暗色主题</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========== 右侧主内容区 ========== -->
+  <div class="md:ml-[72px] lg:ml-60 min-h-screen">
+
+    <!-- 顶部 header -->
+    <header class="bg-[#0f1117] border-b border-[#1a1d27] sticky top-0 z-30 backdrop-blur">
+      <div class="px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2 text-white min-w-0">
+          <i data-lucide="target" class="w-5 h-5 text-primary-400 shrink-0"></i>
+          <span class="font-semibold truncate" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">练习中心</span>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button id="mockToggle" class="inline-flex items-center gap-1.5 px-3 h-9 rounded-xl bg-[#1a1d27] border border-[#2a2d38] text-white text-xs font-medium hover:bg-[#2a2d38] transition-colors">
+            <i data-lucide="database" class="w-3.5 h-3.5"></i>
+            <span>MOCK</span>
+            <span id="mockState" class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-primary-500">OFF</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page body -->
+    <main class="px-4 sm:px-6 lg:px-8 py-5 lg:py-8 max-w-[1600px] mx-auto" id="app">
+
+      <!-- 面包屑 + title -->
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5 text-xs text-foreground-secondary mb-1.5" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">
+            <a href="index.html" class="hover:text-primary-500 transition-colors">首页</a>
+            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            <span class="text-foreground font-medium">练习中心</span>
+          </div>
+          <h1 class="text-2xl sm:text-[28px] font-bold leading-tight" style="font-family:'DM Sans','Noto Sans SC',sans-serif; text-wrap:balance; word-break:keep-all;">
+            今日练习, 先复习再强化
+          </h1>
+          <p class="mt-1 text-sm text-foreground-secondary" style="font-family:'Noto Sans SC','DM Sans',sans-serif;" id="pageSubtitle">
+            基于你的薄弱点, AI 已安排今日任务。
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== 状态区: loading / error / content ===== -->
+      <div id="state-loading">
+        <div class="ph-grid-4 grid grid-cols-4 gap-3 sm:gap-4 mb-5">
+          <div class="skeleton h-24"></div><div class="skeleton h-24"></div>
+          <div class="skeleton h-24"></div><div class="skeleton h-24"></div>
+        </div>
+        <div class="skeleton h-48 mb-5"></div>
+        <div class="skeleton h-32 mb-5"></div>
+        <div class="ph-grid-3 grid grid-cols-4 gap-4"><div class="skeleton h-28"></div><div class="skeleton h-28"></div><div class="skeleton h-28"></div><div class="skeleton h-28"></div></div>
+      </div>
+
+      <div id="state-error" style="display:none">
+        <div class="state-block state-block--error">
+          <i data-lucide="alert-octagon"></i>
+          <h3>数据加载失败</h3>
+          <p id="errorMessage">网络异常, 请稍后重试</p>
+          <button id="retryBtn" class="mt-3 inline-flex items-center gap-1.5 px-3 h-9 rounded-xl bg-error-500 text-white text-xs font-semibold hover:opacity-90">
+            <i data-lucide="refresh-ccw" class="w-3.5 h-3.5"></i> 重试
+          </button>
+        </div>
+      </div>
+
+      <div id="state-content" style="display:none">
+
+        <!-- ===== 今日 stat 4 件套 ===== -->
+        <section class="ph-grid-4 grid grid-cols-4 gap-3 sm:gap-4 mb-5">
+          <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+            <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
+              <i data-lucide="flame" class="w-5 h-5"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs text-foreground-secondary whitespace-nowrap" style="font-family:'Noto Sans SC','DM Sans',sans-serif;">学习连胜</div>
+              <div class="flex items-baseline gap-1 mt-0.5">
+                <span class="text-2xl font-bold text-primary-500 whitespace-nowrap leading-none" id="stat-streak" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">--</span>
+                <span class="text-sm text-foreground-secondary">天</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+            <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-500">
+              <i data-lucide="target" class="w-5 h-5"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs text-foreground-secondary whitespace-nowrap">综合得分</div>
+              <div class="flex items-baseline gap-1 mt-0.5">
+                <span class="text-2xl font-bold text-blue-500 whitespace-nowrap leading-none" id="stat-score" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">--</span>
+                <span class="text-xs text-success-500 font-semibold ml-1" id="stat-score-delta">--</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+            <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-warning-50 text-warning-500">
+              <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs text-foreground-secondary whitespace-nowrap">薄弱知识点</div>
+              <div class="flex items-baseline gap-1 mt-0.5">
+                <span class="text-2xl font-bold text-warning-500 whitespace-nowrap leading-none" id="stat-weak" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">--</span>
+                <span class="text-xs text-success-500 font-semibold ml-1" id="stat-weak-delta">--</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 p-4 rounded-2xl bg-surface border border-border-light shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+            <div class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-success-50 text-success-500">
+              <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs text-foreground-secondary whitespace-nowrap">今日已完成</div>
+              <div class="flex items-baseline gap-1 mt-0.5">
+                <span class="text-2xl font-bold text-success-500 whitespace-nowrap leading-none" id="stat-done" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">--</span>
+                <span class="text-sm text-foreground-secondary">/ <span id="stat-target">--</span> 题</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 今日任务 (D082 Sprint 2 shape) ===== -->
+        <section class="mb-5">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-semibold flex items-center gap-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
+              <i data-lucide="list-checks" class="w-5 h-5 text-primary-500"></i>
+              今日任务
+            </h2>
+            <a href="#" class="inline-flex items-center gap-1 text-xs font-medium text-primary-500 hover:text-primary-600">
+              全部任务 <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+          <div id="todayTasks" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+        </section>
+
+        <!-- ===== 薄弱点 (按学科过滤) ===== -->
+        <section class="mb-5">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-semibold flex items-center gap-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
+              <i data-lucide="alert-triangle" class="w-5 h-5 text-warning-500"></i>
+              薄弱知识点 · 优先攻克
+            </h2>
+            <a href="my-weak-points.html" class="inline-flex items-center gap-1 text-xs font-medium text-primary-500 hover:text-primary-600">
+              查看全部 <i data-lucide="chevron-right" class="w-3 h-3"></i>
+            </a>
+          </div>
+
+          <!-- 学科 pill 选择器 -->
+          <div id="subjectSelector" class="flex flex-wrap gap-2 mb-4"></div>
+
+          <!-- 薄弱点列表 -->
+          <div id="weakList" class="bg-surface border border-border-light rounded-2xl overflow-hidden"></div>
+        </section>
+
+        <!-- ===== 4 个行动出口 (8 功能收口) ===== -->
+        <section>
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-semibold flex items-center gap-2" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">
+              <i data-lucide="zap" class="w-5 h-5 text-primary-500"></i>
+              下一步动作
+            </h2>
+          </div>
+          <div id="actionGrid" class="ph-grid-3 grid grid-cols-4 gap-4"></div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-border-light py-6 px-4 text-center text-xs text-foreground-secondary">
+      <p><strong class="text-foreground">智启 AI 导师</strong> · 高考/中考错题诊断与预测学习平台</p>
+      <p class="mt-1">拍照解题 · 错题管理 · AI 智能学习 · 仅供学习参考</p>
+    </footer>
+  </div>
+
+  <!-- ========== 业务脚本: 真实服务接入 ========== -->
+  <script type="module">
+    import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
+    import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
+    import { loop } from '../assets/js/api/services/index.js';
+    import { toast } from '../assets/js/toast.js';
+    import { getMockEnabled, setUseMock } from '../assets/js/api/USE_MOCK.js';
+
+    // ─── 1. 错误边界 (防白屏) ───
+    const eb = mountErrorBoundary();
+
+    // ─── 2. 工具: 安全 HTML 转义 ───
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    // ─── 3. 资源: loop summary (D062 envelope, mock/real 同形) ───
+    const summaryRes = useAsyncResource(() => loop.getLoopSummary());
+
+    // ─── 4. 渲染: 三态切换 ───
+    const $loading = document.getElementById('state-loading');
+    const $error   = document.getElementById('state-error');
+    const $content = document.getElementById('state-content');
+    const $errorMsg = document.getElementById('errorMessage');
+    const $retry   = document.getElementById('retryBtn');
+
+    $retry.addEventListener('click', () => summaryRes.refetch());
+
+    function renderState(s) {
+      $loading.style.display = s.loading ? 'block' : 'none';
+      $error.style.display   = s.error   ? 'block' : 'none';
+      $content.style.display = (!s.loading && !s.error && s.data) ? 'block' : 'none';
+      if (s.error) {
+        $errorMsg.textContent = s.error.message || '网络异常, 请稍后重试';
+      }
+      if (s.data && !s.error && !s.loading) {
+        try { renderContent(s.data); }
+        catch (e) {
+          console.error('[render] fail', e);
+          eb.handleError(e, 'RENDER');
+        }
+      }
+    }
+    summaryRes.subscribe(renderState);
+
+    // ─── 5. 主题 + mock 切换 UI ───
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      themeBtn.innerHTML = isDark
+        ? '<i data-lucide="sun" class="w-4 h-4 shrink-0"></i><span class="text-sm hidden lg:inline">浅色主题</span>'
+        : '<i data-lucide="moon" class="w-4 h-4 shrink-0"></i><span class="text-sm hidden lg:inline">暗色主题</span>';
+      lucide.createIcons();
+    });
+
+    const mockBtn = document.getElementById('mockToggle');
+    const mockStateEl = document.getElementById('mockState');
+    function syncMockUi() {
+      const enabled = getMockEnabled();
+      mockStateEl.textContent = enabled ? 'ON' : 'OFF';
+      mockStateEl.className = 'ml-1 px-1.5 py-0.5 rounded text-[10px] ' + (enabled ? 'bg-warning-500' : 'bg-primary-500');
+    }
+    syncMockUi();
+    mockBtn.addEventListener('click', () => {
+      const next = !getMockEnabled();
+      setUseMock(next);
+      syncMockUi();
+      toast.info(next ? 'MOCK 模式已开启, 即将刷新' : 'MOCK 模式已关闭, 即将调用真后端');
+      setTimeout(() => summaryRes.refetch(), 400);
+    });
+
+    // ─── 6. 业务渲染 ───
+    let currentSubject = 'math';
+    let hotKps = [];
+    let subjectDistribution = [];
+
+    function renderContent(d) {
+      // 6.1 stat 4 件套
+      document.getElementById('stat-streak').textContent = d.streak_days ?? 0;
+      document.getElementById('stat-score').textContent  = d.stats.overall_score ?? 0;
+      const sd = document.getElementById('stat-score-delta');
+      sd.textContent = (d.stats.overall_score_delta >= 0 ? '+' : '') + d.stats.overall_score_delta + ' 较上周';
+      sd.className = 'text-xs font-semibold ml-1 ' + (d.stats.overall_score_delta >= 0 ? 'text-success-500' : 'text-error-500');
+      document.getElementById('stat-weak').textContent = d.stats.weak_points_total ?? 0;
+      const wd = document.getElementById('stat-weak-delta');
+      wd.textContent = (d.stats.weak_points_delta <= 0 ? '' : '+') + d.stats.weak_points_delta + ' 较上周';
+      wd.className = 'text-xs font-semibold ml-1 ' + (d.stats.weak_points_delta <= 0 ? 'text-success-500' : 'text-error-500');
+      document.getElementById('stat-done').textContent  = d.stats.today_questions_done ?? 0;
+      document.getElementById('stat-target').textContent = d.stats.today_questions_target ?? 0;
+
+      // 6.2 今日任务
+      renderTodayTasks();
+
+      // 6.3 学科选择器 + 薄弱点
+      subjectDistribution = d.subject_distribution || [];
+      hotKps = d.hot_kps || [];
+      renderSubjectSelector();
+      renderWeakList();
+
+      // 6.4 action 4 件套 (8 功能收口)
+      renderActions(d.next_actions || []);
+
+      // 6.5 subtitle
+      const sub = document.getElementById('pageSubtitle');
+      sub.textContent = `今天 ${d.date || ''} · 共 ${(d.next_actions || []).length} 个行动 · ${hotKps.length} 个薄弱点待攻克`;
+
+      // 6.6 重新渲染 Lucide 图标
+      lucide.createIcons();
+    }
+
+    function renderTodayTasks() {
+      const $wrap = document.getElementById('todayTasks');
+      // Sprint 2 数据 from today_get.json, 静态展示即可, 真实点击走 startTodayTask()
+      const tasks = [
+        { id: 't_001', kind: 'review',  title: '复习导数与切线错题', subject: '数学', reason: '最近 2 天错 4 道, 薄弱度指数 9.6/10', minutes: 8 },
+        { id: 't_002', kind: 'practice', title: '三角函数综合 · 5 题精练', subject: '数学', reason: '薄弱度指数 7.2/10, SRS 间隔推荐', minutes: 12 },
+        { id: 't_003', kind: 'predict', title: '数学薄弱点预测卷', subject: '数学', reason: '基于本周错题, AI 智能组卷 10 题', minutes: 25 }
+      ];
+      $wrap.innerHTML = tasks.map(t => {
+        const kindIcon = { review: 'refresh-cw', practice: 'pen-tool', predict: 'file-text' }[t.kind];
+        const kindLabel = { review: '复习', practice: '练习', predict: '预测' }[t.kind];
+        return `
+          <div class="task-card" data-task-id="${esc(t.id)}">
+            <span class="task-card__kind task-card__kind--${esc(t.kind)}"><i data-lucide="${esc(kindIcon)}" class="w-5 h-5"></i></span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-[11px] font-semibold text-foreground-muted uppercase tracking-wider">${esc(kindLabel)}</span>
+                <span class="text-xs text-foreground-secondary">${esc(t.subject)}</span>
+              </div>
+              <div class="text-sm font-semibold mt-0.5" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">${esc(t.title)}</div>
+              <div class="text-xs text-foreground-secondary mt-1 line-clamp-2">${esc(t.reason)}</div>
+              <div class="mt-2 flex items-center justify-between gap-2">
+                <span class="text-xs text-foreground-muted inline-flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 约 ${esc(t.minutes)} 分钟</span>
+                <button class="start-task-btn inline-flex items-center gap-1 px-3 h-8 rounded-lg bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium transition-colors" data-task-id="${esc(t.id)}">
+                  开始 <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      $wrap.querySelectorAll('.start-task-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.taskId;
+          btn.disabled = true;
+          btn.innerHTML = '<i data-lucide="loader" class="w-3 h-3 animate-spin"></i> 启动中...';
+          lucide.createIcons();
+          try {
+            const res = await loop.startTodayTask(id);
+            if (res.success) {
+              toast.success('任务已启动, 跳转中...');
+              setTimeout(() => { window.location.href = '/wrong-book.html'; }, 600);
+            } else {
+              throw new Error(res.message || '启动失败');
+            }
+          } catch (e) {
+            eb.handleError(e, 'API');
+            btn.disabled = false;
+            btn.innerHTML = '开始 <i data-lucide="arrow-right" class="w-3 h-3"></i>';
+            lucide.createIcons();
+          }
+        });
+      });
+    }
+
+    function renderSubjectSelector() {
+      const $wrap = document.getElementById('subjectSelector');
+      const subjects = [
+        { id: 'math', name: '数学' }, { id: 'physics', name: '物理' },
+        { id: 'chemistry', name: '化学' }, { id: 'english', name: '英语' },
+        { id: 'chinese', name: '语文' }
+      ];
+      $wrap.innerHTML = subjects.map(s => {
+        const dist = subjectDistribution.find(d => s.name.startsWith(d.subject));
+        const count = dist ? dist.count : 0;
+        const active = currentSubject === s.id ? 'active' : '';
+        return `
+          <button class="subject-pill ${active}" data-subject="${esc(s.id)}">
+            ${esc(s.name)}
+            ${count ? `<span class="pill-badge">${count}</span>` : ''}
+          </button>
+        `;
+      }).join('');
+      $wrap.querySelectorAll('.subject-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentSubject = btn.dataset.subject;
+          renderSubjectSelector();
+          renderWeakList();
+        });
+      });
+    }
+
+    function renderWeakList() {
+      const $wrap = document.getElementById('weakList');
+      // 用 hotKps 渲染, 当前学科用名字前缀匹配
+      const subjNameMap = { math: '数学', physics: '物理', chemistry: '化学', english: '英语', chinese: '语文' };
+      const filtered = hotKps.filter(k => k.subject === subjNameMap[currentSubject]);
+      if (filtered.length === 0) {
+        $wrap.innerHTML = `
+          <div class="state-block" style="border:none;">
+            <i data-lucide="check-circle-2"></i>
+            <h3>暂无薄弱知识点</h3>
+            <p>${esc(subjNameMap[currentSubject])}表现良好, 继续保持!</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+      $wrap.innerHTML = filtered.map((k, i) => {
+        const w = k.weight;
+        const level = w >= 7 ? 'high' : w >= 4 ? 'mid' : 'low';
+        const freqDot = w >= 7 ? 'high' : w >= 4 ? 'mid' : 'low';
+        const diff = i < 1 ? 4 : i < 3 ? 3 : 2;
+        const stars = Array.from({ length: 5 }, (_, j) =>
+          `<i data-lucide="star" class="${j < diff ? '' : 'empty'}"></i>`).join('');
+        return `
+          <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 px-4 md:px-5 py-4 ${i > 0 ? 'border-t border-border-light' : ''}">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-sm font-semibold" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">${esc(k.name)}</span>
+                <span class="freq-dot freq-dot--${freqDot}"></span>
+                <span class="text-xs text-foreground-secondary">${freqDot === 'high' ? '高频' : freqDot === 'mid' ? '中频' : '低频'}</span>
+              </div>
+              <div class="mt-2 flex items-center gap-3 text-xs text-foreground-secondary flex-wrap">
+                <span class="inline-flex items-center gap-1"><span class="stars">${stars}</span> 难度 ${diff}/5</span>
+                <span class="inline-flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 最近错 ${Math.round(w * 0.4)} 道</span>
+              </div>
+            </div>
+            <div class="md:w-64 flex flex-col gap-1">
+              <div class="weak-bar-track">
+                <div class="weak-bar-fill weak-bar-fill--${level}" style="width: ${Math.min(100, w * 10)}%"></div>
+              </div>
+              <div class="flex items-center justify-between text-xs text-foreground-secondary">
+                <span>薄弱度指数</span>
+                <span class="font-semibold text-primary-600" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">${w.toFixed(1)} / 10</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button class="practice-btn inline-flex items-center gap-1 px-3 h-9 rounded-full bg-primary-500 hover:bg-primary-600 text-white text-xs font-semibold transition-colors" data-kp-id="${esc(k.kp_id)}" data-kp-name="${esc(k.name)}">
+                练习这题 <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </button>
+              <button class="similar-btn inline-flex items-center justify-center w-9 h-9 rounded-full border border-border-light hover:border-primary-500 hover:text-primary-500 text-foreground-secondary transition-colors" data-kp-id="${esc(k.kp_id)}" data-kp-name="${esc(k.name)}" aria-label="相似题推荐">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // 练习 + 相似题按钮
+      $wrap.querySelectorAll('.practice-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const kpId = btn.dataset.kpId;
+          window.location.href = `/exam-simulation.html?kp_id=${encodeURIComponent(kpId)}&kp_name=${encodeURIComponent(btn.dataset.kpName)}`;
+        });
+      });
+      $wrap.querySelectorAll('.similar-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const kpId = btn.dataset.kpId;
+          btn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i>';
+          lucide.createIcons();
+          try {
+            const res = await loop.getSimilarByKp(kpId);
+            const items = (res.data && res.data.by_kp && res.data.by_kp[kpId]) || [];
+            if (items.length === 0) {
+              toast.info('暂无相似题, 已加入错题本等待入库');
+            } else {
+              toast.success(`已为你匹配 ${items.length} 道相似题, 跳转中...`);
+              setTimeout(() => {
+                window.location.href = `/question-bank.html?kp_id=${encodeURIComponent(kpId)}`;
+              }, 600);
+            }
+          } catch (e) {
+            eb.handleError(e, 'API');
+            btn.innerHTML = '<i data-lucide="copy" class="w-4 h-4"></i>';
+            lucide.createIcons();
+          }
+        });
+      });
+      lucide.createIcons();
+    }
+
+    function renderActions(actions) {
+      const $wrap = document.getElementById('actionGrid');
+      const iconMap = {
+        play: 'play',
+        'file-text': 'file-text',
+        'message-circle': 'message-circle',
+        map: 'map',
+        camera: 'camera',
+        'book-x': 'book-x',
+        'alert-triangle': 'alert-triangle',
+        'pen-line': 'pen-line'
+      };
+      $wrap.innerHTML = actions.map(a => {
+        const icon = iconMap[a.icon] || 'arrow-right';
+        const featured = a.featured ? 'action-card--featured' : '';
+        return `
+          <a href="${esc(a.href)}" class="action-card ${featured} flex flex-col gap-2 p-5 rounded-2xl border border-border-light bg-surface hover:border-primary-500 hover:-translate-y-1 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all cursor-pointer">
+            <i data-lucide="${esc(icon)}" class="w-7 h-7 text-primary-500"></i>
+            <h3 class="heading text-base font-semibold" style="font-family:'DM Sans','Noto Sans SC',sans-serif;">${esc(a.title)}</h3>
+            <p class="text-sm text-foreground-secondary flex-1">${esc(a.desc)}</p>
+            <span class="footer text-xs font-semibold inline-flex items-center gap-1 mt-1">
+              ${a.featured ? '立即开始' : '前往'} <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            </span>
+          </a>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

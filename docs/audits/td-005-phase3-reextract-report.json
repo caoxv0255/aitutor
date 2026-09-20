@@ -1,0 +1,104 @@
+{
+  "mode": "commit",
+  "candidates": 92,
+  "papers": 26,
+  "updated": 30,
+  "ledger_count": 30,
+  "stats": {
+    "to_update": 30,
+    "new_stem_unhealthy": 2,
+    "no_improvement": 2,
+    "no_docx": 0,
+    "dir_missing": 0,
+    "parse_error": 0,
+    "pdf_skip": 0,
+    "no_block": 58
+  },
+  "failures_sample": {
+    "no_docx": [],
+    "no_block": [
+      {
+        "question_id": 6481,
+        "qn": 25,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      },
+      {
+        "question_id": 6482,
+        "qn": 26,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      },
+      {
+        "question_id": 6484,
+        "qn": 28,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      },
+      {
+        "question_id": 6485,
+        "qn": 29,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      },
+      {
+        "question_id": 6526,
+        "qn": 22,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      },
+      {
+        "question_id": 6529,
+        "qn": 23,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      },
+      {
+        "question_id": 6531,
+        "qn": 24,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      },
+      {
+        "question_id": 6532,
+        "qn": 25,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      },
+      {
+        "question_id": 6563,
+        "qn": 25,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      },
+      {
+        "question_id": 6564,
+        "qn": 26,
+        "file": "2024年高考生物真题（海南）（解析卷）.docx"
+      }
+    ],
+    "skipped": [
+      {
+        "question_id": 6566,
+        "qn": 1,
+        "reason": "new_stem_unhealthy",
+        "new_stem_preview": "1．答卷前，考生务必将自己的姓名、准考证号填写在答题卡上。"
+      },
+      {
+        "question_id": 6660,
+        "qn": 3,
+        "reason": "new_stem_unhealthy",
+        "new_stem_preview": "3．考试结束后，将本试卷和答题卡一并交回。\n\n一、选择题：本题共15小题，每小题3分，共45分。在每小题给出的四个选项中"
+      }
+    ],
+    "no_improvement": [
+      {
+        "question_id": 6924,
+        "qn": 3,
+        "old_len": 142,
+        "new_len": 122,
+        "old_stem": "考试结束后，将本试卷和答题卡一并交回。\n可能用到的相对原子质量：H-1  Li-",
+        "new_stem": "3. 萤石()与浓硫酸共热可制备HF气体，写出该反应的化学方程式：_______"
+      },
+      {
+        "question_id": 8341,
+        "qn": 3,
+        "old_len": 123,
+        "new_len": 74,
+        "old_stem": "考试结束后，将本试卷和答题卡一并交回。\n一、选择题：本题共10小题，共43分。在",
+        "new_stem": "3．除特殊说明外，本卷所用重力加速度g大小均取。\n\n物质性质\n\n实验是人类认识物"
+      }
+    ]
+  }
+}

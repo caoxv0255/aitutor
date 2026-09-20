@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "data": {
+    "by_kp": {
+      "kp_derivative_tangent": [
+        {
+          "qid": "q_sim_001",
+          "stem": "已知函数 f(x) = x³ - 3x, 求曲线在点 (1, -2) 处的切线方程。",
+          "subject": "数学",
+          "kp_id": "kp_derivative_tangent",
+          "difficulty": 3,
+          "source": "2024 北京高考模拟卷",
+          "match_score": 0.92,
+          "reason": "同知识点 · 同题型 · 同难度"
+        },
+        {
+          "qid": "q_sim_002",
+          "stem": "若曲线 y = x² + ax + b 在点 (1, 3) 处的切线斜率为 4, 求 a, b。",
+          "subject": "数学",
+          "kp_id": "kp_derivative_tangent",
+          "difficulty": 3,
+          "source": "2025 北京海淀期末",
+          "match_score": 0.88,
+          "reason": "同知识点 · 切线 + 联立"
+        },
+        {
+          "qid": "q_sim_003",
+          "stem": "求曲线 y = ln x 在点 (1, 0) 处的切线方程与法线方程。",
+          "subject": "数学",
+          "kp_id": "kp_derivative_tangent",
+          "difficulty": 4,
+          "source": "2025 北京西城一模",
+          "match_score": 0.85,
+          "reason": "同知识点 · 高一考点"
+        }
+      ],
+      "kp_trig_composite": [
+        {
+          "qid": "q_sim_004",
+          "stem": "已知 sin(α + β) = 1/2, sin(α - β) = 1/3, 求 tan α / tan β 的值。",
+          "subject": "数学",
+          "kp_id": "kp_trig_composite",
+          "difficulty": 4,
+          "source": "2025 北京东城二模",
+          "match_score": 0.89,
+          "reason": "同知识点 · 三角恒等变换"
+        }
+      ]
+    },
+    "total_count": 4
+  }
+}

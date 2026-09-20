@@ -1,0 +1,111 @@
+{
+  "success": true,
+  "message": "批改完成",
+  "data": {
+    "report_id": "er_lp7z3a_k8m2nq",
+    "annotations": [
+      {
+        "id": "anno_abc123_0",
+        "type": "masterstroke",
+        "anchor": {
+          "paragraph_index": 0,
+          "quote": "春天来了，万物复苏。",
+          "line_no": 0
+        },
+        "original": "春天来了，万物复苏。",
+        "start": 0,
+        "end": 10,
+        "comment": "开篇点题，用两个短句勾勒出春天的整体氛围，节奏明快，意境清新。",
+        "line_no": 0,
+        "anchor_failed": false
+      },
+      {
+        "id": "anno_abc123_1",
+        "type": "highlight",
+        "anchor": {
+          "paragraph_index": 0,
+          "quote": "大地披上了绿装",
+          "line_no": 1
+        },
+        "original": "大地披上了绿装",
+        "start": 11,
+        "end": 18,
+        "comment": "拟人手法生动，将大地人格化，画面感强。",
+        "line_no": 1,
+        "anchor_failed": false
+      },
+      {
+        "id": "anno_abc123_2",
+        "type": "grammar_error",
+        "anchor": {
+          "paragraph_index": 1,
+          "quote": "心中涌起无限退想",
+          "line_no": 1
+        },
+        "original": "心中涌起无限遐想",
+        "start": 7,
+        "end": 14,
+        "comment": "\"退想\"应为\"遐想\"，形近字误用。",
+        "line_no": 1,
+        "anchor_failed": false
+      },
+      {
+        "id": "anno_abc123_3",
+        "type": "advanced_vocab",
+        "anchor": {
+          "paragraph_index": 0,
+          "quote": "万物复苏",
+          "line_no": 0
+        },
+        "original": "万物复苏",
+        "start": 5,
+        "end": 9,
+        "comment": "成语使用准确，凝练表达了春天万物苏醒的景象。",
+        "line_no": 0,
+        "anchor_failed": false
+      },
+      {
+        "id": "anno_abc123_4",
+        "type": "logic_issue",
+        "anchor": {
+          "paragraph_index": 99,
+          "quote": "全文主题升华段",
+          "line_no": -1
+        },
+        "original": "全文主题升华段",
+        "start": -1,
+        "end": -1,
+        "comment": "建议增加一段总结性论述，将\"春天\"的象征意义从自然层面升华至人生哲理层面。",
+        "line_no": -1,
+        "anchor_failed": true,
+        "failure_reason": "paragraph_index_out_of_range"
+      }
+    ],
+    "scores": {
+      "content": 17,
+      "language": 16,
+      "structure": 15,
+      "development": 14,
+      "total": 62
+    },
+    "comment": "本文以春天为背景，画面感强，比喻修辞运用得当。结构清晰，层次分明。不足之处在于个别字词存在误用（如\"退想\"），且结尾段略显仓促，未能将主题进一步升华。建议在结尾增加哲理性思考，提升文章的思辨深度。",
+    "rubric_id": "chinese_gaokao_v1",
+    "meta": {
+      "model": "qwen-plus",
+      "anchor_metrics": {
+        "raw_count": 5,
+        "anchor_success_count": 4,
+        "anchor_rate": 0.8,
+        "final_valid_count": 5
+      },
+      "prompt_version": "3.0.0",
+      "server_metrics": {
+        "model": "qwen-plus",
+        "task_type": "essay_grade",
+        "user_email": "test@uibe.edu.cn",
+        "request_token": "tx_mock_2026_09_15_abc123",
+        "stage_b_input_tokens_estimate": 850
+      }
+    }
+  }
+}

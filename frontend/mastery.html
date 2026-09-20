@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>能力图谱 - AI Tutor</title>
+
+  <!-- Design Token v1 (含 info 修复版) -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    /* ============= 主区 ============= */
+    .mt-shell { max-width: 1200px; margin: 0 auto; padding: 24px 24px 80px; }
+    .mt-page-header { margin-bottom: 24px; }
+    .mt-page-header h1 {
+      font-size: 24px; font-weight: 700;
+      color: var(--ait-fg-strong); margin: 0 0 4px;
+    }
+    .mt-page-header p {
+      font-size: 14px; color: var(--ait-fg-secondary); margin: 0;
+    }
+
+    /* ============= Filter Chips ============= */
+    .mt-filters {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .mt-chip {
+      padding: 6px 14px; border-radius: var(--ait-radius-pill);
+      font-size: 13px; font-weight: 500;
+      background: var(--ait-bg-surface);
+      border: 1px solid var(--ait-border-default);
+      color: var(--ait-fg-secondary);
+      cursor: pointer;
+    }
+    .mt-chip.is-active {
+      background: var(--ait-color-primary-500);
+      color: var(--ait-fg-onPrimary);
+      border-color: var(--ait-color-primary-500);
+    }
+
+    /* ============= Legend ============= */
+    .mt-legend {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      margin-bottom: 16px; font-size: 12px; color: var(--ait-fg-secondary);
+    }
+    .mt-legend__dot {
+      display: inline-block; width: 10px; height: 10px;
+      border-radius: 50%; margin-right: 6px; vertical-align: middle;
+    }
+
+    /* ============= Loading ============= */
+    .mt-loading { text-align: center; padding: 60px 24px; color: var(--ait-fg-tertiary); }
+    .mt-spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--ait-color-neutral-200);
+      border-top-color: var(--ait-color-primary-500);
+      border-radius: 50%;
+      animation: mt-spin 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+    @keyframes mt-spin { to { transform: rotate(360deg); } }
+
+    /* ============= 知识图谱画布 ============= */
+    .mt-canvas {
+      position: relative;
+      min-height: 480px;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(79, 124, 240, 0.05) 0%, transparent 60%),
+        var(--ait-bg-page);
+      border-radius: var(--ait-radius-lg);
+      border: 1px solid var(--ait-border-default);
+      overflow: hidden;
+    }
+    .mt-canvas::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(79, 124, 240, 0.14) 1px, transparent 1px);
+      background-size: 18px 18px;
+      opacity: 0.4; pointer-events: none;
+    }
+    .mt-graph-host { position: relative; z-index: 2; padding: 32px; min-height: 480px; }
+    .mt-node {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: var(--ait-radius-md);
+      background: var(--ait-bg-surface);
+      border: 1px solid var(--ait-color-neutral-300);
+      font-size: 13px; font-weight: 500;
+      color: var(--ait-fg-default);
+      margin: 8px;
+    }
+    .mt-node.is-mastered { border-color: var(--ait-color-success-500); background: var(--ait-color-success-50); color: var(--ait-color-success-700); }
+    .mt-node.is-reinforce { border-color: var(--ait-color-warning-500); background: var(--ait-color-warning-50); color: var(--ait-color-warning-700); }
+    .mt-node.is-pending   { border-color: var(--ait-color-danger-500);  background: var(--ait-color-danger-50);  color: var(--ait-color-danger-700); }
+    .mt-node.is-none      { border-color: var(--ait-color-neutral-300); color: var(--ait-fg-tertiary); background: var(--ait-bg-soft); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mt-spinner { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="mt-shell">
+    <div class="mt-page-header">
+      <h1>能力图谱</h1>
+      <p>看你的知识星空，知道哪里强、哪里还需要补</p>
+    </div>
+
+    <!-- 学科 chips -->
+    <div class="mt-filters" id="mtFilters">
+      <button class="mt-chip is-active" data-subject="math">数学</button>
+      <button class="mt-chip" data-subject="physics">物理</button>
+      <button class="mt-chip" data-subject="chemistry">化学</button>
+      <button class="mt-chip" data-subject="chinese">语文</button>
+      <button class="mt-chip" data-subject="english">英语</button>
+    </div>
+
+    <!-- Legend -->
+    <div class="mt-legend">
+      <span><i class="mt-legend__dot" style="background: var(--ait-color-success-500)"></i>已掌握 &gt; 80%</span>
+      <span><i class="mt-legend__dot" style="background: var(--ait-color-warning-500)"></i>巩固中 40-80%</span>
+      <span><i class="mt-legend__dot" style="background: var(--ait-color-danger-500)"></i>待加强 &lt; 40%</span>
+      <span><i class="mt-legend__dot" style="background: var(--ait-color-neutral-400)"></i>未评估</span>
+    </div>
+
+    <!-- Loading -->
+    <div class="mt-loading" id="mtLoading">
+      <div class="mt-spinner"></div>
+      <p>正在准备你的知识星空…</p>
+    </div>
+
+    <!-- 主内容（EmptyState / 图谱） -->
+    <div id="mtContent" class="mt-canvas" style="display:none">
+      <div class="mt-graph-host" id="mtGraph"></div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="assets/js/components/emptyState.js"></script>
+  <script>
+  (function() {
+    'use strict';
+
+    // ====== 鉴权 ======
+    const token = localStorage.getItem('token');
+    if (!token) { location.href = 'login.html'; return; }
+
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => Array.from(document.querySelectorAll(s));
+    const loading = $('#mtLoading');
+    const content = $('#mtContent');
+    const graphHost = $('#mtGraph');
+
+    const STATE_CLASS = {
+      mastered:  'is-mastered',
+      reinforce: 'is-reinforce',
+      pending:   'is-pending',
+      none:      'is-none',
+    };
+    const STATE_LABEL = {
+      mastered: '已掌握', reinforce: '巩固中', pending: '待加强', none: '未评估'
+    };
+
+    // ====== 主流程 ======
+    async function loadGraph(subject) {
+      loading.style.display = '';
+      content.style.display = 'none';
+      try {
+        const res = await fetch(`/api/mastery/graph?subject=${subject}`, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.status === 401) { location.href = 'login.html'; return; }
+        if (!res.ok) throw new Error('graph failed');
+        const payload = await res.json();
+        const nodes = (payload && payload.data && Array.isArray(payload.data.nodes)) ? payload.data.nodes : [];
+        renderGraph(nodes);
+      } catch (err) {
+        // ====== V1.0 整合：图谱加载失败 → EmptyState(pathFail) ======
+        renderEmpty('pathFail', {
+          title: '能力图谱加载失败',
+          description: '请检查网络后重试。',
+          primary_action:   { label: '重新加载', target_url: 'javascript:location.reload()' },
+          secondary_action: { label: '返回首页', target_url: 'dashboard.html' }
+        });
+      }
+    }
+
+    function renderGraph(nodes) {
+      loading.style.display = 'none';
+      if (!nodes || nodes.length === 0) {
+        // ====== V1.0 整合：图谱为空 → EmptyState(abilityMap) ======
+        renderEmpty('abilityMap');
+        return;
+      }
+      content.style.display = '';
+      graphHost.innerHTML = nodes.map(n => {
+        const cls = STATE_CLASS[n.cls] || STATE_CLASS.none;
+        return `<span class="mt-node ${cls}" title="${STATE_LABEL[n.cls] || '未评估'} ${n.master || 0}%">${escapeHtml(n.name || '')} · ${n.master || 0}%</span>`;
+      }).join('');
+    }
+
+    // ====== V1.0 整合：使用全局 EmptyState 组件 ======
+    function renderEmpty(scenario, customCfg) {
+      loading.style.display = 'none';
+      content.style.display = '';
+      const cfg = customCfg || {
+        scenario,
+        primary_action:   { label: '去做几道题', target_url: 'wrong-book.html' },
+        secondary_action: { label: '去拍照录题', target_url: 'photo-search.html' }
+      };
+      graphHost.innerHTML = '';
+      graphHost.appendChild(EmptyState.render(cfg));
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    // ====== 学科切换 ======
+    $$('.mt-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $$('.mt-chip').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        loadGraph(btn.dataset.subject);
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => loadGraph('math'));
+  })();
+  </script>
+</body>
+</html>

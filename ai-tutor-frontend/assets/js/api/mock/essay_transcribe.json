@@ -1,0 +1,34 @@
+{
+  "success": true,
+  "message": "转录完成",
+  "data": {
+    "transcript": {
+      "paragraphs": [
+        {
+          "paragraph_index": 0,
+          "lines": [
+            { "line_no": 0, "text": "春天来了，万物复苏。", "uncertain_chars": [] },
+            { "line_no": 1, "text": "大地披上了绿装，充满了生机。", "uncertain_chars": [] },
+            { "line_no": 2, "text": "[?]在草地上奔跑。", "uncertain_chars": ["小"] }
+          ]
+        },
+        {
+          "paragraph_index": 1,
+          "lines": [
+            { "line_no": 0, "text": "天空湛蓝如洗，燕子从南方归来。", "uncertain_chars": [] },
+            { "line_no": 1, "text": "小明站在田野上，心中涌起无限退想。", "uncertain_chars": [] }
+          ]
+        }
+      ],
+      "confidence": 0.92,
+      "uncertain_total": 1
+    },
+    "request_token": "tx_mock_2026_09_15_abc123",
+    "raw_metrics": {
+      "model": "qwen-vl-max",
+      "task_type": "essay_transcribe",
+      "original_paragraph_count": 2,
+      "normalized_paragraph_count": 2
+    }
+  }
+}

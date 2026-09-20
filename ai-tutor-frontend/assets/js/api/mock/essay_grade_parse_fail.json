@@ -1,0 +1,25 @@
+{
+  "success": false,
+  "message": "AI 老师暂时无法批改这篇作文，请重试",
+  "errorCode": "ESSAY_GRADE_PARSE_FAILED",
+  "errorType": "BUSINESS",
+  "details": {
+    "zod_issues": [
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "received": "undefined",
+        "path": ["comment"],
+        "message": "总评至少 10 字符"
+      },
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "received": "undefined",
+        "path": ["meta", "anchor_metrics"],
+        "message": "Required"
+      }
+    ]
+  },
+  "timestamp": 1726382941000
+}

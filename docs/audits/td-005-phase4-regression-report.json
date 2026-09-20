@@ -1,0 +1,99 @@
+{
+  "run_label": "td-005-phase4-prevent-regression",
+  "timestamp": "2026-09-14T04:39:44.040Z",
+  "overall_ok": false,
+  "stats": {
+    "total_questions": 6219,
+    "null_fp": 0,
+    "fp_format_bad": 725,
+    "stem_bad": 396,
+    "stem_mojibake": 20,
+    "stem_header": 8,
+    "questions_with_kp": 3577,
+    "no_kp": 2642,
+    "kp_coverage_pct": 57.52
+  },
+  "checks": [
+    {
+      "id": "CHECK-1-NULL-FP",
+      "label": "file_path 缺失数",
+      "value": 0,
+      "threshold": 0,
+      "ok": true,
+      "desc": "D089 Phase 2 已实现 100% 反填, 不应回退"
+    },
+    {
+      "id": "CHECK-2-FP-FORMAT",
+      "label": "file_path 格式异常数",
+      "value": 725,
+      "threshold": 0,
+      "ok": false,
+      "desc": "必须用 database/incoming|question-bank 前缀"
+    },
+    {
+      "id": "CHECK-3-FP-EXISTS",
+      "label": "file_path 物理目录不存在 (抽样 200)",
+      "value": 7,
+      "threshold": 2,
+      "ok": false,
+      "desc": "< 1% 缺失 (chinese/2025 已知缺失)"
+    },
+    {
+      "id": "CHECK-4-STEM-BAD",
+      "label": "题干残缺数 (空/太短/mojibake/卷头)",
+      "value": 424,
+      "threshold": 311,
+      "ok": false,
+      "desc": "< 5% 阈值 (D089 v1.1)"
+    },
+    {
+      "id": "CHECK-5-NO-KP",
+      "label": "未关联 KP 题目数",
+      "value": 2642,
+      "threshold": 4354,
+      "ok": true,
+      "desc": "KP 覆盖率 ≥ 30% (D088-11)"
+    }
+  ],
+  "file_exists_sample": {
+    "size": 200,
+    "exists": 193,
+    "missing": 7,
+    "missing_pct": 3.5,
+    "missing_examples": [
+      {
+        "qid": 2958,
+        "qu": "chinese_2025_shandong_013",
+        "fp": "database/incoming/gaokao/chinese/2025/"
+      },
+      {
+        "qid": 2909,
+        "qu": "chinese_2025_jiangsu_007",
+        "fp": "database/incoming/gaokao/chinese/2025/"
+      },
+      {
+        "qid": 2822,
+        "qu": "chinese_2025_guangdong_004",
+        "fp": "database/incoming/gaokao/chinese/2025/"
+      },
+      {
+        "qid": 2923,
+        "qu": "chinese_2025_jiangsu_023",
+        "fp": "database/incoming/gaokao/chinese/2025/"
+      },
+      {
+        "qid": 2928,
+        "qu": "chinese_2025_new_gaokao_ii_005",
+        "fp": "database/incoming/gaokao/chinese/2025/"
+      }
+    ]
+  },
+  "recommendation": "发现问题需修复",
+  "next_steps": [
+    "CHECK-1: 若 null_fp > 0, 跑 scripts/td-005/phase2-backfill-file-path.mjs",
+    "CHECK-2: 修正 file_path 写入逻辑, 仅允许 database/incoming|question-bank 前缀",
+    "CHECK-3: 修正 file_path (拼音→中文映射) 或重新解压 docx",
+    "CHECK-4: 跑 scripts/td-005/phase3-reextract-stems.mjs 修复题干",
+    "CHECK-5: 跑 scripts/qb2/stage32-kp-relink-full.mjs 补充 KP 映射"
+  ]
+}

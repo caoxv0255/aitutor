@@ -1,0 +1,28 @@
+{
+  "success": true,
+  "data": {
+    "stats": {
+      "total_essays": 5,
+      "avg_score": 42.5,
+      "improvement": "+3.5",
+      "last_grade_at": "2026-09-12"
+    },
+    "recent": [
+      {
+        "id": "essay_005",
+        "title": "2026 北京海淀一模 · 议论文",
+        "subject": "语文",
+        "score": 46,
+        "max_score": 50,
+        "graded_at": "2026-09-12",
+        "dimensions": [
+          { "name": "立意",     "score": 23, "max": 25, "comment": "立意明确, 但层次可更丰富" },
+          { "name": "结构",     "score": 9,  "max": 10, "comment": "段落衔接自然" },
+          { "name": "语言",     "score": 9,  "max": 10, "comment": "用词准确, 文采可再提升" },
+          { "name": "书写规范", "score": 5,  "max": 5,  "comment": "符合规范" }
+        ]
+      }
+    ],
+    "trend_30d": [38, 40, 41, 39, 42, 42.5]
+  }
+}

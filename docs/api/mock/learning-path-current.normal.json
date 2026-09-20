@@ -1,0 +1,68 @@
+{
+  "success": true,
+  "data": {
+    "subject": "math",
+    "recommendation_reason": "你最近在「二次函数图像」相关题目中出现了 4 次错误，主要问题是图像与系数关系理解不稳定。我们建议先用 2-3 天巩固基础图像判读，再进入综合应用。",
+    "cited_stats": [
+      { "icon": "alert-triangle", "label": "近 7 天 4 次错" },
+      { "icon": "bar-chart-3",    "label": "掌握度 38%" },
+      { "icon": "clock",         "label": "距上次复习 5 天" }
+    ],
+    "global_progress_pct": 25,
+    "stages": [
+      {
+        "id": "stage-math-basic-001",
+        "name": "基础巩固",
+        "status": "completed",
+        "description": "夯实二次函数图像的开口、对称轴、顶点判读",
+        "topics": ["二次函数图像", "开口方向", "对称轴", "顶点坐标"],
+        "estimated_days": 3
+      },
+      {
+        "id": "stage-math-method-002",
+        "name": "方法训练",
+        "status": "current",
+        "progress_pct": 40,
+        "description": "掌握「图像读系数」与「系数反推图像」两类题型",
+        "topics": ["图像与系数关系", "系数反推", "顶点式", "交点式"],
+        "estimated_days": 4
+      },
+      {
+        "id": "stage-math-variant-003",
+        "name": "变式应用",
+        "status": "locked",
+        "description": "含参二次函数、动点问题、几何综合",
+        "topics": ["含参问题", "动点轨迹", "几何综合"],
+        "estimated_days": 5
+      },
+      {
+        "id": "stage-math-comprehensive-004",
+        "name": "综合提升",
+        "status": "locked",
+        "description": "跨章节综合题与压轴题",
+        "topics": ["综合压轴", "多函数嵌套", "函数与不等式"],
+        "estimated_days": 6
+      }
+    ],
+    "today_task": {
+      "id": "task-math-2026-09-15-001",
+      "type": "review",
+      "title": "复习 3 道二次函数错题",
+      "reason": "这 3 道题是 9 月 12 日练习中做错的，今天按 SRS 间隔复习，状态最稳。",
+      "estimated_minutes": 8,
+      "topic": "二次函数图像",
+      "target_url": "/review.html?session=auto&kp=func-graph",
+      "knowledge_point_id": "kp_math_func_graph",
+      "question_count": 3,
+      "difficulty": 3
+    }
+  },
+  "message": "ok",
+  "meta": {
+    "request_id": "req_lpc_2026-09-15T08-30-abc123",
+    "timestamp": "2026-09-15T08:30:00Z",
+    "api_version": "v1",
+    "cache_ttl_seconds": 300,
+    "server_now": "2026-09-15T08:30:00Z"
+  }
+}
