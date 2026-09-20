@@ -1,225 +1,836 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>学习路径 - AI Tutor</title>
-<link rel="stylesheet" href="assets/css/style.css">
-<style>
-.learning-wrap{max-width:900px;margin:0 auto;padding:40px 24px 60px}
-.learning-header{margin-bottom:36px;text-align:center}
-.learning-header h1{font-size:1.8rem;font-weight:800;margin-bottom:8px}
-.learning-header p{font-size:.9rem;color:var(--text-muted)}
-.subject-selector{display:flex;justify-content:center;gap:8px;margin-bottom:32px;flex-wrap:wrap}
-.subject-btn{padding:10px 20px;border-radius:var(--radius-pill);border:1px solid var(--border);background:transparent;color:var(--text);font-size:.9rem;font-weight:600;cursor:pointer;transition:var(--transition)}
-.subject-btn:hover{border-color:var(--accent);color:var(--accent)}
-.subject-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.loading-state{text-align:center;padding:60px 24px;color:var(--text-muted)}
-.loading-spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.recommendation-box{background:var(--accent-soft);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:32px}
-.recommendation-box h2{font-size:1.1rem;font-weight:700;margin-bottom:12px;color:var(--accent)}
-.recommendation-box p{font-size:.95rem;line-height:1.7;color:var(--text)}
-.analysis-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:32px}
-.analysis-box h2{font-size:1.1rem;font-weight:700;margin-bottom:16px}
-.analysis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
-.analysis-stat{text-align:center;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm)}
-.analysis-stat .stat-value{font-size:2rem;font-weight:800;color:var(--accent)}
-.analysis-stat .stat-label{font-size:.8rem;color:var(--text-muted);margin-top:4px}
-.phase-timeline{position:relative;padding-left:40px}
-.phase-timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:2px;background:var(--border)}
-.phase-item{position:relative;margin-bottom:32px}
-.phase-dot{position:absolute;left:-32px;top:0;width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);z-index:1}
-.phase-dot.completed{background:#22c55e}
-.phase-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
-.phase-card h3{font-size:1.15rem;font-weight:700;margin-bottom:4px}
-.phase-card .phase-week{font-size:.8rem;color:var(--accent);font-weight:600;margin-bottom:12px}
-.phase-card .phase-focus{font-size:1rem;font-weight:600;margin-bottom:8px}
-.phase-topics{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.phase-topic{padding:4px 12px;background:var(--bg);border:1px solid var(--border);border-radius:999px;font-size:.82rem}
-.phase-card .phase-goal{font-size:.9rem;color:var(--text-muted);padding:12px;background:var(--bg);border-radius:var(--radius-sm)}
-.phase-card .phase-goal strong{color:var(--text)}
-.difficulty-badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.75rem;font-weight:600;margin-left:8px}
-.difficulty-badge.easy{background:#dcfce7;color:#166534}
-.difficulty-badge.medium{background:#fef3c7;color:#92400e}
-.difficulty-badge.hard{background:#fecaca;color:#991b1b}
-.difficulty-badge.comprehensive{background:#e0e7ff;color:#3730a3}
-.action-buttons{display:flex;justify-content:center;gap:12px;margin-top:40px;flex-wrap:wrap}
-.action-btn{padding:12px 28px;border-radius:var(--radius-pill);font-size:.95rem;font-weight:600;cursor:pointer;transition:var(--transition);border:1px solid var(--border);font-family:var(--font)}
-.action-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.action-btn.primary:hover{box-shadow:0 8px 32px rgba(215,25,32,.3)}
-.action-btn.secondary{background:transparent;color:var(--text);border-color:var(--border)}
-.action-btn.secondary:hover{border-color:var(--accent);color:var(--accent)}
-.no-data{text-align:center;padding:80px 24px;color:var(--text-muted)}
-.no-data .empty-icon{font-size:4rem;margin-bottom:16px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>学习路径 - AI Tutor</title>
+
+  <!-- ============================================================
+       Design Token v1 (P0 一致性修复版)
+       使用标准变量 + Legacy aliases 兼容 Bundle 1-3 设计稿
+       ============================================================ -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ============================================================
+       P11 · Learning Path · 任务化版
+       - 顶部：AI 推荐理由卡 (Info 色调，sparkles)
+       - 中部：4 阶段时间轴（completed / current / locked）
+       - 下部：今日任务卡（视觉重心，glow 按钮）
+       - 状态降级：Loading skeleton / EmptyState / ErrorState
+       - 复用：PageHeader / EmptyState / Toast (Stage A 交付)
+       ============================================================ -->
+  <style>
+    /* ====== 全局壳 ====== */
+    .lp-shell { max-width: 920px; margin: 0 auto; padding: 32px 24px 80px; }
+    @media (max-width: 640px) { .lp-shell { padding: 20px 16px 80px; } }
+
+    /* ====== 学科切换 chips（移动端横滑）====== */
+    .lp-subjects {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 640px) {
+      .lp-subjects { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+      .lp-subjects::-webkit-scrollbar { display: none; }
+    }
+    .lp-subject {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 36px; padding: 0 16px;
+      border-radius: var(--ait-radius-pill);
+      background: var(--ait-bg-surface);
+      border: 1px solid var(--ait-border-default);
+      color: var(--ait-fg-secondary);
+      font-size: var(--ait-text-small);
+      font-weight: var(--ait-font-weight-medium);
+      cursor: pointer; white-space: nowrap;
+      transition: var(--ait-button-transition);
+      flex-shrink: 0;
+    }
+    .lp-subject:hover { border-color: var(--ait-color-primary-300); color: var(--ait-color-primary-700); }
+    .lp-subject.is-active {
+      background: var(--ait-color-primary-500);
+      color: var(--ait-fg-onPrimary);
+      border-color: var(--ait-color-primary-500);
+      box-shadow: 0 2px 8px rgba(79, 125, 240, 0.25);
+    }
+    .lp-subject.is-active:hover { background: var(--ait-color-primary-600); color: var(--ait-fg-onPrimary); }
+
+    /* ====== AI 推荐理由卡（Info 色调）====== */
+    .lp-recommend {
+      position: relative;
+      background: var(--ait-color-info-50);
+      border: 1px solid var(--ait-color-info-200);
+      border-radius: var(--ait-radius-lg);
+      padding: 20px 22px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .lp-recommend::before {
+      content: "";
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--ait-color-info-500);
+    }
+    .lp-recommend__head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .lp-recommend__icon {
+      width: 32px; height: 32px;
+      border-radius: var(--ait-radius-sm);
+      background: var(--ait-color-info-100);
+      color: var(--ait-color-info-500);
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .lp-recommend__title {
+      font-size: var(--ait-text-h4);
+      font-weight: var(--ait-font-weight-semibold);
+      color: var(--ait-fg-strong);
+      line-height: var(--ait-leading-heading);
+    }
+    .lp-recommend__text {
+      font-size: var(--ait-text-body);
+      color: var(--ait-fg-default);
+      line-height: var(--ait-leading-body);
+      margin: 0;
+    }
+    .lp-recommend__cite {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 10px;
+      font-size: var(--ait-text-caption);
+      color: var(--ait-fg-tertiary);
+    }
+    .lp-recommend__cite .badge-mini {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px;
+      background: var(--ait-bg-surface);
+      border: 1px solid var(--ait-color-info-200);
+      border-radius: var(--ait-radius-pill);
+      color: var(--ait-color-info-600);
+      font-weight: var(--ait-font-weight-medium);
+    }
+
+    /* ====== 全局进度条（柔和引导）====== */
+    .lp-global-progress {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 28px;
+    }
+    .lp-global-progress__label {
+      font-size: var(--ait-text-small);
+      color: var(--ait-fg-secondary);
+      white-space: nowrap;
+    }
+    .lp-global-progress__bar {
+      flex: 1;
+      height: 8px;
+      background: var(--ait-color-neutral-100);
+      border-radius: var(--ait-radius-pill);
+      overflow: hidden;
+    }
+    .lp-global-progress__fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--ait-color-primary-500), var(--ait-color-primary-400));
+      border-radius: var(--ait-radius-pill);
+      transition: width 800ms var(--ait-ease-out);
+    }
+    .lp-global-progress__pct {
+      font-size: var(--ait-text-small);
+      font-weight: var(--ait-font-weight-semibold);
+      color: var(--ait-color-primary-600);
+      font-variant-numeric: tabular-nums;
+      min-width: 36px; text-align: right;
+    }
+
+    /* ====== 阶段时间轴 ====== */
+    .lp-stages {
+      display: flex; flex-direction: column;
+      gap: 0;
+      position: relative;
+      padding-left: 0;
+    }
+    .lp-stage {
+      position: relative;
+      display: flex; gap: 20px;
+      padding: 12px 0 28px 0;
+    }
+    .lp-stage:last-child { padding-bottom: 0; }
+
+    /* 节点列 */
+    .lp-stage__rail {
+      display: flex; flex-direction: column; align-items: center;
+      flex-shrink: 0;
+      width: 36px;
+      position: relative;
+    }
+    .lp-stage__dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--ait-bg-surface);
+      border: 2px solid var(--ait-color-neutral-300);
+      color: var(--ait-fg-tertiary);
+      z-index: 1;
+      transition: var(--ait-button-transition);
+    }
+    .lp-stage__dot.is-completed {
+      background: var(--ait-color-success-500);
+      border-color: var(--ait-color-success-500);
+      color: var(--ait-fg-onPrimary);
+    }
+    .lp-stage__dot.is-current {
+      background: var(--ait-color-primary-500);
+      border-color: var(--ait-color-primary-500);
+      color: var(--ait-fg-onPrimary);
+      box-shadow: 0 0 0 6px rgba(79, 125, 240, 0.18);
+      animation: lp-pulse 2.4s var(--ait-ease-out) infinite;
+    }
+    .lp-stage__dot.is-locked {
+      background: var(--ait-color-neutral-100);
+      border-color: var(--ait-color-neutral-200);
+      color: var(--ait-fg-tertiary);
+    }
+    @keyframes lp-pulse {
+      0%, 100% { box-shadow: 0 0 0 6px rgba(79, 125, 240, 0.18); }
+      50% { box-shadow: 0 0 0 10px rgba(79, 125, 240, 0.08); }
+    }
+    /* 连接线 */
+    .lp-stage__line {
+      position: absolute;
+      top: 28px; bottom: -16px;
+      left: 50%;
+      width: 2px;
+      transform: translateX(-50%);
+      background: var(--ait-color-neutral-200);
+    }
+    .lp-stage:last-child .lp-stage__line { display: none; }
+    .lp-stage--completed + .lp-stage .lp-stage__line { background: var(--ait-color-success-500); }
+    .lp-stage--current .lp-stage__line { background: var(--ait-color-success-500); }
+
+    /* 卡片列 */
+    .lp-stage__body { flex: 1; min-width: 0; }
+    .lp-stage__card {
+      background: var(--ait-bg-surface);
+      border: 1px solid var(--ait-border-default);
+      border-radius: var(--ait-radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--ait-shadow-sm);
+      transition: var(--ait-button-transition);
+    }
+    .lp-stage--current .lp-stage__card {
+      border-color: var(--ait-color-primary-300);
+      box-shadow: var(--ait-shadow-md);
+    }
+    .lp-stage--locked .lp-stage__card {
+      background: var(--ait-color-neutral-50);
+      border-color: var(--ait-color-neutral-200);
+    }
+    .lp-stage__head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .lp-stage__num {
+      font-size: var(--ait-text-caption);
+      color: var(--ait-fg-tertiary);
+      font-weight: var(--ait-font-weight-medium);
+      font-family: var(--ait-font-family-mono);
+    }
+    .lp-stage__name {
+      font-size: var(--ait-text-h4);
+      font-weight: var(--ait-font-weight-semibold);
+      color: var(--ait-fg-strong);
+      line-height: var(--ait-leading-heading);
+    }
+    .lp-stage--locked .lp-stage__name { color: var(--ait-fg-tertiary); }
+    .lp-stage__status {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 10px;
+      border-radius: var(--ait-radius-pill);
+      font-size: var(--ait-text-caption);
+      font-weight: var(--ait-font-weight-medium);
+    }
+    .lp-stage__status.is-completed { background: var(--ait-color-success-50); color: var(--ait-color-success-600); }
+    .lp-stage__status.is-current   { background: var(--ait-color-primary-50); color: var(--ait-color-primary-700); }
+    .lp-stage__status.is-locked    { background: var(--ait-color-neutral-100); color: var(--ait-fg-tertiary); }
+    .lp-stage__topics {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin: 10px 0 0 0;
+      padding: 0; list-style: none;
+    }
+    .lp-stage__topic {
+      padding: 4px 10px;
+      background: var(--ait-color-neutral-100);
+      border-radius: var(--ait-radius-sm);
+      font-size: var(--ait-text-caption);
+      color: var(--ait-fg-default);
+    }
+    .lp-stage--current .lp-stage__topic {
+      background: var(--ait-color-primary-50);
+      color: var(--ait-color-primary-700);
+    }
+    .lp-stage--locked .lp-stage__topic {
+      background: var(--ait-color-neutral-100);
+      color: var(--ait-fg-tertiary);
+    }
+    .lp-stage__progress {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 10px;
+    }
+    .lp-stage__progress-bar {
+      flex: 1; height: 6px;
+      background: var(--ait-color-neutral-100);
+      border-radius: var(--ait-radius-pill);
+      overflow: hidden;
+    }
+    .lp-stage__progress-fill {
+      height: 100%;
+      background: var(--ait-color-primary-500);
+      border-radius: var(--ait-radius-pill);
+    }
+    .lp-stage__progress-pct {
+      font-size: var(--ait-text-mini);
+      color: var(--ait-fg-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ====== 今日任务卡（视觉重心）====== */
+    .lp-today {
+      position: relative;
+      background: var(--ait-bg-surface);
+      border: 1px solid var(--ait-border-default);
+      border-radius: var(--ait-radius-xl);
+      padding: 28px 28px 24px;
+      box-shadow: var(--ait-shadow-md);
+      margin-top: 32px;
+      overflow: hidden;
+    }
+    .lp-today::before {
+      content: "";
+      position: absolute;
+      top: 0; right: 0;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle at top right, rgba(79, 125, 240, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .lp-today__head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .lp-today__icon {
+      width: 36px; height: 36px;
+      border-radius: var(--ait-radius-md);
+      background: var(--ait-color-primary-50);
+      color: var(--ait-color-primary-500);
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .lp-today__label {
+      font-size: var(--ait-text-caption);
+      color: var(--ait-fg-secondary);
+      font-weight: var(--ait-font-weight-medium);
+      letter-spacing: 0.04em;
+    }
+    .lp-today__title {
+      font-size: var(--ait-text-h2);
+      font-weight: var(--ait-font-weight-bold);
+      color: var(--ait-fg-strong);
+      line-height: var(--ait-leading-heading);
+      margin: 0 0 10px 0;
+    }
+    .lp-today__desc {
+      font-size: var(--ait-text-body);
+      color: var(--ait-fg-secondary);
+      line-height: var(--ait-leading-body);
+      margin: 0 0 18px 0;
+    }
+    .lp-today__meta {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 20px;
+      font-size: var(--ait-text-caption);
+      color: var(--ait-fg-tertiary);
+    }
+    .lp-today__meta-item {
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .lp-today__cta-row {
+      display: flex; gap: 12px;
+      position: relative;
+    }
+    .lp-today__cta {
+      flex: 1;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: var(--ait-button-height-lg);
+      padding: 0 var(--ait-button-padding-x-lg);
+      border-radius: var(--ait-radius-md);
+      font-size: var(--ait-button-text-lg);
+      font-weight: var(--ait-font-weight-semibold);
+      border: 0;
+      cursor: pointer;
+      transition: var(--ait-button-transition);
+      text-decoration: none;
+    }
+    .lp-today__cta--primary {
+      background: var(--ait-button-primary-bg);
+      color: var(--ait-button-primary-fg);
+      box-shadow: 0 4px 14px rgba(79, 125, 240, 0.30);
+    }
+    .lp-today__cta--primary:hover {
+      background: var(--ait-button-primary-bg-hover);
+      box-shadow: 0 6px 20px rgba(79, 125, 240, 0.40);
+      transform: translateY(-1px);
+    }
+    .lp-today__cta--primary:active {
+      background: var(--ait-button-primary-bg-active);
+      transform: translateY(0);
+    }
+    .lp-today__cta--secondary {
+      background: var(--ait-bg-soft);
+      color: var(--ait-fg-default);
+    }
+    .lp-today__cta--secondary:hover {
+      background: var(--ait-color-neutral-200);
+    }
+    @media (max-width: 640px) {
+      .lp-today { padding: 22px 20px 20px; border-radius: var(--ait-radius-lg); }
+      .lp-today__title { font-size: var(--ait-text-h3); }
+      .lp-today__cta-row { flex-direction: column; }
+    }
+
+    /* ====== 加载骨架屏 ====== */
+    .lp-skeleton {
+      display: flex; flex-direction: column;
+      gap: 16px;
+    }
+    .lp-skel-bar {
+      height: 16px;
+      background: linear-gradient(90deg,
+        var(--ait-color-neutral-100) 0%,
+        var(--ait-color-neutral-200) 50%,
+        var(--ait-color-neutral-100) 100%);
+      background-size: 200% 100%;
+      animation: lp-skel-shimmer 1.4s linear infinite;
+      border-radius: var(--ait-radius-sm);
+    }
+    .lp-skel-bar.is-lg { height: 80px; border-radius: var(--ait-radius-lg); }
+    @keyframes lp-skel-shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ====== 减弱动画偏好 ====== */
+    @media (prefers-reduced-motion: reduce) {
+      .lp-stage__dot.is-current { animation: none; }
+      .lp-skel-bar { animation: none; }
+      .lp-global-progress__fill { transition: none; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="learning-wrap">
-  <div class="learning-header">
-    <h1>学习路径规划</h1>
-    <p>根据你的薄弱知识点，为你量身定制分阶段学习计划</p>
-  </div>
+  <!-- ============================================================
+       移动端 PageHeader (Stage A 组件)
+       ============================================================ -->
+  <header class="page-header page-header--mobile">
+    <a href="dashboard.html" class="page-header__back" aria-label="返回">
+      <i data-lucide="arrow-left"></i>
+    </a>
+    <h1 class="page-header__title">学习路径</h1>
+    <div class="page-header__actions">
+      <button class="page-header__icon-btn" id="lpRefreshBtn" aria-label="刷新">
+        <i data-lucide="refresh-cw"></i>
+      </button>
+    </div>
+  </header>
 
-  <div class="subject-selector" id="subjectSelector">
-    <button class="subject-btn active" data-subject="math" onclick="loadLearningPath('math')">数学</button>
-    <button class="subject-btn" data-subject="physics" onclick="loadLearningPath('physics')">物理</button>
-    <button class="subject-btn" data-subject="chemistry" onclick="loadLearningPath('chemistry')">化学</button>
-    <button class="subject-btn" data-subject="chinese" onclick="loadLearningPath('chinese')">语文</button>
-    <button class="subject-btn" data-subject="english" onclick="loadLearningPath('english')">英语</button>
-    <button class="subject-btn" data-subject="politics" onclick="loadLearningPath('politics')">政治</button>
-  </div>
+  <main class="lp-shell" id="lpRoot">
 
-  <div class="loading-state" id="loadingState">正在加载学习路径...</div>
+    <!-- ====== 加载态（Skeleton）====== -->
+    <section class="lp-skeleton" id="lpSkeleton" hidden>
+      <div class="lp-skel-bar is-lg"></div>
+      <div class="lp-skel-bar" style="width:60%"></div>
+      <div class="lp-skel-bar" style="width:80%"></div>
+      <div class="lp-skel-bar" style="width:70%"></div>
+      <div class="lp-skel-bar is-lg"></div>
+    </section>
 
-  <div id="pathContent" style="display:none"></div>
+    <!-- ====== 真实内容（hidden until loaded）====== -->
+    <div id="lpContent" hidden>
 
-  <div class="no-data" id="noData" style="display:none">
-    <div class="empty-icon">📚</div>
-    <p>暂无数据</p>
-    <p style="margin-top:12px">请先上传一些错题记录，以便生成个性化学习路径</p>
-  </div>
-</div>
+      <!-- 学科切换 -->
+      <nav class="lp-subjects" id="lpSubjects" aria-label="学科切换"></nav>
 
-<script>
-(function() {
-  const token = localStorage.getItem('token');
-  if (!token) { location.href = 'login.html'; return; }
-  loadLearningPath('math');
-})();
+      <!-- 全局进度 -->
+      <div class="lp-global-progress" id="lpGlobalProgress" hidden>
+        <span class="lp-global-progress__label">整体进度</span>
+        <div class="lp-global-progress__bar">
+          <div class="lp-global-progress__fill" id="lpGlobalFill" style="width:0%"></div>
+        </div>
+        <span class="lp-global-progress__pct" id="lpGlobalPct">0%</span>
+      </div>
 
-async function loadLearningPath(subject) {
-  const token = localStorage.getItem('token');
-  const loading = document.getElementById('loadingState');
-  const content = document.getElementById('pathContent');
-  const noData = document.getElementById('noData');
+      <!-- AI 推荐理由 -->
+      <section class="lp-recommend" id="lpRecommend"></section>
 
-  // Update active button
-  document.querySelectorAll('.subject-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.subject === subject);
-  });
+      <!-- 阶段时间轴 -->
+      <section id="lpStages" class="lp-stages" aria-label="学习阶段"></section>
 
-  loading.style.display = 'block';
-  content.style.display = 'none';
-  noData.style.display = 'none';
+      <!-- 今日任务 -->
+      <section class="lp-today" id="lpToday" hidden></section>
+    </div>
 
-  try {
-    const res = await fetch('/api/learning-path?subject=' + subject, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    });
+  </main>
 
-    if (res.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      location.href = 'login.html';
-      return;
+  <!-- ============================================================
+       Lucide Icons + 业务脚本
+       复用 Stage A 已交付的全局组件：
+         - assets/js/components/toast.js      → 桥接 toastBus
+         - assets/js/components/emptyState.js  → 6 场景参数化 EmptyState
+       ============================================================ -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="assets/js/components/toast.js"></script>
+  <script src="assets/js/components/emptyState.js"></script>
+  <script>
+  (function() {
+    'use strict';
+
+    // ====== Stage A · Toast 桥接 ======
+    // toast.js 内部已挂 window.toast 单例。直接桥出 toastBus。
+    const _toast = window.toast;
+    const toastBus = {
+      success: (msg, dur) => _toast && _toast.success(msg, dur),
+      error:   (msg, dur) => _toast && _toast.error(msg, dur),
+      warning: (msg, dur) => _toast && _toast.warning(msg, dur),
+      info:    (msg, dur) => _toast && _toast.info(msg, dur),
+      dismissAll: () => {
+        document.querySelectorAll('.toast').forEach(t => t.remove());
+      },
+    };
+    window.toastBus = toastBus;
+
+    // ====== Stage A · EmptyState（P11 抽离版）======
+    // 全局组件：window.EmptyState = { render, mount, SCENES }
+    // 6 场景：wrongBook / reviewDone / abilityMap / pathFail / searchEmpty / newUser
+    const EmptyState = window.EmptyState;
+
+    /**
+     * 渲染 EmptyState 到 #lpRoot
+     * @param {string} scenario - pathFail | newUser
+     * @param {object} opts - { onPrimary, onSecondary }
+     */
+    function showEmptyState(scenario, opts) {
+      showSkeleton(false);
+      const root = $('#lpRoot');
+      root.innerHTML = '';
+      const cfg = {
+        scenario,
+        title: scenario === 'pathFail'
+          ? '学习路径生成失败'
+          : '学习路径还没准备好',
+        description: scenario === 'pathFail'
+          ? 'aitutor 正在努力准备，再试一次吧。'
+          : '先做几道诊断题，aitutor 就能为你定制专属学习路径。',
+        primary_action:   scenario === 'pathFail'
+          ? { label: '重新生成', icon: 'refresh-cw', onClick: () => (opts && opts.onPrimary) ? opts.onPrimary() : loadPath(currentSubject) }
+          : { label: '去诊断一下', icon: 'sparkles', onClick: () => location.href = 'onboarding.html?step=diagnose' },
+        secondary_action: scenario === 'pathFail'
+          ? { label: '去看错题本', icon: 'notebook-pen', onClick: () => (opts && opts.onSecondary) ? opts.onSecondary() : location.href = 'wrong-book.html' }
+          : { label: '去拍照录题', icon: 'camera', onClick: () => location.href = 'photo-search.html' }
+      };
+      root.appendChild(EmptyState.render(cfg));
+    }
+    window.showEmptyState = showEmptyState;
+
+    // ====== 鉴权守卫（401 → 强制登出）======
+    const token = localStorage.getItem('token');
+    if (!token) { location.href = 'login.html'; return; }
+
+    // ====== 工具 =======
+    const $ = (sel, root) => (root || document).querySelector(sel);
+    const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+    const SUBJECTS = [
+      { id: 'math',     label: '数学', icon: 'calculator' },
+      { id: 'physics',  label: '物理', icon: 'atom' },
+      { id: 'chemistry',label: '化学', icon: 'flask-conical' },
+      { id: 'chinese',  label: '语文', icon: 'book-open' },
+      { id: 'english',  label: '英语', icon: 'languages' },
+      { id: 'politics', label: '政治', icon: 'landmark' },
+    ];
+    const STAGE_ICONS = {
+      completed: 'check-circle-2',
+      current:   'play-circle',
+      locked:    'lock',
+    };
+    const TODAY_ICON = {
+      practice: 'pen-line',
+      review:   'refresh-cw',
+    };
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
-    if (!res.ok) throw new Error('获取失败');
-    const data = await res.json();
-    
-    renderLearningPath(data);
+    function renderSubjects(activeSubject) {
+      const root = $('#lpSubjects');
+      root.innerHTML = SUBJECTS.map(s => `
+        <button class="lp-subject ${s.id === activeSubject ? 'is-active' : ''}"
+                data-subject="${s.id}" type="button">
+          <i data-lucide="${s.icon}"></i>
+          <span>${escapeHtml(s.label)}</span>
+        </button>
+      `).join('');
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+      $$('.lp-subject', root).forEach(btn => {
+        btn.addEventListener('click', () => {
+          loadPath(btn.dataset.subject);
+        });
+      });
+    }
 
-  } catch (err) {
-    loading.style.display = 'none';
-    noData.style.display = 'block';
-  }
-}
+    function renderRecommend(reason, citedStats) {
+      const root = $('#lpRecommend');
+      const cited = (citedStats || [])
+        .map(s => `<span class="badge-mini"><i data-lucide="${escapeHtml(s.icon || 'hash')}"></i>${escapeHtml(s.label)}</span>`)
+        .join('');
+      root.innerHTML = `
+        <div class="lp-recommend__head">
+          <span class="lp-recommend__icon">
+            <i data-lucide="sparkles"></i>
+          </span>
+          <h2 class="lp-recommend__title">为什么推荐这个路径？</h2>
+        </div>
+        <p class="lp-recommend__text">${escapeHtml(reason || '继续按当前路径学习，我们会根据你的进度实时调整下一阶段。')}</p>
+        ${cited ? `<div class="lp-recommend__cite">依据：${cited}</div>` : ''}
+      `;
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+    }
 
-function renderLearningPath(data) {
-  const loading = document.getElementById('loadingState');
-  const content = document.getElementById('pathContent');
+    function renderStages(stages) {
+      const root = $('#lpStages');
+      if (!stages || stages.length === 0) {
+        root.innerHTML = '';
+        return;
+      }
+      root.innerHTML = stages.map((s, idx) => {
+        const isCompleted = s.status === 'completed';
+        const isCurrent   = s.status === 'current';
+        const isLocked    = s.status === 'locked';
+        const dotClass = isCompleted ? 'is-completed'
+                      : isCurrent   ? 'is-current'
+                      : 'is-locked';
+        const cardMod = isCompleted ? 'is-completed'
+                      : isCurrent   ? 'is-current'
+                      : 'is-locked';
+        const statusLabel = isCompleted ? '已完成'
+                         : isCurrent   ? '进行中'
+                         : '未解锁';
+        const topics = (s.topics || []).map(t => `<li class="lp-stage__topic">${escapeHtml(t)}</li>`).join('');
+        const progressBar = isCurrent && typeof s.progress_pct === 'number' ? `
+          <div class="lp-stage__progress">
+            <div class="lp-stage__progress-bar">
+              <div class="lp-stage__progress-fill" style="width:${Math.max(0, Math.min(100, s.progress_pct))}%"></div>
+            </div>
+            <span class="lp-stage__progress-pct">${s.progress_pct}%</span>
+          </div>
+        ` : '';
+        return `
+          <div class="lp-stage ${cardMod}">
+            <div class="lp-stage__rail">
+              <div class="lp-stage__dot ${dotClass}">
+                <i data-lucide="${STAGE_ICONS[s.status] || 'circle'}"></i>
+              </div>
+              <div class="lp-stage__line"></div>
+            </div>
+            <div class="lp-stage__body">
+              <div class="lp-stage__card">
+                <div class="lp-stage__head">
+                  <span class="lp-stage__num">第 ${idx + 1} 阶段</span>
+                  <span class="lp-stage__name">${escapeHtml(s.name || '')}</span>
+                  <span class="lp-stage__status ${dotClass}">${statusLabel}</span>
+                </div>
+                ${s.description ? `<p class="lp-recommend__text" style="margin:6px 0 0">${escapeHtml(s.description)}</p>` : ''}
+                ${topics ? `<ul class="lp-stage__topics">${topics}</ul>` : ''}
+                ${progressBar}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+    }
 
-  loading.style.display = 'none';
-  content.style.display = 'block';
+    function renderToday(task) {
+      const root = $('#lpToday');
+      if (!task) {
+        root.hidden = true;
+        root.innerHTML = '';
+        return;
+      }
+      const icon = TODAY_ICON[task.type] || 'circle-dot';
+      const isReview = task.type === 'review';
+      root.innerHTML = `
+        <div class="lp-today__head">
+          <span class="lp-today__icon">
+            <i data-lucide="${icon}"></i>
+          </span>
+          <span class="lp-today__label">${isReview ? '今日复习' : '今日练习'}</span>
+        </div>
+        <h2 class="lp-today__title">${escapeHtml(task.title || '今日任务已就绪')}</h2>
+        ${task.reason ? `<p class="lp-today__desc">${escapeHtml(task.reason)}</p>` : ''}
+        <div class="lp-today__meta">
+          <span class="lp-today__meta-item">
+            <i data-lucide="clock"></i> 预计 ${task.estimated_minutes || 10} 分钟
+          </span>
+          ${task.topic ? `<span class="lp-today__meta-item"><i data-lucide="tag"></i> ${escapeHtml(task.topic)}</span>` : ''}
+        </div>
+        <div class="lp-today__cta-row">
+          <a href="${escapeHtml(task.target_url || '#')}" class="lp-today__cta lp-today__cta--primary" data-cta="today">
+            <i data-lucide="play"></i> 开始今日任务
+          </a>
+          <button class="lp-today__cta lp-today__cta--secondary" type="button" data-cta="snooze">
+            <i data-lucide="clock-9"></i> 稍后再做
+          </button>
+        </div>
+      `;
+      root.hidden = false;
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+      root.querySelector('[data-cta="today"]').addEventListener('click', () => {
+        track('lp_today_start', { task_id: task.id, type: task.type });
+      });
+      root.querySelector('[data-cta="snooze"]').addEventListener('click', () => {
+        toastBus.info('已收起，明天 09:00 会重新提醒你');
+        track('lp_today_snooze', { task_id: task.id });
+      });
+    }
 
-  let html = '';
+    function showSkeleton(show) {
+      $('#lpSkeleton').hidden = !show;
+      $('#lpContent').hidden = show;
+    }
 
-  // Recommendation
-  html += '<div class="recommendation-box">' +
-    '<h2>💡 学习建议</h2>' +
-    '<p>' + data.recommendation + '</p>' +
-  '</div>';
+    function showEmptyState(scenarioOrState, opts) {
+      // 接受两种入参：
+      //   (1) 字符串 'pathFail' | 'newUser' → 用本地默认文案（接口异常时降级）
+      //   (2) 对象 { scenario, title, description, primary_action, secondary_action } → 用后端精确文案
+      const isObj = scenarioOrState && typeof scenarioOrState === 'object';
+      const scenario = isObj ? scenarioOrState.scenario : scenarioOrState;
+      // 1) 先取消骨架（必须在清空 #lpRoot 之前调用）
+      const skeleton = $('#lpSkeleton');
+      const content  = $('#lpContent');
+      if (skeleton) skeleton.hidden = true;
+      if (content)  content.hidden  = true;
+      // 2) 再清空主区并渲染 EmptyState
+      const root = $('#lpRoot');
+      root.innerHTML = '';
+      const cfg = {
+        scenario,
+        title: (isObj && scenarioOrState.title) || (scenario === 'pathFail'
+          ? '学习路径生成失败'
+          : '学习路径还没准备好'),
+        description: (isObj && scenarioOrState.description) || (scenario === 'pathFail'
+          ? 'aitutor 正在努力准备，再试一次吧。'
+          : '先做几道诊断题，aitutor 就能为你定制专属学习路径。'),
+        primary_action: (isObj && scenarioOrState.primary_action) || (
+          scenario === 'pathFail'
+            ? { label: '重新生成', icon: 'refresh-cw', onClick: () => (opts && opts.onPrimary) ? opts.onPrimary() : loadPath(currentSubject) }
+            : { label: '去诊断一下', icon: 'sparkles', onClick: () => location.href = 'onboarding.html?step=diagnose' }
+        ),
+        secondary_action: (isObj && scenarioOrState.secondary_action) || (
+          scenario === 'pathFail'
+            ? { label: '去看错题本', icon: 'notebook-pen', onClick: () => (opts && opts.onSecondary) ? opts.onSecondary() : location.href = 'wrong-book.html' }
+            : { label: '去拍照录题', icon: 'camera', onClick: () => location.href = 'photo-search.html' }
+        )
+      };
+      root.appendChild(EmptyState.render(cfg));
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+    }
 
-  // Analysis stats
-  html += '<div class="analysis-box">' +
-    '<h2>📊 学习分析</h2>' +
-    '<div class="analysis-grid">' +
-      '<div class="analysis-stat">' +
-        '<div class="stat-value">' + (data.analysis.totalWrongQuestions || 0) + '</div>' +
-        '<div class="stat-label">错题记录</div>' +
-      '</div>' +
-      '<div class="analysis-stat">' +
-        '<div class="stat-value">' + (data.analysis.weakPoints || []).length + '</div>' +
-        '<div class="stat-label">薄弱点</div>' +
-      '</div>' +
-      '<div class="analysis-stat">' +
-        '<div class="stat-value">' + (data.analysis.strongPoints || []).length + '</div>' +
-        '<div class="stat-label">已掌握</div>' +
-      '</div>' +
-      '<div class="analysis-stat">' +
-        '<div class="stat-value">' + data.totalWeeks + '</div>' +
-        '<div class="stat-label">计划周数</div>' +
-      '</div>' +
-    '</div>' +
-  '</div>';
+    // ====== 状态：当前学科 ======
+    let currentSubject = 'math';
 
-  // Weak points list
-  if (data.analysis.weakPoints && data.analysis.weakPoints.length > 0) {
-    html += '<div class="analysis-box">' +
-      '<h2>⚠️ 薄弱知识点</h2>' +
-      '<div class="phase-topics">';
-    data.analysis.weakPoints.forEach(wp => {
-      const diffLabel = wp.difficulty >= 4 ? 'hard' : (wp.difficulty >= 3 ? 'medium' : 'easy');
-      html += '<span class="phase-topic">' + wp.name + 
-        ' <span class="difficulty-badge ' + diffLabel + '">' + wp.count + '次错</span></span>';
+    // ====== 主流程：加载路径 ======
+    async function loadPath(subject) {
+      currentSubject = subject;
+      showSkeleton(true);
+      try {
+        const res = await fetch('/api/learning-path/current?subject=' + encodeURIComponent(subject), {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          location.href = 'login.html';
+          return;
+        }
+        const payload = await res.json();
+        if (!res.ok || !payload.success) {
+          throw new Error(payload.message || 'path_load_failed');
+        }
+        const data = payload.data || {};
+
+        // 1. 学科切换高亮
+        renderSubjects(subject);
+
+        // 2. 新用户/无数据/100% 完成 → EmptyState（用后端精确文案）
+        if (data.empty_state || (data.stages || []).length === 0) {
+          showEmptyState(data.empty_state || { scenario: 'pathFail' });
+          return;
+        }
+
+        // 3. 正常渲染
+        showSkeleton(false);
+        $('#lpContent').hidden = false;
+
+        // 全局进度
+        if (typeof data.global_progress_pct === 'number') {
+          $('#lpGlobalFill').style.width = data.global_progress_pct + '%';
+          $('#lpGlobalPct').textContent = data.global_progress_pct + '%';
+          $('#lpGlobalProgress').hidden = false;
+        } else {
+          $('#lpGlobalProgress').hidden = true;
+        }
+
+        // 推荐理由
+        renderRecommend(data.recommendation_reason, data.cited_stats);
+
+        // 阶段时间轴
+        renderStages(data.stages);
+
+        // 今日任务（可为 null）
+        renderToday(data.today_task);
+
+        if (window.lucide && lucide.createIcons) lucide.createIcons();
+        track('lp_view', { subject, today: !!data.today_task });
+      } catch (err) {
+        console.error('[learning-path] load failed', err);
+        // 接口错误 → EmptyState（带重试 CTA）+ Toast
+        showEmptyState('pathFail');
+        toastBus.error('学习路径加载失败，请检查网络后重试');
+      }
+    }
+
+    // ====== 埋点 ======
+    function track(event, props) {
+      if (window.analytics && window.analytics.track) {
+        try { window.analytics.track(event, props || {}); } catch (_) {}
+      }
+    }
+
+    // ====== 启动 ======
+    document.addEventListener('DOMContentLoaded', () => {
+      const refreshBtn = $('#lpRefreshBtn');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+          loadPath(currentSubject);
+          toastBus.info('正在刷新学习路径…');
+        });
+      }
+      loadPath('math');
     });
-    html += '</div></div>';
-  }
-
-  // Learning phases timeline
-  html += '<h2 style="font-size:1.2rem;font-weight:700;margin-bottom:24px">📅 分阶段学习计划</h2>';
-  html += '<div class="phase-timeline">';
-
-  (data.phases || []).forEach(phase => {
-    const diffClass = phase.difficulty || 'medium';
-    const diffLabelMap = { 'easy': '基础', 'medium': '进阶', 'hard': '突破', 'comprehensive': '综合' };
-    
-    html += '<div class="phase-item">' +
-      '<div class="phase-dot"></div>' +
-      '<div class="phase-card">' +
-        '<div class="phase-week">第' + phase.week + '周 ' +
-          '<span class="difficulty-badge ' + diffClass + '">' + (diffLabelMap[diffClass] || diffClass) + '</span>' +
-        '</div>' +
-        '<h3>' + phase.focus + '</h3>' +
-        '<div class="phase-topics">';
-    (phase.topics || []).forEach(topic => {
-      html += '<span class="phase-topic">' + topic + '</span>';
-    });
-    html += '</div>' +
-      '<div class="phase-goal"><strong>每日目标：</strong>' + phase.dailyGoal + '</div>' +
-      '</div>' +
-    '</div>';
-  });
-
-  html += '</div>';
-
-  // Action buttons
-  html += '<div class="action-buttons">' +
-    '<button class="action-btn secondary" onclick="window.print()">🖨 打印学习计划</button>' +
-    '<button class="action-btn primary" onclick="location.href=\\"my-weak-points.html\\"">📊 查看薄弱点</button>' +
-  '</div>';
-
-  content.innerHTML = html;
-}
-</script>
-
-
-<script src="assets/js/qr.js"></script>
-<script src="assets/js/components.js"></script>
-<script src="assets/js/theme-utils.js"></script>
+  })();
+  </script>
 </body>
 </html>

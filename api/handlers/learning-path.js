@@ -1,292 +1,467 @@
-import { getDb } from '../core/db.js';
-import { errorResponse, successResponse } from '../utils/response.js';
+/* ============================================================================
+ * GET /api/learning-path/current?subject={subject}
+ *
+ * 用途：今日学习页面（frontend/learning-path.html）数据源
+ * 鉴权：必须（JWT Bearer Token，由 server.js 注入 req.user.email）
+ * 频率限制：与 /api/ 一致（已登录 120/min）
+ *
+ * 性能目标：< 200ms（无 LLM 阻塞，4 个并行 SQL）
+ *
+ * 响应契约：docs/api/learning-path-current.ts
+ *   LearningPathResponse
+ *     ├ data
+ *     │   ├ subject
+ *     │   ├ recommendation_reason
+ *     │   ├ cited_stats[]
+ *     │   ├ global_progress_pct
+ *     │   ├ stages[4]
+ *     │   ├ today_task | null
+ *     │   └ empty_state? (无错题 / 100% 完成 时填充)
+ *     └ meta (request_id / timestamp / cache_ttl_seconds / server_now)
+ *
+ * 实现要点：
+ *   · 4 阶段顺序固定：基础巩固 → 方法训练 → 变式应用 → 综合提升
+ *   · 状态映射：global_progress_pct ∈ [0,25)→current=1, [25,50)→2, [50,75)→3, [75,100)→4, =100→全部completed
+ *   · today_task 优先级：SRS 到期复习 > 当前阶段最低掌握度练习 > null
+ *   · empty_state 触发：① 无错题且无 mastery 数据 ② 100% 完成本周计划
+ *
+ * 同时保留旧 endpoint（向后兼容）：
+ *   GET /api/learning-path?subject={subject}  →  旧 shape（phases / analysis / recommendation）
+ *
+ * 测试：tests/api/learning-path-current.test.js
+ * ============================================================================ */
 
-export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).json(errorResponse('Method not allowed'));
+import { getDb } from '../core/db.js';
+import { successJson, errorJson } from '../utils/response.js';
+import { ErrorCode } from '../utils/errorCodes.js';
+import { logger } from '../core/logger.js';
+
+const VALID_SUBJECTS = new Set([
+  'math', 'physics', 'chemistry', 'chinese', 'english', 'politics',
+  'biology', 'history', 'geography',
+]);
+
+const SUBJECT_NAME = {
+  math: '数学', physics: '物理', chemistry: '化学', chinese: '语文',
+  english: '英语', politics: '政治', biology: '生物', history: '历史', geography: '地理',
+};
+
+// 4 阶段固定结构（P11 契约）
+const STAGE_STRUCTURE = [
+  { id: 'basic',      name: '基础巩固', description: '夯实基础概念与图像判读' },
+  { id: 'method',     name: '方法训练', description: '掌握典型题型的解题方法' },
+  { id: 'variant',    name: '变式应用', description: '含参、动点、几何综合等变式' },
+  { id: 'comprehensive', name: '综合提升', description: '跨章节综合与压轴题' },
+];
+
+// ============================================================================
+// 公共处理函数（Pure，可单测）
+// ============================================================================
+
+/**
+ * 计算 4 阶段状态（基于全局进度 0-100）
+ * @param {number} progressPct
+ * @returns {Array<{id, name, status, progress_pct?}>}
+ */
+export function buildStages(progressPct) {
+  const p = Math.max(0, Math.min(100, Math.round(progressPct || 0)));
+
+  // 100% 完成：全部 completed
+  if (p >= 100) {
+    return STAGE_STRUCTURE.map(s => ({ id: s.id, name: s.name, status: 'completed', description: s.description }));
   }
 
-  const email = req.user.email;
-  const { subject = 'math' } = req.query;
-
-  const pool = await getDb();
-
-  const wrongQuestionsResult = await pool.query(
-    'SELECT id, data, timestamp FROM wrong_questions WHERE user_email = $1 ORDER BY timestamp DESC',
-    [email]
-  );
-  const wrongQuestions = wrongQuestionsResult.rows;
-
-  const knowledgePointsResult = await pool.query(
-    'SELECT * FROM knowledge_points WHERE subject = $1 ORDER BY difficulty DESC',
-    [subject]
-  );
-  const knowledgePoints = knowledgePointsResult.rows;
-
-  const subjectMap = {
-    'math': '数学',
-    'chinese': '语文',
-    'english': '英语',
-    'physics': '物理',
-    'chemistry': '化学',
-    'politics': '政治',
-    'biology': '生物',
-    'history': '历史',
-    'geography': '地理'
-  };
-  const subjectName = subjectMap[subject] || subject;
-
-  const weakAnalysis = analyzeWeakPoints(wrongQuestions, knowledgePoints, subject);
-
-  const phases = generateLearningPhases(weakAnalysis, subjectName);
-
-  const totalWeeks = phases.length;
-
-  const weakCount = weakAnalysis.weakPoints.length;
-  const strongCount = weakAnalysis.strongPoints.length;
-  const recommendation = generateRecommendation(
-    weakCount,
-    strongCount,
-    totalWeeks,
-    subjectName,
-    wrongQuestions.length
-  );
-
-  return res.json(successResponse({
-    subject,
-    subjectName,
-    totalWeeks,
-    phases,
-    recommendation,
-    analysis: {
-      weakPoints: weakAnalysis.weakPoints.map(wp => ({
-        name: wp.name,
-        count: wp.wrongCount,
-        difficulty: wp.difficulty
-      })),
-      strongPoints: weakAnalysis.strongPoints.map(sp => ({
-        name: sp.name,
-        difficulty: sp.difficulty
-      })),
-      totalWrongQuestions: wrongQuestions.length,
-      totalKnowledgePoints: knowledgePoints.length
+  // 当前阶段：第几个 25% 区间
+  const currentIdx = Math.min(3, Math.floor(p / 25));
+  return STAGE_STRUCTURE.map((s, idx) => {
+    if (idx < currentIdx) return { id: s.id, name: s.name, status: 'completed', description: s.description };
+    if (idx === currentIdx) {
+      const stageProgress = Math.round((p - currentIdx * 25) / 25 * 100);
+      return {
+        id: s.id, name: s.name, status: 'current',
+        progress_pct: stageProgress,
+        description: s.description,
+      };
     }
-  }, '学习路径生成成功'));
+    return { id: s.id, name: s.name, status: 'locked', description: s.description };
+  });
 }
 
-function analyzeWeakPoints(wrongQuestions, knowledgePoints, subject) {
-  const keywordsMap = getKeywordsForSubject(subject);
-  
-  const kpWeakness = {};
-  
-  for (const kp of knowledgePoints) {
-    const keywords = keywordsMap[kp.id] || [];
-    let wrongCount = 0;
-    
-    for (const wq of wrongQuestions) {
-      const wqData = typeof wq.data === 'string' ? JSON.parse(wq.data) : wq.data;
-      const content = JSON.stringify(wqData || {}).toLowerCase();
-      const matched = keywords.some(kw => content.includes(kw.toLowerCase()));
-      if (matched) wrongCount++;
-    }
-    
-    kpWeakness[kp.id] = {
-      id: kp.id,
-      name: kp.name,
-      wrongCount,
-      difficulty: kp.difficulty,
-      subtopics: kp.subtopics ? JSON.parse(kp.subtopics) : [],
-      frequency: kp.frequency || 'medium'
+/**
+ * 生成 AI 推荐理由（规则引擎，无 LLM）
+ * 优先级：高频错因 > 最低掌握度 > 通用鼓励
+ * @param {object} ctx
+ * @param {string} ctx.subjectName
+ * @param {Array<{name, mastery, recent_wrong_count, last_practiced_at}>} ctx.knowledgePoints
+ * @param {number} ctx.recentWrongTotal (近 7 天错题数)
+ * @param {number} ctx.totalKps
+ * @returns {string} 1-2 句中文理由
+ */
+export function generateRecommendation(ctx) {
+  const { subjectName, knowledgePoints = [], recentWrongTotal = 0 } = ctx;
+
+  // 找近 7 天错误 ≥ 3 的 KP
+  const hotKps = knowledgePoints
+    .filter(kp => (kp.recent_wrong_count || 0) >= 3)
+    .sort((a, b) => (b.recent_wrong_count || 0) - (a.recent_wrong_count || 0));
+  if (hotKps[0]) {
+    const kp = hotKps[0];
+    return `你最近在「${kp.name}」相关题目中出现了 ${kp.recent_wrong_count} 次错误，建议先花 2-3 天巩固${kp.name}的基础，再进入综合应用。`;
+  }
+
+  // 找最低掌握度
+  const weakest = knowledgePoints
+    .filter(kp => typeof kp.mastery === 'number' && kp.mastery < 80)
+    .sort((a, b) => (a.mastery || 0) - (b.mastery || 0))[0];
+  if (weakest && recentWrongTotal > 0) {
+    return `你的「${weakest.name}」掌握度还比较低（${Math.round(weakest.mastery)}%），建议先把这块的基础打牢，再开始新的内容。`;
+  }
+
+  // 通用鼓励（新生或全部已掌握）
+  if (recentWrongTotal === 0) {
+    return `${subjectName}还没有错题记录，建议先做几道题让 aitutor 了解你的水平，再生成专属学习路径。`;
+  }
+  return `继续按当前路径学习，aitutor 会根据你的进度自动调整下一阶段的难度。`;
+}
+
+/**
+ * 生成 cited_stats（chip 形式展示的引用依据）
+ * @param {object} ctx
+ * @returns {Array<{icon, label, href?}>} 0-4 项
+ */
+export function buildCitedStats(ctx) {
+  const { knowledgePoints = [], recentWrongTotal = 0 } = ctx;
+  const stats = [];
+  const hot = knowledgePoints.find(kp => (kp.recent_wrong_count || 0) >= 3);
+  if (hot) {
+    stats.push({ icon: 'alert-triangle', label: `近 7 天 ${hot.recent_wrong_count} 次错` });
+  }
+  const weak = knowledgePoints
+    .filter(kp => typeof kp.mastery === 'number')
+    .sort((a, b) => (a.mastery || 0) - (b.mastery || 0))[0];
+  if (weak && typeof weak.mastery === 'number' && weak.mastery < 80) {
+    stats.push({ icon: 'bar-chart-3', label: `${weak.name} 掌握度 ${Math.round(weak.mastery)}%` });
+  }
+  if (recentWrongTotal > 0) {
+    stats.push({ icon: 'clock', label: `共 ${recentWrongTotal} 条错题` });
+  }
+  return stats.slice(0, 4);
+}
+
+/**
+ * 挑选今日任务
+ * 优先级：SRS 到期复习（next_review_at ≤ now）> 当前阶段最低掌握度练习 > null
+ * @param {Array<object>} srsDueKps - SRS 到期的 KP 列表（按 next_review_at 升序）
+ * @param {Array<object>} currentStageKps - 当前阶段的 KP 列表（含 mastery）
+ * @returns {object|null} TodayTask
+ */
+export function pickTodayTask(srsDueKps = [], currentStageKps = [], subject = 'math') {
+  // 优先级 1：SRS 到期复习
+  if (srsDueKps.length > 0) {
+    const kp = srsDueKps[0];
+    return {
+      id: `task-review-${kp.knowledge_point_id}-${Date.now()}`,
+      type: 'review',
+      title: `复习「${kp.name}」相关错题`,
+      reason: `这${kp.due_count || '些'}道题到了复习时间，按 SRS 间隔复习最稳。`,
+      estimated_minutes: 8,
+      topic: kp.name,
+      target_url: `/review.html?session=auto&kp=${encodeURIComponent(kp.knowledge_point_id)}`,
+      knowledge_point_id: kp.knowledge_point_id,
+      question_count: kp.due_count || 3,
+      difficulty: kp.difficulty || 3,
     };
   }
 
-  const sorted = Object.values(kpWeakness).sort((a, b) => {
-    if (b.wrongCount !== a.wrongCount) return b.wrongCount - a.wrongCount;
-    return b.difficulty - a.difficulty;
-  });
-
-  const weakPoints = sorted.filter(kp => kp.wrongCount > 0);
-  const strongPoints = sorted.filter(kp => kp.wrongCount === 0);
-
-  return { weakPoints, strongPoints };
-}
-
-function generateLearningPhases(weakAnalysis, subjectName) {
-  const phases = [];
-  const weakPoints = weakAnalysis.weakPoints;
-
-  if (weakPoints.length === 0) {
-    phases.push({
-      week: 1,
-      focus: `${subjectName}综合复习`,
-      topics: ['查漏补缺', '强化基础'],
-      dailyGoal: '每天完成10道综合题',
-      difficulty: 'medium'
-    });
-    phases.push({
-      week: 2,
-      focus: `${subjectName}能力提升`,
-      topics: ['难题攻克', '速度训练'],
-      dailyGoal: '每天完成5道难题，限时训练',
-      difficulty: 'hard'
-    });
-    return phases;
-  }
-
-  const easyWeak = weakPoints.filter(kp => kp.difficulty <= 3);
-  if (easyWeak.length > 0) {
-    phases.push({
-      week: 1,
-      focus: '基础巩固',
-      topics: easyWeak.slice(0, 3).map(kp => kp.name),
-      dailyGoal: `掌握${easyWeak.slice(0, 3).map(kp => kp.name).join('、')}等基础概念`,
-      difficulty: 'easy'
-    });
-  }
-
-  const mediumWeak = weakPoints.filter(kp => kp.difficulty >= 3 && kp.difficulty <= 4);
-  if (mediumWeak.length > 0) {
-    phases.push({
-      week: 2,
-      focus: '核心知识强化',
-      topics: mediumWeak.slice(0, 3).map(kp => kp.name),
-      dailyGoal: `完成${mediumWeak.slice(0, 3).map(kp => kp.name).join('、')}综合题型训练`,
-      difficulty: 'medium'
-    });
-  }
-
-  const hardWeak = weakPoints.filter(kp => kp.difficulty >= 4);
-  if (hardWeak.length > 0) {
-    phases.push({
-      week: 3,
-      focus: '难点突破',
-      topics: hardWeak.slice(0, 2).map(kp => kp.name),
-      dailyGoal: `攻克${hardWeak.slice(0, 2).map(kp => kp.name).join('、')}高难度题型`,
-      difficulty: 'hard'
-    });
-  }
-
-  phases.push({
-    week: phases.length + 1,
-    focus: '综合训练与模拟',
-    topics: weakPoints.slice(0, 5).map(kp => kp.name),
-    dailyGoal: '完成全套模拟题，限时训练',
-    difficulty: 'comprehensive'
-  });
-
-  return phases;
-}
-
-function generateRecommendation(weakCount, strongCount, totalWeeks, subjectName, wrongTotal) {
-  let timePerDay = '1小时';
-  let emphasis = '';
-  
-  if (weakCount === 0) {
-    timePerDay = '40分钟';
-    emphasis = `没有发现明显薄弱点（无错题记录），建议每周做2-3套模拟卷保持状态。`;
-  } else if (weakCount <= 3) {
-    timePerDay = '1小时';
-    emphasis = `有${weakCount}个薄弱点需要重点突破，建议集中精力先解决最基础的薄弱知识点。`;
-  } else if (weakCount <= 6) {
-    timePerDay = '1.5小时';
-    emphasis = `发现${weakCount}个薄弱点，建议采用"每天1个薄弱点"的策略，循序渐进。`;
-  } else {
-    timePerDay = '2小时';
-    emphasis = `薄弱点较多（${weakCount}个），建议按难度从低到高逐个攻克，不要贪多求快。`;
-  }
-  
-  if (wrongTotal === 0) {
-    return `首次为${subjectName}制定学习计划，建议先完成一些错题记录，以便生成更精准的个性化学习路径。推荐每天投入${timePerDay}进行针对性练习。`;
-  }
-  
-  return `共分析了${wrongTotal}条错题记录，发现${weakCount}个薄弱知识点。${emphasis}建议每天投入${timePerDay}，重点突破弱项。`;
-}
-
-function getKeywordsForSubject(subject) {
-  const keywordMap = {
-    'math': {
-      'MATH-001': ['函数', '导数', '单调性', '极值', '切线'],
-      'MATH-002': ['解析几何', '椭圆', '双曲线', '抛物线', '圆锥曲线'],
-      'MATH-003': ['数列', '等差', '等比', '递推'],
-      'MATH-004': ['概率', '统计', '二项分布', '随机'],
-      'MATH-005': ['立体几何', '空间向量', '体积', '三视图'],
-      'MATH-006': ['集合', '充分条件', '命题'],
-      'MATH-007': ['向量', '数量积', '垂直'],
-      'MATH-008': ['复数', '复数模'],
-      'MATH-009': ['三角函数', '解三角形', '正弦', '余弦'],
-      'MATH-010': ['不等式'],
-      'MATH-011': ['排列组合', '二项式'],
-      'MATH-012': ['程序框图', '算法'],
-      'MATH-013': ['极坐标', '参数方程']
-    },
-    'chinese': {
-      'CHINESE-001': ['现代文', '阅读'],
-      'CHINESE-002': ['文言文', '翻译'],
-      'CHINESE-003': ['古诗', '鉴赏'],
-      'CHINESE-004': ['作文', '审题'],
-      'CHINESE-005': ['语言文字', '成语', '病句'],
-      'CHINESE-006': ['默写', '背诵'],
-      'CHINESE-007': ['实用类', '新闻']
-    },
-    'english': {
-      'ENGLISH-001': ['阅读理解', '阅读'],
-      'ENGLISH-002': ['完形填空'],
-      'ENGLISH-003': ['语法填空'],
-      'ENGLISH-004': ['写作', '作文'],
-      'ENGLISH-005': ['听力'],
-      'ENGLISH-006': ['七选五'],
-      'ENGLISH-007': ['短文改错']
-    },
-    'physics': {
-      'PHYSICS-001': ['力学', '牛顿', '运动'],
-      'PHYSICS-002': ['电磁学', '电场', '磁场'],
-      'PHYSICS-003': ['能量', '动量'],
-      'PHYSICS-004': ['近代物理', '光电效应'],
-      'PHYSICS-005': ['机械振动', '波'],
-      'PHYSICS-006': ['热学', '分子'],
-      'PHYSICS-007': ['天体', '万有引力'],
-      'PHYSICS-008': ['电学实验'],
-      'PHYSICS-009': ['交变电流']
-    },
-    'chemistry': {
-      'CHEMISTRY-001': ['化学平衡', '反应速率'],
-      'CHEMISTRY-002': ['氧化还原', '原电池'],
-      'CHEMISTRY-003': ['有机化学', '有机'],
-      'CHEMISTRY-004': ['物质结构', '周期'],
-      'CHEMISTRY-005': ['离子反应', '离子'],
-      'CHEMISTRY-006': ['实验'],
-      'CHEMISTRY-007': ['水溶液', '电离', '水解'],
-      'CHEMISTRY-008': ['元素', '金属'],
-      'CHEMISTRY-009': ['计算', '摩尔']
-    },
-    'politics': {
-      'POLITICS-001': ['经济生活', '经济'],
-      'POLITICS-002': ['政治生活', '政治'],
-      'POLITICS-003': ['文化生活', '文化'],
-      'POLITICS-004': ['哲学'],
-      'POLITICS-005': ['法律'],
-      'POLITICS-006': ['时事', '热点'],
-      'POLITICS-007': ['逻辑']
-    },
-    'biology': {
-      'ZK-BIOLOGY-001': ['细胞', '分裂', '分化', '组织'],
-      'ZK-BIOLOGY-002': ['光合作用', '呼吸作用', '蒸腾'],
-      'ZK-BIOLOGY-003': ['消化', '循环', '呼吸', '泌尿'],
-      'ZK-BIOLOGY-004': ['遗传', '基因', 'DNA', '变异'],
-      'ZK-BIOLOGY-005': ['生态', '食物链', '生态系统']
-    },
-    'history': {
-      'ZK-HISTORY-001': ['古代', '秦汉', '唐宋', '明清'],
-      'ZK-HISTORY-002': ['近代', '鸦片战争', '辛亥', '革命', '抗战'],
-      'ZK-HISTORY-003': ['世界', '文艺复兴', '工业革命', '世界大战']
-    },
-    'geography': {
-      'ZK-GEOGRAPHY-001': ['经纬', '等高线', '地图', '地球'],
-      'ZK-GEOGRAPHY-002': ['世界地理', '大洲', '气候'],
-      'ZK-GEOGRAPHY-003': ['中国地理', '地形', '河流'],
-      'ZK-GEOGRAPHY-004': ['北京', '城市']
+  // 优先级 2：当前阶段最低掌握度 KP 的练习
+  if (currentStageKps.length > 0) {
+    const candidates = [...currentStageKps]
+      .filter(kp => typeof kp.mastery === 'number')
+      .sort((a, b) => (a.mastery || 0) - (b.mastery || 0));
+    const kp = candidates[0] || currentStageKps[0];
+    if (kp) {
+      return {
+        id: `task-practice-${kp.knowledge_point_id}-${Date.now()}`,
+        type: 'practice',
+        title: `练习「${kp.name}」基础题`,
+        reason: `这是当前阶段的薄弱点，先做 3 道基础题巩固一下。`,
+        estimated_minutes: 10,
+        topic: kp.name,
+        target_url: `/practice.html?kp=${encodeURIComponent(kp.knowledge_point_id)}`,
+        knowledge_point_id: kp.knowledge_point_id,
+        question_count: 3,
+        difficulty: kp.difficulty || 3,
+      };
     }
-  };
+  }
 
-  return keywordMap[subject] || {};
+  // 优先级 3：无任务
+  return null;
+}
+
+/**
+ * 判断是否触发 EmptyState
+ * @param {object} ctx
+ * @returns {object|null} EmptyState payload 或 null
+ */
+export function checkEmptyState(ctx) {
+  const {
+    subject, subjectName, hasData, globalProgressPct, todayTask
+  } = ctx;
+
+  // 情况 1：100% 完成（即使有数据）
+  if (globalProgressPct >= 100) {
+    return {
+      scenario: 'newUser',
+      title: '本周任务都完成啦',
+      description: '明天 09:00 会开启新一周的学习计划。先去错题本复习巩固记忆吧。',
+      primary_action:   { label: '去看错题本', target_url: '/wrong-book.html' },
+      secondary_action: { label: '回到首页',   target_url: '/dashboard.html' },
+    };
+  }
+
+  // 情况 2：完全无数据（新生）
+  if (!hasData) {
+    return {
+      scenario: 'newUser',
+      title: '学习路径还没准备好',
+      description: '先做几道诊断题，aitutor 就能为你定制专属学习路径。',
+      primary_action:   { label: '去诊断一下', target_url: '/onboarding.html?step=diagnose' },
+      secondary_action: { label: '去拍照录题', target_url: '/photo-search.html' },
+    };
+  }
+
+  return null;
+}
+
+/**
+ * 整合查询结果 → 完整 LearningPathData
+ * @param {object} raw - 来自数据库的 4 个并行查询结果
+ * @returns {object} LearningPathData
+ */
+export function composeLearningPathData(raw, subject) {
+  const { masteryRows = [], kpRows = [], wrongRows = [], reviewRows = [] } = raw;
+  const subjectName = SUBJECT_NAME[subject] || subject;
+
+  // 合并 mastery + kp
+  const masteryMap = new Map(masteryRows.map(m => [m.knowledge_point_id, m]));
+  const knowledgePoints = kpRows.map(kp => {
+    const m = masteryMap.get(kp.id) || {};
+    return {
+      knowledge_point_id: kp.id,
+      name: kp.name,
+      mastery: m.mastery_score == null ? null : Number(m.mastery_score),
+      recent_wrong_count: m.recent_wrong_count || 0,
+      last_practiced_at: m.last_practice_at,
+      next_review_at: m.next_review_at,
+      due_count: m.due_count || 0,
+      difficulty: kp.difficulty,
+    };
+  });
+
+  // 计算总错题数
+  const recentWrongTotal = wrongRows.length;
+  const hasData = masteryRows.length > 0 || recentWrongTotal > 0;
+
+  // 计算全局进度（基于 mastery 平均值，clamp 到 [0, 100]）
+  const masteredKps = knowledgePoints.filter(kp => typeof kp.mastery === 'number');
+  const rawPct = masteredKps.length > 0
+    ? masteredKps.reduce((s, kp) => s + (kp.mastery || 0), 0) / masteredKps.length
+    : 0;
+  const globalProgressPct = Math.max(0, Math.min(100, Math.round(rawPct)));
+
+  // 找 SRS 到期复习（next_review_at ≤ now）
+  const now = Date.now();
+  const srsDueKps = knowledgePoints
+    .filter(kp => kp.next_review_at && new Date(kp.next_review_at).getTime() <= now)
+    .sort((a, b) => new Date(a.next_review_at) - new Date(b.next_review_at));
+
+  // 当前阶段的 KP（按 mastery 升序，限制 5 个）
+  const currentStageKps = knowledgePoints
+    .filter(kp => typeof kp.mastery === 'number' && kp.mastery < 80)
+    .sort((a, b) => (a.mastery || 0) - (b.mastery || 0))
+    .slice(0, 5);
+
+  // 推荐理由 + 引用 chip
+  const recommendationReason = generateRecommendation({ subjectName, knowledgePoints, recentWrongTotal });
+  const citedStats = buildCitedStats({ knowledgePoints, recentWrongTotal });
+
+  // 4 阶段状态
+  const stages = buildStages(globalProgressPct);
+
+  // 今日任务
+  const todayTask = pickTodayTask(srsDueKps, currentStageKps, subject);
+
+  // EmptyState 检测
+  const emptyState = checkEmptyState({
+    subject, subjectName, hasData, globalProgressPct, todayTask
+  });
+
+  return {
+    subject,
+    recommendation_reason: recommendationReason,
+    cited_stats: citedStats,
+    global_progress_pct: globalProgressPct,
+    stages,
+    today_task: todayTask,
+    ...(emptyState ? { empty_state: emptyState } : {}),
+  };
+}
+
+// ============================================================================
+// HTTP Handler · P11 新版（GET /api/learning-path/current）
+// ============================================================================
+
+/**
+ * GET /api/learning-path/current?subject=math
+ */
+export async function getCurrentLearningPath(req, res) {
+  if (req.method !== 'GET') {
+    return errorJson(res, ErrorCode.VALIDATION_ERROR, 'Method not allowed');
+  }
+
+  const email = req.user && req.user.email;
+  if (!email) {
+    return errorJson(res, ErrorCode.AUTH_NOT_LOGIN);
+  }
+
+  const subject = String(req.query.subject || 'math');
+  if (!VALID_SUBJECTS.has(subject)) {
+    return errorJson(res, ErrorCode.VALIDATION_INVALID_ENUM,
+      `Unsupported subject: ${subject}. Valid: ${Array.from(VALID_SUBJECTS).join(', ')}`);
+  }
+
+  const requestId = req.requestId || `req_lpc_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+  const startTs = Date.now();
+
+  try {
+    const pool = await getDb();
+
+    // 4 个查询并行（target < 200ms）
+    const [masteryRes, kpRes, wrongRes, srsDueRes] = await Promise.all([
+      pool.query(
+        `SELECT
+           knowledge_point_id, mastery_score,
+           next_review_at, last_practice_at,
+           (SELECT COUNT(*) FROM srs_review_log
+            WHERE user_email = $1 AND knowledge_point_id = student_knowledge_mastery.knowledge_point_id
+              AND is_correct = false
+              AND created_at > NOW() - INTERVAL '7 days') AS recent_wrong_count,
+           (SELECT COUNT(*) FROM srs_review_log
+            WHERE user_email = $1 AND knowledge_point_id = student_knowledge_mastery.knowledge_point_id
+              AND next_review_at <= NOW()) AS due_count
+         FROM student_knowledge_mastery
+         WHERE user_email = $1
+           AND (next_review_at <= NOW() OR mastery_score < 80)
+         ORDER BY COALESCE(next_review_at, '9999-12-31'::timestamptz) ASC
+         LIMIT 20`,
+        [email]
+      ),
+      pool.query(
+        `SELECT id, name, difficulty
+         FROM knowledge_points
+         WHERE subject = $1
+         ORDER BY difficulty ASC
+         LIMIT 20`,
+        [subject]
+      ),
+      pool.query(
+        `SELECT id, data, timestamp
+         FROM wrong_questions
+         WHERE user_email = $1
+           AND timestamp > NOW() - INTERVAL '30 days'
+         ORDER BY timestamp DESC
+         LIMIT 50`,
+        [email]
+      ),
+      // 备用：直接查 srs_review_log 用于 due_count 兜底
+      pool.query(
+        `SELECT knowledge_point_id, COUNT(*) AS due
+         FROM srs_review_log
+         WHERE user_email = $1
+           AND next_review_at <= NOW()
+         GROUP BY knowledge_point_id
+         LIMIT 10`,
+        [email]
+      ),
+    ]);
+
+    const data = composeLearningPathData(
+      {
+        masteryRows: masteryRes.rows,
+        kpRows: kpRes.rows,
+        wrongRows: wrongRes.rows,
+        reviewRows: srsDueRes.rows,
+      },
+      subject
+    );
+
+    const duration = Date.now() - startTs;
+    logger.info?.('[learning-path/current]', {
+      requestId, subject, duration_ms: duration,
+      mastery_count: masteryRes.rows.length,
+      kp_count: kpRes.rows.length,
+      wrong_count: wrongRes.rows.length,
+      progress: data.global_progress_pct,
+      has_today: !!data.today_task,
+      has_empty: !!data.empty_state,
+    });
+
+    return successJson(res, data, 'ok', {
+      request_id: requestId,
+      timestamp: new Date().toISOString(),
+      api_version: 'v1',
+      cache_ttl_seconds: 300,
+      server_now: new Date().toISOString(),
+    });
+  } catch (err) {
+    logger.error?.('[learning-path/current] failed', {
+      requestId, subject, error: err.message, stack: err.stack
+    });
+    return errorJson(res, ErrorCode.DATABASE_ERROR, 'Failed to load learning path');
+  }
+}
+
+// ============================================================================
+// 向后兼容 · 旧 handler（GET /api/learning-path?subject=...）
+// ============================================================================
+
+/**
+ * @deprecated 旧版 API，由 P11 `getCurrentLearningPath` 取代
+ * 保留仅供 legacy/learning-path.html 调用，将在 D070 sunset 时移除
+ */
+export default async function legacyLearningPathHandler(req, res) {
+  if (req.method !== 'GET') {
+    return errorJson(res, ErrorCode.VALIDATION_ERROR, 'Method not allowed');
+  }
+  // 直接复用新逻辑，但仅返回旧 shape（phases / analysis）
+  req.query = req.query || {};
+  // 简单委托：调用新 handler 读取后再映射回旧 shape
+  const newRes = {
+    status: () => newRes,
+    json: (data) => {
+      if (!data.success) {
+        return legacyReply(res, 500, { success: false, message: data.message });
+      }
+      const d = data.data;
+      return legacyReply(res, 200, {
+        success: true,
+        subject: d.subject,
+        subjectName: SUBJECT_NAME[d.subject] || d.subject,
+        totalWeeks: d.stages.length,
+        phases: d.stages.map((s, i) => ({
+          week: i + 1, focus: s.name, topics: [], dailyGoal: s.description, difficulty: 'medium',
+        })),
+        recommendation: d.recommendation_reason,
+        analysis: {
+          weakPoints: [], strongPoints: [], totalWrongQuestions: 0, totalKnowledgePoints: 0,
+        },
+      });
+    },
+  };
+  return getCurrentLearningPath(req, newRes);
+}
+
+function legacyReply(res, status, body) {
+  return res.status(status).json(body);
 }
