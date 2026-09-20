@@ -82,6 +82,14 @@ items:
 
       残留: option_layout 题的表格即选项 (11/12 变化) 按设计保留原文, 不换占位符;
         B 路线 (展示层在 stem 里原位渲染表格) 仍可作为未来选项, 本轮不做。
+
+      **2026-09-19 复核 (库内实测)**: 带 ⟦TABLE:n⟧ 的 active 题 **1428**, 全部有 table_refs;
+        占位符 **1508/1508 全部解析到 table_id (0 未解析)**; 真实数据跑
+        enrichQuestionsWithTables → 题 85037 拿到 headers/rows, has_unresolved_table=false;
+        抽样 16 张表 (≥8 字单元格) 0 条泄漏进无占位符的题干。读端已闭环。
+      ⚠️ **P3 污染细分数字已过期**: 7334b74 记的「stem strong 1050 / 仅 125 带 token → 925 仍扁平」
+        是**治本重抽取之前**的口径, 而现在带占位符的题已有 1428 > 1050。残留污染量必须
+        重跑 scripts/qb-extract/29-table-contamination-fields.py 才能判定, 不得引用旧数。
     estimate: 已完成
     blocks: nothing
     unblocked_by: n_a_done
@@ -100,24 +108,41 @@ items:
         资产文件 0 缺失; 幂等+备份; G1–G17 17 PASS; vitest 基线。
       ✅ **公式可见性已闭环 (2026-09-19, 补)**: 31-render-formula-assets.py 在**带 rId 的
         通道内**把 wmf/emf 直接渲染成 PNG (token→sha→PNG 天然 1:1, 零对齐), 回填
-        media_refs.png_rel; 读端优先 /qb-media-png。实测公式 ref 可渲染率 0.9% → **99.6%**
-        (57230 渲染 + 523 原生 / 215 空白), wmf 图片 ref 7149 也可渲染, 5571 题受益。
+        media_refs.png_rel; 读端优先 /qb-media-png。公式 ref 可渲染 523 → **57753**,
+        有 png_rel 的题 5571, distinct PNG 46522 个**磁盘零缺失**。
         报告 docs/database/p4c-formula-visibility-2026-09-19.md。
         (为何不桥接 04 的 HTML/VLM: 四种 token 级对齐假设实测 ≤20%, 两通道无共同主键,
          猜绑定会错公式; VLM latex 因此**明确不采用**。)
-      残留: ①~0.4% 真空白/转换失败仍降级标记; ②OMML (324 题) 仍是内联文本 (pandoc 可转
-        latex, 单列); ③84 题未覆盖 (无 docx / media 缺该 rId)。
+      ✅ **运行实例已重启 (2026-09-19)**: 原 3002 实例启动于 09-18 07:22 (早于本提交),
+        /qb-media 与 /qb-media-png 实测 404; 经 3005 探针冒烟后已切回 3002,
+        现两者均 200 (image/png)。生产 (aitutor.uibe.online) 仍待 P6 接线。
+      ⚠️ 残留 (口径已于 2026-09-19 复核修正, 一律用**库内全量**分母):
+        ①公式 ref 可渲染率 **97.6%** (57753/59155) —— 初版 99.6% 把 1187 条 asset_absent
+          排除在分母外, 已更正;
+        ②不可渲染 1402 = 资产缺失 1187 + 空白/失败 215;
+        ③OMML **483 题** (初版 324) 仍是内联文本 (pandoc 可转 latex, 单列);
+        ④84 题未覆盖 (无 docx / media 缺该 rId);
+        ⑤图片 figure ref 不可渲染 3551 (缺资产 2584 + wmf 未渲染 967)。
+      ⚠️ **风险已于 2026-09-19 解除**: api/modules/exam/routes.js 的读端富化接线
+        (enrichQuestionsWithTables + 五维精确寻址) 曾长期是未提交工作区改动, 现已入库;
+        server.js 的 /qb-media 与 /qb-media-png 早在 d04c0ad 已入库。
+        残留: 生产 (aitutor.uibe.online) 仍未接线, 属 P6 独立任务。
     estimate: TBD
     blocks: nothing
     unblocked_by: n_a_done
   - id: QB-TABLE-ATTRIBUTION
-    title: "523 张表格归属歧义 — 人工裁决回填 question_id"
+    title: "798 张表格无归属 (647 张歧义) — 人工裁决回填 question_id"
     priority: P3
     decision: docs/database/table-contamination-diagnosis-2026-09-19.md#4
     description: |
-      question_tables 里 523 张表的单元格落在 ≥2 个题里, 机械无法确定归属,
+      question_tables 共 2492 张: **1694 张已归属, 798 张 question_id 为 NULL (32%)**。
+      其中单元格落在 ≥2 个题里的**歧义表 647 张** (原记 523, 为 29- 脚本扩大候选前口径);
+      另有约 275 张连候选都没有 (题面没引用表, 或表属于整卷材料)。
       已记 candidate_question_ids (强命中候选 ∪ 题面引用表候选), 等人工裁决后回填。
-      另有 275 张连候选都没有 (题面没引用表, 或表属于整卷材料)。
+      **2026-09-19 复核**: 数字以库内实测为准 (jsonb_array_length(candidate_question_ids)>1 = 647;
+      question_id IS NULL = 798), 文档 523/275 已过期。
+      注意: 这 798 张不影响读端 —— 1428 道带 ⟦TABLE:n⟧ 的题, 其 1508 个占位符**全部**
+      解析到 table_id (0 未解析), 未归属的表是没人引用的多余资产。
     estimate: TBD
     blocks: nothing
     unblocked_by: manual_review
