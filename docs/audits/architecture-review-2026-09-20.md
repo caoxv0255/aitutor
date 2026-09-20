@@ -2,7 +2,7 @@
 
 **评审范围**：仓库整体架构 —— 后端 / 前端 / 部署 / 数据 / 脚本 / 测试 / 可观测 / 仓库卫生
 **方法**：只读实测，命令与实测值见 §5；本次评审**不修改任何代码**
-**状态**：分析完成。§3 的 10 项优化方向**均未实施**；其中第 5 项（legacy `frontend/` 去留）待负责人拍板，其余 1–4 项可直接开工
+**状态**：分析完成。**第 1、2 项已实施**（见 §8 修复记录，`4638c8c`）；第 3–10 项未实施，其中第 5 项（legacy `frontend/` 去留）待负责人拍板
 
 ---
 
@@ -33,6 +33,9 @@ Hybrid RAG 三方案 + 数据飞轮的领域设计是清晰的；但"仓库层�
 
 ### R1 · 干净 clone 跑不起来（不可逆）— 最严重
 
+> **已修复（2026-09-20，`4638c8c`）**：4 个运行时缺口资产已入库；新增门禁第 6 项
+> `scripts/check-tracked-refs.mjs` 把「tracked 引用必须已入库」变成永久闸门。见 §8。
+
 `git status` 里有 **24 个未跟踪的 `.js/.mjs/.cjs`**（完整清单见 §6），其中 **4 个被 tracked 文件在运行时引用**：
 
 | 未跟踪资源 | tracked 运行时引用方 |
@@ -61,6 +64,9 @@ Hybrid RAG 三方案 + 数据飞轮的领域设计是清晰的；但"仓库层�
 `api/handlers`(server.js 直挂) + `api/routes` + `api/modules` 三套约定；路径字面量重复 **17 处**：`/stats`×4、`/subjects`×3、`/search`×3、`/mastery`、`/questions`、`/papers`、`/explain`、`/ask`、`/reports`… 各×2。重复挂载点是"改对了 A 忘了 B"的温床。`scripts/release-gate.sh:103` 的直挂端点闸门（≤12）说明已经有人踩过。另有 `api/services/`(7 files) 与顶层 `services/`(5 files) 两个同名目录并存，加深分层歧义。
 
 ### R4 · D079 边界未闭环（成本极低、可立刻修）
+
+> **已修复（2026-09-20，`4638c8c`）**：`.dockerignore` 已补 `.ai/` 与 `openwiki/`，
+> 门禁第 6 项同时校验这两条排除项。见 §8。
 
 ADR D079 §2.4/§9 明文要求 `.dockerignore` 排除 `.ai/`、`openwiki/`、`.claude/`、`.gitnexus/`。实测 `.dockerignore:34-36` 只有 `.claude/`、`.aider*`、`.gitnexus/` —— **`.ai/` 和 `openwiki/` 缺失**（2026-09-20 复测仍缺失），且 CI 里没有对应的验证步骤。这是一个**已记录但未执行的合规缺口**。
 
@@ -225,3 +231,28 @@ find api -type d -name services ; ls -d services                    # → api/se
 4. **措辞纠正**：首轮"62 个文件同时落在两棵树上"有歧义 —— 实测是"两棵前端树合计 62 条工作区变更（30+32）"，两棵树里**同名同时被改**的只有 3 个（`mastery.html`/`review.html`/`wrong-book.html`）。§2 R2 已按后者改写。
 
 另：画像数字按 2026-09-20 复测更新 —— `api/` 22,017 LOC、`scripts/` 319 文件、`tests` 31 test + 8 spec（首轮口头数字 21.9k / 291 / 36+8 与此有口径与时点差异）。
+
+---
+
+## 8. 修复记录（2026-09-20）
+
+### 已实施：优化方向 1 + 2（commit `4638c8c`，门禁 6/6 全绿）
+
+| 动作 | 内容 |
+|---|---|
+| R1 入库 | §6 A 档 4 个：`frontend/assets/js/auth-nav.js`、`frontend/assets/js/components/emptyState.js`、`ai-tutor-frontend/assets/js/api/services/loop.js`、`…/essay.js` |
+| R1 闸门 | 新增 `scripts/check-tracked-refs.mjs`：扫 tracked HTML/JS 的 `<script src>` / `<link href>` / 相对 `import`·`require`，解析到磁盘；**存在但未入库且未被 gitignore → 门禁失败** |
+| R4 边界 | `.dockerignore` 补 `.ai/`、`openwiki/` |
+| R4 闸门 | 门禁第 6 项同时校验上述两条排除项存在（CI 走 `npm run gate`，自动覆盖） |
+| 编号同步 | `release-gate.sh` 5/5→6/6、`.github/workflows/release-gate.yml`、`deploy/setup-prod.sh`、`CLAUDE.md` |
+
+验证：`npm run gate` → **6/6 全绿**；`check-tracked-refs.mjs` 修复前实测命中 4 个缺口 → 入库后归零（595 个 tracked HTML/JS 全通过）。
+
+### 仍未实施
+
+- **§6 B 档 12 个**（仅文档/注释/清单引用）：仍在工作区未跟踪，需逐档判断「补入库 or 删引用」。
+- **§6 C 档 8 个**（无 tracked 引用）：候选删除项，需人工确认（含 `tests/e2e/_dbg3.test.cjs` 这类调试残留）。
+- **优化方向 3–10**：工作区去噪、冗余变体清理、legacy `frontend/` 护栏、后端路由收敛、超长文件拆分、ESLint ratchet、可观测落地、git 历史瘦身。
+
+> **闸门覆盖边界（诚实说明）**：`check-tracked-refs.mjs` 只覆盖 `<script src>` / `<link href>` / 相对 `import`·`require`。
+> `fetch()` 的运行时 URL、CSS 的 `url()`/`@import`、以及「未跟踪页面引用未跟踪组件」（引用者本身也没入库）这三类**不在闸门内**。
