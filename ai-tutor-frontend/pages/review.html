@@ -1,297 +1,581 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="light">
+<html lang="zh-CN" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI tutor - 间隔复习</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
-    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
-    <style type="text/tailwindcss">
-  @theme inline {
-    --color-primary-50: #fff1f1;
-    --color-primary-100: #ffe1e2;
-    --color-primary-200: #ffc7c9;
-    --color-primary-300: #ffa0a4;
-    --color-primary-400: #ff686d;
-    --color-primary-500: #d71920;
-    --color-primary-600: #b8151b;
-    --color-primary-700: #941218;
-    --color-primary-800: #7a1014;
-    --color-primary-900: #660f13;
-    --color-success-50: #ecfdf5;
-    --color-success-100: #d1fae5;
-    --color-success-200: #a7f3d0;
-    --color-success-300: #6ee7b7;
-    --color-success-400: #34d399;
-    --color-success-500: #059669;
-    --color-success-600: #047857;
-    --color-success-700: #065f46;
-    --color-success-800: #064e3b;
-    --color-success-900: #022c22;
-    --color-warning-50: #fffbeb;
-    --color-warning-100: #fef3c7;
-    --color-warning-200: #fde68a;
-    --color-warning-300: #fcd34d;
-    --color-warning-400: #fbbf24;
-    --color-warning-500: #f59e0b;
-    --color-warning-600: #d97706;
-    --color-warning-700: #b45309;
-    --color-warning-800: #92400e;
-    --color-warning-900: #78350f;
-    --color-error-50: #fef2f2;
-    --color-error-100: #fee2e2;
-    --color-error-200: #fecaca;
-    --color-error-300: #fca5a5;
-    --color-error-400: #f87171;
-    --color-error-500: #ef4444;
-    --color-error-600: #dc2626;
-    --color-error-700: #b91c1c;
-    --color-error-800: #991b1b;
-    --color-error-900: #7f1d1d;
-    --color-info-50: #f0f9ff;
-    --color-info-100: #e0f2fe;
-    --color-info-200: #bae6fd;
-    --color-info-300: #7dd3fc;
-    --color-info-400: #38bdf8;
-    --color-info-500: #0284c7;
-    --color-info-600: #0369a1;
-    --color-info-700: #075985;
-    --color-info-800: #0c4a6e;
-    --color-info-900: #082f49;
-    --color-severe-50: #fff7ed;
-    --color-severe-100: #ffedd5;
-    --color-severe-200: #fed7aa;
-    --color-severe-300: #fdba74;
-    --color-severe-400: #fb923c;
-    --color-severe-500: #f97316;
-    --color-severe-600: #ea580c;
-    --color-severe-700: #c2410c;
-    --color-creative-50: #f5f3ff;
-    --color-creative-100: #ede9fe;
-    --color-creative-200: #ddd6fe;
-    --color-creative-300: #c4b5fd;
-    --color-creative-400: #a78bfa;
-    --color-creative-500: #8b5cf6;
-    --color-creative-600: #7c3aed;
-    --color-surface: #ffffff;
-    --color-surface-secondary: #f8f9fb;
-    --color-surface-tertiary: #f1f5f9;
-    --color-surface-dark: #1a1d27;
-    --color-surface-darker: #12141c;
-    --color-surface-code: #1e293b;
-    --color-surface-container-high: #2a2d38;
-    --color-overlay: #000000;
-    --color-foreground: #0f172a;
-    --color-foreground-secondary: #475569;
-    --color-foreground-muted: #94a3b8;
-    --color-border: #e2e8f0;
-    --color-border-light: #f1f5f9;
-    --shadow-primary-glow: 0 2px 8px rgba(215,25,32,0.25);
-    --shadow-primary-glow-md: 0 4px 12px rgba(215,25,32,0.25);
-    --shadow-primary-glow-lg: 0 6px 20px rgba(215,25,32,0.35);
-    --shadow-creative-glow: 0 8px 24px rgba(124,58,237,0.12);
-    --shadow-glow-warning: 0 4px 16px rgba(245,158,11,0.35);
-    --shadow-glow-warning-sm: 0 3px 10px rgba(245,158,11,0.3);
-    --shadow-glow-error: 0 4px 12px rgba(239,68,68,0.3);
-    --shadow-glow-error-sm: 0 3px 10px rgba(239,68,68,0.3);
-    --shadow-glow-success: 0 3px 10px rgba(5,150,105,0.3);
-    --font-display: 'DM Sans', 'Noto Sans SC', sans-serif;
-    --font-sans: 'Noto Sans SC', 'DM Sans', sans-serif;
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 16px;
-    --radius-pill: 9999px;
-    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-hover: 0 4px 8px -2px rgb(0 0 0 / 0.10);
-    --color-on-dark: #f8fafc;
-    --color-subject-chinese: #d71920;
-    --color-subject-math: #2563eb;
-    --color-subject-english: #7c3aed;
-    --color-subject-physics: #0284c7;
-    --color-subject-chemistry: #059669;
-    --color-subject-biology: #16a34a;
-    --shadow-float: 0 8px 24px -8px rgb(0 0 0 / 0.18);
-  }
-  @layer base {
-    body { background: var(--color-surface); color: var(--color-foreground); }
-    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
-    th { @apply whitespace-nowrap; }
-  }
-    </style>
-    <style>
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      [data-icon] {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        -webkit-mask-size: contain;
-        mask-size: contain;
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-        -webkit-mask-position: center;
-        mask-position: center;
-        background-color: currentColor;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI tutor - 智能复习</title>
+
+  <!-- Tailwind v4 + Design System (D093) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../assets/css/design-system.css">
+
+  <style>
+    /* ============================================================
+     * Design Token v1 语义别名 (alias 到 D093 --ds-*)
+     * ============================================================ */
+    :root {
+      --ait-color-primary-500:  var(--ds-accent);
+      --ait-color-primary-600:  var(--ds-accent-active);
+      --ait-color-success-500:  #059669;
+      --ait-color-warning-500:  #f59e0b;
+      --ait-color-danger-500:   #ef4444;
+      --ait-color-info-500:     #0284c7;
+      --ait-fg-strong:    var(--ds-fg-primary);
+      --ait-fg-default:   var(--ds-fg-primary);
+      --ait-fg-secondary: var(--ds-fg-secondary);
+      --ait-fg-tertiary:  var(--ds-fg-muted);
+      --ait-bg-page:      var(--ds-bg-page);
+      --ait-bg-surface:   var(--ds-bg-surface);
+      --ait-border:       var(--ds-border);
+      --ait-shadow-lg:    0 8px 24px -8px rgba(0,0,0,.18);
+      --ait-shadow-xl:    0 16px 40px -12px rgba(0,0,0,.24);
+      --ait-radius-lg:    16px;
+      --ait-radius-xl:    20px;
+    }
+
+    /* ============================================================
+     * 冲刺 1.1 — 闪卡 3D 翻转 (CSS Transform)
+     * ============================================================ */
+    .flashcard-wrap {
+      perspective: 1600px;
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .flashcard {
+      position: relative;
+      width: 100%;
+      min-height: 360px;
+      transform-style: preserve-3d;
+      transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+      will-change: transform;
+    }
+    .flashcard.is-flipped {
+      transform: rotateY(180deg);
+    }
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      min-height: 360px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: var(--ait-radius-xl);
+      background: var(--ait-bg-surface);
+      border: 1px solid var(--ait-border);
+      box-shadow: var(--ait-shadow-lg);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .flashcard-face.is-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Swipe Out 动效 — 卡片滑出视口 */
+    @keyframes swipe-out-right {
+      0%   { transform: translateX(0)    rotate(0deg);  opacity: 1; }
+      100% { transform: translateX(120%) rotate(15deg); opacity: 0; }
+    }
+    @keyframes swipe-out-left {
+      0%   { transform: translateX(0)    rotate(0deg);  opacity: 1; }
+      100% { transform: translateX(-120%) rotate(-15deg); opacity: 0; }
+    }
+    .flashcard.swipe-right {
+      animation: swipe-out-right 0.45s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+    }
+    .flashcard.swipe-left {
+      animation: swipe-out-left 0.45s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+    }
+
+    /* ============================================================
+     * 冲刺 1.2 — 三档自评按钮
+     * ============================================================ */
+    .rate-bar {
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      padding: 16px 0;
+      background: linear-gradient(to top,
+        var(--ait-bg-page) 70%,
+        rgba(248, 249, 251, 0.0) 100%);
+      z-index: 10;
+    }
+    .rate-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-height: 72px;
+      padding: 14px 8px;
+      border-radius: var(--ait-radius-lg);
+      border: 2px solid transparent;
+      background: var(--ait-bg-surface);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      color: var(--ait-fg-strong);
+    }
+    .rate-btn:active { transform: scale(0.97); }
+    .rate-btn:hover  { box-shadow: var(--ait-shadow-lg); }
+
+    .rate-btn.is-danger {
+      background: var(--ait-color-danger-500);
+      color: #fff;
+    }
+    .rate-btn.is-danger:hover {
+      background: #dc2626;
+      border-color: var(--ait-color-danger-500);
+    }
+    .rate-btn.is-warning {
+      background: var(--ait-color-warning-500);
+      color: #fff;
+    }
+    .rate-btn.is-warning:hover {
+      background: #d97706;
+      border-color: var(--ait-color-warning-500);
+    }
+    .rate-btn.is-success {
+      background: var(--ait-color-success-500);
+      color: #fff;
+    }
+    .rate-btn.is-success:hover {
+      background: #047857;
+      border-color: var(--ait-color-success-500);
+    }
+    .rate-btn .hint {
+      font-size: 11px;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    /* ============================================================
+     * 冲刺 1.3 — Skeleton 骨架屏
+     * ============================================================ */
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
+    }
+    .skeleton {
+      background: linear-gradient(90deg,
+        var(--ds-bg-subtle) 25%,
+        var(--ds-bg-elevated) 50%,
+        var(--ds-bg-subtle) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 8px;
+    }
+    .skeleton-line { height: 14px; margin-bottom: 10px; }
+    .skeleton-line.is-lg { height: 24px; width: 60%; }
+    .skeleton-line.is-md { height: 18px; width: 40%; }
+
+    /* ============================================================
+     * 冲刺 1.4 — 庆祝 EmptyState
+     * ============================================================ */
+    .review-done {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .review-done .badge {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      background: var(--ait-color-success-500);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(5, 150, 105, 0.35);
+    }
+    .review-done .stat-delta {
+      font-size: 14px;
+      color: var(--ait-color-success-500);
+      font-weight: 700;
+    }
+  </style>
 </head>
-<body class="min-h-screen font-sans antialiased">
-        <main class="min-h-screen bg-surface-secondary" style="font-family:DM Sans,Noto Sans SC,sans-serif;">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <section class="mb-6">
-          <span class="ait-badge ait-badge-primary">F3 Slice 4.4 commit 6</span>
-          <h1 class="mt-2 text-2xl font-bold text-foreground">学情报告</h1>
-          <p class="mt-1 text-[13px] text-foreground-secondary">学习效果回顾、趋势分析、危机点监测</p>
-        </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <!-- Card: trend summary -->
-          <section data-card="trend" class="bg-surface rounded-2xl border border-border shadow-sm p-5">
-            <div class="flex items-center justify-between mb-3">
-              <h2 class="text-base font-semibold text-foreground flex items-center gap-2">
-                <i data-lucide="trending-up" class="w-4 h-4 text-primary-500"></i>
-                30 天趋势
-              </h2>
-              <span data-trend-loading class="text-[12px] text-foreground-muted">加载中…</span>
-            </div>
-            <div data-trend-body class="grid grid-cols-3 gap-3 text-center">
-              <div><div class="text-[11px] text-foreground-muted">回答量</div><div data-trend-q class="text-xl font-bold text-foreground">—</div></div>
-              <div><div class="text-[11px] text-foreground-muted">正确率</div><div data-trend-acc class="text-xl font-bold text-success-500">—</div></div>
-              <div><div class="text-[11px] text-foreground-muted">均分</div><div data-trend-score class="text-xl font-bold text-primary-500">—</div></div>
-            </div>
-          </section>
+<body class="min-h-screen font-sans antialiased" style="font-family: 'Noto Sans SC', 'DM Sans', sans-serif;">
+  <main class="min-h-screen bg-surface-secondary" style="background: var(--ait-bg-page);">
 
-          <!-- Card: weak points -->
-          <section data-card="weak" class="bg-surface rounded-2xl border border-border shadow-sm p-5">
-            <div class="flex items-center justify-between mb-3">
-              <h2 class="text-base font-semibold text-foreground flex items-center gap-2">
-                <i data-lucide="alert-triangle" class="w-4 h-4 text-warning-500"></i>
-                危机点
-              </h2>
-              <span data-weak-loading class="text-[12px] text-foreground-muted">加载中…</span>
-            </div>
-            <ul data-weak-list class="space-y-2 text-[13px]"></ul>
-          </section>
+    <!-- PageHeader + 进度 -->
+    <header class="max-w-5xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-4 flex items-center justify-between">
+      <div>
+        <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ds-accent);">
+          SRS · 闪卡复习
+        </span>
+        <h1 class="mt-1 text-2xl font-bold" style="color: var(--ait-fg-strong);">智能复习</h1>
+      </div>
+      <div id="progress-badge" class="text-right">
+        <div class="text-2xl font-bold tabular-nums" style="color: var(--ait-fg-strong);">
+          <span data-progress-current>0</span> / <span data-progress-total>0</span>
+        </div>
+        <div class="text-xs" style="color: var(--ait-fg-tertiary);">今日待复习</div>
+      </div>
+    </header>
 
-          <!-- Card: session history -->
-          <section data-card="history" class="bg-surface rounded-2xl border border-border shadow-sm p-5 md:col-span-2">
-            <div class="flex items-center justify-between mb-3">
-              <h2 class="text-base font-semibold text-foreground flex items-center gap-2">
-                <i data-lucide="history" class="w-4 h-4 text-foreground-secondary"></i>
-                近期会话
-              </h2>
-              <span data-history-loading class="text-[12px] text-foreground-muted">加载中…</span>
-            </div>
-            <div data-history-list class="space-y-2 text-[13px]"></div>
-          </section>
+    <!-- 容器：闪卡 或 队列空状态 -->
+    <div id="review-container" class="max-w-5xl mx-auto px-4 sm:px-6 pb-32">
 
-          <!-- Card: reports list -->
-          <section data-card="reports" class="bg-surface rounded-2xl border border-border shadow-sm p-5 md:col-span-2">
-            <div class="flex items-center justify-between mb-3">
-              <h2 class="text-base font-semibold text-foreground flex items-center gap-2">
-                <i data-lucide="file-text" class="w-4 h-4 text-foreground-secondary"></i>
-                学情报告列表
+      <!-- Skeleton 默认显示，JS 拿到数据后切换 -->
+      <div id="skeleton-loader" class="flashcard-wrap">
+        <div class="flashcard-face" style="position: relative;">
+          <div class="skeleton skeleton-line is-lg"></div>
+          <div class="skeleton skeleton-line"></div>
+          <div class="skeleton skeleton-line"></div>
+          <div class="skeleton skeleton-line is-md" style="margin-top: 16px;"></div>
+      </div>
+    </div>
+
+      <!-- 闪卡区域（JS 渲染） -->
+      <div id="flashcard-region" class="hidden">
+        <div class="flashcard-wrap">
+          <div id="flashcard" class="flashcard" role="button" tabindex="0" aria-label="点击翻面">
+            <!-- 正面：题面 -->
+            <div class="flashcard-face is-front">
+              <div class="flex items-center justify-between">
+                <span data-subject-chip
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                      style="background: var(--ds-bg-subtle); color: var(--ait-fg-secondary);">
+                  数学
+                </span>
+                <span class="text-xs" style="color: var(--ait-fg-tertiary);">
+                  点击卡片查看解析
+                </span>
+              </div>
+              <h2 class="text-xl font-bold mt-2" style="color: var(--ait-fg-strong);">
+                <span data-card-topic>加载中...</span>
               </h2>
-              <span data-reports-loading class="text-[12px] text-foreground-muted">加载中…</span>
+              <div class="flex flex-wrap gap-2 mt-1">
+                <span class="text-xs px-2 py-0.5 rounded"
+                      style="background: var(--ait-color-info-500); color: #fff;"
+                      data-card-meta>掌握度 32%</span>
+                <span class="text-xs px-2 py-0.5 rounded"
+                      style="background: var(--ds-bg-subtle); color: var(--ait-fg-secondary);"
+                      data-card-overdue>逾期 5 天</span>
+              </div>
+              <!-- 题干（占位：实际从 knowledge 服务拉）-->
+              <div class="mt-4 p-4 rounded-lg"
+                   style="background: var(--ds-bg-subtle); color: var(--ait-fg-default); font-size: 15px; line-height: 1.6; min-height: 100px;"
+                   data-card-stem>
+                正在加载题目...
+              </div>
+              <div class="mt-auto text-center text-xs" style="color: var(--ait-fg-tertiary);">
+                想想怎么解，然后<i data-lucide="rotate-cw" class="inline w-3 h-3 mx-1"></i>翻面查看 AI 解析
+              </div>
             </div>
-            <div data-reports-list class="space-y-2 text-[13px]"></div>
-          </section>
+
+            <!-- 背面：AI 解析 + 错因归因 -->
+            <div class="flashcard-face is-back">
+              <div class="flex items-center justify-between">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                      style="background: var(--ait-color-info-500); color: #fff;">
+                  <i data-lucide="sparkles" class="w-3 h-3 mr-1"></i>
+                  AI 解析
+                </span>
+                <span class="text-xs" style="color: var(--ait-fg-tertiary);">
+                  <span data-card-back-meta></span>
+                </span>
+              </div>
+              <h2 class="text-lg font-bold mt-2" style="color: var(--ait-fg-strong);">
+                <span data-card-back-topic></span>
+              </h2>
+              <div data-card-explanation class="text-sm leading-relaxed"
+                   style="color: var(--ait-fg-default);">
+                解析加载中...
+              </div>
+              <!-- 错因归因 chips -->
+              <div data-card-errors class="flex flex-wrap gap-2 mt-2"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 三档自评按钮 -->
+        <div class="rate-bar max-w-5xl mx-auto">
+          <button class="rate-btn is-danger"   data-rate="again">
+            还是不会
+            <span class="hint">重新安排到 1 天后</span>
+          </button>
+          <button class="rate-btn is-warning" data-rate="hard">
+            有点印象
+            <span class="hint">原间隔 ×1.2</span>
+          </button>
+          <button class="rate-btn is-success" data-rate="good">
+            完全掌握
+            <span class="hint">原间隔 ×2.5</span>
+          </button>
         </div>
       </div>
-    </main>
 
-    <script type="module">
-      import { review } from "../assets/js/api/services/index.js";
-      import { mountErrorBoundary } from "../assets/js/components/error-boundary.js";
-      import { setUseMock } from "../assets/js/api/USE_MOCK.js";
-      import { mount as mountNav } from "../assets/js/navator.js";
-      import { useAsyncResource } from "../assets/js/hooks/useAsyncResource.js";
-      import { toast } from "../assets/js/toast.js";
+      <!-- EmptyState（队列空 / 完成庆祝） -->
+      <div id="empty-state" class="hidden review-done">
+        <div class="badge">
+          <i data-lucide="party-popper" style="width: 48px; height: 48px; color: #fff;"></i>
+        </div>
+        <h2 class="text-2xl font-bold mt-2" style="color: var(--ait-fg-strong);">
+          今日复习完成 🎉
+        </h2>
+        <p class="text-sm" style="color: var(--ait-fg-secondary);">
+          你已完成所有 <span data-done-total>0</span> 张闪卡的 SRS 自评
+        </p>
+        <div class="stat-delta mt-2">
+          整体掌握度 <span data-mastery-delta>+0.0%</span>
+        </div>
+        <button class="ds-btn mt-6" onclick="window.location.href='/f3/pages/dashboard.html'">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          返回学习仪表盘
+        </button>
+      </div>
 
-      mountErrorBoundary();
-      setUseMock(false);  // F3.6: review backend 5 个 endpoint 已就绪
-      mountNav("review");
+      <!-- 错误状态 -->
+      <div id="error-state" class="hidden review-done">
+        <div class="badge" style="background: var(--ait-color-danger-500);">
+          <i data-lucide="alert-triangle" style="width: 48px; height: 48px; color: #fff;"></i>
+        </div>
+        <h2 class="text-2xl font-bold mt-2" style="color: var(--ait-fg-strong);">
+          复习任务加载失败
+        </h2>
+        <p class="text-sm" style="color: var(--ait-fg-secondary);" data-error-msg>网络异常，请稍后重试。</p>
+        <button class="ds-btn mt-6" data-retry>
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          重试
+        </button>
+      </div>
+    </div>
+  </main>
 
-      const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  <script type="module">
+    import { srs } from '../assets/js/api/services/srs.js';
+    import { knowledge } from '../assets/js/api/services/index.js';
+    import { mountErrorBoundary } from '../assets/js/components/error-boundary.js';
+    import { toast } from '../assets/js/toast.js';
+    import { setUseMock } from '../assets/js/api/USE_MOCK.js';
 
-      // --- trend ---
-      const trendRes = useAsyncResource(() => review.getTrendSummary({ days: 30 }));
-      trendRes.subscribe(({ data, loading, error }) => {
-        const loadingEl = document.querySelector("[data-trend-loading]");
-        if (loading) { if (loadingEl) loadingEl.textContent = "加载中…"; return; }
-        if (error) { if (loadingEl) loadingEl.textContent = "加载失败"; return; }
-        if (data) {
-          if (loadingEl) loadingEl.classList.add("hidden");
-          const d = data.data || {};
-          const qEl = document.querySelector("[data-trend-q]");
-          const accEl = document.querySelector("[data-trend-acc]");
-          const scoreEl = document.querySelector("[data-trend-score]");
-          if (qEl) qEl.textContent = d.total_questions ?? "—";
-          if (accEl) accEl.textContent = d.accuracy ? (d.accuracy * 100).toFixed(1) + "%" : "—";
-          if (scoreEl) scoreEl.textContent = d.avg_score ?? "—";
+    mountErrorBoundary();
+    setUseMock(true);  // F3 dev 默认 mock，生产环境改 false
+
+    // ---------- 状态机 ----------
+    const state = {
+      queue: [],
+      index: 0,
+      total: 0,
+      masteryDelta: 0,
+      isFlipped: false,
+    };
+
+    // ---------- DOM refs ----------
+    const $ = (sel) => document.querySelector(sel);
+    const els = {
+      skeleton:  $('#skeleton-loader'),
+      region:    $('#flashcard-region'),
+      flashcard: $('#flashcard'),
+      empty:     $('#empty-state'),
+      error:     $('#error-state'),
+      retry:     $('[data-retry]'),
+      progressCurrent: $('[data-progress-current]'),
+      progressTotal:   $('[data-progress-total]'),
+      doneTotal:       $('[data-done-total]'),
+      masteryDelta:    $('[data-mastery-delta]'),
+      errorMsg:        $('[data-error-msg]'),
+    };
+
+    // ---------- Subject chip 颜色（Tailwind-free, 用 ds- token）----------
+    const SUBJECT_BG = {
+      '数学':    'var(--ait-color-info-500)',
+      '物理':    'var(--ait-color-info-500)',
+      '化学':    'var(--ait-color-success-500)',
+      '语文':    'var(--ait-color-danger-500)',
+      '英语':    'var(--ait-color-warning-500)',
+      '政治':    'var(--ait-color-primary-500)',
+      '历史':    'var(--ait-color-primary-500)',
+      '生物':    'var(--ait-color-success-500)',
+      '地理':    'var(--ait-color-info-500)',
+    };
+
+    // ---------- 1. 加载今日任务 ----------
+    async function loadDailyTasks() {
+      try {
+        const resp = await srs.getDailyTasks({ limit: 20 });
+        if (!resp.success || !resp.data || !resp.data.tasks) {
+          throw new Error('SRS 返回数据格式异常');
         }
-      });
+        state.queue = resp.data.tasks;
+        state.total = state.queue.length;
+        els.progressTotal.textContent = state.total;
 
-      // --- weak points ---
-      const weakRes = useAsyncResource(() => review.getWeakPoints({}));
-      weakRes.subscribe(({ data, loading, error }) => {
-        const loadingEl = document.querySelector("[data-weak-loading]");
-        const listEl = document.querySelector("[data-weak-list]");
-        if (loading) { if (loadingEl) loadingEl.textContent = "加载中…"; return; }
-        if (error) { if (loadingEl) loadingEl.textContent = "加载失败"; return; }
-        if (data) {
-          if (loadingEl) loadingEl.classList.add("hidden");
-          const items = data.data || [];
-          if (items.length === 0) {
-            listEl.innerHTML = "<li class=\"text-foreground-muted\">暂无危机点</li>";
-            return;
-          }
-          listEl.innerHTML = items.slice(0, 8).map((it) =>
-            "<li class=\"flex items-center justify-between gap-3 py-1.5 border-b border-border last:border-0\"><span class=\"truncate\">" + esc(it.kp_name || it.name || it.knowledge_point || it.topic || "—") + "</span><span class=\"shrink-0 text-[12px] text-warning-600 font-medium\">" + (it.error_rate != null ? (it.error_rate * 100).toFixed(0) + "%" : esc(it.level || it.priority || "")) + "</span></li>"
-          ).join("");
+        if (state.total === 0) {
+          renderEmpty();
+          return;
         }
-      });
+        renderCard();
+      } catch (err) {
+        console.error('[review] loadDailyTasks failed:', err);
+        renderError(err.message || '网络异常，请稍后重试。');
+        toast.error('复习任务加载失败');
+      }
+    }
 
-      // --- session history ---
-      const historyRes = useAsyncResource(() => review.getSessionHistory({ limit: 10 }));
-      historyRes.subscribe(({ data, loading, error }) => {
-        const loadingEl = document.querySelector("[data-history-loading]");
-        const listEl = document.querySelector("[data-history-list]");
-        if (loading) { if (loadingEl) loadingEl.textContent = "加载中…"; return; }
-        if (error) { if (loadingEl) loadingEl.textContent = "加载失败"; return; }
-        if (data) {
-          if (loadingEl) loadingEl.classList.add("hidden");
-          const items = data.data || [];
-          if (items.length === 0) {
-            listEl.innerHTML = "<div class=\"text-foreground-muted\">暂无会话记录</div>";
-            return;
-          }
-          listEl.innerHTML = items.map((it) =>
-            "<div class=\"flex items-center justify-between gap-3 py-2 border-b border-border last:border-0\"><div class=\"min-w-0\"><div class=\"truncate\">" + esc(it.title || it.subject || it.mode || "会话") + "</div><div class=\"text-[11px] text-foreground-muted\">" + esc(it.started_at || it.created_at || "") + "</div></div><span class=\"shrink-0 text-[12px] text-foreground-secondary\">" + esc(it.mode || "") + "</span></div>"
-          ).join("");
-        }
-      });
+    // ---------- 2. 渲染闪卡 ----------
+    async function renderCard() {
+      const task = state.queue[state.index];
+      if (!task) { renderEmpty(); return; }
 
-      // --- reports list ---
-      const reportsRes = useAsyncResource(() => review.getReports({ page: 1, pageSize: 5 }));
-      reportsRes.subscribe(({ data, loading, error }) => {
-        const loadingEl = document.querySelector("[data-reports-loading]");
-        const listEl = document.querySelector("[data-reports-list]");
-        if (loading) { if (loadingEl) loadingEl.textContent = "加载中…"; return; }
-        if (error) { if (loadingEl) loadingEl.textContent = "加载失败"; return; }
-        if (data) {
-          if (loadingEl) loadingEl.classList.add("hidden");
-          const items = data.data || [];
-          if (items.length === 0) {
-            listEl.innerHTML = "<div class=\"text-foreground-muted\">暂无报告</div>";
-            return;
-          }
-          listEl.innerHTML = items.map((it) =>
-            "<div class=\"flex items-center justify-between gap-3 py-2 border-b border-border last:border-0\"><div class=\"min-w-0\"><div class=\"truncate font-medium\">" + esc(it.title || it.period || "报告") + "</div><div class=\"text-[11px] text-foreground-muted\">" + esc(it.subject || "") + " · " + esc(it.created_at || it.date || "") + "</div></div><span class=\"shrink-0 text-[12px] text-primary-500 font-medium\">" + esc(it.score != null ? it.score + " 分" : "") + "</span></div>"
-          ).join("");
+      // 更新进度
+      els.progressCurrent.textContent = state.index + 1;
+
+      // 重置 flip 状态
+      state.isFlipped = false;
+      els.flashcard.classList.remove('is-flipped', 'swipe-right', 'swipe-left');
+
+      // 填充正面
+      const subjectEl = document.querySelector('[data-subject-chip]');
+      subjectEl.textContent = task.subject || '—';
+      subjectEl.style.background = SUBJECT_BG[task.subject] || 'var(--ds-bg-subtle)';
+      subjectEl.style.color = '#fff';
+
+      document.querySelector('[data-card-topic]').textContent = task.topic || '—';
+      document.querySelector('[data-card-meta]').textContent = `掌握度 ${task.mastery_score ?? 0}%`;
+      document.querySelector('[data-card-overdue]').textContent =
+        task.is_overdue ? `逾期 ${task.days_overdue} 天` : `间隔 ${task.interval_days} 天`;
+
+      // 题干（mock：从 knowledge service 拉代表性错题）
+      try {
+        const kpResp = await knowledge.getKpDetail(task.knowledge_point_id);
+        const kpData = kpResp.data || {};
+        document.querySelector('[data-card-stem]').textContent =
+          kpData.sample_question || kpData.description || `复习主题: ${task.topic}`;
+      } catch {
+        document.querySelector('[data-card-stem]').textContent =
+          `请回忆该知识点: ${task.topic}`;
+      }
+
+      // 背面（占位：实际可接 LLM explainQuestion）
+      document.querySelector('[data-card-back-topic]').textContent = task.topic || '—';
+      document.querySelector('[data-card-back-meta]').textContent =
+        `第 ${task.attempt_count} 次复习 · 正确率 ${task.accuracy ?? 0}%`;
+      document.querySelector('[data-card-explanation]').textContent =
+        `${task.topic} 涉及的核心概念与典型题型。\n` +
+        `关键步骤: ① 审题 ② 定位考点 ③ 套用公式 ④ 验算\n` +
+        `建议: 结合错题本中相关错题，强化 ${task.subject} 学科的薄弱环节。`;
+      const errorsEl = document.querySelector('[data-card-errors]');
+      errorsEl.innerHTML = [
+        `<span class="text-xs px-2 py-0.5 rounded" style="background: var(--ait-color-warning-500); color: #fff;">概念辨析不清</span>`,
+        `<span class="text-xs px-2 py-0.5 rounded" style="background: var(--ait-color-danger-500); color: #fff;">公式应用错误</span>`,
+      ].join('');
+
+      // 切换可见性
+      els.skeleton.classList.add('hidden');
+      els.region.classList.remove('hidden');
+      els.empty.classList.add('hidden');
+      els.error.classList.add('hidden');
+
+      // lucide 图标刷新
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // ---------- 3. 闪卡翻转 ----------
+    function flipCard() {
+      state.isFlipped = !state.isFlipped;
+      els.flashcard.classList.toggle('is-flipped');
+    }
+    els.flashcard.addEventListener('click', flipCard);
+    els.flashcard.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipCard(); }
+    });
+
+    // ---------- 4. 三档自评 ----------
+    document.querySelectorAll('[data-rate]').forEach(btn => {
+      btn.addEventListener('click', () => rateCard(btn.dataset.rate));
+    });
+
+    // 键盘 1/2/3 快捷键（翻转后才能评分）
+    document.addEventListener('keydown', (e) => {
+      if (els.region.classList.contains('hidden')) return;
+      if (!state.isFlipped) return;
+      if (e.key === '1') rateCard('again');
+      else if (e.key === '2') rateCard('hard');
+      else if (e.key === '3') rateCard('good');
+    });
+
+    // rate → again=0 correct, hard=0 correct, good=1 correct
+    async function rateCard(rating) {
+      if (!state.isFlipped) {
+        toast.info('请先翻面查看解析');
+        flipCard();
+        return;
+      }
+      const task = state.queue[state.index];
+      if (!task) return;
+
+      // Swipe 动效方向: again/hard → 左滑（继续复习），good → 右滑（掌握）
+      const dir = rating === 'good' ? 'swipe-right' : 'swipe-left';
+      els.flashcard.classList.add(dir);
+
+      const isCorrect = rating === 'good';
+
+      try {
+        const resp = await srs.completeTask(task.knowledge_point_id, isCorrect, 0);
+        if (resp.success && resp.data) {
+          const delta = resp.data.mastery_delta ?? 0;
+          state.masteryDelta += delta;
+          toast.success(
+            rating === 'good' ? `掌握度 +${delta.toFixed(1)}%`
+                               : `已重新安排复习 (质量 ${resp.data.quality ?? '—'})`
+          );
         }
-      });
-    </script>
-    <script>lucide.createIcons();</script>
+      } catch (err) {
+        console.warn('[review] completeTask failed (mock mode ok):', err);
+      }
+
+      // 400ms 动效结束后推进
+      setTimeout(() => {
+        state.index++;
+        if (state.index >= state.total) {
+          renderEmpty();
+        } else {
+          renderCard();
+        }
+      }, 420);
+    }
+
+    // ---------- 5. EmptyState / ErrorState ----------
+    function renderEmpty() {
+      els.skeleton.classList.add('hidden');
+      els.region.classList.add('hidden');
+      els.error.classList.add('hidden');
+      els.empty.classList.remove('hidden');
+      els.doneTotal.textContent = state.total;
+      els.masteryDelta.textContent =
+        (state.masteryDelta >= 0 ? '+' : '') + state.masteryDelta.toFixed(1) + '%';
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderError(msg) {
+      els.skeleton.classList.add('hidden');
+      els.region.classList.add('hidden');
+      els.empty.classList.add('hidden');
+      els.error.classList.remove('hidden');
+      els.errorMsg.textContent = msg;
+      if (window.lucide) lucide.createIcons();
+    }
+
+    els.retry?.addEventListener('click', () => {
+      els.skeleton.classList.remove('hidden');
+      els.error.classList.add('hidden');
+      loadDailyTasks();
+    });
+
+    // ---------- 启动 ----------
+    loadDailyTasks();
+  </script>
+  <script>lucide.createIcons();</script>
 </body>
 </html>

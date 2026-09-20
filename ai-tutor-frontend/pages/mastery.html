@@ -6,6 +6,8 @@
     <title>AI tutor - 知识图谱</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
     <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <!-- Cytoscape.js for knowledge graph (冲刺 3.1) -->
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.4/dist/cytoscape.min.js"></script>
     <style type="text/tailwindcss">
   @theme inline {
     --color-primary-50: #fff1f1;
@@ -518,145 +520,37 @@
                 </span>
               </div>
 
-              <!-- 图谱区域 -->
-              <div class="relative overflow-x-auto">
-                <div class="relative w-full min-h-[520px] md:min-h-[560px] bg-surface-secondary" style="background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px); background-size: 24px 24px; min-width: 640px;">
-                  <!-- SVG 连线层 -->
-                  <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <!-- 核心节点连线 -->
-                    <line x1="50" y1="50" x2="24" y2="30" stroke="var(--color-border)" stroke-width="0.15" stroke-linecap="round"/>
-                    <line x1="50" y1="50" x2="74" y2="26" stroke="var(--color-border)" stroke-width="0.15" stroke-linecap="round"/>
-                    <line x1="50" y1="50" x2="82" y2="52" stroke="var(--color-border)" stroke-width="0.15" stroke-linecap="round"/>
-                    <line x1="50" y1="50" x2="20" y2="68" stroke="var(--color-border)" stroke-width="0.15" stroke-linecap="round"/>
-                    <line x1="50" y1="50" x2="72" y2="76" stroke="var(--color-border)" stroke-width="0.15" stroke-linecap="round"/>
-                    <line x1="50" y1="50" x2="42" y2="14" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="50" y1="50" x2="56" y2="12" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <!-- 二次函数子节点 -->
-                    <line x1="24" y1="30" x2="10" y2="16" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="24" y1="30" x2="12" y2="40" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="24" y1="30" x2="32" y2="14" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="24" y1="30" x2="36" y2="35" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="24" y1="30" x2="16" y2="12" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <!-- 一次函数子节点 -->
-                    <line x1="74" y1="26" x2="66" y2="12" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="74" y1="26" x2="90" y2="18" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="74" y1="26" x2="88" y2="38" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <!-- 指数函数子节点 -->
-                    <line x1="82" y1="52" x2="93" y2="42" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="82" y1="52" x2="92" y2="62" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="82" y1="52" x2="94" y2="70" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <!-- 三角函数子节点 -->
-                    <line x1="20" y1="68" x2="8" y2="56" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="20" y1="68" x2="8" y2="82" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="20" y1="68" x2="30" y2="88" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <!-- 导数子节点 -->
-                    <line x1="72" y1="76" x2="58" y2="90" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="72" y1="76" x2="80" y2="90" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <line x1="72" y1="76" x2="90" y2="80" stroke="var(--color-border)" stroke-width="0.12" stroke-linecap="round"/>
-                    <!-- 交叉连线 -->
-                    <line x1="20" y1="68" x2="72" y2="76" stroke="var(--color-border)" stroke-width="0.1" stroke-linecap="round" stroke-dasharray="0.8 0.8"/>
-                  </svg>
+              <!-- ============================================================
+                   冲刺 3.1 — Cytoscape.js 知识图谱
+                   替代原 SVG 节点层, 从 /api/mastery/graph 加载数据
+                   节点颜色严格按掌握度映射 Token (Success > 80, Warning 40-80, Danger < 40, Neutral 未评估)
+                   ============================================================ -->
+              <div class="relative w-full min-h-[520px] md:min-h-[560px] bg-surface-secondary"
+                   style="background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px); background-size: 24px 24px;">
 
-                  <!-- 节点层 -->
-                  <!-- 核心节点：函数 (黄色，最大) -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white font-bold shadow-lg cursor-pointer hover:scale-110 transition-transform" style="left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:var(--color-warning-500);box-shadow:0 4px 16px rgba(245,158,11,0.35);font-size:18px;z-index:10;" title="函数">
-                    函数
-                  </div>
+                <div id="cy-mastery-graph" class="absolute inset-0 w-full h-full"></div>
 
-                  <!-- 二级节点 -->
-                  <!-- 二次函数 (红色，选中态) -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white font-medium shadow-md cursor-pointer transition-all ring-4 ring-error-500/20" style="left:24%;top:30%;transform:translate(-50%,-50%);width:48px;height:48px;background:var(--color-error-500);box-shadow:0 4px 12px rgba(239,68,68,0.3);font-size:11px;z-index:9;" title="二次函数">
-                    二次函数
-                  </div>
-                  <!-- 选中高亮环 -->
-                  <div class="absolute rounded-full pointer-events-none animate-pulse" style="left:24%;top:30%;transform:translate(-50%,-50%);width:64px;height:64px;border:2.5px dashed var(--color-error-500);z-index:8;"></div>
+                <div id="cy-loading" class="absolute inset-0 flex items-center justify-center text-foreground-muted text-[13px]">
+                  <i data-lucide="loader-2" class="w-5 h-5 mr-2 animate-spin"></i>
+                  图谱加载中…
+                </div>
+                <div id="cy-error" class="hidden absolute inset-0 flex items-center justify-center text-error-500 text-[13px]">
+                  图谱加载失败，请刷新页面重试。
+                </div>
+                <div id="cy-empty" class="hidden absolute inset-0 flex items-center justify-center text-foreground-muted text-[13px]">
+                  暂无知识点图谱数据
+                </div>
 
-                  <!-- 一次函数 (绿色) -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white font-medium shadow-md cursor-pointer hover:scale-110 transition-transform" style="left:74%;top:26%;transform:translate(-50%,-50%);width:46px;height:46px;background:var(--color-success-500);box-shadow:0 3px 10px rgba(5,150,105,0.3);font-size:11px;z-index:9;" title="一次函数">
-                    一次函数
-                  </div>
-                  <!-- 指数函数 (黄色) -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white font-medium shadow-md cursor-pointer hover:scale-110 transition-transform" style="left:82%;top:52%;transform:translate(-50%,-50%);width:46px;height:46px;background:var(--color-warning-500);box-shadow:0 3px 10px rgba(245,158,11,0.3);font-size:11px;z-index:9;" title="指数函数">
-                    指数函数
-                  </div>
-                  <!-- 三角函数 (红色) -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white font-medium shadow-md cursor-pointer hover:scale-110 transition-transform" style="left:20%;top:68%;transform:translate(-50%,-50%);width:46px;height:46px;background:var(--color-error-500);box-shadow:0 3px 10px rgba(239,68,68,0.3);font-size:11px;z-index:9;" title="三角函数">
-                    三角函数
-                  </div>
-                  <!-- 导数 (黄色) -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white font-medium shadow-md cursor-pointer hover:scale-110 transition-transform" style="left:72%;top:76%;transform:translate(-50%,-50%);width:46px;height:46px;background:var(--color-warning-500);box-shadow:0 3px 10px rgba(245,158,11,0.3);font-size:11px;z-index:9;" title="导数">
-                    导数
-                  </div>
-
-                  <!-- 三级节点 -->
-                  <!-- 二次函数子节点群 -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:10%;top:16%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--color-error-500);font-size:9px;z-index:7;" title="顶点式">
-                    顶点式
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:12%;top:40%;transform:translate(-50%,-50%);width:32px;height:32px;background:var(--color-error-500);font-size:9px;z-index:7;" title="韦达定理">
-                    韦达
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:32%;top:14%;transform:translate(-50%,-50%);width:32px;height:32px;background:var(--color-warning-500);font-size:9px;z-index:7;" title="配方法">
-                    配方法
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:36%;top:35%;transform:translate(-50%,-50%);width:32px;height:32px;background:var(--color-warning-500);font-size:9px;z-index:7;" title="开口方向">
-                    开口
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:16%;top:12%;transform:translate(-50%,-50%);width:28px;height:28px;background:var(--color-success-500);font-size:9px;z-index:7;" title="对称轴">
-                    对称
-                  </div>
-
-                  <!-- 一次函数子节点群 -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:66%;top:12%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--color-success-500);font-size:9px;z-index:7;" title="斜率">
-                    斜率
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:90%;top:18%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--color-success-500);font-size:9px;z-index:7;" title="截距">
-                    截距
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:88%;top:38%;transform:translate(-50%,-50%);width:32px;height:32px;background:var(--color-warning-500);font-size:9px;z-index:7;" title="图像变换">
-                    图像
-                  </div>
-
-                  <!-- 指数函数子节点群 -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:93%;top:42%;transform:translate(-50%,-50%);width:28px;height:28px;background:var(--color-warning-500);font-size:8px;z-index:7;" title="指数运算">
-                    指数
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:92%;top:62%;transform:translate(-50%,-50%);width:32px;height:32px;background:var(--color-error-500);font-size:9px;z-index:7;" title="对数函数">
-                    对数
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:94%;top:70%;transform:translate(-50%,-50%);width:28px;height:28px;background:var(--color-warning-500);font-size:8px;z-index:7;" title="渐近线">
-                    渐近
-                  </div>
-
-                  <!-- 三角函数子节点群 -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:8%;top:56%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--color-warning-500);font-size:8px;z-index:7;" title="周期性">
-                    周期
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:8%;top:82%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--color-error-500);font-size:8px;z-index:7;" title="正弦函数">
-                    正弦
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:30%;top:88%;transform:translate(-50%,-50%);width:32px;height:32px;background:var(--color-error-500);font-size:9px;z-index:7;" title="余弦定理">
-                    余弦
-                  </div>
-
-                  <!-- 导数子节点群 -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:58%;top:90%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--color-success-500);font-size:9px;z-index:7;" title="单调性">
-                    单调
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:80%;top:90%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--color-warning-500);font-size:9px;z-index:7;" title="极值">
-                    极值
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:90%;top:80%;transform:translate(-50%,-50%);width:28px;height:28px;background:var(--color-warning-500);font-size:8px;z-index:7;" title="切线">
-                    切线
-                  </div>
-
-                  <!-- 核心直连节点 -->
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:42%;top:14%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--color-success-500);font-size:8px;z-index:7;" title="定义域">
-                    定义
-                  </div>
-                  <div class="absolute flex items-center justify-center rounded-full text-white shadow-sm cursor-pointer hover:scale-110 transition-transform" style="left:56%;top:12%;transform:translate(-50%,-50%);width:30px;height:30px;background:var(--color-success-500);font-size:8px;z-index:7;" title="值域">
-                    值域
-                  </div>
+                <div class="absolute bottom-3 right-3 flex flex-col gap-1 z-10">
+                  <button id="cy-zoom-in" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-surface border border-border-light shadow-sm text-foreground-secondary hover:bg-surface-tertiary transition-colors" title="放大">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                  </button>
+                  <button id="cy-zoom-out" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-surface border border-border-light shadow-sm text-foreground-secondary hover:bg-surface-tertiary transition-colors" title="缩小">
+                    <i data-lucide="minus" class="w-4 h-4"></i>
+                  </button>
+                  <button id="cy-zoom-reset" class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-surface border border-border-light shadow-sm text-foreground-secondary hover:bg-surface-tertiary transition-colors" title="重置">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -917,6 +811,363 @@
             });
           }
         })();
+      </script>
+
+      <!-- ============================================================
+           冲刺 3 完整 JS — Cytoscape 初始化 + 节点 Drawer 联动 + Coach Mark 首次引导
+           ============================================================ -->
+      <script type="module">
+        import { knowledge } from '../assets/js/api/services/index.js';
+        import { useAsyncResource } from '../assets/js/hooks/useAsyncResource.js';
+        import { toast } from '../assets/js/toast.js';
+
+        // ---- 1. Cytoscape 初始化 ----
+        let cy = null;
+        const TOKEN_COLOR = {
+          success: '#059669',  // ait-color-success-500
+          warning: '#f59e0b',  // ait-color-warning-500
+          danger:  '#ef4444',  // ait-color-danger-500
+          neutral: '#94a3b8',  // ait-color-neutral-500
+        };
+        function masteryTokenColor(score) {
+          if (score == null) return TOKEN_COLOR.neutral;
+          if (score >= 80) return TOKEN_COLOR.success;
+          if (score >= 40) return TOKEN_COLOR.warning;
+          return TOKEN_COLOR.danger;
+        }
+
+        async function initMasteryGraph() {
+          if (typeof cytoscape === 'undefined') {
+            console.error('[mastery] Cytoscape.js 未加载');
+            document.getElementById('cy-loading').classList.add('hidden');
+            document.getElementById('cy-error').classList.remove('hidden');
+            return;
+          }
+
+          try {
+            // 真实后端: GET /api/mastery/graph
+            // mock fallback: knowledge.getKnowledgeMap + getKnowledgePoints
+            const resp = await knowledge.getKnowledgeMap({ subject: '数学' });
+            const data = resp.data || {};
+
+            // 兼容多种返回结构: data = {nodes, edges} | data = [knowledge_points...] | []
+            let nodes = [], edges = [];
+            if (Array.isArray(data.nodes)) {
+              nodes = data.nodes;
+              edges = data.edges || [];
+            } else if (Array.isArray(data)) {
+              nodes = data;
+            } else if (data.knowledge_points) {
+              nodes = data.knowledge_points;
+            } else {
+              // 单点 fallback: 用本地种子数据
+              nodes = SEED_NODES;
+              edges = SEED_EDGES;
+            }
+
+            if (!nodes.length) {
+              document.getElementById('cy-loading').classList.add('hidden');
+              document.getElementById('cy-empty').classList.remove('hidden');
+              return;
+            }
+
+            // 转换为 cytoscape 元素
+            const elements = [
+              ...nodes.map(n => ({
+                data: {
+                  id: n.id || n.knowledge_point_id || n.name,
+                  label: n.name || n.topic || n.label || n.id,
+                  mastery: n.mastery_score ?? n.mastery ?? null,
+                  subject: n.subject || '',
+                  color: masteryTokenColor(n.mastery_score ?? n.mastery),
+                  ...n,
+                }
+              })),
+              ...edges.map((e, i) => ({
+                data: {
+                  id: 'e' + i,
+                  source: e.source || e.from,
+                  target: e.target || e.to,
+                  relation: e.relation || e.type || 'prerequisite',
+                }
+              }))
+            ];
+
+            cy = cytoscape({
+              container: document.getElementById('cy-mastery-graph'),
+              elements,
+              style: [
+                {
+                  selector: 'node',
+                  style: {
+                    'background-color': 'data(color)',
+                    'label': 'data(label)',
+                    'color': '#0b1220',
+                    'font-size': '11px',
+                    'font-weight': 600,
+                    'text-valign': 'center',
+                    'text-halign': 'center',
+                    'text-wrap': 'wrap',
+                    'text-max-width': '80px',
+                    'width': 'mapData(mastery, 0, 100, 28, 56)',
+                    'height': 'mapData(mastery, 0, 100, 28, 56)',
+                    'border-width': 2,
+                    'border-color': '#fff',
+                    'overlay-opacity': 0,
+                  }
+                },
+                {
+                  selector: 'node[mastery >= 80]',
+                  style: { 'border-color': TOKEN_COLOR.success, 'border-width': 3 }
+                },
+                {
+                  selector: 'node:selected',
+                  style: {
+                    'border-width': 4,
+                    'border-color': '#d71920',
+                    'overlay-opacity': 0.15,
+                    'overlay-color': '#d71920',
+                  }
+                },
+                {
+                  selector: 'edge',
+                  style: {
+                    'width': 1.5,
+                    'line-color': '#cbd5e1',
+                    'target-arrow-color': '#cbd5e1',
+                    'target-arrow-shape': 'triangle',
+                    'curve-style': 'bezier',
+                    'opacity': 0.7,
+                  }
+                },
+                {
+                  selector: 'edge[relation = "prerequisite"]',
+                  style: { 'line-style': 'solid' }
+                },
+                {
+                  selector: 'edge[relation = "related"]',
+                  style: { 'line-style': 'dashed', 'line-dash-pattern': [4, 4] }
+                }
+              ],
+              layout: {
+                name: 'cose',
+                animate: true,
+                padding: 30,
+                nodeRepulsion: 8000,
+                idealEdgeLength: 100,
+              },
+              wheelSensitivity: 0.2,
+              minZoom: 0.3,
+              maxZoom: 2.5,
+            });
+
+            // ---- 2. 节点点击 → Drawer 联动 ----
+            cy.on('tap', 'node', (evt) => {
+              const node = evt.target;
+              const data = node.data();
+              console.log('[mastery] node clicked:', data.label, 'mastery:', data.mastery);
+              openKpDrawer(data);
+            });
+
+            // 双击节点居中
+            cy.on('dbltap', 'node', (evt) => {
+              cy.animate({ center: { eles: evt.target }, zoom: 1.2 }, { duration: 400 });
+            });
+
+            // 缩放控件
+            document.getElementById('cy-zoom-in').addEventListener('click', () => {
+              const z = Math.min(2.5, cy.zoom() * 1.2);
+              cy.animate({ zoom: z }, { duration: 200 });
+            });
+            document.getElementById('cy-zoom-out').addEventListener('click', () => {
+              const z = Math.max(0.3, cy.zoom() / 1.2);
+              cy.animate({ zoom: z }, { duration: 200 });
+            });
+            document.getElementById('cy-zoom-reset').addEventListener('click', () => {
+              cy.animate({ fit: [], zoom: 1 }, { duration: 400 });
+            });
+
+            // 隐藏 loading
+            document.getElementById('cy-loading').classList.add('hidden');
+            if (window.lucide) lucide.createIcons();
+
+            // ---- 3. Coach Mark 首次引导 ----
+            checkAndShowCoachMark(nodes);
+
+          } catch (err) {
+            console.error('[mastery] graph load failed:', err);
+            document.getElementById('cy-loading').classList.add('hidden');
+            document.getElementById('cy-error').classList.remove('hidden');
+          }
+        }
+
+        // ---- 本地种子数据 (mock fallback) ----
+        const SEED_NODES = [
+          { id: 'math_hanshu', name: '函数', subject: '数学', mastery_score: 65 },
+          { id: 'math_quadratic', name: '二次函数', subject: '数学', mastery_score: 45 },
+          { id: 'math_linear', name: '一次函数', subject: '数学', mastery_score: 92 },
+          { id: 'math_exponential', name: '指数函数', subject: '数学', mastery_score: 50 },
+          { id: 'math_trig', name: '三角函数', subject: '数学', mastery_score: 32 },
+          { id: 'math_derivative', name: '导数', subject: '数学', mastery_score: 55 },
+          { id: 'math_vertex', name: '顶点坐标', subject: '数学', mastery_score: 38 },
+          { id: 'math_axis', name: '对称轴', subject: '数学', mastery_score: 48 },
+          { id: 'math_discriminant', name: '判别式', subject: '数学', mastery_score: 22 },
+          { id: 'math_slope', name: '斜率', subject: '数学', mastery_score: 85 },
+          { id: 'math_base', name: '底数', subject: '数学', mastery_score: 48 },
+          { id: 'math_sin', name: '正弦', subject: '数学', mastery_score: 28 },
+          { id: 'math_geometry', name: '几何意义', subject: '数学', mastery_score: 42 },
+        ];
+        const SEED_EDGES = [
+          { source: 'math_hanshu', target: 'math_quadratic', relation: 'prerequisite' },
+          { source: 'math_hanshu', target: 'math_linear', relation: 'prerequisite' },
+          { source: 'math_hanshu', target: 'math_exponential', relation: 'prerequisite' },
+          { source: 'math_hanshu', target: 'math_trig', relation: 'prerequisite' },
+          { source: 'math_hanshu', target: 'math_derivative', relation: 'prerequisite' },
+          { source: 'math_quadratic', target: 'math_vertex', relation: 'prerequisite' },
+          { source: 'math_quadratic', target: 'math_axis', relation: 'prerequisite' },
+          { source: 'math_quadratic', target: 'math_discriminant', relation: 'prerequisite' },
+          { source: 'math_linear', target: 'math_slope', relation: 'prerequisite' },
+          { source: 'math_exponential', target: 'math_base', relation: 'prerequisite' },
+          { source: 'math_trig', target: 'math_sin', relation: 'prerequisite' },
+          { source: 'math_derivative', target: 'math_geometry', relation: 'prerequisite' },
+          { source: 'math_quadratic', target: 'math_derivative', relation: 'related' },
+        ];
+
+        // ---- 4. Drawer 联动 (打开右侧详情面板) ----
+        function openKpDrawer(kpData) {
+          // 复用 mastery 已有的详情面板 (右侧 320px)
+          const panel = document.querySelector('.xl\\:sticky.xl\\:top-5.self-start');
+          if (!panel) return;
+
+          // 滚动到面板位置 (mobile)
+          if (window.innerWidth < 1280) {
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+
+          // 高亮选中节点
+          if (cy) cy.elements().unselect();
+          if (cy) {
+            const node = cy.getElementById(kpData.id);
+            if (node && node.length) node.select();
+          }
+
+          // 更新面板标题与掌握度
+          const titleEl = panel.querySelector('h4.text-xl');
+          if (titleEl) titleEl.textContent = kpData.label || kpData.name || '—';
+          const masterChip = panel.querySelector('span.text-\\[11px\\].font-medium');
+          const masterPct = panel.querySelector('span.text-sm.font-bold');
+          const masterBar = panel.querySelector('div.h-full.rounded-full');
+
+          const score = kpData.mastery ?? kpData.mastery_score ?? 0;
+          const colorVar = masteryTokenColor(score);
+          const labelText = score >= 80 ? '已掌握' : score >= 40 ? '学习中' : '薄弱';
+
+          if (masterChip) {
+            masterChip.textContent = labelText;
+            masterChip.style.background = colorVar + '20';
+            masterChip.style.color = colorVar;
+          }
+          if (masterPct) {
+            masterPct.textContent = score + '%';
+            masterPct.style.color = colorVar;
+          }
+          if (masterBar) {
+            masterBar.style.width = score + '%';
+            masterBar.style.background = colorVar;
+          }
+
+          // 更新"开始针对性复习"按钮 onclick
+          const reviewBtn = panel.querySelector('[data-dom-id="kg-start-review"]');
+          if (reviewBtn) {
+            reviewBtn.onclick = () => {
+              const url = '/f3/pages/review.html?kp=' + encodeURIComponent(kpData.id);
+              window.location.href = url;
+            };
+          }
+
+          // 高亮当前节点的 tooltip
+          if (cy) {
+            const node = cy.getElementById(kpData.id);
+            if (node && node.length) {
+              cy.animate({ center: { eles: node }, zoom: 1.0 }, { duration: 400 });
+            }
+          }
+        }
+
+        // ---- 5. Coach Mark 首次引导 ----
+        function checkAndShowCoachMark(nodes) {
+          const STORAGE_KEY = 'aitutor.mastery_onboarded';
+          if (localStorage.getItem(STORAGE_KEY) === '1') return;
+
+          // 找到最薄弱的节点 (mastery < 40)
+          const weakest = nodes
+            .map(n => ({ ...n, score: n.mastery_score ?? n.mastery ?? 100 }))
+            .filter(n => n.score < 40)
+            .sort((a, b) => a.score - b.score)[0];
+
+          if (!weakest || !cy) return;
+
+          // 选中最薄弱节点
+          setTimeout(() => {
+            const node = cy.getElementById(weakest.id || weakest.knowledge_point_id);
+            if (!node || !node.length) return;
+            cy.elements().unselect();
+            node.select();
+
+            // 创建遮罩层
+            const overlay = document.createElement('div');
+            overlay.id = 'mastery-coachmark';
+            overlay.className = 'fixed inset-0 flex items-center justify-center';
+            overlay.style.cssText = 'background: rgba(0,0,0,0.55); z-index: 9999;';
+            overlay.innerHTML = `
+              <div class="bg-surface rounded-2xl shadow-2xl border border-border p-6 max-w-md mx-4" style="background: #fff;">
+                <div class="flex items-start gap-3 mb-4">
+                  <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background: #fef2f2;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                      <line x1="12" y1="9" x2="12" y2="13"/>
+                      <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <h3 class="text-base font-bold text-foreground mb-1">找到你的薄弱点了！</h3>
+                    <p class="text-[13px] text-foreground-secondary leading-relaxed">
+                      这个红点 <span style="color:#ef4444;font-weight:700">「${weakest.name || weakest.label}」</span>
+                      是当前掌握度最低的知识点 (${weakest.score}%)。
+                      点击它，右侧会弹出详情面板，告诉你如何攻克它。
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 justify-end">
+                  <button id="cm-skip" class="px-3 h-9 rounded-lg text-[13px] text-foreground-secondary hover:bg-surface-tertiary transition-colors">跳过</button>
+                  <button id="cm-ack" class="px-4 h-9 rounded-lg text-[13px] font-medium text-white transition-colors" style="background:#d71920;">
+                    我知道了，去看看 →
+                  </button>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(overlay);
+            if (window.lucide) lucide.createIcons();
+
+            const dismiss = () => {
+              overlay.remove();
+              localStorage.setItem(STORAGE_KEY, '1');
+            };
+
+            // 点击 "我知道了" — 打开右侧详情面板
+            document.getElementById('cm-ack').addEventListener('click', () => {
+              dismiss();
+              openKpDrawer(weakest);
+            });
+            document.getElementById('cm-skip').addEventListener('click', dismiss);
+            overlay.addEventListener('click', (e) => {
+              if (e.target === overlay) dismiss();
+            });
+          }, 800);  // 等待首次布局完成
+        }
+
+        // 启动
+        initMasteryGraph();
       </script>
     </main>
     <script>lucide.createIcons();</script>

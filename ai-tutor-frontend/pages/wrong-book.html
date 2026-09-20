@@ -276,24 +276,83 @@
             </div>
           </div>
 
-          <!-- Filter Bar -->
-          <div id="wb-filters" class="bg-surface rounded-[14px] border border-border shadow-sm mb-4 p-3 sm:p-4">
-            <!-- Subject Filter -->
-            <div class="flex items-center gap-2 mb-3 overflow-x-auto no-scrollbar pb-1">
-              <span class="text-[12px] text-foreground-muted shrink-0 whitespace-nowrap mr-1">学科</span>
-              <div class="flex gap-2 flex-nowrap">
-                <button data-filter-subject="all" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] font-medium bg-primary-500 text-white whitespace-nowrap transition-colors">全部</button>
-                <button data-filter-subject="math" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">数学</button>
-                <button data-filter-subject="physics" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">物理</button>
-                <button data-filter-subject="chemistry" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">化学</button>
-                <button data-filter-subject="english" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors">英语</button>
-                <button data-filter-subject="chinese" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors hidden sm:inline-flex">语文</button>
-                <button data-filter-subject="biology" class="wb-filter-subject shrink-0 h-8 px-3.5 rounded-[8px] text-[13px] text-foreground-secondary bg-surface-secondary hover:bg-surface-tertiary whitespace-nowrap transition-colors hidden sm:inline-flex">生物</button>
-              </div>
+          <!-- ============================================================
+               冲刺 2.1 — 吸顶 5-Tab (URL Query ?status= 驱动)
+               全部 / 待攻克(warning) / 巩固中(info) / 已掌握(success) / 已归档(neutral)
+               ============================================================ -->
+          <div id="wb-status-tabs"
+               class="sticky top-0 z-30 bg-surface/95 backdrop-blur border-b border-border shadow-sm"
+               style="position: sticky; top: 0; z-index: 30;">
+            <div class="flex items-center gap-1 overflow-x-auto no-scrollbar px-1 py-1">
+              <button data-tab-status="all"        class="wb-status-tab shrink-0 inline-flex items-center gap-1.5 h-9 px-4 rounded-[8px] text-[13px] font-medium transition-colors">
+                全部 <span data-tab-count="all" class="text-[11px] font-normal opacity-70">0</span>
+              </button>
+              <button data-tab-status="warning"     class="wb-status-tab shrink-0 inline-flex items-center gap-1.5 h-9 px-4 rounded-[8px] text-[13px] font-medium transition-colors">
+                <span class="w-1.5 h-1.5 rounded-full" style="background: var(--ait-color-warning-500);"></span>
+                待攻克 <span data-tab-count="warning" class="text-[11px] font-normal opacity-70">0</span>
+              </button>
+              <button data-tab-status="info"        class="wb-status-tab shrink-0 inline-flex items-center gap-1.5 h-9 px-4 rounded-[8px] text-[13px] font-medium transition-colors">
+                <span class="w-1.5 h-1.5 rounded-full" style="background: var(--ait-color-info-500);"></span>
+                巩固中 <span data-tab-count="info" class="text-[11px] font-normal opacity-70">0</span>
+              </button>
+              <button data-tab-status="success"     class="wb-status-tab shrink-0 inline-flex items-center gap-1.5 h-9 px-4 rounded-[8px] text-[13px] font-medium transition-colors">
+                <span class="w-1.5 h-1.5 rounded-full" style="background: var(--ait-color-success-500);"></span>
+                已掌握 <span data-tab-count="success" class="text-[11px] font-normal opacity-70">0</span>
+              </button>
+              <button data-tab-status="archived"    class="wb-status-tab shrink-0 inline-flex items-center gap-1.5 h-9 px-4 rounded-[8px] text-[13px] font-medium transition-colors">
+                <span class="w-1.5 h-1.5 rounded-full" style="background: var(--ds-fg-muted);"></span>
+                已归档 <span data-tab-count="archived" class="text-[11px] font-normal opacity-70">0</span>
+              </button>
             </div>
+          </div>
 
+          <!-- ============================================================
+               冲刺 2.3 — 批量管理操作栏 (吸顶 Tab 下方, 默认隐藏)
+              ============================================================ -->
+          <div id="wb-batch-bar"
+               class="hidden sticky top-[57px] z-20 bg-surface border-b border-border shadow-sm px-4 py-2.5 flex items-center justify-between"
+               style="position: sticky; top: 57px; z-index: 20;">
+            <div class="flex items-center gap-3">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="wb-batch-toggle-all"
+                       class="w-4 h-4 rounded border-border text-primary-500 focus:ring-primary-500">
+                <span class="text-[13px] font-medium text-foreground">
+                  已选 <span id="wb-batch-count">0</span> / <span id="wb-batch-total">0</span>
+                </span>
+              </label>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="wb-batch-archive"
+                      class="inline-flex items-center gap-1.5 h-8 px-3 rounded-[8px] text-[13px] border border-border bg-surface text-foreground-secondary hover:bg-surface-tertiary transition-colors">
+                <i data-lucide="archive" class="w-4 h-4"></i>归档
+              </button>
+              <button id="wb-batch-delete"
+                      class="inline-flex items-center gap-1.5 h-8 px-3 rounded-[8px] text-[13px] text-white transition-colors"
+                      style="background: var(--ait-color-danger-500);">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>批量删除
+              </button>
+              <button id="wb-batch-cancel"
+                      class="inline-flex items-center h-8 px-2.5 rounded-[8px] text-[13px] text-foreground-secondary hover:bg-surface-tertiary transition-colors">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 旧 Filter Bar（保留 subject/difficulty/sort，但移除 mastery 行）
+               mastery 由上方 status tabs 接管 -->
+          <div id="wb-filters" class="bg-surface rounded-[14px] border border-border shadow-sm mb-4 p-3 sm:p-4">
             <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-              <!-- Difficulty Filter -->
+              <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+                <span class="text-[12px] text-foreground-muted shrink-0 whitespace-nowrap mr-1">学科</span>
+                <div class="flex gap-1.5 flex-nowrap">
+                  <button data-filter-subject="all" class="wb-filter-subject shrink-0 h-7 px-3 rounded-[6px] text-[12px] font-medium bg-surface-tertiary text-foreground whitespace-nowrap">全部</button>
+                  <button data-filter-subject="math" class="wb-filter-subject shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">数学</button>
+                  <button data-filter-subject="physics" class="wb-filter-subject shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">物理</button>
+                  <button data-filter-subject="chemistry" class="wb-filter-subject shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">化学</button>
+                  <button data-filter-subject="english" class="wb-filter-subject shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">英语</button>
+                  <button data-filter-subject="chinese" class="wb-filter-subject shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap hidden sm:inline-flex">语文</button>
+                </div>
+              </div>
               <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
                 <span class="text-[12px] text-foreground-muted shrink-0 whitespace-nowrap mr-1">难度</span>
                 <div class="flex gap-1.5 flex-nowrap">
@@ -303,25 +362,6 @@
                   <button data-filter-difficulty="5" class="wb-filter-difficulty shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap">困难</button>
                 </div>
               </div>
-
-              <!-- Mastery Status Filter -->
-              <div class="flex items-center gap-2 overflow-x-auto no-scrollbar sm:ml-2">
-                <span class="text-[12px] text-foreground-muted shrink-0 whitespace-nowrap mr-1">状态</span>
-                <div class="flex gap-1.5 flex-nowrap">
-                  <button data-filter-mastery="all" class="wb-filter-mastery shrink-0 h-7 px-3 rounded-[6px] text-[12px] font-medium bg-surface-tertiary text-foreground whitespace-nowrap">全部</button>
-                  <button data-filter-mastery="unmastered" class="wb-filter-mastery shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap inline-flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-error-500"></span>未掌握
-                  </button>
-                  <button data-filter-mastery="reviewing" class="wb-filter-mastery shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap inline-flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-warning-500"></span>复习中
-                  </button>
-                  <button data-filter-mastery="mastered" class="wb-filter-mastery shrink-0 h-7 px-3 rounded-[6px] text-[12px] text-foreground-secondary hover:bg-surface-secondary whitespace-nowrap inline-flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-success-500"></span>已掌握
-                  </button>
-                </div>
-              </div>
-
-              <!-- Sort Dropdown -->
               <div class="flex items-center gap-2 sm:ml-auto">
                 <span class="text-[12px] text-foreground-muted shrink-0 whitespace-nowrap">排序</span>
                 <button class="inline-flex items-center gap-1.5 h-8 px-3 rounded-[8px] border border-border bg-surface text-[13px] text-foreground-secondary hover:border-border transition-colors whitespace-nowrap">
@@ -371,6 +411,93 @@
               </span>
             </div>
           </section>
+
+          <!-- ============================================================
+               冲刺 2.2 — PC 端右侧 Drawer (360px)
+               点击错题卡片 → 右侧滑出, 包含原题 / AI 步骤解析 / 相似题推荐
+               ============================================================ -->
+          <div id="wb-drawer-overlay"
+               class="hidden fixed inset-0 z-40 transition-opacity"
+               style="background: rgba(0, 0, 0, 0.5);">
+          </div>
+
+          <aside id="wb-drawer"
+                 class="hidden fixed top-0 right-0 z-50 h-screen w-[360px] max-w-[90vw] bg-surface border-l border-border flex flex-col"
+                 style="box-shadow: var(--ait-shadow-xl); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
+
+            <!-- Drawer Header -->
+            <header class="flex items-center justify-between px-5 py-4 border-b border-border shrink-0">
+              <h3 class="text-base font-bold text-foreground">错题详情</h3>
+              <button id="wb-drawer-close"
+                      class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-foreground-secondary hover:bg-surface-tertiary transition-colors"
+                      aria-label="关闭">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </header>
+
+            <!-- Drawer Body -->
+            <div class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+
+              <!-- 1. 原题 (图片 / 文本) -->
+              <section class="bg-surface-secondary rounded-xl p-4 border border-border">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-foreground-muted mb-2">
+                  <i data-lucide="file-text" class="inline w-3 h-3 mr-1"></i>原题
+                </div>
+                <div id="drawer-stem" class="text-[14px] leading-relaxed text-foreground">
+                  加载中…
+                </div>
+                <div id="drawer-stem-image" class="hidden mt-3">
+                  <img class="rounded-lg max-w-full" alt="错题图片">
+                </div>
+              </section>
+
+              <!-- 2. AI 步骤解析 -->
+              <section class="rounded-xl p-4"
+                       style="background: var(--ait-color-info-500); color: #fff;">
+                <div class="text-[11px] font-bold uppercase tracking-wider opacity-80 mb-2">
+                  <i data-lucide="sparkles" class="inline w-3 h-3 mr-1"></i>AI 步骤解析
+                </div>
+                <div id="drawer-explanation" class="text-[14px] leading-relaxed">
+                  解析加载中…
+                </div>
+              </section>
+
+              <!-- 3. 错因归因 chip -->
+              <section id="drawer-errors-wrap" class="hidden">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-foreground-muted mb-2">错因归因</div>
+                <div id="drawer-errors" class="flex flex-wrap gap-2"></div>
+              </section>
+
+              <!-- 4. 相似题推荐 -->
+              <section>
+                <div class="text-[11px] font-bold uppercase tracking-wider text-foreground-muted mb-2">
+                  <i data-lucide="git-branch" class="inline w-3 h-3 mr-1"></i>相似题推荐
+                </div>
+                <div id="drawer-similar" class="space-y-2">
+                  <div class="text-[13px] text-foreground-muted">加载中…</div>
+                </div>
+              </section>
+
+              <!-- 5. 知识点 -->
+              <section>
+                <div class="text-[11px] font-bold uppercase tracking-wider text-foreground-muted mb-2">涉及知识点</div>
+                <div id="drawer-kp" class="flex flex-wrap gap-2"></div>
+              </section>
+            </div>
+
+            <!-- Drawer Footer Actions -->
+            <footer class="border-t border-border px-5 py-3 flex items-center gap-2 shrink-0">
+              <button id="drawer-mark-mastered"
+                      class="flex-1 inline-flex items-center justify-center gap-1.5 h-10 rounded-[10px] text-[14px] font-medium text-white transition-colors"
+                      style="background: var(--ait-color-success-500);">
+                <i data-lucide="check" class="w-4 h-4"></i>标记掌握
+              </button>
+              <button id="drawer-archive"
+                      class="inline-flex items-center justify-center gap-1.5 h-10 px-4 rounded-[10px] text-[14px] border border-border bg-surface text-foreground-secondary hover:bg-surface-tertiary transition-colors">
+                <i data-lucide="archive" class="w-4 h-4"></i>归档
+              </button>
+            </footer>
+          </aside>
 
           <script type="module">
             import { wrong, rag, learningLoop } from '../assets/js/api/services/index.js';
@@ -922,6 +1049,281 @@
                 btn.disabled = false;
                 alert('加载失败：' + err.message);
               }
+            });
+
+            // ============================================================
+            // 冲刺 2 完整 JS — Tab + URL Query + Drawer + 批量管理
+            // ============================================================
+
+            // ---- URL Query 同步 ----
+            function readStatusFromURL() {
+              const p = new URLSearchParams(window.location.search);
+              const s = p.get('status');
+              return ['all', 'warning', 'info', 'success', 'archived'].includes(s) ? s : 'all';
+            }
+            function writeStatusToURL(status) {
+              const p = new URLSearchParams(window.location.search);
+              if (status === 'all') p.delete('status');
+              else p.set('status', status);
+              const q = p.toString();
+              const url = q ? `${window.location.pathname}?${q}` : window.location.pathname;
+              window.history.replaceState({}, '', url);
+            }
+
+            // ---- Tab 视觉切换 ----
+            function setActiveStatusTab(status) {
+              document.querySelectorAll('.wb-status-tab').forEach(btn => {
+                const v = btn.dataset.tabStatus;
+                const isActive = v === status;
+                btn.classList.remove('bg-primary-500', 'text-white', 'font-medium', 'bg-surface-secondary', 'text-foreground-secondary');
+                if (isActive) btn.classList.add('bg-primary-500', 'text-white', 'font-medium');
+                else btn.classList.add('bg-surface-secondary', 'text-foreground-secondary', 'hover:bg-surface-tertiary');
+              });
+              writeStatusToURL(status);
+            }
+
+            // ---- 状态 → mastery 映射 ----
+            function statusToMastery(status) {
+              if (status === 'warning')  return 'unmastered';
+              if (status === 'info')     return 'reviewing';
+              if (status === 'success')  return 'mastered';
+              if (status === 'archived') return 'archived';
+              return null;
+            }
+
+            // ---- 初始化 Tab ----
+            const initialStatus = readStatusFromURL();
+            setActiveStatusTab(initialStatus);
+            filterState.mastery = statusToMastery(initialStatus);
+
+            // ---- Tab 点击 → 切换 ----
+            document.querySelectorAll('.wb-status-tab').forEach(btn => {
+              btn.addEventListener('click', () => {
+                const status = btn.dataset.tabStatus;
+                setActiveStatusTab(status);
+                filterState.mastery = statusToMastery(status);
+                filterState.page = 1;
+                setFilterActive('mastery', filterState.mastery);
+                listRes.refetch();
+              });
+            });
+
+            // ---- popstate 同步 ----
+            window.addEventListener('popstate', () => {
+              const s = readStatusFromURL();
+              setActiveStatusTab(s);
+              filterState.mastery = statusToMastery(s);
+              filterState.page = 1;
+              setFilterActive('mastery', filterState.mastery);
+              listRes.refetch();
+            });
+
+            // ---- Drawer 状态 ----
+            const drawerState = { open: false, currentQuestionId: null, currentRow: null };
+            const $drawer = document.getElementById('wb-drawer');
+            const $overlay = document.getElementById('wb-drawer-overlay');
+
+            function openDrawer(row) {
+              drawerState.currentRow = row;
+              drawerState.currentQuestionId = row.question_id;
+              drawerState.open = true;
+              $drawer.classList.remove('hidden');
+              $overlay.classList.remove('hidden');
+              requestAnimationFrame(() => { $drawer.style.transform = 'translateX(0)'; });
+              renderDrawerContent(row);
+              if (window.lucide) lucide.createIcons();
+            }
+
+            function closeDrawer() {
+              drawerState.open = false;
+              $drawer.style.transform = 'translateX(100%)';
+              setTimeout(() => {
+                $drawer.classList.add('hidden');
+                $overlay.classList.add('hidden');
+              }, 300);
+            }
+
+            function renderDrawerContent(row) {
+              const r = row;
+              const stem = (r.data && (r.data.stem || r.data.question)) || r.stem || '题目内容加载中...';
+              document.getElementById('drawer-stem').textContent = stem;
+              const imgEl = document.querySelector('#drawer-stem-image img');
+              const imageUrl = r.image_url || (r.data && r.data.image_url);
+              if (imageUrl) {
+                imgEl.src = imageUrl;
+                document.getElementById('drawer-stem-image').classList.remove('hidden');
+              } else {
+                document.getElementById('drawer-stem-image').classList.add('hidden');
+              }
+
+              const explanation = (r.data && (r.data.explanation || r.data.analysis)) ||
+                '【解析】该题考察的核心概念和解题思路。\n1. 审题定位考点\n2. 套用公式或定理\n3. 验算确保答案无误';
+              document.getElementById('drawer-explanation').textContent = explanation;
+
+              const errors = (r.data && r.data.error_tags) || r.error_tags || ['概念不清', '公式错误'];
+              const errorsWrap = document.getElementById('drawer-errors-wrap');
+              if (errors.length) {
+                errorsWrap.classList.remove('hidden');
+                document.getElementById('drawer-errors').innerHTML = errors.map(t =>
+                  `<span class="text-xs px-2 py-0.5 rounded" style="background: var(--ait-color-warning-500); color: #fff;">${esc(t)}</span>`
+                ).join('');
+              } else {
+                errorsWrap.classList.add('hidden');
+              }
+
+              const similar = (r.data && r.data.similar_questions) || [];
+              const $sim = document.getElementById('drawer-similar');
+              if (similar.length) {
+                $sim.innerHTML = similar.slice(0, 3).map(q => `
+                  <div class="bg-surface-secondary rounded-lg p-3 border border-border cursor-pointer hover:bg-surface-tertiary transition-colors">
+                    <div class="text-[11px] font-bold mb-1" style="color: var(--ait-color-info-500);">
+                      ${esc(q.difficulty || '中等')} · 相似度 ${Math.round((q.score || 0.85) * 100)}%
+                    </div>
+                    <div class="text-[13px] text-foreground line-clamp-2">${esc(q.stem || q.text || '相似题')}</div>
+                  </div>
+                `).join('');
+              } else {
+                $sim.innerHTML = '<div class="text-[13px] text-foreground-muted">暂无相似题</div>';
+              }
+
+              const kps = (r.data && r.data.knowledge_points) || [];
+              document.getElementById('drawer-kp').innerHTML = kps.length
+                ? kps.slice(0, 5).map(kp =>
+                    `<span class="text-xs px-2.5 py-1 rounded-full" style="background: var(--ds-bg-subtle); color: var(--ait-fg-default);">${esc(kp.name || kp)}</span>`
+                  ).join('')
+                : '<span class="text-[13px] text-foreground-muted">未关联知识点</span>';
+            }
+
+            document.getElementById('wb-drawer-close').addEventListener('click', closeDrawer);
+            $overlay.addEventListener('click', closeDrawer);
+            document.addEventListener('keydown', (e) => {
+              if (e.key === 'Escape' && drawerState.open) closeDrawer();
+            });
+
+            // ---- 卡片点击 → 打开 Drawer ----
+            const wbListEl = document.getElementById('wb-list');
+            const stateCache = { rows: [] };
+            if (wbListEl) {
+              wbListEl.addEventListener('click', (e) => {
+                if (e.target.closest('[data-dom-id="wb-card-checkbox"]')) return;
+                const openBtn = e.target.closest('[data-dom-id="wb-card-open"]');
+                if (!openBtn) return;
+                const qid = openBtn.dataset.questionId;
+                const row = stateCache.rows.find(r => r.question_id === String(qid));
+                if (row) openDrawer(row);
+              });
+            }
+
+            // 注入 checkbox 到每张卡片
+            const _origRenderList = renderList;
+            renderList = function(list) {
+              _origRenderList(list);
+              stateCache.rows = list;
+              list.forEach(row => {
+                const card = document.querySelector(`[data-question-id="${row.question_id}"]`);
+                if (card && !card.querySelector('[data-dom-id="wb-card-checkbox"]')) {
+                  const cb = document.createElement('input');
+                  cb.type = 'checkbox';
+                  cb.className = 'wb-card-checkbox absolute top-3 left-3 w-4 h-4 rounded text-primary-500 focus:ring-primary-500 z-10';
+                  cb.dataset.domId = 'wb-card-checkbox';
+                  cb.dataset.questionId = row.question_id;
+                  cb.checked = batchState.selected.has(String(row.question_id));
+                  cb.addEventListener('change', (e) => {
+                    if (e.target.checked) batchState.selected.add(String(row.question_id));
+                    else batchState.selected.delete(String(row.question_id));
+                    updateBatchCount();
+                  });
+                  card.style.position = 'relative';
+                  card.appendChild(cb);
+                }
+              });
+              updateBatchCount();
+            };
+
+            // ---- 批量管理 ----
+            const batchState = { selected: new Set() };
+            const $batchBar = document.getElementById('wb-batch-bar');
+            const $batchToggleAll = document.getElementById('wb-batch-toggle-all');
+            const $batchCount = document.getElementById('wb-batch-count');
+            const $batchTotal = document.getElementById('wb-batch-total');
+            const $batchDelete = document.getElementById('wb-batch-delete');
+            const $batchArchive = document.getElementById('wb-batch-archive');
+            const $batchCancel = document.getElementById('wb-batch-cancel');
+
+            function updateBatchCount() {
+              $batchCount.textContent = batchState.selected.size;
+              const total = document.querySelectorAll('[data-dom-id="wb-card-checkbox"]').length;
+              $batchTotal.textContent = total;
+              $batchToggleAll.checked = total > 0 && batchState.selected.size === total;
+              $batchToggleAll.indeterminate = batchState.selected.size > 0 && batchState.selected.size < total;
+            }
+
+            let longPressTimer = null;
+            if (wbListEl) {
+              wbListEl.addEventListener('mousedown', (e) => {
+                const card = e.target.closest('[data-question-id]');
+                if (!card || !$batchBar.classList.contains('hidden') && !$batchBar.classList.contains('hidden-mode')) return;
+                longPressTimer = setTimeout(() => {
+                  if (!$batchBar) return;
+                  $batchBar.classList.remove('hidden');
+                  updateBatchCount();
+                }, 500);
+              });
+              wbListEl.addEventListener('mouseup mouseleave', () => clearTimeout(longPressTimer));
+            }
+
+            $batchToggleAll.addEventListener('change', (e) => {
+              document.querySelectorAll('[data-dom-id="wb-card-checkbox"]').forEach(cb => {
+                cb.checked = e.target.checked;
+                if (e.target.checked) batchState.selected.add(String(cb.dataset.questionId));
+                else batchState.selected.delete(String(cb.dataset.questionId));
+              });
+              updateBatchCount();
+            });
+
+            $batchCancel.addEventListener('click', () => {
+              batchState.selected.clear();
+              $batchBar.classList.add('hidden');
+              updateBatchCount();
+            });
+
+            async function batchOp(op) {
+              const ids = Array.from(batchState.selected);
+              if (!ids.length) return;
+              const msg = op === 'delete' ? `确定批量删除这 ${ids.length} 道错题？` : `确定批量归档这 ${ids.length} 道错题？`;
+              if (!confirm(msg)) return;
+              try {
+                await Promise.all(ids.map(id =>
+                  op === 'delete' ? wrong.deleteQuestion(id) : wrong.markArchived(id)
+                ));
+                console.log('[batch]', op, ids.length);
+                batchState.selected.clear();
+                $batchBar.classList.add('hidden');
+                listRes.refetch();
+              } catch (err) {
+                console.error('[batch] failed:', err);
+                alert('操作失败: ' + err.message);
+              }
+            }
+            $batchDelete.addEventListener('click', () => batchOp('delete'));
+            $batchArchive.addEventListener('click', () => batchOp('archive'));
+
+            // ---- Drawer footer 按钮 ----
+            document.getElementById('drawer-mark-mastered').addEventListener('click', async () => {
+              if (!drawerState.currentQuestionId) return;
+              try {
+                await wrong.markMastered(drawerState.currentQuestionId);
+                closeDrawer();
+                listRes.refetch();
+              } catch (err) { alert('标记失败: ' + err.message); }
+            });
+            document.getElementById('drawer-archive').addEventListener('click', async () => {
+              if (!drawerState.currentQuestionId) return;
+              try {
+                await wrong.markArchived(drawerState.currentQuestionId);
+                closeDrawer();
+                listRes.refetch();
+              } catch (err) { alert('归档失败: ' + err.message); }
             });
           </script>
 
