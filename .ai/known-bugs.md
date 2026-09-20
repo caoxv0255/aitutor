@@ -18,12 +18,14 @@
 **触发条件**：任何无参调用 `scripts/emit-status.sh`；或显式 `bash scripts/emit-status.sh all`。
 **影响**：**中** — 决策性内容（backlog 待办、agent run 记录）被静默清空。文件已被 git 跟踪，
 默认能靠 `git checkout` 找回，但若与其它改动混在一起提交就会真丢。
-**修法（2026-09-20 记录，尚未改脚本）**：二选一 ——
-  1. 给 `all` 分支去掉 `emit_backlog` / `emit_recent_runs`（推荐，与注释一致）；或
-  2. 在这两个函数里只 sed 替换 `generated_at` 行，不做全文件重写。
-**回避**：刷状态时**永远带子命令**（如 `bash scripts/emit-status.sh version`、
-`bash scripts/emit-status.sh gate`），不要裸跑 `emit-status.sh`；
-跑完 `git status .ai/status/` 确认 `backlog.yaml` / `recent-runs.yaml` 未被改动。
+**修法（2026-09-20 已修复）**：新增 `refresh_meta()` —— 只原位 `sed` 替换 `schema_version` /
+`generated_at` 两行，不做全文件重写；`emit_backlog` / `emit_recent_runs` 改用它，
+`case all` 分支保持不变（裸跑 `bash scripts/emit-status.sh` 不再有副作用）。
+实测裸跑：backlog 8 项 / recent-runs 1 项正文零改动，各只有 `generated_at` 变一行。
+**同类未修**：`emit_rag()` 仍是全文件重写（`auto_detected` 需自动刷新、`components` 属人工维护，
+混在同一文件里），当前 `components: []` 无内容可丢，暂未处理。
+**回避**：跑完 `git status .ai/status/` 确认 `backlog.yaml` / `recent-runs.yaml` 只有
+`generated_at` 一行变动。
 
 ---
 

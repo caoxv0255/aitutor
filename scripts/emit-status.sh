@@ -38,7 +38,7 @@ docker_reachable() {
   docker info >/dev/null 2>&1
 }
 
-# 通用: 写 YAML header + 元数据
+# 通用: 写 YAML header + 元数据 (截断重写, 仅用于脚本全量生成的文件)
 write_header() {
   local file="$1"
   local time_field="${2:-generated_at}"
@@ -46,6 +46,33 @@ write_header() {
 schema_version: "$SCHEMA_VERSION"
 ${time_field}: "$NOW"
 EOF
+}
+
+# 通用: 只刷新已存在 YAML 的 schema_version + generated_at, 保留人工维护的正文
+# 用于 backlog / recent-runs 这类决策性文件 —— 绝不可截断重写 (见 .ai/known-bugs.md)
+# 文件不存在时才用占位模板创建, 保证 items/runs/alerts 键存在
+refresh_meta() {
+  local file="$1"
+  local body_key="$2"
+  local path="$STATUS_DIR/$file"
+
+  if [ ! -f "$path" ]; then
+    {
+      printf 'schema_version: "%s"\n' "$SCHEMA_VERSION"
+      printf 'generated_at: "%s"\n' "$NOW"
+      printf '%s: []  # TODO 人工维护\n' "$body_key"
+      printf 'alerts: []\n'
+    } > "$path"
+    return
+  fi
+
+  # 原位替换两行元数据; 缺行时补插 (兼容手工新建/老格式文件)
+  sed -i \
+    -e "s|^schema_version:.*|schema_version: \"$SCHEMA_VERSION\"|" \
+    -e "s|^generated_at:.*|generated_at: \"$NOW\"|" \
+    "$path"
+  grep -q '^schema_version:' "$path" || sed -i "1i schema_version: \"$SCHEMA_VERSION\"" "$path"
+  grep -q '^generated_at:' "$path" || sed -i "1a generated_at: \"$NOW\"" "$path"
 }
 
 emit_version() {
@@ -207,28 +234,15 @@ EOF
 }
 
 emit_backlog() {
-  # backlog.yaml 是决策性内容 (P0/P1/P2 待办), 脚本不覆盖
-  # 只刷 schema + 时间戳, 检测是否有未标 severity 的项
-  write_header backlog.yaml
-  cat >> "$STATUS_DIR/backlog.yaml" << EOF
-# Known Issues & Backlog — Hermes TUI 数据源
-# 合并 known-bugs + 已知 P0/P1/P2 backlog
-# 决策性内容由人工维护, 本脚本只刷 schema 元数据
-items: []  # TODO 人工维护 backlog 内容
-alerts: []
-EOF
+  # backlog.yaml 是决策性内容 (P0/P1/P2 待办)
+  # 只刷 schema + 时间戳, 不覆盖 items
+  refresh_meta backlog.yaml items
 }
 
 emit_recent_runs() {
   # recent-runs.yaml 也是决策性内容
-  write_header recent-runs.yaml
-  cat >> "$STATUS_DIR/recent-runs.yaml" << EOF
-# Recent Agent Runs — Hermes TUI 数据源
-# AI agent 在 aitutor 仓库内的最近 runs
-# 决策性内容由人工维护, 本脚本只刷 schema 元数据
-runs: []  # TODO 人工维护 recent runs 内容
-alerts: []
-EOF
+  # 只刷 schema + 时间戳, 不覆盖 runs
+  refresh_meta recent-runs.yaml runs
 }
 
 ALL=1
