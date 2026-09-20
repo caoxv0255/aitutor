@@ -12,13 +12,11 @@
 .wb-header p{font-size:.9rem;color:var(--text-muted)}
 .wb-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
 .wb-filter{padding:6px 16px;border-radius:var(--radius-pill);border:1px solid var(--border);background:transparent;color:var(--text-muted);font-size:.82rem;font-weight:600;cursor:pointer;transition:var(--transition);font-family:var(--font)}
-.wb-filter:hover,.wb-filter.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.wb-empty{text-align:center;padding:60px 24px;color:var(--text-muted)}
-.wb-empty .icon{font-size:3rem;margin-bottom:16px;opacity:.5}
-.wb-empty p{font-size:.95rem;margin-bottom:16px}
+.wb-filter:hover,.wb-filter.active{background:var(--ait-color-primary-500);border-color:var(--ait-color-primary-500);color:#fff}
+/* V1.0 整合：移除 .wb-empty 内联样式（统一由 EmptyState 组件渲染）*/
 .wb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .wb-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:var(--transition)}
-.wb-card:hover{border-color:var(--accent)}
+.wb-card:hover{border-color:var(--ait-color-primary-500)}
 .wb-card-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:12px}
 .wb-card-subject{padding:3px 10px;border-radius:var(--radius-pill);font-size:.7rem;font-weight:700;text-transform:uppercase}
 .wb-card-time{font-size:.75rem;color:var(--text-dim)}
@@ -50,19 +48,26 @@
   </div>
 
   <div id="content">
-    <div class="wb-empty">
-      <div class="icon">&#128210;</div>
-      <p>加载中...</p>
-    </div>
+    <div style="text-align:center;padding:60px 24px;color:var(--text-muted)">加载中…</div>
   </div>
 </div>
 
+<script src="assets/js/components/emptyState.js"></script>
 <script>
 const TOKEN = localStorage.getItem('token');
 if (!TOKEN) { location.href = 'login.html'; }
 
 const SUBJECT_NAMES = {math:'数学',chinese:'语文',english:'英语',physics:'物理',chemistry:'化学',politics:'政治',biology:'生物',history:'历史',geography:'地理'};
-const SUBJECT_COLORS = {math:'#d71920',chinese:'#2563eb',english:'#059669',physics:'#ea580c',chemistry:'#0f766e',politics:'#7c3aed'};
+/* D092-fix (2026-09): 颜色硬编码值对齐 Design Token v1
+   （JS 颜色对象需直接使用 Token 终值；值不可散落，必须与 tokens.css 一致）*/
+const SUBJECT_COLORS = {
+  math:     '#d71920', // --ait-color-brand-500     (数学 = 品牌红)
+  chinese:  '#4f7cf0', // --ait-color-primary-500
+  english:  '#2fa36b', // --ait-color-success-500
+  physics:  '#e8930c', // --ait-color-warning-500
+  chemistry:'#5aa9c6', // --ait-color-info-500
+  politics: '#e5484d', // --ait-color-danger-500
+};
 
 let allQuestions = [];
 let currentFilter = 'all';
@@ -75,15 +80,49 @@ async function loadQuestions() {
     if (!Array.isArray(allQuestions)) allQuestions = [];
     renderQuestions();
   } catch(e) {
-    document.getElementById('content').innerHTML = '<div class="wb-empty"><div class="icon">&#9888;</div><p>加载失败，请刷新重试</p><a href="dashboard.html" class="btn primary">返回个人中心</a></div>';
+    renderError();
   }
+}
+
+/**
+ * V1.0 整合：使用全局 EmptyState 组件
+ * - scenario='wrongBook' → primary-500 + notebook-pen 图标 + 「拍一道题」CTA
+ * - 加载失败：scenario='pathFail' 复用
+ */
+function renderEmpty() {
+  EmptyState.mount('content', {
+    scenario: 'wrongBook',
+    primary_action: { label: '拍一道题', target_url: 'photo-search.html' },
+    secondary_action: { label: '去拍照录题', target_url: 'photo-search.html' }
+  });
+}
+
+function renderError() {
+  EmptyState.mount('content', {
+    scenario: 'pathFail',
+    title: '错题本加载失败',
+    description: '请检查网络后重试，或返回首页。',
+    primary_action: { label: '重新加载', target_url: 'javascript:location.reload()' },
+    secondary_action: { label: '返回首页', target_url: 'dashboard.html' }
+  });
 }
 
 function renderQuestions() {
   const filtered = currentFilter === 'all' ? allQuestions : allQuestions.filter(q => (q.subject || '').toLowerCase() === currentFilter);
 
   if (filtered.length === 0) {
-    document.getElementById('content').innerHTML = '<div class="wb-empty"><div class="icon">&#128210;</div><p>' + (allQuestions.length === 0 ? '暂无错题记录' : '该学科暂无错题') + '</p><a href="dashboard.html" class="btn primary">返回个人中心</a></div>';
+    // 区分"全部空" vs "筛选后空"
+    if (allQuestions.length === 0) {
+      renderEmpty();
+    } else {
+      EmptyState.mount('content', {
+        scenario: 'searchEmpty',
+        title: '该学科暂无错题',
+        description: '试试切换其他学科，或继续拍照录题。',
+        primary_action: { label: '切换学科', target_url: 'wrong-book.html' },
+        secondary_action: { label: '去拍照录题', target_url: 'photo-search.html' }
+      });
+    }
     return;
   }
 
@@ -110,6 +149,7 @@ function renderQuestions() {
   }).join('') + '</div>';
 
   document.getElementById('content').innerHTML = html;
+  if (window.lucide && lucide.createIcons) lucide.createIcons();
 }
 
 function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }

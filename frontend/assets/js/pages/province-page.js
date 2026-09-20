@@ -538,7 +538,14 @@ class ProvincePage {
     if (!container) return;
     
     const TYPE_LABELS = { choice: '选择题', multi_choice: '多选题', fill: '填空题', solve: '解答题' };
-    const TYPE_COLORS = { choice: '#3b82f6', multi_choice: '#8b5cf6', fill: '#f59e0b', solve: '#10b981' };
+    // D092-fix (2026-09): 颜色硬编码值对齐 Design Token v1
+    // （JS Chart 库无法读 CSS 变量，故直接使用 Token 终值；值不可散落，必须与 tokens.css 一致）
+    const TYPE_COLORS = {
+      choice:      '#4f7cf0', // --ait-color-primary-500
+      multi_choice:'#5aa9c6', // --ait-color-info-500    (原 #8b5cf6 accent 废弃)
+      fill:        '#e8930c', // --ait-color-warning-500
+      solve:       '#2fa36b', // --ait-color-success-500
+    };
     
     const maxValue = Math.max(...data.map(d => parseInt(d.count) || 0), 1);
     const barHeight = 36;
@@ -552,7 +559,8 @@ class ProvincePage {
           const count = parseInt(item.count) || 0;
           const barWidth = Math.max(4, Math.round((count / maxValue) * 100));
           const label = TYPE_LABELS[item.question_type] || item.question_type || '';
-          const color = TYPE_COLORS[item.question_type] || '#7c3aed';
+          // D092-fix (2026-09): 兜底色改用 info-500（替代原 #7c3aed accent 紫）
+          const color = TYPE_COLORS[item.question_type] || '#5aa9c6';
           return `
             <div style="display:flex;align-items:center;gap:16px;width:100%">
               <div style="width:80px;font-size:13px;font-weight:600;color:var(--text);text-align:right;flex-shrink:0">${window.SecurityUtils.escapeHTML(label)}</div>
@@ -572,10 +580,18 @@ class ProvincePage {
     if (!container) return;
     
     const TYPE_LABELS = { choice: '选择题', multi_choice: '多选题', fill: '填空题', solve: '解答题' };
+    // D092-fix (2026-09): 颜色硬编码值对齐 Design Token v1
+    // （JS Chart 库无法读 CSS 变量，故直接使用 Token 终值；值不可散落，必须与 tokens.css 一致）
     const SUBJECT_COLORS = {
-      math: '#3b82f6', chinese: '#ef4444', english: '#10b981',
-      physics: '#8b5cf6', chemistry: '#f59e0b', biology: '#ec4899',
-      history: '#84cc16', geography: '#06b6d4', politics: '#6366f1'
+      math:     '#4f7cf0', // --ait-color-primary-500
+      chinese:  '#e5484d', // --ait-color-danger-500
+      english:  '#2fa36b', // --ait-color-success-500
+      physics:  '#5aa9c6', // --ait-color-info-500    (原 #8b5cf6 accent 废弃)
+      chemistry:'#e8930c', // --ait-color-warning-500
+      biology:  '#238155', // --ait-color-success-600
+      history:  '#1b6543', // --ait-color-success-700
+      geography:'#3d8aa8', // --ait-color-info-600
+      politics: '#3d63d8', // --ait-color-primary-600
     };
     const SUBJECT_LABELS = {
       math: '数学', chinese: '语文', english: '英语',

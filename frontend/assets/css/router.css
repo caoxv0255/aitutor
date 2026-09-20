@@ -19,10 +19,10 @@
   animation: ait-toast-in 0.3s ease-out;
   max-width: 320px;
 }
-.ait-toast.success { border-left: 3px solid var(--aitutor-success-500); }
-.ait-toast.error { border-left: 3px solid var(--aitutor-error-500); }
-.ait-toast.info { border-left: 3px solid var(--aitutor-info-500); }
-.ait-toast.warning { border-left: 3px solid var(--aitutor-warning-500); }
+.ait-toast.success { border-left: 3px solid var(--ait-color-success-500); }
+.ait-toast.error { border-left: 3px solid var(--ait-color-danger-500); }
+.ait-toast.info { border-left: 3px solid var(--ait-color-info-500); }
+.ait-toast.warning { border-left: 3px solid var(--ait-color-warning-500); }
 .ait-toast.removing { animation: ait-toast-out 0.25s ease-in forwards; }
 @keyframes ait-toast-in { from { opacity:0; transform:translateX(40px); } to { opacity:1; transform:translateX(0); } }
 @keyframes ait-toast-out { from { opacity:1; transform:translateX(0); } to { opacity:0; transform:translateX(40px); } }

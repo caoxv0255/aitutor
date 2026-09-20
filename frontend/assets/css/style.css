@@ -44,7 +44,7 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-a { color: #6ea8fe; text-decoration: none; transition: var(--transition); }
+a { color: var(--ait-color-primary-400); text-decoration: none; transition: var(--transition); }
 a:hover { color: var(--accent); }
 
 /* D076-css (2026-08-27): 全局 select/option/input 默认主题感知
@@ -173,14 +173,20 @@ select:focus, input:focus, textarea:focus {
   font-size: .7rem; font-weight: 600; letter-spacing: .02em;
 }
 .tag.red { background: var(--accent-soft); color: var(--accent); border: 1px solid #d7192044; }
-.tag.blue { background: #3388ff22; color: #6ea8fe; border: 1px solid #3388ff33; }
+.tag.blue { background: var(--ait-color-primary-50); color: var(--ait-color-primary-600); border: 1px solid var(--ait-color-primary-200); }
 .tag.green { background: #22cc6622; color: #44dd88; border: 1px solid #22cc6633; }
 .subject-card .btn-group { display: flex; gap: 8px; }
+/* ── 按钮 (FIX 2026-09-17: 加 justify-content + line-height + nowrap, 解决多行/icon 漂移) ── */
 .btn {
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 6px; line-height: 1.2;
   padding: 8px 18px; border-radius: var(--radius-pill);
   font-size: .8rem; font-weight: 600; border: none; cursor: pointer;
   transition: var(--transition); text-decoration: none;
+  white-space: nowrap;        /* 防止按钮文字意外换行 */
+}
+.btn:disabled, .btn[aria-disabled="true"] {
+  opacity: .5; cursor: not-allowed; pointer-events: none;
 }
 .btn.primary { background: var(--accent); color: #fff; }
 .btn.primary:hover { background: #b8141a; color: #fff; }

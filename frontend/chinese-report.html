@@ -4,7 +4,7 @@
 <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>语文命题趋势分析 - AI Tutor</title>
 <style>
-:root{--bg:#f8fafc;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#b91c1c;--soft:#fef2f2;--bar:#fca5a5;--bar2:#fb7185;--green:#059669;--green-soft:#ecfdf5;--amber:#d97706;--amber-soft:#fffbeb;--blue:#2563eb;--blue-soft:#eff6ff}
+:root{--bg:#f8fafc;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#b91c1c;--soft:#fef2f2;--bar:#fca5a5;--bar2:#fb7185;--green:#059669;--green-soft:#ecfdf5;--amber:#d97706;--amber-soft:#fffbeb;--blue:var(--ait-color-primary-500);--blue-soft:var(--ait-color-primary-50)}
 *{box-sizing:border-box}body{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
 .wrap{max-width:1280px;margin:0 auto;padding:24px}
 .hero,.section{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.04)}
@@ -41,7 +41,7 @@ th{background:#f9fafb}
 .predict-card .prob{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:8px}
 .prob-high{background:#dc2626;color:#fff}
 .prob-mid{background:#d97706;color:#fff}
-.prob-low{background:#2563eb;color:#fff}
+.prob-low{background:var(--ait-color-primary-500);color:#fff}
 .evidence{background:#f9fafb;border-left:3px solid var(--brand);padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
 .risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .risk-box{border-radius:14px;padding:16px;text-align:center}
@@ -79,7 +79,7 @@ th{background:#f9fafb}
 .blind-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;margin-left:4px}
 .blind-tag-high{background:#dc2626;color:#fff}
 .blind-tag-mid{background:#d97706;color:#fff}
-.blind-tag-low{background:#2563eb;color:#fff}
+.blind-tag-low{background:var(--ait-color-primary-500);color:#fff}
 .mapping-table th{background:var(--soft);color:var(--brand)}
 </style>
 </head>
@@ -200,7 +200,7 @@ th{background:#f9fafb}
         <li><strong>主观题结构化表达</strong> <span class="freq-tag freq-m">连续2年↑</span></li>
       </ul>
     </div>
-    <div class="box" style="border-left:4px solid #2563eb">
+    <div class="box" style="border-left:4px solid var(--ait-color-primary-500)">
       <h3>🆕 新情境考点</h3>
       <ul>
         <li><strong>教育与语言议题</strong> <span class="freq-tag freq-l">2024-2025出现</span></li>

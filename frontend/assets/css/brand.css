@@ -1,11 +1,17 @@
-/* brand.css — AI Tutor 跨端品牌一致性变量 */
+/* ============================================================================
+ * brand.css — AI Tutor 跨端品牌一致性变量
+ * 本文件仅保留"跨端品牌对齐"用途，**所有颜色必须通过 tokens.css 引用**
+ * 禁止在此文件定义新颜色（Stylelint 守门）
+ * ============================================================================ */
+
 :root {
-  --brand-primary: #d71920;
-  --brand-primary-rgb: 215, 25, 32;
-  --brand-blue: #2563eb;
-  --brand-blue-rgb: 37, 99, 235;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-  --color-info: #3b82f6;
+  /* 品牌色（与 tokens.css 同源） */
+  --ait-brand-primary:     var(--ait-color-brand-500);
+  --ait-brand-primary-rgb: 215, 25, 32;
+
+  /* 语义色（与 tokens.css 同源，**禁止**硬编码值） */
+  --ait-color-success: var(--ait-color-success-500);
+  --ait-color-warning: var(--ait-color-warning-500);
+  --ait-color-danger:  var(--ait-color-danger-500);
+  --ait-color-info:    var(--ait-color-info-500);
 }

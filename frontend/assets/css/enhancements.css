@@ -99,34 +99,34 @@ button:not(.navbar-hamburger):not(#theme-toggle):not(.filter-pill):not(.tab-btn)
 }
 
 /* --- 8. Role Theme Variants --- */
-/* Parent role: blue accent */
+/* D092-fix (2026-09): 统一从 --ait-color-* 读取，废除 --aitutor-* 老命名 */
 .role-parent {
-  --role-primary: var(--aitutor-blue-500);
-  --role-primary-hover: var(--aitutor-blue-600);
+  --role-primary:      var(--ait-color-primary-500);
+  --role-primary-hover: var(--ait-color-primary-600);
 }
 .role-parent .filter-pill.active,
 .role-parent .tab-btn.active {
-  background: var(--aitutor-blue-500) !important;
-  box-shadow: 0 0 12px rgba(37, 99, 235, 0.3);
+  background: var(--ait-color-primary-500) !important;
+  box-shadow: 0 0 12px rgba(79, 125, 240, 0.30) !important;
 }
 .role-parent .tag--primary {
-  background: var(--aitutor-blue-100) !important;
-  color: var(--aitutor-blue-700) !important;
+  background: var(--ait-color-primary-100) !important;
+  color: var(--ait-color-primary-700) !important;
 }
 
-/* Teacher role: green accent */
+/* Teacher role: success (green) accent */
 .role-teacher {
-  --role-primary: var(--aitutor-success-600);
-  --role-primary-hover: var(--aitutor-success-700);
+  --role-primary:      var(--ait-color-success-600);
+  --role-primary-hover: var(--ait-color-success-700);
 }
 .role-teacher .filter-pill.active,
 .role-teacher .tab-btn.active {
-  background: var(--aitutor-success-600) !important;
-  box-shadow: 0 0 12px rgba(5, 150, 105, 0.3);
+  background: var(--ait-color-success-600) !important;
+  box-shadow: 0 0 12px rgba(47, 163, 107, 0.30) !important;
 }
 .role-teacher .tag--primary {
-  background: var(--aitutor-success-100) !important;
-  color: var(--aitutor-success-700) !important;
+  background: var(--ait-color-success-100) !important;
+  color: var(--ait-color-success-700) !important;
 }
 
 /* --- 9. Focus Ring for Accessibility --- */

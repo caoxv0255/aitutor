@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>数学命题趋势分析 - AI Tutor</title>
 <style>
-:root{--bg:#f8fafc;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#1d4ed8;--soft:#eff6ff;--bar:#93c5fd;--bar2:#60a5fa;--green:#059669;--green-soft:#ecfdf5;--amber:#d97706;--amber-soft:#fffbeb;--blue-soft:#eff6ff}
+:root{--bg:#f8fafc;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--brand:#1d4ed8;--soft:#eff6ff;--bar:#93c5fd;--bar2:#60a5fa;--green:#059669;--green-soft:#ecfdf5;--amber:#d97706;--amber-soft:#fffbeb;--blue-soft:var(--ait-color-primary-50)}
 *{box-sizing:border-box}body{margin:0;font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
 .wrap{max-width:1280px;margin:0 auto;padding:24px}
 .hero,.section{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.04)}
@@ -45,7 +45,7 @@ th{background:#f9fafb}
 .predict-card .prob{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:8px}
 .prob-high{background:#dc2626;color:#fff}
 .prob-mid{background:#d97706;color:#fff}
-.prob-low{background:#2563eb;color:#fff}
+.prob-low{background:var(--ait-color-primary-500);color:#fff}
 .evidence{background:#f9fafb;border-left:3px solid var(--brand);padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7}
 .risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .risk-box{border-radius:14px;padding:16px;text-align:center}
@@ -77,7 +77,7 @@ th{background:#f9fafb}
 .blind-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;margin-left:4px}
 .blind-tag-high{background:#dc2626;color:#fff}
 .blind-tag-mid{background:#d97706;color:#fff}
-.blind-tag-low{background:#2563eb;color:#fff}
+.blind-tag-low{background:var(--ait-color-primary-500);color:#fff}
 .mapping-table th{background:var(--soft);color:var(--brand)}
 </style>
 </head>
@@ -93,7 +93,7 @@ th{background:#f9fafb}
     <ul style="margin:8px 0 0 0;padding-left:20px">
       <li><span style="color:#dc2626;font-weight:600">高概率(80%+)</span>：函数/导数综合压轴、解析几何核心地位</li>
       <li><span style="color:#d97706;font-weight:600">中概率(50-80%)</span>：概率统计真实数据集建模</li>
-      <li><span style="color:#2563eb;font-weight:600">持续趋势</span>：AI/科技情境包装、概念深化考查</li>
+      <li><span style="color:var(--ait-color-primary-500);font-weight:600">持续趋势</span>：AI/科技情境包装、概念深化考查</li>
     </ul>
   </div>
 </div>
@@ -152,9 +152,9 @@ th{background:#f9fafb}
     <div>
       <h4 style="margin:0 0 8px;font-size:14px;color:#6b7280">相关链接</h4>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <a href="methodology.html" style="font-size:13px;color:#2563eb;text-decoration:none">&#8594; 预测方法说明</a>
-        <a href="2026-policy.html" style="font-size:13px;color:#2563eb;text-decoration:none">&#8594; 2026高考政策</a>
-        <a href="math-exam.html" style="font-size:13px;color:#2563eb;text-decoration:none">&#8594; 数学预测卷</a>
+        <a href="methodology.html" style="font-size:13px;color:var(--ait-color-primary-500);text-decoration:none">&#8594; 预测方法说明</a>
+        <a href="2026-policy.html" style="font-size:13px;color:var(--ait-color-primary-500);text-decoration:none">&#8594; 2026高考政策</a>
+        <a href="math-exam.html" style="font-size:13px;color:var(--ait-color-primary-500);text-decoration:none">&#8594; 数学预测卷</a>
       </div>
     </div>
   </div>
@@ -245,7 +245,7 @@ th{background:#f9fafb}
         <li><strong>概率统计建模</strong></li>
       </ul>
     </div>
-    <div class="box" style="border-left:4px solid #2563eb">
+    <div class="box" style="border-left:4px solid var(--ait-color-primary-500)">
       <h3>🆕 新情境考点</h3>
       <ul>
         <li><strong>AI与数据背景</strong></li>
@@ -455,7 +455,7 @@ th{background:#f9fafb}
   </div>
   <div style="margin-top:16px;padding:16px;background:#f9fafb;border-radius:8px">
     <h4 style="margin:0 0 12px;font-size:14px">&#128161; 真题依据说明</h4>
-    <p style="margin:0;font-size:13px;line-height:1.7;color:#4b5563">上表数据来源于 2023-2025 年北京高考数学真题（共 15 套试卷）的逐题分析。每道题已按题型、分值、知识点、能力层级进行标注。完整真题数据可在 <a href="methodology.html" style="color:#2563eb">预测方法页</a> 查看。</p>
+    <p style="margin:0;font-size:13px;line-height:1.7;color:#4b5563">上表数据来源于 2023-2025 年北京高考数学真题（共 15 套试卷）的逐题分析。每道题已按题型、分值、知识点、能力层级进行标注。完整真题数据可在 <a href="methodology.html" style="color:var(--ait-color-primary-500)">预测方法页</a> 查看。</p>
   </div>
 </div>
         <td>多参数嵌套<br>构造函数证明</td>

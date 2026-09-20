@@ -1,166 +1,433 @@
-/* @group-priority: primary, success, info, accent */
-/* AI Tutor (智启AI导师) — Design Tokens */
+/* ============================================================================
+ * AI Tutor · Design Tokens v1.0  (2026-09)
+ * 浅色优先 · 学习蓝主色 · 品牌红仅强调
+ *
+ * Token 命名规范：
+ *   --ait-color-{role}-{step}    调色阶 (brand / primary / success / warning / danger / info / neutral)
+ *   --ait-fg-{weight}             文字色 (strong / default / secondary / tertiary / disabled / onPrimary / onBrand / onDark)
+ *   --ait-bg-{role}               背景色 (page / surface / soft / overlay)
+ *   --ait-border-{weight}         边框 (default / strong / focus)
+ *   --ait-space-{n}               4 倍数间距
+ *   --ait-radius-{key}            圆角 (none / xs / sm / md / lg / xl / 2xl / pill)
+ *   --ait-shadow-{key}            阴影 (sm / md / lg / xl / 2xl / glow-*)
+ *   --ait-text-{key}              字号 (display / h1-h4 / lead / body / small / caption / eyebrow / mini)
+ *   --ait-duration-{key}          动画时长
+ *   --ait-ease-{name}             缓动
+ *   --ait-z-{layer}               层级
+ *
+ * 禁止使用（已废弃，由 Stylelint 守门）：
+ *   - `--ait-color-gray-*`         → 统一使用 `--ait-color-neutral-*`
+ *   - `--ait-color-accent-*`       → 紫色废弃，使用 `--ait-color-info-*`（青）或 `--ait-color-primary-*`（蓝）
+ *   - `--aitutor-*` 老命名         → 统一 `--ait-color-*`
+ *   - 硬编码 `#3B82F6 / #2563EB`  → 统一使用 `--ait-color-primary-{500/600}`
+ *   - 硬编码 `#0EA5E9 / #06B6D4`  → 统一使用 `--ait-color-info-{500/600}`
+ *   - 硬编码 `#22C55E / #16A34A`  → 统一使用 `--ait-color-success-{500/600}`
+ *   - 硬编码 `#E5484D / #DC2626`  → 统一使用 `--ait-color-danger-{500/600}`
+ * ============================================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
 
 :root {
-  /* primary */
-  --aitutor-primary-50: #fff1f1; /* AI-generated */
-  --aitutor-primary-100: #ffe0e0; /* AI-generated */
-  --aitutor-primary-200: #ffc5c5; /* AI-generated */
-  --aitutor-primary-300: #ffa0a0; /* AI-generated */
-  --aitutor-primary-400: #f36b6b; /* AI-generated */
-  --aitutor-primary-500: #d71920; /* @primary */ /* AI-generated */
-  --aitutor-primary-600: #b8151b; /* AI-generated */
-  --aitutor-primary-700: #941218; /* AI-generated */
-  --aitutor-primary-800: #7a1014; /* AI-generated */
-  --aitutor-primary-900: #660f13; /* AI-generated */
-  /* accent-blue */
-  --aitutor-blue-50: #eff6ff; /* AI-generated */
-  --aitutor-blue-100: #dbeafe; /* AI-generated */
-  --aitutor-blue-200: #bfdbfe; /* AI-generated */
-  --aitutor-blue-300: #93c5fd; /* AI-generated */
-  --aitutor-blue-400: #60a5fa; /* AI-generated */
-  --aitutor-blue-500: #2563eb; /* @primary */ /* AI-generated */
-  --aitutor-blue-600: #1d4ed8; /* AI-generated */
-  --aitutor-blue-700: #1e40af; /* AI-generated */
-  --aitutor-blue-800: #1e3a8a; /* AI-generated */
-  --aitutor-blue-900: #172554; /* AI-generated */
-  /* success */
-  --aitutor-success-50: #ecfdf5; /* AI-generated */
-  --aitutor-success-100: #d1fae5; /* AI-generated */
-  --aitutor-success-200: #a7f3d0; /* AI-generated */
-  --aitutor-success-300: #6ee7b7; /* AI-generated */
-  --aitutor-success-400: #34d399; /* AI-generated */
-  --aitutor-success-500: #059669; /* @primary */ /* AI-generated */
-  --aitutor-success-600: #047857; /* AI-generated */
-  --aitutor-success-700: #065f46; /* AI-generated */
-  --aitutor-success-800: #064e3b; /* AI-generated */
-  --aitutor-success-900: #022c22; /* AI-generated */
-  /* info */
-  --aitutor-info-50: #f0f9ff; /* AI-generated */
-  --aitutor-info-100: #e0f2fe; /* AI-generated */
-  --aitutor-info-200: #bae6fd; /* AI-generated */
-  --aitutor-info-300: #7dd3fc; /* AI-generated */
-  --aitutor-info-400: #38bdf8; /* AI-generated */
-  --aitutor-info-500: #0284c7; /* @primary */ /* AI-generated */
-  --aitutor-info-600: #0369a1; /* AI-generated */
-  --aitutor-info-700: #075985; /* AI-generated */
-  --aitutor-info-800: #0c4a6e; /* AI-generated */
-  --aitutor-info-900: #082f49; /* AI-generated */
-  /* warning */
-  --aitutor-warning-50: #fffbeb; /* AI-generated */
-  --aitutor-warning-100: #fef3c7; /* AI-generated */
-  --aitutor-warning-200: #fde68a; /* AI-generated */
-  --aitutor-warning-300: #fcd34d; /* AI-generated */
-  --aitutor-warning-400: #fbbf24; /* AI-generated */
-  --aitutor-warning-500: #f59e0b; /* @primary */ /* AI-generated */
-  --aitutor-warning-600: #d97706; /* AI-generated */
-  --aitutor-warning-700: #b45309; /* AI-generated */
-  --aitutor-warning-800: #92400e; /* AI-generated */
-  --aitutor-warning-900: #78350f; /* AI-generated */
-  /* error */
-  --aitutor-error-50: #fef2f2; /* AI-generated */
-  --aitutor-error-100: #fee2e2; /* AI-generated */
-  --aitutor-error-200: #fecaca; /* AI-generated */
-  --aitutor-error-300: #fca5a5; /* AI-generated */
-  --aitutor-error-400: #f87171; /* AI-generated */
-  --aitutor-error-500: #ef4444; /* @primary */ /* AI-generated */
-  --aitutor-error-600: #dc2626; /* AI-generated */
-  --aitutor-error-700: #b91c1c; /* AI-generated */
-  --aitutor-error-800: #991b1b; /* AI-generated */
-  --aitutor-error-900: #7f1d1d; /* AI-generated */
+  /* ===========================================================================
+   * Color · 品牌色 (brand) — 仅作品牌强调，使用率 <10%
+   * =========================================================================== */
+  --ait-color-brand-50:  #fff1f1;
+  --ait-color-brand-100: #ffe1e2;
+  --ait-color-brand-200: #ffc7c9;
+  --ait-color-brand-300: #ffa0a4;
+  --ait-color-brand-400: #ff686d;
+  --ait-color-brand-500: #d71920;   /* 主品牌色 */
+  --ait-color-brand-600: #b8151b;
+  --ait-color-brand-700: #941218;
 
-  /* === Semantic Aliases (Layer 2) === */
-  --primary: var(--aitutor-primary-500); --primary-hover: var(--aitutor-primary-600); --primary-foreground: #ffffff;
-  --secondary: var(--aitutor-blue-500); --secondary-hover: var(--aitutor-blue-600); --secondary-foreground: #ffffff;
-  --accent: var(--aitutor-primary-500); --accent-hover: var(--aitutor-primary-600); --accent-foreground: #ffffff;
-  --background: #f8f9fa; --foreground: #1a1a2e; --muted: #94a3b8; --muted-foreground: #64748b;
-  --border: #e2e8f0; --ring: var(--aitutor-primary-500);
-  --error: var(--aitutor-error-600); --error-foreground: #ffffff; --success: var(--aitutor-success-600); --warning: var(--aitutor-warning-600);
-  --surface: #ffffff; --surface-dim: #f1f5f9; --surface-container-lowest: #f8f9fa;
-  --surface-container-low: #f1f5f9; --surface-container: #e8ecf1; --surface-container-high: #dfe4ea; --surface-container-highest: #d5dae1;
-  --inverse-surface: #1a1a2e; --inverse-on-surface: #f1f5f9;
-  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --link: var(--aitutor-blue-600); --card-bg: var(--surface);
+  /* ===========================================================================
+   * Color · 主操作色 (primary) — 学习蓝
+   * =========================================================================== */
+  --ait-color-primary-50:  #eff6ff;
+  --ait-color-primary-100: #dbe9fe;
+  --ait-color-primary-200: #bfd5fd;
+  --ait-color-primary-300: #93b8fb;
+  --ait-color-primary-400: #6090f6;
+  --ait-color-primary-500: #4f7cf0;   /* ⭐ 主操作色，禁止覆盖 */
+  --ait-color-primary-600: #3d63d8;   /* hover */
+  --ait-color-primary-700: #2e4db8;   /* active */
+  --ait-color-primary-800: #243a92;
+  --ait-color-primary-900: #1d2d70;
 
-  /* === Typography === */
-  --font-display: 'DM Sans', 'Noto Sans SC', sans-serif; --font-heading: 'DM Sans', 'Noto Sans SC', sans-serif;
-  --font-body: 'Noto Sans SC', 'DM Sans', sans-serif; --font-mono: 'DM Sans', monospace;
-  --font-size-display: 56px; --font-size-h1: 40px; --font-size-h2: 32px; --font-size-h3: 24px;
-  --font-size-h4: 20px; --font-size-body: 16px; --font-size-lead: 18px; --font-size-caption: 12px;
-  --font-size-eyebrow: 11px; --font-size-mono: 14px;
-  --font-weight-display: 700; --font-weight-h1: 700; --font-weight-h2: 600; --font-weight-h3: 600;
-  --font-weight-h4: 600; --font-weight-body: 400; --font-weight-lead: 400; --font-weight-caption: 400;
-  --font-weight-eyebrow: 600; --font-weight-mono: 400;
-  --line-height-display: 1.1; --line-height-h1: 1.2; --line-height-h2: 1.25; --line-height-h3: 1.3;
-  --line-height-h4: 1.4; --line-height-body: 1.6; --line-height-lead: 1.7; --line-height-caption: 1.5;
-  --line-height-eyebrow: 1.4; --line-height-mono: 1.6;
+  /* ===========================================================================
+   * Color · 语义色 (semantic)
+   * =========================================================================== */
+  /* Success · 柔和绿 (已掌握、进步、完成) */
+  --ait-color-success-50:  #effaf3;
+  --ait-color-success-100: #d9f1e3;
+  --ait-color-success-500: #2fa36b;
+  --ait-color-success-600: #238155;
+  --ait-color-success-700: #1b6543;
 
-  /* === Spacing === */
-  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
-  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+  /* Warning · 柔和橙 (巩固中、需注意) */
+  --ait-color-warning-50:  #fff8eb;
+  --ait-color-warning-100: #fdebcf;
+  --ait-color-warning-500: #e8930c;
+  --ait-color-warning-600: #c47a05;
+  --ait-color-warning-700: #a06103;
 
-  /* === Sizing === */
-  --size-button-sm: 32px; --size-button-md: 40px; --size-button-lg: 48px;
-  --size-input-height: 40px; --size-icon-sm: 16px; --size-icon-md: 24px; --size-icon-lg: 32px;
+  /* Danger · 柔和红 (错误，仅点状/文本提示，不用大面积) */
+  --ait-color-danger-50:  #fdeded;
+  --ait-color-danger-100: #fbd9d9;
+  --ait-color-danger-500: #e5484d;
+  --ait-color-danger-600: #c0383c;
+  --ait-color-danger-700: #9b2a2e;
 
-  /* === Radius === */
-  --radius-sm: 8px; --radius-md: 14px; --radius-lg: 16px; --radius-pill: 9999px;
+  /* Info · Tailwind cyan (信息提示、AI 标识、能力图谱) — 与设计稿 100% 对齐 */
+  --ait-color-info-50:  #ecfeff;
+  --ait-color-info-100: #cffafe;
+  --ait-color-info-200: #a5f3fc;
+  --ait-color-info-300: #67e8f9;
+  --ait-color-info-400: #22d3ee;
+  --ait-color-info-500: #06b6d4;   /* ⭐ 锁定，与 Bundle 1-3 设计稿一致 */
+  --ait-color-info-600: #0891b2;
+  --ait-color-info-700: #0e7490;
+  --ait-color-info-800: #155e75;
+  --ait-color-info-900: #164e63;
 
-  /* === Shadows === */
-  --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04); /* Card */
-  --shadow-2: 0 4px 8px -2px rgba(0,0,0,.10); /* Card Hover */
-  --shadow-3: 0 8px 24px -8px rgba(0,0,0,.18); /* Float */
-  --shadow-4: 0 16px 40px -12px rgba(0,0,0,.24); /* Modal */
-  --shadow-5: 0 24px 60px -20px rgba(0,0,0,.30); /* Overlay */
+  /* ===========================================================================
+   * Color · 中性色 (neutral) — 暖灰
+   * =========================================================================== */
+  --ait-color-neutral-0:   #ffffff;
+  --ait-color-neutral-50:  #fafbfc;
+  --ait-color-neutral-100: #f4f6f8;
+  --ait-color-neutral-200: #e6e9ef;
+  --ait-color-neutral-300: #d0d5dd;
+  --ait-color-neutral-400: #9ca3af;
+  --ait-color-neutral-500: #6b7280;
+  --ait-color-neutral-600: #4b5563;
+  --ait-color-neutral-700: #374151;
+  --ait-color-neutral-800: #1f2937;
+  --ait-color-neutral-900: #0f172a;
 
-  /* === Portable Aliases (Layer 3) === */
-  --color-background: var(--bg); --color-foreground: var(--fg);
-  --color-surface: var(--surface); --color-surface-dim: var(--surface-dim);
-  --color-surface-variant: var(--surface-container-high);
-  --color-surface-container: var(--surface-container);
-  --color-surface-container-low: var(--surface-container-low);
-  --color-surface-container-high: var(--surface-container-high);
-  --color-surface-container-highest: var(--surface-container-highest);
-  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
-  --color-muted-foreground: var(--muted); --color-primary: var(--accent); --color-primary-hover: var(--accent-hover);
-  --color-on-primary: #ffffff; --color-primary-container: var(--aitutor-primary-50);
-  --color-on-primary-container: var(--aitutor-primary-900);
-  --color-secondary: var(--aitutor-blue-100); --color-secondary-container: var(--aitutor-blue-50);
-  --color-on-secondary-container: var(--aitutor-blue-900);
-  --color-outline: var(--rule); --color-outline-variant: var(--aitutor-blue-100); --color-border: var(--rule);
-  --color-success: var(--aitutor-success-600); --color-warning: var(--aitutor-warning-600);
-  --color-error: var(--aitutor-error-600); --color-info: var(--aitutor-info-600);
-  --radius-full: 9999px; --type-display-sm: 40px; --type-heading-sm: 24px;
-  --type-body-md: 16px; --type-body-sm: 14px; --font-family-base: var(--font-body);
+  /* ===========================================================================
+   * Semantic Aliases (语义别名)
+   * =========================================================================== */
+  /* 背景 */
+  --ait-bg-page:    var(--ait-color-neutral-50);
+  --ait-bg-surface: var(--ait-color-neutral-0);
+  --ait-bg-soft:    var(--ait-color-neutral-100);
+  --ait-bg-canvas:  var(--ait-color-neutral-50);
+  --ait-bg-overlay: rgba(15, 23, 42, 0.5);
+
+  /* 文字 (WCAG AA ≥4.5:1) */
+  --ait-fg-strong:    var(--ait-color-neutral-900);
+  --ait-fg-default:   var(--ait-color-neutral-700);
+  --ait-fg-secondary: var(--ait-color-neutral-500);
+  --ait-fg-tertiary:  var(--ait-color-neutral-400);
+  --ait-fg-disabled:  var(--ait-color-neutral-300);
+  --ait-fg-onPrimary: var(--ait-color-neutral-0);
+  --ait-fg-onBrand:   var(--ait-color-neutral-0);
+  --ait-fg-onDark:    var(--ait-color-neutral-50);
+  --ait-fg-link:      var(--ait-color-primary-600);
+
+  /* 边框 */
+  --ait-border-default: var(--ait-color-neutral-200);
+  --ait-border-strong:  var(--ait-color-neutral-300);
+  --ait-border-focus:   var(--ait-color-primary-500);
+
+  /* ===========================================================================
+   * Typography
+   * =========================================================================== */
+  --ait-font-family-base: "PingFang SC", "Noto Sans SC",
+                         "HarmonyOS Sans SC", "Microsoft YaHei",
+                         "Helvetica Neue", Arial, sans-serif;
+  --ait-font-family-display: "PingFang SC", "Noto Sans SC",
+                            "DM Sans", "Helvetica Neue", sans-serif;
+  --ait-font-family-mono: "SF Mono", "JetBrains Mono", "Menlo",
+                         "Cascadia Code", Consolas, monospace;
+  --ait-font-family-num: "DM Sans", "PingFang SC", "Noto Sans SC",
+                        monospace;
+
+  /* 字号阶梯 (中学生阅读基线) */
+  --ait-text-display: 2.25rem;       /* 36px */
+  --ait-text-h1:      1.875rem;      /* 30px */
+  --ait-text-h2:      1.5rem;        /* 24px */
+  --ait-text-h3:      1.25rem;       /* 20px */
+  --ait-text-h4:      1.125rem;      /* 18px */
+  --ait-text-lead:    1.0625rem;     /* 17px — 题目正文 */
+  --ait-text-body:    1rem;          /* 16px — 正文基线 */
+  --ait-text-small:   0.9375rem;     /* 15px */
+  --ait-text-caption: 0.8125rem;     /* 13px */
+  --ait-text-eyebrow: 0.75rem;       /* 12px */
+  --ait-text-mini:    0.6875rem;     /* 11px */
+
+  /* 字重 */
+  --ait-font-weight-regular:  400;
+  --ait-font-weight-medium:   500;
+  --ait-font-weight-semibold: 600;
+  --ait-font-weight-bold:     700;
+
+  /* 行高 */
+  --ait-leading-display: 1.2;
+  --ait-leading-heading: 1.4;
+  --ait-leading-body:    1.7;
+  --ait-leading-tight:   1.5;
+
+  /* ===========================================================================
+   * Spacing (4 倍数)
+   * =========================================================================== */
+  --ait-space-0: 0;
+  --ait-space-1: 4px;
+  --ait-space-2: 8px;
+  --ait-space-3: 12px;
+  --ait-space-4: 16px;
+  --ait-space-5: 24px;
+  --ait-space-6: 32px;
+  --ait-space-7: 48px;
+  --ait-space-8: 64px;
+  --ait-space-9: 96px;
+  --ait-space-10: 128px;
+
+  --ait-padding-card:    var(--ait-space-5);
+  --ait-padding-section: var(--ait-space-6);
+  --ait-padding-page-x:  var(--ait-space-5);
+  --ait-gap-tight:       var(--ait-space-2);
+  --ait-gap-default:     var(--ait-space-4);
+  --ait-gap-loose:       var(--ait-space-5);
+
+  --ait-container-sm:  640px;
+  --ait-container-md:  768px;
+  --ait-container-lg:  1024px;
+  --ait-container-xl:  1280px;
+  --ait-container-2xl: 1440px;
+
+  /* ===========================================================================
+   * Radius
+   * =========================================================================== */
+  --ait-radius-none: 0;
+  --ait-radius-xs:   4px;
+  --ait-radius-sm:   8px;
+  --ait-radius-md:   12px;
+  --ait-radius-lg:   16px;
+  --ait-radius-xl:   20px;
+  --ait-radius-2xl:  28px;
+  --ait-radius-pill: 9999px;
+
+  --ait-radius-button: var(--ait-radius-md);
+  --ait-radius-card:   var(--ait-radius-lg);
+  --ait-radius-input:  var(--ait-radius-md);
+  --ait-radius-modal:  var(--ait-radius-xl);
+  --ait-radius-tag:    var(--ait-radius-sm);
+
+  /* ===========================================================================
+   * Shadow (柔和，避免工业感)
+   * =========================================================================== */
+  --ait-shadow-none: none;
+  --ait-shadow-sm:   0 1px 2px rgba(15, 23, 42, 0.05);
+  --ait-shadow-md:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 4px 8px rgba(15, 23, 42, 0.04);
+  --ait-shadow-lg:
+    0 2px 4px rgba(15, 23, 42, 0.05),
+    0 8px 16px rgba(15, 23, 42, 0.08);
+  --ait-shadow-xl:
+    0 4px 8px rgba(15, 23, 42, 0.06),
+    0 16px 32px rgba(15, 23, 42, 0.10);
+  --ait-shadow-2xl:
+    0 8px 16px rgba(15, 23, 42, 0.08),
+    0 24px 48px rgba(15, 23, 42, 0.12);
+  --ait-shadow-glow-primary:
+    0 4px 12px rgba(79, 125, 240, 0.20),
+    0 1px 3px rgba(79, 125, 240, 0.12);
+  --ait-shadow-glow-primary-sm: 0 0 0 4px rgba(79, 125, 240, 0.15);
+  --ait-shadow-glow-danger:  0 0 0 4px rgba(229, 72, 77, 0.12);
+  --ait-shadow-glow-success: 0 0 0 4px rgba(47, 163, 107, 0.12);
+
+  /* ===========================================================================
+   * Motion
+   * =========================================================================== */
+  --ait-duration-instant: 100ms;
+  --ait-duration-fast:     150ms;
+  --ait-duration-default:  250ms;
+  --ait-duration-slow:     350ms;
+  --ait-duration-slower:   500ms;
+
+  --ait-ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ait-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --ait-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ait-ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --ait-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ===========================================================================
+   * Z-index
+   * =========================================================================== */
+  --ait-z-base:           1;
+  --ait-z-sticky:         100;
+  --ait-z-tabbar:         200;
+  --ait-z-sidebar:        250;
+  --ait-z-dropdown:       300;
+  --ait-z-sticky-bar:     400;
+  --ait-z-modal-backdrop: 500;
+  --ait-z-modal:          510;
+  --ait-z-drawer:         520;
+  --ait-z-toast:          600;
+  --ait-z-tooltip:        700;
+  --ait-z-skip-link:      999;
+
+  /* ===========================================================================
+   * Safe Area (移动端)
+   * =========================================================================== */
+  --ait-safe-top:    env(safe-area-inset-top, 0px);
+  --ait-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --ait-safe-left:   env(safe-area-inset-left, 0px);
+  --ait-safe-right:  env(safe-area-inset-right, 0px);
+  --ait-tabbar-height: calc(56px + var(--ait-safe-bottom));
+
+  /* ===========================================================================
+   * 组件 Token — 按钮
+   * =========================================================================== */
+  --ait-button-height-sm: 32px;
+  --ait-button-height-md: 40px;
+  --ait-button-height-lg: 48px;
+  --ait-button-height-xl: 56px;
+  --ait-button-padding-x-sm: 12px;
+  --ait-button-padding-x-md: 16px;
+  --ait-button-padding-x-lg: 20px;
+  --ait-button-padding-x-xl: 24px;
+  --ait-button-text-sm: var(--ait-text-caption);
+  --ait-button-text-md: var(--ait-text-small);
+  --ait-button-text-lg: var(--ait-text-body);
+  --ait-button-radius: var(--ait-radius-md);
+  --ait-button-focus-ring: var(--ait-shadow-glow-primary-sm);
+  --ait-button-transition: background-color 150ms var(--ait-ease-out),
+                          color 150ms var(--ait-ease-out),
+                          box-shadow 150ms var(--ait-ease-out),
+                          transform 100ms var(--ait-ease-out);
+  --ait-button-primary-bg:        var(--ait-color-primary-500);
+  --ait-button-primary-bg-hover:   var(--ait-color-primary-600);
+  --ait-button-primary-bg-active:  var(--ait-color-primary-700);
+  --ait-button-primary-fg:        var(--ait-fg-onPrimary);
+  --ait-button-secondary-bg:       var(--ait-color-neutral-0);
+  --ait-button-secondary-bg-hover: var(--ait-color-primary-50);
+  --ait-button-secondary-bg-active:var(--ait-color-primary-100);
+  --ait-button-secondary-fg:       var(--ait-color-primary-600);
+  --ait-button-secondary-border:   var(--ait-color-primary-200);
+  --ait-button-tertiary-bg:        transparent;
+  --ait-button-tertiary-bg-hover:  var(--ait-color-primary-50);
+  --ait-button-tertiary-fg:        var(--ait-color-primary-600);
+  --ait-button-ghost-bg:           transparent;
+  --ait-button-ghost-bg-hover:     var(--ait-color-neutral-100);
+  --ait-button-ghost-fg:           var(--ait-color-neutral-700);
+  --ait-button-ghost-border:       var(--ait-color-neutral-200);
+  --ait-button-danger-bg:          var(--ait-color-danger-500);
+  --ait-button-danger-bg-hover:    #c93b40;
+  --ait-button-danger-fg:          var(--ait-fg-onPrimary);
+  --ait-button-brand-bg:           var(--ait-color-brand-500);
+  --ait-button-brand-bg-hover:     var(--ait-color-brand-600);
+  --ait-button-brand-fg:           var(--ait-fg-onBrand);
+  --ait-button-disabled-bg:        var(--ait-color-neutral-100);
+  --ait-button-disabled-fg:        var(--ait-fg-tertiary);
+  --ait-button-disabled-border:    transparent;
+
+  /* ===========================================================================
+   * 组件 Token — 卡片
+   * =========================================================================== */
+  --ait-card-bg:                var(--ait-bg-surface);
+  --ait-card-border:            var(--ait-border-default);
+  --ait-card-radius:            var(--ait-radius-lg);
+  --ait-card-padding:           var(--ait-padding-card);
+  --ait-card-shadow:            var(--ait-shadow-md);
+  --ait-card-hover-border:      var(--ait-color-primary-300);
+  --ait-card-hover-shadow:      var(--ait-shadow-lg);
+  --ait-card-hover-transform:   translateY(-2px);
+  --ait-card-selected-border:   var(--ait-color-primary-500);
+  --ait-card-selected-bg:       var(--ait-color-primary-50);
+
+  /* ===========================================================================
+   * 组件 Token — 输入框 (44pt 触控标准)
+   * =========================================================================== */
+  --ait-input-height-md:     44px;
+  --ait-input-height-lg:     48px;
+  --ait-input-bg:            var(--ait-bg-surface);
+  --ait-input-border:        var(--ait-border-default);
+  --ait-input-border-hover:  var(--ait-color-primary-300);
+  --ait-input-border-focus:  var(--ait-border-focus);
+  --ait-input-border-error:  var(--ait-color-danger-500);
+  --ait-input-radius:        var(--ait-radius-md);
+  --ait-input-padding-x:     var(--ait-space-4);
+  --ait-input-text:          var(--ait-fg-default);
+  --ait-input-placeholder:    var(--ait-fg-tertiary);
+  --ait-input-focus-shadow:   var(--ait-shadow-glow-primary-sm);
+
+  /* ===========================================================================
+   * 组件 Token — Tag / Badge
+   * =========================================================================== */
+  --ait-tag-height-sm: 20px;
+  --ait-tag-height-md: 24px;
+  --ait-tag-height-lg: 28px;
+  --ait-tag-padding-x-sm: 6px;
+  --ait-tag-padding-x-md: 8px;
+  --ait-tag-padding-x-lg: 10px;
+  --ait-tag-radius: var(--ait-radius-sm);
+  --ait-tag-text-sm: var(--ait-text-mini);
+  --ait-tag-text-md: var(--ait-text-caption);
+
+  --ait-tag-neutral-bg:  var(--ait-color-neutral-100);
+  --ait-tag-neutral-fg:  var(--ait-color-neutral-700);
+  --ait-tag-primary-bg:  var(--ait-color-primary-100);
+  --ait-tag-primary-fg:  var(--ait-color-primary-700);
+  --ait-tag-success-bg:  var(--ait-color-success-100);
+  --ait-tag-success-fg:  var(--ait-color-success-600);
+  --ait-tag-warning-bg:  var(--ait-color-warning-100);
+  --ait-tag-warning-fg:  var(--ait-color-warning-600);
+  --ait-tag-danger-bg:   var(--ait-color-danger-100);
+  --ait-tag-danger-fg:   var(--ait-color-danger-500);
+  --ait-tag-brand-bg:    var(--ait-color-brand-100);
+  --ait-tag-brand-fg:    var(--ait-color-brand-600);
+  --ait-tag-info-bg:     var(--ait-color-info-100);
+  --ait-tag-info-fg:     var(--ait-color-info-600);
+
+  /* 错题掌握状态 (弱化负向) */
+  --ait-tag-status-mastered-bg:       var(--ait-color-success-100);
+  --ait-tag-status-mastered-fg:       var(--ait-color-success-600);
+  --ait-tag-status-strengthening-bg:  var(--ait-color-warning-100);
+  --ait-tag-status-strengthening-fg:  var(--ait-color-warning-600);
+  --ait-tag-status-pending-bg:        var(--ait-color-primary-100);
+  --ait-tag-status-pending-fg:        var(--ait-color-primary-700);
+  --ait-tag-status-archived-bg:       var(--ait-color-neutral-100);
+  --ait-tag-status-archived-fg:       var(--ait-color-neutral-500);
 }
 
-/* Dark Theme */
-.dark {
-  --background: #0f1117; --foreground: #e8ecf1; --surface: #1a1d27; --surface-dim: #12141c;
-  --surface-container-lowest: #0f1117; --surface-container-low: #1a1d27;
-  --surface-container: #22252f; --surface-container-high: #2a2d38; --surface-container-highest: #33374a;
-  --inverse-surface: #f1f5f9; --inverse-on-surface: #1a1a2e;
-  --muted: #64748b; --muted-foreground: #94a3b8; --border: #2a2d38;
-  --bg: var(--background); --fg: var(--foreground); --rule: var(--border); --card-bg: var(--surface);
-  --color-background: var(--bg); --color-foreground: var(--fg); --color-surface: var(--surface);
-  --color-surface-dim: var(--surface-dim); --color-surface-variant: var(--surface-container-high);
-  --color-surface-container: var(--surface-container); --color-surface-container-low: var(--surface-container-low);
-  --color-surface-container-high: var(--surface-container-high); --color-surface-container-highest: var(--surface-container-highest);
-  --color-card: var(--surface); --color-on-surface: var(--fg); --color-on-surface-variant: var(--muted);
-  --color-muted-foreground: var(--muted); --color-outline: var(--rule); --color-outline-variant: #2a2d38;
-  --color-border: var(--rule);
+/* ============================================================================
+ * Legacy Aliases (兼容设计稿中的非标命名)
+ * 设计 Bundle 1-3 中混用了 3 套变量命名（--ait-text-* / --ait-bg-* / --ait-fg-*），
+ * 本段把它们全部指向标准语义变量，工程侧建议优先使用标准命名：
+ *   - 字体：  --ait-font-family-base
+ *   - 背景：  --ait-bg-page / --ait-bg-surface / --ait-bg-soft
+ *   - 文字：  --ait-fg-strong / --ait-fg-default / --ait-fg-secondary / --ait-fg-tertiary
+ * ============================================================================ */
+:root {
+  /* 字体 */
+  --ait-font:        var(--ait-font-family-base);
+  --ait-fd-sans:     var(--ait-font-family-base);
+
+  /* 背景 */
+  --ait-bg-card:     var(--ait-bg-surface);
+  --ait-bg-subtle:   var(--ait-bg-soft);
+  --ait-bg-muted:    var(--ait-bg-soft);
+
+  /* 文字 */
+  --ait-text-strong:  var(--ait-fg-strong);
+  --ait-text-default: var(--ait-fg-default);
+  --ait-text-muted:   var(--ait-fg-secondary);
+  --ait-text-faint:   var(--ait-fg-tertiary);
+  --ait-fg-soft:      var(--ait-fg-tertiary);
 }
 
-/* Typography Classes */
-.aitutor-display { font-family: var(--font-display); font-size: 3.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); letter-spacing: -0.02em; }
-.aitutor-h1 { font-family: var(--font-heading); font-size: 2.5rem; font-weight: var(--font-weight-h1); line-height: var(--line-height-h1); }
-.aitutor-h2 { font-family: var(--font-heading); font-size: 2rem; font-weight: var(--font-weight-h2); line-height: var(--line-height-h2); }
-.aitutor-h3 { font-family: var(--font-heading); font-size: 1.5rem; font-weight: var(--font-weight-h3); line-height: var(--line-height-h3); }
-.aitutor-h4 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: var(--font-weight-h4); line-height: var(--line-height-h4); }
-.aitutor-body { font-family: var(--font-body); font-size: 1rem; font-weight: var(--font-weight-body); line-height: var(--line-height-body); }
-.aitutor-lead { font-family: var(--font-body); font-size: 1.125rem; font-weight: var(--font-weight-lead); line-height: var(--line-height-lead); }
-.aitutor-caption { font-family: var(--font-body); font-size: 0.75rem; font-weight: var(--font-weight-caption); line-height: var(--line-height-caption); }
-.aitutor-eyebrow { font-family: var(--font-body); font-size: 0.6875rem; font-weight: var(--font-weight-eyebrow); line-height: var(--line-height-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; }
-.aitutor-mono { font-family: var(--font-mono); font-size: 0.875rem; font-weight: var(--font-weight-mono); line-height: var(--line-height-mono); }
-.aitutor-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: var(--font-weight-display); line-height: var(--line-height-display); font-variant-numeric: tabular-nums; }
+/* ============================================================================
+ * 减弱动画偏好 (prefers-reduced-motion)
+ * ============================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
