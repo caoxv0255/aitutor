@@ -16,17 +16,16 @@
  * 校验对象: `git ls-files 'deploy/*.conf'`（只看已入库的, 未跟踪模板不参与门禁）
  * 用法: node scripts/check-nginx-conf.mjs        退出码 0 = 通过, 1 = 有错
  */
-import { execFileSync, execSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
+// 注意: nginx 把 "syntax is ok" 写在 **stderr**, 成功时 stdout 是空的。
+// 所以必须同时捕获两个流, 不能用 execSync 的返回值 (只含 stdout)。
 function sh(cmd) {
-  try {
-    return { ok: true, out: execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }) };
-  } catch (e) {
-    return { ok: false, out: `${e.stdout || ''}${e.stderr || ''}` };
-  }
+  const r = spawnSync(cmd, { shell: true, encoding: 'utf8' });
+  return { ok: r.status === 0, out: `${r.stdout || ''}${r.stderr || ''}` };
 }
 
 // ── 1. 静态检查 ────────────────────────────────────────────────
@@ -51,24 +50,14 @@ function staticCheck(file, src) {
 }
 
 // ── 2. nginx -t（打桩）─────────────────────────────────────────
-function nginxCheck(file, src, dir) {
-  const hasNginx = sh('command -v nginx').ok;
-  if (!hasNginx) return { status: 'skip', detail: '未安装 nginx' };
-
-  const cert = path.join(dir, 'stub.crt');
-  const key = path.join(dir, 'stub.key');
-  const gen = sh(
-    `openssl req -x509 -newkey rsa:2048 -nodes -keyout ${key} -out ${cert} -days 1 -subj "/CN=stub.local"`,
-  );
-  if (!gen.ok) return { status: 'skip', detail: 'openssl 不可用, 无法为 ssl_certificate 打桩' };
-
+function nginxCheck(src, dir, certPath, keyPath) {
   // 打桩: 证书路径 + 日志路径都指向临时目录。
   // 模板里的 access_log/error_log 指向部署机上别的项目目录, 本机既无权限也非本仓,
   // 不打桩会让 nginx -t 报 [emerg] open() ... Permission denied, 掩盖真正的语法问题。
   const stub = src
-    .replace(/^([ \t]*ssl_certificate[ \t]+)\S+;/gm, `$1${cert};`)
-    .replace(/^([ \t]*ssl_certificate_key[ \t]+)\S+;/gm, `$1${key};`)
-    .replace(/^([ \t]*ssl_trusted_certificate[ \t]+)\S+;/gm, `$1${cert};`)
+    .replace(/^([ \t]*ssl_certificate[ \t]+)\S+;/gm, `$1${certPath};`)
+    .replace(/^([ \t]*ssl_certificate_key[ \t]+)\S+;/gm, `$1${keyPath};`)
+    .replace(/^([ \t]*ssl_trusted_certificate[ \t]+)\S+;/gm, `$1${certPath};`)
     .replace(/^([ \t]*access_log[ \t]+)\S+[^;]*;/gm, `$1${path.join(dir, 'access.log')};`)
     .replace(/^([ \t]*error_log[ \t]+)\S+[^;]*;/gm, `$1${path.join(dir, 'error.log')};`);
   const stubPath = path.join(dir, 'stub.conf');
@@ -109,17 +98,23 @@ function nginxCheck(file, src, dir) {
 }
 
 // ── main ──────────────────────────────────────────────────────
+// 显式传参时校验这些路径（供测试喂夹具）；否则校验已入库的 deploy/*.conf。
+const argFiles = process.argv.slice(2).filter((a) => !a.startsWith('-'));
 let files;
-try {
-  files = execFileSync('git', ['ls-files', 'deploy/*.conf'], { encoding: 'utf8' })
-    .split('\n')
-    .filter(Boolean);
-} catch {
-  files = [];
+if (argFiles.length > 0) {
+  files = argFiles;
+} else {
+  try {
+    files = execFileSync('git', ['ls-files', 'deploy/*.conf'], { encoding: 'utf8' })
+      .split('\n')
+      .filter(Boolean);
+  } catch {
+    files = [];
+  }
 }
 
 if (files.length === 0) {
-  console.log('  ✓ nginx 模板校验: deploy/ 下无已入库的 *.conf (跳过)');
+  console.log('  ✓ nginx 模板校验: 没有待校验的 *.conf (跳过)');
   process.exit(0);
 }
 
@@ -128,13 +123,23 @@ let skipped = 0;
 const dir = mkdtempSync(path.join(tmpdir(), 'ngx-conf-'));
 
 try {
+  // 证书只生成一次, 供本次所有文件复用
+  const certPath = path.join(dir, 'stub.crt');
+  const keyPath = path.join(dir, 'stub.key');
+  const nginxReady =
+    sh('command -v nginx').ok &&
+    sh(
+      `openssl req -x509 -newkey rsa:2048 -nodes -keyout ${keyPath} -out ${certPath} -days 1 -subj "/CN=stub.local"`,
+    ).ok;
+  if (!nginxReady) skipped += 1;
+
   for (const file of files) {
     const src = readFileSync(file, 'utf8');
 
     const problems = staticCheck(file, src);
-    const ngx = nginxCheck(file, src, dir);
-
-    if (ngx.status === 'skipped' || ngx.status === 'skip') skipped += 1;
+    const ngx = nginxReady
+      ? nginxCheck(src, dir, certPath, keyPath)
+      : { status: 'skip', detail: '未安装 nginx 或 openssl, 仅静态检查' };
 
     if (problems.length === 0 && ngx.status !== 'fail') {
       const suffix =
@@ -155,7 +160,7 @@ try {
 
 if (failed === 0) {
   console.log(
-    `  ✓ nginx 模板校验通过 (${files.length} 个文件${skipped ? `, ${skipped} 个仅静态检查` : ''})`,
+    `  ✓ nginx 模板校验通过 (${files.length} 个文件${skipped ? `, nginx -t 已 SKIP (缺 nginx/openssl)` : ''})`,
   );
   process.exit(0);
 }
