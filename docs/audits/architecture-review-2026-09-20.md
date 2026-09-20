@@ -2,7 +2,7 @@
 
 **评审范围**：仓库整体架构 —— 后端 / 前端 / 部署 / 数据 / 脚本 / 测试 / 可观测 / 仓库卫生
 **方法**：只读实测，命令与实测值见 §5；本次评审**不修改任何代码**
-**状态**：分析完成。**第 1、2 项已实施**（见 §8 修复记录，`4638c8c`）；第 3–10 项未实施，其中第 5 项（legacy `frontend/` 去留）待负责人拍板
+**状态**：分析完成。**第 1–3 项已实施**（见 §8 修复记录）；第 4–10 项未实施，其中第 5 项（legacy `frontend/` 去留）待负责人拍板
 
 ---
 
@@ -25,7 +25,7 @@ Hybrid RAG 三方案 + 数据飞轮的领域设计是清晰的；但"仓库层�
 | 脚本 | `scripts/` **319 个文件**（.js 132 / .mjs 82 / .py 56 / .sh 21 / .cjs 12） | 无目录约定，已在 OpenWiki backlog 挂账 |
 | 测试 | 31× `*.test.js` + 8× `*.spec.*`；contract/BCT；gate 5 项 | 骨架不错，缺覆盖率闸门 |
 | 可观测 | `ai_trace` + traceId 中间件已落地；`monitoring/` 仅 2 个文件 | 埋点有，聚合/告警没有 |
-| 仓库卫生 | `git status` **203 条**；`.git` 目录 2.8G（pack 1.22 GiB，另有 loose/garbage） | 噪音淹没信号 |
+| 仓库卫生 | `git status` **203 条**（去噪后 **53**，见 §8）；`.git` 目录 2.8G（pack 1.22 GiB，另有 loose/garbage） | 噪音淹没信号 |
 
 ---
 
@@ -76,6 +76,9 @@ ESLint 实测 **3162 errors + 146 warnings（共 3308 problems，144 文件）**
 
 ### R6 · 工作区噪音 / 数据与代码混放
 
+> **已处理（2026-09-20，`cc9c7b1` + `d0c6682`）**：`git status` 203 → 53。
+> 关键发现：这批「噪音」多数其实是未入库的**真资产**，故主手段是「清进 git」而非 gitignore。见 §8。
+
 `database/preflight` 6.6G、`incoming` 1.7G、`docs/design` 80M（**全部未跟踪**，`git ls-files docs/design` 返回 0）与真源混在同一棵树。后果：`git status` 203 条里绝大多数是噪音，**真改动看不见** —— 这是所有其他风险被延迟发现的元凶。另外 git 对象库里还躺着 `.git/objects/0d/tmp_obj_*` 之类的 garbage 与一次性产物。
 
 ---
@@ -86,9 +89,9 @@ ESLint 实测 **3162 errors + 146 warnings（共 3308 problems，144 文件）**
 
 | # | 方向 | 成本 | 收益 | ROI |
 |---|---|---|---|---|
-| **1** | **补齐运行时闭包入库 + gate 加"引用存在性"检查** | 1–2h | 消除不可逆丢失；恢复可克隆性 | ★★★★★ |
-| **2** | **`.dockerignore` 补 `.ai/`+`openwiki/`，CI 加 D079 边界校验** | 15min | 关闭已记录合规缺口；缩小构建上下文 | ★★★★★ |
-| **3** | **工作区去噪**：`preflight`/`incoming`/`docs-design`/`tmp-*` 明确进 gitignore 或移出仓库 | 1–2h | 让 203→可见的少数真改动；消除误提交 | ★★★★★ |
+| **1 ✅** | **补齐运行时闭包入库 + gate 加"引用存在性"检查** | 1–2h | 消除不可逆丢失；恢复可克隆性 | ★★★★★ |
+| **2 ✅** | **`.dockerignore` 补 `.ai/`+`openwiki/`，CI 加 D079 边界校验** | 15min | 关闭已记录合规缺口；缩小构建上下文 | ★★★★★ |
+| **3 ✅** | **工作区去噪**：`preflight`/`incoming`/`docs-design`/`tmp-*` 明确进 gitignore 或移出仓库 | 1–2h | 让 203→可见的少数真改动；消除误提交 | ★★★★★ |
 | **4** | **删冗余变体配置**：双 playwright config、`uibe.conf.bak.*`、`__pycache__`；统一 lint 入口 | 30min | 消除歧义 | ★★★★☆ |
 | **5** | **给 legacy `frontend/` 加机械护栏**（CI 禁改 + 明确 /legacy 只读），并决定 design-v2 去留 | 0.5–1d | 终止 62 文件双写分叉 | ★★★★☆ |
 | **6** | **后端路由收敛路线图**：封新增（handlers 只减不增）→ 按重复路径清单逐个迁 modules | 3–5d | 消除 17 处重复挂载、恢复可预测性 | ★★★☆☆ |
@@ -177,6 +180,8 @@ find api -type d -name services ; ls -d services                    # → api/se
 
 分类口径：**A** = 被 tracked 的 HTML/JS 在运行时直接加载或 re-export，缺了会坏；**B** = 只被文档/注释/清单文本提到；**C** = 无任何 tracked 引用。
 
+> **本节状态已于 2026-09-20 变更**：A 档 4 个已入库（`4638c8c`）；B/C 档按归属决策一并入库，未入库的只剩 design-v2 变体 7 件与 `tests/e2e/_dbg3.test.cjs`。下表保留为当时的盘点快照，**当前状态以 §8 为准**。
+
 ### A. 硬运行时缺口（4）— 建议优先入库
 
 | # | 文件 | tracked 引用点 |
@@ -248,11 +253,31 @@ find api -type d -name services ; ls -d services                    # → api/se
 
 验证：`npm run gate` → **6/6 全绿**；`check-tracked-refs.mjs` 修复前实测命中 4 个缺口 → 入库后归零（595 个 tracked HTML/JS 全通过）。
 
+### 已实施：优化方向 3 — 工作区去噪（`cc9c7b1` + `d0c6682`）
+
+**结论：`git status` 203 → 53。** 剩下的 53 条是真信号（45 条 tracked 文件改动 + 8 条待决策），不再是噪音。
+
+先说一个盘点结论：这批「噪音」里**大部分其实不是噪音，是未入库的真资产** —— 所以去噪的主手段不是 gitignore，而是「把 signal 清进 git」。
+
+| 动作 | 内容 |
+|---|---|
+| 忽略·工具态 | `/.codebuddy/`（安全扫描 DB / session，88 files）、`__pycache__/`、`*.bak.*` → `cc9c7b1` |
+| 忽略·qb 日志 | `database/preflight/qb-extract/logs/*.json` + `*.jsonl`（82 个时间戳快照 / 58M，可由源卷重跑） |
+| 入库·qb 对账 | 保留 5 份 `.md` 覆盖报告 + `convert-manifest.json` / `convert-failed.json` |
+| 忽略·design 原型 | `/docs/design/*.html`（24 个原型）、`/docs/design/assets/`、`_e2e-screenshots/` 非 `.md` |
+| 入库·design 文档 | 14 份 `.md`（PM-BRIEF / ANALYSIS / CRITICAL-AUDIT / MASTER / DIAGNOSIS …） |
+| 入库·其余 signal | 85 files / 15,093 行：essay 闭环（页面·组件·hook·mock·css）、td-005 脚本、e2e 用例、monitoring、tests/load、deploy 通用件、frontend 页面、stylelint 配置 → `d0c6682` |
+
+> **gitignore 坑（已写进 `.gitignore` 注释）**：`_e2e-screenshots/**/*` 会连**目录**一起排除，git 便不再进入该目录，`!…/**/*.md` 无法重新包含嵌套 `.md`。必须先用 `!/…/**/` 放行目录，再放行文件。
+
+验证：`npm run gate` → **6/6 全绿**；`check-tracked-refs.mjs` 通过（**619** 个 tracked HTML/JS 的引用全部已入库）—— 新入库的 `essay.html` / `practice-hub.html` / `mastery.html` / `review.html` 所引用资产均一并在库。
+
 ### 仍未实施
 
-- **§6 B 档 12 个**（仅文档/注释/清单引用）：仍在工作区未跟踪，需逐档判断「补入库 or 删引用」。
-- **§6 C 档 8 个**（无 tracked 引用）：候选删除项，需人工确认（含 `tests/e2e/_dbg3.test.cjs` 这类调试残留）。
-- **优化方向 3–10**：工作区去噪、冗余变体清理、legacy `frontend/` 护栏、后端路由收敛、超长文件拆分、ESLint ratchet、可观测落地、git 历史瘦身。
+- **方向 4–10**：冗余变体清理、legacy `frontend/` 护栏、后端路由收敛、超长文件拆分、ESLint ratchet、可观测落地、git 历史瘦身。
+- **待决策 1｜design-v2 变体 7 件**（`Dockerfile.design-v2`、`docker-compose.design-v2.yml`、`docker-entrypoint.design-v2.sh`、`server-design-v2.js`、`deploy/uibe-design-v2.service`、`deploy/nginx-gray-cutover.conf`、`deploy/fix-v2-location.py`）：随方向 5 一起拍板，仍未跟踪。
+- **待决策 2｜散件**：`tests/e2e/_dbg3.test.cjs`（疑似调试残留，建议 `git rm` 前先确认）。
+- **待决策 3｜45 条 tracked 文件改动**（`frontend/` 24、`api/` 8、`docs/` 6、`ai-tutor-frontend/` 5、`package.json`、`deploy/`）：这些是**跨多个历史会话累积的未提交编辑**，与去噪无关，但同样有「工作区一丢即不可逆」的风险。需逐个 review 后提交或显式丢弃。
 
 > **闸门覆盖边界（诚实说明）**：`check-tracked-refs.mjs` 只覆盖 `<script src>` / `<link href>` / 相对 `import`·`require`。
 > `fetch()` 的运行时 URL、CSS 的 `url()`/`@import`、以及「未跟踪页面引用未跟踪组件」（引用者本身也没入库）这三类**不在闸门内**。
