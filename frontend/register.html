@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>注册 - AI Tutor</title>
+<!-- UPDATED 2026-09-17: frontend-hygiene-loop P0/P1 — email-only flow + confirm password + auth-nav.js -->
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
 .auth-wrap{max-width:420px;margin:80px auto;padding:0 24px}
@@ -25,6 +26,11 @@
 .error-msg{color:var(--accent);font-size:.85rem;margin-bottom:16px;display:none;text-align:center}
 .auth-footer{text-align:center;margin-top:24px;font-size:.9rem;color:var(--text-muted)}
 .auth-footer a{color:var(--accent)}
+/* ADDED 2026-09-17: 确认密码实时校验视觉 */
+.pwd-hint{font-size:.75rem;color:var(--text-muted);margin-top:6px;min-height:1em;display:flex;align-items:center;gap:4px}
+.pwd-hint.ok{color:#22cc66}
+.pwd-hint.bad{color:var(--accent)}
+.pwd-hint .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -33,14 +39,24 @@
   <div class="auth-card">
     <h1>创建账号</h1>
     <div class="error-msg" id="error"></div>
-    <form id="registerForm">
+    <form id="registerForm" novalidate>
       <div class="form-group">
         <label>邮箱</label>
         <input type="email" name="email" required placeholder="your@email.com" autocomplete="email">
       </div>
       <div class="form-group">
-        <label>密码</label>
-        <input type="password" name="password" required placeholder="至少6位密码" minlength="6" autocomplete="new-password">
+        <label>设置密码 <span style="color:var(--text-muted);font-weight:400">(至少 8 位, 含大小写+数字)</span></label>
+        <input type="password" name="password" id="pwd" required
+               placeholder="至少 8 位密码, 含大小写字母和数字"
+               minlength="8" autocomplete="new-password">
+      </div>
+      <!-- ADDED 2026-09-17: 确认密码步骤 (frontend-hygiene-loop P0-2) -->
+      <div class="form-group">
+        <label>确认密码</label>
+        <input type="password" name="passwordConfirm" id="pwdConfirm" required
+               placeholder="再次输入密码"
+               minlength="8" autocomplete="new-password">
+        <div class="pwd-hint" id="pwdHint"><span class="dot"></span><span class="text">请再次输入密码</span></div>
       </div>
       <div class="form-group">
         <label>年级</label>
@@ -62,20 +78,24 @@
       <button type="submit" class="btn primary btn-full" id="submitBtn">注册</button>
     </form>
     <div class="auth-footer">
-      已有账号？<a href="login.html">去登录</a>
+      已有账号？<a href="login.html" data-preserve-next>去登录</a>
     </div>
   </div>
 </div>
 
+<script src="assets/js/auth-nav.js"></script>
 <script>
 const API_BASE = '';
 const form = document.getElementById('registerForm');
 const errorEl = document.getElementById('error');
 const submitBtn = document.getElementById('submitBtn');
+const pwdEl = document.getElementById('pwd');
+const pwdConfirmEl = document.getElementById('pwdConfirm');
+const pwdHint = document.getElementById('pwdHint');
 
-// Redirect if already logged in
+// Redirect if already logged in (preserve ?next=)
 if (localStorage.getItem('token')) {
-  location.href = 'dashboard.html';
+  window.AIT_AUTH_NAV.goAfterAuth();
 }
 
 function showError(msg) {
@@ -84,37 +104,65 @@ function showError(msg) {
 }
 
 function setLoading(btn, loading) {
-  if (loading) {
-    btn.disabled = true;
-    btn.dataset.origText = btn.textContent;
-    btn.textContent = '注册中...';
-  } else {
-    btn.disabled = false;
-    btn.textContent = btn.dataset.origText || btn.textContent;
-  }
+  btn.disabled = loading;
+  btn.dataset.origText = btn.dataset.origText || btn.textContent;
+  btn.textContent = loading ? '注册中...' : btn.dataset.origText;
 }
+
+// ADDED 2026-09-17: 实时校验密码 (frontend-hygiene-loop P0-2)
+function checkPwdStrength(v) {
+  if (!v) return { ok: false, msg: '请输入密码' };
+  if (v.length < 8) return { ok: false, msg: '密码至少 8 位' };
+  if (!/[A-Z]/.test(v) || !/[a-z]/.test(v)) return { ok: false, msg: '密码需含大小写字母' };
+  if (!/\d/.test(v)) return { ok: false, msg: '密码需含数字' };
+  return { ok: true, msg: '密码强度 OK' };
+}
+function checkPwdMatch() {
+  const c = pwdConfirmEl.value;
+  if (!c) {
+    pwdHint.className = 'pwd-hint';
+    pwdHint.querySelector('.text').textContent = '请再次输入密码';
+    return false;
+  }
+  if (pwdEl.value !== c) {
+    pwdHint.className = 'pwd-hint bad';
+    pwdHint.querySelector('.text').textContent = '两次密码不一致';
+    return false;
+  }
+  pwdHint.className = 'pwd-hint ok';
+  pwdHint.querySelector('.text').textContent = '密码一致';
+  return true;
+}
+pwdConfirmEl.addEventListener('input', checkPwdMatch);
+pwdEl.addEventListener('input', () => { if (pwdConfirmEl.value) checkPwdMatch(); });
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
   errorEl.style.display = 'none';
 
-  const grade = fd.get('grade');
-  if (!grade) {
-    showError('请选择年级');
+  // 1) email format
+  const email = (fd.get('email') || '').trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showError('邮箱格式不正确');
     return;
   }
+  // 2) password strength
+  const pwd = fd.get('password') || '';
+  const s = checkPwdStrength(pwd);
+  if (!s.ok) { showError(s.msg); return; }
+  // 3) confirm match
+  if (!checkPwdMatch()) { showError('两次密码不一致'); return; }
+  // 4) grade
+  const grade = fd.get('grade');
+  if (!grade) { showError('请选择年级'); return; }
 
   setLoading(submitBtn, true);
   try {
     const res = await fetch(API_BASE + '/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: fd.get('email'),
-        password: fd.get('password'),
-        grade: grade
-      })
+      body: JSON.stringify({ email, password: pwd, grade })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || data.error || '注册失败');
@@ -122,12 +170,16 @@ form.addEventListener('submit', async (e) => {
     const payload = data.data || data;
     localStorage.setItem('token', payload.token);
     localStorage.setItem('user', JSON.stringify(payload.user));
-    location.href = 'dashboard.html';
+    // CHANGED 2026-09-17: 走 ?next= 安全跳转 (frontend-hygiene-loop P2-3)
+    window.AIT_AUTH_NAV.goAfterAuth();
   } catch (err) {
     showError(err.message);
     setLoading(submitBtn, false);
   }
 });
+
+// ADDED 2026-09-17: 跳转链接带 next
+window.AIT_AUTH_NAV.attachNextToLinks();
 </script>
 
 

@@ -27,7 +27,9 @@ export default async function handler(req, res) {
     return res.status(400).json(errorResponse(emailValidation.message));
   }
 
-  const passwordValidation = validatePassword(password);
+  // UPDATED 2026-09-17 (frontend-hygiene-loop P1-5): 注册走严格校验
+  // 旧账号 (6 位密码) 登录不受影响 (login.js 仍用非 strict)
+  const passwordValidation = validatePassword(password, { strict: true });
   if (!passwordValidation.valid) {
     return res.status(400).json(errorResponse(passwordValidation.message));
   }

@@ -63,8 +63,15 @@ export default async function handler(req, res) {
     return res.status(400).json(errorResponse('请填写邮箱和新密码'));
   }
 
-  if (newPassword.length < 6) {
-    return res.status(400).json(errorResponse('密码至少需要6位'));
+  // UPDATED 2026-09-17 (frontend-hygiene-loop P1-5): 重置密码也走 strict
+  if (newPassword.length < 8) {
+    return res.status(400).json(errorResponse('密码至少 8 位'));
+  }
+  if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword)) {
+    return res.status(400).json(errorResponse('密码需含大小写字母'));
+  }
+  if (!/\d/.test(newPassword)) {
+    return res.status(400).json(errorResponse('密码需含数字'));
   }
 
   if (!code) {

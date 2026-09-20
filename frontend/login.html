@@ -116,11 +116,12 @@
     <div class="auth-divider">或者</div>
     <button class="btn-guest" id="guestBtn">游客模式体验（无需注册）</button>
     <div class="auth-footer">
-      还没有账号？<a href="register.html">立即注册</a>
+      还没有账号？<a href="register.html" data-preserve-next>立即注册</a>
     </div>
   </div>
 </div>
 
+<script src="assets/js/auth-nav.js"></script>
 <script>
 const API_BASE = '';
 const loginForm = document.getElementById('loginForm');
@@ -128,9 +129,9 @@ const errorEl = document.getElementById('error');
 const submitBtn = document.getElementById('submitBtn');
 const guestBtn = document.getElementById('guestBtn');
 
-// Redirect if already logged in
+// Redirect if already logged in (preserve ?next=)
 if (localStorage.getItem('token')) {
-  location.href = 'dashboard.html';
+  window.AIT_AUTH_NAV.goAfterAuth();
 }
 
 function showError(msg) {
@@ -171,7 +172,8 @@ loginForm.addEventListener('submit', async (e) => {
     const payload = data.data || data;
     localStorage.setItem('token', payload.token);
     localStorage.setItem('user', JSON.stringify(payload.user));
-    location.href = 'dashboard.html';
+    // CHANGED 2026-09-17: 走 ?next= 安全跳转 (frontend-hygiene-loop P2-3)
+    window.AIT_AUTH_NAV.goAfterAuth();
   } catch (err) {
     showError(err.message);
     setLoading(submitBtn, false);
@@ -189,12 +191,15 @@ guestBtn.addEventListener('click', async () => {
     const payload = data.data || data;
     localStorage.setItem('token', payload.token);
     localStorage.setItem('user', JSON.stringify(payload.user));
-    location.href = 'dashboard.html';
+    window.AIT_AUTH_NAV.goAfterAuth();
   } catch (err) {
     showError(err.message);
     setLoading(guestBtn, false);
   }
 });
+
+// ADDED 2026-09-17: 跳转链接带 next
+window.AIT_AUTH_NAV.attachNextToLinks();
 </script>
 
 

@@ -5,12 +5,30 @@ const validateEmail = (email) => {
   return emailRegex.test(email);
 };
 
-const validatePassword = (password) => {
+/**
+ * validatePassword — UPDATED 2026-09-17 (frontend-hygiene-loop P1-5)
+ * 旧规则: ≥ 6 位即可
+ * 新规则: ≥ 8 位 + 必须含大小写字母 + 必须含数字
+ * 与前端 register.html 校验 + docs/design/register.html placeholder 同步
+ *
+ * 兼容性: 旧账号已用 6 位密码注册的, 登录时仍然按旧规则通过 (login 路径),
+ *         因为 bcrypt 比对不重新校验密码格式. 新注册 / 改密时强制新规则.
+ */
+const validatePassword = (password, { strict = false } = {}) => {
   if (!password || password.length < 6) {
     return { valid: false, message: '密码长度至少为6位' };
   }
   if (password.length > 128) {
     return { valid: false, message: '密码长度不能超过128位' };
+  }
+  if (strict) {
+    if (password.length < 8) return { valid: false, message: '密码至少 8 位' };
+    if (!/[A-Z]/.test(password) || !/[a-z]/.test(password)) {
+      return { valid: false, message: '密码需含大小写字母' };
+    }
+    if (!/\d/.test(password)) {
+      return { valid: false, message: '密码需含数字' };
+    }
   }
   return { valid: true };
 };

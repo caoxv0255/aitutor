@@ -99,12 +99,22 @@ class Components {
     return !!localStorage.getItem('token');
   }
 
+  /**
+   * ADDED 2026-09-17 (frontend-hygiene-loop P2-7):
+   * 退出时记录当前页 (非 login/register) 作为 next, 让用户登完能回到原页
+   * 安全: 与 auth-nav.js 的 getNext 校验一致, 只接受 .html 相对路径
+   */
   handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('user_id');
     this.renderHeader();
-    window.location.href = 'login.html';
+    let cur = location.pathname.split('/').pop();
+    if (cur && cur !== 'login.html' && cur !== 'register.html' && /^[A-Za-z0-9._/-]+\.html$/.test(cur)) {
+      window.location.href = 'login.html?next=' + encodeURIComponent(cur);
+    } else {
+      window.location.href = 'login.html';
+    }
   }
 
   toggleTheme() {
