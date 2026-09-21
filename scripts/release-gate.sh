@@ -154,6 +154,14 @@ else
   fail "nginx 部署模板校验失败 (见上; 无 nginx/openssl 时会降级为仅静态检查)"
 fi
 
+# 2026-09-21: 增量安全扫描只扫 diff, scripts/ 下 13 处硬编码 postgres 口令
+# 长期无人发现 —— 人工发现必须落成永久闸门, 否则同类问题会复现。
+if node scripts/check-no-hardcoded-secrets.mjs; then
+  ok "无硬编码凭据 (连接串内联 / 明文口令赋值)"
+else
+  fail "存在硬编码凭据 (清单见上; 请改为环境变量读取, 缺失即报错)"
+fi
+
 echo
 if [ "$FAILED" = "1" ]; then
   echo "❌ 发布门禁未通过 — 修复后重跑 npm run gate"

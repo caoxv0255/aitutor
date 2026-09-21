@@ -21,7 +21,10 @@ const SOURCE_DIR = join(ROOT, 'database', 'knowledge-points');
 const VAULT_PREFIX = '高考知识点知识库';
 const API_HOST = '127.0.0.1';
 const API_PORT = 27123;
-const API_TOKEN = '32fc3ca1890097538cc75e39b7c590e17dc8cbee420f22364842dde7aff42835';
+const API_TOKEN = process.env.OBSIDIAN_API_TOKEN || process.env.SYNC_API_TOKEN;
+if (!API_TOKEN) {
+  throw new Error('缺少 OBSIDIAN_API_TOKEN(或 SYNC_API_TOKEN)。2026-09-21 已移除硬编码 token —— 它已随版本历史暴露, 请吊销后改用环境变量。');
+}
 
 /**
  * 发送 HTTP PUT 请求上传文件到 Obsidian Vault

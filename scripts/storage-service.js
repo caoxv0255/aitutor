@@ -69,7 +69,10 @@ class StorageService {
   }
 
   initPool() {
-    const dbUrl = env.DATABASE_URL || 'postgresql://postgres:cxclementine102365@localhost:5432/aitutor';
+    const dbUrl = env.PAPERS_DB_URL || env.DATABASE_URL;
+    if (!dbUrl) {
+      throw new Error('缺少数据库连接串: 请设置 PAPERS_DB_URL（或 DATABASE_URL）。2026-09-21 已移除此处硬编码的 postgres 口令 —— 该口令对现有实例无效, 且已随版本历史暴露。');
+    }
     const url = new URL(dbUrl);
     
     this.pool = new Pool({

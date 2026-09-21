@@ -14,13 +14,13 @@ set -euo pipefail
 LOCAL_REPO="/home/git/repos/aitutor.git"
 
 # === 2) 局域网 HTTP IP (适合校园网内其他机器) ===
-LAN_HTTP="http://main:Uibeliu60%21@219.224.5.250:8081/aitutor.git"
+LAN_HTTP="${LAN_REMOTE:?请先在环境变量中设置 LAN_REMOTE(含凭据的 git 远端 URL), 不要把口令写进脚本}"
 
 # === 3) 局域网 SSH 免密 (推荐校园网内用) ===
 LAN_SSH="flaskappuser@219.224.5.250:/home/git/repos/aitutor.git"
 
 # === 4) 公网 HTTPS 域名 ===
-PUB_HTTPS="https://main:Uibeliu60%21@git.uibe.online/aitutor.git"
+PUB_HTTPS="${PUB_REMOTE:?请先在环境变量中设置 PUB_REMOTE(含凭据的 git 远端 URL), 不要把口令写进脚本}"
 
 # 检测连通性, 按优先级尝试
 if [[ -d "$LOCAL_REPO" ]]; then

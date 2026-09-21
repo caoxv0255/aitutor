@@ -77,10 +77,11 @@ def chunk_text(text, max_chars=800, overlap=100):
 
 
 def get_db_connection():
-    db_url = os.environ.get(
-        "DATABASE_URL",
-        "postgresql://postgres:cxclementine102365@localhost:5432/aitutor"
-    )
+    db_url = os.environ.get("PAPERS_DB_URL") or os.environ.get("DATABASE_URL")
+    if not db_url:
+        raise RuntimeError(
+            "缺少数据库连接串: 请设置 PAPERS_DB_URL（或 DATABASE_URL）。2026-09-21 已移除此处硬编码的 postgres 口令 —— 该口令对现有实例无效, 且已随版本历史暴露。"
+        )
     return psycopg2.connect(db_url)
 
 
