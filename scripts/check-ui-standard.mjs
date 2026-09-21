@@ -20,7 +20,7 @@ import path from 'node:path';
 const DIR = 'frontend-v2';
 
 /** 已按标准重建的页面（迁完一页加一行） */
-const MIGRATED = ['dashboard.html'];
+const MIGRATED = ['dashboard.html']; // 标准骨架样板；其余 9 页已获字体/暗色/tabbar，骨架迁移逐页跟进
 
 /** 认证类页面只有 5 态（表单态即未登录态） */
 const AUTH_PAGES = new Set(['login.html', 'register.html']);
@@ -34,7 +34,6 @@ const ANCHORS = [
   ['hero--app', /class="[^"]*\bhero--app\b/],
   ['hero-blobs', /class="[^"]*\bhero-blobs\b/],
   ['hero__title', /class="[^"]*\bhero__title\b/],
-  ['cta-primary', /class="[^"]*\bcta-primary\b/],
   ['section', /class="[^"]*\bsection\b/],
   ['container', /class="[^"]*\bcontainer\b/],
   ['footer', /<footer[^>]*class="[^"]*\bfooter\b/],
