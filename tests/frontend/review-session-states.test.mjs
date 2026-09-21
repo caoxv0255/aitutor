@@ -9,9 +9,9 @@ const apiJs = fs.readFileSync(`${DIR}/assets/js/api.js`, 'utf8');
 const pageJs = fs.readFileSync(`${DIR}/assets/js/review-session.js`, 'utf8');
 
 const inlined = html
-  .replace('<script src="assets/js/ui.js"></script>', `<script>${uiJs}</script>`)
-  .replace('<script src="assets/js/api.js"></script>', `<script>${apiJs}</script>`)
-  .replace('<script src="assets/js/review-session.js"></script>', `<script>${pageJs}</script>`);
+  .replace(/<script src="[^"]*ui\.js"><\/script>/, `<script>${uiJs}</script>`)
+  .replace(/<script src="[^"]*api\.js"><\/script>/, `<script>${apiJs}</script>`)
+  .replace(/<script src="[^"]*review-session\.js"><\/script>/, `<script>${pageJs}</script>`);
 
 const dom = new JSDOM(inlined, {
   runScripts: 'dangerously',

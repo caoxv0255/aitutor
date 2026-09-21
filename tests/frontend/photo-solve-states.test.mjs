@@ -10,9 +10,9 @@ const pageJs = fs.readFileSync(`${DIR}/assets/js/photo-solve.js`, 'utf8');
 
 // 外链脚本改成内联，jsdom 不加载本地相对路径
 const inlined = html
-  .replace('<script src="assets/js/ui.js"></script>', `<script>${uiJs}</script>`)
-  .replace('<script src="assets/js/api.js"></script>', `<script>${apiJs}</script>`)
-  .replace('<script src="assets/js/photo-solve.js"></script>', `<script>${pageJs}</script>`);
+  .replace(/<script src="[^"]*ui\.js"><\/script>/, `<script>${uiJs}</script>`)
+  .replace(/<script src="[^"]*api\.js"><\/script>/, `<script>${apiJs}</script>`)
+  .replace(/<script src="[^"]*photo-solve\.js"><\/script>/, `<script>${pageJs}</script>`);
 
 const dom = new JSDOM(inlined, {
   runScripts: 'dangerously',

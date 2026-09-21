@@ -38,19 +38,34 @@ frontend-v2/assets/css/app.css    clay token + .card .state .q-card .btn .tag �
 | **Q2** | 后端接口 | **缺口即补，允许新开** | SPEC-DATA 的缺口从"登记"升级为"后端待办"；新增接口必须同时过 BCT 契约测试与门禁 |
 | **Q3** | 下线窗口 | **立刻切默认，旧树只留回滚** | 见下方 §1.1 —— 采用"新树优先 + 旧树兜底"，不是一刀切 |
 
-### 1.1 Q3 的落地方式（重要）
+### 1.1 Q3 的落地方式（已实施 2026-09-21）
 
-`frontend-v2/` 当前只有 **2 个可运行页**（`photo-solve`、`wrong-book`），其余 23 个仍是零 API 绑定的静态原型。
-**把 `/` 直接指向新树 = 丢掉 dashboard / 练习 / 作文 / 学习路径等全部功能页**，这不是切换而是下线。
+**机制**（`server.js` 的 `NEW-TREE` 区块）：
 
-因此 Q3 落地为：
+- **新树优先**：`NEW_TREE_PAGES` 列表内的页面由根路径 canonical URL 接管
+  （`/login.html`、`/login`），旧树同名页被**优先遮蔽** —— 同一路径只有一个版本
+- **旧树兜底**：列表外的路径（`/f3/*`、legacy、PWA `/`、`/hero.html` 等）继续由旧树服务，
+  因此不会出现"切了之后功能页消失"
+- **资源零碰撞**：新树资源走独立命名空间 `/assets/v2/`。**不能**直接挂 `/assets`
+  —— 实测 legacy 的 `frontend/assets/js/auth-nav.js` 与新树同名，前置会静默改掉旧页行为
+- **一键回滚**：`NEW_TREE=off` → 全部路径回旧树（新页仍可经 `/v2/` 访问）；
+  `NEW_TREE_PAGES=a.html,b.html` → 缩小接管射程。均改环境变量 + 重启，不动代码
 
-- **新树优先**：已就绪页面由 `frontend-v2/` 服务
-- **旧树兜底**：未就绪路径继续回落 `ai-tutor-frontend/`(F3) 与 `public/`(PWA)
-- **一键回滚**：由环境变量开关控制，改变量即回滚，不动代码
-- **推进方式**：每完成一个批次，把该批次的路径从"兜底"移到"优先"，直到 100%
+**为什么不硬切 `/`**：`/` 现在分别服务 F3（桌面）与 PWA（移动）的**真实应用**，
+新树目前只有 6 个重建页；硬切会让用户丢掉 dashboard/练习/作文等页面。
+硬切须待批次 1-3 完成，且需同步更新门禁与本节。
 
-硬切（`/` 直接指向 `hero.html`）只在 **批次 1-3 全部完成**后才允许，届时由你确认后翻转开关。
+**验证证据**（2026-09-21 实测）：
+
+| 检查 | 结果 |
+|---|---|
+| 6 页根路径接管 | 全部 200，且 md5 == `frontend-v2/<page>`（证明不是旧树同名页） |
+| canonical 无扩展名 | `/login`、`/mastery` → 200 |
+| 资源命名空间 | `/assets/v2/css/app.css`、`/assets/v2/js/ui.js` → 200 |
+| 旧树兜底 | `/f3/pages/index.html` 200；`/` 桌面 = F3 index、移动 = PWA index（md5 一致） |
+| `/v2` 仍可用 | `/v2/login.html`、`/v2/mastery.html` → 200 |
+| **回滚** | 临时实例 `NEW_TREE=off` 下 `/login.html` 的 md5 == `frontend/login.html`（旧树页） |
+| 门禁 | 新增 `scripts/check-new-tree-routing.mjs` 接入 6/7；受控实验（把未接管页塞进列表）能被报出 |
 
 ---
 

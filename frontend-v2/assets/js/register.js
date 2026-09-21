@@ -12,7 +12,8 @@
   'use strict';
 
   const STATES = ['form', 'loading', 'success', 'error', 'offline'];
-  const NEXT_PAGE = 'onboarding.html';
+  // onboarding.html 尚未按新架构迁移（未进 NEW_TREE_PAGES）→ 先回根路径，避免 404
+  const NEXT_PAGE = '/';
 
   const els = {};
   let machine = null;

@@ -9,9 +9,9 @@ const apiJs = fs.readFileSync(`${DIR}/assets/js/api.js`, 'utf8');
 const pageJs = fs.readFileSync(`${DIR}/assets/js/register.js`, 'utf8');
 
 const inlined = html
-  .replace('<script src="assets/js/ui.js"></script>', `<script>${uiJs}</script>`)
-  .replace('<script src="assets/js/api.js"></script>', `<script>${apiJs}</script>`)
-  .replace('<script src="assets/js/register.js"></script>', `<script>${pageJs}</script>`);
+  .replace(/<script src="[^"]*ui\.js"><\/script>/, `<script>${uiJs}</script>`)
+  .replace(/<script src="[^"]*api\.js"><\/script>/, `<script>${apiJs}</script>`)
+  .replace(/<script src="[^"]*register\.js"><\/script>/, `<script>${pageJs}</script>`);
 
 const dom = new JSDOM(inlined, {
   runScripts: 'dangerously',
@@ -106,7 +106,7 @@ check('提交 email', sent && sent.email, 'a@b.com');
 check('提交 grade', sent && sent.grade, '初二');
 check('提交 password', sent && sent.password, 'Abcdef12');
 check('token 落盘', window.localStorage.getItem('authToken'), 'new-tok');
-check('跳转引导页', R.getLastTarget(), 'onboarding.html');
+check('跳转目标（onboarding 未接管 → 根路径）', R.getLastTarget(), '/');
 
 // 8. 邮箱已注册（400）→ error，透传后端文案
 window.AIAPI.register = () => Promise.reject(window.AIAPI.ApiError('该邮箱已注册', { status: 400 }));

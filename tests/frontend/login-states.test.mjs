@@ -9,9 +9,9 @@ const apiJs = fs.readFileSync(`${DIR}/assets/js/api.js`, 'utf8');
 const pageJs = fs.readFileSync(`${DIR}/assets/js/login.js`, 'utf8');
 
 const inlined = html
-  .replace('<script src="assets/js/ui.js"></script>', `<script>${uiJs}</script>`)
-  .replace('<script src="assets/js/api.js"></script>', `<script>${apiJs}</script>`)
-  .replace('<script src="assets/js/login.js"></script>', `<script>${pageJs}</script>`);
+  .replace(/<script src="[^"]*ui\.js"><\/script>/, `<script>${uiJs}</script>`)
+  .replace(/<script src="[^"]*api\.js"><\/script>/, `<script>${apiJs}</script>`)
+  .replace(/<script src="[^"]*login\.js"><\/script>/, `<script>${pageJs}</script>`);
 
 // ?next= 指向一个外部地址，用于验证防开放重定向
 const dom = new JSDOM(inlined, {

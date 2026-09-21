@@ -237,6 +237,65 @@ app.get(/^\/(frontend)(\/.*)?$/, (req, res) => {
   res.redirect(301, '/f3/pages/index.html');
 });
 
+// ═══════════════════════════════════════════════════════════════════════════
+// NEW-TREE-BEGIN (2026-09-21, Q3 决策「立刻切默认，旧树只留回滚」)
+//
+// 落地方式：新树优先 + 旧树兜底 + 一键回滚。**不是**一刀切 ——
+// 只有 NEW_TREE_PAGES 里已按新架构重建并通过验收的页面才由 frontend-v2/ 接管，
+// 其余路径继续由旧树（F3 / legacy / PWA）服务，因此不会出现"切了之后功能页消失"。
+//
+// 为什么页面走根路径而不是 /v2/：canonical URL 应该是用户会手输的
+// `/login.html`，而不是 `/v2/login.html`。旧树同名页（legacy 与 F3 的
+// login/register/wrong-book/mastery）被这里**优先遮蔽**，实现"同一路径只有一个版本"。
+//
+// 资源为什么用 /assets/v2/：新树的页面用相对路径引用 `assets/...`，
+// 挂到根路径会与 legacy 的 frontend/assets/ 撞名（实测 legacy 也有
+// assets/js/auth-nav.js），把新树资源前置会静默改掉旧页行为。故给新树
+// 独立的命名空间，零碰撞。
+//
+// 回滚：
+//   NEW_TREE=off            → 完全回到今天之前（新页仍可在 /v2/ 访问）
+//   NEW_TREE_PAGES=a,b      → 只接管列举的页（渐进放量 / 缩小射程）
+// 均可通过改环境变量 + 重启完成，不需要改代码。
+// ═══════════════════════════════════════════════════════════════════════════
+const NEW_TREE_ENABLED = process.env.NEW_TREE !== 'off';
+const DEFAULT_NEW_TREE_PAGES =
+  'login.html,register.html,photo-solve.html,wrong-book.html,review-session.html,mastery.html';
+const NEW_TREE_PAGES = (process.env.NEW_TREE_PAGES || DEFAULT_NEW_TREE_PAGES)
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+if (NEW_TREE_ENABLED) {
+  // 新树静态资源（必须先于 legacy 的 express.static('frontend')）
+  app.use(
+    '/assets/v2',
+    express.static(path.join(DESIGN_V2_DIR, 'assets'), {
+      etag: true,
+      maxAge: '1h',
+    })
+  );
+
+  // 已迁移页面：根路径接管（旧树同名页被遮蔽）
+  app.get(/^\/([A-Za-z0-9_-]+)(?:\.html)?$/, (req, res, next) => {
+    const page = `${req.params[0]}.html`;
+    if (!NEW_TREE_PAGES.includes(page)) return next();
+    const file = path.join(DESIGN_V2_DIR, page);
+    if (!fs.existsSync(file)) return next();
+    // 与 F3 相同的反缓存策略（P0.1 ESM 缓存粘滞修复）：已迁移页不缓存
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    return res.sendFile(file, (err) => (err ? next(err) : undefined));
+  });
+
+  logger.info(
+    `[new-tree] 已启用：${NEW_TREE_PAGES.length} 页由 ${DESIGN_V2_DIR} 接管 → ${NEW_TREE_PAGES.join(', ')}`
+  );
+} else {
+  logger.warn('[new-tree] 已禁用 (NEW_TREE=off)：全部路径回到旧树，新页仅 /v2/ 可达');
+}
+// NEW-TREE-END
+// ═══════════════════════════════════════════════════════════════════════════
+
 app.use(express.static('public'));
 app.use('/vendor', express.static('public/vendor'));
 app.use(

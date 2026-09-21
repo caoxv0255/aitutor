@@ -181,6 +181,15 @@ else
   fail "schema drift (见上; 有意差异须登记到 scripts/check-schema-drift.mjs 的 ALLOW 并注明理由)"
 fi
 
+# 2026-09-21 (Q3): 新主树路由是"静默失效"的典型 —— 中间件顺序被调、或某页从
+# NEW_TREE_PAGES 漏掉, 用户会在不知不觉中回到旧页面而无处报警(同审计 R1 一类)。
+# 判据: 列表内每页 200 且 md5 == frontend-v2 本地文件 + 资源命名空间可用 + 旧树兜底完好。
+if node scripts/check-new-tree-routing.mjs; then
+  ok "新主树路由正常 (接管页 md5 校验 + 旧树兜底)"
+else
+  fail "新主树路由异常 (见上; 可能是中间件顺序或 NEW_TREE_PAGES 与 frontend-v2 不一致)"
+fi
+
 # ── 7. 前端行为测试 (jsdom) ──
 # 2026-09-21: 新主树 frontend-v2/ 的每页都以"六态机 + 错误分类"验收,
 # 测试落在 tests/frontend/ 里独立跑, 无人守门 —— 改动共享层(ui.js/api.js/app.css)
