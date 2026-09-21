@@ -155,6 +155,24 @@
       return request('/api/srs/engine/stats', { signal: signal });
     },
 
+    /* ── 学习路径 ───────────────────────────────────────────────────────── */
+
+    /**
+     * 今日学习路径：GET /api/learning-path/current?subject=
+     * → { subject, recommendation_reason, cited_stats:[{icon,label}],
+     *     global_progress_pct(0..100), stages[4]:{id,name,status,description,progress_pct?},
+     *     today_task:{id,title,reason,topic,target_url,…}|null,
+     *     empty_state?:{scenario,title,description,primary_action,secondary_action} }
+     *
+     * ⚠️ 后端给的 target_url 用的是**第三套命名**（/photo-search.html、/review.html、
+     * /onboarding.html），实测其中两个在生产 404、一个落到旧树页面。前端必须映射
+     * （见 LEARNING_PATH_PAGE 的 URL_MAP），不得直接渲染 —— 见 SPEC-DATA G8。
+     */
+    learningPath: function (subject, signal) {
+      const q = subject ? '?subject=' + encodeURIComponent(subject) : '';
+      return request('/api/learning-path/current' + q, { signal: signal });
+    },
+
     /* ── 作文批改（essay） ──────────────────────────────────────────────── */
 
     /**

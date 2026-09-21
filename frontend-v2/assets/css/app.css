@@ -1035,3 +1035,77 @@ video {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ── 学习路径（learning-path） ───────────────────────────────────────── */
+.timeline {
+  position: relative;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage {
+  position: relative;
+  padding: 0 0 20px 26px;
+  border-left: 2px solid var(--line-soft);
+}
+
+.stage:last-child {
+  padding-bottom: 0;
+  border-left-color: transparent;
+}
+
+.stage-dot {
+  position: absolute;
+  left: -7px;
+  top: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.stage--completed .stage-dot {
+  background: var(--ch-green);
+}
+
+.stage--current .stage-dot {
+  background: var(--brand-red);
+}
+
+.stage-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.stage--pending .stage-name {
+  color: var(--ink-3);
+}
+
+.stage-desc {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.stage-bar {
+  margin-top: 8px;
+  max-width: 220px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.chip {
+  font-size: 12px;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-pill);
+  padding: 5px 12px;
+}

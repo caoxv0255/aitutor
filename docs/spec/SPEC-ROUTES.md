@@ -42,7 +42,7 @@
 | `mastery.html` | v2 + F3 | `GET /api/knowledge/mastery`、`GET /api/knowledge/map`、`GET /api/knowledge/:kpId/practice` | ✅ 已按新架构重建（51 项验收）；标度见 G6-b（本端点 0..1） |
 | `essay.html` | v2 + F3 | `POST /api/upload/image`、`POST /api/essay/grade`、`GET /api/essay` | ✅ 已按新架构重建（47 项验收）；两步链路（transcribe 未注册，见 G7）；长耗时防重复提交 |
 | `practice-hub.html` | v2 + F3 | `POST /api/exam/session/start`、`POST /api/exam/session/submit`、`GET /api/exam/session/history` | ✅ 已按新架构重建（57 项验收）；accuracy 按得分加权，页面同时给"答对 N/M" |
-| `learning-path.html` | v2 + F3 | `GET /api/learning-path/current`、`GET /api/analytics/learning-path` | |
+| `learning-path.html` | v2 + F3 | `GET /api/learning-path/current` | ✅ 已按新架构重建（56 项验收）；后端动作 URL 需映射（G8） |
 | `teacher-dashboard.html` | v2 + F3 | `GET /api/analytics/class/analysis`、`/api/analytics/class/teacher`、`/api/class-detail` | 需角色校验 |
 
 ### 1.2 v2 独有 —— 纯增量（16 页）
