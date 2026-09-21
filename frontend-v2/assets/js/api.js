@@ -155,6 +155,48 @@
       return request('/api/srs/engine/stats', { signal: signal });
     },
 
+    /* ── 作文批改（essay） ──────────────────────────────────────────────── */
+
+    /**
+     * 上传图片：POST /api/upload/image  { image: "data:image/...;base64,...", purpose }
+     * → { url, filename, size, mime, purpose, width, height, uploaded_at }
+     *
+     * ⚠️ 返回的 url 是**相对路径**（/uploads/purpose/YYYY/MM/x.jpg）。
+     * 而 /api/essay/grade 的 images 要交给 LLM 抓取，必须是绝对地址 ——
+     * 调用方需用 new URL(url, location.origin).href 转换（见 resolveUploadUrl）。
+     */
+    uploadImage: function (dataUrl, purpose, signal) {
+      return request('/api/upload/image', {
+        method: 'POST',
+        body: { image: dataUrl, purpose: purpose || 'general' },
+        signal: signal,
+      });
+    },
+
+    /**
+     * 作文批改：POST /api/essay/grade
+     * 入参 { images: [绝对URL], essay_title, exam_level: 'gaokao'|'zhongkao', grade: '初一'..'高三' }
+     * → { meta, transcript:{paragraphs}, annotations[], scores, summary }（外层还有 reportId）
+     *
+     * 注意（SPEC-DATA G7）：链路里的 /api/essay/transcribe 尚未注册
+     * （server.js:451 注明"待 Phase 1 单测通过后注册"），所以当前是
+     * 「上传 → 单次 LLM 批改」两步，不是文档里的三步。
+     */
+    gradeEssay: function (payload, signal) {
+      return request('/api/essay/grade', { method: 'POST', body: payload, signal: signal });
+    },
+
+    /** 作文报告列表：GET /api/essay?limit → { reports[] } */
+    listEssays: function (limit, signal) {
+      const q = limit ? '?limit=' + encodeURIComponent(limit) : '';
+      return request('/api/essay' + q, { signal: signal });
+    },
+
+    /** 作文报告详情：GET /api/essay/:id */
+    getEssay: function (id, signal) {
+      return request('/api/essay/' + encodeURIComponent(id), { signal: signal });
+    },
+
     /* ── 练习（exam） ───────────────────────────────────────────────────── */
 
     /**
