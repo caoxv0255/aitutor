@@ -203,6 +203,7 @@ curl -s -o /dev/null -w "%{http_code}\n" -A "Mozilla/5.0 (X11; Linux x86_64)" \
 | 2 | review-session | ✅ 2026-09-21（50 项验收，接 SRS queue/review/stats） |
 | 2 | mastery | ✅ 2026-09-21（51 项验收，接 knowledge/mastery；G6 标度问题先行修复） |
 | 3 | dashboard | ✅ 2026-09-21（50 项验收；已并入 NEW_TREE_PAGES 接管） |
-| 3 | practice-hub、essay、learning-path | ⬜ |
+| 3 | practice-hub | ✅ 2026-09-21（57 项验收；组卷→答题→交卷闭环，已接管） |
+| 3 | essay、learning-path | ⬜ |
 | 4 | 10 个增量页 + subject-exam 模板 | ⬜ |
 | 5 | 收编 + 旧树下线 | ⬜ |

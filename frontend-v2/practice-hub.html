@@ -1,992 +1,149 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="light">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>练习中心 - 智启AI导师</title>
-  <meta name="description" content="基于薄弱点的今日练习中心。综合得分、学科切换、个性化预测卷、AI讲题、学习路径一站式入口。" />
-
-  <!-- 品牌字体: DM Sans (display) + Noto Sans SC (body) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" />
-
-  <!-- Lucide icons -->
-  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
-
-  <!-- 复刻 .design_library/ai-tutor/colors_and_type.css 的 token (静态展示, 同步内联, 不依赖相对路径) -->
-  <style>
-    /* === Color tokens === */
-    :root {
-      --aitutor-primary-50:  #fff1f1;
-      --aitutor-primary-100: #ffe0e0;
-      --aitutor-primary-200: #ffc5c5;
-      --aitutor-primary-300: #ffa0a0;
-      --aitutor-primary-400: #f36b6b;
-      --aitutor-primary-500: #d71920;
-      --aitutor-primary-600: #b8151b;
-      --aitutor-primary-700: #941218;
-      --aitutor-primary-800: #7a1014;
-      --aitutor-primary-900: #660f13;
-
-      --aitutor-blue-50:  #eff6ff;
-      --aitutor-blue-100: #dbeafe;
-      --aitutor-blue-200: #bfdbfe;
-      --aitutor-blue-500: #2563eb;
-      --aitutor-blue-600: #1d4ed8;
-      --aitutor-blue-700: #1e40af;
-
-      --aitutor-success-50:  #ecfdf5;
-      --aitutor-success-500: #059669;
-      --aitutor-success-700: #065f46;
-
-      --aitutor-warning-50:  #fffbeb;
-      --aitutor-warning-500: #f59e0b;
-      --aitutor-warning-700: #b45309;
-
-      --aitutor-error-50:  #fef2f2;
-      --aitutor-error-500: #ef4444;
-
-      --aitutor-info-50:  #f0f9ff;
-      --aitutor-info-500: #0284c7;
-      --aitutor-info-700: #075985;
-
-      /* Semantic aliases (light theme default) */
-      --primary:          var(--aitutor-primary-500);
-      --primary-hover:    var(--aitutor-primary-600);
-      --primary-foreground: #ffffff;
-      --secondary:        var(--aitutor-blue-500);
-      --background:       #f8f9fa;
-      --foreground:       #1a1a2e;
-      --muted:            #94a3b8;
-      --muted-foreground: #64748b;
-      --border:           #e2e8f0;
-      --surface:          #ffffff;
-      --surface-dim:      #f1f5f9;
-      --surface-container-low:  #f1f5f9;
-      --surface-container:      #e8ecf1;
-      --on-surface:       #1a1a2e;
-      --on-surface-variant: #64748b;
-      --outline:          #e2e8f0;
-      --card:             #ffffff;
-      --success:          var(--aitutor-success-500);
-
-      /* Typography */
-      --font-display: 'DM Sans', 'Noto Sans SC', sans-serif;
-      --font-heading: 'DM Sans', 'Noto Sans SC', sans-serif;
-      --font-body:    'Noto Sans SC', 'DM Sans', sans-serif;
-      --font-size-display: 56px;
-      --font-size-h1: 40px;
-      --font-size-h2: 32px;
-      --font-size-h3: 24px;
-      --font-size-h4: 20px;
-      --font-size-lead: 18px;
-      --font-size-body: 16px;
-      --font-size-caption: 12px;
-      --font-size-eyebrow: 11px;
-      --font-weight-display: 700;
-      --font-weight-h1: 700;
-      --font-weight-h2: 600;
-      --font-weight-h3: 600;
-      --font-weight-h4: 600;
-      --font-weight-body: 400;
-      --font-weight-lead: 400;
-      --font-weight-caption: 400;
-      --font-weight-eyebrow: 600;
-      --line-height-display: 1.1;
-      --line-height-h1: 1.2;
-      --line-height-h2: 1.25;
-      --line-height-h3: 1.3;
-      --line-height-h4: 1.4;
-      --line-height-body: 1.6;
-      --line-height-lead: 1.7;
-      --line-height-caption: 1.5;
-
-      /* Spacing */
-      --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
-      --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
-
-      /* Radius */
-      --radius-sm:   8px;
-      --radius-md:   14px;
-      --radius-lg:   16px;
-      --radius-pill: 9999px;
-
-      /* Shadows (5 levels) */
-      --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 1px rgba(0,0,0,.04);
-      --shadow-2: 0 4px 8px -2px rgba(0,0,0,.10);
-      --shadow-3: 0 8px 24px -8px rgba(0,0,0,.18);
-      --shadow-4: 0 16px 40px -12px rgba(0,0,0,.24);
-      --shadow-5: 0 24px 60px -20px rgba(0,0,0,.30);
-
-      /* Component sizes */
-      --size-input-height: 40px;
-      --size-btn-sm: 32px;
-      --size-btn-md: 40px;
-      --size-btn-lg: 48px;
-      --size-icon-sm: 16px;
-      --size-icon-md: 24px;
-      --size-icon-lg: 32px;
-    }
-
-    /* Dark theme — dashboard is dark-first per design system */
-    html.dark {
-      --background:        #0f1117;
-      --surface-dim:       #12141c;
-      --surface:           #1a1d27;
-      --surface-container-low: #1a1d27;
-      --surface-container: #2a2d38;
-      --on-surface:        #e8ecf1;
-      --on-surface-variant:#94a3b8;
-      --outline:           #2a2d38;
-      --border:            #2a2d38;
-      --card:              #1a1d27;
-      --foreground:        #e8ecf1;
-      --muted:             #64748b;
-      --muted-foreground:  #94a3b8;
-    }
-
-    /* === Reset & base === */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-    body {
-      background: var(--background);
-      color: var(--foreground);
-      font-family: var(--font-body);
-      font-size: var(--font-size-body);
-      line-height: var(--line-height-body);
-      min-height: 100vh;
-      transition: background .15s, color .15s;
-    }
-    a { color: inherit; text-decoration: none; }
-    button { font-family: inherit; cursor: pointer; }
-
-    /* === Navbar (sticky, backdrop-blur, dark) === */
-    .navbar {
-      position: sticky; top: 0; z-index: 50;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 60px;
-      padding: 0 var(--space-5);
-      background: rgba(11, 11, 13, .92);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .navbar-logo {
-      font-family: var(--font-heading);
-      font-size: var(--font-size-h4);
-      font-weight: var(--font-weight-h2);
-      color: #fff;
-      letter-spacing: -.01em;
-    }
-    .navbar-logo .accent { color: var(--aitutor-primary-400); }
-    .navbar-links { display: flex; gap: var(--space-5); list-style: none; }
-    .navbar-link {
-      font-size: var(--font-size-body);
-      color: rgba(255,255,255,.72);
-      padding: var(--space-1) var(--space-2);
-      border-radius: var(--radius-sm);
-      transition: filter .15s, color .15s;
-    }
-    .navbar-link:hover { filter: brightness(1.2); }
-    .navbar-link.active { color: #fff; font-weight: var(--font-weight-h4); }
-    .navbar-actions { display: flex; align-items: center; gap: var(--space-3); }
-
-    /* Theme toggle */
-    .theme-toggle {
-      width: 40px; height: 40px;
-      display: inline-flex; align-items: center; justify-content: center;
-      background: transparent; border: none; color: rgba(255,255,255,.72);
-      border-radius: var(--radius-sm); cursor: pointer;
-      transition: filter .15s;
-    }
-    .theme-toggle:hover { filter: brightness(1.2); }
-    .theme-toggle svg { width: 20px; height: 20px; }
-
-    /* === Page shell === */
-    .page {
-      max-width: 1184px;
-      margin: 0 auto;
-      padding: var(--space-6) var(--space-5);
-      display: flex; flex-direction: column; gap: var(--space-6);
-    }
-
-    /* Page header */
-    .page-header { display: flex; flex-direction: column; gap: var(--space-3); }
-    .eyebrow {
-      font-family: var(--font-body);
-      font-size: var(--font-size-eyebrow);
-      font-weight: var(--font-weight-eyebrow);
-      text-transform: uppercase; letter-spacing: .08em;
-      color: var(--primary);
-    }
-    .page-title {
-      font-family: var(--font-heading);
-      font-size: var(--font-size-h2);
-      font-weight: var(--font-weight-h2);
-      line-height: var(--line-height-h2);
-      color: var(--on-surface);
-      word-break: keep-all; overflow-wrap: break-word;
-    }
-    .page-subtitle {
-      font-size: var(--font-size-lead);
-      line-height: var(--line-height-lead);
-      color: var(--on-surface-variant);
-      max-width: 720px;
-    }
-    .header-row {
-      display: flex; align-items: end; justify-content: space-between;
-      gap: var(--space-4); flex-wrap: wrap;
-    }
-    .header-meta {
-      display: flex; align-items: center; gap: var(--space-2);
-      font-size: var(--font-size-caption);
-      color: var(--on-surface-variant);
-    }
-    .header-meta svg { width: 16px; height: 16px; }
-
-    /* === Section === */
-    .section { display: flex; flex-direction: column; gap: var(--space-4); }
-    .section-header {
-      display: flex; align-items: end; justify-content: space-between;
-      gap: var(--space-4); flex-wrap: wrap;
-    }
-    .section-title {
-      font-family: var(--font-heading);
-      font-size: var(--font-size-h3);
-      font-weight: var(--font-weight-h3);
-      line-height: var(--line-height-h3);
-      color: var(--on-surface);
-      word-break: keep-all; overflow-wrap: break-word;
-    }
-    .section-link {
-      font-size: var(--font-size-body);
-      color: var(--aitutor-blue-600);
-      display: inline-flex; align-items: center; gap: var(--space-1);
-    }
-    .section-link svg { width: 16px; height: 16px; }
-    .section-link:hover { text-decoration: underline; }
-
-    /* === StatCard row === */
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: var(--space-4);
-    }
-    .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: var(--space-5);
-      text-align: center;
-      display: flex; flex-direction: column; align-items: center; gap: var(--space-1);
-      min-width: 0;
-      transition: box-shadow .15s, border-color .15s, transform .15s;
-    }
-    .stat-card:hover { box-shadow: var(--shadow-2); border-color: var(--primary); }
-    .stat-card__icon {
-      width: 40px; height: 40px; border-radius: var(--radius-sm);
-      display: inline-flex; align-items: center; justify-content: center;
-      margin-bottom: var(--space-2);
-    }
-    .stat-card__icon svg { width: 20px; height: 20px; }
-    .stat-card--accent .stat-card__icon { background: var(--aitutor-primary-50); color: var(--primary); }
-    html.dark .stat-card--accent .stat-card__icon { background: var(--aitutor-primary-900); color: var(--aitutor-primary-300); }
-    .stat-card--blue .stat-card__icon { background: var(--aitutor-blue-50); color: var(--secondary); }
-    html.dark .stat-card--blue .stat-card__icon { background: rgba(37,99,235,.15); color: var(--aitutor-blue-300); }
-    .stat-card--success .stat-card__icon { background: var(--aitutor-success-50); color: var(--success); }
-    html.dark .stat-card--success .stat-card__icon { background: rgba(5,150,105,.15); color: var(--aitutor-success-500); }
-    .stat-card--warning .stat-card__icon { background: var(--aitutor-warning-50); color: var(--aitutor-warning-700); }
-    html.dark .stat-card--warning .stat-card__icon { background: rgba(245,158,11,.15); color: var(--aitutor-warning-500); }
-    .stat-card__number {
-      font-family: var(--font-display);
-      font-size: var(--font-size-h2);
-      font-weight: var(--font-weight-h1);
-      line-height: var(--line-height-h2);
-      color: var(--on-surface);
-      font-variant-numeric: tabular-nums;
-    }
-    .stat-card--accent .stat-card__number { color: var(--primary); }
-    .stat-card__label {
-      font-size: var(--font-size-body);
-      color: var(--on-surface-variant);
-      white-space: nowrap;
-    }
-    .stat-card__change {
-      font-size: var(--font-size-caption);
-      font-weight: var(--font-weight-eyebrow);
-      white-space: nowrap;
-      display: inline-flex; align-items: center; gap: 4px;
-    }
-    .stat-card__change--up { color: var(--success); }
-    .stat-card__change--down { color: var(--aitutor-error-500); }
-    .stat-card__change svg { width: 12px; height: 12px; }
-
-    /* === Subject selector === */
-    .subject-row { display: flex; gap: var(--space-2); flex-wrap: wrap; }
-    .subject-pill {
-      display: inline-flex; align-items: center;
-      height: 32px; padding: 0 var(--space-4);
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-pill);
-      color: var(--on-surface-variant);
-      font-size: var(--font-size-body);
-      font-weight: var(--font-weight-h4);
-      transition: background .15s, border-color .15s, color .15s;
-    }
-    .subject-pill:hover { background: var(--surface-container-low); }
-    .subject-pill.active {
-      background: var(--primary); color: #fff; border-color: var(--primary);
-    }
-    .subject-pill .badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-width: 18px; height: 18px; padding: 0 6px;
-      background: var(--aitutor-primary-100); color: var(--aitutor-primary-700);
-      border-radius: var(--radius-pill);
-      font-size: 11px; font-weight: 700;
-      margin-left: 6px;
-    }
-    .subject-pill.active .badge { background: rgba(255,255,255,.25); color: #fff; }
-
-    /* === Weak point list === */
-    .weak-list {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-    }
-    .weak-item {
-      display: grid;
-      grid-template-columns: minmax(0, 2.5fr) minmax(0, 2fr) auto;
-      gap: var(--space-4);
-      align-items: center;
-      padding: var(--space-4) var(--space-5);
-      border-top: 1px solid var(--border);
-      transition: background .15s;
-    }
-    .weak-item:first-child { border-top: none; }
-    .weak-item:hover { background: var(--surface-container-low); }
-    .weak-meta { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-    .weak-meta__title {
-      display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;
-      font-family: var(--font-heading);
-      font-size: var(--font-size-h4);
-      font-weight: var(--font-weight-h4);
-      color: var(--on-surface);
-    }
-    .weak-meta__title-text { word-break: keep-all; }
-    .weak-meta__sub {
-      display: flex; align-items: center; gap: var(--space-3);
-      font-size: var(--font-size-caption);
-      color: var(--on-surface-variant);
-      flex-wrap: wrap;
-    }
-    .weak-meta__sub-item {
-      display: inline-flex; align-items: center; gap: 4px;
-    }
-    .weak-meta__sub-item svg { width: 12px; height: 12px; }
-    .weak-bar-wrap { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-    .weak-bar-track {
-      width: 100%; height: 8px;
-      background: var(--surface-container);
-      border-radius: var(--radius-pill);
-      overflow: hidden;
-    }
-    .weak-bar-fill {
-      height: 100%;
-      border-radius: var(--radius-pill);
-      background: linear-gradient(90deg, var(--aitutor-primary-400) 0%, var(--aitutor-primary-600) 100%);
-      transition: width .3s ease;
-    }
-    .weak-bar-fill--mid {
-      background: linear-gradient(90deg, var(--aitutor-warning-500) 0%, var(--aitutor-warning-700) 100%);
-    }
-    .weak-bar-fill--low {
-      background: linear-gradient(90deg, var(--aitutor-info-500) 0%, var(--aitutor-info-700) 100%);
-    }
-    .weak-bar-meta {
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: var(--font-size-caption);
-      color: var(--on-surface-variant);
-    }
-    .weak-bar-meta__score {
-      font-family: var(--font-display);
-      font-weight: var(--font-weight-h4);
-      color: var(--primary);
-      font-variant-numeric: tabular-nums;
-    }
-    .weak-actions { display: flex; align-items: center; gap: var(--space-2); }
-
-    /* Difficulty stars */
-    .stars { display: inline-flex; gap: 2px; }
-    .stars svg { width: 14px; height: 14px; color: var(--aitutor-warning-500); }
-    .stars svg.empty { color: var(--outline); }
-
-    /* === Buttons === */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      padding: 0 var(--space-4);
-      height: var(--size-btn-md);
-      font-family: var(--font-body);
-      font-size: var(--font-size-body);
-      font-weight: var(--font-weight-h4);
-      border-radius: var(--radius-pill);
-      border: 1px solid transparent;
-      transition: background .15s, border-color .15s, color .15s, transform .15s, box-shadow .15s;
-      white-space: nowrap;
-    }
-    .btn svg { width: 16px; height: 16px; }
-    .btn--primary {
-      background: var(--primary); color: var(--primary-foreground);
-    }
-    .btn--primary:hover { background: var(--primary-hover); }
-    .btn--ghost {
-      background: transparent;
-      border-color: var(--border);
-      color: var(--on-surface);
-    }
-    .btn--ghost:hover {
-      background: var(--surface-container-low);
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-    .btn--sm { height: var(--size-btn-sm); padding: 0 var(--space-3); font-size: var(--font-size-caption); }
-    .btn--lg { height: var(--size-btn-lg); padding: 0 var(--space-5); font-size: var(--font-size-lead); }
-    .btn:disabled { opacity: .4; cursor: not-allowed; }
-
-    /* === Action grid (4 loop exits) === */
-    .action-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: var(--space-5);
-    }
-    .action-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: var(--space-6);
-      display: flex; flex-direction: column; gap: var(--space-3);
-      min-width: 0;
-      transition: border-color .15s, transform .15s, box-shadow .15s;
-      cursor: pointer;
-    }
-    .action-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-2);
-    }
-    .action-card__icon {
-      width: var(--size-icon-lg); height: var(--size-icon-lg);
-      color: var(--primary); flex-shrink: 0;
-    }
-    .action-card__heading {
-      font-family: var(--font-heading);
-      font-size: var(--font-size-h4);
-      font-weight: var(--font-weight-h4);
-      line-height: var(--line-height-h4);
-      color: var(--on-surface);
-      word-break: keep-all;
-    }
-    .action-card__desc {
-      font-size: var(--font-size-body);
-      line-height: var(--line-height-body);
-      color: var(--on-surface-variant);
-    }
-    .action-card__footer {
-      margin-top: auto;
-      display: flex; align-items: center; gap: 6px;
-      font-size: var(--font-size-caption);
-      font-weight: var(--font-weight-h4);
-      color: var(--primary);
-    }
-    .action-card__footer svg { width: 14px; height: 14px; }
-
-    .action-card--featured {
-      background: linear-gradient(135deg, var(--aitutor-primary-50) 0%, #fff 100%);
-      border-color: var(--aitutor-primary-200);
-    }
-    html.dark .action-card--featured {
-      background: linear-gradient(135deg, rgba(215,25,32,.10) 0%, rgba(11,11,13,.5) 100%);
-      border-color: var(--aitutor-primary-700);
-    }
-    .action-card--featured .action-card__heading { color: var(--primary); }
-    .action-card--featured .action-card__footer { color: var(--primary); }
-
-    /* === Tag chips for subject labels === */
-    .tag {
-      display: inline-flex; align-items: center;
-      height: 24px; padding: 0 var(--space-3);
-      border-radius: var(--radius-pill);
-      font-size: var(--font-size-caption);
-      font-weight: var(--font-weight-eyebrow);
-      white-space: nowrap;
-      border: 1px solid transparent;
-    }
-    .tag--primary { background: var(--aitutor-primary-50);  color: var(--aitutor-primary-700);  border-color: var(--aitutor-primary-200); }
-    .tag--blue    { background: var(--aitutor-blue-50);     color: var(--aitutor-blue-700);     border-color: var(--aitutor-blue-200); }
-    .tag--success { background: var(--aitutor-success-50);  color: var(--aitutor-success-700);  border-color: #a7f3d0; }
-    .tag--info    { background: var(--aitutor-info-50);     color: var(--aitutor-info-700);     border-color: #bae6fd; }
-    .tag--warning { background: var(--aitutor-warning-50);  color: var(--aitutor-warning-700);  border-color: #fde68a; }
-    html.dark .tag--primary { background: rgba(215,25,32,.12);  color: var(--aitutor-primary-200);  border-color: rgba(215,25,32,.3); }
-    html.dark .tag--blue    { background: rgba(37,99,235,.12);  color: var(--aitutor-blue-200);     border-color: rgba(37,99,235,.3); }
-    html.dark .tag--success { background: rgba(5,150,105,.12);  color: #6ee7b7;                    border-color: rgba(5,150,105,.3); }
-    html.dark .tag--info    { background: rgba(2,132,199,.12);  color: #7dd3fc;                    border-color: rgba(2,132,199,.3); }
-    html.dark .tag--warning { background: rgba(245,158,11,.12); color: #fcd34d;                    border-color: rgba(245,158,11,.3); }
-
-    /* === Inline meta on weak list === */
-    .frequency {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: var(--font-size-caption);
-      color: var(--on-surface-variant);
-    }
-    .frequency-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .frequency-dot--high { background: var(--aitutor-primary-500); }
-    .frequency-dot--mid  { background: var(--aitutor-warning-500); }
-    .frequency-dot--low  { background: var(--aitutor-info-500); }
-
-    /* === Footer === */
-    .footer {
-      padding: var(--space-7) var(--space-5) var(--space-6);
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--on-surface-variant);
-      font-size: var(--font-size-caption);
-    }
-    .footer strong { color: var(--on-surface); font-weight: var(--font-weight-h4); }
-
-    /* === Empty state === */
-    .empty {
-      padding: var(--space-8) var(--space-5);
-      text-align: center;
-      color: var(--on-surface-variant);
-    }
-    .empty svg { width: 48px; height: 48px; margin-bottom: var(--space-3); color: var(--muted); }
-
-    /* === Responsive === */
-    @media (max-width: 900px) {
-      .stat-grid    { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .action-grid  { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .weak-item    { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
-      .weak-actions { justify-content: flex-start; }
-      .navbar-links { display: none; }
-    }
-    @media (max-width: 640px) {
-      .page         { padding: var(--space-4); }
-      .stat-grid    { grid-template-columns: 1fr; }
-      .action-grid  { grid-template-columns: 1fr; }
-      .header-meta  { display: none; }
-    }
-
-    /* === A11y focus rings === */
-    a:focus-visible, button:focus-visible {
-      outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius-sm);
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="description" content="练习中心 — 选学科组卷、逐题作答、交卷看分数与错题">
+  <title>练习中心 · 智启AI导师</title>
+  <link rel="stylesheet" href="/assets/v2/css/app.css">
 </head>
 <body>
+  <div class="wrap">
+    <header class="topbar">
+      <a href="/dashboard.html">← 仪表盘</a>
+      <span class="eyebrow">Practice</span>
+    </header>
 
-  <!-- ============ NAVBAR (sticky, dark) ============ -->
-  <header class="navbar">
-    <a href="#" class="navbar-logo">AI Tutor<span class="accent">.</span></a>
-    <nav>
-      <ul class="navbar-links">
-        <li><a class="navbar-link" href="#">首页</a></li>
-        <li><a class="navbar-link" href="#">预测卷</a></li>
-        <li><a class="navbar-link" href="#">错题本</a></li>
-        <li><a class="navbar-link active" href="#">练习中心</a></li>
-        <li><a class="navbar-link" href="#">AI讲题</a></li>
-      </ul>
-    </nav>
-    <div class="navbar-actions">
-      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
-        <i data-lucide="moon"></i>
-      </button>
-      <button class="btn btn--primary btn--sm" type="button">登 录</button>
+    <h1>练习中心</h1>
+    <p class="lede">按学科组一份练习，逐题作答后交卷，错题会自动进入错题本。</p>
+
+    <!-- 六态：成功 / 加载 / 空 / 错误 / 未登录 / 离线
+         success 内含三个子视图（组卷 / 答题 / 结果），用 hidden 切换 ——
+         它们共享同一套状态语义，不必各占一个面板。 -->
+    <div id="state-region" aria-live="polite">
+      <section class="state state--empty" data-state="empty">
+        <div class="state-card">
+          <h2>没有可练习的题目</h2>
+          <p id="empty-copy">该学科下暂时没有匹配的题目，换个学科试试。</p>
+          <p><button class="btn btn-ghost" id="empty-back-btn" type="button">重新组卷</button></p>
+        </div>
+      </section>
+
+      <section class="state state--loading" data-state="loading">
+        <div class="state-card">
+          <h2 id="loading-title">正在组卷…</h2>
+          <p class="skeleton skeleton--w90"></p>
+          <p class="skeleton skeleton--w70"></p>
+          <p class="skeleton skeleton--w50"></p>
+        </div>
+      </section>
+
+      <section class="state state--success" data-state="success">
+        <!-- 子视图 1：组卷 -->
+        <div id="view-setup">
+          <div class="card">
+            <div class="form-stack">
+              <label class="form-field" for="subject-select">
+                学科
+                <select id="subject-select">
+                  <option value="math">数学</option>
+                  <option value="physics">物理</option>
+                  <option value="chemistry">化学</option>
+                  <option value="chinese">语文</option>
+                  <option value="english">英语</option>
+                  <option value="politics">政治</option>
+                </select>
+              </label>
+              <label class="form-field" for="count-select">
+                题量
+                <select id="count-select">
+                  <option value="10">10 题</option>
+                  <option value="20" selected>20 题</option>
+                  <option value="30">30 题</option>
+                </select>
+              </label>
+              <button class="btn btn-block" id="start-btn" type="button">开始练习</button>
+            </div>
+          </div>
+
+          <h2 class="section-title">最近练习</h2>
+          <div class="card" id="history-list"></div>
+        </div>
+
+        <!-- 子视图 2：答题 -->
+        <div id="view-quiz" hidden>
+          <div class="progress-line">
+            <span id="quiz-progress">第 1 / 1 题</span>
+            <span id="quiz-meta"></span>
+          </div>
+
+          <article class="q-card">
+            <p class="stem" id="quiz-stem"></p>
+            <div id="quiz-options"></div>
+            <label class="form-field" for="quiz-text" id="quiz-text-wrap" hidden>
+              你的答案
+              <input id="quiz-text" type="text" autocomplete="off" placeholder="写出答案">
+            </label>
+          </article>
+
+          <div class="field-row">
+            <button class="btn btn-ghost" id="prev-btn" type="button">上一题</button>
+            <button class="btn btn-ghost" id="next-btn" type="button">下一题</button>
+            <button class="btn" id="submit-paper-btn" type="button">交卷</button>
+          </div>
+          <p class="form-hint" id="answer-hint"></p>
+        </div>
+
+        <!-- 子视图 3：结果 -->
+        <div id="view-result" hidden>
+          <div class="card">
+            <div class="overall">
+              <div>
+                <span class="overall-value" id="result-score">0</span><span class="overall-unit">%</span>
+              </div>
+              <div class="overall-meta" id="result-meta"></div>
+            </div>
+          </div>
+
+          <h2 class="section-title">逐题结果</h2>
+          <div class="card" id="result-list"></div>
+
+          <div class="field-row">
+            <a class="btn btn-ghost" href="/wrong-book.html">去错题本</a>
+            <button class="btn btn-ghost" id="again-btn" type="button">再练一组</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="state state--error" data-state="error">
+        <div class="state-card">
+          <h2>练习出错</h2>
+          <p id="error-copy">服务暂时不可用。</p>
+          <p><button class="btn btn-ghost" id="retry-btn" type="button">重试</button></p>
+        </div>
+      </section>
+
+      <section class="state state--auth" data-state="auth">
+        <div class="state-card">
+          <h2>需要登录</h2>
+          <p>练习记录要记到你的账号下，请先登录。</p>
+          <p><a class="btn" href="/login.html?next=practice-hub.html">去登录</a></p>
+        </div>
+      </section>
+
+      <section class="state state--offline" data-state="offline">
+        <div class="state-card">
+          <h2>当前处于离线状态</h2>
+          <p>组卷与交卷都需要联网，恢复网络后重试。</p>
+          <p><button class="btn btn-ghost" id="offline-retry-btn" type="button">重新连接</button></p>
+        </div>
+      </section>
     </div>
-  </header>
+  </div>
 
-  <!-- ============ PAGE ============ -->
-  <main class="page">
-
-    <!-- ===== Page header ===== -->
-    <div class="page-header">
-      <span class="eyebrow">PRACTICE HUB · 今日必做</span>
-      <div class="header-row">
-        <div>
-          <h1 class="page-title">练习中心</h1>
-          <p class="page-subtitle">基于你的薄弱点，AI 已为你安排今日练习。先复习，再强化，循环提升。</p>
-        </div>
-        <div class="header-meta">
-          <i data-lucide="calendar-days"></i>
-          <span>2026 年 9 月 15 日 · 周二</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== Stats row ===== -->
-    <section class="section" aria-label="学习概览">
-      <div class="stat-grid">
-        <div class="stat-card stat-card--accent">
-          <span class="stat-card__icon"><i data-lucide="flame"></i></span>
-          <span class="stat-card__number">12</span>
-          <span class="stat-card__label">学习连胜</span>
-          <span class="stat-card__change stat-card__change--up">
-            <i data-lucide="trending-up"></i> 较昨日 +1
-          </span>
-        </div>
-        <div class="stat-card stat-card--blue">
-          <span class="stat-card__icon"><i data-lucide="target"></i></span>
-          <span class="stat-card__number">78</span>
-          <span class="stat-card__label">综合得分</span>
-          <span class="stat-card__change stat-card__change--up">
-            <i data-lucide="trending-up"></i> 较上周 +5
-          </span>
-        </div>
-        <div class="stat-card stat-card--warning">
-          <span class="stat-card__icon"><i data-lucide="alert-triangle"></i></span>
-          <span class="stat-card__number">12</span>
-          <span class="stat-card__label">薄弱知识点</span>
-          <span class="stat-card__change stat-card__change--down">
-            <i data-lucide="trending-down"></i> 较上周 -2
-          </span>
-        </div>
-        <div class="stat-card stat-card--success">
-          <span class="stat-card__icon"><i data-lucide="check-circle-2"></i></span>
-          <span class="stat-card__number">28</span>
-          <span class="stat-card__label">已完成题目</span>
-          <span class="stat-card__change">今日目标 40</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== Weak points (subject-aware) ===== -->
-    <section class="section" aria-label="薄弱知识点">
-      <div class="section-header">
-        <h2 class="section-title">薄弱知识点 · 优先攻克</h2>
-        <a href="#" class="section-link">查看全部 <i data-lucide="chevron-right"></i></a>
-      </div>
-
-      <!-- Subject selector — pill, matches existing pattern -->
-      <div class="subject-row" role="tablist" aria-label="学科切换">
-        <button class="subject-pill active" type="button" role="tab" aria-selected="true">数学 <span class="badge">5</span></button>
-        <button class="subject-pill" type="button" role="tab">物理 <span class="badge">3</span></button>
-        <button class="subject-pill" type="button" role="tab">化学 <span class="badge">2</span></button>
-        <button class="subject-pill" type="button" role="tab">英语 <span class="badge">1</span></button>
-        <button class="subject-pill" type="button" role="tab">语文</button>
-      </div>
-
-      <div class="weak-list" role="list">
-
-        <!-- Item 1 -->
-        <div class="weak-item" role="listitem">
-          <div class="weak-meta">
-            <div class="weak-meta__title">
-              <span class="tag tag--primary">数学</span>
-              <span class="weak-meta__title-text">导数与切线</span>
-            </div>
-            <div class="weak-meta__sub">
-              <span class="weak-meta__sub-item">
-                <span class="stars">
-                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
-                  <i data-lucide="star"></i><i data-lucide="star" class="empty"></i>
-                </span>
-                <span>难度 4/5</span>
-              </span>
-              <span class="frequency">
-                <span class="frequency-dot frequency-dot--high"></span>
-                高频考点
-              </span>
-              <span class="weak-meta__sub-item">
-                <i data-lucide="clock"></i>
-                最近 2 天错 4 道
-              </span>
-            </div>
-          </div>
-
-          <div class="weak-bar-wrap">
-            <div class="weak-bar-track">
-              <div class="weak-bar-fill" style="width: 86%"></div>
-            </div>
-            <div class="weak-bar-meta">
-              <span>薄弱度指数</span>
-              <span class="weak-bar-meta__score">9.6 / 10</span>
-            </div>
-          </div>
-
-          <div class="weak-actions">
-            <button class="btn btn--primary btn--sm" type="button">练习这题</button>
-            <button class="btn btn--ghost btn--sm" type="button" aria-label="查看解析">
-              <i data-lucide="book-open"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="weak-item" role="listitem">
-          <div class="weak-meta">
-            <div class="weak-meta__title">
-              <span class="tag tag--primary">数学</span>
-              <span class="weak-meta__title-text">三角函数综合应用</span>
-            </div>
-            <div class="weak-meta__sub">
-              <span class="weak-meta__sub-item">
-                <span class="stars">
-                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
-                  <i data-lucide="star" class="empty"></i><i data-lucide="star" class="empty"></i>
-                </span>
-                <span>难度 3/5</span>
-              </span>
-              <span class="frequency">
-                <span class="frequency-dot frequency-dot--high"></span>
-                高频考点
-              </span>
-              <span class="weak-meta__sub-item">
-                <i data-lucide="clock"></i>
-                最近 5 天错 6 道
-              </span>
-            </div>
-          </div>
-
-          <div class="weak-bar-wrap">
-            <div class="weak-bar-track">
-              <div class="weak-bar-fill" style="width: 72%"></div>
-            </div>
-            <div class="weak-bar-meta">
-              <span>薄弱度指数</span>
-              <span class="weak-bar-meta__score">7.2 / 10</span>
-            </div>
-          </div>
-
-          <div class="weak-actions">
-            <button class="btn btn--primary btn--sm" type="button">练习这题</button>
-            <button class="btn btn--ghost btn--sm" type="button" aria-label="查看解析">
-              <i data-lucide="book-open"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="weak-item" role="listitem">
-          <div class="weak-meta">
-            <div class="weak-meta__title">
-              <span class="tag tag--primary">数学</span>
-              <span class="weak-meta__title-text">数列通项与求和</span>
-            </div>
-            <div class="weak-meta__sub">
-              <span class="weak-meta__sub-item">
-                <span class="stars">
-                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
-                  <i data-lucide="star"></i><i data-lucide="star" class="empty"></i>
-                </span>
-                <span>难度 4/5</span>
-              </span>
-              <span class="frequency">
-                <span class="frequency-dot frequency-dot--mid"></span>
-                中频考点
-              </span>
-              <span class="weak-meta__sub-item">
-                <i data-lucide="clock"></i>
-                最近 7 天错 3 道
-              </span>
-            </div>
-          </div>
-
-          <div class="weak-bar-wrap">
-            <div class="weak-bar-track">
-              <div class="weak-bar-fill weak-bar-fill--mid" style="width: 58%"></div>
-            </div>
-            <div class="weak-bar-meta">
-              <span>薄弱度指数</span>
-              <span class="weak-bar-meta__score">5.8 / 10</span>
-            </div>
-          </div>
-
-          <div class="weak-actions">
-            <button class="btn btn--primary btn--sm" type="button">练习这题</button>
-            <button class="btn btn--ghost btn--sm" type="button" aria-label="查看解析">
-              <i data-lucide="book-open"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Item 4 -->
-        <div class="weak-item" role="listitem">
-          <div class="weak-meta">
-            <div class="weak-meta__title">
-              <span class="tag tag--primary">数学</span>
-              <span class="weak-meta__title-text">立体几何 · 空间向量</span>
-            </div>
-            <div class="weak-meta__sub">
-              <span class="weak-meta__sub-item">
-                <span class="stars">
-                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star" class="empty"></i>
-                  <i data-lucide="star" class="empty"></i><i data-lucide="star" class="empty"></i>
-                </span>
-                <span>难度 2/5</span>
-              </span>
-              <span class="frequency">
-                <span class="frequency-dot frequency-dot--mid"></span>
-                中频考点
-              </span>
-              <span class="weak-meta__sub-item">
-                <i data-lucide="clock"></i>
-                最近 3 天错 2 道
-              </span>
-            </div>
-          </div>
-
-          <div class="weak-bar-wrap">
-            <div class="weak-bar-track">
-              <div class="weak-bar-fill weak-bar-fill--mid" style="width: 41%"></div>
-            </div>
-            <div class="weak-bar-meta">
-              <span>薄弱度指数</span>
-              <span class="weak-bar-meta__score">4.1 / 10</span>
-            </div>
-          </div>
-
-          <div class="weak-actions">
-            <button class="btn btn--primary btn--sm" type="button">练习这题</button>
-            <button class="btn btn--ghost btn--sm" type="button" aria-label="查看解析">
-              <i data-lucide="book-open"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Item 5 -->
-        <div class="weak-item" role="listitem">
-          <div class="weak-meta">
-            <div class="weak-meta__title">
-              <span class="tag tag--primary">数学</span>
-              <span class="weak-meta__title-text">概率与统计 · 分布列</span>
-            </div>
-            <div class="weak-meta__sub">
-              <span class="weak-meta__sub-item">
-                <span class="stars">
-                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
-                  <i data-lucide="star" class="empty"></i><i data-lucide="star" class="empty"></i>
-                </span>
-                <span>难度 3/5</span>
-              </span>
-              <span class="frequency">
-                <span class="frequency-dot frequency-dot--low"></span>
-                低频考点
-              </span>
-              <span class="weak-meta__sub-item">
-                <i data-lucide="clock"></i>
-                最近 10 天错 1 道
-              </span>
-            </div>
-          </div>
-
-          <div class="weak-bar-wrap">
-            <div class="weak-bar-track">
-              <div class="weak-bar-fill weak-bar-fill--low" style="width: 28%"></div>
-            </div>
-            <div class="weak-bar-meta">
-              <span>薄弱度指数</span>
-              <span class="weak-bar-meta__score">2.8 / 10</span>
-            </div>
-          </div>
-
-          <div class="weak-actions">
-            <button class="btn btn--primary btn--sm" type="button">练习这题</button>
-            <button class="btn btn--ghost btn--sm" type="button" aria-label="查看解析">
-              <i data-lucide="book-open"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 4 Action cards (loop exits) ===== -->
-    <section class="section" aria-label="行动出口">
-      <div class="section-header">
-        <h2 class="section-title">下一步动作</h2>
-        <a href="#" class="section-link">全部功能 <i data-lucide="chevron-right"></i></a>
-      </div>
-
-      <div class="action-grid">
-        <div class="action-card action-card--featured" tabindex="0">
-          <i data-lucide="play" class="action-card__icon"></i>
-          <h3 class="action-card__heading">开始今日练习</h3>
-          <p class="action-card__desc">基于薄弱点生成的 10 道精选题，预计用时 25 分钟。</p>
-          <span class="action-card__footer">
-            立即开始 <i data-lucide="arrow-right"></i>
-          </span>
-        </div>
-
-        <div class="action-card" tabindex="0">
-          <i data-lucide="file-text" class="action-card__icon"></i>
-          <h3 class="action-card__heading">生成预测卷</h3>
-          <p class="action-card__desc">按薄弱点智能组卷，9 科覆盖，难度自适应。</p>
-          <span class="action-card__footer">
-            选择学科 <i data-lucide="arrow-right"></i>
-          </span>
-        </div>
-
-        <div class="action-card" tabindex="0">
-          <i data-lucide="message-circle" class="action-card__icon"></i>
-          <h3 class="action-card__heading">AI 讲题</h3>
-          <p class="action-card__desc">拍照或文字提问，AI 即时拆解思路与考点。</p>
-          <span class="action-card__footer">
-            发起对话 <i data-lucide="arrow-right"></i>
-          </span>
-        </div>
-
-        <div class="action-card" tabindex="0">
-          <i data-lucide="map" class="action-card__icon"></i>
-          <h3 class="action-card__heading">学习路径</h3>
-          <p class="action-card__desc">按你的目标与水平，规划长期复习路线。</p>
-          <span class="action-card__footer">
-            查看路径 <i data-lucide="arrow-right"></i>
-          </span>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ============ FOOTER ============ -->
-  <footer class="footer">
-    <p><strong>智启 AI 导师</strong> · 高考/中考错题诊断与预测学习平台</p>
-    <p style="margin-top: 8px;">拍照解题 · 错题管理 · AI 智能学习 · 仅供学习参考</p>
-  </footer>
-
-  <!-- ============ Theme toggle + Lucide init ============ -->
-  <script>
-    // Lucide icon init
-    if (window.lucide && window.lucide.createIcons) {
-      lucide.createIcons();
-    }
-
-    // Theme toggle
-    const themeBtn = document.getElementById('themeToggle');
-    const root = document.documentElement;
-    const setIcon = () => {
-      themeBtn.innerHTML = root.classList.contains('dark')
-        ? '<i data-lucide="sun"></i>'
-        : '<i data-lucide="moon"></i>';
-      lucide.createIcons();
-    };
-    themeBtn.addEventListener('click', () => {
-      root.classList.toggle('dark');
-      setIcon();
-    });
-
-    // Subject pill switcher (visual only, static demo)
-    document.querySelectorAll('.subject-pill').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.subject-pill').forEach(b => {
-          b.classList.remove('active');
-          b.setAttribute('aria-selected', 'false');
-        });
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-      });
-    });
-  </script>
-
+  <script src="/assets/v2/js/ui.js"></script>
+  <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/practice-hub.js"></script>
 </body>
 </html>

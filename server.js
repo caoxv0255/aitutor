@@ -260,7 +260,7 @@ app.get(/^\/(frontend)(\/.*)?$/, (req, res) => {
 // ═══════════════════════════════════════════════════════════════════════════
 const NEW_TREE_ENABLED = process.env.NEW_TREE !== 'off';
 const DEFAULT_NEW_TREE_PAGES =
-  'login.html,register.html,photo-solve.html,wrong-book.html,review-session.html,mastery.html,dashboard.html';
+  'login.html,register.html,photo-solve.html,wrong-book.html,review-session.html,mastery.html,dashboard.html,practice-hub.html';
 const NEW_TREE_PAGES = (process.env.NEW_TREE_PAGES || DEFAULT_NEW_TREE_PAGES)
   .split(',')
   .map((s) => s.trim())

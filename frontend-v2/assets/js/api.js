@@ -155,6 +155,41 @@
       return request('/api/srs/engine/stats', { signal: signal });
     },
 
+    /* ── 练习（exam） ───────────────────────────────────────────────────── */
+
+    /**
+     * 组卷并开启会话：POST /api/exam/session/start
+     * 入参 { subject(必填), province_code?, year?, time_limit=120, question_count=20 }
+     * → { sessionId, questions:[{id,question_number,question_type,stem,options,score,difficulty,year,province_name}],
+     *     timeLimit, totalQuestions, subject, province_code }
+     * 无匹配题目时后端返回 404「没有找到符合条件的题目」。
+     */
+    startPractice: function (payload, signal) {
+      return request('/api/exam/session/start', { method: 'POST', body: payload, signal: signal });
+    },
+
+    /**
+     * 交卷：POST /api/exam/session/submit  { sessionId, answers:[{questionId, answer}] }
+     * → { sessionId, totalQuestions, correctCount, accuracy, earnedScore, totalScore, results[] }
+     *
+     * ⚠️ 标度（接新端点必查）：accuracy 是**后端算好的百分比字符串**（"82.5"），
+     * 且是**按得分**加权（earnedScore/totalScore），不是按题数 ——
+     * 页面要同时给出"答对 N/M"，否则会误导。
+     */
+    submitPractice: function (payload, signal) {
+      return request('/api/exam/session/submit', { method: 'POST', body: payload, signal: signal });
+    },
+
+    /** 练习历史：GET /api/exam/session/history?limit&offset → { data?, sessions? , total } */
+    practiceHistory: function (query, signal) {
+      const qs = new global.URLSearchParams();
+      Object.keys(query || {}).forEach(function (k) {
+        if (query[k] !== undefined && query[k] !== null && query[k] !== '') qs.set(k, query[k]);
+      });
+      const suffix = qs.toString() ? '?' + qs.toString() : '';
+      return request('/api/exam/session/history' + suffix, { signal: signal });
+    },
+
     /* ── 仪表盘 / 今日任务 / 签到 ───────────────────────────────────────── */
 
     /**

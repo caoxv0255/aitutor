@@ -41,7 +41,7 @@
 | `wrong-book.html` | v2 + F3 | `GET/POST /api/user/wrong-questions`、`GET /api/user/wrong-questions/stats`、`GET /api/user/wrong-questions/export` | 切片链路的终点页 |
 | `mastery.html` | v2 + F3 | `GET /api/knowledge/mastery`、`GET /api/knowledge/map`、`GET /api/knowledge/:kpId/practice` | ✅ 已按新架构重建（51 项验收）；标度见 G6-b（本端点 0..1） |
 | `essay.html` | v2 + F3 | `POST /api/essay/grade`、`GET /api/essay`、`POST /api/essay/upload` | 长耗时，加载态必须可中断 |
-| `practice-hub.html` | v2 + F3 | `POST /api/exam/session/start`、`POST /api/exam/session/submit`、`GET /api/exam/questions` | |
+| `practice-hub.html` | v2 + F3 | `POST /api/exam/session/start`、`POST /api/exam/session/submit`、`GET /api/exam/session/history` | ✅ 已按新架构重建（57 项验收）；accuracy 按得分加权，页面同时给"答对 N/M" |
 | `learning-path.html` | v2 + F3 | `GET /api/learning-path/current`、`GET /api/analytics/learning-path` | |
 | `teacher-dashboard.html` | v2 + F3 | `GET /api/analytics/class/analysis`、`/api/analytics/class/teacher`、`/api/class-detail` | 需角色校验 |
 
