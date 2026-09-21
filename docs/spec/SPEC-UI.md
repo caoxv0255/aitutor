@@ -34,7 +34,7 @@
 | 品牌 | `--brand-red #d71920`、`--brand-red-dark`、`--brand-red-50/100` | D093 红系 |
 | 学科色 | `--ch-orange/red/purple/blue/green/cyan/amber/lime/pink` | 9 学科 |
 | 表面 | `--bg #fffbf8`、`--surface`、`--surface-2`、`--ink/ink-2/ink-3`、`--line`、`--line-soft` | 暖米底 + 深墨字 |
-| 字体 | `--font-display`（Baloo 2→系统）、`--font-body`（Comic Neue/Noto Sans SC→系统）、`--font-num` | **不引 Google Fonts**；堆叠里保留名字以便本机已装时命中 |
+| 字体 | `--font-display`（DM Sans + Noto Sans SC）、`--font-body`（Noto Sans SC + DM Sans）、`--font-num`（JetBrains Mono）、`--font-serif`（Noto Serif SC · 作文/引言） | **PM-BRIEF §B.2 字体层级（2026-09-21 用户拍板，取代 hero 的 Baloo 2/Comic Neue）**；全部自托管（CJK 按 unicode-range 分片 210 个 / 11MB，浏览器按需加载），禁止回退 Google Fonts CDN |
 | 形状 | `--r-sm/md/lg/xl/pill` | |
 | 阴影 | `--shadow-clay`、`--shadow-soft` | claymorphism 双层 |
 
@@ -79,6 +79,60 @@
 | viewport 声明 | 每页 `<meta name="viewport" ... width=device-width>` |
 | 触控目标 / 输入字号 | `.btn { min-height: 44px }`、输入 16px（静态可查） |
 | 以上全部 | `node tests/frontend/responsive-baseline.test.mjs` |
+
+---
+
+## 5.5 组件标准（2026-09-21 固化 · 唯一真相源）
+
+**标准文件**：`frontend-v2/assets/css/system.css` —— 从 `hero.html`（用户指定的风格基准）内联样式中**原样抽取**（39381 字符 / 127 规则）。
+**信息架构权威**：`docs/design/PM-BRIEF.md` §B.1/§F.11（页面树 v2 · 16 路由）与 §F.4（每页 4 状态具体内容）—— 空态文案、页面清单以它为准。
+**加载顺序**（每页必须一致）：`fonts.css` → `system.css` → `app.css`
+
+- `fonts.css`：自托管字体（DM Sans / Noto Sans SC / Noto Serif SC / JetBrains Mono；CJK 分片 210 个 / 11MB），禁止改回 Google Fonts CDN
+- `system.css`：**标准件**（视觉，单一真相源；改视觉只改这里）
+- `app.css`：页面层（状态机、表单、列表；**只做布局适配，不得改标准件外观**）
+
+### 5.5.1 页面骨架（所有页统一）
+
+```
+body
+├── nav.nav > .container.nav__inner > .brand + .nav__links > .nav__link* , .nav__cta
+├── header.hero.hero--app > .hero-blobs(i×3) + .container > .hero__copy
+│      .eyebrow(.eyebrow__dot) · h1.hero__title · p.hero__sub
+│      .hero__ctas > .cta-primary / .cta-secondary · .trust > .trust__item > b.trust__b
+├── #state-region   （六态面板；必须是 body 直接子元素，全宽区块才能铺满）
+│      section.state[data-state] > .section(.section--cream) > .container
+├── nav.tabbar（≤767px：首页/错题/拍照·中央凸起/复习/我的；桌面隐藏）
+└── footer.footer > .container
+```
+
+### 5.5.2 标准件目录
+
+| 组件 | 必需结构 | 用途 |
+|---|---|---|
+| 区块 | `.section` / `.section--cream` + 内层 `.container` | 全宽交替背景，节奏来源 |
+| 区块头 | `.section__eyebrow` + `.section__title` + `.section__sub` | 每块统一开场 |
+| KPI 卡 | `.float-card.float-card--static` > `.float-card__icon` + `__body`(`__num` + `__sub`) | 指标（静态变体取消绝对定位） |
+| 步骤条 | `.loop.loop--auto` > `.loop__step` > `.loop__icon` + `.loop__num` + `.loop__lbl` | 今日任务等有序列 |
+| 内容卡 | `.features.features--auto` > `.feature` > `.feature__icon` + `__num` + `__title` + `__desc` | 知识点/学科等卡片网格 |
+| 行动区 | `.final-cta` > `.final-cta__inner` > `__title`/`__sub`/`__row`(btn)/`__note` | 页尾收束 |
+| 按钮 | `.cta-primary`（主）/ `.cta-secondary`（次） | ⚠️ 弃用旧 `.btn`，新页一律用标准件 |
+| 图标 | 内联 SVG（24×24，stroke=currentColor） | **禁止 emoji 当图标** |
+| 底部 Tab | `.tabbar` > `.tabbar__item`×5(`aria-current`) + `.tabbar__item--raise`（拍照中央凸起） | 移动端主导航（PM-BRIEF B.2）；≤767px 显示，桌面隐藏 |
+| 桌面导航 | `.nav` > `.nav__inner` > `.brand` + `.nav__links` + `.nav__cta` | 移动端 links 隐藏 |
+
+### 5.5.3 判据（机械可查 → 由 `check-ui-standard.mjs` 强制）
+
+1. 样式加载顺序为 fonts → system → app
+2. 无内联 `<style>`、无境外请求（`googleapis`/`jsdelivr`/`unpkg`）
+3. 六态面板齐备（认证页 5 态例外）
+4. 交互元素有 `:focus-visible` 覆盖（skill CRITICAL：focus-states）
+5. 文字用色不得绕过 token：`--brand-text`（暗色下品牌红 #d71920 仅 3.38:1，不合格）
+6. 微交互时长 ≤300ms（`--dur-fast: 200ms`）
+7. 焦点环 = 红色 outline 3px（PM-BRIEF F.5）
+8. 字体层级 = PM-BRIEF §B.2（DM Sans / Noto Sans SC / Serif SC / JetBrains Mono）
+9. 移动端 ≤767px 有 `.tabbar` 且 `.nav__links` 隐藏
+10. 不使用已淘汰的 `.wrap` / `.topbar` 骨架
 
 ---
 

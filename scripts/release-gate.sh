@@ -194,6 +194,14 @@ else
   fail "新主树路由异常 (见上; 可能是中间件顺序或 NEW_TREE_PAGES 与 frontend-v2 不一致)"
 fi
 
+# 2026-09-21: 用户指定 hero.html 为新树的风格与规格基准。已把 hero 内联样式原样
+# 抽成 system.css 并用本门禁保证"标准被真正用起来"（分级：接管页强制 / 原型页记欠账）。
+if node scripts/check-ui-standard.mjs; then
+  ok "前端视觉标准达标 (标准件 + 骨架 + 无境外请求)"
+else
+  fail "前端视觉标准未达标 (见上; 视觉只改 system.css，页面差异放 app.css)"
+fi
+
 # ── 7. 前端行为测试 (jsdom) ──
 # 2026-09-21: 新主树 frontend-v2/ 的每页都以"六态机 + 错误分类"验收,
 # 测试落在 tests/frontend/ 里独立跑, 无人守门 —— 改动共享层(ui.js/api.js/app.css)

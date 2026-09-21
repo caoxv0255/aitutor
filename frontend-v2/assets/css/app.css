@@ -36,9 +36,10 @@
   --line-soft: #faeae3;
 
   /* Typography */
-  --font-display: 'Baloo 2', 'DM Sans', system-ui, -apple-system, sans-serif;
-  --font-body: 'Comic Neue', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
-  --font-num: 'DM Sans', system-ui, monospace;
+  --font-display: 'DM Sans', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  --font-body: 'Noto Sans SC', 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-num: 'JetBrains Mono', 'DM Sans', monospace;
+  --font-serif: 'Noto Serif SC', serif; /* 作文/引言（PM-BRIEF §B.2） */
 
   /* Shape */
   --r-sm: 10px;
@@ -205,7 +206,7 @@ select {
 
 .btn-ghost {
   background: transparent;
-  color: var(--brand-red);
+  color: var(--brand-text);
   border: 1px solid var(--brand-red-100);
   box-shadow: none;
   padding: 9px 18px;
@@ -628,7 +629,7 @@ video {
 .form-error {
   margin: 0;
   font-size: 13px;
-  color: var(--brand-red-darker);
+  color: var(--brand-text);
 }
 
 .form-alt {
@@ -807,7 +808,7 @@ video {
 }
 
 .topic-pct--weak {
-  color: var(--brand-red);
+  color: var(--brand-text);
 }
 
 .bar {
@@ -1027,7 +1028,7 @@ video {
   display: inline-block;
   margin-bottom: 6px;
   font-size: 12px;
-  color: var(--brand-red-darker);
+  color: var(--brand-text);
 }
 
 @media (max-width: 767px) {
@@ -1108,4 +1109,385 @@ video {
   border: 1px solid var(--line-soft);
   border-radius: var(--r-pill);
   padding: 5px 12px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * hero 对齐层（2026-09-21）
+ *
+ * 来源：frontend-v2/hero.html（/v2/ 落地页）—— 用户指定的风格与规格。
+ * 这一层补齐之前简化版缺的三件事：
+ *   1. 动效 token（--ease / --dur）与 clay blob 形状（--r-blob）
+ *   2. 暗色模式（hero 有完整暗色 token 覆盖，此前完全缺失）
+ *   3. hero 的组件词汇：胶囊 CTA 渐变、四层高度、radial wash、显示字体标题
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Motion（hero 规格） */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 320ms;      /* 大块过渡：卡片阴影/布局 */
+  --dur-fast: 200ms; /* 微交互：按钮 hover/press（skill 建议 150–300ms） */
+  /* 文字用品牌色：光/暗两套。暗底上 #d71920 仅 3.38–3.79，小字不合格（见下） */
+  --brand-text: var(--brand-red);
+  /* clay blob 形状 */
+  --r-blob: 42% 58% 70% 30% / 45% 45% 55% 55%;
+}
+
+/* ── 标题与数字改用 hero 的显示字体 ─────────────────────────────────── */
+h1,
+h2,
+.section-title,
+.eyebrow,
+.btn,
+.quality-btn,
+.overall-value,
+.stat-cell b {
+  font-family: var(--font-display);
+}
+
+h1 {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.section-title {
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+
+/* ── 胶囊 CTA（hero .cta-primary 规格：135° 渐变 + 内高光 + clay 阴影） ── */
+.btn {
+  background: linear-gradient(135deg, #dc3d43, var(--brand-red-dark));
+  border-radius: var(--r-pill);
+  box-shadow:
+    0 8px 20px rgba(215, 25, 32, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 26px rgba(215, 25, 32, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+  background: var(--brand-red-dark);
+}
+
+.btn-ghost,
+.btn-danger {
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ── clay 卡片（hero 双层阴影 + 内高光已在 --shadow-clay 里） ─────────── */
+.card,
+.q-card,
+.state-card,
+.stat-cell {
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-clay);
+  transition: box-shadow var(--dur) var(--ease);
+}
+
+/* 进度条与评分填充跟随动效 token */
+.bar-fill {
+  transition: width var(--dur) var(--ease);
+}
+
+/* ── 顶部导航（hero .nav 规格：品牌标记 + 粘性顶栏） ─────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: -22px -16px 18px;
+  padding: 14px 20px;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.brand__mark {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-blob);
+  background: linear-gradient(135deg, #dc3d43, var(--brand-red-dark));
+  box-shadow:
+    6px 6px 14px rgba(215, 25, 32, 0.22),
+    -3px -3px 8px rgba(255, 255, 255, 0.6);
+  flex: none;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+}
+
+.nav__links a {
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+.nav__links a:hover {
+  color: var(--brand-red);
+}
+
+/* ── 暗色模式（hero 规格：4 级高度 + off-white 墨色 + 提升过的品牌红底） ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0a0b10;
+    --surface: #161922;
+    --surface-2: #1f2330;
+    --ink: #f0f2f7;
+    --ink-2: #b6bcca;
+    --ink-3: #8a90a0;
+    --line: #2a2f3c;
+    --line-soft: #1d212c;
+    --brand-red-50: #3a1719;
+    --brand-red-100: #4a1d20;
+    /* 文字用品牌红：实测 #d71920 在 #0a0b10 / #161922 上仅 3.79 / 3.38，
+       12–15px 文本不合格；#f87171 为 7.11 / 6.35，同色相且留足余量 */
+    --brand-text: #f87171;
+    --shadow-clay:
+      8px 8px 22px rgba(0, 0, 0, 0.55),
+      -4px -4px 12px rgba(255, 255, 255, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    --shadow-soft:
+      0 6px 18px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  body {
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(215, 25, 32, 0.07), transparent 60%),
+      radial-gradient(900px 600px at 95% 10%, rgba(124, 58, 237, 0.05), transparent 60%),
+      var(--bg);
+  }
+
+  .brand__mark {
+    box-shadow:
+      8px 8px 18px rgba(215, 25, 32, 0.25),
+      -3px -3px 8px rgba(255, 255, 255, 0.05);
+  }
+
+  .btn-ghost,
+  .btn-danger {
+    background: var(--surface-2);
+  }
+}
+
+/* ── 可见焦点环（skill CRITICAL: focus-states 必须可键盘导航） ─────────── */
+.btn:focus-visible,
+.btn-ghost:focus-visible,
+.quality-btn:focus-visible,
+.dropzone:focus-visible,
+.thumb button:focus-visible,
+.nav__links a:focus-visible,
+.brand:focus-visible,
+a.btn:focus-visible {
+  outline: 3px solid var(--brand-text); /* PM-BRIEF F.5: 红色 outline 3px */
+  outline-offset: 2px;
+}
+
+/* 深色下 outline 也要看得见（--brand-text 已是浅红） */
+@media (prefers-color-scheme: dark) {
+  .btn:focus-visible,
+  .btn-ghost:focus-visible,
+  .quality-btn:focus-visible {
+    outline-color: #f87171;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * 页面层：把 system.css 的标准组件适配到应用页
+ *
+ * 原则：**不改标准组件的视觉**，只做布局适配（静态化/紧凑化/自适应列数），
+ * 这样标准保持单一真相源，页面差异全部集中在这里。
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+/* 应用页页头：hero 的视觉装置保留，但改为单列、收紧纵向留白 */
+.hero--app {
+  padding: 56px 0 40px;
+}
+
+.hero--app .hero__inner,
+.hero--app .container {
+  display: block;
+}
+
+.hero--app .hero__title {
+  font-size: clamp(30px, 3.6vw, 44px);
+}
+
+.hero--app .hero__sub {
+  max-width: 56ch;
+}
+
+/* 应用页区块：landing 的 80px 太松，应用页收到 40–48px */
+.section--tight {
+  padding: 44px 0;
+}
+
+/* 状态面板放进 section 后，去掉自身的顶部外边距 */
+.section .state {
+  margin-top: 0;
+}
+
+/* 装饰性浮动卡 → 静态网格卡（保留 surface/line/阴影/圆角/blur 的标准外观） */
+.float-card--static {
+  position: static;
+  min-width: 0;
+  animation: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 16px 18px;
+}
+
+.float-card--static .float-card__num {
+  font-size: 26px;
+}
+
+/* 步骤条：hero 固定 8 列，应用页按实际数量自适应 */
+.loop--auto {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  margin-top: 24px;
+}
+
+.loop__step.task-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.loop__step .task-status {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.loop__step .task-status--done {
+  color: var(--ch-green);
+}
+
+/* 应用页的 feature 卡片网格 */
+.features--auto {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.feature.topic-row,
+.feature.dist-row {
+  padding: 18px 20px;
+}
+
+.feature .bar {
+  margin-top: 10px;
+}
+
+/* 页脚与最终行动区在应用页里的间距 */
+.section .final-cta {
+  border-radius: var(--r-xl);
+}
+
+.footer {
+  margin-top: 8px;
+}
+
+
+/* ── 底部 Tab（PM-BRIEF B.2：移动端主导航，5 Tab · 拍照中央凸起） ────────
+ * 桌面隐藏（顶部 nav 承担）；≤767px 显示，并给 body 让出高度。 */
+.tabbar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .nav__links {
+    display: none; /* 移动端主导航交给 tabbar */
+  }
+
+  body {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.tabbar__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 0;
+  font-size: 11px;
+  color: var(--ink-3);
+  text-decoration: none;
+  min-height: 44px; /* 触控目标 */
+}
+
+.tabbar__item[aria-current='page'] {
+  color: var(--brand-text);
+  font-weight: 700;
+}
+
+/* 中央凸起：拍照 */
+.tabbar__item--raise .tabbar__ico {
+  width: 48px;
+  height: 48px;
+  margin-top: -22px;
+  border-radius: var(--r-blob);
+  background: linear-gradient(135deg, #dc3d43, var(--brand-red-dark));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 22px rgba(215, 25, 32, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.tabbar__ico {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabbar__ico svg {
+  width: 20px;
+  height: 20px;
 }

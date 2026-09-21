@@ -1,0 +1,1228 @@
+/* ==========================================================================
+ * system.css — 新主前端树的视觉标准（Source of Truth）
+ *
+ * 来源：从 hero.html（/v2/ 落地页，用户指定的风格与规格基准）内联样式中
+ * **原样抽取**（39381 字符 / 127 个顶层规则），仅作两处调整：
+ *   1. 去掉了 hero 页专属的 body 背景以外的页面级 hack 注释里的历史说明（保留全部规则）
+ *   2. 顶部加本节说明
+ *
+ * 为什么原样抽取而不是"照着重写"：重写必然产生偏差（我第一版就是这么走偏的 ——
+ * 只搬了 token，丢掉 .hero-blobs/.float-card/.loop/.section--cream/.trust 等装置，
+ * 结果页面像骨架）。抽取保证与基准逐字节一致，后续演进以本文件为准。
+ *
+ * 加载顺序：fonts.css → system.css（本文件，视觉标准）→ app.css（页面组件：状态机/表单/列表）
+ *   app.css 里同名选择器（.card/.btn）会覆盖本文件；本文件独有的 hero 装置保持可用。
+ *
+ * 暗色：本文件自带 @media (prefers-color-scheme: dark) 的完整 token 覆盖。
+ * 字体：由 fonts.css 提供（自托管，禁止回退到 Google Fonts CDN —— 审计 R2 红线）。
+ * ========================================================================== */
+
+/* ============ Design tokens (ui-ux-pro-max MASTER) ============ */
+    :root {
+      /* Brand */
+      --brand-red:      #d71920;
+      --brand-red-dark: #b8151b;
+      --brand-red-darker:#941218;
+      --brand-red-50:   #fff5f5;
+      --brand-red-100:  #ffe0e0;
+
+      /* 9 学科色 */
+      --ch-orange:#c2410c; --ch-red:#d71920; --ch-purple:#7c3aed;
+      --ch-blue: #2563eb; --ch-green:#059669; --ch-cyan: #0891b2;
+      --ch-amber:#b45309; --ch-lime:#65a30d; --ch-pink: #be185d;
+
+      /* Surfaces */
+      --bg:      #fffbf8;
+      --surface: #ffffff;
+      --surface-2:#fef3ed;
+      --ink:     #0b1220;
+      --ink-2:   #3a4256;
+      --ink-3:   #6b7388;
+      --line:    #f0d9d2;
+      --line-soft:#faeae3;
+
+      /* Typography — PM-BRIEF §B.2 字体层级 (2026-09-21 起, 取代 Baloo 2/Comic Neue) */
+      --font-display: 'DM Sans', 'Noto Sans SC', system-ui, sans-serif;
+      --font-body: 'Noto Sans SC', 'DM Sans', system-ui, sans-serif;
+      --font-num: 'JetBrains Mono', 'DM Sans', monospace;
+      --font-serif: 'Noto Serif SC', serif; /* 作文/引言专用 */
+
+      /* Shape */
+      --r-sm:10px; --r-md:16px; --r-lg:22px; --r-xl:28px; --r-pill:9999px;
+      --r-blob:42% 58% 70% 30% / 45% 45% 55% 55%; /* clay blob */
+
+      /* Shadow (claymorphism 双层) */
+      --shadow-clay:
+        6px 6px 14px rgba(215, 25, 32, 0.10),
+        -6px -6px 14px rgba(255, 255, 255, 0.85),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      --shadow-soft:
+        0 4px 12px rgba(11, 18, 32, 0.06),
+        0 1px 0 rgba(255, 255, 255, 0.8);
+
+      /* Motion */
+      --ease: cubic-bezier(.22, 1, .36, 1);
+      --dur: 320ms;
+    }
+
+    *,*::before,*::after { box-sizing: border-box; margin:0; padding:0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 17px; line-height: 1.6;
+      font-feature-settings: 'kern' 1, 'liga' 1;
+      min-height: 100vh; overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+    /* ============ Layout container ============ */
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+    @media (max-width: 720px) { .container { padding: 0 16px; } }
+
+    /* ============ Nav ============ */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      padding: 14px 0;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      border-bottom: 1px solid var(--line-soft);
+      transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .nav__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -.01em;
+    }
+    .brand__mark {
+      width: 36px; height: 36px;
+      border-radius: var(--r-sm);
+      background: linear-gradient(135deg, var(--brand-red), var(--brand-red-darker));
+      color: #fff;
+      display: grid; place-items: center;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: var(--shadow-clay);
+    }
+    .nav__links { display: flex; gap: 8px; align-items: center; }
+    .nav__link {
+      padding: 8px 14px;
+      border-radius: var(--r-pill);
+      font-size: 14px;
+      color: var(--ink-2);
+      transition: all var(--dur) var(--ease);
+    }
+    .nav__link:hover { background: var(--brand-red-50); color: var(--brand-red-darker); }
+    /* v3.2: nav CTA — 改品牌红底白字. 旧版用 var(--ink) 在 dark mode 上
+       var(--ink: #f0f2f7) 让背景变白, 配上 color: #fff = 白底白字不可见.
+       品牌红 (#DC3D43) 在 light/dark 都和 #fff 形成 ≥4.5:1 对比度,
+       同时和 hero 主 CTA 视觉一致 (品牌一致性). */
+    .nav__cta {
+      display: grid;
+      place-items: center;
+      gap: 6px;
+      grid-auto-flow: column;
+      min-height: 36px;
+      padding: 0 18px;
+      background: linear-gradient(135deg, #DC3D43, var(--brand-red-dark));
+      color: #fff;
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(215, 25, 32, 0.25);
+      transition: transform var(--dur) var(--ease);
+    }
+    .nav__cta:hover { transform: translateY(-1px); }
+
+    /* ============ Hero — v3.2: full-screen, content vertically centered ============
+       取舍规则 (per task):
+       - min-height: 100svh (small viewport, iOS-friendly)
+       - 内容居中, CTA + 信任行必须在首屏
+       - 内容超出 100vh 时先压缩间距, 学科 chips 允许掉到折叠线下
+       - mobile 不强制 100svh (避免留大量空白, 让内容自然 flow)
+    */
+    .hero {
+      position: relative;
+      min-height: 100svh;   /* primary: small viewport (iOS Safari friendly) */
+      min-height: 100dvh;   /* fallback: dynamic viewport */
+      display: grid;
+      align-items: center;
+      padding: 88px 0 48px;   /* 88px top for nav clearance, 48px bottom */
+      overflow: clip;         /* PageFlip v1.0: hidden→clip —— 装饰 blob 仍被裁切，
+                                 但不再计入 scrollHeight（门禁 A2 要求 scrollHeight−clientHeight ≤ 0；
+                                 hidden 时 .hero::after{bottom:-60px} 会虚增 63px） */
+    }
+    /* Decorative blobs —— PageFlip v1.0: 从 .hero 的 ::before/::after 改为
+       专用装饰层 .hero-blobs 内的真实子元素。
+       原因：Chrome 的 scrollHeight 会把伪元素的溢出算进宿主元素，
+       而 overflow:hidden / clip / contain:paint / clip-path 都无法将其排除
+       （实测均为 +61px），导致门禁 A2「scrollHeight−clientHeight ≤ 0」假失败。
+       关进 overflow:hidden 的装饰层后，溢出被该层吸收、不再上溢到 .hero。
+       裁切边界与原设计完全相同（同为 hero 的 padding box），视觉零改动。 */
+    .hero-blobs {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-blobs i {
+      position: absolute;
+      display: block;
+      border-radius: var(--r-blob);
+      /* PageFlip v1.0 性能修正：原为 filter: blur(40px)，实测该滤镜使 hero 合成层
+         光栅化成本过高，导致涉及 hero 的两场转场掉帧（详见 MEASURE-REPORT.md B5）。
+         改用加宽的渐变停靠点（70% → 92%）取得等价的柔和外观，不再使用滤镜。 */
+    }
+    .hero-blobs i:nth-child(1) {
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, rgba(215,25,32,.18), transparent 92%);
+      top: -80px; left: -80px;
+      animation: blob-float 14s ease-in-out infinite;
+    }
+    .hero-blobs i:nth-child(2) {
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(124,58,237,.12), transparent 92%);
+      bottom: -60px; right: -40px;
+      animation: blob-float 18s ease-in-out infinite reverse;
+    }
+    @keyframes blob-float {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(40px,-20px) scale(1.08); }
+      66% { transform: translate(-20px,30px) scale(.94); }
+    }
+    .hero__inner {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 64px;
+      align-items: center;
+      width: 100%;   /* v3.2: fill the parent grid cell */
+    }
+
+    /* Eyebrow */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px;
+      background: var(--brand-red-50);
+      color: var(--brand-red-darker);
+      border-radius: var(--r-pill);
+      font-family: var(--font-mono, var(--font-display));
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+    .eyebrow__dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--brand-red);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(1.4); }
+    }
+
+    /* Hero title */
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 800;
+      letter-spacing: -.025em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    /* v3.2: marker — 废弃 linear-gradient 百分比切分, 改 box-shadow inset 控制.
+       旧实现 line-height: 1.05 时 62% 在极紧的 line box 里变成巨大矩形
+       蔓延到下一行 + 覆盖逗号. 新实现:
+       - line-height 升到 1.18 (足够呼吸)
+       - inset 0 -0.32em 0 = 在元素底部内嵌 0.32em 高的阴影, 锐边硬切
+       - padding-bottom: 0.06em 避免 descender (y/g/p) 撞到色块
+       - 逗号 "," 在 <em> 外 (HTML 已正确, 见 <br/> 前的逗号)
+       验收: 红块只盖字符底部 ~1/3, 不延伸到下一行, 逗号在色块外 */
+    .hero__title {
+      line-height: 1.18;   /* v3.2: ↑ from 1.05, 给 marker 留呼吸空间 */
+    }
+    .hero__title em {
+      font-style: normal;
+      box-shadow: inset 0 -0.32em 0 var(--brand-red);
+      padding: 0 0.05em 0.06em;  /* 0.05em 左右 padding 让色块略宽于文字 */
+      border-radius: 1px;
+    }
+    .hero__title em b {
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Subtitle */
+    .hero__sub {
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--ink-2);
+      margin-bottom: 32px;
+      max-width: 540px;
+    }
+
+    /* CTAs */
+    .hero__ctas {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .cta-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px;
+      padding: 14px 26px;
+      /* CHANGED P3-8: 降饱和至 #DC3D43, 加 inset highlight 更精致 */
+      background: linear-gradient(135deg, #DC3D43, var(--brand-red-dark));
+      color: #fff;
+      border-radius: var(--r-pill);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1;
+      text-align: center;
+      box-shadow:
+        0 8px 22px rgba(215, 25, 32, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      transition: transform var(--dur) var(--ease);
+    }
+    .cta-primary:hover { transform: translateY(-2px); }
+    .cta-primary svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .cta-secondary {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px;
+      padding: 14px 22px;
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: var(--r-pill);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1;
+      text-align: center;
+      border: 2px solid var(--line);
+      box-shadow: var(--shadow-soft);
+      transition: all var(--dur) var(--ease);
+    }
+    .cta-secondary:hover { border-color: var(--brand-red); color: var(--brand-red); }
+
+    /* Trust line */
+    .trust {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: 13px;
+      color: var(--ink-2);
+    }
+    .trust__item {
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .trust__item i { width: 14px; height: 14px; color: var(--brand-red); }
+    .trust__b { font-weight: 700; color: var(--ink); }
+
+    /* ============ Visual (右侧) — REWRITTEN 2026-09-17 (hero v3 P1-3, P1-4) ============ */
+    .visual {
+      position: relative;
+      /* CHANGED P1-4: align-self center 让 phone 与左栏垂直居中 (消除右下空洞) */
+      align-self: center;
+      /* 让 phone 区有足够高度容纳 4 个 floating cards + ambient glow */
+      min-height: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* CHANGED P1-3: phone 正后方加 radial-gradient 红紫氛围光 — ONE glow source */
+    .visual::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 520px; height: 520px;
+      background: radial-gradient(closest-side,
+        color-mix(in srgb, var(--brand-red) 26%, transparent) 0%,
+        color-mix(in srgb, #7c3aed 10%, transparent) 30%,
+        transparent 92%);
+      /* PageFlip v1.0 性能修正：原为 filter: blur(60px)，理由同 .hero-blobs i
+         —— 滤镜使 hero 合成层光栅化成本过高（涉及 hero 的转场掉帧）。
+         改用加宽的渐变停靠点（70% → 92%，中点 38% → 30%）取得等价的柔和外观。 */
+      z-index: 0;
+      pointer-events: none;
+    }
+    .visual__phone {
+      position: relative;
+      width: 280px; height: 520px;
+      z-index: 1;
+      background: #0a0b10;
+      border-radius: 40px;
+      padding: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      /* CHANGED P1-3: 大范围柔和投影 + rim light (顶部边缘高光) */
+      box-shadow:
+        0 50px 100px -20px rgba(0, 0, 0, 0.55),
+        0 30px 60px -10px rgba(215, 25, 32, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+    }
+    /* 顶部 rim light — 高光带 */
+    .visual__phone::after {
+      content: '';
+      position: absolute;
+      top: 11px; left: 16px; right: 16px;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.32) 50%,
+        transparent 100%);
+      border-radius: 9999px;
+      pointer-events: none;
+    }
+    .visual__screen {
+      width: 100%; height: 100%;
+      border-radius: 30px;
+      overflow: hidden;
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--brand-red) 10%, transparent) 0%, transparent 65%),
+        linear-gradient(180deg, #14171f 0%, #1c2030 100%);
+    }
+    /* Notch */
+    .visual__phone::before {
+      content: '';
+      position: absolute;
+      top: 16px; left: 50%; transform: translateX(-50%);
+      width: 90px; height: 22px;
+      background: var(--ink);
+      border-radius: 9999px;
+      z-index: 5;
+    }
+    .visual__header {
+      padding: 56px 20px 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px;
+      color: var(--ink-3);
+      font-weight: 600;
+    }
+    .visual__title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 12px;
+      padding: 0 20px;
+    }
+    .visual__card {
+      margin: 16px 16px 0;
+      padding: 14px;
+      background: var(--surface);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-soft);
+    }
+    .visual__card-h {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px;
+      color: var(--ink-3);
+      margin-bottom: 8px;
+    }
+    .visual__card-h i { width: 12px; height: 12px; color: var(--brand-red); }
+    .visual__card-stem {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--brand-red-50);
+      padding: 10px 12px;
+      border-radius: var(--r-sm);
+      margin-bottom: 10px;
+    }
+    .visual__card-result {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .visual__chip {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: var(--r-pill);
+      background: var(--brand-red-50);
+      color: var(--brand-red-darker);
+      font-weight: 600;
+    }
+    .visual__chip--green { background: #d1fae5; color: #065f46; }
+    .visual__chip--gray { background: var(--surface-2); color: var(--ink-2); }
+
+    /* ============ Float cards — REWRITTEN 2026-09-17 (P0-1, verified 2026-09-17 v3.1) ============
+       AUDIT FIX v3.1: 4 cards had red ::before glow + rgba(255,255,255,0.06) bg
+       - Light mode: rgba(255,255,255,0.06) bg invisible on white → token-based now
+       - Focus: removed red ::before glow (was 5 glow sources competing) → only phone glows
+       - Mobile (≤720): 4 cards → 1-2 cards, the rest moved to a static ribbon below phone
+    */
+    .visual__flow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .float-card {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      /* v3.1: use tokens so light mode is visible (was rgba(255,255,255,0.06)) */
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-soft);
+      color: var(--ink);
+      animation: float-y 7s ease-in-out infinite;
+      min-width: 140px;
+    }
+    /* v3.1: REMOVED red ::before glow — was competing with phone's ONE glow source.
+       Cards now distinguish via border + content only, not their own glow. */
+    .float-card__icon {
+      width: 32px; height: 32px;
+      border-radius: var(--r-sm);
+      background: color-mix(in srgb, var(--brand-red) 22%, transparent);
+      color: var(--brand-red);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .float-card__icon--green {
+      background: color-mix(in srgb, #059669 22%, transparent);
+      color: #34d399;
+    }
+    .float-card__icon i { width: 16px; height: 16px; }
+    .float-card__body { display: flex; flex-direction: column; line-height: 1.2; }
+    .float-card__num {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .float-card__sub {
+      font-size: 10.5px;
+      color: var(--ink-3);
+      margin-top: 2px;
+    }
+    .float-card__sub b { color: var(--ink); font-weight: 700; }
+    /* Card 2 (SM-2) 变体 — 横排, 含 mini chart */
+    .float-card.float-card--2 {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+      padding: 10px 12px;
+    }
+    .float-card__head {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 8px;
+    }
+    .float-card__pill {
+      font-family: var(--font-mono, var(--font-display));
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      background: var(--brand-red);
+      color: #fff;
+      border-radius: var(--r-pill);
+      letter-spacing: .04em;
+    }
+    .float-card__chart {
+      width: 100%; height: 28px;
+      color: var(--brand-red);
+      display: block;
+    }
+
+    /* 4 cards 位置 — 围绕 phone 漂 */
+    .float-card--1 { top: 4%;   left: -10px;  animation-delay: 0s; }
+    .float-card--2 { top: 30%;  right: -28px; animation-delay: -1.75s; }
+    .float-card--3 { bottom: 18%; left: -18px; animation-delay: -3.5s; }
+    .float-card--4 { top: 0%;   right: -8px;  animation-delay: -5.25s; }
+    @keyframes float-y {
+      0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+      50%      { transform: translateY(-10px) rotate(1.5deg); }
+    }
+
+    /* EF 数值文字 (P3-10) */
+    .ef-accent {
+      color: #ff6b6f;
+      font-weight: 600;
+      font-family: var(--font-mono, var(--font-display));
+    }
+
+    /* ============ Subject chips — REWRITTEN 2026-09-17 (P0-2): 灰白统一, 无彩虹 ============ */
+    .subject-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 24px;
+      align-items: center;
+    }
+    .subject-chips__lbl {
+      font-family: var(--font-mono, var(--font-display));
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+    .subject-chip {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 11px;
+      border-radius: var(--r-pill);
+      background: var(--surface-2);
+      color: var(--ink-2);
+      border: 1px solid transparent;
+      transition: all var(--dur) var(--ease);
+      cursor: default;
+    }
+    .subject-chip:hover {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+      transform: translateY(-1px);
+    }
+
+    /* ============ Trust line — CHANGED P2-7: 统一 [icon + 灰文 + 白粗数字] + 分隔符 ============ */
+    .trust__sep {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--ink-3);
+      opacity: .4;
+      flex-shrink: 0;
+    }
+
+    /* ============ 9 学科 color dots ============ */
+    .subject-dots {
+      display: flex;
+      gap: 6px;
+      margin-top: 32px;
+      align-items: center;
+    }
+    .subject-dots__lbl {
+      font-size: 12px;
+      color: var(--ink-3);
+      font-weight: 600;
+      margin-right: 6px;
+    }
+    .subject-dot {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(255,255,255,.9), 0 2px 8px currentColor;
+      cursor: help;
+      transition: transform var(--dur) var(--ease);
+    }
+    .subject-dot:hover { transform: scale(1.2); }
+
+    /* ============ Section common ============ */
+    .section { padding: 80px 0; position: relative; }
+    .section--cream { background: var(--surface-2); }
+    .section__eyebrow {
+      display: inline-block;
+      font-family: var(--font-mono, var(--font-display));
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: var(--brand-red);
+      margin-bottom: 12px;
+    }
+    .section__title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: var(--ink);
+      margin-bottom: 12px;
+      max-width: 720px;
+    }
+    .section__sub {
+      font-size: 16px;
+      color: var(--ink-2);
+      max-width: 640px;
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+
+    /* ============ Feature cards (8 功能) — v3.1 audit fix: SINGLE color (red), no rainbow ============
+       Lock principle: 学科色仅在学科身份有语义处出现 (subject chip, phone 屏内错题卡).
+       "拍照识别/SM-2 复习"等功能无颜色归属, 用红色统一更高级. */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .feature {
+      padding: 22px;
+      background: var(--surface);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-soft);
+      transition: all var(--dur) var(--ease);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+    }
+    .feature::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      /* v3.1: 顶部 accent 全部统一红色 (不再每卡一色) */
+      background: var(--brand-red);
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+      opacity: .85;
+    }
+    .feature:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-clay);
+      border-color: var(--line);
+    }
+    /* v3.1: icon 块统一红底灰底, 不再每个功能不同色 */
+    .feature__icon {
+      width: 44px; height: 44px;
+      border-radius: var(--r-md);
+      background: color-mix(in srgb, var(--brand-red) 12%, transparent);
+      color: var(--brand-red);
+      display: grid; place-items: center;
+      margin-bottom: 14px;
+    }
+    .feature__icon i { width: 22px; height: 22px; }
+    .feature__num {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--brand-red);
+      letter-spacing: .08em;
+      margin-bottom: 6px;
+    }
+    .feature__title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .feature__desc {
+      font-size: 13px;
+      color: var(--ink-2);
+      line-height: 1.55;
+    }
+
+    /* ============ Loop 演示 (中段) ============ */
+    .loop {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 8px;
+      margin-top: 40px;
+    }
+    .loop__step {
+      padding: 12px 8px;
+      background: var(--surface);
+      border-radius: var(--r-md);
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+    .loop__num {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--brand-red);
+    }
+    .loop__lbl {
+      font-size: 11px;
+      color: var(--ink-2);
+      margin-top: 4px;
+    }
+    .loop__icon {
+      width: 28px; height: 28px;
+      margin: 4px auto 0;
+      border-radius: 8px;
+      display: grid; place-items: center;
+      background: var(--brand-red-50);
+      color: var(--brand-red);
+    }
+    .loop__icon i { width: 14px; height: 14px; }
+    .loop__step::after {
+      content: '→';
+      position: absolute;
+      right: -10px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-3);
+      font-size: 14px;
+      z-index: 2;
+    }
+    .loop__step:last-child::after { display: none; }
+
+    /* ============ Final CTA ============ */
+    .final-cta {
+      padding: 80px 24px;
+      background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+      border-radius: var(--r-xl);
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 30px 80px rgba(215,25,32,.35);
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta::before, .final-cta::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,.12);
+      pointer-events: none;
+    }
+    .final-cta::before { width: 200px; height: 200px; top: -80px; left: -60px; }
+    .final-cta::after { width: 280px; height: 280px; bottom: -120px; right: -80px; }
+    .final-cta__inner { position: relative; z-index: 1; }
+    .final-cta__title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .final-cta__sub {
+      font-size: 16px;
+      opacity: .92;
+      max-width: 600px;
+      margin: 0 auto 28px;
+    }
+    .final-cta__row {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .final-cta__btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: #fff;
+      color: var(--brand-red-darker);
+      border-radius: var(--r-pill);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1;
+      text-align: center;
+      transition: transform var(--dur) var(--ease);
+    }
+    .final-cta__btn:hover { transform: translateY(-2px); }
+    .final-cta__btn--ghost {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,.4);
+    }
+    .final-cta__note {
+      margin-top: 16px;
+      font-size: 12px;
+      opacity: .75;
+    }
+
+    /* ============ Footer (minimal) ============ */
+    .footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--line-soft);
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+
+    /* ============ Mobile — v3.2: 不强制 100svh, 让内容自然 flow ============ */
+    @media (max-width: 880px) {
+      .hero {
+        min-height: 0;     /* v3.2: mobile 不强制满屏 (留大量空白反而难看) */
+        padding: 80px 0 32px;
+      }
+      .hero__inner { grid-template-columns: 1fr; gap: 32px; }
+      .visual { height: 480px; max-width: 320px; margin: 0 auto; }
+      .nav__links { display: none; }
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .loop { grid-template-columns: repeat(4, 1fr); gap: 14px 8px; }
+      .subject-chips { flex-wrap: wrap; }
+
+      /* v3.1: hide 3 of 4 float cards on tablet/mobile — they overlap with phone screen.
+         Keep only card 1 (错 4 次) and card 4 (0.4 秒) as static badges. */
+      .float-card--2, .float-card--3 { display: none; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 32px 0 40px; }
+      .visual {
+        height: auto;       /* let ribbon add to height */
+        min-height: 0;
+        flex-direction: column;   /* stack phone + ribbon vertically */
+        gap: 16px;
+      }
+      .visual::before {
+        width: 320px; height: 320px;  /* smaller ambient glow on phone */
+      }
+      .features { grid-template-columns: 1fr; }
+      .loop { grid-template-columns: repeat(2, 1fr); }
+      /* v3.1 (post-audit fix): on phone, 4 cards become a compact icon+num chip row
+         BELOW phone. Hide sub text and chart (too wide), keep icon + num compact. */
+      .visual__flow {
+        position: static;
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        margin-top: 0;
+        animation: none;
+        flex-wrap: wrap;
+        max-width: 100%;
+      }
+      .float-card {
+        position: static;
+        min-width: 0;
+        flex: 0 0 auto;
+        animation: none;
+        padding: 5px 10px 5px 6px;
+        gap: 6px;
+        border-radius: var(--r-pill);
+      }
+      .float-card--2, .float-card--3 { display: flex; }
+      /* Hide verbose content: sub text and chart */
+      .float-card__sub,
+      .float-card__chart { display: none; }
+      /* Compact num for chip mode */
+      .float-card__num { font-size: 11px; }
+      .float-card__pill { font-size: 9px; padding: 1px 5px; }
+      /* Smaller icon to balance compact text */
+      .float-card__icon { width: 22px; height: 22px; }
+      .float-card__icon i { width: 13px; height: 13px; }
+      /* Card 2 (SM-2) keep its head visible (SM-2 pill + EF number) but in compact form */
+      .float-card--2 { padding: 5px 10px; gap: 6px; }
+      .float-card--2 .float-card__head { display: flex; }
+    }
+
+    /* 锚点落点校准（仅 mobile 文档流下生效；PC 翻页模式不滚动）*/
+    html {
+      scroll-padding-top: 67px; /* = nav 实测高度 */
+    }
+
+    /* ============================================================
+       PageFlip v1.0 — 全站滚轮离散翻页（仅 ≥881px 且非 reduced-motion）
+       ------------------------------------------------------------
+       渐进增强：默认是普通文档流（v3.2 基线）。只有 JS 初始化成功后
+       才给 <body> 加 .pageflip-on，以下堆叠样式全部挂在该类下 ——
+       JS 失败/禁用时页面必须仍是可正常滚动的文档流。
+       约束：转场只动 opacity / transform（禁止 top/left/height）；
+            will-change 仅转场期间由 .is-animating 打开。
+       ============================================================ */
+    .pageflip-on {
+      overflow: hidden; /* 翻页模式下页面本身不滚动 */
+    }
+    .pageflip-on [data-page] {
+      position: fixed;
+      inset: 0;
+      height: 100svh;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 1; /* 堆叠：active(3) > leaving(2) > entering/base(1)，nav 为 50 */
+      transform: translateY(0);
+      transition: opacity .6s cubic-bezier(.22, 1, .36, 1),
+                  transform .6s cubic-bezier(.22, 1, .36, 1);
+      will-change: auto;
+    }
+    .pageflip-on [data-page].is-active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 3;
+      transform: translateY(0);
+    }
+    .pageflip-on [data-page].is-leaving {
+      opacity: 0;
+      visibility: visible; /* 转场期间保持可见，结束后由 JS 移除类 */
+      pointer-events: none;
+      z-index: 2;
+      transform: translateY(-24px);
+    }
+    .pageflip-on [data-page].is-entering {
+      opacity: 0;
+      visibility: visible;
+      pointer-events: none;
+      z-index: 1;
+      transform: translateY(24px);
+    }
+    /* will-change 只在转场窗口内生效（避免常驻巨型合成层） */
+    .pageflip-on.is-animating [data-page].is-active,
+    .pageflip-on.is-animating [data-page].is-leaving,
+    .pageflip-on.is-animating [data-page].is-entering {
+      will-change: opacity, transform;
+    }
+
+    /* ── 转场性能修正（仅 .pageflip-on 下生效，mobile/reduced-motion 不受影响）──
+       实测根因：全屏交叉淡入淡出时，backdrop-filter 需要每帧重新采样并模糊
+       背后正在变化的整屏内容，是 hero 相关转场掉帧的直接原因。
+       对照实验（各档 6 场转场，600ms 窗口采样 rAF，详见 MEASURE-REPORT.md B5）：
+         原样                        → 0→1=21帧 1→0=21帧（2/6 低于阈值 30）
+         仅去 .nav backdrop-filter   → 30 / 27（1/6）
+         仅去 .float-card            → 25 / 27（2/6）
+         两处同时去                  → 32 / 36（0/6）✅
+       两处修正的视觉影响：
+       - .float-card：background 为 var(--surface)，实测 #ffffff(浅)/#161922(深)
+         完全不透明，背后无内容可模糊 → 该 backdrop-filter 本就是冗余装饰，
+         删除零视觉变化。
+       - .nav：background 为 color-mix(--bg 78%, transparent)，去掉模糊后
+         提高不透明度到 92% 做等价补偿（保留毛玻璃观感）。 */
+    .pageflip-on .float-card {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .pageflip-on .nav {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+    }
+
+    /* ============ a11y ============ */
+    :focus-visible {
+      outline: 3px solid var(--brand-red);
+      outline-offset: 3px;
+      border-radius: var(--r-sm);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+    /* ============ Dark mode (ui-ux-pro-max + taste-skill §8 + taste-skill §4.7 hierarchy parity) ============
+       Design Read: Premium-consumer education hero, OLED-friendly near-black, brand red 保真,
+       alpha-tinted backgrounds (instead of brand hue shift), tiered elevation, no AI-purple.
+       Hierarchy parity: hero CTA must pop as in light mode. */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* Surfaces — 4-tier elevation (page / surface / card / high) */
+        --bg:        #0a0b10;   /* page near-black, OLED-friendly */
+        --surface:   #161922;   /* surface elevated */
+        --surface-2: #1f2330;   /* card / high-elevation */
+        /* Ink scale — off-white, never pure */
+        --ink:       #f0f2f7;
+        --ink-2:     #b6bcca;
+        --ink-3:     #8a90a0;
+        /* Border scale */
+        --line:      #2a2f3c;
+        --line-soft: #1d212c;
+        /* Brand-red tinted backgrounds (lifted to clear WCAG AA on dark) */
+        --brand-red-50:  #3a1719;
+        --brand-red-100: #4a1d20;
+        /* Soft brand-tinted helpers via color-mix on tokens */
+        --shadow-clay:
+          8px 8px 22px rgba(0, 0, 0, 0.55),
+         -4px -4px 12px rgba(255, 255, 255, 0.05),
+          inset 0 1px 0 rgba(255, 255, 255, 0.07);
+        --shadow-soft:
+          0 6px 18px rgba(0, 0, 0, 0.45),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      }
+
+      /* Theme color (mobile browser chrome) */
+      :root { color-scheme: dark; }
+      meta[name="theme-color"] { content: #0a0b10; }
+
+      /* Body — subtle radial wash to break flat black */
+      body {
+        background:
+          radial-gradient(1200px 600px at 20% -10%, rgba(215,25,32,.07), transparent 60%),
+          radial-gradient(900px 600px at 95% 10%, rgba(124,58,237,.05), transparent 60%),
+          var(--bg);
+      }
+
+      /* Nav — adopt dark backdrop, links use ink-2 */
+      .nav { border-bottom-color: var(--line-soft); }
+
+      /* Brand mark — slightly cooler gradient + thin highlight */
+      .brand__mark {
+        box-shadow:
+          8px 8px 18px rgba(215, 25, 32, 0.25),
+          -3px -3px 8px rgba(255, 255, 255, 0.05),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+
+      /* Eyebrow chip — brand red on dark-red bg: use bright salmon #ff5a5f for AAA (5.23:1) */
+      .eyebrow {
+        background: var(--brand-red-50);
+        color: #ff7a7a;
+        box-shadow:
+          0 4px 12px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      }
+
+      /* Hero title highlight — alpha-red underline visible on dark */
+      .hero__title em {
+        /* v3.2: dark mode — bright red for AAA on dark bg (5.23:1 with #ff5a5f) */
+        box-shadow: inset 0 -0.32em 0 #ff5a5f;
+        color: #fff;
+        -webkit-text-fill-color: #fff;
+      }
+      .hero__title em b {
+        background: linear-gradient(135deg, #ff5a5f 0%, #d71920 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: #ff5a5f; /* fallback if background-clip unsupported */
+      }
+
+      /* CTA secondary — visible border on dark */
+      .cta-secondary {
+        background: var(--surface);
+        border-color: var(--line);
+        color: var(--ink);
+      }
+      .cta-secondary:hover {
+        border-color: var(--brand-red);
+        color: var(--brand-red);
+        background: var(--surface-2);
+      }
+
+      /* Visual phone — frame contrast */
+      .visual__phone {
+        background: #0a0b10;
+        box-shadow:
+          0 40px 90px rgba(0, 0, 0, 0.55),
+          0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+          0 0 60px rgba(215, 25, 32, 0.08);
+      }
+      .visual__phone::before {
+        background: #050608;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+      }
+      .visual__screen {
+        background:
+          radial-gradient(circle at 50% 0%, rgba(215, 25, 32, 0.10), transparent 65%),
+          linear-gradient(180deg, #14171f 0%, #1c2030 100%);
+      }
+
+      /* Visual flow steps (4 floating cards) — high-elevation + glow */
+      .visual__flow-step {
+        background: linear-gradient(180deg, #2a2f3c 0%, #1f2330 100%);
+        box-shadow:
+          0 10px 26px rgba(0, 0, 0, 0.55),
+          0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+          0 0 18px rgba(215, 25, 32, 0.06);
+      }
+
+      /* Visual chip — bright on dark-tint */
+      .visual__card-stem {
+        background: var(--brand-red-50);
+        color: var(--ink);
+      }
+      .visual__chip {
+        background: var(--brand-red-50);
+        color: #ff8a8a;
+      }
+      .visual__chip--green {
+        background: rgba(5, 150, 105, 0.18);
+        color: #34d399;
+      }
+      .visual__chip--gray {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--ink-2);
+      }
+      .visual__card {
+        background: var(--surface-2);
+        border: 1px solid var(--line-soft);
+      }
+      .visual__title { color: var(--ink); }
+
+      /* 9 学科 dots — dark halo cut + soft glow */
+      .subject-dot {
+        box-shadow:
+          0 0 0 2px var(--bg),
+          0 0 0 3px rgba(255, 255, 255, 0.05),
+          0 0 10px currentColor;
+      }
+
+      /* Section divider — surface-2 lifted above body */
+      .section--cream { background: var(--surface-2); }
+
+      /* Section eyebrow (red text) is already brand-red, OK on dark */
+      .section__title { color: var(--ink); }
+
+      /* Feature cards — surface-2 + glow on hover */
+      .feature {
+        background: var(--surface-2);
+        border: 1px solid var(--line-soft);
+        box-shadow:
+          0 4px 14px rgba(0, 0, 0, 0.35),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      }
+      .feature:hover {
+        border-color: var(--line);
+        box-shadow:
+          0 14px 32px rgba(0, 0, 0, 0.55),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+      .feature__icon {
+        /* v3.1: all red, lifted mix for dark visibility */
+        background: color-mix(in srgb, var(--brand-red) 18%, transparent);
+      }
+
+      /* Loop step cards */
+      .loop__step {
+        background: var(--surface-2);
+        border: 1px solid var(--line-soft);
+      }
+      .loop__icon {
+        background: var(--brand-red-50);
+        color: var(--brand-red);
+      }
+
+      /* Final CTA — keep brand gradient, add inner highlight + outer glow */
+      .final-cta {
+        background: linear-gradient(135deg, #ef4444 0%, #b8151b 50%, #7f0e12 100%);
+        box-shadow:
+          0 30px 80px rgba(215, 25, 32, 0.35),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      }
+      .final-cta__btn {
+        background: #ffffff;
+        color: #7f0e12;
+        box-shadow:
+          0 6px 18px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      }
+      .final-cta__btn--ghost {
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 255, 255, 0.32);
+        color: #ffffff;
+      }
+      .final-cta__btn--ghost:hover {
+        background: rgba(255, 255, 255, 0.14);
+        border-color: rgba(255, 255, 255, 0.55);
+      }
+
+      /* Footer */
+      .footer {
+        border-top: 1px solid var(--line);
+        color: var(--ink-3);
+      }
+
+      /* Focus ring — use ink for visibility */
+      :focus-visible {
+        outline: 2px solid #ff5a5f;
+        outline-offset: 2px;
+      }
+    }
