@@ -13,6 +13,8 @@
 #   4. docker build      — 镜像可构建 (app)
 #   5. health check      — 后端 /api/health dbReady=true
 #   6. repo consistency  — tracked 引用完整性 + .dockerignore 的 D079 边界 + nginx 部署模板
+#                          + 无硬编码凭据
+#   7. frontend behavior — 前端行为测试 (jsdom, tests/frontend/*)
 #
 # 说明: lint 基线未清 (2445 项既有债务), 不作为硬门禁;
 #       lighthouse / security scan 为人工门禁 (见 docs/v1.0_RELEASE_GATE.md).
@@ -131,7 +133,7 @@ fi
 #   R4 — .dockerignore 必须排除 AI Agent 元数据 (D079 §2.4/§9).
 # 2026-09-20 追加: deploy/*.conf 是模板, 不参与构建, 坏了没有任何地方会暴露
 #   (实例: uibe.conf 重复 upstream, nginx -t 报错但无人发现) → 在此拦截。
-step "6/6 仓库一致性 (引用完整性 + D079 边界 + nginx 模板)"
+step "6/7 仓库一致性 (引用完整性 + D079 边界 + nginx 模板 + 凭据)"
 if node scripts/check-tracked-refs.mjs; then
   ok "tracked 引用完整性 (无未入库的运行时依赖)"
 else
@@ -160,6 +162,19 @@ if node scripts/check-no-hardcoded-secrets.mjs; then
   ok "无硬编码凭据 (连接串内联 / 明文口令赋值)"
 else
   fail "存在硬编码凭据 (清单见上; 请改为环境变量读取, 缺失即报错)"
+fi
+
+# ── 7. 前端行为测试 (jsdom) ──
+# 2026-09-21: 新主树 frontend-v2/ 的每页都以"六态机 + 错误分类"验收,
+# 测试落在 tests/frontend/ 里独立跑, 无人守门 —— 改动共享层(ui.js/api.js/app.css)
+# 可以悄悄破坏所有页面而不被发现。接入门禁即为这条回归兜底。
+# 新增页面时在 package.json 的 test:frontend 里追加一行即可。
+step "7/7 前端行为测试 (jsdom)"
+FE_OUT=$(npm run --silent test:frontend 2>&1 || true)
+if echo "$FE_OUT" | grep -qE "FAIL|❌"; then
+  fail "前端行为测试失败: $(echo "$FE_OUT" | grep -E "FAIL|❌" | head -3 | tr '\n' ' ')"
+else
+  ok "前端行为测试全绿 (tests/frontend/*)"
 fi
 
 echo
