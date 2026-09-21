@@ -19,9 +19,13 @@
 | 入口 | 链路 | 状态 |
 |------|------|------|
 | `https://aitutor.uibe.online/` | Cloudflare → **`uibe-tutor.service` (:3002, `node server.js`, cwd `/home/flaskappuser/Desktop/NewDisk_2T/aitutor`)** | ✅ 200 |
-| `https://aitutor.uibe.online/v2/*` | 同上 :3002，由 `server.js` 内 `V2-DESIGN` 区块托管 `docs/design/` | ✅ 200 |
+| `https://aitutor.uibe.online/v2/*` | 同上 :3002，由 `server.js` 内 `V2-DESIGN` 区块托管 `frontend-v2/`（2026-09-21 从 `docs/design/` 迁入） | ✅ 200 |
 | `https://lab.uibe.edu.cn/aitutor/*` | uibe.conf `location ^~ /aitutor` → `tutor_server` (:3002) | ✅ 公网直通 |
 | `https://aitutor-v2.duckdns.org/` | uibe.conf `location / { root .../aitutor/docs/design; try_files /hero.html; }` | ⚠️ DuckDNS 解析到服务器才通 |
+
+> 2026-09-21 注：页面已迁入 `frontend-v2/`，两个服务均已重启并改指新目录：
+> `server.js`（:3002 的 `/v2`）与 `server-design-v2.js`（systemd `uibe-design-v2`，:8090）。
+> `docs/design/` 现只保留设计文档（.md）与验证截图，不再含运行时页面。
 
 > ⚠️ **实测纠正 (2026-09-17 18:00)**：`aitutor.uibe.online` 的源站是 **:3002**。
 > 判据：线上每条路径（`/vendor/katex.min.js`、`/manifest.json`、`/health` 的错误信封）
@@ -36,7 +40,7 @@
 **结论（2026-09-17 18:24 起）**：`/v2/` 由**应用层**提供，不需要任何 nginx / Cloudflare 改动。
 
 - 实现位置：`server.js` 内 `V2-DESIGN-BEGIN` … `V2-DESIGN-END` 区块
-- 目录：`docs/design/`（可用 `DESIGN_V2_DIR` 环境变量覆盖）
+- 目录：`frontend-v2/`（可用 `DESIGN_V2_DIR` 环境变量覆盖）
 - 行为：`/v2/` → `hero.html`；`/v2/<slug>` → 301 `/v2/<slug>.html`；
   `*.md` 与 `_e2e-screenshots/` 主动 404
 - 之所以能挂子路径：24 页全部用相对路径引用资源，仅 `hero.html` 一处 `href="/"`

@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>作文批改 · 智启AI导师</title>
+  <meta name="description" content="AI 老师 4 维评分 · 立意 / 结构 / 语言 / 规范 · 错点锚定到原句 · 逐段批注。" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" />
+
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
+      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
+      --p-800:#7a1014; --p-900:#660f13;
+      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
+      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
+      --w-50:#fffbeb; --s-w-100:#fef3c7; --w-500:#f59e0b; --w-700:#b45309;
+      --e-50:#fef2f2; --e-500:#ef4444;
+      --i-50:#f0f9ff; --i-500:#0284c7;
+
+      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
+      --line:#e8eaee; --line-soft:#f1f3f5;
+      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
+
+      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
+      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','DM Sans',monospace;
+      --font-serif:'Noto Serif SC','DM Sans',serif;
+
+      --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px;
+      --s-6:24px; --s-7:32px; --s-8:40px; --s-9:56px; --s-10:72px;
+
+      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
+
+      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
+      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
+      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
+      --sh-4: 0 20px 48px -16px rgba(11,18,32,.18), 0 4px 12px rgba(11,18,32,.06);
+      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
+      --sh-success: 0 8px 28px -8px rgba(5,150,105,.28), 0 2px 6px rgba(5,150,105,.12);
+      --sh-warn: 0 8px 28px -8px rgba(245,158,11,.28), 0 2px 6px rgba(245,158,11,.12);
+
+      --ease-out: cubic-bezier(.22,1,.36,1);
+      --ease-spring: cubic-bezier(.34,1.56,.64,1);
+      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
+    }
+
+    html.dark {
+      --bg:#0a0d14; --surface:#131720; --surface-2:#1a1f2c; --surface-3:#232838;
+      --line:#232838; --line-soft:#1f2533;
+      --ink:#e8ecf3; --ink-2:#a8b0c2; --ink-3:#6f7689; --ink-4:#4d5468;
+      --p-50:#2a0e10; --p-100:#3a1316; --p-200:#4d1820;
+      --b-50:#0d1c33; --s-50:#052e22; --w-50:#2a1d05; --e-50:#2a0d0d; --i-50:#06222e;
+      --sh-1: 0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
+      --sh-2: 0 4px 16px -4px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.3);
+      --sh-3: 0 12px 32px -8px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.3);
+      --sh-success: 0 12px 32px -8px rgba(0,0,0,.5), 0 2px 6px rgba(5,150,105,.2);
+      --sh-warn: 0 12px 32px -8px rgba(0,0,0,.5), 0 2px 6px rgba(245,158,11,.2);
+    }
+
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.55;
+      font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+      min-height: 100vh;
+      transition: background var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+    ::selection { background: var(--p-100); color: var(--p-800); }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav__inner {
+      max-width: 1320px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px var(--s-7);
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 17px; color: var(--ink);
+    }
+    .nav__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 13px;
+      box-shadow: var(--sh-primary);
+    }
+    .nav__step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-3); }
+    .nav__step strong { color: var(--ink); font-weight: 600; }
+    .nav__actions { display: flex; gap: 8px; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: var(--r-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--ink-2);
+      transition: background var(--dur-1), color var(--dur-1);
+    }
+    .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    .app { max-width: 1320px; margin: 0 auto; padding: var(--s-7); }
+
+    .crumbs {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--ink-3);
+      margin-bottom: var(--s-5);
+    }
+    .crumbs a:hover { color: var(--p-500); }
+    .crumbs svg { width: 12px; height: 12px; }
+    .crumbs__current { color: var(--ink); font-weight: 500; }
+
+    /* ============ HERO + 总分 ============ */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      gap: var(--s-7);
+      align-items: end;
+      margin-bottom: var(--s-8);
+      padding-bottom: var(--s-7);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--p-500);
+      margin-bottom: var(--s-3);
+    }
+    .hero__eyebrow::before { content:''; width: 24px; height: 1.5px; background: var(--p-500); }
+    .hero__title {
+      font-family: var(--font-serif);
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 700; line-height: 1.25;
+      letter-spacing: -.01em;
+      color: var(--ink);
+      margin-bottom: var(--s-4);
+    }
+    .hero__title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero__meta {
+      display: flex; align-items: center; gap: var(--s-4); flex-wrap: wrap;
+      font-size: 13px; color: var(--ink-3);
+    }
+    .hero__meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .hero__meta-item svg { width: 14px; height: 14px; }
+    .hero__meta strong { color: var(--ink); font-weight: 600; }
+    .hero__badges {
+      display: flex; gap: 8px; margin-top: var(--s-4); flex-wrap: wrap;
+    }
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px;
+      background: var(--surface-2);
+      color: var(--ink-2);
+      border: 1px solid var(--line);
+      border-radius: var(--r-pill);
+      font-size: 12px; font-weight: 500;
+    }
+    .hero__badge svg { width: 12px; height: 12px; color: var(--p-500); }
+
+    /* 总分 score card */
+    .score-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-5) var(--s-6);
+      box-shadow: var(--sh-1);
+      position: relative;
+      overflow: hidden;
+    }
+    .score-card::before {
+      content:''; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+      background: linear-gradient(90deg, var(--s-500), var(--w-500));
+    }
+    .score-card__head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: var(--s-3);
+    }
+    .score-card__label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .score-card__grade {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px;
+      background: linear-gradient(135deg, var(--s-500), var(--s-700));
+      color: #fff;
+      border-radius: var(--r-pill);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .score-card__grade svg { width: 11px; height: 11px; }
+    .score-card__main {
+      display: flex; align-items: baseline; gap: 6px;
+      margin-bottom: var(--s-2);
+    }
+    .score-card__value {
+      font-family: var(--font-display);
+      font-size: 56px; font-weight: 700;
+      line-height: 1;
+      letter-spacing: -.03em;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .score-card__max {
+      font-family: var(--font-display);
+      font-size: 18px; font-weight: 600;
+      color: var(--ink-3);
+      letter-spacing: -.01em;
+    }
+    .score-card__delta {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 13px; font-weight: 600;
+      color: var(--s-700);
+    }
+    .score-card__delta svg { width: 14px; height: 14px; }
+    .score-card__trend {
+      margin-top: var(--s-3);
+      height: 36px;
+    }
+    .score-card__trend svg { width: 100%; height: 100%; overflow: visible; }
+    .score-card__trend-line { fill: none; stroke: var(--s-500); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .score-card__trend-area { fill: var(--s-500); opacity: .12; }
+    .score-card__trend-dot { fill: var(--s-500); stroke: var(--surface); stroke-width: 2; }
+
+    /* ============ SECTION ============ */
+    .section { margin-bottom: var(--s-9); }
+    .section__head {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: var(--s-4); margin-bottom: var(--s-5);
+    }
+    .section__heading { display: flex; flex-direction: column; gap: 6px; }
+    .section__eyebrow {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-3);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section__eyebrow-num {
+      font-family: var(--font-display);
+      font-variant-numeric: tabular-nums;
+      background: var(--surface-3); color: var(--ink-2);
+      padding: 2px 8px; border-radius: var(--r-pill);
+      font-size: 11px;
+    }
+    .section__title {
+      font-family: var(--font-display);
+      font-size: 24px; font-weight: 600;
+      line-height: 1.25; letter-spacing: -.015em;
+      color: var(--ink);
+    }
+    .section__link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 13px; font-weight: 500;
+      color: var(--ink-2);
+      transition: color var(--dur-1);
+    }
+    .section__link:hover { color: var(--p-500); }
+    .section__link svg { width: 14px; height: 14px; transition: transform var(--dur-1); }
+    .section__link:hover svg { transform: translateX(2px); }
+
+    /* ============ 4 维评分卡 ============ */
+    .dims {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-4);
+    }
+    .dim {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: var(--s-5);
+      transition: all var(--dur-2) var(--ease-out);
+      display: flex; flex-direction: column; gap: var(--s-3);
+    }
+    .dim:hover { transform: translateY(-2px); box-shadow: var(--sh-2); border-color: var(--dim-color, var(--line)); }
+    .dim__head {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .dim__name {
+      font-family: var(--font-display);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--ink-2);
+    }
+    .dim__icon {
+      width: 32px; height: 32px;
+      border-radius: var(--r-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--dim-bg, var(--surface-2));
+      color: var(--dim-color, var(--ink-2));
+    }
+    .dim__icon svg { width: 16px; height: 16px; }
+    .dim__score {
+      display: flex; align-items: baseline; gap: 4px;
+    }
+    .dim__score-value {
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 700;
+      letter-spacing: -.025em;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .dim__score-max {
+      font-size: 14px; font-weight: 500;
+      color: var(--ink-3);
+    }
+    .dim__bar {
+      width: 100%; height: 6px;
+      background: var(--surface-3);
+      border-radius: var(--r-pill);
+      overflow: hidden;
+    }
+    .dim__bar-fill {
+      height: 100%;
+      border-radius: var(--r-pill);
+      transition: width var(--dur-3) var(--ease-out);
+    }
+    .dim__comment {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--ink-3);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .dim--high   { --dim-color: var(--s-500);  --dim-bg: var(--s-50); }
+    .dim--mid    { --dim-color: var(--w-700);  --dim-bg: var(--w-50); }
+    .dim--low    { --dim-color: var(--p-500);  --dim-bg: var(--p-50); }
+    .dim--neutral{ --dim-color: var(--b-500);  --dim-bg: var(--b-50); }
+    html.dark .dim--high   { --dim-bg: var(--s-50); --dim-color: var(--s-100); }
+    html.dark .dim--mid    { --dim-bg: var(--w-50); --dim-color: var(--s-w-100); }
+    html.dark .dim--low    { --dim-bg: var(--p-100); --dim-color: var(--p-200); }
+    html.dark .dim--neutral{ --dim-bg: var(--b-50); --dim-color: #93c5fd; }
+    .dim__bar-fill--high   { background: linear-gradient(90deg, var(--s-400), var(--s-600)); }
+    .dim__bar-fill--mid    { background: linear-gradient(90deg, var(--w-400), var(--w-700)); }
+    .dim__bar-fill--low    { background: linear-gradient(90deg, var(--p-400), var(--p-600)); }
+    .dim__bar-fill--neutral{ background: linear-gradient(90deg, var(--b-400), var(--b-700)); }
+
+    /* ============ 原文 + 标注 (核心) ============ */
+    .essay-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: var(--s-5);
+    }
+    .essay-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+    .essay-card__head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--s-3);
+      padding: var(--s-5) var(--s-6);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .essay-card__title {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--ink);
+    }
+    .essay-card__title svg { width: 16px; height: 16px; color: var(--p-500); }
+    .essay-card__actions { display: flex; gap: 6px; }
+    .pill-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px;
+      background: var(--surface-2);
+      color: var(--ink-2);
+      border: 1px solid var(--line);
+      border-radius: var(--r-pill);
+      font-size: 11px; font-weight: 500;
+      transition: all var(--dur-1);
+    }
+    .pill-btn:hover { background: var(--surface); color: var(--ink); }
+    .pill-btn svg { width: 12px; height: 12px; }
+
+    .essay-body {
+      padding: var(--s-7) var(--s-7);
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 2;
+      color: var(--ink);
+    }
+    .essay-body p { margin-bottom: var(--s-5); text-indent: 2em; }
+    .essay-body p:last-child { margin-bottom: 0; }
+
+    /* 标注高亮 */
+    .anno {
+      position: relative;
+      padding: 0 2px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all var(--dur-1);
+    }
+    .anno--praise {
+      background: linear-gradient(180deg, transparent 60%, var(--s-200) 60%);
+      color: var(--s-700);
+    }
+    html.dark .anno--praise { background: linear-gradient(180deg, transparent 60%, rgba(5,150,105,.25) 60%); color: var(--s-100); }
+    .anno--issue {
+      background: linear-gradient(180deg, transparent 60%, var(--p-200) 60%);
+      color: var(--p-700);
+    }
+    html.dark .anno--issue { background: linear-gradient(180deg, transparent 60%, rgba(215,25,32,.25) 60%); color: var(--p-200); }
+    .anno--neutral {
+      background: linear-gradient(180deg, transparent 60%, var(--w-200) 60%);
+      color: var(--w-700);
+    }
+    html.dark .anno--neutral { background: linear-gradient(180deg, transparent 60%, rgba(245,158,11,.25) 60%); color: var(--s-w-100); }
+    .anno:hover { transform: translateY(-1px); }
+    .anno--issue::after {
+      content: attr(data-num);
+      position: absolute; top: -10px; right: -10px;
+      width: 18px; height: 18px;
+      background: var(--p-500); color: #fff;
+      border-radius: 50%;
+      font-family: var(--font-display);
+      font-size: 10px; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(215,25,32,.4);
+    }
+    .anno--neutral::after {
+      content: attr(data-num);
+      position: absolute; top: -10px; right: -10px;
+      width: 18px; height: 18px;
+      background: var(--w-500); color: #fff;
+      border-radius: 50%;
+      font-family: var(--font-display);
+      font-size: 10px; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .anno--praise::after {
+      content: attr(data-num);
+      position: absolute; top: -10px; right: -10px;
+      width: 18px; height: 18px;
+      background: var(--s-500); color: #fff;
+      border-radius: 50%;
+      font-family: var(--font-display);
+      font-size: 10px; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+
+    /* 标注列表 */
+    .anno-list {
+      display: flex; flex-direction: column; gap: var(--s-3);
+    }
+    .anno-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: var(--s-4) var(--s-5);
+      display: flex; flex-direction: column; gap: var(--s-2);
+      transition: all var(--dur-2);
+      cursor: pointer;
+    }
+    .anno-item:hover { box-shadow: var(--sh-2); transform: translateY(-1px); }
+    .anno-item__head {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .anno-item__num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 11px; font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .anno-item--praise .anno-item__num  { background: var(--s-500); }
+    .anno-item--issue .anno-item__num   { background: var(--p-500); }
+    .anno-item--neutral .anno-item__num { background: var(--w-500); }
+    .anno-item__kind {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+    }
+    .anno-item--praise .anno-item__kind  { color: var(--s-700); }
+    .anno-item--issue .anno-item__kind   { color: var(--p-700); }
+    .anno-item--neutral .anno-item__kind { color: var(--w-700); }
+    html.dark .anno-item--praise .anno-item__kind { color: var(--s-100); }
+    html.dark .anno-item--issue .anno-item__kind { color: var(--p-200); }
+    html.dark .anno-item--neutral .anno-item__kind { color: var(--s-w-100); }
+    .anno-item__quote {
+      padding: var(--s-2) var(--s-3);
+      background: var(--surface-2);
+      border-left: 3px solid var(--anno-color, var(--line));
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      font-family: var(--font-serif);
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--ink-2);
+    }
+    .anno-item--praise .anno-item__quote  { border-color: var(--s-500); }
+    .anno-item--issue .anno-item__quote   { border-color: var(--p-500); }
+    .anno-item--neutral .anno-item__quote { border-color: var(--w-500); }
+    .anno-item__comment {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+    .anno-item__comment strong {
+      color: var(--ink); font-weight: 600;
+    }
+
+    /* ============ AI 老师总评 ============ */
+    .summary {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-6) var(--s-7);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--s-5);
+    }
+    .summary__avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-family: var(--font-serif);
+      font-size: 24px; font-weight: 600;
+      box-shadow: var(--sh-primary);
+      flex-shrink: 0;
+    }
+    .summary__body { min-width: 0; }
+    .summary__head {
+      display: flex; align-items: center; gap: var(--s-3);
+      margin-bottom: var(--s-3);
+      flex-wrap: wrap;
+    }
+    .summary__name {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 600;
+      color: var(--ink);
+    }
+    .summary__role {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--p-700);
+      padding: 3px 10px;
+      background: var(--p-50);
+      border-radius: var(--r-pill);
+    }
+    html.dark .summary__role { background: var(--p-100); color: var(--p-200); }
+    .summary__rating {
+      display: inline-flex; gap: 2px;
+    }
+    .summary__rating svg { width: 16px; height: 16px; color: var(--w-500); }
+    .summary__text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+    .summary__text strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .summary__text p + p { margin-top: var(--s-3); }
+    .summary__text .tip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px;
+      background: var(--w-50);
+      color: var(--w-700);
+      border-radius: var(--r-sm);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    html.dark .summary__text .tip { background: var(--w-50); color: var(--s-w-100); }
+
+    /* ============ 趋势 (历史) ============ */
+    .trend {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-6);
+    }
+    .trend__chart {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--s-3);
+      margin-top: var(--s-4);
+    }
+    .trend__bar {
+      display: flex; flex-direction: column; gap: 6px;
+      align-items: center;
+    }
+    .trend__bar-track {
+      width: 100%; height: 100px;
+      background: var(--surface-3);
+      border-radius: var(--r-sm);
+      position: relative;
+      overflow: hidden;
+    }
+    .trend__bar-fill {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, var(--p-400), var(--p-600));
+      border-radius: var(--r-sm);
+      transition: height var(--dur-3) var(--ease-out);
+    }
+    .trend__bar-fill--peak { background: linear-gradient(180deg, var(--s-400), var(--s-600)); }
+    .trend__bar-date {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-3);
+    }
+    .trend__bar-score {
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 700;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .trend__bar--peak .trend__bar-score { color: var(--s-500); }
+    .trend__bar--latest .trend__bar-date,
+    .trend__bar--latest .trend__bar-score { color: var(--p-500); font-weight: 700; }
+
+    /* ============ 行动 CTA ============ */
+    .cta-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-3);
+    }
+    .cta-btn {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-5);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      transition: all var(--dur-2) var(--ease-out);
+      cursor: pointer;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--sh-2);
+    }
+    .cta-btn--featured {
+      background: linear-gradient(135deg, var(--p-50) 0%, var(--surface) 100%);
+      border-color: var(--p-200);
+    }
+    html.dark .cta-btn--featured { background: linear-gradient(135deg, var(--p-100) 0%, var(--surface) 100%); border-color: var(--p-700); }
+    .cta-btn--featured:hover { border-color: var(--p-500); }
+    .cta-btn__icon {
+      width: 40px; height: 40px;
+      border-radius: var(--r-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .cta-btn--primary .cta-btn__icon { background: var(--p-500); color: #fff; }
+    .cta-btn--blue .cta-btn__icon    { background: var(--b-500); color: #fff; }
+    .cta-btn--ink .cta-btn__icon     { background: var(--surface-3); color: var(--ink-2); }
+    .cta-btn--primary .cta-btn__icon svg,
+    .cta-btn--blue .cta-btn__icon svg { color: #fff; }
+    .cta-btn__icon svg { width: 20px; height: 20px; }
+    .cta-btn__body { flex: 1; min-width: 0; }
+    .cta-btn__title {
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .cta-btn--featured .cta-btn__title { color: var(--p-700); }
+    html.dark .cta-btn--featured .cta-btn__title { color: var(--p-200); }
+    .cta-btn__sub {
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+    .cta-btn__arrow {
+      color: var(--ink-3);
+      transition: transform var(--dur-1);
+      flex-shrink: 0;
+    }
+    .cta-btn:hover .cta-btn__arrow { transform: translateX(3px); color: var(--ink); }
+    .cta-btn__arrow svg { width: 16px; height: 16px; }
+
+    /* ============ ENTRY ANIMATIONS ============ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero, .section, .anno-item { animation: fadeInUp var(--dur-3) var(--ease-out) both; }
+    .section:nth-of-type(1) { animation-delay: 60ms; }
+    .section:nth-of-type(2) { animation-delay: 120ms; }
+    .section:nth-of-type(3) { animation-delay: 180ms; }
+    .section:nth-of-type(4) { animation-delay: 240ms; }
+    .anno-item:nth-child(1) { animation-delay: 280ms; }
+    .anno-item:nth-child(2) { animation-delay: 320ms; }
+    .anno-item:nth-child(3) { animation-delay: 360ms; }
+    .anno-item:nth-child(4) { animation-delay: 400ms; }
+    .anno-item:nth-child(5) { animation-delay: 440ms; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    :focus-visible {
+      outline: 2px solid var(--p-500);
+      outline-offset: 3px;
+      border-radius: var(--r-sm);
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .essay-layout { grid-template-columns: 1fr; }
+      .dims { grid-template-columns: repeat(2, 1fr); }
+      .cta-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .app { padding: var(--s-5); }
+      .dims { grid-template-columns: 1fr; }
+      .essay-body { padding: var(--s-5); font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand">
+        <span class="nav__brand-mark">AI</span>
+        <span>智启AI导师</span>
+      </a>
+      <div class="nav__step">
+        <span>作文批改 · <strong>已完成</strong></span>
+      </div>
+      <div class="nav__actions">
+        <button class="icon-btn" id="themeBtn" aria-label="切换主题">
+          <i data-lucide="moon"></i>
+        </button>
+        <button class="icon-btn" aria-label="导出 PDF">
+          <i data-lucide="file-down"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="app">
+
+    <!-- 面包屑 -->
+    <div class="crumbs">
+      <a href="#">首页</a>
+      <i data-lucide="chevron-right"></i>
+      <a href="#">练习中心</a>
+      <i data-lucide="chevron-right"></i>
+      <span class="crumbs__current">作文批改</span>
+    </div>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div>
+        <div class="hero__eyebrow">ESSAY GRADED · 2026 高考模拟</div>
+        <h1 class="hero__title">
+          《<em>谈坚持</em>》— 议论文 · 50 分制
+        </h1>
+        <div class="hero__meta">
+          <span class="hero__meta-item">
+            <i data-lucide="user"></i>
+            张小明 · <strong>高三</strong>
+          </span>
+          <span class="hero__meta-item">
+            <i data-lucide="calendar"></i>
+            2026 年 9 月 15 日
+          </span>
+          <span class="hero__meta-item">
+            <i data-lucide="file-text"></i>
+            全文 824 字
+          </span>
+          <span class="hero__meta-item">
+            <i data-lucide="clock"></i>
+            批改用时 4.2 秒
+          </span>
+        </div>
+        <div class="hero__badges">
+          <span class="hero__badge">
+            <i data-lucide="sparkles"></i>
+            AI 老师 · 林岚
+          </span>
+          <span class="hero__badge">
+            <i data-lucide="book-open"></i>
+            北京海淀一模
+          </span>
+          <span class="hero__badge">
+            <i data-lucide="award"></i>
+            一类文
+          </span>
+        </div>
+      </div>
+
+      <!-- 总分卡 -->
+      <aside class="score-card" aria-label="总分 46/50">
+        <div class="score-card__head">
+          <span class="score-card__label">综合得分</span>
+          <span class="score-card__grade">
+            <i data-lucide="award"></i>
+            一类文
+          </span>
+        </div>
+        <div class="score-card__main">
+          <span class="score-card__value">46</span>
+          <span class="score-card__max">/ 50</span>
+        </div>
+        <div class="score-card__delta">
+          <i data-lucide="trending-up"></i>
+          +3.5 较上次
+        </div>
+        <div class="score-card__trend" aria-hidden="true">
+          <svg viewBox="0 0 200 36" preserveAspectRatio="none">
+            <path class="score-card__trend-area" d="M0,28 L40,24 L80,28 L120,18 L160,12 L200,6 L200,36 L0,36 Z"/>
+            <path class="score-card__trend-line" d="M0,28 L40,24 L80,28 L120,18 L160,12 L200,6"/>
+            <circle class="score-card__trend-dot" cx="200" cy="6" r="3"/>
+          </svg>
+        </div>
+      </aside>
+    </header>
+
+    <!-- ============ 4 维评分 ============ -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>4 维评分</span>
+            <span class="section__eyebrow-num">立意 / 结构 / 语言 / 规范</span>
+          </div>
+          <h2 class="section__title">基于高考作文评分细则</h2>
+        </div>
+        <a href="#" class="section__link">
+          查看评分细则 <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="dims">
+        <article class="dim dim--high">
+          <div class="dim__head">
+            <span class="dim__name">立意</span>
+            <span class="dim__icon"><i data-lucide="lightbulb"></i></span>
+          </div>
+          <div class="dim__score">
+            <span class="dim__score-value">23</span>
+            <span class="dim__score-max">/ 25</span>
+          </div>
+          <div class="dim__bar">
+            <div class="dim__bar-fill dim__bar-fill--high" style="width: 92%"></div>
+          </div>
+          <p class="dim__comment">立意明确, 围绕"坚持"展开辩证思考, 有层次感</p>
+        </article>
+
+        <article class="dim dim--mid">
+          <div class="dim__head">
+            <span class="dim__name">结构</span>
+            <span class="dim__icon"><i data-lucide="layout-list"></i></span>
+          </div>
+          <div class="dim__score">
+            <span class="dim__score-value">9</span>
+            <span class="dim__score-max">/ 10</span>
+          </div>
+          <div class="dim__bar">
+            <div class="dim__bar-fill dim__bar-fill--mid" style="width: 90%"></div>
+          </div>
+          <p class="dim__comment">段落衔接自然, 过渡句使用恰当, 整体结构完整</p>
+        </article>
+
+        <article class="dim dim--mid">
+          <div class="dim__head">
+            <span class="dim__name">语言</span>
+            <span class="dim__icon"><i data-lucide="quote"></i></span>
+          </div>
+          <div class="dim__score">
+            <span class="dim__score-value">9</span>
+            <span class="dim__score-max">/ 10</span>
+          </div>
+          <div class="dim__bar">
+            <div class="dim__bar-fill dim__bar-fill--mid" style="width: 90%"></div>
+          </div>
+          <p class="dim__comment">用词准确, 但文采可再提升, 多用修辞</p>
+        </article>
+
+        <article class="dim dim--neutral">
+          <div class="dim__head">
+            <span class="dim__name">书写规范</span>
+            <span class="dim__icon"><i data-lucide="check-square"></i></span>
+          </div>
+          <div class="dim__score">
+            <span class="dim__score-value">5</span>
+            <span class="dim__score-max">/ 5</span>
+          </div>
+          <div class="dim__bar">
+            <div class="dim__bar-fill dim__bar-fill--neutral" style="width: 100%"></div>
+          </div>
+          <p class="dim__comment">字数达标, 标点规范, 无错别字, 符合一类文要求</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 原文 + 标注 ============ -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>原文 + AI 标注</span>
+            <span class="section__eyebrow-num">5 处</span>
+          </div>
+          <h2 class="section__title">每一处亮点与不足, 都有具体坐标</h2>
+        </div>
+        <a href="#" class="section__link">
+          展开全文 <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="essay-layout">
+        <!-- LEFT: 原文 -->
+        <article class="essay-card">
+          <div class="essay-card__head">
+            <div class="essay-card__title">
+              <i data-lucide="file-text"></i>
+              你的作文 · 全文
+            </div>
+            <div class="essay-card__actions">
+              <button class="pill-btn">
+                <i data-lucide="type"></i>
+                原文
+              </button>
+              <button class="pill-btn">
+                <i data-lucide="check-check"></i>
+                仅标注
+              </button>
+            </div>
+          </div>
+          <div class="essay-body">
+            <p>
+              人生路上, <span class="anno anno--praise" data-num="1">坚持是最朴素也最有力的动词</span>。它不像天赋那样耀眼, 不像机遇那样偶然, 它只要求我们在每一个想放弃的瞬间, 再多走一步。
+            </p>
+            <p>
+              古之成大事者, 不惟有超世之才, 亦必有<span class="anno anno--neutral" data-num="2">坚韧不拔之志</span>。苏格拉底在狱中仍坚持思考, 司马迁受宫刑仍坚持著史, 钱学森五年归国路仍坚持研究。他们用一生诠释了<span class="anno anno--praise" data-num="3">坚持不是口号, 而是日复一日的具体行动</span>。
+            </p>
+            <p>
+              然而, 坚持不是盲目蛮干。真正的坚持, 是<span class="anno anno--issue" data-num="4">在正确的方向上日拱一卒, 在错误的方向上及时止损</span>。我们见过太多南辕北辙的悲剧, 见过太多头撞南墙的执念。坚持, 应当与方向同行, 与智慧为伴。
+            </p>
+            <p>
+              反观当下, 多少青年喊着"躺平"却内心焦虑, 多少学子刷题无数却<span class="anno anno--issue" data-num="5">成绩不见起色</span>。他们缺的不是努力, 而是有方法的坚持、可持续的节奏、可量化的反馈。
+            </p>
+            <p>
+              愿你我都能在漫长的岁月里, 守住一份<span class="anno anno--praise" data-num="6">耐得住寂寞的坚持</span>。当某天回望, 那些看似平凡的日复一日, 终将连成照亮整段人生的光。
+            </p>
+          </div>
+        </article>
+
+        <!-- RIGHT: 标注列表 -->
+        <div>
+          <div class="anno-list">
+            <article class="anno-item anno-item--praise" tabindex="0">
+              <div class="anno-item__head">
+                <span class="anno-item__num">1</span>
+                <span class="anno-item__kind">亮点</span>
+              </div>
+              <div class="anno-item__quote">"坚持是最朴素也最有力的动词"</div>
+              <p class="anno-item__comment">
+                <strong>开篇立意</strong>精准, 用"最朴素"和"最有力"形成张力, 立刻抓住阅卷老师眼球。建议保留为作文开头模板。
+              </p>
+            </article>
+
+            <article class="anno-item anno-item--neutral" tabindex="0">
+              <div class="anno-item__head">
+                <span class="anno-item__num">2</span>
+                <span class="anno-item__kind">建议</span>
+              </div>
+              <div class="anno-item__quote">"坚韧不拔之志"</div>
+              <p class="anno-item__comment">
+                引用苏轼《晁错论》原文, <strong>准确恰当</strong>。但与后文苏格拉底、司马迁、钱学森并列时, 可考虑补一处现代例证, 增强时代感。
+              </p>
+            </article>
+
+            <article class="anno-item anno-item--praise" tabindex="0">
+              <div class="anno-item__head">
+                <span class="anno-item__num">3</span>
+                <span class="anno-item__kind">亮点</span>
+              </div>
+              <div class="anno-item__quote">"坚持不是口号, 而是日复一日的具体行动"</div>
+              <p class="anno-item__comment">
+                <strong>立意深化</strong>的关键句, 把抽象概念落地为"具体行动", 体现辩证思维。放在 3 个例证之后, 节奏感极佳。
+              </p>
+            </article>
+
+            <article class="anno-item anno-item--issue" tabindex="0">
+              <div class="anno-item__head">
+                <span class="anno-item__num">4</span>
+                <span class="anno-item__kind">需修改</span>
+              </div>
+              <div class="anno-item__quote">"在正确的方向上日拱一卒, 在错误的方向上及时止损"</div>
+              <p class="anno-item__comment">
+                <strong>逻辑上佳</strong>, 但与上一句"坚持不是盲目蛮干"略有重复。建议把"日拱一卒"前置做比喻, "及时止损"另起一句更显层次。
+              </p>
+            </article>
+
+            <article class="anno-item anno-item--issue" tabindex="0">
+              <div class="anno-item__head">
+                <span class="anno-item__num">5</span>
+                <span class="anno-item__kind">需修改</span>
+              </div>
+              <div class="anno-item__quote">"成绩不见起色"</div>
+              <p class="anno-item__comment">
+                <strong>口语化略重</strong>。在高考作文中"不见起色"稍嫌直白, 可改为"收效甚微"或"难见寸进", 更显文采。
+              </p>
+            </article>
+
+            <article class="anno-item anno-item--praise" tabindex="0">
+              <div class="anno-item__head">
+                <span class="anno-item__num">6</span>
+                <span class="anno-item__kind">亮点</span>
+              </div>
+              <div class="anno-item__quote">"耐得住寂寞的坚持"</div>
+              <p class="anno-item__comment">
+                <strong>结尾收束有力</strong>, 与开篇"最朴素也最有力"首尾呼应, 全文结构完整。可直接作为终评高分点。
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ AI 老师总评 ============ -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>AI 老师总评</span>
+            <span class="section__eyebrow-num">v2.1</span>
+          </div>
+          <h2 class="section__title">像老师改作文一样, 说说你的整体</h2>
+        </div>
+      </div>
+
+      <article class="summary">
+        <div class="summary__avatar">林</div>
+        <div class="summary__body">
+          <div class="summary__head">
+            <span class="summary__name">林岚 · AI 老师</span>
+            <span class="summary__role">高考语文 · 议论文专项</span>
+            <div class="summary__rating" aria-label="4.8 / 5 评分">
+              <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              <i data-lucide="star"></i><i data-lucide="star"></i>
+            </div>
+          </div>
+          <div class="summary__text">
+            <p>
+              小明, 这篇《谈坚持》写得<strong>立意明确、层次清晰</strong>。开篇"最朴素也最有力的动词"一句立得住, 中段苏格拉底、司马迁、钱学森三例并陈, 古今中外跨度合理, 体现了较好的素材积累。结尾"日复一日连成照亮整段人生的光"与开篇呼应, 全文结构完整。
+            </p>
+            <p>
+              主要提升空间在两处:<span class="tip">第 4 处</span>辩证部分与上一句略有重复, <span class="tip">第 5 处</span>个别表达偏口语化。下次练笔时, 建议你<strong>先列提纲再下笔</strong>, 把"立意→例证→辩证→号召"4 段式明确分层, 并在每段写完后回头检查文白比例。
+            </p>
+            <p>
+              综合评分 <strong>46 / 50, 一类文</strong>。继续保持立意深度, 下一阶段重点打磨"语言文采"维度。
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ 历次趋势 ============ -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>近 6 次作文</span>
+            <span class="section__eyebrow-num">趋势 ↑</span>
+          </div>
+          <h2 class="section__title">看见自己的进步</h2>
+        </div>
+      </div>
+
+      <div class="trend">
+        <div class="trend__chart">
+          <div class="trend__bar">
+            <div class="trend__bar-track">
+              <div class="trend__bar-fill" style="height: 76%"></div>
+            </div>
+            <div class="trend__bar-score">38</div>
+            <div class="trend__bar-date">8/10</div>
+          </div>
+          <div class="trend__bar">
+            <div class="trend__bar-track">
+              <div class="trend__bar-fill" style="height: 80%"></div>
+            </div>
+            <div class="trend__bar-score">40</div>
+            <div class="trend__bar-date">8/17</div>
+          </div>
+          <div class="trend__bar">
+            <div class="trend__bar-track">
+              <div class="trend__bar-fill" style="height: 82%"></div>
+            </div>
+            <div class="trend__bar-score">41</div>
+            <div class="trend__bar-date">8/24</div>
+          </div>
+          <div class="trend__bar">
+            <div class="trend__bar-track">
+              <div class="trend__bar-fill" style="height: 78%"></div>
+            </div>
+            <div class="trend__bar-score">39</div>
+            <div class="trend__bar-date">9/2</div>
+          </div>
+          <div class="trend__bar">
+            <div class="trend__bar-track">
+              <div class="trend__bar-fill" style="height: 84%"></div>
+            </div>
+            <div class="trend__bar-score">42</div>
+            <div class="trend__bar-date">9/8</div>
+          </div>
+          <div class="trend__bar trend__bar--latest trend__bar--peak">
+            <div class="trend__bar-track">
+              <div class="trend__bar-fill trend__bar-fill--peak" style="height: 92%"></div>
+            </div>
+            <div class="trend__bar-score">46</div>
+            <div class="trend__bar-date">9/15</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 行动 CTA ============ -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>下一步</span>
+            <span class="section__eyebrow-num">3 选 1</span>
+          </div>
+          <h2 class="section__title">把这次的发现, 变成下次的进步</h2>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a href="#" class="cta-btn cta-btn--featured">
+          <span class="cta-btn__icon"><i data-lucide="pen-line"></i></span>
+          <div class="cta-btn__body">
+            <div class="cta-btn__title">按批注重写一版</div>
+            <div class="cta-btn__sub">重点改第 4 / 5 处, 限时 30 分钟</div>
+          </div>
+          <span class="cta-btn__arrow"><i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="#" class="cta-btn">
+          <span class="cta-btn__icon cta-btn--blue"><i data-lucide="message-circle"></i></span>
+          <div class="cta-btn__body">
+            <div class="cta-btn__title">问 AI 老师</div>
+            <div class="cta-btn__sub">"为什么'日拱一卒'是比喻?"</div>
+          </div>
+          <span class="cta-btn__arrow"><i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="#" class="cta-btn">
+          <span class="cta-btn__icon cta-btn--ink"><i data-lucide="layers"></i></span>
+          <div class="cta-btn__body">
+            <div class="cta-btn__title">查看历次作文</div>
+            <div class="cta-btn__sub">5 篇存档 · 对比文风变化</div>
+          </div>
+          <span class="cta-btn__arrow"><i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
+      lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>

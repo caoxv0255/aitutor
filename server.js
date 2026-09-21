@@ -127,10 +127,14 @@ app.use((req, res, next) => {
 // （href="login.html" / src="assets/js/auth-nav.js"），仅 hero.html 有一处
 // href="/" 指向站点根；页内 /api/* 调用是绝对路径，仍归还到同域名后端。
 //
-// 目录解析：DESIGN_V2_DIR 环境变量优先，默认 ./docs/design（本项目内）
+// 目录解析：DESIGN_V2_DIR 环境变量优先，默认 ./frontend-v2（本项目内）
+//
+// 2026-09-21 变更：设计稿已从 docs/design/ 迁入 frontend-v2/（受版本控制，
+// 且不再被 .dockerignore 排除）。切换期间 docs/design/ 下留有一份桥接副本
+// （硬链接 + assets 拷贝），供尚未重启的旧进程继续服务；重启后删除即可。
 // 对外屏蔽：*.md 内部文档 与 _e2e-screenshots/
 // ═══════════════════════════════════════════════════════════════════════════
-const DESIGN_V2_DIR = path.resolve(process.env.DESIGN_V2_DIR || 'docs/design');
+const DESIGN_V2_DIR = path.resolve(process.env.DESIGN_V2_DIR || 'frontend-v2');
 
 if (fs.existsSync(path.join(DESIGN_V2_DIR, 'hero.html'))) {
   const DESIGN_V2_404 = path.join(DESIGN_V2_DIR, 'error-404.html');

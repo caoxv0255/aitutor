@@ -305,11 +305,12 @@ __pycache__/
 /database/preflight/qb-extract/logs/*.json
 /database/preflight/qb-extract/logs/*.jsonl
 
-# docs/design: 只入库设计文档 (.md); 原型 html / 原型资产 / 验证截图与脚本为本地设计产物
+# docs/design: 只入库设计文档 (.md); 验证截图与脚本为本地设计产物
 # (png 已由上方全局 *.png 规则覆盖)
 # 决策: 2026-09-20 架构评审方向 3
-/docs/design/*.html
-/docs/design/assets/
+#
+# 2026-09-21: 24 页 html 与 assets 已迁入 frontend-v2/ 并入库(v2 升格为新主前端树),
+# 本节不再需要忽略 html/assets.
 # 注意: 必须先用 `**/` 放行目录, 否则 git 不会进入被忽略的父目录, 嵌套 .md 无法被重新包含
 /docs/design/_e2e-screenshots/**
 !/docs/design/_e2e-screenshots/**/

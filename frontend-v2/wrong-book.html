@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="description" content="错题本 — 拍照解析后沉淀的错题，按学科与复习状态筛选">
+  <title>错题本 · 智启AI导师</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a href="photo-solve.html">← 继续拍照</a>
+      <span class="eyebrow">Wrong Book</span>
+    </header>
+
+    <h1>错题本</h1>
+    <p class="lede">拍照解析后存入的错题沉淀在这里，可标记已复习或删除。</p>
+
+    <div id="stat-region" aria-live="polite" class="stat-row"></div>
+
+    <form class="toolbar" id="filter-form">
+      <label class="field" for="subject-filter">
+        学科
+        <select id="subject-filter">
+          <option value="">全部</option>
+          <option value="math">数学</option>
+          <option value="physics">物理</option>
+          <option value="chemistry">化学</option>
+          <option value="chinese">语文</option>
+          <option value="english">英语</option>
+          <option value="politics">政治</option>
+        </select>
+      </label>
+      <label class="field" for="reviewed-filter">
+        状态
+        <select id="reviewed-filter">
+          <option value="">全部</option>
+          <option value="false">未复习</option>
+          <option value="true">已复习</option>
+        </select>
+      </label>
+      <button class="btn btn-ghost" type="submit">应用筛选</button>
+    </form>
+
+    <!-- 六态区域：成功 / 加载 / 空 / 错误 / 未登录 / 离线 -->
+    <div id="state-region" aria-live="polite">
+      <section class="state state--empty" data-state="empty">
+        <div class="state-card">
+          <h2>这里还没有错题</h2>
+          <p id="empty-copy">用「拍照解题」解析一张卷子，把结果存进来。</p>
+        </div>
+      </section>
+
+      <section class="state state--loading" data-state="loading">
+        <div class="state-card">
+          <h2>正在加载错题…</h2>
+          <p class="skeleton skeleton--w90"></p>
+          <p class="skeleton skeleton--w70"></p>
+          <p class="skeleton skeleton--w50"></p>
+        </div>
+      </section>
+
+      <section class="state state--success" data-state="success">
+        <ul class="results" id="list"></ul>
+        <div class="pager">
+          <button class="btn btn-ghost" id="prev-btn" type="button">上一页</button>
+          <span id="page-info"></span>
+          <button class="btn btn-ghost" id="next-btn" type="button">下一页</button>
+        </div>
+      </section>
+
+      <section class="state state--error" data-state="error">
+        <div class="state-card">
+          <h2>加载失败</h2>
+          <p id="error-copy">服务暂时不可用。</p>
+          <p><button class="btn btn-ghost" id="retry-btn" type="button">重试</button></p>
+        </div>
+      </section>
+
+      <section class="state state--auth" data-state="auth">
+        <div class="state-card">
+          <h2>需要登录</h2>
+          <p>错题本属于个人数据，请先登录后查看。</p>
+          <p><a class="btn" href="login.html?next=wrong-book.html">去登录</a></p>
+        </div>
+      </section>
+
+      <section class="state state--offline" data-state="offline">
+        <div class="state-card">
+          <h2>当前处于离线状态</h2>
+          <p>错题本需要联网读取，恢复网络后重试。</p>
+          <p><button class="btn btn-ghost" id="offline-retry-btn" type="button">重新连接</button></p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/wrong-book.js"></script>
+</body>
+</html>

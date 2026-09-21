@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>通知中心 · 智启AI导师</title>
+  <meta name="description" content="复习提醒 · 薄弱预警 · 系统通知 · 阶段性成就 · 9 学科上下文" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
+      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
+      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
+      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
+      --w-50:#fffbeb; --s-w-100:#fef3c7; --w-500:#f59e0b; --w-700:#b45309;
+      --e-50:#fef2f2; --e-500:#ef4444;
+      --i-50:#f0f9ff; --i-500:#0284c7;
+
+      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
+      --line:#e8eaee; --line-soft:#f1f3f5;
+      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
+
+      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
+      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','DM Sans',monospace;
+
+      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
+      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
+      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
+      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
+      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
+      --ease-out: cubic-bezier(.22,1,.36,1);
+      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
+    }
+
+    html.dark {
+      --bg:#0a0d14; --surface:#131720; --surface-2:#1a1f2c; --surface-3:#232838;
+      --line:#232838; --line-soft:#1f2533;
+      --ink:#e8ecf3; --ink-2:#a8b0c2; --ink-3:#6f7689; --ink-4:#4d5468;
+      --p-50:#2a0e10; --p-100:#3a1316; --p-200:#4d1820;
+      --b-50:#0d1c33; --s-50:#052e22; --w-50:#2a1d05; --e-50:#2a0d0d; --i-50:#06222e;
+      --sh-1: 0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
+      --sh-2: 0 4px 16px -4px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.3);
+      --sh-3: 0 12px 32px -8px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.3);
+    }
+
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.55;
+      min-height: 100vh;
+      font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+    /* ============ NAV ============ */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav__inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 17px; color: var(--ink);
+    }
+    .nav__brand-mark {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 13px;
+      box-shadow: var(--sh-primary);
+    }
+    .nav__crumbs { display: flex; gap: 6px; font-size: 13px; color: var(--ink-3); align-items: center; }
+    .nav__crumbs svg { width: 12px; height: 12px; }
+    .nav__crumbs a:hover { color: var(--p-500); }
+    .nav__crumbs strong { color: var(--ink); font-weight: 500; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 8px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--ink-2);
+      transition: background var(--dur-1), color var(--dur-1);
+    }
+    .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+    .icon-btn svg { width: 18px; height: 18px; }
+    .nav__avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 14px; font-weight: 700;
+    }
+
+    .app { max-width: 1280px; margin: 0 auto; padding: 32px; }
+
+    /* ============ HEADER ============ */
+    .page-header {
+      display: flex; align-items: end; justify-content: space-between;
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .page-header__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--p-500);
+      margin-bottom: 8px;
+    }
+    .page-header__eyebrow::before { content: ''; width: 24px; height: 1.5px; background: var(--p-500); }
+    .page-header__title {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 700;
+      line-height: 1.15; letter-spacing: -.02em;
+      color: var(--ink);
+    }
+    .page-header__title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .page-header__sub {
+      font-size: 14px; color: var(--ink-3);
+      margin-top: 6px;
+    }
+    .header-stats {
+      display: flex; gap: 12px;
+    }
+    .header-stat {
+      display: flex; flex-direction: column;
+      padding: 8px 14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      text-align: right;
+    }
+    .header-stat__value {
+      font-family: var(--font-display);
+      font-size: 18px; font-weight: 700;
+      color: var(--p-500);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+    }
+    .header-stat__label {
+      font-size: 10px;
+      color: var(--ink-3);
+      letter-spacing: .04em;
+      margin-top: 2px;
+    }
+
+    /* ============ TOOLBAR ============ */
+    .toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface-2);
+      border-radius: var(--r-pill);
+    }
+    .tab {
+      padding: 7px 14px;
+      border-radius: var(--r-pill);
+      font-size: 13px; font-weight: 600;
+      color: var(--ink-3);
+      transition: all var(--dur-1);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .tab:hover { color: var(--ink-2); }
+    .tab.active {
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: var(--sh-1);
+    }
+    .tab__count {
+      font-family: var(--font-mono);
+      font-size: 10px; font-weight: 700;
+      padding: 2px 6px;
+      background: var(--p-500);
+      color: #fff;
+      border-radius: 9999px;
+    }
+    .tab:not(.active) .tab__count { background: var(--surface-3); color: var(--ink-3); }
+    .tab.active .tab__count { background: var(--p-500); color: #fff; }
+
+    .toolbar__right {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px;
+      background: transparent;
+      color: var(--ink-2);
+      border-radius: var(--r-pill);
+      font-size: 12px; font-weight: 600;
+    }
+    .btn-ghost:hover { background: var(--surface-2); color: var(--ink); }
+    .btn-ghost svg { width: 14px; height: 14px; }
+
+    /* ============ NOTIFICATION LIST ============ */
+    .notif-list {
+      display: flex; flex-direction: column;
+      gap: 8px;
+    }
+
+    /* 时间分组 */
+    .notif-group {
+      margin-top: 8px;
+    }
+    .notif-group:first-child { margin-top: 0; }
+    .notif-group__head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 4px 8px;
+    }
+    .notif-group__title {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+      color: var(--ink-3);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .notif-group__title .count {
+      font-family: var(--font-mono);
+      padding: 2px 8px;
+      background: var(--p-500);
+      color: #fff;
+      border-radius: 9999px;
+    }
+    .notif-group__mark {
+      font-size: 11px;
+      color: var(--ink-3);
+      cursor: pointer;
+    }
+    .notif-group__mark:hover { color: var(--p-500); }
+
+    /* 单条通知 */
+    .notif {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      transition: all var(--dur-1) var(--ease-out);
+      cursor: pointer;
+      position: relative;
+    }
+    .notif--unread { background: color-mix(in srgb, var(--p-500) 3%, var(--surface)); }
+    .notif--unread::before {
+      content: '';
+      position: absolute; left: 6px; top: 50%;
+      transform: translateY(-50%);
+      width: 6px; height: 6px;
+      background: var(--p-500);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--p-500) 25%, transparent);
+    }
+    .notif:hover { border-color: var(--line); box-shadow: var(--sh-1); }
+    .notif:hover .notif__title { color: var(--p-500); }
+
+    .notif__icon {
+      width: 40px; height: 40px;
+      border-radius: var(--r-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .notif__icon svg { width: 18px; height: 18px; }
+    .notif__icon--review   { background: var(--b-50);  color: var(--b-500); }
+    .notif__icon--weak     { background: var(--p-50);  color: var(--p-500); }
+    .notif__icon--system   { background: var(--i-50);  color: var(--i-500); }
+    .notif__icon--achievement { background: var(--w-50);  color: var(--w-700); }
+    .notif__icon--success  { background: var(--s-50);  color: var(--s-500); }
+    html.dark .notif__icon--review { background: var(--b-50); }
+    html.dark .notif__icon--weak { background: var(--p-50); }
+    html.dark .notif__icon--system { background: var(--i-50); }
+    html.dark .notif__icon--achievement { background: var(--w-50); }
+    html.dark .notif__icon--success { background: var(--s-50); }
+
+    .notif__main { min-width: 0; }
+    .notif__top {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+    }
+    .notif__type {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--ink-3);
+      background: var(--surface-2);
+    }
+    .notif__type--review   { color: var(--b-500); background: var(--b-50); }
+    .notif__type--weak     { color: var(--p-500); background: var(--p-50); }
+    .notif__type--system   { color: var(--i-500); background: var(--i-50); }
+    .notif__type--achievement { color: var(--w-700); background: var(--w-50); }
+    .notif__subj {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 1px 6px;
+      border-radius: var(--r-pill);
+      font-size: 10px; font-weight: 600;
+    }
+    .notif__subj-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--subj-color);
+    }
+    .notif__title {
+      font-size: 14px; font-weight: 600;
+      color: var(--ink);
+      transition: color var(--dur-1);
+    }
+    .notif__body {
+      font-size: 12px;
+      color: var(--ink-3);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .notif__body strong { color: var(--ink-2); font-weight: 600; }
+
+    .notif__bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 8px;
+    }
+    .notif__time {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-3);
+    }
+    .notif__actions { display: flex; gap: 6px; }
+    .btn-tiny {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px;
+      background: var(--surface-2);
+      border-radius: var(--r-pill);
+      font-size: 11px; font-weight: 600;
+      color: var(--ink-2);
+      transition: all var(--dur-1);
+    }
+    .btn-tiny:hover { background: var(--p-500); color: #fff; }
+    .btn-tiny--primary {
+      background: var(--p-500);
+      color: #fff;
+    }
+    .btn-tiny--primary:hover { background: var(--p-600); }
+    .btn-tiny svg { width: 11px; height: 11px; }
+    .btn-icon {
+      width: 24px; height: 24px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 9999px;
+      color: var(--ink-3);
+      transition: background var(--dur-1), color var(--dur-1);
+    }
+    .btn-icon:hover { background: var(--surface-2); color: var(--ink); }
+    .btn-icon svg { width: 12px; height: 12px; }
+
+    /* ============ EMPTY ============ */
+    .empty-state {
+      padding: 80px 32px;
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+    }
+    .empty-state__icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      color: var(--ink-3);
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .empty-state__icon svg { width: 36px; height: 36px; }
+    .empty-state__title {
+      font-family: var(--font-display);
+      font-size: 18px; font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .empty-state__desc {
+      font-size: 13px; color: var(--ink-3);
+      max-width: 360px;
+      margin: 0 auto 16px;
+    }
+
+    /* ============ ANIMATIONS ============ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+    .notif { animation: fadeUp 320ms var(--ease-out) both; }
+    .notif-group:nth-child(1) .notif:nth-child(2) { animation-delay: 60ms; }
+    .notif-group:nth-child(1) .notif:nth-child(3) { animation-delay: 120ms; }
+    .notif-group:nth-child(1) .notif:nth-child(4) { animation-delay: 180ms; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 720px) {
+      .page-header { flex-direction: column; align-items: start; gap: 12px; }
+      .header-stats { flex-wrap: wrap; }
+      .notif { grid-template-columns: auto 1fr; }
+      .notif__actions { grid-column: 1 / -1; }
+      .toolbar { flex-direction: column; align-items: start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <div style="display:flex;align-items:center;gap:24px">
+        <a href="landing.html" class="nav__brand">
+          <span class="nav__brand-mark">AI</span>
+          <span>智启AI导师</span>
+        </a>
+        <div class="nav__crumbs">
+          <a href="practice-hub-v2.html">练习中心</a>
+          <i data-lucide="chevron-right"></i>
+          <strong>通知中心</strong>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="icon-btn" id="themeBtn" aria-label="切换主题">
+          <i data-lucide="moon"></i>
+        </button>
+        <button class="icon-btn" aria-label="通知" style="color: var(--p-500); background: var(--p-50);">
+          <i data-lucide="bell"></i>
+        </button>
+        <div class="nav__avatar">明</div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="app">
+
+    <!-- ============ HEADER ============ -->
+    <header class="page-header">
+      <div>
+        <div class="page-header__eyebrow">通知中心 · NOTIFICATIONS</div>
+        <h1 class="page-header__title">你<em> · 3 条未读</em></h1>
+        <p class="page-header__sub">最近 7 天 · 共 12 条 · 系统按重要性排序</p>
+      </div>
+      <div class="header-stats">
+        <div class="header-stat">
+          <div class="header-stat__value">3</div>
+          <div class="header-stat__label">未读</div>
+        </div>
+        <div class="header-stat">
+          <div class="header-stat__value">12</div>
+          <div class="header-stat__label">本周</div>
+        </div>
+        <div class="header-stat">
+          <div class="header-stat__value">87</div>
+          <div class="header-stat__label">全部</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ TOOLBAR ============ -->
+    <div class="toolbar">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="all" role="tab">
+          全部
+          <span class="tab__count">12</span>
+        </button>
+        <button class="tab" data-tab="review" role="tab">
+          复习提醒
+          <span class="tab__count">4</span>
+        </button>
+        <button class="tab" data-tab="weak" role="tab">
+          薄弱预警
+          <span class="tab__count">2</span>
+        </button>
+        <button class="tab" data-tab="achievement" role="tab">
+          成就
+          <span class="tab__count">3</span>
+        </button>
+        <button class="tab" data-tab="system" role="tab">
+          系统
+          <span class="tab__count">3</span>
+        </button>
+      </div>
+      <div class="toolbar__right">
+        <button class="btn-ghost">
+          <i data-lucide="check-check"></i>
+          全部标为已读
+        </button>
+        <button class="btn-ghost">
+          <i data-lucide="settings-2"></i>
+          通知偏好
+        </button>
+      </div>
+    </div>
+
+    <!-- ============ TODAY GROUP ============ -->
+    <div class="notif-list">
+      <div class="notif-group" id="group-today">
+        <div class="notif-group__head">
+          <div class="notif-group__title">
+            今天 · 9 月 15 日
+            <span class="count">3</span>
+          </div>
+          <a class="notif-group__mark">全部标为已读</a>
+        </div>
+
+        <article class="notif notif--unread" data-type="weak">
+          <div class="notif__icon notif__icon--weak">
+            <i data-lucide="alert-triangle"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--weak">薄弱预警</span>
+              <span class="notif__subj" style="--subj-color:#d71920">
+                <span class="notif__subj-dot"></span>
+                数学
+              </span>
+            </div>
+            <div class="notif__title">导数与切线 · 薄弱度指数 9.6</div>
+            <div class="notif__body">
+              你最近 2 天在该知识点错 <strong>4 道</strong>, 薄弱度指数突破 9.0 阈值。
+              <br/>AI 已自动排期今晚 20:00 复习 · 预计 8 分钟。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">14:32 · 8 分钟前</span>
+              <div class="notif__actions">
+                <button class="btn-tiny btn-tiny--primary">
+                  <i data-lucide="play"></i>
+                  立即复习
+                </button>
+                <button class="btn-tiny">查看详情</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-icon" aria-label="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </article>
+
+        <article class="notif notif--unread" data-type="review">
+          <div class="notif__icon notif__icon--review">
+            <i data-lucide="refresh-cw"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--review">复习提醒</span>
+              <span class="notif__subj" style="--subj-color:#d71920">
+                <span class="notif__subj-dot"></span>
+                数学
+              </span>
+            </div>
+            <div class="notif__title">今日 3 道错题到复习时间</div>
+            <div class="notif__body">
+              SM-2 算法建议你复习:<br/>
+              · 三角函数综合 (错 6 次, 间隔到期)<br/>
+              · 数列通项与求和 (错 3 次, 间隔到期)<br/>
+              · 立体几何 · 空间向量 (错 2 次)
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">10:00 · 4 小时前</span>
+              <div class="notif__actions">
+                <button class="btn-tiny btn-tiny--primary">
+                  <i data-lucide="play"></i>
+                  开始复习
+                </button>
+                <button class="btn-tiny">稍后提醒</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-icon" aria-label="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </article>
+
+        <article class="notif" data-type="achievement">
+          <div class="notif__icon notif__icon--achievement">
+            <i data-lucide="trophy"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--achievement">成就</span>
+              <span class="notif__subj" style="--subj-color:#d71920">
+                <span class="notif__subj-dot"></span>
+                数学
+              </span>
+            </div>
+            <div class="notif__title">🎉 坚持学习 12 天!</div>
+            <div class="notif__body">
+              你已连续 12 天完成每日目标。薄弱度指数较 12 天前下降 <strong>23%</strong>。
+              解锁新徽章"数学小能手" · 同步到学习报告。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">09:00 · 5 小时前</span>
+              <div class="notif__actions">
+                <button class="btn-tiny">查看徽章</button>
+                <button class="btn-tiny">分享成就</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-icon" aria-label="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </article>
+      </div>
+
+      <!-- ============ YESTERDAY GROUP ============ -->
+      <div class="notif-group" id="group-yesterday">
+        <div class="notif-group__head">
+          <div class="notif-group__title">
+            昨天 · 9 月 14 日
+            <span class="count">5</span>
+          </div>
+          <a class="notif-group__mark">全部标为已读</a>
+        </div>
+
+        <article class="notif" data-type="weak">
+          <div class="notif__icon notif__icon--weak">
+            <i data-lucide="trending-down"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--weak">薄弱预警</span>
+              <span class="notif__subj" style="--subj-color:#2563eb">
+                <span class="notif__subj-dot"></span>
+                物理
+              </span>
+            </div>
+            <div class="notif__title">物理 · 电磁感应 退步</div>
+            <div class="notif__body">
+              较上周同期退步 <strong>-4 分</strong>。本周模考平均分从 65 → 61。
+              建议: 重做 5 道电磁感应基础题, AI 已为你生成专项训练。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">昨天 22:15</span>
+              <div class="notif__actions">
+                <button class="btn-tiny btn-tiny--primary">立即训练</button>
+                <button class="btn-tiny">查看趋势</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-icon" aria-label="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </article>
+
+        <article class="notif" data-type="review">
+          <div class="notif__icon notif__icon--review">
+            <i data-lucide="check-circle-2"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--review">复习完成</span>
+              <span class="notif__subj" style="--subj-color:#2563eb">
+                <span class="notif__subj-dot"></span>
+                物理
+              </span>
+            </div>
+            <div class="notif__title">运动学 · 5 题复习全对</div>
+            <div class="notif__body">
+              复习 5 道运动学题, <strong>全部正确</strong>。下次复习间隔延长至 <strong>6 天后</strong>。
+              熟练度从 60 → 72。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">昨天 18:42</span>
+              <div class="notif__actions">
+                <button class="btn-tiny">查看详情</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-icon" aria-label="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </article>
+
+        <article class="notif" data-type="achievement">
+          <div class="notif__icon notif__icon--achievement">
+            <i data-lucide="trending-up"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--achievement">提分</span>
+              <span class="notif__subj" style="--subj-color:#7c3aed">
+                <span class="notif__subj-dot"></span>
+                英语
+              </span>
+            </div>
+            <div class="notif__title">英语 · 写作 提分</div>
+            <div class="notif__body">
+              英语作文从 18 → 23 (+5)。阅读理解错题下降 12%。
+              解锁"写作新星"徽章。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">昨天 16:30</span>
+              <div class="notif__actions">
+                <button class="btn-tiny">查看报告</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-icon" aria-label="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </article>
+
+        <article class="notif" data-type="review">
+          <div class="notif__icon notif__icon--review">
+            <i data-lucide="camera"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--review">拍照</span>
+              <span class="notif__subj" style="--subj-color:#0891b2">
+                <span class="notif__subj-dot"></span>
+                生物
+              </span>
+            </div>
+            <div class="notif__title">拍照 · 已识别 1 道错题</div>
+            <div class="notif__body">
+              识别"光合作用光反应阶段", 已入错题本。薄弱度指数 <strong>6.0</strong>。
+              3 道相似题已匹配, 加入今日复习队列。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">昨天 14:08</span>
+              <div class="notif__actions">
+                <button class="btn-tiny btn-tiny--primary">查看错题</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-icon" aria-label="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </article>
+
+        <article class="notif" data-type="system">
+          <div class="notif__icon notif__icon--system">
+            <i data-lucide="info"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--system">系统</span>
+            </div>
+            <div class="notif__title">每周学情报告已生成</div>
+            <div class="notif__body">
+              本周你完成 64 题, 正确率 71%, 薄弱度指数 10.0 (上周 12.4)。已发送到注册邮箱。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">昨天 08:00</span>
+              <div class="notif__actions">
+                <button class="btn-tiny">查看报告</button>
+                <button class="btn-tiny">下载 PDF</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-icon" aria-label="关闭">
+            <i data-lucide="x"></i>
+          </button>
+        </article>
+      </div>
+
+      <!-- ============ EARLIER GROUP ============ -->
+      <div class="notif-group" id="group-earlier">
+        <div class="notif-group__head">
+          <div class="notif-group__title">
+            本周早些时候
+            <span class="count">4</span>
+          </div>
+        </div>
+
+        <article class="notif" data-type="system">
+          <div class="notif__icon notif__icon--system">
+            <i data-lucide="user-plus"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--system">系统</span>
+            </div>
+            <div class="notif__title">欢迎加入智启AI导师</div>
+            <div class="notif__body">
+              你是第 <strong>247</strong> 天使用 AI 导师。已加入"高三冲刺"队列。
+              系统已基于你的 247 道错题自动生成本月复习计划。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">9 月 8 日</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="notif" data-type="achievement">
+          <div class="notif__icon notif__icon--achievement">
+            <i data-lucide="award"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--achievement">达成</span>
+              <span class="notif__subj" style="--subj-color:#059669">
+                <span class="notif__subj-dot"></span>
+                化学
+              </span>
+            </div>
+            <div class="notif__title">化学反应速率 · 首次满分</div>
+            <div class="notif__body">
+              在 10 道专项练习中全部正确, 突破该知识点。系统已加入"完全掌握"列表。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">9 月 10 日</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="notif" data-type="system">
+          <div class="notif__icon notif__icon--system">
+            <i data-lucide="credit-card"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--system">订阅</span>
+            </div>
+            <div class="notif__title">Pro 试用到期 · 已自动续费</div>
+            <div class="notif__body">
+              你的 Pro 试用已结束, 系统检测到活跃学习, 自动以 <strong>¥39/月</strong> 续费。
+              可随时在"设置 - 订阅"取消。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">9 月 12 日</span>
+              <div class="notif__actions">
+                <button class="btn-tiny">查看账单</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="notif" data-type="review">
+          <div class="notif__icon notif__icon--review">
+            <i data-lucide="file-check"></i>
+          </div>
+          <div class="notif__main">
+            <div class="notif__top">
+              <span class="notif__type notif__type--review">预测卷</span>
+            </div>
+            <div class="notif__title">预测卷"数学薄弱点"批改完成</div>
+            <div class="notif__body">
+              10 题 · 答对 8 题 · 80% 正确率。错题已自动入错题本。
+              <br/>薄弱度指数 +0.8 (新增), 已加入今晚复习。
+            </div>
+            <div class="notif__bottom">
+              <span class="notif__time">9 月 11 日</span>
+              <div class="notif__actions">
+                <button class="btn-tiny">查看错题</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    // Tab 过滤
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const type = tab.dataset.tab;
+        document.querySelectorAll('.notif').forEach(n => {
+          n.style.display = (type === 'all' || n.dataset.type === type) ? '' : 'none';
+        });
+      });
+    });
+
+    // Theme
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
+      lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>

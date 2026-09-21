@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>知识星图 · 智启AI导师</title>
+  <meta name="description" content="9 学科 × KP node-link 知识星图 · 节点大小 = 练习题数, 亮度 = 熟练度, 红边 = 薄弱 ≥ 7.0 · 切换热力矩阵视图" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
+      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
+      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
+      --s-50:#ecfdf5; --s-500:#059669; --s-700:#065f46;
+      --w-50:#fffbeb; --w-500:#f59e0b;
+      --e-50:#fef2f2; --e-500:#ef4444;
+      --i-50:#f0f9ff; --i-500:#0284c7;
+
+      --ch-orange:#c2410c; --ch-red:#d71920; --ch-purple:#7c3aed;
+      --ch-blue:#2563eb; --ch-green:#059669; --ch-cyan:#0891b2;
+      --ch-amber:#b45309; --ch-lime:#65a30d; --ch-pink:#be185d;
+
+      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
+      --line:#e8eaee; --line-soft:#f1f3f5;
+      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
+
+      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
+      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','DM Sans',monospace;
+
+      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
+
+      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
+      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
+      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
+      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
+      --ease-out: cubic-bezier(.22,1,.36,1);
+      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms; --dur-4:680ms;
+    }
+
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.55;
+      min-height: 100vh;
+    }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+    /* ============ NAV ============ */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav__inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav__breadcrumbs {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--ink-3);
+    }
+    .nav__breadcrumbs svg { width: 12px; height: 12px; }
+    .nav__breadcrumbs a:hover { color: var(--p-500); }
+    .nav__breadcrumbs strong { color: var(--ink); font-weight: 500; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 8px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--ink-2);
+    }
+    .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    .app { max-width: 1280px; margin: 0 auto; padding: 32px; }
+
+    /* ============ HEADER ============ */
+    .head {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line-soft);
+      margin-bottom: 24px;
+    }
+    .head__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 4px 12px;
+      background: var(--p-50);
+      color: var(--p-700);
+      border-radius: var(--r-pill);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .04em;
+      margin-bottom: 8px;
+    }
+    .head__title {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 700;
+      line-height: 1.15; letter-spacing: -.02em;
+      color: var(--ink);
+    }
+    .head__title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .head__sub {
+      font-size: 14px; color: var(--ink-3);
+      margin-top: 4px;
+    }
+    .head__switch {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface-2);
+      border-radius: var(--r-pill);
+    }
+    .head__switch button {
+      padding: 8px 16px;
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-3);
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: all var(--dur-1);
+    }
+    .head__switch button svg { width: 14px; height: 14px; }
+    .head__switch button.active {
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: var(--sh-1);
+    }
+
+    /* ============ STATS BAND ============ */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .stat-card__icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-card__icon svg { width: 18px; height: 18px; }
+    .stat-card__icon--ch-red { background: color-mix(in srgb, var(--ch-red) 12%, transparent); color: var(--ch-red); }
+    .stat-card__icon--ch-blue { background: color-mix(in srgb, var(--ch-blue) 12%, transparent); color: var(--ch-blue); }
+    .stat-card__icon--ch-green { background: color-mix(in srgb, var(--ch-green) 12%, transparent); color: var(--ch-green); }
+    .stat-card__icon--ch-amber { background: color-mix(in srgb, var(--ch-amber) 12%, transparent); color: var(--ch-amber); }
+    .stat-card__main { min-width: 0; }
+    .stat-card__value {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 700;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+    }
+    .stat-card__value strong {
+      color: var(--p-500);
+      font-weight: 700;
+    }
+    .stat-card__label {
+      font-size: 11px;
+      color: var(--ink-3);
+      margin-top: 2px;
+    }
+
+    /* ============ MAIN VISUAL (node-link OR heatmap) ============ */
+    .visual-wrap {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .visual {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--sh-1);
+    }
+    .visual--hidden { display: none; }
+
+    /* ============ STAR MAP (node-link) ============ */
+    .star-svg-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      max-height: 600px;
+    }
+    .star-svg-wrap svg {
+      width: 100%; height: 100%;
+      cursor: grab;
+    }
+    .star-svg-wrap svg:active { cursor: grabbing; }
+    .star-hint {
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      padding: 6px 14px;
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--line);
+      border-radius: var(--r-pill);
+      font-size: 11px; color: var(--ink-3);
+      pointer-events: none;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .star-hint svg { width: 12px; height: 12px; }
+
+    /* ============ HEATMAP ============ */
+    .heat-wrap {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    .heat {
+      display: grid;
+      grid-template-columns: 60px repeat(9, 1fr);
+      gap: 4px;
+      min-width: 700px;
+    }
+    .heat__kp-lbl {
+      font-size: 11px; font-weight: 600;
+      color: var(--ink-3);
+      align-self: center;
+      text-align: right;
+      padding-right: 8px;
+    }
+    .heat__subj-lbl {
+      font-size: 11px; font-weight: 600;
+      color: var(--ink-3);
+      text-align: center;
+      padding-bottom: 6px;
+    }
+    .heat__cell {
+      aspect-ratio: 1.4;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all var(--dur-1);
+      display: flex;
+      align-items: center; justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight: 700;
+      color: var(--ink-2);
+      min-width: 32px;
+    }
+    .heat__cell:hover { transform: scale(1.08); box-shadow: var(--sh-2); z-index: 1; }
+    .heat__cell--empty { background: var(--surface-3); color: var(--ink-4); }
+    .heat__cell--l0 { background: color-mix(in srgb, #ef4444 70%, white); color: #fff; }
+    .heat__cell--l1 { background: color-mix(in srgb, #f97316 70%, white); color: #fff; }
+    .heat__cell--l2 { background: color-mix(in srgb, #eab308 70%, white); color: #fff; }
+    .heat__cell--l3 { background: color-mix(in srgb, #84cc16 70%, white); color: #fff; }
+    .heat__cell--l4 { background: color-mix(in srgb, #22c55e 70%, white); color: #fff; }
+
+    /* ============ LEGEND ============ */
+    .legend {
+      display: flex; align-items: center; gap: 16px;
+      padding: 12px 16px;
+      background: var(--surface-2);
+      border-radius: var(--r-md);
+      font-size: 11px;
+      color: var(--ink-3);
+      flex-wrap: wrap;
+    }
+    .legend__group {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .legend__group-title {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .legend__dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .legend__bar {
+      width: 80px; height: 8px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #84cc16, #22c55e);
+    }
+    .legend__bar-lbl {
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+
+    /* ============ ANIMATIONS ============ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+    .visual-wrap { animation: fadeUp 480ms var(--ease-out) both; }
+    .stats { animation: fadeUp 480ms 100ms var(--ease-out) both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
+
+    @media (max-width: 960px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 720px) {
+      .head { flex-direction: column; align-items: start; }
+      .stats { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 540px) {
+      .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <div class="nav__breadcrumbs">
+        <a href="practice-hub-v2.html">练习中心</a>
+        <i data-lucide="chevron-right"></i>
+        <a href="mastery.html" onclick="event.preventDefault()">9 学科总览</a>
+        <i data-lucide="chevron-right"></i>
+        <strong>知识星图</strong>
+      </div>
+      <button class="icon-btn" id="themeBtn" aria-label="切换主题">
+        <i data-lucide="moon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <main class="app">
+    <header class="head">
+      <div>
+        <div class="head__eyebrow">KNOWLEDGE STAR MAP · 9 学科 · 48 KP</div>
+        <h1 class="head__title">你的<em>知识星图</em></h1>
+        <p class="head__sub">节点 = KP · 颜色 = 学科 · 大小 = 练习题数 · 亮度 = 熟练度 · 红边 = 薄弱</p>
+      </div>
+      <div class="head__switch" role="tablist">
+        <button class="active" data-view="star" role="tab">
+          <i data-lucide="sparkles"></i>
+          星图
+        </button>
+        <button data-view="heat" role="tab">
+          <i data-lucide="grid-3x3"></i>
+          热力
+        </button>
+      </div>
+    </header>
+
+    <!-- 4 项 KPI -->
+    <section class="stats">
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--ch-red"><i data-lucide="network"></i></div>
+        <div class="stat-card__main">
+          <div class="stat-card__value">48</div>
+          <div class="stat-card__label">总知识点</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--ch-green"><i data-lucide="check-circle-2"></i></div>
+        <div class="stat-card__main">
+          <div class="stat-card__value"><strong>17</strong></div>
+          <div class="stat-card__label">已掌握</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--ch-amber"><i data-lucide="loader"></i></div>
+        <div class="stat-card__main">
+          <div class="stat-card__value">19</div>
+          <div class="stat-card__label">复习中</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__icon stat-card__icon--ch-blue"><i data-lucide="alert-circle"></i></div>
+        <div class="stat-card__main">
+          <div class="stat-card__value"><strong>12</strong></div>
+          <div class="stat-card__label">薄弱 (≥ 7.0)</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="visual-wrap">
+      <!-- ============ STAR MAP VIEW ============ -->
+      <section class="visual" id="view-star">
+        <div class="star-svg-wrap">
+          <svg viewBox="0 0 1000 620" id="starSvg">
+            <!-- 边 (按学科组内 + 跨学科) -->
+            <g stroke="var(--line)" stroke-width="1" fill="none" opacity="0.45">
+              <line x1="200" y1="120" x2="350" y2="180"/>
+              <line x1="200" y1="120" x2="200" y2="280"/>
+              <line x1="350" y1="180" x2="200" y2="280"/>
+              <line x1="350" y1="180" x2="500" y2="160"/>
+              <line x1="200" y1="280" x2="500" y2="160"/>
+              <line x1="200" y1="280" x2="500" y2="320"/>
+              <line x1="350" y1="180" x2="500" y2="320"/>
+              <line x1="500" y1="320" x2="650" y2="220"/>
+              <line x1="500" y1="320" x2="800" y2="380"/>
+              <line x1="500" y1="160" x2="650" y2="220"/>
+              <line x1="650" y1="220" x2="800" y2="380"/>
+              <line x1="800" y1="380" x2="900" y2="480"/>
+              <line x1="650" y1="220" x2="500" y2="480"/>
+              <line x1="500" y1="320" x2="500" y2="480"/>
+              <line x1="650" y1="220" x2="500" y2="480"/>
+            </g>
+            <!-- 跨学科连接 (虚线, 弱) -->
+            <g stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.6">
+              <line x1="200" y1="280" x2="500" y2="480"/>
+              <line x1="350" y1="180" x2="800" y2="380"/>
+              <line x1="200" y1="120" x2="500" y2="320"/>
+            </g>
+
+            <!-- 学科组 (按 9 学科散开) -->
+            <!-- 语文 (左上) -->
+            <g class="node-group" data-subj="chinese">
+              <circle cx="200" cy="120" r="22" fill="color-mix(in srgb, var(--ch-orange) 50%, white)" stroke="var(--ch-orange)" stroke-width="2"/>
+              <text x="200" y="120" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" dominant-baseline="central">语文</text>
+            </g>
+            <!-- 数学 (中上) -->
+            <g class="node-group" data-subj="math" style="cursor:pointer">
+              <circle cx="350" cy="180" r="28" fill="color-mix(in srgb, var(--ch-red) 70%, white)" stroke="var(--ch-red)" stroke-width="3"/>
+              <text x="350" y="180" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" dominant-baseline="central">数学</text>
+              <circle cx="350" cy="180" r="32" fill="none" stroke="var(--p-500)" stroke-width="2"/>
+            </g>
+            <!-- 英语 (右上) -->
+            <g class="node-group" data-subj="english">
+              <circle cx="500" cy="160" r="22" fill="color-mix(in srgb, var(--ch-purple) 50%, white)" stroke="var(--ch-purple)" stroke-width="2"/>
+              <text x="500" y="160" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" dominant-baseline="central">英语</text>
+            </g>
+            <!-- 物理 (左中) -->
+            <g class="node-group" data-subj="physics">
+              <circle cx="200" cy="280" r="24" fill="color-mix(in srgb, var(--ch-blue) 55%, white)" stroke="var(--ch-blue)" stroke-width="2"/>
+              <text x="200" y="280" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" dominant-baseline="central">物理</text>
+            </g>
+            <!-- 化学 (中) -->
+            <g class="node-group" data-subj="chemistry">
+              <circle cx="500" cy="320" r="22" fill="color-mix(in srgb, var(--ch-green) 50%, white)" stroke="var(--ch-green)" stroke-width="2"/>
+              <text x="500" y="320" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" dominant-baseline="central">化学</text>
+            </g>
+            <!-- 生物 (右上) -->
+            <g class="node-group" data-subj="biology">
+              <circle cx="650" cy="220" r="20" fill="color-mix(in srgb, var(--ch-cyan) 50%, white)" stroke="var(--ch-cyan)" stroke-width="2"/>
+              <text x="650" y="220" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" dominant-baseline="central">生物</text>
+            </g>
+            <!-- 历史 (下右) -->
+            <g class="node-group" data-subj="history">
+              <circle cx="800" cy="380" r="22" fill="color-mix(in srgb, var(--ch-amber) 50%, white)" stroke="var(--ch-amber)" stroke-width="2"/>
+              <text x="800" y="380" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" dominant-baseline="central">历史</text>
+            </g>
+            <!-- 地理 (下中) -->
+            <g class="node-group" data-subj="geography">
+              <circle cx="500" cy="480" r="22" fill="color-mix(in srgb, var(--ch-lime) 50%, white)" stroke="var(--ch-lime)" stroke-width="2"/>
+              <text x="500" y="480" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" dominant-baseline="central">地理</text>
+            </g>
+            <!-- 政治 (右下) -->
+            <g class="node-group" data-subj="politics">
+              <circle cx="900" cy="480" r="20" fill="color-mix(in srgb, var(--ch-pink) 50%, white)" stroke="var(--ch-pink)" stroke-width="2"/>
+              <text x="900" y="480" text-anchor="middle" font-size="10" font-weight="600" fill="#fff" dominant-baseline="central">政治</text>
+            </g>
+          </svg>
+          <div class="star-hint">
+            <i data-lucide="move"></i>
+            拖拽浏览 · 滚轮缩放 · 悬停查看详情
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend" style="margin-top: 16px;">
+          <div class="legend__group">
+            <span class="legend__group-title">节点大小</span>
+            <span style="color:var(--ink-3);">小 → 大 = 练习题数 1 → 30+</span>
+          </div>
+          <div class="legend__group">
+            <span class="legend__group-title">熟练度</span>
+            <div class="legend__bar"></div>
+            <span class="legend__bar-lbl">0%</span>
+            <span class="legend__bar-lbl">50%</span>
+            <span class="legend__bar-lbl">100%</span>
+          </div>
+          <div class="legend__group">
+            <span class="legend__dot" style="background: transparent; border: 2px solid var(--p-500);"></span>
+            <span>薄弱 ≥ 7.0 (红边)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ HEATMAP VIEW ============ -->
+      <section class="visual visual--hidden" id="view-heat">
+        <div class="heat-wrap">
+          <div class="heat" id="heatGrid"></div>
+        </div>
+
+        <div class="legend" style="margin-top: 16px;">
+          <div class="legend__group">
+            <span class="legend__group-title">熟练度</span>
+            <div class="legend__bar"></div>
+            <span class="legend__bar-lbl">0%</span>
+            <span class="legend__bar-lbl">50%</span>
+            <span class="legend__bar-lbl">100%</span>
+          </div>
+          <div class="legend__group">
+            <span class="legend__dot" style="background: var(--surface-3);"></span>
+            <span>未练习 (灰)</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Hover detail (Popover, TODO: render below in JS) -->
+  </main>
+
+  <script>
+    /* ============ 数据 (PM §F.2 mastery_score) ============ */
+    // 7 节点 × 9 学科 = 63 cells, 这里用 6 KP × 9 学科 = 54 cells
+    const SUBJECTS = [
+      { code: 'chinese',   name: '语文', color: 'var(--ch-orange)' },
+      { code: 'math',      name: '数学', color: 'var(--ch-red)' },
+      { code: 'english',   name: '英语', color: 'var(--ch-purple)' },
+      { code: 'physics',   name: '物理', color: 'var(--ch-blue)' },
+      { code: 'chemistry', name: '化学', color: 'var(--ch-green)' },
+      { code: 'biology',   name: '生物', color: 'var(--ch-cyan)' },
+      { code: 'history',   name: '历史', color: 'var(--ch-amber)' },
+      { code: 'geography', name: '地理', color: 'var(--ch-lime)' },
+      { code: 'politics',  name: '政治', color: 'var(--ch-pink)' },
+    ];
+    const KP_NAMES = ['基础概念', '方法应用', '综合运用', '计算', '推理', '案例'];
+    // mastery: 0-1, null = 未练习
+    const DATA = {
+      chinese:   [0.85, 0.70, 0.60, null, 0.40, 0.55],
+      math:      [0.80, 0.55, 0.32, 0.48, 0.65, 0.40],
+      english:   [0.90, 0.72, 0.65, null, 0.50, 0.62],
+      physics:   [0.62, 0.45, 0.28, 0.50, 0.42, 0.35],
+      chemistry: [0.75, 0.65, 0.39, 0.60, 0.55, 0.50],
+      biology:   [0.68, 0.55, 0.50, 0.45, 0.40, 0.60],
+      history:   [0.72, 0.68, 0.60, null, 0.55, 0.50],
+      geography: [0.68, 0.60, 0.55, 0.50, 0.58, 0.55],
+      politics:  [0.74, 0.60, 0.55, null, 0.50, 0.55],
+    };
+
+    /* ============ 视图切换 ============ */
+    document.querySelectorAll('.head__switch button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.head__switch button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const view = btn.dataset.view;
+        document.getElementById('view-star').classList.toggle('visual--hidden', view !== 'star');
+        document.getElementById('view-heat').classList.toggle('visual--hidden', view !== 'heat');
+      });
+    });
+
+    /* ============ Heatmap 渲染 ============ */
+    function levelOf(m) {
+      if (m == null) return 'empty';
+      if (m >= 0.85) return 'l4';
+      if (m >= 0.70) return 'l3';
+      if (m >= 0.55) return 'l2';
+      if (m >= 0.40) return 'l1';
+      return 'l0';
+    }
+    function renderHeatmap() {
+      const grid = document.getElementById('heatGrid');
+      grid.innerHTML = '';
+      // 头行 (KP names)
+      grid.appendChild(Object.assign(document.createElement('div'), { className: 'heat__kp-lbl' }));
+      KP_NAMES.forEach(name => {
+        const el = document.createElement('div');
+        el.className = 'heat__subj-lbl';
+        el.textContent = name;
+        grid.appendChild(el);
+      });
+      // 数据行
+      SUBJECTS.forEach(s => {
+        const lbl = document.createElement('div');
+        lbl.className = 'heat__kp-lbl';
+        lbl.textContent = s.name;
+        grid.appendChild(lbl);
+        KP_NAMES.forEach((kp, i) => {
+          const m = DATA[s.code][i];
+          const cell = document.createElement('div');
+          cell.className = 'heat__cell heat__cell--' + levelOf(m);
+          cell.style.color = (m != null && m < 0.55) ? '#fff' : (m != null ? '#fff' : '');
+          cell.textContent = m != null ? Math.round(m * 100) : '–';
+          cell.title = `${s.name} · ${kp} · ${m != null ? (m * 100).toFixed(0) + '%' : '未练习'}`;
+          grid.appendChild(cell);
+        });
+      });
+    }
+    renderHeatmap();
+
+    /* ============ Star SVG 节点悬停效果 ============ */
+    document.querySelectorAll('.star-svg-wrap .node-group').forEach(g => {
+      g.addEventListener('mouseenter', () => {
+        const c = g.querySelector('circle');
+        c.style.filter = 'drop-shadow(0 4px 12px ' + c.getAttribute('stroke') + ')';
+      });
+      g.addEventListener('mouseleave', () => {
+        const c = g.querySelector('circle');
+        c.style.filter = '';
+      });
+      g.addEventListener('click', () => {
+        const subj = g.dataset.subj;
+        alert(`(Demo · 跳到 subject-detail.html?subject=${subj})`);
+      });
+    });
+
+    /* Theme */
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
+      lucide.createIcons();
+    });
+
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

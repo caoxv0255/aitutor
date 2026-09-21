@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="description" content="拍照解题 — 拍下题目，AI 解析后一键存入错题本">
+  <title>拍照解题 · 智启AI导师</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a href="hero.html">← 返回</a>
+      <span class="eyebrow">Photo Solve</span>
+    </header>
+
+    <h1>拍照解题</h1>
+    <p class="lede">拍下整页题目，一次解析多道；解析结果可直接存入错题本，进入后续复习。</p>
+
+    <form id="solve-form" novalidate>
+      <label class="dropzone" for="photo-input">
+        <span class="dropzone-title">点击选择或拍摄题目照片</span>
+        <span class="dropzone-hint">支持多选，单张 ≤ 10MB，最多 20 张</span>
+        <input id="photo-input" type="file" accept="image/*" multiple capture="environment">
+      </label>
+
+      <ul class="thumbs" id="thumbs"></ul>
+
+      <div class="field-row">
+        <label class="field" for="subject-select">
+          学科
+          <select id="subject-select">
+            <option value="math">数学</option>
+            <option value="physics">物理</option>
+            <option value="chemistry">化学</option>
+            <option value="chinese">语文</option>
+            <option value="english">英语</option>
+            <option value="politics">政治</option>
+          </select>
+        </label>
+        <button class="btn" id="parse-btn" type="submit">开始解析</button>
+        <button class="btn btn-ghost" id="cancel-btn" type="button" hidden>中断</button>
+      </div>
+    </form>
+
+    <!-- 六态区域：成功 / 加载 / 空 / 错误 / 未登录 / 离线 -->
+    <div id="state-region" aria-live="polite">
+      <section class="state state--empty" data-state="empty">
+        <div class="state-card">
+          <h2>还没有题目</h2>
+          <p id="empty-copy">先添加一张题目照片，解析结果会出现在这里。</p>
+        </div>
+      </section>
+
+      <section class="state state--loading" data-state="loading">
+        <div class="state-card">
+          <h2 id="loading-title">正在解析…</h2>
+          <p class="skeleton skeleton--w90"></p>
+          <p class="skeleton skeleton--w70"></p>
+          <p class="skeleton skeleton--w50"></p>
+        </div>
+      </section>
+
+      <section class="state state--success" data-state="success">
+        <div class="state-card">
+          <h2 id="success-title">解析完成</h2>
+          <ul class="results" id="results"></ul>
+          <ul class="failed-list" id="failed"></ul>
+        </div>
+      </section>
+
+      <section class="state state--error" data-state="error">
+        <div class="state-card">
+          <h2>解析失败</h2>
+          <p id="error-copy">服务暂时不可用。</p>
+          <p><button class="btn btn-ghost" id="retry-btn" type="button">重试</button></p>
+        </div>
+      </section>
+
+      <section class="state state--auth" data-state="auth">
+        <div class="state-card">
+          <h2>需要登录后才能解析</h2>
+          <p>解析结果要存入你的错题本，请先登录或注册。</p>
+          <p><a class="btn" href="login.html?next=photo-solve.html">去登录</a></p>
+        </div>
+      </section>
+
+      <section class="state state--offline" data-state="offline">
+        <div class="state-card">
+          <h2>当前处于离线状态</h2>
+          <p>恢复网络后可重新发起解析；已选照片会保留在本页。</p>
+          <p><button class="btn btn-ghost" id="offline-retry-btn" type="button">重新连接</button></p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/photo-solve.js"></script>
+</body>
+</html>

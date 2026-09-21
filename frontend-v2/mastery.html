@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>知识图谱 · 智启AI导师</title>
+  <meta name="description" content="你的知识全景 · 6 学科 · 48 知识点 · 跨学科关联 · 一图看清哪里强, 哪里要补。" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
+      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
+      --p-800:#7a1014; --p-900:#660f13;
+      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
+      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
+      --w-50:#fffbeb; --s-w-100:#fef3c7; --w-500:#f59e0b; --w-700:#b45309;
+      --e-50:#fef2f2; --e-500:#ef4444;
+      --i-50:#f0f9ff; --i-500:#0284c7;
+
+      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
+      --line:#e8eaee; --line-soft:#f1f3f5;
+      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
+
+      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
+      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','DM Sans',monospace;
+
+      --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px;
+      --s-6:24px; --s-7:32px; --s-8:40px; --s-9:56px; --s-10:72px;
+
+      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
+
+      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
+      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
+      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
+      --sh-4: 0 20px 48px -16px rgba(11,18,32,.18), 0 4px 12px rgba(11,18,32,.06);
+      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
+
+      --ease-out: cubic-bezier(.22,1,.36,1);
+      --ease-spring: cubic-bezier(.34,1.56,.64,1);
+      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
+    }
+
+    html.dark {
+      --bg:#0a0d14; --surface:#131720; --surface-2:#1a1f2c; --surface-3:#232838;
+      --line:#232838; --line-soft:#1f2533;
+      --ink:#e8ecf3; --ink-2:#a8b0c2; --ink-3:#6f7689; --ink-4:#4d5468;
+      --p-50:#2a0e10; --p-100:#3a1316; --p-200:#4d1820;
+      --b-50:#0d1c33; --s-50:#052e22; --w-50:#2a1d05; --e-50:#2a0d0d; --i-50:#06222e;
+      --sh-1: 0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
+      --sh-2: 0 4px 16px -4px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.3);
+      --sh-3: 0 12px 32px -8px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.3);
+    }
+
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.55;
+      font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+      min-height: 100vh;
+      transition: background var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+    ::selection { background: var(--p-100); color: var(--p-800); }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav__inner {
+      max-width: 1320px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px var(--s-7);
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 17px; color: var(--ink);
+    }
+    .nav__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 13px;
+      box-shadow: var(--sh-primary);
+    }
+    .nav__step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-3); }
+    .nav__step strong { color: var(--ink); font-weight: 600; }
+    .nav__actions { display: flex; gap: 8px; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: var(--r-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--ink-2);
+      transition: background var(--dur-1), color var(--dur-1);
+    }
+    .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    .app { max-width: 1320px; margin: 0 auto; padding: var(--s-7); }
+
+    .crumbs {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--ink-3);
+      margin-bottom: var(--s-5);
+    }
+    .crumbs a:hover { color: var(--p-500); }
+    .crumbs svg { width: 12px; height: 12px; }
+    .crumbs__current { color: var(--ink); font-weight: 500; }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: var(--s-7);
+      align-items: end;
+      margin-bottom: var(--s-8);
+      padding-bottom: var(--s-7);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--p-500);
+      margin-bottom: var(--s-3);
+    }
+    .hero__eyebrow::before { content:''; width: 24px; height: 1.5px; background: var(--p-500); }
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -.025em;
+      color: var(--ink);
+      margin-bottom: var(--s-4);
+    }
+    .hero__title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero__sub {
+      font-size: 15px; color: var(--ink-2);
+      max-width: 600px;
+    }
+    .hero__sub strong { color: var(--ink); font-weight: 600; }
+
+    /* Hero summary card */
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-5) var(--s-6);
+      box-shadow: var(--sh-1);
+    }
+    .hero-card__head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: var(--s-4);
+    }
+    .hero-card__title {
+      font-family: var(--font-display);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--ink-2);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hero-card__title svg { width: 14px; height: 14px; color: var(--p-500); }
+    .hero-card__pill {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--s-700);
+      padding: 3px 10px;
+      background: var(--s-50);
+      border-radius: var(--r-pill);
+    }
+    html.dark .hero-card__pill { background: var(--s-50); color: var(--s-100); }
+    .hero-card__row {
+      display: flex; align-items: baseline; justify-content: space-between;
+      padding: var(--s-2) 0;
+    }
+    .hero-card__row + .hero-card__row { border-top: 1px dashed var(--line-soft); }
+    .hero-card__row-label { font-size: 12px; color: var(--ink-3); }
+    .hero-card__row-value {
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+    }
+    .hero-card__row-value strong { color: var(--p-500); }
+
+    /* SECTION */
+    .section { margin-bottom: var(--s-9); }
+    .section__head {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: var(--s-4); margin-bottom: var(--s-5);
+    }
+    .section__heading { display: flex; flex-direction: column; gap: 6px; }
+    .section__eyebrow {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-3);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section__eyebrow-num {
+      font-family: var(--font-display);
+      font-variant-numeric: tabular-nums;
+      background: var(--surface-3); color: var(--ink-2);
+      padding: 2px 8px; border-radius: var(--r-pill);
+      font-size: 11px;
+    }
+    .section__title {
+      font-family: var(--font-display);
+      font-size: 24px; font-weight: 600;
+      line-height: 1.25; letter-spacing: -.015em;
+      color: var(--ink);
+    }
+    .section__link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 13px; font-weight: 500;
+      color: var(--ink-2);
+      transition: color var(--dur-1);
+    }
+    .section__link:hover { color: var(--p-500); }
+    .section__link svg { width: 14px; height: 14px; transition: transform var(--dur-1); }
+    .section__link:hover svg { transform: translateX(2px); }
+
+    /* ============ SUBJECT OVERVIEW ============ */
+    .subjects {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: var(--s-3);
+    }
+    .subj {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: var(--s-4);
+      display: flex; flex-direction: column; gap: var(--s-2);
+      transition: all var(--dur-2) var(--ease-out);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .subj::before {
+      content:''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+      background: var(--subj-color, var(--p-500));
+      transform: scaleY(0); transform-origin: top;
+      transition: transform var(--dur-2) var(--ease-out);
+    }
+    .subj:hover { box-shadow: var(--sh-2); transform: translateY(-2px); }
+    .subj:hover::before { transform: scaleY(1); }
+    .subj__name {
+      display: flex; align-items: center; gap: 6px;
+      font-family: var(--font-display);
+      font-size: 13px; font-weight: 600;
+      color: var(--ink);
+    }
+    .subj__dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--subj-color, var(--p-500));
+    }
+    .subj__value {
+      font-family: var(--font-display);
+      font-size: 26px; font-weight: 700;
+      letter-spacing: -.02em;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      margin-top: var(--s-1);
+    }
+    .subj__value small {
+      font-size: 12px; font-weight: 500;
+      color: var(--ink-3);
+    }
+    .subj__bar {
+      width: 100%; height: 4px;
+      background: var(--surface-3);
+      border-radius: var(--r-pill);
+      overflow: hidden;
+    }
+    .subj__bar-fill {
+      height: 100%;
+      border-radius: var(--r-pill);
+      background: linear-gradient(90deg, var(--subj-color-light, var(--p-300)), var(--subj-color, var(--p-500)));
+    }
+    .subj__meta {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; color: var(--ink-3);
+    }
+    .subj--chinese  { --subj-color: #c2410c; --subj-color-light: #fdba74; }
+    .subj--math     { --subj-color: #d71920; --subj-color-light: #ffa0a0; }
+    .subj--english  { --subj-color: #7c3aed; --subj-color-light: #c4b5fd; }
+    .subj--physics  { --subj-color: #2563eb; --subj-color-light: #93c5fd; }
+    .subj--chemistry{ --subj-color: #059669; --subj-color-light: #6ee7b7; }
+    .subj--biology  { --subj-color: #0891b2; --subj-color-light: #67e8f9; }
+    .subj--history  { --subj-color: #b45309; --subj-color-light: #fcd34d; }
+    .subj--geography{ --subj-color: #65a30d; --subj-color-light: #bef264; }
+    .subj--politics { --subj-color: #be185d; --subj-color-light: #f9a8d4; }
+
+    /* ============ HEATMAP ============ */
+    .heatmap-wrap {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-5) var(--s-6);
+    }
+    .heatmap-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: var(--s-4);
+    }
+    .heatmap-title {
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 600;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .heatmap-title svg { width: 14px; height: 14px; color: var(--p-500); }
+    .heatmap-legend {
+      display: flex; align-items: center; gap: var(--s-2);
+      font-size: 11px; font-weight: 500;
+      color: var(--ink-3);
+    }
+    .heatmap-legend__bar {
+      display: flex; gap: 2px;
+    }
+    .heatmap-legend__cell {
+      width: 14px; height: 14px;
+      border-radius: 2px;
+    }
+    .heatmap {
+      display: grid;
+      grid-template-columns: 80px repeat(6, 1fr);
+      gap: 3px;
+    }
+    .heatmap__col-head {
+      font-size: 11px; font-weight: 600;
+      color: var(--ink-3);
+      text-align: center;
+      padding: 4px 0;
+      letter-spacing: .04em;
+    }
+    .heatmap__row-head {
+      font-family: var(--font-display);
+      font-size: 12px; font-weight: 600;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 6px;
+      padding: 4px 8px;
+    }
+    .heatmap__row-head-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .heatmap__cell {
+      aspect-ratio: 1;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      transition: all var(--dur-1) var(--ease-out);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      position: relative;
+    }
+    .heatmap__cell:hover {
+      transform: scale(1.15);
+      z-index: 1;
+      box-shadow: var(--sh-2);
+    }
+    .heatmap__cell--mastered { background: var(--s-500); color: #fff; }
+    .heatmap__cell--high     { background: var(--s-100); color: var(--s-700); }
+    .heatmap__cell--mid      { background: var(--s-w-100); color: var(--w-700); }
+    .heatmap__cell--low      { background: var(--p-100); color: var(--p-700); }
+    .heatmap__cell--critical { background: var(--p-500); color: #fff; }
+    .heatmap__cell--none     { background: var(--surface-3); color: var(--ink-4); }
+
+    /* ============ KNOWLEDGE GRAPH (radial) ============ */
+    .kg-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: var(--s-5);
+    }
+    .kg-canvas {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-5);
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+    .kg-canvas svg { width: 100%; height: 100%; overflow: visible; }
+    .kg-canvas__legend {
+      position: absolute; top: var(--s-4); right: var(--s-4);
+      display: flex; flex-direction: column; gap: 6px;
+      padding: var(--s-3) var(--s-4);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-sm);
+      font-size: 10px;
+      color: var(--ink-3);
+    }
+    .kg-canvas__legend-row { display: flex; align-items: center; gap: 6px; }
+    .kg-canvas__legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* KG node styles */
+    .kg-node--core { fill: var(--p-500); }
+    .kg-node--high { fill: var(--s-500); }
+    .kg-node--mid  { fill: var(--w-500); }
+    .kg-node--low  { fill: var(--p-500); }
+    .kg-edge { stroke: var(--line); stroke-width: 1; fill: none; }
+    .kg-edge--cross { stroke: var(--b-500); stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .kg-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      fill: var(--ink-2);
+    }
+    .kg-label--core {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      fill: var(--p-500);
+    }
+
+    /* ============ RIGHT: TOP WEAK KPS ============ */
+    .weak-list {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-5);
+      display: flex; flex-direction: column;
+      gap: var(--s-2);
+    }
+    .weak-list__title {
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--s-2);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .weak-list__title svg { width: 14px; height: 14px; color: var(--p-500); }
+    .weak-item {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-3);
+      border-radius: var(--r-sm);
+      transition: all var(--dur-1) var(--ease-out);
+      cursor: pointer;
+    }
+    .weak-item:hover { background: var(--surface-2); }
+    .weak-item__rank {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--surface-3);
+      color: var(--ink-2);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 10px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .weak-item--top .weak-item__rank { background: var(--p-500); color: #fff; }
+    .weak-item__body { flex: 1; min-width: 0; }
+    .weak-item__name {
+      font-size: 13px; font-weight: 600;
+      color: var(--ink);
+      word-break: keep-all;
+    }
+    .weak-item__meta {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--ink-3);
+      margin-top: 2px;
+    }
+    .weak-item__bar {
+      width: 60px; height: 4px;
+      background: var(--surface-3);
+      border-radius: var(--r-pill);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .weak-item__bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--p-300), var(--p-500));
+      border-radius: var(--r-pill);
+    }
+    .weak-item__score {
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight: 600;
+      color: var(--p-500);
+      font-variant-numeric: tabular-nums;
+      width: 32px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ============ ENTRY ============ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero, .section, .weak-list { animation: fadeInUp var(--dur-3) var(--ease-out) both; }
+    .section:nth-of-type(1) { animation-delay: 60ms; }
+    .section:nth-of-type(2) { animation-delay: 120ms; }
+    .section:nth-of-type(3) { animation-delay: 180ms; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    :focus-visible {
+      outline: 2px solid var(--p-500);
+      outline-offset: 3px;
+      border-radius: var(--r-sm);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .subjects { grid-template-columns: repeat(3, 1fr); }
+      .kg-wrap { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .app { padding: var(--s-5); }
+      .subjects { grid-template-columns: repeat(2, 1fr); }
+      .heatmap { grid-template-columns: 60px repeat(8, 1fr); gap: 2px; }
+      .heatmap__cell { font-size: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand">
+        <span class="nav__brand-mark">AI</span>
+        <span>智启AI导师</span>
+      </a>
+      <div class="nav__step">
+        <span>薄弱点 → <strong>知识图谱</strong></span>
+      </div>
+      <div class="nav__actions">
+        <button class="icon-btn" id="themeBtn" aria-label="切换主题">
+          <i data-lucide="moon"></i>
+        </button>
+        <button class="icon-btn" aria-label="导出">
+          <i data-lucide="share-2"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="app">
+
+    <!-- 面包屑 -->
+    <div class="crumbs">
+      <a href="#">首页</a>
+      <i data-lucide="chevron-right"></i>
+      <a href="#">练习中心</a>
+      <i data-lucide="chevron-right"></i>
+      <span class="crumbs__current">知识图谱</span>
+    </div>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div>
+        <div class="hero__eyebrow">KNOWLEDGE GRAPH · 6 学科 · 48 知识点</div>
+        <h1 class="hero__title">
+          你的<em>知识全景</em><br/>哪里强, 一眼看清
+        </h1>
+        <p class="hero__sub">
+          9 学科 · 54 核心知识点 · 1 张图。<strong>整体掌握度 64%</strong>, 语文与政治最强, 数学与物理待补。点开任一节点, 看关联题目、错题、相似题。
+        </p>
+      </div>
+
+      <aside class="hero-card" aria-label="图谱摘要">
+        <div class="hero-card__head">
+          <div class="hero-card__title">
+            <i data-lucide="network"></i>
+            图谱摘要
+          </div>
+          <span class="hero-card__pill">+5 较上月</span>
+        </div>
+        <div class="hero-card__row">
+          <span class="hero-card__row-label">总知识点</span>
+          <span class="hero-card__row-value">48</span>
+        </div>
+        <div class="hero-card__row">
+          <span class="hero-card__row-label">已掌握</span>
+          <span class="hero-card__row-value">17 个</span>
+        </div>
+        <div class="hero-card__row">
+          <span class="hero-card__row-label">复习中</span>
+          <span class="hero-card__row-value">19 个</span>
+        </div>
+        <div class="hero-card__row">
+          <span class="hero-card__row-label">薄弱点</span>
+          <span class="hero-card__row-value"><strong>12 个</strong></span>
+        </div>
+        <div class="hero-card__row">
+          <span class="hero-card__row-label">跨学科关联</span>
+          <span class="hero-card__row-value">8 条</span>
+        </div>
+      </aside>
+    </header>
+
+    <!-- ============ SUBJECT OVERVIEW ============ -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>9 学科总览</span>
+            <span class="section__eyebrow-num">掌握度 64%</span>
+          </div>
+          <h2 class="section__title">按学科看, 你的强项与弱项</h2>
+        </div>
+        <a href="#" class="section__link">
+          切换视图 <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="subjects">
+        <article class="subj subj--chinese" tabindex="0">
+          <div class="subj__name"><span class="subj__dot"></span>语文</div>
+          <div class="subj__value">81<small>%</small></div>
+          <div class="subj__bar"><div class="subj__bar-fill" style="width: 81%"></div></div>
+          <div class="subj__meta"><span>6 KP</span><span>0 薄弱</span></div>
+        </article>
+        <article class="subj subj--math" tabindex="0">
+          <div class="subj__name"><span class="subj__dot"></span>数学</div>
+          <div class="subj__value">68<small>%</small></div>
+          <div class="subj__bar"><div class="subj__bar-fill" style="width: 68%"></div></div>
+          <div class="subj__meta"><span>12 KP</span><span>5 薄弱</span></div>
+        </article>
+        <article class="subj subj--english" tabindex="0">
+          <div class="subj__name"><span class="subj__dot"></span>英语</div>
+          <div class="subj__value">72<small>%</small></div>
+          <div class="subj__bar"><div class="subj__bar-fill" style="width: 72%"></div></div>
+          <div class="subj__meta"><span>10 KP</span><span>1 薄弱</span></div>
+        </article>
+        <article class="subj subj--physics" tabindex="0">
+          <div class="subj__name"><span class="subj__dot"></span>物理</div>
+          <div class="subj__value">45<small>%</small></div>
+          <div class="subj__bar"><div class="subj__bar-fill" style="width: 45%"></div></div>
+          <div class="subj__meta"><span>8 KP</span><span>3 薄弱</span></div>
+        </article>
+        <article class="subj subj--chemistry" tabindex="0">
+          <div class="subj__name"><span class="subj__dot"></span>化学</div>
+          <div class="subj__value">55<small>%</small></div>
+          <div class="subj__bar"><div class="subj__bar-fill" style="width: 55%"></div></div>
+          <div class="subj__meta"><span>8 KP</span><span>2 薄弱</span></div>
+        </article>
+        <article class="subj subj--biology" tabindex="0">
+          <div class="subj__name"><span class="subj__dot"></span>生物</div>
+          <div class="subj__value">63<small>%</small></div>
+          <div class="subj__bar"><div class="subj__bar-fill" style="width: 63%"></div></div>
+          <div class="subj__meta"><span>4 KP</span><span>1 薄弱</span></div>
+        </article>
+        <article class="subj subj--history" tabindex="0">
+          <div class="subj__name"><span class="subj__dot"></span>历史</div>
+          <div class="subj__value">72<small>%</small></div>
+          <div class="subj__bar"><div class="subj__bar-fill" style="width: 72%"></div></div>
+          <div class="subj__meta"><span>6 KP</span><span>1 薄弱</span></div>
+        </article>
+        <article class="subj subj--geography" tabindex="0">
+          <div class="subj__name"><span class="subj__dot"></span>地理</div>
+          <div class="subj__value">68<small>%</small></div>
+          <div class="subj__bar"><div class="subj__bar-fill" style="width: 68%"></div></div>
+          <div class="subj__meta"><span>5 KP</span><span>1 薄弱</span></div>
+        </article>
+        <article class="subj subj--politics" tabindex="0">
+          <div class="subj__name"><span class="subj__dot"></span>政治</div>
+          <div class="subj__value">74<small>%</small></div>
+          <div class="subj__bar"><div class="subj__bar-fill" style="width: 74%"></div></div>
+          <div class="subj__meta"><span>5 KP</span><span>0 薄弱</span></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ HEATMAP ============ -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>掌握度热力图</span>
+            <span class="section__eyebrow-num">9 × 6</span>
+          </div>
+          <h2 class="section__title">9 学科 × 6 知识点 · 54 个格子看清全貌</h2>
+        </div>
+        <a href="#" class="section__link">
+          切换为列表 <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="heatmap-wrap">
+        <div class="heatmap-head">
+          <div class="heatmap-title">
+            <i data-lucide="grid-3x3"></i>
+            54 知识点 · 5 档色阶
+          </div>
+          <div class="heatmap-legend">
+            <span>0%</span>
+            <div class="heatmap-legend__bar">
+              <div class="heatmap-legend__cell heatmap__cell--critical"></div>
+              <div class="heatmap-legend__cell heatmap__cell--low"></div>
+              <div class="heatmap-legend__cell heatmap__cell--mid"></div>
+              <div class="heatmap-legend__cell heatmap__cell--high"></div>
+              <div class="heatmap-legend__cell heatmap__cell--mastered"></div>
+            </div>
+            <span>100%</span>
+          </div>
+        </div>
+
+        <div class="heatmap" role="grid" aria-label="知识点掌握度热力图">
+          <div></div>
+          <div class="heatmap__col-head">KP1</div>
+          <div class="heatmap__col-head">KP2</div>
+          <div class="heatmap__col-head">KP3</div>
+          <div class="heatmap__col-head">KP4</div>
+          <div class="heatmap__col-head">KP5</div>
+          <div class="heatmap__col-head">KP6</div>
+
+          <!-- 语文 row (1) -->
+          <div class="heatmap__row-head"><span class="heatmap__row-head-dot" style="background:#c2410c"></span>语文</div>
+          <div class="heatmap__cell heatmap__cell--mastered" tabindex="0" title="现代文阅读 85%">85</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="文言文 78%">78</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="古诗鉴赏 80%">80</div>
+          <div class="heatmap__cell heatmap__cell--mastered" tabindex="0" title="写作立意 90%">90</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="语言运用 76%">76</div>
+          <div class="heatmap__cell heatmap__cell--mastered" tabindex="0" title="文化常识 88%">88</div>
+
+          <!-- 数学 row (2) -->
+          <div class="heatmap__row-head"><span class="heatmap__row-head-dot" style="background:#d71920"></span>数学</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="代数基础 78%">78</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="函数 65%">65</div>
+          <div class="heatmap__cell heatmap__cell--critical" tabindex="0" title="导数与切线 32%">32</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="三角函数 48%">48</div>
+          <div class="heatmap__cell heatmap__cell--low" tabindex="0" title="数列 56%">56</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="立体几何 60%">60</div>
+
+          <!-- 英语 row (3) -->
+          <div class="heatmap__row-head"><span class="heatmap__row-head-dot" style="background:#7c3aed"></span>英语</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="词汇 75%">75</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="语法 60%">60</div>
+          <div class="heatmap__cell heatmap__cell--low" tabindex="0" title="阅读 47%">47</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="完形 65%">65</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="写作 72%">72</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="听力 60%">60</div>
+
+          <!-- 物理 row (4) -->
+          <div class="heatmap__row-head"><span class="heatmap__row-head-dot" style="background:#2563eb"></span>物理</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="力学 62%">62</div>
+          <div class="heatmap__cell heatmap__cell--low" tabindex="0" title="运动学 55%">55</div>
+          <div class="heatmap__cell heatmap__cell--critical" tabindex="0" title="电磁感应 28%">28</div>
+          <div class="heatmap__cell heatmap__cell--low" tabindex="0" title="电路 50%">50</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="光学 60%">60</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="热学 58%">58</div>
+
+          <!-- 化学 row (5) -->
+          <div class="heatmap__row-head"><span class="heatmap__row-head-dot" style="background:#059669"></span>化学</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="基础概念 75%">75</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="元素周期 65%">65</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="化学反应 60%">60</div>
+          <div class="heatmap__cell heatmap__cell--critical" tabindex="0" title="速率平衡 39%">39</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="有机 58%">58</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="电化学 70%">70</div>
+
+          <!-- 生物 row (6) -->
+          <div class="heatmap__row-head"><span class="heatmap__row-head-dot" style="background:#0891b2"></span>生物</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="细胞结构 75%">75</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="遗传 60%">60</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="生态 65%">65</div>
+          <div class="heatmap__cell heatmap__cell--critical" tabindex="0" title="代谢 35%">35</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="进化 60%">60</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="调节 65%">65</div>
+
+          <!-- 历史 row (7) -->
+          <div class="heatmap__row-head"><span class="heatmap__row-head-dot" style="background:#b45309"></span>历史</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="古代史 80%">80</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="近代史 75%">75</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="现代史 65%">65</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="世界史 60%">60</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="史料分析 55%">55</div>
+          <div class="heatmap__cell heatmap__cell--low" tabindex="0" title="论述题 45%">45</div>
+
+          <!-- 地理 row (8) -->
+          <div class="heatmap__row-head"><span class="heatmap__row-head-dot" style="background:#65a30d"></span>地理</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="自然地理 78%">78</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="人文地理 65%">65</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="区域地理 60%">60</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="气候 72%">72</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="等高线 58%">58</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="时区计算 60%">60</div>
+
+          <!-- 政治 row (9) -->
+          <div class="heatmap__row-head"><span class="heatmap__row-head-dot" style="background:#be185d"></span>政治</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="马原 75%">75</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="毛中特 80%">80</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="思修 70%">70</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="时政 65%">65</div>
+          <div class="heatmap__cell heatmap__cell--high" tabindex="0" title="经济常识 72%">72</div>
+          <div class="heatmap__cell heatmap__cell--mid" tabindex="0" title="哲学 60%">60</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ KNOWLEDGE GRAPH (radial) + TOP WEAK KPs ============ -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>知识图谱 · 跨学科关联</span>
+            <span class="section__eyebrow-num">12 条</span>
+          </div>
+          <h2 class="section__title">点节点看详情 · 虚线 = 跨学科联动</h2>
+        </div>
+      </div>
+
+      <div class="kg-wrap">
+        <!-- LEFT: Radial knowledge graph -->
+        <div class="kg-canvas" role="img" aria-label="知识图谱径向布局">
+          <svg viewBox="0 0 600 450">
+            <defs>
+              <radialGradient id="coreGrad" cx="50%" cy="50%">
+                <stop offset="0%" stop-color="#d71920" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="#d71920" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Core: 张小明 (你) -->
+            <circle cx="300" cy="225" r="80" fill="url(#coreGrad)"/>
+            <circle class="kg-node--core" cx="300" cy="225" r="36"/>
+            <text class="kg-label--core" x="300" y="222" text-anchor="middle">张小明</text>
+            <text class="kg-label" x="300" y="238" text-anchor="middle" fill="#94a3b8">综合 64%</text>
+
+            <!-- Subject nodes (inner ring) -->
+            <!-- 语文 top-left (1) -->
+            <line class="kg-edge" x1="300" y1="225" x2="80" y2="50"/>
+            <circle class="kg-node--high" cx="80" cy="50" r="18"/>
+            <text class="kg-label" x="80" y="32" text-anchor="middle">语文</text>
+            <text class="kg-label" x="80" y="54" text-anchor="middle" fill="#94a3b8" style="font-size:9px">81%</text>
+
+            <!-- 数学 top (2) -->
+            <line class="kg-edge" x1="300" y1="225" x2="240" y2="30"/>
+            <circle class="kg-node--high" cx="240" cy="30" r="18"/>
+            <text class="kg-label" x="240" y="12" text-anchor="middle">数学</text>
+            <text class="kg-label" x="240" y="34" text-anchor="middle" fill="#94a3b8" style="font-size:9px">68%</text>
+
+            <!-- 英语 top-right (3) -->
+            <line class="kg-edge" x1="300" y1="225" x2="400" y2="40"/>
+            <circle class="kg-node--high" cx="400" cy="40" r="18"/>
+            <text class="kg-label" x="400" y="22" text-anchor="middle">英语</text>
+            <text class="kg-label" x="400" y="44" text-anchor="middle" fill="#94a3b8" style="font-size:9px">72%</text>
+
+            <!-- 物理 right (4) -->
+            <line class="kg-edge" x1="300" y1="225" x2="540" y2="100"/>
+            <circle class="kg-node--low" cx="540" cy="100" r="18"/>
+            <text class="kg-label" x="540" y="82" text-anchor="middle">物理</text>
+            <text class="kg-label" x="540" y="104" text-anchor="middle" fill="#94a3b8" style="font-size:9px">45%</text>
+
+            <!-- 化学 right-bottom (5) -->
+            <line class="kg-edge" x1="300" y1="225" x2="550" y2="220"/>
+            <circle class="kg-node--mid" cx="550" cy="220" r="18"/>
+            <text class="kg-label" x="550" y="202" text-anchor="middle">化学</text>
+            <text class="kg-label" x="550" y="224" text-anchor="middle" fill="#94a3b8" style="font-size:9px">55%</text>
+
+            <!-- 生物 bottom-right (6) -->
+            <line class="kg-edge" x1="300" y1="225" x2="520" y2="350"/>
+            <circle class="kg-node--mid" cx="520" cy="350" r="18"/>
+            <text class="kg-label" x="520" y="332" text-anchor="middle">生物</text>
+            <text class="kg-label" x="520" y="354" text-anchor="middle" fill="#94a3b8" style="font-size:9px">63%</text>
+
+            <!-- 历史 bottom (7) -->
+            <line class="kg-edge" x1="300" y1="225" x2="380" y2="420"/>
+            <circle class="kg-node--high" cx="380" cy="420" r="18"/>
+            <text class="kg-label" x="380" y="402" text-anchor="middle">历史</text>
+            <text class="kg-label" x="380" y="424" text-anchor="middle" fill="#94a3b8" style="font-size:9px">72%</text>
+
+            <!-- 地理 bottom-left (8) -->
+            <line class="kg-edge" x1="300" y1="225" x2="220" y2="420"/>
+            <circle class="kg-node--high" cx="220" cy="420" r="18"/>
+            <text class="kg-label" x="220" y="402" text-anchor="middle">地理</text>
+            <text class="kg-label" x="220" y="424" text-anchor="middle" fill="#94a3b8" style="font-size:9px">68%</text>
+
+            <!-- 政治 left (9) -->
+            <line class="kg-edge" x1="300" y1="225" x2="50" y2="350"/>
+            <circle class="kg-node--high" cx="50" cy="350" r="18"/>
+            <text class="kg-label" x="50" y="332" text-anchor="middle">政治</text>
+            <text class="kg-label" x="50" y="354" text-anchor="middle" fill="#94a3b8" style="font-size:9px">74%</text>
+
+            <!-- 跨学科关联 (虚线) - 12 条, 表示学科间联动 -->
+            <line class="kg-edge kg-edge--cross" x1="80" y1="50" x2="240" y2="30"/>
+            <line class="kg-edge kg-edge--cross" x1="240" y1="30" x2="400" y2="40"/>
+            <line class="kg-edge kg-edge--cross" x1="400" y1="40" x2="540" y2="100"/>
+            <line class="kg-edge kg-edge--cross" x1="540" y1="100" x2="550" y2="220"/>
+            <line class="kg-edge kg-edge--cross" x1="550" y1="220" x2="520" y2="350"/>
+            <line class="kg-edge kg-edge--cross" x1="520" y1="350" x2="380" y2="420"/>
+            <line class="kg-edge kg-edge--cross" x1="380" y1="420" x2="220" y2="420"/>
+            <line class="kg-edge kg-edge--cross" x1="220" y1="420" x2="50" y2="350"/>
+            <line class="kg-edge kg-edge--cross" x1="50" y1="350" x2="80" y2="50"/>
+            <line class="kg-edge kg-edge--cross" x1="240" y1="30" x2="540" y2="100"/>
+            <line class="kg-edge kg-edge--cross" x1="400" y1="40" x2="550" y2="220"/>
+            <line class="kg-edge kg-edge--cross" x1="80" y1="50" x2="50" y2="350"/>
+          </svg>
+
+          <div class="kg-canvas__legend" aria-hidden="true">
+            <div class="kg-canvas__legend-row">
+              <span class="kg-canvas__legend-dot" style="background: var(--p-500)"></span>薄弱 (&lt;40%)
+            </div>
+            <div class="kg-canvas__legend-row">
+              <span class="kg-canvas__legend-dot" style="background: var(--w-500)"></span>中等 (40-69%)
+            </div>
+            <div class="kg-canvas__legend-row">
+              <span class="kg-canvas__legend-dot" style="background: var(--s-500)"></span>掌握 (&ge;70%)
+            </div>
+            <div class="kg-canvas__legend-row">
+              <span style="display:inline-block; width:8px; height:0; border-top: 2px dashed var(--b-500);"></span>跨学科
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Top 9 weak KPs (按 9 学科顺序) -->
+        <div class="weak-list" aria-label="Top 9 薄弱知识点">
+          <div class="weak-list__title">
+            <i data-lucide="alert-triangle"></i>
+            Top 9 薄弱知识点
+          </div>
+          <div class="weak-item weak-item--top" tabindex="0">
+            <span class="weak-item__rank">1</span>
+            <div class="weak-item__body">
+              <div class="weak-item__name">导数与切线</div>
+              <div class="weak-item__meta">数学 · 难度 4/5</div>
+            </div>
+            <div class="weak-item__bar"><div class="weak-item__bar-fill" style="width: 32%"></div></div>
+            <div class="weak-item__score">32</div>
+          </div>
+          <div class="weak-item weak-item--top" tabindex="0">
+            <span class="weak-item__rank">2</span>
+            <div class="weak-item__body">
+              <div class="weak-item__name">电磁感应</div>
+              <div class="weak-item__meta">物理 · 难度 5/5</div>
+            </div>
+            <div class="weak-item__bar"><div class="weak-item__bar-fill" style="width: 28%"></div></div>
+            <div class="weak-item__score">28</div>
+          </div>
+          <div class="weak-item weak-item--top" tabindex="0">
+            <span class="weak-item__rank">3</span>
+            <div class="weak-item__body">
+              <div class="weak-item__name">代谢</div>
+              <div class="weak-item__meta">生物 · 难度 3/5</div>
+            </div>
+            <div class="weak-item__bar"><div class="weak-item__bar-fill" style="width: 35%"></div></div>
+            <div class="weak-item__score">35</div>
+          </div>
+          <div class="weak-item" tabindex="0">
+            <span class="weak-item__rank">4</span>
+            <div class="weak-item__body">
+              <div class="weak-item__name">速率与平衡</div>
+              <div class="weak-item__meta">化学 · 难度 4/5</div>
+            </div>
+            <div class="weak-item__bar"><div class="weak-item__bar-fill" style="width: 39%"></div></div>
+            <div class="weak-item__score">39</div>
+          </div>
+          <div class="weak-item" tabindex="0">
+            <span class="weak-item__rank">5</span>
+            <div class="weak-item__body">
+              <div class="weak-item__name">阅读理解 · 推理题</div>
+              <div class="weak-item__meta">英语 · 难度 3/5</div>
+            </div>
+            <div class="weak-item__bar"><div class="weak-item__bar-fill" style="width: 47%"></div></div>
+            <div class="weak-item__score">47</div>
+          </div>
+          <div class="weak-item" tabindex="0">
+            <span class="weak-item__rank">6</span>
+            <div class="weak-item__body">
+              <div class="weak-item__name">病句辨析</div>
+              <div class="weak-item__meta">语文 · 难度 3/5</div>
+            </div>
+            <div class="weak-item__bar"><div class="weak-item__bar-fill" style="width: 55%"></div></div>
+            <div class="weak-item__score">55</div>
+          </div>
+          <div class="weak-item" tabindex="0">
+            <span class="weak-item__rank">7</span>
+            <div class="weak-item__body">
+              <div class="weak-item__name">论述题</div>
+              <div class="weak-item__meta">历史 · 难度 4/5</div>
+            </div>
+            <div class="weak-item__bar"><div class="weak-item__bar-fill" style="width: 45%"></div></div>
+            <div class="weak-item__score">45</div>
+          </div>
+          <div class="weak-item" tabindex="0">
+            <span class="weak-item__rank">8</span>
+            <div class="weak-item__body">
+              <div class="weak-item__name">等高线地形</div>
+              <div class="weak-item__meta">地理 · 难度 3/5</div>
+            </div>
+            <div class="weak-item__bar"><div class="weak-item__bar-fill" style="width: 58%"></div></div>
+            <div class="weak-item__score">58</div>
+          </div>
+          <div class="weak-item" tabindex="0">
+            <span class="weak-item__rank">9</span>
+            <div class="weak-item__body">
+              <div class="weak-item__name">马原 · 哲学</div>
+              <div class="weak-item__meta">政治 · 难度 4/5</div>
+            </div>
+            <div class="weak-item__bar"><div class="weak-item__bar-fill" style="width: 60%"></div></div>
+            <div class="weak-item__score">60</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
+      lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>

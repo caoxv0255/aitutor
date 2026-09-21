@@ -1,0 +1,125 @@
+/* global window */
+/* ==========================================================================
+ * frontend-v2 统一数据层
+ *
+ * 页面不得直接 fetch —— 统一走这里，原因：
+ *  1. 鉴权：Bearer token 从 localStorage 取，缺失即判定为未登录（401/403 态）
+ *  2. 错误分类：网络失败与 HTTP 失败要落到不同状态（离线 vs 错误）
+ *  3. 响应解包：后端统一 { success, data, message }
+ * ========================================================================== */
+(function (global) {
+  'use strict';
+
+  const TOKEN_KEY = 'authToken';
+
+  function getToken() {
+    try {
+      return global.localStorage ? global.localStorage.getItem(TOKEN_KEY) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /** 网络层失败（DNS/断网/CORS）→ offline；HTTP 失败 → error（带 status） */
+  function ApiError(message, opts) {
+    const err = new Error(message);
+    err.name = 'ApiError';
+    err.status = opts && opts.status;
+    err.kind = (opts && opts.kind) || (err.status ? 'http' : 'network');
+    err.payload = opts && opts.payload;
+    return err;
+  }
+
+  function request(path, options) {
+    options = options || {};
+    const headers = { 'Content-Type': 'application/json' };
+    const token = getToken();
+    if (token) headers.Authorization = 'Bearer ' + token;
+
+    const init = {
+      method: options.method || 'GET',
+      headers: headers,
+      credentials: 'same-origin',
+    };
+    if (options.body !== undefined) init.body = JSON.stringify(options.body);
+    if (options.signal) init.signal = options.signal;
+
+    return global.fetch(path, init).then(
+      function (res) {
+        return res
+          .json()
+          .catch(function () {
+            return null;
+          })
+          .then(function (payload) {
+            if (!res.ok) {
+              const msg = (payload && (payload.message || payload.error)) || '请求失败（HTTP ' + res.status + '）';
+              throw ApiError(msg, { status: res.status, payload: payload });
+            }
+            return payload && payload.data !== undefined ? payload.data : payload;
+          });
+      },
+      function (err) {
+        // fetch 只在网络层 reject；AbortError 单独放行给调用方处理
+        if (err && err.name === 'AbortError') throw err;
+        throw ApiError('网络连接不可用', { kind: 'network' });
+      }
+    );
+  }
+
+  global.AIAPI = {
+    getToken: getToken,
+    request: request,
+    ApiError: ApiError,
+
+    /** 整卷/多图解析：POST /api/vision/batch-parse */
+    batchParse: function (images, userHint, signal) {
+      return request('/api/vision/batch-parse', {
+        method: 'POST',
+        body: { images: images, user_hint: userHint || {}, options: { concurrency: 3 } },
+        signal: signal,
+      });
+    },
+
+    /** 存入错题本：POST /api/user/wrong-questions */
+    addWrongQuestion: function (payload, signal) {
+      return request('/api/user/wrong-questions', {
+        method: 'POST',
+        body: payload,
+        signal: signal,
+      });
+    },
+
+    /** 错题列表：GET /api/user/wrong-questions（支持 page/page_size/subject/reviewed） */
+    getWrongQuestions: function (query, signal) {
+      const qs = new global.URLSearchParams();
+      Object.keys(query || {}).forEach(function (k) {
+        if (query[k] !== undefined && query[k] !== null && query[k] !== '') qs.set(k, query[k]);
+      });
+      const suffix = qs.toString() ? '?' + qs.toString() : '';
+      return request('/api/user/wrong-questions' + suffix, { signal: signal });
+    },
+
+    /** 错题统计：GET /api/user/wrong-questions/stats */
+    getWrongQuestionStats: function (signal) {
+      return request('/api/user/wrong-questions/stats', { signal: signal });
+    },
+
+    /** 更新错题（标记复习等）：PUT /api/user/wrong-questions/:id —— G1 新增 */
+    updateWrongQuestion: function (id, payload, signal) {
+      return request('/api/user/wrong-questions/' + encodeURIComponent(id), {
+        method: 'PUT',
+        body: payload || {},
+        signal: signal,
+      });
+    },
+
+    /** 删除错题：DELETE /api/user/wrong-questions/:id —— G1 新增 */
+    deleteWrongQuestion: function (id, signal) {
+      return request('/api/user/wrong-questions/' + encodeURIComponent(id), {
+        method: 'DELETE',
+        signal: signal,
+      });
+    },
+  };
+})(window);

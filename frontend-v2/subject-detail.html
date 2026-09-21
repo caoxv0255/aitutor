@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>学科大屏 · 智启AI导师</title>
+  <meta name="description" content="单学科深挖: 知识点 / 错题 / 趋势 / 跨学科联动" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;600;700&display=swap" />
+
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
+      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
+      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
+      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
+      --w-50:#fffbeb; --s-w-100:#fef3c7; --w-500:#f59e0b; --w-700:#b45309;
+      --e-50:#fef2f2; --e-500:#ef4444;
+      --i-50:#f0f9ff; --i-500:#0284c7;
+
+      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
+      --line:#e8eaee; --line-soft:#f1f3f5;
+      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
+
+      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
+      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','DM Sans',monospace;
+      --font-serif:'Noto Serif SC','DM Sans',serif;
+
+      --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px;
+      --s-6:24px; --s-7:32px; --s-8:40px; --s-9:56px; --s-10:72px;
+
+      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
+
+      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
+      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
+      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
+      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
+
+      --ease-out: cubic-bezier(.22,1,.36,1);
+      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
+    }
+
+    /* 9 学科色变量 (默认指向数学红) */
+    :root {
+      --subj-color: #d71920;
+      --subj-color-light: #ffa0a0;
+      --subj-color-bg: var(--p-50);
+      --subj-color-text: var(--p-700);
+    }
+
+    html.dark {
+      --bg:#0a0d14; --surface:#131720; --surface-2:#1a1f2c; --surface-3:#232838;
+      --line:#232838; --line-soft:#1f2533;
+      --ink:#e8ecf3; --ink-2:#a8b0c2; --ink-3:#6f7689; --ink-4:#4d5468;
+      --p-50:#2a0e10; --p-100:#3a1316; --p-200:#4d1820;
+      --b-50:#0d1c33; --s-50:#052e22; --w-50:#2a1d05; --e-50:#2a0d0d; --i-50:#06222e;
+      --sh-1: 0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
+      --sh-2: 0 4px 16px -4px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.3);
+      --sh-3: 0 12px 32px -8px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.3);
+    }
+
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.55;
+      font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+      min-height: 100vh;
+      transition: background var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+    ::selection { background: var(--subj-color-light); color: var(--ink); }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav__inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px var(--s-7);
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 17px; color: var(--ink);
+    }
+    .nav__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: var(--subj-color);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 13px;
+      box-shadow: 0 8px 28px -8px var(--subj-color-light), 0 2px 6px var(--subj-color-light);
+    }
+    .nav__step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-3); }
+    .nav__step strong { color: var(--ink); font-weight: 600; }
+    .nav__actions { display: flex; gap: 8px; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: var(--r-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--ink-2);
+      transition: background var(--dur-1), color var(--dur-1);
+    }
+    .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    .app { max-width: 1280px; margin: 0 auto; padding: var(--s-6) var(--s-7); }
+
+    .crumbs {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--ink-3);
+      margin-bottom: var(--s-5);
+    }
+    .crumbs a:hover { color: var(--subj-color); }
+    .crumbs svg { width: 12px; height: 12px; }
+    .crumbs__current { color: var(--ink); font-weight: 500; }
+
+    /* ============ HERO (subject-themed) ============ */
+    .hero {
+      position: relative;
+      background:
+        radial-gradient(80% 100% at 0% 0%, color-mix(in srgb, var(--subj-color) 8%, transparent) 0%, transparent 60%),
+        var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-7) var(--s-7);
+      margin-bottom: var(--s-6);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; right: -20%; top: -50%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--subj-color-bg) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    html.dark .hero::before { opacity: 0.4; }
+    .hero__grid {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--s-7);
+      align-items: center;
+      position: relative;
+    }
+    .hero__icon {
+      width: 80px; height: 80px;
+      border-radius: var(--r-lg);
+      background: var(--subj-color);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff;
+      box-shadow: 0 12px 32px -8px var(--subj-color-light);
+    }
+    .hero__icon svg { width: 40px; height: 40px; }
+    .hero__title-block { min-width: 0; }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--subj-color);
+      margin-bottom: var(--s-3);
+    }
+    .hero__eyebrow::before { content:''; width: 24px; height: 1.5px; background: var(--subj-color); }
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4.5vw, 48px);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -.025em;
+      color: var(--ink);
+      margin-bottom: var(--s-3);
+    }
+    .hero__sub {
+      font-size: 15px; color: var(--ink-2);
+      max-width: 520px;
+    }
+    .hero__badges {
+      display: flex; gap: 8px; margin-top: var(--s-4); flex-wrap: wrap;
+    }
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px;
+      background: var(--subj-color-bg);
+      color: var(--subj-color-text);
+      border: 1px solid color-mix(in srgb, var(--subj-color) 15%, transparent);
+      border-radius: var(--r-pill);
+      font-size: 12px; font-weight: 500;
+    }
+    .hero__badge svg { width: 12px; height: 12px; }
+
+    /* Mastery ring on right */
+    .hero__ring {
+      position: relative;
+      width: 140px; height: 140px;
+      flex-shrink: 0;
+    }
+    .hero__ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .hero__ring-track { fill: none; stroke: var(--surface-3); stroke-width: 10; }
+    .hero__ring-fill {
+      fill: none; stroke: var(--subj-color); stroke-width: 10; stroke-linecap: round;
+      transition: stroke-dashoffset var(--dur-3) var(--ease-out);
+    }
+    .hero__ring-value {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .hero__ring-num {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 700;
+      color: var(--subj-color);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .hero__ring-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-3);
+      margin-top: 4px;
+    }
+
+    /* ============ TABS ============ */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: var(--r-pill);
+      margin-bottom: var(--s-5);
+      width: fit-content;
+    }
+    .tab {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px;
+      border-radius: var(--r-pill);
+      font-size: 13px; font-weight: 600;
+      color: var(--ink-3);
+      transition: all var(--dur-1) var(--ease-out);
+    }
+    .tab:hover { color: var(--ink-2); }
+    .tab.active {
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: var(--sh-1);
+    }
+    .tab__count {
+      font-size: 10px; font-weight: 700;
+      padding: 2px 6px;
+      background: var(--surface-3);
+      border-radius: var(--r-pill);
+      font-family: var(--font-mono);
+    }
+    .tab.active .tab__count { background: var(--subj-color); color: #fff; }
+
+    /* ============ PANELS ============ */
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeInUp var(--dur-3) var(--ease-out); }
+    @keyframes fadeInUp { from {opacity:0; transform:translateY(8px);} to {opacity:1; transform:none;} }
+
+    .grid-2 { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--s-5); }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: var(--s-5);
+    }
+    .card__title {
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--s-4);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card__title svg { width: 14px; height: 14px; color: var(--subj-color); }
+
+    /* Stat card (subject themed) */
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: var(--s-4) var(--s-5);
+    }
+    .stat__label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .stat__value {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 700;
+      letter-spacing: -.02em;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      margin-top: 4px;
+    }
+    .stat__sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+
+    /* KP drill-down list */
+    .kp-list { display: flex; flex-direction: column; gap: var(--s-2); }
+    .kp-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: var(--s-4);
+      padding: var(--s-4);
+      background: var(--surface-2);
+      border-radius: var(--r-sm);
+      border: 1px solid transparent;
+      transition: all var(--dur-1);
+      cursor: pointer;
+    }
+    .kp-row:hover {
+      border-color: var(--subj-color);
+      background: var(--subj-color-bg);
+    }
+    .kp-row__rank {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--ink-3);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px; font-weight: 700;
+      border: 1px solid var(--line);
+    }
+    .kp-row__main { min-width: 0; }
+    .kp-row__name {
+      font-size: 14px; font-weight: 600;
+      color: var(--ink);
+    }
+    .kp-row__meta {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--ink-3);
+      margin-top: 2px;
+    }
+    .kp-row__bar {
+      width: 80px; height: 6px;
+      background: var(--surface-3);
+      border-radius: var(--r-pill);
+      overflow: hidden;
+    }
+    .kp-row__bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--subj-color-light), var(--subj-color));
+      border-radius: var(--r-pill);
+    }
+    .kp-row__score {
+      font-family: var(--font-mono);
+      font-size: 12px; font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      min-width: 32px; text-align: right;
+    }
+    .kp-row__btn {
+      width: 32px; height: 32px;
+      border-radius: var(--r-sm);
+      background: var(--surface);
+      color: var(--subj-color);
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--line);
+      transition: all var(--dur-1);
+    }
+    .kp-row__btn:hover { background: var(--subj-color); color: #fff; }
+    .kp-row__btn svg { width: 14px; height: 14px; }
+
+    /* Cross-subject connections */
+    .conn {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-3) var(--s-4);
+      background: var(--surface-2);
+      border-radius: var(--r-sm);
+      transition: all var(--dur-1);
+      cursor: pointer;
+    }
+    .conn:hover { background: var(--surface); box-shadow: var(--sh-1); }
+    .conn__icon {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--conn-color-bg, var(--surface-3));
+      color: var(--conn-color, var(--ink-2));
+      flex-shrink: 0;
+    }
+    .conn__icon svg { width: 14px; height: 14px; }
+    .conn__main { flex: 1; min-width: 0; }
+    .conn__title {
+      font-size: 13px; font-weight: 600;
+      color: var(--ink);
+    }
+    .conn__sub {
+      font-size: 12px; color: var(--ink-3);
+      margin-top: 2px;
+    }
+    .conn__arrow {
+      color: var(--ink-3);
+      transition: transform var(--dur-1);
+    }
+    .conn:hover .conn__arrow { transform: translateX(3px); color: var(--subj-color); }
+    .conn__arrow svg { width: 14px; height: 14px; }
+
+    /* Trend chart */
+    .trend { height: 60px; }
+    .trend svg { width: 100%; height: 100%; }
+    .trend__line { fill: none; stroke: var(--subj-color); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .trend__area { fill: var(--subj-color); opacity: .1; }
+    .trend__dot { fill: var(--subj-color); stroke: var(--surface); stroke-width: 2; }
+
+    /* ============ ACTION BAR ============ */
+    .action-bar {
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, 1fr);
+      gap: var(--s-3);
+      margin-top: var(--s-6);
+    }
+    .action-bar__main {
+      display: flex; align-items: center; gap: var(--s-3);
+      padding: var(--s-5);
+      background: linear-gradient(135deg, var(--subj-color-bg) 0%, var(--surface) 100%);
+      border: 1px solid color-mix(in srgb, var(--subj-color) 25%, var(--line));
+      border-radius: var(--r-md);
+    }
+    .action-bar__icon {
+      width: 48px; height: 48px;
+      border-radius: var(--r-md);
+      background: var(--subj-color);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff;
+      box-shadow: 0 8px 24px -4px var(--subj-color-light);
+    }
+    .action-bar__icon svg { width: 22px; height: 22px; }
+    .action-bar__title {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 700;
+      color: var(--subj-color-text);
+    }
+    .action-bar__sub {
+      font-size: 12px; color: var(--ink-3);
+      margin-top: 2px;
+    }
+    .action-btn {
+      display: flex; align-items: center; gap: var(--s-2);
+      padding: 0 var(--s-4);
+      height: 56px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      font-size: 13px; font-weight: 600;
+      color: var(--ink);
+      transition: all var(--dur-1);
+    }
+    .action-btn:hover {
+      border-color: var(--subj-color);
+      color: var(--subj-color);
+    }
+    .action-btn svg { width: 16px; height: 16px; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .action-bar { grid-template-columns: 1fr 1fr; }
+      .hero__grid { grid-template-columns: auto 1fr; }
+      .hero__ring { display: none; }
+    }
+    @media (max-width: 640px) {
+      .app { padding: var(--s-4); }
+      .action-bar { grid-template-columns: 1fr; }
+      .hero__grid { grid-template-columns: 1fr; }
+      .hero__icon { width: 56px; height: 56px; }
+      .hero__icon svg { width: 28px; height: 28px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    :focus-visible { outline: 2px solid var(--subj-color); outline-offset: 2px; border-radius: var(--r-sm); }
+  </style>
+</head>
+<body>
+
+  <!-- =============== NAV =============== -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand">
+        <span class="nav__brand-mark" id="navMark">AI</span>
+        <span>智启AI导师</span>
+      </a>
+      <div class="nav__step">
+        <span>知识图谱 → <strong id="navSubject">数学</strong></span>
+      </div>
+      <div class="nav__actions">
+        <button class="icon-btn" id="themeBtn" aria-label="切换主题">
+          <i data-lucide="moon"></i>
+        </button>
+        <button class="icon-btn" aria-label="更多">
+          <i data-lucide="more-horizontal"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="app">
+
+    <div class="crumbs">
+      <a href="mastery.html">首页</a>
+      <i data-lucide="chevron-right"></i>
+      <a href="mastery.html">知识图谱</a>
+      <i data-lucide="chevron-right"></i>
+      <span class="crumbs__current" id="crumbsCurrent">数学</span>
+    </div>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="hero__grid">
+        <div class="hero__icon" id="heroIcon">
+          <i data-lucide="function-square"></i>
+        </div>
+        <div class="hero__title-block">
+          <div class="hero__eyebrow" id="heroEyebrow">SUBJECT DEEP DIVE · 12 KP · 47 题</div>
+          <h1 class="hero__title" id="heroTitle">数学</h1>
+          <p class="hero__sub" id="heroSub">
+            综合掌握度 68%, 在 9 学科中排名第 2。<br/>
+            高频考点: <strong>导数与切线</strong>、三角函数综合、数列通项。
+          </p>
+          <div class="hero__badges" id="heroBadges">
+            <span class="hero__badge">
+              <i data-lucide="trending-up"></i>
+              +5 较上月
+            </span>
+            <span class="hero__badge">
+              <i data-lucide="alert-triangle"></i>
+              5 薄弱点
+            </span>
+            <span class="hero__badge">
+              <i data-lucide="check-circle-2"></i>
+              4 已掌握
+            </span>
+          </div>
+        </div>
+        <div class="hero__ring">
+          <svg viewBox="0 0 140 140">
+            <circle class="hero__ring-track" cx="70" cy="70" r="58"/>
+            <circle class="hero__ring-fill" cx="70" cy="70" r="58"
+                    stroke-dasharray="364" stroke-dashoffset="117"
+                    style="filter: drop-shadow(0 4px 12px var(--subj-color-light));"/>
+          </svg>
+          <div class="hero__ring-value">
+            <div class="hero__ring-num" id="heroRingNum">68</div>
+            <div class="hero__ring-label">综合得分</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- TABS -->
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="overview" role="tab">
+        <i data-lucide="layout-grid"></i>
+        概览
+      </button>
+      <button class="tab" data-tab="kps" role="tab">
+        <i data-lucide="list-tree"></i>
+        知识点
+        <span class="tab__count" id="tabKpCount">12</span>
+      </button>
+      <button class="tab" data-tab="wrongs" role="tab">
+        <i data-lucide="book-x"></i>
+        错题
+        <span class="tab__count" id="tabWrongCount">62</span>
+      </button>
+      <button class="tab" data-tab="trend" role="tab">
+        <i data-lucide="trending-up"></i>
+        趋势
+      </button>
+    </div>
+
+    <!-- ============ PANEL: OVERVIEW ============ -->
+    <div class="panel active" id="panel-overview">
+      <div class="grid-3">
+        <div class="stat">
+          <div class="stat__label">总知识点</div>
+          <div class="stat__value" style="color: var(--subj-color);">12</div>
+          <div class="stat__sub">已掌握 4 · 复习中 3 · 薄弱 5</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">累计错题</div>
+          <div class="stat__value">62</div>
+          <div class="stat__sub">已复习 3 轮 · 掌握 47</div>
+        </div>
+        <div class="stat">
+          <div class="stat__label">30 日练习</div>
+          <div class="stat__value">28 题</div>
+          <div class="stat__sub">正确率 71% · 时长 2.4h</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: var(--s-5);">
+        <!-- LEFT: 跨学科联动 -->
+        <div class="card">
+          <h3 class="card__title">
+            <i data-lucide="git-merge"></i>
+            跨学科联动
+          </h3>
+          <p style="font-size: 13px; color: var(--ink-3); margin-bottom: var(--s-4);">
+            这些学科的知识点与「<span id="connSubjectName">数学</span>」共享方法论, 一起练效率翻倍
+          </p>
+          <div id="connectionsList" style="display: flex; flex-direction: column; gap: var(--s-2);"></div>
+        </div>
+
+        <!-- RIGHT: 30 日趋势 -->
+        <div class="card">
+          <h3 class="card__title">
+            <i data-lucide="activity"></i>
+            30 日掌握度趋势
+          </h3>
+          <div class="trend">
+            <svg viewBox="0 0 200 60" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="trendGrad" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="var(--subj-color)" stop-opacity="0.3"/>
+                  <stop offset="1" stop-color="var(--subj-color)" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path class="trend__area" d="M0,45 L25,42 L50,38 L75,40 L100,32 L125,28 L150,30 L175,22 L200,18 L200,60 L0,60 Z"/>
+              <path class="trend__line" d="M0,45 L25,42 L50,38 L75,40 L100,32 L125,28 L150,30 L175,22 L200,18"/>
+              <circle class="trend__dot" cx="200" cy="18" r="3.5"/>
+            </svg>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-3); margin-top: 6px; font-family: var(--font-mono);">
+            <span>8/16</span><span>8/23</span><span>8/30</span><span>9/6</span><span>9/15</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: var(--s-4); padding-top: var(--s-4); border-top: 1px dashed var(--line-soft);">
+            <span style="font-size: 12px; color: var(--ink-3); flex: 1;">30 日净增 <strong style="color: var(--subj-color);">+11 分</strong></span>
+            <span class="hero__badge" style="font-size: 11px;">高于平均 +3</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PANEL: KNOWLEDGE POINTS ============ -->
+    <div class="panel" id="panel-kps">
+      <div class="card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s-4);">
+          <h3 class="card__title" style="margin-bottom: 0;">
+            <i data-lucide="list-tree"></i>
+            12 个核心知识点 · 按掌握度排序
+          </h3>
+          <div style="display: flex; gap: 6px;">
+            <button class="pill-btn" style="font-size: 11px; padding: 4px 10px; background: var(--subj-color-bg); color: var(--subj-color); border: 1px solid color-mix(in srgb, var(--subj-color) 20%, transparent); border-radius: var(--r-pill); font-weight: 600;">全部 12</button>
+            <button class="pill-btn" style="font-size: 11px; padding: 4px 10px; background: transparent; border: 1px solid var(--line); border-radius: var(--r-pill); color: var(--ink-3);">薄弱 5</button>
+            <button class="pill-btn" style="font-size: 11px; padding: 4px 10px; background: transparent; border: 1px solid var(--line); border-radius: var(--r-pill); color: var(--ink-3);">复习中 3</button>
+            <button class="pill-btn" style="font-size: 11px; padding: 4px 10px; background: transparent; border: 1px solid var(--line); border-radius: var(--r-pill); color: var(--ink-3);">已掌握 4</button>
+          </div>
+        </div>
+        <div class="kp-list" id="kpList"></div>
+      </div>
+    </div>
+
+    <!-- ============ PANEL: WRONG QUESTIONS ============ -->
+    <div class="panel" id="panel-wrongs">
+      <div class="card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s-4);">
+          <h3 class="card__title" style="margin-bottom: 0;">
+            <i data-lucide="book-x"></i>
+            <span id="wrongSubjectName">数学</span> · 62 道错题
+          </h3>
+          <a href="wrong-book.html" style="font-size: 13px; color: var(--subj-color); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+            全部错题本 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+          </a>
+        </div>
+        <div id="wrongsList" style="display: flex; flex-direction: column; gap: var(--s-2);"></div>
+      </div>
+    </div>
+
+    <!-- ============ PANEL: TREND ============ -->
+    <div class="panel" id="panel-trend">
+      <div class="grid-2">
+        <div class="card">
+          <h3 class="card__title">
+            <i data-lucide="line-chart"></i>
+            6 次模考趋势
+          </h3>
+          <div style="display: flex; align-items: end; gap: 8px; height: 140px; margin-top: var(--s-4);">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1;">
+              <div style="width: 100%; background: var(--surface-3); border-radius: var(--r-sm); position: relative; height: 100%;">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 70%; background: linear-gradient(180deg, var(--subj-color-light), var(--subj-color)); border-radius: var(--r-sm);"></div>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--ink);">88</div>
+              <div style="font-size: 10px; color: var(--ink-3);">6/10</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1;">
+              <div style="width: 100%; background: var(--surface-3); border-radius: var(--r-sm); position: relative; height: 100%;">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 80%; background: linear-gradient(180deg, var(--subj-color-light), var(--subj-color)); border-radius: var(--r-sm);"></div>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--ink);">92</div>
+              <div style="font-size: 10px; color: var(--ink-3);">6/24</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1;">
+              <div style="width: 100%; background: var(--surface-3); border-radius: var(--r-sm); position: relative; height: 100%;">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 75%; background: linear-gradient(180deg, var(--subj-color-light), var(--subj-color)); border-radius: var(--r-sm);"></div>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--ink);">90</div>
+              <div style="font-size: 10px; color: var(--ink-3);">7/8</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1;">
+              <div style="width: 100%; background: var(--surface-3); border-radius: var(--r-sm); position: relative; height: 100%;">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 65%; background: linear-gradient(180deg, var(--subj-color-light), var(--subj-color)); border-radius: var(--r-sm);"></div>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--ink);">78</div>
+              <div style="font-size: 10px; color: var(--ink-3);">7/22</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1;">
+              <div style="width: 100%; background: var(--surface-3); border-radius: var(--r-sm); position: relative; height: 100%;">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 85%; background: linear-gradient(180deg, var(--subj-color-light), var(--subj-color)); border-radius: var(--r-sm);"></div>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--ink);">96</div>
+              <div style="font-size: 10px; color: var(--ink-3);">8/12</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1;">
+              <div style="width: 100%; background: var(--surface-3); border-radius: var(--r-sm); position: relative; height: 100%;">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 90%; background: linear-gradient(180deg, var(--s-500), var(--s-700)); border-radius: var(--r-sm);"></div>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--s-500);">102</div>
+              <div style="font-size: 10px; color: var(--s-500); font-weight: 600;">9/8</div>
+            </div>
+          </div>
+          <div style="margin-top: var(--s-4); padding: var(--s-3) var(--s-4); background: var(--s-50); border-radius: var(--r-sm); display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--s-700);">
+            <i data-lucide="trending-up" style="width: 16px; height: 16px;"></i>
+            6 次模考呈上升趋势, 最近一次 102/120, 创新高
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card__title">
+            <i data-lucide="clock"></i>
+            投入时间分布
+          </h3>
+          <div style="margin-top: var(--s-4); display: flex; flex-direction: column; gap: var(--s-3);">
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                <span style="color: var(--ink-3);">本周</span>
+                <strong style="color: var(--ink);">2.4 小时 · 18 题</strong>
+              </div>
+              <div style="height: 6px; background: var(--surface-3); border-radius: var(--r-pill);">
+                <div style="width: 60%; height: 100%; background: var(--subj-color); border-radius: var(--r-pill);"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                <span style="color: var(--ink-3);">上周</span>
+                <strong style="color: var(--ink);">1.8 小时 · 14 题</strong>
+              </div>
+              <div style="height: 6px; background: var(--surface-3); border-radius: var(--r-pill);">
+                <div style="width: 45%; height: 100%; background: var(--subj-color-light); border-radius: var(--r-pill);"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                <span style="color: var(--ink-3);">本月</span>
+                <strong style="color: var(--ink);">8.5 小时 · 64 题</strong>
+              </div>
+              <div style="height: 6px; background: var(--surface-3); border-radius: var(--r-pill);">
+                <div style="width: 80%; height: 100%; background: var(--subj-color); border-radius: var(--r-pill);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ ACTION BAR ============ -->
+    <div class="action-bar">
+      <div class="action-bar__main">
+        <div class="action-bar__icon">
+          <i data-lucide="zap"></i>
+        </div>
+        <div>
+          <div class="action-bar__title">AI 已就绪 · 推荐立即练习</div>
+          <div class="action-bar__sub">基于「<span id="actionSubject">数学</span>」5 个薄弱点生成 10 题 · 预计 25 分钟</div>
+        </div>
+      </div>
+      <button class="action-btn" id="actionStart">
+        <i data-lucide="play"></i>
+        开始练习
+      </button>
+      <button class="action-btn" id="actionPaper">
+        <i data-lucide="file-text"></i>
+        生成预测卷
+      </button>
+      <button class="action-btn" id="actionPath">
+        <i data-lucide="map"></i>
+        加入路径
+      </button>
+    </div>
+
+  </main>
+
+  <script>
+    // ============ 9 学科完整数据 (顺序: 语文/数学/英语/物理/化学/生物/历史/地理/政治) ============
+    const SUBJECTS = {
+      chinese: {
+        name: '语文', icon: 'book-open-text', color: '#c2410c', light: '#fdba74', mastery: 81, rank: 1,
+        kpCount: 6, weakCount: 0, reviewCount: 1, masteredCount: 5, wrongCount: 18,
+        overallRank: '排名第 1', delta: '+2',
+        kps: [
+          { name: '现代文阅读', mastery: 85, level: 'mastered' },
+          { name: '文言文 · 词类活用', mastery: 71, level: 'mastered' },
+          { name: '古诗鉴赏', mastery: 80, level: 'mastered' },
+          { name: '写作立意', mastery: 90, level: 'mastered' },
+          { name: '语言运用', mastery: 76, level: 'high' },
+          { name: '病句辨析', mastery: 55, level: 'mid' },
+        ],
+        wrongs: [
+          { stem: '下列对加点词的活用现象, 解释不正确的一项是?', your: 'D', correct: 'C', status: 'mastered' },
+          { stem: '填入横线处最恰当的一项是?', your: 'C', correct: 'A', status: 'mastered' },
+          { stem: '"故木受绳则直" 中的"绳"用法?', your: '名词作动词', correct: '名词作状语', status: 'reviewing' },
+        ],
+        connections: [
+          { name: '历史', color: '#b45309', colorBg: '#fef3c7', reason: '文言文常考古代史背景', count: 3 },
+          { name: '政治', color: '#be185d', colorBg: '#fdf2f8', reason: '时政阅读理解跨学科', count: 2 },
+        ],
+      },
+      math: {
+        name: '数学', icon: 'function-square', color: '#d71920', light: '#ffa0a0', mastery: 68, rank: 6,
+        kpCount: 12, weakCount: 5, reviewCount: 3, masteredCount: 4, wrongCount: 62,
+        overallRank: '排名第 6', delta: '+5',
+        kps: [
+          { name: '导数与切线', mastery: 32, level: 'critical' },
+          { name: '三角函数综合', mastery: 41, level: 'low' },
+          { name: '数列通项与求和', mastery: 48, level: 'low' },
+          { name: '立体几何 · 空间向量', mastery: 56, level: 'mid' },
+          { name: '概率与统计 · 分布列', mastery: 67, level: 'mid' },
+          { name: '函数与导数', mastery: 65, level: 'mid' },
+          { name: '解析几何', mastery: 71, level: 'high' },
+          { name: '不等式', mastery: 73, level: 'high' },
+          { name: '代数基础', mastery: 78, level: 'high' },
+          { name: '圆锥曲线', mastery: 80, level: 'high' },
+          { name: '极值与最值', mastery: 82, level: 'high' },
+          { name: '复数', mastery: 85, level: 'mastered' },
+        ],
+        wrongs: [
+          { stem: '已知 f(x) = x³ − 3x, 求曲线在 (1, −2) 处的切线方程。', your: 'y = 2x − 4', correct: 'y = −2', status: 'weak' },
+          { stem: 'sin(α+β)=1/2, sin(α−β)=1/3, 求 tan α / tan β。', your: '5/6', correct: '5/4', status: 'reviewing' },
+          { stem: '已知 a₃=5, a₇=13, 求公差 d。', your: '2', correct: '2', status: 'mastered' },
+        ],
+        connections: [
+          { name: '物理', color: '#2563eb', colorBg: '#eff6ff', reason: '力学 / 电磁学公式共享微积分', count: 5 },
+          { name: '化学', color: '#059669', colorBg: '#ecfdf5', reason: '化学平衡计算用函数思维', count: 2 },
+        ],
+      },
+      english: {
+        name: '英语', icon: 'languages', color: '#7c3aed', light: '#c4b5fd', mastery: 72, rank: 4,
+        kpCount: 10, weakCount: 1, reviewCount: 2, masteredCount: 7, wrongCount: 28,
+        overallRank: '排名第 4', delta: '+3',
+        kps: [
+          { name: '词汇 · 高频', mastery: 80, level: 'high' },
+          { name: '语法 · 时态语态', mastery: 72, level: 'high' },
+          { name: '阅读理解 · 主旨', mastery: 70, level: 'high' },
+          { name: '阅读理解 · 推理', mastery: 47, level: 'low' },
+          { name: '完形填空', mastery: 65, level: 'mid' },
+          { name: '写作 · 应用文', mastery: 75, level: 'high' },
+          { name: '写作 · 图表作文', mastery: 78, level: 'high' },
+          { name: '听力 · 短对话', mastery: 72, level: 'high' },
+          { name: '听力 · 长对话', mastery: 68, level: 'mid' },
+          { name: '翻译', mastery: 82, level: 'high' },
+        ],
+        wrongs: [
+          { stem: '阅读短文, 选出最佳答案。By 2025, AI will have transformed...', your: 'B', correct: 'A', status: 'mastered' },
+          { stem: '完形填空: The professor _______ the experiment for 3 hours.', your: 'performed', correct: 'had been performing', status: 'weak' },
+          { stem: '翻译: 这本书值得一读。', your: 'This book worths reading.', correct: 'This book is worth reading.', status: 'reviewing' },
+        ],
+        connections: [
+          { name: '语文', color: '#c2410c', colorBg: '#fff7ed', reason: '现代文阅读与英语阅读方法论互通', count: 4 },
+          { name: '历史', color: '#b45309', colorBg: '#fef3c7', reason: '英语阅读常涉及西方历史背景', count: 2 },
+        ],
+      },
+      physics: {
+        name: '物理', icon: 'atom', color: '#2563eb', light: '#93c5fd', mastery: 45, rank: 9,
+        kpCount: 8, weakCount: 3, reviewCount: 3, masteredCount: 2, wrongCount: 36,
+        overallRank: '排名第 9', delta: '-2',
+        kps: [
+          { name: '电磁感应 · 综合', mastery: 28, level: 'critical' },
+          { name: '电路 · 动态分析', mastery: 50, level: 'low' },
+          { name: '力学 · 牛顿定律', mastery: 44, level: 'low' },
+          { name: '运动学 · 抛体', mastery: 55, level: 'mid' },
+          { name: '光学 · 几何', mastery: 60, level: 'mid' },
+          { name: '热学 · 分子动理论', mastery: 58, level: 'mid' },
+          { name: '原子物理 · 波粒', mastery: 51, level: 'low' },
+          { name: '波动 · 干涉衍射', mastery: 60, level: 'mid' },
+        ],
+        wrongs: [
+          { stem: '导体棒 ab 在匀强磁场中匀速运动, 求感应电动势大小和方向。', your: 'BLv · 右手定则', correct: 'BLv · 用右手定则判定方向', status: 'weak' },
+          { stem: '一物体从静止开始匀加速, 第 3 秒位移是 18m, 求加速度。', your: '4 m/s²', correct: '4 m/s²', status: 'reviewing' },
+          { stem: '理想气体等温膨胀, 内能变化?', your: '增大', correct: '不变', status: 'weak' },
+        ],
+        connections: [
+          { name: '数学', color: '#d71920', colorBg: '#fff5f5', reason: '力学 / 电磁学公式共享微积分', count: 6 },
+          { name: '化学', color: '#059669', colorBg: '#ecfdf5', reason: '化学平衡与物理热学相通', count: 2 },
+        ],
+      },
+      chemistry: {
+        name: '化学', icon: 'flask-conical', color: '#059669', light: '#6ee7b7', mastery: 55, rank: 7,
+        kpCount: 8, weakCount: 2, reviewCount: 3, masteredCount: 3, wrongCount: 22,
+        overallRank: '排名第 7', delta: '+1',
+        kps: [
+          { name: '化学反应速率与平衡', mastery: 39, level: 'critical' },
+          { name: '有机化学 · 同分异构', mastery: 52, level: 'low' },
+          { name: '元素周期律', mastery: 65, level: 'mid' },
+          { name: '电化学', mastery: 70, level: 'high' },
+          { name: '化学反应原理', mastery: 60, level: 'mid' },
+          { name: '物质结构', mastery: 55, level: 'mid' },
+          { name: '实验基础 · 装置', mastery: 62, level: 'mid' },
+          { name: '化学与生活', mastery: 75, level: 'high' },
+        ],
+        wrongs: [
+          { stem: '在密闭容器中, 反应 2NO₂ ⇌ N₂O₄ 达到平衡后, 升温平衡如何移动?', your: '正向移动', correct: '逆反应方向移动 (N₂O₄ 减少)', status: 'reviewing' },
+          { stem: 'C₃H₆ 的同分异构体有几种?', your: '2 种', correct: '3 种 (丙烯 + 环丙烷)', status: 'weak' },
+        ],
+        connections: [
+          { name: '物理', color: '#2563eb', colorBg: '#eff6ff', reason: '化学平衡与物理热学相通', count: 2 },
+          { name: '生物', color: '#0891b2', colorBg: '#ecfeff', reason: '生物化学 / 酶催化共享原理', count: 3 },
+        ],
+      },
+      biology: {
+        name: '生物', icon: 'leaf', color: '#0891b2', light: '#67e8f9', mastery: 63, rank: 5,
+        kpCount: 4, weakCount: 1, reviewCount: 1, masteredCount: 2, wrongCount: 14,
+        overallRank: '排名第 5', delta: '+4',
+        kps: [
+          { name: '细胞结构 · 代谢', mastery: 35, level: 'critical' },
+          { name: '遗传 · 孟德尔定律', mastery: 60, level: 'mid' },
+          { name: '生态 · 种群群落', mastery: 65, level: 'mid' },
+          { name: '生物工程 · 基因', mastery: 78, level: 'high' },
+        ],
+        wrongs: [
+          { stem: '光合作用光反应阶段, 产生什么物质?', your: 'CO₂', correct: 'O₂', status: 'reviewing' },
+        ],
+        connections: [
+          { name: '化学', color: '#059669', colorBg: '#ecfdf5', reason: '生物化学 / 酶催化共享原理', count: 3 },
+        ],
+      },
+      history: {
+        name: '历史', icon: 'scroll', color: '#b45309', light: '#fcd34d', mastery: 72, rank: 3,
+        kpCount: 6, weakCount: 1, reviewCount: 1, masteredCount: 4, wrongCount: 24,
+        overallRank: '排名第 3', delta: '+2',
+        kps: [
+          { name: '古代史 · 制度演变', mastery: 80, level: 'high' },
+          { name: '近代史 · 洋务运动', mastery: 65, level: 'mid' },
+          { name: '现代史 · 改革开放', mastery: 75, level: 'high' },
+          { name: '世界史 · 工业革命', mastery: 70, level: 'high' },
+          { name: '史料分析', mastery: 60, level: 'mid' },
+          { name: '论述题 · 史观', mastery: 45, level: 'low' },
+        ],
+        wrongs: [
+          { stem: '洋务运动 "中体西用" 中, "体"与"西"分别指?', your: 'A', correct: 'D', status: 'mastered' },
+          { stem: '论述题: 试论工业革命对世界格局的影响。', your: '殖民扩张', correct: '多角度论述 (政治/经济/文化)', status: 'reviewing' },
+        ],
+        connections: [
+          { name: '语文', color: '#c2410c', colorBg: '#fff7ed', reason: '文言文常考古代史背景', count: 3 },
+          { name: '英语', color: '#7c3aed', colorBg: '#f5f3ff', reason: '英语阅读常涉及西方历史背景', count: 2 },
+          { name: '政治', color: '#be185d', colorBg: '#fdf2f8', reason: '近现代史与政治时政紧密相关', count: 4 },
+        ],
+      },
+      geography: {
+        name: '地理', icon: 'mountain', color: '#65a30d', light: '#bef264', mastery: 68, rank: 7,
+        kpCount: 5, weakCount: 1, reviewCount: 1, masteredCount: 3, wrongCount: 20,
+        overallRank: '排名第 7', delta: '+1',
+        kps: [
+          { name: '自然地理 · 大气环流', mastery: 78, level: 'high' },
+          { name: '人文地理 · 城市化', mastery: 65, level: 'mid' },
+          { name: '区域地理 · 中国分区', mastery: 60, level: 'mid' },
+          { name: '等高线 · 地形判读', mastery: 58, level: 'mid' },
+          { name: '时区计算', mastery: 70, level: 'high' },
+        ],
+        wrongs: [
+          { stem: '读下图, 判断 A 山峰与 B 盆地的相对高度?', your: '350 m', correct: '500 m', status: 'reviewing' },
+        ],
+        connections: [
+          { name: '政治', color: '#be185d', colorBg: '#fdf2f8', reason: '地缘政治与时政背景相关', count: 2 },
+          { name: '历史', color: '#b45309', colorBg: '#fef3c7', reason: '历史地理学交叉', count: 1 },
+        ],
+      },
+      politics: {
+        name: '政治', icon: 'scale', color: '#be185d', light: '#f9a8d4', mastery: 74, rank: 2,
+        kpCount: 5, weakCount: 0, reviewCount: 1, masteredCount: 4, wrongCount: 23,
+        overallRank: '排名第 2', delta: '+1',
+        kps: [
+          { name: '马原 · 哲学 · 矛盾', mastery: 60, level: 'mid' },
+          { name: '马原 · 唯物论', mastery: 75, level: 'high' },
+          { name: '毛中特 · 思想体系', mastery: 80, level: 'high' },
+          { name: '思修 · 人生观', mastery: 70, level: 'high' },
+          { name: '时政 · 经济常识', mastery: 72, level: 'high' },
+        ],
+        wrongs: [
+          { stem: '矛盾的特殊性原理要求我们在具体工作中做到?', your: '一切从实际出发, 具体问题具体分析', correct: '具体问题具体分析, 不搞一刀切', status: 'reviewing' },
+        ],
+        connections: [
+          { name: '历史', color: '#b45309', colorBg: '#fef3c7', reason: '近现代史与政治时政紧密相关', count: 4 },
+          { name: '语文', color: '#c2410c', colorBg: '#fff7ed', reason: '时政阅读理解跨学科', count: 2 },
+          { name: '地理', color: '#65a30d', colorBg: '#f7fee7', reason: '地缘政治与时政背景相关', count: 2 },
+        ],
+      },
+    };
+
+    // ============ 应用 subject ============
+    function getSubjectFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('subject') || 'math';
+      return SUBJECTS[code] ? code : 'math';
+    }
+
+    function applySubject(code) {
+      const s = SUBJECTS[code];
+      // Apply CSS variables
+      document.documentElement.style.setProperty('--subj-color', s.color);
+      document.documentElement.style.setProperty('--subj-color-light', s.light);
+      document.documentElement.style.setProperty('--subj-color-bg', s.color + '15');
+      document.documentElement.style.setProperty('--subj-color-text', s.color);
+
+      // Hero
+      document.getElementById('heroTitle').textContent = s.name;
+      document.getElementById('heroSub').innerHTML = `
+        综合掌握度 <strong>${s.mastery}%</strong>, 在 9 学科中${s.overallRank}。<br/>
+        薄弱点: <strong>${s.kps.filter(k => k.level === 'critical' || k.level === 'low').map(k => k.name).slice(0, 3).join('、') || '无'}</strong>。
+      `;
+      document.getElementById('heroEyebrow').textContent = `SUBJECT DEEP DIVE · ${s.kpCount} KP · ${s.wrongCount} 题`;
+      document.getElementById('heroRingNum').textContent = s.mastery;
+      document.querySelector('.hero__ring-fill').style.strokeDashoffset = (364 * (1 - s.mastery / 100));
+      document.getElementById('crumbsCurrent').textContent = s.name;
+      document.getElementById('navSubject').textContent = s.name;
+      document.getElementById('navMark').textContent = s.name.charAt(0);
+      document.getElementById('tabKpCount').textContent = s.kpCount;
+      document.getElementById('tabWrongCount').textContent = s.wrongCount;
+      document.getElementById('wrongSubjectName').textContent = s.name;
+      document.getElementById('actionSubject').textContent = s.name;
+      document.getElementById('connSubjectName').textContent = s.name;
+      document.querySelector('.hero__icon').innerHTML = `<i data-lucide="${s.icon}"></i>`;
+      document.getElementById('heroEyebrow').textContent = `SUBJECT DEEP DIVE · ${s.kpCount} KP · ${s.wrongCount} 题`;
+
+      // Hero badges
+      const badgeContainer = document.getElementById('heroBadges');
+      badgeContainer.innerHTML = `
+        <span class="hero__badge"><i data-lucide="trending-up"></i> ${s.delta} 较上月</span>
+        <span class="hero__badge"><i data-lucide="alert-triangle"></i> ${s.weakCount} 薄弱点</span>
+        <span class="hero__badge"><i data-lucide="check-circle-2"></i> ${s.masteredCount} 已掌握</span>
+      `;
+
+      // Overview stat cards
+      const overviewPanel = document.getElementById('panel-overview');
+      const stats = overviewPanel.querySelectorAll('.stat__value');
+      const labels = overviewPanel.querySelectorAll('.stat__sub');
+      stats[0].textContent = s.kpCount;
+      stats[0].style.color = s.color;
+      labels[0].textContent = `已掌握 ${s.masteredCount} · 复习中 ${s.reviewCount} · 薄弱 ${s.weakCount}`;
+      stats[1].textContent = s.wrongCount;
+      labels[1].textContent = `已复习 3 轮 · 掌握 ${Math.round(s.wrongCount * 0.76)}`;
+      stats[2].textContent = '28 题';
+      labels[2].textContent = '正确率 71% · 时长 2.4h';
+
+      // Connections
+      const connList = document.getElementById('connectionsList');
+      if (s.connections.length === 0) {
+        connList.innerHTML = '<div style="font-size: 13px; color: var(--ink-3); padding: var(--s-3);">该学科暂无跨学科关联</div>';
+      } else {
+        connList.innerHTML = s.connections.map(c => `
+          <a href="?subject=${encodeURIComponent(c.name === '语文' ? 'chinese' : c.name === '数学' ? 'math' : c.name === '英语' ? 'english' : c.name === '物理' ? 'physics' : c.name === '化学' ? 'chemistry' : c.name === '生物' ? 'biology' : c.name === '历史' ? 'history' : c.name === '地理' ? 'geography' : 'politics')}" class="conn" style="--conn-color: ${c.color}; --conn-color-bg: ${c.colorBg};">
+            <div class="conn__icon"><i data-lucide="arrow-right-left"></i></div>
+            <div class="conn__main">
+              <div class="conn__title">${c.name} · 共享 ${c.count} 个方法</div>
+              <div class="conn__sub">${c.reason}</div>
+            </div>
+            <div class="conn__arrow"><i data-lucide="arrow-right"></i></div>
+          </a>
+        `).join('');
+      }
+
+      // KP list
+      const kpList = document.getElementById('kpList');
+      const sortedKps = [...s.kps].sort((a, b) => a.mastery - b.mastery);
+      const levelLabel = { critical: '薄弱', low: '偏低', mid: '中等', high: '良好', mastered: '已掌握' };
+      const levelColor = { critical: 'var(--p-500)', low: 'var(--w-500)', mid: 'var(--w-500)', high: 'var(--s-500)', mastered: 'var(--s-500)' };
+      kpList.innerHTML = sortedKps.map((k, i) => `
+        <div class="kp-row">
+          <div class="kp-row__rank">${i + 1}</div>
+          <div class="kp-row__main">
+            <div class="kp-row__name">
+              ${k.name}
+              <span style="font-size: 11px; font-weight: 600; color: ${levelColor[k.level]}; background: color-mix(in srgb, ${levelColor[k.level]} 12%, transparent); padding: 2px 8px; border-radius: var(--r-pill); margin-left: 8px;">${levelLabel[k.level]}</span>
+            </div>
+            <div class="kp-row__meta">
+              <span>错题 ${Math.floor(Math.random() * 5) + 1} 道</span>
+              <span>·</span>
+              <span>上次复习 ${Math.floor(Math.random() * 5) + 1} 天前</span>
+            </div>
+          </div>
+          <div class="kp-row__bar">
+            <div class="kp-row__bar-fill" style="width: ${k.mastery}%"></div>
+          </div>
+          <div class="kp-row__score">${k.mastery}</div>
+          <button class="kp-row__btn" aria-label="开始练习 ${k.name}">
+            <i data-lucide="play"></i>
+          </button>
+        </div>
+      `).join('');
+
+      // Wrongs list
+      const wrongsList = document.getElementById('wrongsList');
+      const statusLabel = { weak: '薄弱', reviewing: '复习中', mastered: '已掌握' };
+      const statusColor = { weak: 'var(--p-500)', reviewing: 'var(--w-500)', mastered: 'var(--s-500)' };
+      wrongsList.innerHTML = s.wrongs.map((w, i) => `
+        <div style="display: flex; align-items: center; gap: var(--s-3); padding: var(--s-3); background: var(--surface-2); border-radius: var(--r-sm); border-left: 3px solid ${statusColor[w.status]};">
+          <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--ink-3); width: 24px;">#${i + 1}</div>
+          <div style="flex: 1; min-width: 0; font-size: 13px; color: var(--ink); line-height: 1.4;">${w.stem}</div>
+          <div style="display: flex; gap: 8px; font-family: var(--font-mono); font-size: 11px;">
+            <span style="color: var(--e-500);">你: ${w.your}</span>
+            <span style="color: var(--ink-4);">→</span>
+            <span style="color: var(--s-700); font-weight: 600;">${w.correct}</span>
+          </div>
+          <div style="font-size: 11px; font-weight: 700; color: ${statusColor[w.status]}; padding: 3px 10px; background: color-mix(in srgb, ${statusColor[w.status]} 10%, transparent); border-radius: var(--r-pill);">${statusLabel[w.status]}</div>
+        </div>
+      `).join('');
+
+      // Re-render Lucide icons
+      lucide.createIcons();
+    }
+
+    // ============ Tab 切换 ============
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        const panel = document.getElementById('panel-' + tab.dataset.tab);
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    // ============ Theme ============
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
+      lucide.createIcons();
+    });
+
+    // ============ Init ============
+    const code = getSubjectFromURL();
+    applySubject(code);
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

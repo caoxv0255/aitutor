@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>状态库 · 智启AI导师 设计系统</title>
+  <meta name="description" content="loading / empty / error / success 4 大状态设计库 — 应用于 12 个生产页面的统一组件" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;700&display=swap" />
+
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
+      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
+      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
+      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
+      --w-50:#fffbeb; --s-w-100:#fef3c7; --w-500:#f59e0b; --w-700:#b45309;
+      --e-50:#fef2f2; --e-500:#ef4444;
+      --i-50:#f0f9ff; --i-500:#0284c7;
+
+      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
+      --line:#e8eaee; --line-soft:#f1f3f5;
+      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
+
+      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
+      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','DM Sans',monospace;
+      --font-serif:'Noto Serif SC','DM Sans',serif;
+
+      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
+
+      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
+      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
+      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
+      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
+      --ease-out: cubic-bezier(.22,1,.36,1);
+      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
+    }
+    html.dark {
+      --bg:#0a0d14; --surface:#131720; --surface-2:#1a1f2c; --surface-3:#232838;
+      --line:#232838; --line-soft:#1f2533;
+      --ink:#e8ecf3; --ink-2:#a8b0c2; --ink-3:#6f7689; --ink-4:#4d5468;
+      --p-50:#2a0e10; --p-100:#3a1316; --p-200:#4d1820;
+      --b-50:#0d1c33; --s-50:#052e22; --w-50:#2a1d05; --e-50:#2a0d0d; --i-50:#06222e;
+    }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+      font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+      min-height: 100vh;
+    }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+    /* ============ PAGE LAYOUT ============ */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav__inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 17px; color: var(--ink);
+    }
+    .nav__brand-mark {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 13px;
+      box-shadow: var(--sh-primary);
+    }
+    .nav__links { display: flex; gap: 4px; list-style: none; }
+    .nav__link {
+      padding: 8px 14px; border-radius: 8px;
+      font-size: 14px; font-weight: 500; color: var(--ink-2);
+    }
+    .nav__link:hover { background: var(--surface-2); color: var(--ink); }
+    .nav__link--active { background: var(--surface-2); color: var(--ink); }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 8px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--ink-2);
+    }
+    .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    .app { max-width: 1280px; margin: 0 auto; padding: 40px 32px; }
+
+    .page-header {
+      margin-bottom: var(--s-8);
+      padding-bottom: var(--s-7);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .page-header__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--p-500);
+      margin-bottom: 12px;
+    }
+    .page-header__eyebrow::before { content: ''; width: 24px; height: 1.5px; background: var(--p-500); }
+    .page-header__title {
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 700;
+      line-height: 1.15; letter-spacing: -.02em;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .page-header__title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .page-header__sub {
+      font-size: 15px;
+      color: var(--ink-2);
+      max-width: 720px;
+    }
+    .page-header__sub strong { color: var(--ink); font-weight: 600; }
+
+    /* ============ CATEGORY ============ */
+    .category {
+      margin-bottom: 56px;
+      scroll-margin-top: 80px;
+    }
+    .category__head {
+      display: flex; align-items: baseline; gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .category__num {
+      font-family: var(--font-mono);
+      font-size: 14px; font-weight: 600;
+      color: var(--ink-3);
+      letter-spacing: .04em;
+    }
+    .category__title {
+      font-family: var(--font-display);
+      font-size: 24px; font-weight: 700;
+      letter-spacing: -.015em;
+      color: var(--ink);
+    }
+    .category__title em {
+      font-style: normal;
+      color: var(--p-500);
+    }
+    .category__desc {
+      font-size: 13px;
+      color: var(--ink-3);
+      margin-left: auto;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    .grid--2 { grid-template-columns: 1fr 1fr; }
+    .grid--3 { grid-template-columns: repeat(3, 1fr); }
+    .grid--4 { grid-template-columns: repeat(2, 1fr); }
+
+    /* ============ STATE CARD (preview) ============ */
+    .state-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .state-card__head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line-soft);
+      background: var(--surface-2);
+    }
+    .state-card__name {
+      font-family: var(--font-mono);
+      font-size: 12px; font-weight: 600;
+      color: var(--ink);
+    }
+    .state-card__name .num { color: var(--p-500); margin-right: 6px; }
+    .state-card__tag {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: .04em;
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+    .state-card__tag--loading { background: var(--b-50); color: var(--b-700); }
+    .state-card__tag--empty { background: var(--surface-3); color: var(--ink-3); }
+    .state-card__tag--error { background: var(--e-50); color: var(--e-500); }
+    .state-card__tag--success { background: var(--s-50); color: var(--s-700); }
+
+    .state-card__body {
+      padding: 32px 20px;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 220px;
+      background:
+        linear-gradient(rgba(11,18,32,.015) 1px, transparent 1px) 0 0 / 100% 16px,
+        linear-gradient(90deg, rgba(11,18,32,.015) 1px, transparent 1px) 0 0 / 16px 100%,
+        var(--surface);
+    }
+    html.dark .state-card__body {
+      background:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px) 0 0 / 100% 16px,
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px) 0 0 / 16px 100%,
+        var(--surface);
+    }
+
+    .state-card__title {
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 600;
+      color: var(--ink);
+      padding: 12px 16px;
+      border-top: 1px solid var(--line-soft);
+      background: var(--surface-2);
+    }
+
+    /* ============ SKELETON ============ */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface-3) 0%, var(--surface-2) 50%, var(--surface-3) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s ease-in-out infinite;
+      border-radius: 8px;
+    }
+    @keyframes shimmer {
+      0% { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
+    }
+    .skeleton-block { width: 100%; }
+    .skeleton-card {
+      width: 240px;
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .skeleton-card .skeleton { height: 14px; }
+    .skeleton-card .skeleton:nth-child(1) { height: 28px; width: 60%; margin-bottom: 4px; }
+    .skeleton-card .skeleton:nth-child(2) { height: 10px; width: 80%; }
+    .skeleton-card .skeleton:nth-child(3) { height: 10px; width: 70%; }
+    .skeleton-card .skeleton:nth-child(4) { height: 32px; width: 50%; margin-top: 8px; border-radius: 9999px; }
+
+    /* ============ SPINNER (brand red) ============ */
+    .spinner-brand {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: 4px solid var(--p-100);
+      border-top-color: var(--p-500);
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-pulse {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--p-500);
+      animation: pulse-grow 1.4s ease-in-out infinite;
+      box-shadow: 0 0 0 8px color-mix(in srgb, var(--p-500) 25%, transparent);
+    }
+    @keyframes pulse-grow {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 8px color-mix(in srgb, var(--p-500) 25%, transparent); }
+      50% { transform: scale(1.1); box-shadow: 0 0 0 16px color-mix(in srgb, var(--p-500) 0%, transparent); }
+    }
+
+    /* ============ PROGRESS BAR ============ */
+    .progress {
+      width: 240px; height: 8px;
+      background: var(--surface-3);
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress__fill {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      background: linear-gradient(90deg, var(--p-500), var(--p-700));
+      border-radius: 9999px;
+      animation: progress-fill 2.5s cubic-bezier(.22,1,.36,1) infinite;
+    }
+    @keyframes progress-fill {
+      0% { width: 5%; }
+      50% { width: 75%; }
+      100% { width: 100%; }
+    }
+
+    /* ============ EMPTY STATE ============ */
+    .empty {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 16px;
+      max-width: 320px;
+      text-align: center;
+    }
+    .empty__icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      color: var(--ink-3);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .empty__icon svg { width: 36px; height: 36px; }
+    .empty__title {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 600;
+      color: var(--ink);
+    }
+    .empty__desc {
+      font-size: 13px;
+      color: var(--ink-3);
+      line-height: 1.5;
+    }
+    .empty__btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 18px;
+      background: var(--p-500);
+      color: #fff;
+      border-radius: 9999px;
+      font-size: 13px; font-weight: 600;
+      box-shadow: var(--sh-primary);
+    }
+    .empty__btn svg { width: 14px; height: 14px; }
+
+    /* ============ ERROR STATE ============ */
+    .error {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 14px;
+      max-width: 360px;
+      text-align: center;
+    }
+    .error__icon {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--e-50);
+      color: var(--e-500);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .error__icon svg { width: 32px; height: 32px; }
+    .error__code {
+      font-family: var(--font-mono);
+      font-size: 10px; font-weight: 600;
+      padding: 3px 8px;
+      background: var(--surface-2);
+      border-radius: 9999px;
+      color: var(--ink-3);
+      letter-spacing: .04em;
+    }
+    .error__title {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 600;
+      color: var(--ink);
+    }
+    .error__desc {
+      font-size: 12px;
+      color: var(--ink-3);
+      line-height: 1.5;
+    }
+    .error__actions { display: flex; gap: 8px; margin-top: 4px; }
+    .error__btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px; font-weight: 600;
+      transition: all 150ms;
+    }
+    .error__btn--primary {
+      background: var(--p-500); color: #fff;
+    }
+    .error__btn--ghost {
+      background: transparent;
+      color: var(--ink-2);
+      border: 1px solid var(--line);
+    }
+    .error__btn--ghost:hover { background: var(--surface-2); }
+    .error__btn svg { width: 12px; height: 12px; }
+
+    /* ============ SUCCESS STATE ============ */
+    .success {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 14px;
+      max-width: 360px;
+      text-align: center;
+    }
+    .success__icon {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--s-500), var(--s-700));
+      color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px -4px rgba(5,150,105,.4);
+      position: relative;
+    }
+    .success__icon::before {
+      content: '';
+      position: absolute; inset: -8px;
+      border-radius: 50%;
+      border: 2px solid var(--s-500);
+      opacity: 0.3;
+      animation: ripple 2s ease-out infinite;
+    }
+    @keyframes ripple {
+      0% { transform: scale(1); opacity: 0.3; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+    .success__icon svg { width: 32px; height: 32px; }
+    .success__title {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 600;
+      color: var(--ink);
+    }
+    .success__desc {
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+
+    /* ============ TOAST (右下角浮层) ============ */
+    .toast-stack {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      display: flex; flex-direction: column; gap: 8px;
+      z-index: 100;
+      max-width: 360px;
+    }
+    .toast {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--sh-3);
+      animation: slideIn 280ms var(--ease-out);
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: none; }
+    }
+    .toast__icon {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .toast__icon svg { width: 16px; height: 16px; }
+    .toast__icon--success { background: var(--s-50); color: var(--s-500); }
+    .toast__icon--error { background: var(--e-50); color: var(--e-500); }
+    .toast__icon--info { background: var(--i-50); color: var(--i-500); }
+    .toast__icon--warning { background: var(--w-50); color: var(--w-700); }
+    .toast__body { flex: 1; }
+    .toast__title {
+      font-size: 13px; font-weight: 600;
+      color: var(--ink);
+    }
+    .toast__desc {
+      font-size: 12px;
+      color: var(--ink-3);
+      margin-top: 2px;
+    }
+    .toast__close {
+      width: 24px; height: 24px;
+      color: var(--ink-3);
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+    }
+    .toast__close:hover { background: var(--surface-2); }
+    .toast__close svg { width: 14px; height: 14px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
+
+    @media (max-width: 900px) {
+      .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
+      .nav__links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand">
+        <span class="nav__brand-mark">AI</span>
+        <span>智启AI导师 · 设计系统</span>
+      </a>
+      <ul class="nav__links">
+        <li><a class="nav__link" href="#loading">Loading</a></li>
+        <li><a class="nav__link" href="#empty">Empty</a></li>
+        <li><a class="nav__link" href="#error">Error</a></li>
+        <li><a class="nav__link" href="#success">Success</a></li>
+        <li><a class="nav__link" href="#toast">Toast</a></li>
+      </ul>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="icon-btn" id="themeBtn" aria-label="切换主题">
+          <i data-lucide="moon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="app">
+
+    <header class="page-header">
+      <div class="page-header__eyebrow">DESIGN SYSTEM · STATE LIBRARY</div>
+      <h1 class="page-header__title">
+        <em>状态库</em> · loading · empty · error · success
+      </h1>
+      <p class="page-header__sub">
+        12 个生产页面共用的 <strong>4 大状态组件</strong>。统一加载 / 空 / 错误 / 成功, 避免每个页面各写一套, 保证 Loop 中任何环节出错都能给到用户清晰下一步。
+      </p>
+    </header>
+
+    <!-- ============ LOADING ============ -->
+    <section class="category" id="loading">
+      <div class="category__head">
+        <span class="category__num">01</span>
+        <h2 class="category__title">Loading · <em>加载态</em></h2>
+        <span class="category__desc">当数据在飞时 — 3 种节奏</span>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">1.1</span> skeleton-card</span>
+            <span class="state-card__tag state-card__tag--loading">LOADING</span>
+          </div>
+          <div class="state-card__body">
+            <div class="skeleton-card">
+              <div class="skeleton"></div>
+              <div class="skeleton"></div>
+              <div class="skeleton"></div>
+              <div class="skeleton"></div>
+            </div>
+          </div>
+          <div class="state-card__title">骨架屏 · 用于列表 / 卡片布局就位后填值</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">1.2</span> spinner-brand</span>
+            <span class="state-card__tag state-card__tag--loading">LOADING</span>
+          </div>
+          <div class="state-card__body">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+              <div class="spinner-brand"></div>
+              <span style="font-size:12px;color:var(--ink-3)">解析中 · 0.4 秒</span>
+            </div>
+          </div>
+          <div class="state-card__title">旋转 spinner · 用于单点操作 (拍照/AI 调用)</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">1.3</span> progress-bar</span>
+            <span class="state-card__tag state-card__tag--loading">LOADING</span>
+          </div>
+          <div class="state-card__body">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+              <div class="progress"><div class="progress__fill"></div></div>
+              <span style="font-size:12px;color:var(--ink-3)">下载中 · 64%</span>
+            </div>
+          </div>
+          <div class="state-card__title">进度条 · 用于明确进度的长任务 (PDF 导出/批改)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EMPTY ============ -->
+    <section class="category" id="empty">
+      <div class="category__head">
+        <span class="category__num">02</span>
+        <h2 class="category__title">Empty · <em>空态</em></h2>
+        <span class="category__desc">没数据时 — 给到下一步行动而非空白</span>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">2.1</span> empty-wrongbook</span>
+            <span class="state-card__tag state-card__tag--empty">EMPTY</span>
+          </div>
+          <div class="state-card__body">
+            <div class="empty">
+              <div class="empty__icon"><i data-lucide="book-open"></i></div>
+              <div class="empty__title">错题本是空的</div>
+              <div class="empty__desc">拍照第一道错题, AI 自动入库并按算法排期</div>
+              <button class="empty__btn">
+                <i data-lucide="camera"></i>
+                立即拍照
+              </button>
+            </div>
+          </div>
+          <div class="state-card__title">empty-wrongbook · 错题本首屏 (拍照入口)</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">2.2</span> empty-search</span>
+            <span class="state-card__tag state-card__tag--empty">EMPTY</span>
+          </div>
+          <div class="state-card__body">
+            <div class="empty">
+              <div class="empty__icon"><i data-lucide="search-x"></i></div>
+              <div class="empty__title">没找到匹配项</div>
+              <div class="empty__desc">试试"导数"、"文言文 · 词类活用"等关键词</div>
+              <button class="empty__btn">
+                <i data-lucide="rotate-ccw"></i>
+                清空筛选
+              </button>
+            </div>
+          </div>
+          <div class="state-card__title">empty-search · 搜索 / 筛选无结果</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">2.3</span> empty-network</span>
+            <span class="state-card__tag state-card__tag--empty">EMPTY</span>
+          </div>
+          <div class="state-card__body">
+            <div class="empty">
+              <div class="empty__icon"><i data-lucide="cloud-off"></i></div>
+              <div class="empty__title">本地缓存可用</div>
+              <div class="empty__desc">网络断开时仍可查看已下载的 247 道错题</div>
+              <button class="empty__btn">
+                <i data-lucide="refresh-cw"></i>
+                重新连接
+              </button>
+            </div>
+          </div>
+          <div class="state-card__title">empty-network · 离线模式 (PWA 关键)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ERROR ============ -->
+    <section class="category" id="error">
+      <div class="category__head">
+        <span class="category__num">03</span>
+        <h2 class="category__title">Error · <em>错误态</em></h2>
+        <span class="category__desc">出错了 — 报错码 + 重试 + 求助, 绝不静默失败</span>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">3.1</span> error-500</span>
+            <span class="state-card__tag state-card__tag--error">ERROR</span>
+          </div>
+          <div class="state-card__body">
+            <div class="error">
+              <div class="error__icon"><i data-lucide="server-off"></i></div>
+              <span class="error__code">HTTP 500 · SERVER_ERROR</span>
+              <div class="error__title">服务暂时不可用</div>
+              <p class="error__desc">我们的服务遇到了一点问题, 请稍后重试</p>
+              <div class="error__actions">
+                <button class="error__btn error__btn--primary">
+                  <i data-lucide="refresh-cw"></i> 重试
+                </button>
+                <button class="error__btn error__btn--ghost">
+                  <i data-lucide="life-buoy"></i> 求助
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="state-card__title">error-500 · 服务器异常 (通用)</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">3.2</span> error-401</span>
+            <span class="state-card__tag state-card__tag--error">ERROR</span>
+          </div>
+          <div class="state-card__body">
+            <div class="error">
+              <div class="error__icon"><i data-lucide="lock-keyhole"></i></div>
+              <span class="error__code">AUTH_NOT_LOGIN</span>
+              <div class="error__title">登录已过期</div>
+              <p class="error__desc">为保证数据安全, 请重新登录</p>
+              <div class="error__actions">
+                <button class="error__btn error__btn--primary">
+                  <i data-lucide="log-in"></i> 重新登录
+                </button>
+                <button class="error__btn error__btn--ghost">游客模式</button>
+              </div>
+            </div>
+          </div>
+          <div class="state-card__title">error-401 · 鉴权失效 (D062 envelope)</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">3.3</span> error-404</span>
+            <span class="state-card__tag state-card__tag--error">ERROR</span>
+          </div>
+          <div class="state-card__body">
+            <div class="error">
+              <div class="error__icon"><i data-lucide="file-question"></i></div>
+              <span class="error__code">NOT_FOUND</span>
+              <div class="error__title">找不到这道题</div>
+              <p class="error__desc">它可能已被删除, 或者链接有误</p>
+              <div class="error__actions">
+                <button class="error__btn error__btn--primary">
+                  <i data-lucide="home"></i> 回到首页
+                </button>
+                <button class="error__btn error__btn--ghost">
+                  <i data-lucide="search"></i> 搜题
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="state-card__title">error-404 · 资源不存在</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SUCCESS ============ -->
+    <section class="category" id="success">
+      <div class="category__head">
+        <span class="category__num">04</span>
+        <h2 class="category__title">Success · <em>成功态</em></h2>
+        <span class="category__desc">做对了 — 短促肯定, 不打断节奏</span>
+      </div>
+
+      <div class="grid grid--3">
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">4.1</span> success-loop</span>
+            <span class="state-card__tag state-card__tag--success">SUCCESS</span>
+          </div>
+          <div class="state-card__body">
+            <div class="success">
+              <div class="success__icon"><i data-lucide="check"></i></div>
+              <div class="success__title">Loop 已自动闭合</div>
+              <div class="success__desc">薄弱度指数 9.6 → 10.0 · 已加入今晚复习</div>
+            </div>
+          </div>
+          <div class="state-card__title">success-loop · 拍题入库闭环完成</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">4.2</span> success-mastered</span>
+            <span class="state-card__tag state-card__tag--success">SUCCESS</span>
+          </div>
+          <div class="state-card__body">
+            <div class="success">
+              <div class="success__icon" style="background: linear-gradient(135deg, var(--w-500), var(--w-700));"><i data-lucide="trophy"></i></div>
+              <div class="success__title">已掌握这个知识点</div>
+              <div class="success__desc">下次复习: 6 天后 · SM-2 已重算</div>
+            </div>
+          </div>
+          <div class="state-card__title">success-mastered · 错题升级为已掌握</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">4.3</span> success-share</span>
+            <span class="state-card__tag state-card__tag--success">SUCCESS</span>
+          </div>
+          <div class="state-card__body">
+            <div class="success">
+              <div class="success__icon"><i data-lucide="share-2"></i></div>
+              <div class="success__title">学情已推送给家长</div>
+              <div class="success__desc">8 名学生的本周学情已生成</div>
+            </div>
+          </div>
+          <div class="state-card__title">success-share · 教师行动 (teacher dashboard)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TOAST (右下角浮层) ============ -->
+    <section class="category" id="toast">
+      <div class="category__head">
+        <span class="category__num">05</span>
+        <h2 class="category__title">Toast · <em>浮层提示</em></h2>
+        <span class="category__desc">跨页面通用 · 4 种类型 · auto-dismiss 5s</span>
+      </div>
+
+      <div class="grid grid--4">
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">5.1</span> toast-success</span>
+            <span class="state-card__tag state-card__tag--success">TOAST</span>
+          </div>
+          <div class="state-card__body" style="padding: 12px;">
+            <div class="toast" style="margin:0">
+              <div class="toast__icon toast__icon--success">
+                <i data-lucide="check"></i>
+              </div>
+              <div class="toast__body">
+                <div class="toast__title">已加入错题本</div>
+                <div class="toast__desc">导数与切线 · 薄弱度 9.6 → 10.0</div>
+              </div>
+              <button class="toast__close"><i data-lucide="x"></i></button>
+            </div>
+          </div>
+          <div class="state-card__title">success · 操作完成</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">5.2</span> toast-error</span>
+            <span class="state-card__tag state-card__tag--error">TOAST</span>
+          </div>
+          <div class="state-card__body" style="padding: 12px;">
+            <div class="toast" style="margin:0">
+              <div class="toast__icon toast__icon--error">
+                <i data-lucide="alert-octagon"></i>
+              </div>
+              <div class="toast__body">
+                <div class="toast__title">拍照识别失败</div>
+                <div class="toast__desc">网络超时, 请重试</div>
+              </div>
+              <button class="toast__close"><i data-lucide="x"></i></button>
+            </div>
+          </div>
+          <div class="state-card__title">error · 需要用户注意</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">5.3</span> toast-info</span>
+            <span class="state-card__tag state-card__tag--empty">TOAST</span>
+          </div>
+          <div class="state-card__body" style="padding: 12px;">
+            <div class="toast" style="margin:0">
+              <div class="toast__icon toast__icon--info">
+                <i data-lucide="info"></i>
+              </div>
+              <div class="toast__body">
+                <div class="toast__title">MOCK 模式开启</div>
+                <div class="toast__desc">下次请求立即生效</div>
+              </div>
+              <button class="toast__close"><i data-lucide="x"></i></button>
+            </div>
+          </div>
+          <div class="state-card__title">info · 系统提示</div>
+        </div>
+
+        <div class="state-card">
+          <div class="state-card__head">
+            <span class="state-card__name"><span class="num">5.4</span> toast-warning</span>
+            <span class="state-card__tag state-card__tag--loading">TOAST</span>
+          </div>
+          <div class="state-card__body" style="padding: 12px;">
+            <div class="toast" style="margin:0">
+              <div class="toast__icon toast__icon--warning">
+                <i data-lucide="alert-triangle"></i>
+              </div>
+              <div class="toast__body">
+                <div class="toast__title">存储空间不足</div>
+                <div class="toast__desc">仅剩 24 MB, 请清理缓存</div>
+              </div>
+              <button class="toast__close"><i data-lucide="x"></i></button>
+            </div>
+          </div>
+          <div class="state-card__title">warning · 建议用户处理</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 实际展示 toast stack -->
+    <div class="toast-stack">
+      <div class="toast">
+        <div class="toast__icon toast__icon--success">
+          <i data-lucide="check"></i>
+        </div>
+        <div class="toast__body">
+          <div class="toast__title">已加入错题本 · 导数与切线</div>
+          <div class="toast__desc">薄弱度指数 9.6 → 10.0 · SM-2 已重算</div>
+        </div>
+        <button class="toast__close" aria-label="关闭"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
+      lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>

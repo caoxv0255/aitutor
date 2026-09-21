@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>学习闭环 · 智启AI导师 · Learning Loop</title>
+  <meta name="description" content="从拍照到掌握,一个完整的智能学习闭环 · 8 大功能如何协同工作" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;600;700&display=swap" />
+
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
+      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
+      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
+      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
+      --w-50:#fff7ed; --w-500:#f59e0b;
+      --e-50:#fef2f2; --e-500:#ef4444;
+      --i-50:#f0f9ff; --i-500:#0284c7;
+
+      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
+      --line:#e8eaee; --line-soft:#f1f3f5;
+      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
+
+      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
+      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','DM Sans',monospace;
+      --font-serif:'Noto Serif SC','DM Sans',serif;
+
+      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
+      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
+      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
+      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
+      --sh-4: 0 20px 48px -16px rgba(11,18,32,.18), 0 4px 12px rgba(11,18,32,.06);
+      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
+      --ease-out: cubic-bezier(.22,1,.36,1);
+      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
+    }
+    html.dark {
+      --bg:#0a0d14; --surface:#131720; --surface-2:#1a1f2c; --surface-3:#232838;
+      --line:#232838; --line-soft:#1f2533;
+      --ink:#e8ecf3; --ink-2:#a8b0c2; --ink-3:#6f7689; --ink-4:#4d5468;
+      --p-50:#2a0e10; --p-100:#3a1316; --p-200:#4d1820;
+      --b-50:#0d1c33; --s-50:#052e22; --w-50:#2a1d05; --e-50:#2a0d0d; --i-50:#06222e;
+    }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.55;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+    /* ============ NAV ============ */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav__inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 17px; color: var(--ink);
+    }
+    .brand__mark {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 13px;
+      box-shadow: var(--sh-primary);
+    }
+    .nav__crumbs { display: flex; gap: 6px; font-size: 13px; color: var(--ink-3); align-items: center; }
+    .nav__crumbs svg { width: 12px; height: 12px; }
+    .nav__crumbs a:hover { color: var(--p-500); }
+    .nav__crumbs strong { color: var(--ink); font-weight: 500; }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 8px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--ink-2);
+      transition: background var(--dur-1);
+    }
+    .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+    .icon-btn svg { width: 18px; height: 18px; }
+
+    .app { max-width: 1280px; margin: 0 auto; padding: 32px; }
+
+    /* ============ PAGE HEADER ============ */
+    .page-header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .page-header__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--p-500);
+      margin-bottom: 12px;
+    }
+    .page-header__eyebrow::before { content: ''; width: 24px; height: 1.5px; background: var(--p-500); }
+    .page-header__title {
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 700;
+      line-height: 1.1; letter-spacing: -.025em;
+      color: var(--ink);
+    }
+    .page-header__title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .page-header__sub {
+      font-size: 15px; color: var(--ink-2);
+      margin-top: 8px;
+      max-width: 720px;
+    }
+
+    /* ============ LOOP VISUALIZATION ============ */
+    .loop-canvas {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--sh-2);
+      margin-bottom: 32px;
+    }
+
+    .loop-track {
+      position: relative;
+      height: 380px;
+      margin: 24px 0;
+    }
+    .loop-track svg { width: 100%; height: 100%; overflow: visible; }
+
+    /* 8 节点位置 (顺时针) */
+    .node {
+      position: absolute;
+      width: 124px;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      cursor: pointer;
+      transition: transform var(--dur-2) var(--ease-out);
+    }
+    .node:hover { transform: translate(-50%, -50%) scale(1.08); }
+    .node__circle {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2.5px solid var(--node-color);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--node-color);
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--node-color) 20%, transparent);
+      margin-bottom: 8px;
+      position: relative;
+      transition: all var(--dur-2);
+    }
+    .node__circle::after {
+      content: '';
+      position: absolute; inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed var(--node-color);
+      opacity: 0.3;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.15); opacity: 0; }
+    }
+    .node__circle svg { width: 28px; height: 28px; }
+    .node__num {
+      position: absolute;
+      top: -8px; right: -8px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--node-color);
+      color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 11px; font-weight: 700;
+      box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    }
+    .node__name {
+      font-size: 12px; font-weight: 600;
+      color: var(--ink);
+    }
+    .node--active .node__circle {
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--node-color) 30%, transparent), 0 4px 12px color-mix(in srgb, var(--node-color) 30%, transparent);
+    }
+
+    /* 弧形连接线 SVG */
+    .arc {
+      fill: none;
+      stroke: var(--p-300);
+      stroke-width: 2;
+      stroke-dasharray: 6 6;
+      animation: flow 12s linear infinite;
+    }
+    @keyframes flow { to { stroke-dashoffset: -120; } }
+    .arc.active { stroke: var(--p-500); stroke-width: 2.5; }
+
+    /* ============ DETAIL PANEL ============ */
+    .detail-panel {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--node-color, var(--p-500)) 4%, var(--surface)) 0%, var(--surface) 60%);
+      border: 1.5px solid color-mix(in srgb, var(--node-color, var(--p-500)) 20%, var(--line));
+      border-radius: var(--r-lg);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .detail-panel__head {
+      display: flex; align-items: start; justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .detail-panel__title-block { flex: 1; }
+    .detail-panel__step {
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .08em;
+      color: var(--node-color, var(--p-500));
+      margin-bottom: 4px;
+    }
+    .detail-panel__title {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 700;
+      color: var(--ink);
+    }
+    .detail-panel__sub {
+      font-size: 13px;
+      color: var(--ink-2);
+      margin-top: 4px;
+    }
+    .detail-panel__close {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      color: var(--ink-3);
+      transition: background var(--dur-1);
+    }
+    .detail-panel__close:hover { background: var(--surface-2); color: var(--ink); }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+    }
+    .detail-block__title {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: .04em; text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .detail-block__title::before {
+      content: ''; width: 8px; height: 1.5px; background: var(--node-color, var(--p-500));
+    }
+    .endpoint {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      transition: border-color var(--dur-1);
+    }
+    .endpoint:hover { border-color: var(--node-color, var(--p-500)); }
+    .endpoint__method {
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: var(--r-sm);
+      background: var(--s-50);
+      color: var(--s-700);
+      flex-shrink: 0;
+    }
+    .endpoint__method--post { background: var(--p-50); color: var(--p-700); }
+    .endpoint__method--put { background: var(--w-50); color: var(--w-700); }
+    .endpoint__method--delete { background: var(--e-50); color: var(--e-500); }
+    .endpoint__path {
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .endpoint__desc {
+      margin-left: auto;
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--ink-3);
+    }
+
+    .data-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 10px;
+      background: var(--surface-2);
+      border-radius: var(--r-sm);
+      margin-bottom: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+    .data-row__key { color: var(--node-color, var(--p-500)); font-weight: 600; min-width: 80px; }
+    .data-row__val { color: var(--ink-2); }
+
+    /* ============ STATS BAND ============ */
+    .stats-band {
+      background: var(--ink);
+      color: #fff;
+      padding: 32px;
+      border-radius: var(--r-lg);
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-band::before {
+      content: '';
+      position: absolute; right: -100px; top: -100px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(215,25,32,.3) 0%, transparent 70%);
+      filter: blur(40px);
+    }
+    .stats-band__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+      position: relative;
+    }
+    .stats-band__value {
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 800;
+      letter-spacing: -.02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .stats-band__value sup {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,.6);
+      margin-left: 2px;
+    }
+    .stats-band__label {
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+      letter-spacing: .04em;
+      margin-top: 4px;
+    }
+
+    /* ============ ANIMATIONS ============ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: none; }
+    }
+    .loop-canvas, .detail-panel, .stats-band {
+      animation: fadeUp 480ms var(--ease-out) both;
+    }
+    .loop-canvas { animation-delay: 60ms; }
+    .detail-panel { animation-delay: 120ms; }
+    .stats-band { animation-delay: 180ms; }
+
+    .node { animation: fadeUp 600ms var(--ease-out) both; }
+    .node:nth-child(1) { animation-delay: 200ms; }
+    .node:nth-child(2) { animation-delay: 280ms; }
+    .node:nth-child(3) { animation-delay: 360ms; }
+    .node:nth-child(4) { animation-delay: 440ms; }
+    .node:nth-child(5) { animation-delay: 520ms; }
+    .node:nth-child(6) { animation-delay: 600ms; }
+    .node:nth-child(7) { animation-delay: 680ms; }
+    .node:nth-child(8) { animation-delay: 760ms; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
+
+    @media (max-width: 800px) {
+      .detail-grid { grid-template-columns: 1fr; }
+      .loop-track { height: 480px; }
+      .stats-band__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .endpoint__desc { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="landing.html" class="brand">
+        <span class="brand__mark">AI</span>
+        <span>智启AI导师</span>
+      </a>
+      <div class="nav__crumbs">
+        <a href="practice-hub-v2.html">练习中心</a>
+        <i data-lucide="chevron-right"></i>
+        <strong>学习闭环</strong>
+      </div>
+      <button class="icon-btn" id="themeBtn" aria-label="切换主题">
+        <i data-lucide="moon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <main class="app">
+
+    <!-- ============ HEADER ============ -->
+    <header class="page-header">
+      <div class="page-header__eyebrow">LEARNING LOOP · 闭环可视化</div>
+      <h1 class="page-header__title">从拍照到掌握, <em>一个完整的循环</em></h1>
+      <p class="page-header__sub">
+        8 大功能如何协同工作 · 真实数据如何流动 · 点击每个节点看后端接口 + 数据结构
+      </p>
+    </header>
+
+    <!-- ============ LOOP VISUALIZATION (8 节点环形) ============ -->
+    <section class="loop-canvas">
+      <div class="loop-track" id="loopTrack">
+        <svg viewBox="0 0 1000 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <!-- 连接弧: 8 段 -->
+          <!-- 1 (top) → 2 (top-right) -->
+          <path class="arc" id="arc-1-2" d="M 500 60 A 280 200 0 0 1 720 130"/>
+          <!-- 2 → 3 (right) -->
+          <path class="arc" id="arc-2-3" d="M 770 150 A 280 200 0 0 1 770 280"/>
+          <!-- 3 → 4 (bottom-right) -->
+          <path class="arc" id="arc-3-4" d="M 720 320 A 280 200 0 0 1 500 360"/>
+          <!-- 4 → 5 (bottom) -->
+          <path class="arc" id="arc-4-5" d="M 380 360 A 280 200 0 0 1 230 280"/>
+          <!-- 5 → 6 (bottom-left) -->
+          <path class="arc" id="arc-5-6" d="M 180 280 A 280 200 0 0 1 180 150"/>
+          <!-- 6 → 7 (top-left) -->
+          <path class="arc" id="arc-6-7" d="M 230 130 A 280 200 0 0 1 380 60"/>
+          <!-- 7 → 8 (top) -->
+          <path class="arc" id="arc-7-8" d="M 420 60 A 280 200 0 0 1 480 60"/>
+          <!-- 8 → 1 (回到起点) -->
+          <path class="arc" id="arc-8-1" d="M 520 60 A 280 200 0 0 1 480 60" style="stroke-dasharray: 10 4; opacity: 0.6"/>
+        </svg>
+
+        <!-- 8 个节点 (顺时针) -->
+        <button class="node" data-step="1" style="--node-color: #d71920; left: 50%; top: 16%;" aria-label="拍照解题">
+          <div class="node__circle"><i data-lucide="camera"></i><span class="node__num">1</span></div>
+          <div class="node__name">拍照解题</div>
+        </button>
+        <button class="node" data-step="2" style="--node-color: #c2410c; left: 72%; top: 34%;" aria-label="知识图谱">
+          <div class="node__circle"><i data-lucide="network"></i><span class="node__num">2</span></div>
+          <div class="node__name">知识图谱</div>
+        </button>
+        <button class="node" data-step="3" style="--node-color: #b8151b; left: 77%; top: 74%;" aria-label="薄弱点分析">
+          <div class="node__circle"><i data-lucide="trending-down"></i><span class="node__num">3</span></div>
+          <div class="node__name">薄弱点分析</div>
+        </button>
+        <button class="node" data-step="4" style="--node-color: #2563eb; left: 50%; top: 95%;" aria-label="错题入库">
+          <div class="node__circle"><i data-lucide="book-x"></i><span class="node__num">4</span></div>
+          <div class="node__name">错题入库</div>
+        </button>
+        <button class="node" data-step="5" style="--node-color: #7c3aed; left: 23%; top: 74%;" aria-label="相似题推荐">
+          <div class="node__circle"><i data-lucide="copy"></i><span class="node__num">5</span></div>
+          <div class="node__name">相似题推荐</div>
+        </button>
+        <button class="node" data-step="6" style="--node-color: #059669; left: 18%; top: 34%;" aria-label="学习路径">
+          <div class="node__circle"><i data-lucide="map"></i><span class="node__num">6</span></div>
+          <div class="node__name">学习路径</div>
+        </button>
+        <button class="node" data-step="7" style="--node-color: #b45309; left: 38%; top: 16%;" aria-label="强化练习">
+          <div class="node__circle"><i data-lucide="file-text"></i><span class="node__num">7</span></div>
+          <div class="node__name">强化练习</div>
+        </button>
+        <button class="node" data-step="8" style="--node-color: #be185d; left: 48%; top: 16%;" aria-label="作文批改">
+          <div class="node__circle"><i data-lucide="pen-line"></i><span class="node__num">8</span></div>
+          <div class="node__name">作文批改</div>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ DETAIL PANEL (动态切换) ============ -->
+    <section class="detail-panel" id="detailPanel" style="--node-color: #d71920;">
+      <div class="detail-panel__head">
+        <div class="detail-panel__title-block">
+          <div class="detail-panel__step">第 1 步 / 共 8 步 · 拍照解题</div>
+          <h2 class="detail-panel__title">拍照即学 · AI 0.4 秒识别</h2>
+          <p class="detail-panel__sub">
+            用户用 PWA 拍错题 → Qwen-VL-Max + OCR 联合识别 → 自动入库。
+            这是整个 Loop 的入口。
+          </p>
+        </div>
+        <button class="detail-panel__close" id="detailClose" aria-label="关闭详情">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="detail-grid">
+        <!-- 左: 后端接口 -->
+        <div>
+          <div class="detail-block__title">后端 API · ENDPOINTS</div>
+          <div class="endpoint">
+            <span class="endpoint__method endpoint__method--post">POST</span>
+            <span class="endpoint__path">/api/vision/search</span>
+            <span class="endpoint__desc">拍照识别 (Qwen-VL-Max)</span>
+          </div>
+          <div class="endpoint">
+            <span class="endpoint__method endpoint__method--post">POST</span>
+            <span class="endpoint__path">/api/user/wrong-questions</span>
+            <span class="endpoint__desc">入库错题本</span>
+          </div>
+          <div class="endpoint">
+            <span class="endpoint__method">GET</span>
+            <span class="endpoint__path">/api/user/today</span>
+            <span class="endpoint__desc">今日任务 (idempotent)</span>
+          </div>
+        </div>
+        <!-- 右: 实际数据 -->
+        <div>
+          <div class="detail-block__title">数据库 · DAILY TASKS</div>
+          <div class="data-row">
+            <span class="data-row__key">id</span>
+            <span class="data-row__val">"t_20260915_user_247_001"</span>
+          </div>
+          <div class="data-row">
+            <span class="data-row__key">kind</span>
+            <span class="data-row__val">"review"</span>
+          </div>
+          <div class="data-row">
+            <span class="data-row__key">kp_id</span>
+            <span class="data-row__val">"kp_derivative_tangent"</span>
+          </div>
+          <div class="data-row">
+            <span class="data-row__key">weight</span>
+            <span class="data-row__val">9.6 (薄弱度)</span>
+          </div>
+          <div class="data-row">
+            <span class="data-row__key">status</span>
+            <span class="data-row__val">"pending"</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STATS BAND ============ -->
+    <section class="stats-band">
+      <div class="stats-band__grid">
+        <div>
+          <div class="stats-band__value">8</div>
+          <div class="stats-band__label">协同功能</div>
+        </div>
+        <div>
+          <div class="stats-band__value">13<small style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-left:2px"> 个</small></div>
+          <div class="stats-band__label">后端接口</div>
+        </div>
+        <div>
+          <div class="stats-band__value">0.4<small style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-left:2px"> 秒</small></div>
+          <div class="stats-band__label">首步识别</div>
+        </div>
+        <div>
+          <div class="stats-band__value">+32<small style="font-size:14px;font-weight:500;color:rgba(255,255,255,.6);margin-left:2px"> %</small></div>
+          <div class="stats-band__label">实测提分</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // ============ 8 步详情数据 ============
+    const STEPS = [
+      {
+        step: 1, color: '#d71920',
+        title: '拍照即学 · AI 0.4 秒识别',
+        sub: '用户用 PWA 拍错题 → Qwen-VL-Max + OCR 联合识别 → 自动入库。这是整个 Loop 的入口。',
+        endpoints: [
+          { method: 'POST', path: '/api/vision/search', desc: '拍照识别 (Qwen-VL-Max)' },
+          { method: 'POST', path: '/api/user/wrong-questions', desc: '入库错题本' },
+          { method: 'GET',  path: '/api/user/today', desc: '今日任务 (idempotent)' },
+        ],
+        data: [
+          { k: 'id', v: '"t_20260915_user_247_001"' },
+          { k: 'kind', v: '"review"' },
+          { k: 'kp_id', v: '"kp_derivative_tangent"' },
+          { k: 'weight', v: '9.6 (薄弱度)' },
+          { k: 'status', v: '"pending"' },
+        ],
+      },
+      {
+        step: 2, color: '#c2410c',
+        title: '知识图谱 · 9 学科 48 知识点',
+        sub: 'GraphRAG + Apache AGE 查询学科 KP 关联。学生从此能看到自己在 9 学科的掌握度全景。',
+        endpoints: [
+          { method: 'GET',  path: '/api/knowledge/mastery?subject=math', desc: '学科掌握度' },
+          { method: 'GET',  path: '/api/knowledge/map', desc: '9 学科地图' },
+          { method: 'GET',  path: '/api/review/weak-points', desc: '薄弱点' },
+        ],
+        data: [
+          { k: 'subject', v: '"数学"' },
+          { k: 'mastery', v: '68%' },
+          { k: 'weak_count', v: '5' },
+          { k: 'kp_count', v: '12' },
+          { k: 'cross_subjects', v: '["物理", "化学"]' },
+        ],
+      },
+      {
+        step: 3, color: '#b8151b',
+        title: '薄弱点分析 · 加权评分算法',
+        sub: '基于错误次数 × (难度/3) × 频率权重, 自动排名薄弱 KP。直接驱动下一步学习。',
+        endpoints: [
+          { method: 'GET', path: '/api/review/weak-points', desc: '薄弱点 (按权重)' },
+          { method: 'GET', path: '/api/review/weak-points?subject=physics', desc: '按学科过滤' },
+        ],
+        data: [
+          { k: 'kp_id', v: '"kp_derivative_tangent"' },
+          { k: 'weight', v: '9.6' },
+          { k: 'error_count', v: '4' },
+          { k: 'difficulty', v: '4/5' },
+          { k: 'formula', v: 'count × (diff/3) × freq_weight' },
+        ],
+      },
+      {
+        step: 4, color: '#2563eb',
+        title: '错题入库 · 写入 wrong_questions 表',
+        sub: '错题自动分类到 9 学科 + 提取 3 个知识点 + 计算薄弱度。直接进入 SM-2 复习队列。',
+        endpoints: [
+          { method: 'POST', path: '/api/user/wrong-questions', desc: '新建错题' },
+          { method: 'GET',  path: '/api/user/wrong-questions', desc: '按学科查询' },
+        ],
+        data: [
+          { k: 'user_email', v: '"xiaoming@uibe.edu.cn"' },
+          { k: 'subject_code', v: '"math"' },
+          { k: 'knowledge_points', v: '["导数", "切线方程"]' },
+          { k: 'mastery_score', v: '0.32' },
+          { k: 'created_at', v: '"2026-09-15T14:32:00Z"' },
+        ],
+      },
+      {
+        step: 5, color: '#7c3aed',
+        title: '相似题推荐 · pgvector',
+        sub: 'AI 自动匹配 3 道同考点不同情境的题目, 强化 transfer learning 能力。',
+        endpoints: [
+          { method: 'GET', path: '/api/exam/questions/similar?kp_id=kp_derivative_tangent', desc: '按 KP 查相似' },
+        ],
+        data: [
+          { k: 'qid_1', v: '"q_sim_2024_bj_07"' },
+          { k: 'qid_2', v: '"q_sim_2024_xc_03"' },
+          { k: 'qid_3', v: '"q_sim_2025_dc_12"' },
+          { k: 'avg_match_score', v: '88.3%' },
+        ],
+      },
+      {
+        step: 6, color: '#059669',
+        title: '学习路径 · SM-2 算法排期',
+        sub: '根据每个 KP 的遗忘曲线, 自动算出最优复习间隔。薄弱度越高, 间隔越短。',
+        endpoints: [
+          { method: 'GET', path: '/api/srs/engine/daily-tasks', desc: '今日 SRS 任务' },
+          { method: 'GET', path: '/api/learning-path?subject=math', desc: '学科路径' },
+        ],
+        data: [
+          { k: 'formula', v: 'EF\' = EF + (0.1-(5-q)×...)' },
+          { k: 'EF_now', v: '2.50' },
+          { k: 'interval', v: '1d (薄弱) → 6d → 15d' },
+          { k: 'next_review', v: '"今晚 20:00"' },
+        ],
+      },
+      {
+        step: 7, color: '#b45309',
+        title: '强化练习 · 预测卷批改',
+        sub: '完成预测卷 → 自动批改 → 答错题入库 → 薄弱度重算 → 进入明天 SRS 队列。',
+        endpoints: [
+          { method: 'POST', path: '/api/exam/session/submit', desc: '提交答卷' },
+          { method: 'POST', path: '/api/exam/paper/generate', desc: 'AI 组卷 (基于薄弱)' },
+        ],
+        data: [
+          { k: 'paper_id', v: '"paper_20260915_math_wk"' },
+          { k: 'total', v: '10 题' },
+          { k: 'correct', v: '8' },
+          { k: 'wrong_added', v: '2 (自动入错题本)' },
+          { k: 'mastery_delta', v: '+0.8' },
+        ],
+      },
+      {
+        step: 8, color: '#be185d',
+        title: '作文批改 · D086 V1.0 (4 维评分)',
+        sub: '拍照上传作文 → AI 老师 4 维评分 + 锚定回原文 → 改进建议 → 学生重写。',
+        endpoints: [
+          { method: 'POST', path: '/api/essay/grade', desc: 'AI 批改' },
+          { method: 'POST', path: '/api/essay/upload', desc: '上传作文图片' },
+          { method: 'GET',  path: '/api/essay/list', desc: '历史作文' },
+        ],
+        data: [
+          { k: 'essay_id', v: '"essay_20260915_247"' },
+          { k: 'dimensions', v: '立意/结构/语言/规范' },
+          { k: 'score', v: '46/50' },
+          { k: 'improvement', v: '12 处锚定原文' },
+        ],
+      },
+    ];
+
+    // 当前选中的 step
+    let activeStep = 1;
+
+    function renderStep(step) {
+      const data = STEPS[step - 1];
+      if (!data) return;
+      const panel = document.getElementById('detailPanel');
+
+      panel.style.setProperty('--node-color', data.color);
+      panel.innerHTML = `
+        <div class="detail-panel__head">
+          <div class="detail-panel__title-block">
+            <div class="detail-panel__step">第 ${data.step} 步 / 共 8 步</div>
+            <h2 class="detail-panel__title">${data.title}</h2>
+            <p class="detail-panel__sub">${data.sub}</p>
+          </div>
+          <button class="detail-panel__close" id="detailClose" aria-label="关闭详情">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <div class="detail-grid">
+          <div>
+            <div class="detail-block__title">后端 API · ENDPOINTS</div>
+            ${data.endpoints.map(e => `
+              <div class="endpoint">
+                <span class="endpoint__method endpoint__method--${e.method.toLowerCase()}">${e.method}</span>
+                <span class="endpoint__path">${e.path}</span>
+                <span class="endpoint__desc">${e.desc}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div>
+            <div class="detail-block__title">数据库 · DATA</div>
+            ${data.data.map(d => `
+              <div class="data-row">
+                <span class="data-row__key">${d.k}</span>
+                <span class="data-row__val">${d.v}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      document.getElementById('detailClose').addEventListener('click', () => {
+        document.querySelectorAll('.node').forEach(n => n.classList.remove('node--active'));
+        renderStep(1);
+      });
+      lucide.createIcons();
+    }
+
+    // ============ 节点点击 ============
+    document.querySelectorAll('.node').forEach(node => {
+      node.addEventListener('click', () => {
+        document.querySelectorAll('.node').forEach(n => n.classList.remove('node--active'));
+        node.classList.add('node--active');
+        activeStep = Number(node.dataset.step);
+        renderStep(activeStep);
+      });
+    });
+
+    // ============ Theme ============
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
+      lucide.createIcons();
+    });
+
+    // Init
+    document.querySelector('.node[data-step="1"]')?.classList.add('node--active');
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

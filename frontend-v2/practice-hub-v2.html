@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>今日 · 智启AI导师</title>
+  <meta name="description" content="你的今日学习仪表 — 数据说话, 节奏刚好。" />
+
+  <!-- 字体: 更精细的 weight 范围 + tabular nums -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* ============================================
+       DESIGN TOKENS — 与 .design_library/ai-tutor 同源
+       ============================================ */
+    :root {
+      /* Color: 11 stops primary, 5 semantic */
+      --p-50:  #fff5f5;  --p-100: #ffe0e0;  --p-200: #ffc5c5;  --p-300: #ffa0a0;
+      --p-400: #f36b6b;  --p-500: #d71920;  --p-600: #b8151b;  --p-700: #941218;
+      --p-800: #7a1014;  --p-900: #660f13;
+
+      --b-50: #eff6ff;    --b-500: #2563eb;  --b-700: #1e40af;
+
+      --s-50: #ecfdf5;    --s-500: #059669;
+      --w-50: #fffbeb;    --w-500: #f59e0b;
+      --e-50: #fef2f2;    --e-500: #ef4444;
+      --i-50: #f0f9ff;    --i-500: #0284c7;
+
+      /* Neutrals — 故意不用纯黑, 用 #0b1220 偏蓝黑 */
+      --bg:        #fafbfc;
+      --surface:   #ffffff;
+      --surface-2: #f7f8fa;
+      --surface-3: #f1f3f5;
+      --line:      #e8eaee;
+      --line-soft: #f1f3f5;
+      --ink:       #0b1220;
+      --ink-2:     #3a4256;
+      --ink-3:     #6b7388;
+      --ink-4:     #9ca3af;
+
+      /* Dark */
+      --d-bg:        #0a0d14;
+      --d-surface:   #131720;
+      --d-surface-2: #1a1f2c;
+      --d-line:      #232838;
+      --d-ink:       #e8ecf3;
+      --d-ink-2:     #a8b0c2;
+      --d-ink-3:     #6f7689;
+
+      /* Type — 完整 font-feature 启用 (tnum/lnum/ss01) */
+      --font-display: 'DM Sans', 'Noto Sans SC', system-ui, sans-serif;
+      --font-body:    'Noto Sans SC', 'DM Sans', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', 'DM Sans', monospace;
+
+      /* Spacing 4px grid + 不规则 gap (24/40) */
+      --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+      --s-5: 20px; --s-6: 24px; --s-7: 32px; --s-8: 40px;
+      --s-9: 56px; --s-10: 72px;
+
+      /* Radius — 4 阶 */
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --r-pill: 9999px;
+
+      /* Shadow — 6 阶, 加入了 halo 用于发光态 */
+      --sh-1: 0 1px 2px rgba(11, 18, 32, .04), 0 0 0 1px rgba(11, 18, 32, .03);
+      --sh-2: 0 2px 8px -2px rgba(11, 18, 32, .08), 0 1px 2px rgba(11, 18, 32, .04);
+      --sh-3: 0 8px 24px -8px rgba(11, 18, 32, .12), 0 2px 4px rgba(11, 18, 32, .04);
+      --sh-4: 0 20px 48px -16px rgba(11, 18, 32, .18), 0 4px 12px rgba(11, 18, 32, .06);
+      --sh-primary: 0 8px 28px -8px rgba(215, 25, 32, .28), 0 2px 6px rgba(215, 25, 32, .12);
+
+      /* Animation — 3 档 */
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      --ease-in-out: cubic-bezier(.65, .05, .36, 1);
+      --dur-1: 150ms;  --dur-2: 280ms;  --dur-3: 480ms;
+    }
+
+    html.dark {
+      --bg:        var(--d-bg);
+      --surface:   var(--d-surface);
+      --surface-2: var(--d-surface-2);
+      --surface-3: #232838;
+      --line:      var(--d-line);
+      --line-soft: #1f2533;
+      --ink:       var(--d-ink);
+      --ink-2:     var(--d-ink-2);
+      --ink-3:     var(--d-ink-3);
+      --ink-4:     #4d5468;
+      --p-50: #2a0e10;  --p-100: #3a1316; --p-200: #4d1820;
+      --b-50: #0d1c33;
+      --s-50: #052e22;
+      --w-50: #2a1d05;
+      --e-50: #2a0d0d;
+      --i-50: #06222e;
+      --sh-1: 0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
+      --sh-2: 0 4px 16px -4px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.3);
+      --sh-3: 0 12px 32px -8px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.3);
+      --sh-4: 0 24px 56px -12px rgba(0,0,0,.7), 0 4px 12px rgba(0,0,0,.4);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html, body { min-height: 100%; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.55;
+      font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'ss01' 1;
+      transition: background var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+    ::selection { background: var(--p-100); color: var(--p-800); }
+    html.dark ::selection { background: var(--p-700); color: var(--p-100); }
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+    .app { max-width: 1200px; margin: 0 auto; padding: var(--s-7) var(--s-7); }
+
+    /* ============================================
+       TOP NAV — minimal sticky
+       ============================================ */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav__inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px var(--s-7);
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 700;
+      letter-spacing: -.01em; font-size: 17px;
+      color: var(--ink);
+    }
+    .nav__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 13px;
+      box-shadow: var(--sh-primary);
+    }
+    .nav__links {
+      display: flex; gap: 4px; align-items: center;
+      list-style: none;
+    }
+    .nav__link {
+      padding: 8px 14px; border-radius: var(--r-sm);
+      font-size: 14px; font-weight: 500; color: var(--ink-2);
+      transition: background var(--dur-1), color var(--dur-1);
+    }
+    .nav__link:hover { background: var(--surface-2); color: var(--ink); }
+    .nav__link.active { color: var(--ink); background: var(--surface-2); }
+    .nav__actions { display: flex; gap: 8px; align-items: center; }
+    .nav__icon-btn {
+      width: 38px; height: 38px; border-radius: var(--r-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--ink-2);
+      transition: background var(--dur-1), color var(--dur-1);
+    }
+    .nav__icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+    .nav__icon-btn svg { width: 18px; height: 18px; }
+
+    /* ============================================
+       HERO — personalized greeting
+       ============================================ */
+    .hero {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: var(--s-7); align-items: end;
+      padding: var(--s-9) 0 var(--s-7);
+      border-bottom: 1px solid var(--line-soft);
+      margin-bottom: var(--s-8);
+    }
+    .hero__greeting {
+      font-family: var(--font-display);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--p-500);
+      margin-bottom: var(--s-3);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero__greeting::before {
+      content: ''; width: 24px; height: 1.5px;
+      background: var(--p-500);
+    }
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -.025em;
+      color: var(--ink);
+      margin-bottom: var(--s-4);
+      font-feature-settings: 'ss01' 1;
+    }
+    .hero__title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+    .hero__sub {
+      font-size: 17px; line-height: 1.6;
+      color: var(--ink-2);
+      max-width: 580px;
+    }
+
+    /* Streak chip — 跑团感 */
+    .streak {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 18px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-pill);
+      box-shadow: var(--sh-1);
+      transition: transform var(--dur-1) var(--ease-out), box-shadow var(--dur-1);
+    }
+    .streak:hover { transform: translateY(-1px); box-shadow: var(--sh-2); }
+    .streak__icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--w-500), #d97706);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff;
+      box-shadow: 0 4px 12px -2px rgba(245, 158, 11, .35);
+    }
+    .streak__icon svg { width: 18px; height: 18px; }
+    .streak__body { display: flex; flex-direction: column; line-height: 1.1; }
+    .streak__num {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 700;
+      font-variant-numeric: tabular-nums lining-nums;
+      color: var(--ink);
+    }
+    .streak__label {
+      font-size: 12px; font-weight: 500;
+      color: var(--ink-3);
+      margin-top: 2px;
+    }
+
+    /* ============================================
+       STAT GRID — 4 件套, 有 subtle 差异
+       ============================================ */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-4);
+      margin-bottom: var(--s-8);
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-6);
+      transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-1);
+      position: relative; overflow: hidden;
+    }
+    .stat:hover { transform: translateY(-2px); box-shadow: var(--sh-3); border-color: color-mix(in srgb, var(--p-500) 30%, var(--line)); }
+    .stat::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent, var(--p-500));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--dur-3) var(--ease-out);
+    }
+    .stat:hover::before { transform: scaleX(1); }
+    .stat__head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: var(--s-4);
+    }
+    .stat__icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--accent-bg, var(--p-50));
+      color: var(--accent, var(--p-500));
+    }
+    .stat__icon svg { width: 18px; height: 18px; }
+    .stat__delta {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 12px; font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      padding: 4px 8px; border-radius: var(--r-pill);
+      background: var(--delta-bg, var(--surface-2));
+      color: var(--delta-fg, var(--ink-3));
+    }
+    .stat__delta svg { width: 12px; height: 12px; }
+    .stat__delta--up   { --delta-bg: var(--s-50); --delta-fg: var(--s-500); }
+    .stat__delta--down { --delta-bg: var(--e-50); --delta-fg: var(--e-500); }
+    .stat__value {
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 700;
+      line-height: 1; letter-spacing: -.025em;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums lining-nums;
+      display: flex; align-items: baseline; gap: 4px;
+    }
+    .stat__value-suffix {
+      font-size: 14px; font-weight: 500;
+      color: var(--ink-3); letter-spacing: 0;
+    }
+    .stat__label {
+      margin-top: var(--s-2);
+      font-size: 13px; color: var(--ink-3);
+      font-weight: 500;
+    }
+    .stat--accent { --accent: var(--p-500); --accent-bg: var(--p-50); }
+    .stat--blue   { --accent: var(--b-500); --accent-bg: var(--b-50); }
+    .stat--warm   { --accent: var(--w-500); --accent-bg: var(--w-50); }
+    .stat--green  { --accent: var(--s-500); --accent-bg: var(--s-50); }
+
+    /* ============================================
+       SPARKLINE — 迷你趋势图
+       ============================================ */
+    .spark { margin-top: var(--s-4); height: 32px; }
+    .spark svg { width: 100%; height: 100%; overflow: visible; }
+    .spark__line { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .spark__area { opacity: .15; }
+    .spark__dot { stroke: var(--surface); stroke-width: 2; }
+
+    /* ============================================
+       SECTION HEADER — 上下结构, 不是简单的 title + link
+       ============================================ */
+    .section {
+      margin-bottom: var(--s-9);
+    }
+    .section__head {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: var(--s-4); margin-bottom: var(--s-5);
+    }
+    .section__heading {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .section__eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink-3);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section__eyebrow-num {
+      font-family: var(--font-display);
+      font-variant-numeric: tabular-nums;
+      background: var(--surface-3); color: var(--ink-2);
+      padding: 2px 8px; border-radius: var(--r-pill);
+      font-size: 11px; letter-spacing: 0;
+    }
+    .section__title {
+      font-family: var(--font-display);
+      font-size: 26px; font-weight: 600;
+      line-height: 1.25; letter-spacing: -.015em;
+      color: var(--ink);
+    }
+    .section__link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500;
+      color: var(--ink-2);
+      transition: color var(--dur-1);
+    }
+    .section__link:hover { color: var(--p-500); }
+    .section__link svg { width: 14px; height: 14px; transition: transform var(--dur-1) var(--ease-out); }
+    .section__link:hover svg { transform: translateX(2px); }
+
+    /* ============================================
+       SUBJECT CHIPS — 横向滚动 + active 视觉
+       ============================================ */
+    .chips {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: var(--s-5);
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-pill);
+      font-size: 14px; font-weight: 500;
+      color: var(--ink-2);
+      transition: all var(--dur-1) var(--ease-out);
+    }
+    .chip:hover {
+      border-color: var(--p-500); color: var(--p-600);
+      background: var(--p-50);
+    }
+    .chip.active {
+      background: var(--ink); color: var(--bg);
+      border-color: var(--ink);
+    }
+    html.dark .chip.active { background: var(--ink); color: var(--d-bg); border-color: var(--ink); }
+    .chip__count {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 20px; height: 20px; padding: 0 6px;
+      background: var(--surface-3); color: var(--ink-2);
+      border-radius: var(--r-pill);
+      font-size: 11px; font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .chip.active .chip__count { background: rgba(255,255,255,.18); color: inherit; }
+
+    /* ============================================
+       WEAK LIST — 不再是表格, 而是"小卡片"
+       ============================================ */
+    .weak-grid {
+      display: grid; gap: var(--s-3);
+    }
+    .weak {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: var(--s-5) var(--s-6);
+      transition: all var(--dur-2) var(--ease-out);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .weak::after {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--bar-color, var(--p-500));
+      transform: scaleY(0); transform-origin: top;
+      transition: transform var(--dur-2) var(--ease-out);
+    }
+    .weak:hover {
+      border-color: color-mix(in srgb, var(--p-500) 30%, var(--line));
+      box-shadow: var(--sh-2);
+      transform: translateY(-1px);
+    }
+    .weak:hover::after { transform: scaleY(1); }
+    .weak__top {
+      display: flex; align-items: start; gap: var(--s-4);
+      margin-bottom: var(--s-4);
+    }
+    .weak__main { flex: 1; min-width: 0; }
+    .weak__title {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 6px;
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 600;
+      color: var(--ink); letter-spacing: -.005em;
+    }
+    .weak__name { word-break: keep-all; }
+    .weak__meta {
+      display: flex; align-items: center; gap: var(--s-4);
+      flex-wrap: wrap;
+      font-size: 13px; color: var(--ink-3);
+    }
+    .weak__meta-item { display: inline-flex; align-items: center; gap: 4px; }
+    .weak__meta-item svg { width: 13px; height: 13px; }
+    .freq {
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .freq__dot { width: 6px; height: 6px; border-radius: 50%; }
+    .freq__dot--high { background: var(--p-500); }
+    .freq__dot--mid  { background: var(--w-500); }
+    .freq__dot--low  { background: var(--i-500); }
+    .weak__bar {
+      display: flex; align-items: center; gap: var(--s-4);
+      margin-top: var(--s-4);
+      padding-top: var(--s-4);
+      border-top: 1px dashed var(--line-soft);
+    }
+    .weak__bar-track {
+      flex: 1; height: 6px;
+      background: var(--surface-3);
+      border-radius: var(--r-pill);
+      overflow: hidden; position: relative;
+    }
+    .weak__bar-fill {
+      height: 100%;
+      border-radius: var(--r-pill);
+      background: linear-gradient(90deg, color-mix(in srgb, var(--bar-color) 60%, white), var(--bar-color));
+      transition: width var(--dur-3) var(--ease-out);
+    }
+    .weak--high { --bar-color: var(--p-500); }
+    .weak--mid  { --bar-color: var(--w-500); }
+    .weak--low  { --bar-color: var(--i-500); }
+    .weak__bar-meta {
+      display: inline-flex; align-items: baseline; gap: 4px;
+      font-size: 12px; color: var(--ink-3);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .weak__bar-score {
+      font-family: var(--font-display);
+      font-size: 18px; font-weight: 700;
+      color: var(--bar-color);
+      letter-spacing: -.01em;
+    }
+    .weak__cta {
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-left: auto;
+      font-size: 13px; font-weight: 600;
+      color: var(--p-500);
+      opacity: 0; transform: translateX(-4px);
+      transition: opacity var(--dur-2), transform var(--dur-2) var(--ease-out);
+    }
+    .weak__cta svg { width: 14px; height: 14px; }
+    .weak:hover .weak__cta { opacity: 1; transform: translateX(0); }
+
+    /* ============================================
+       ACTION GRID — 8 个功能的视觉收口
+       ============================================ */
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-4);
+    }
+    .action {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: var(--s-6);
+      display: flex; flex-direction: column;
+      gap: var(--s-4);
+      min-height: 168px;
+      cursor: pointer;
+      transition: all var(--dur-2) var(--ease-out);
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .action::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(120% 80% at 100% 0%, var(--action-glow, transparent) 0%, transparent 60%);
+      opacity: 0; transition: opacity var(--dur-2);
+      z-index: -1;
+    }
+    .action:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--sh-3);
+      border-color: color-mix(in srgb, var(--action-color, var(--ink-4)) 35%, var(--line));
+    }
+    .action:hover::before { opacity: 1; }
+    .action__icon {
+      width: 40px; height: 40px;
+      border-radius: var(--r-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--action-icon-bg, var(--surface-2));
+      color: var(--action-color, var(--ink-2));
+      transition: transform var(--dur-2) var(--ease-out);
+    }
+    .action:hover .action__icon { transform: scale(1.08) rotate(-2deg); }
+    .action__icon svg { width: 20px; height: 20px; }
+    .action__title {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 600;
+      letter-spacing: -.005em;
+      color: var(--ink);
+    }
+    .action__desc {
+      font-size: 13px; line-height: 1.5;
+      color: var(--ink-3);
+      flex: 1;
+    }
+    .action__footer {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 12px; font-weight: 600;
+      color: var(--action-color, var(--ink-2));
+      letter-spacing: .02em;
+    }
+    .action__footer svg { width: 12px; height: 12px; transition: transform var(--dur-2) var(--ease-out); }
+    .action:hover .action__footer svg { transform: translateX(3px); }
+
+    .action--featured {
+      --action-color: var(--p-500);
+      --action-icon-bg: linear-gradient(135deg, var(--p-50), var(--p-100));
+      background: linear-gradient(180deg, var(--p-50) 0%, var(--surface) 60%);
+      --action-glow: rgba(215, 25, 32, .08);
+    }
+    .action--blue {
+      --action-color: var(--b-500);
+      --action-icon-bg: var(--b-50);
+    }
+    .action--warm {
+      --action-color: var(--w-500);
+      --action-icon-bg: var(--w-50);
+    }
+    .action--green {
+      --action-color: var(--s-500);
+      --action-icon-bg: var(--s-50);
+    }
+    .action--ink {
+      --action-color: var(--ink);
+      --action-icon-bg: var(--surface-3);
+    }
+
+    /* ============================================
+       FEED (LOOP CLOSURE) — 时间线显示完成的循环
+       ============================================ */
+    .feed {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: var(--s-6) var(--s-7);
+    }
+    .feed__title {
+      font-family: var(--font-display);
+      font-size: 18px; font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--s-5);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .feed__title::before {
+      content: '';
+      width: 6px; height: 18px; border-radius: 3px;
+      background: linear-gradient(180deg, var(--p-500), var(--p-700));
+    }
+    .feed-list { display: flex; flex-direction: column; gap: var(--s-1); }
+    .feed-item {
+      display: grid;
+      grid-template-columns: 32px 1fr auto;
+      gap: var(--s-4);
+      align-items: start;
+      padding: var(--s-3) 0;
+      position: relative;
+    }
+    .feed-item:not(:last-child)::before {
+      content: '';
+      position: absolute; left: 15px; top: 38px; bottom: -4px;
+      width: 2px;
+      background: var(--line-soft);
+    }
+    .feed-item__bullet {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface-2);
+      color: var(--ink-2);
+      position: relative; z-index: 1;
+    }
+    .feed-item__bullet svg { width: 14px; height: 14px; }
+    .feed-item--success .feed-item__bullet {
+      background: var(--s-50); color: var(--s-500);
+    }
+    .feed-item--accent .feed-item__bullet {
+      background: var(--p-50); color: var(--p-500);
+    }
+    .feed-item--info .feed-item__bullet {
+      background: var(--b-50); color: var(--b-500);
+    }
+    .feed-item__body { min-width: 0; padding-top: 4px; }
+    .feed-item__text {
+      font-size: 14px; line-height: 1.5;
+      color: var(--ink);
+    }
+    .feed-item__text strong {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .feed-item__sub {
+      margin-top: 2px;
+      font-size: 12px; color: var(--ink-3);
+    }
+    .feed-item__time {
+      font-size: 12px; font-weight: 500;
+      color: var(--ink-3);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      padding-top: 6px;
+    }
+
+    /* ============================================
+       FOOTER — minimal
+       ============================================ */
+    .footer {
+      margin-top: var(--s-10); padding: var(--s-7) 0 var(--s-9);
+      border-top: 1px solid var(--line-soft);
+      text-align: center;
+      font-size: 13px; color: var(--ink-3);
+    }
+    .footer strong { color: var(--ink-2); font-weight: 600; }
+    .footer__links {
+      display: flex; gap: var(--s-5); justify-content: center;
+      margin-top: var(--s-3);
+    }
+    .footer__link {
+      color: var(--ink-3);
+      transition: color var(--dur-1);
+    }
+    .footer__link:hover { color: var(--p-500); }
+
+    /* ============================================
+       ANIMATIONS — entry
+       ============================================ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero, .section, .feed { animation: fadeInUp var(--dur-3) var(--ease-out) both; }
+    .section:nth-child(1) { animation-delay: 60ms; }
+    .section:nth-child(2) { animation-delay: 120ms; }
+    .section:nth-child(3) { animation-delay: 180ms; }
+    .feed { animation-delay: 240ms; }
+
+    /* ============================================
+       A11Y: prefers-reduced-motion + focus-visible
+       ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    :focus-visible {
+      outline: 2px solid var(--p-500);
+      outline-offset: 3px;
+      border-radius: var(--r-sm);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; gap: var(--s-5); }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .actions { grid-template-columns: repeat(2, 1fr); }
+      .nav__links { display: none; }
+      .app { padding: var(--s-5); }
+      .nav__inner { padding: 14px var(--s-5); }
+    }
+    @media (max-width: 560px) {
+      .stats { grid-template-columns: 1fr; }
+      .actions { grid-template-columns: 1fr; }
+      .hero__title { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============== TOP NAV =============== -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__brand">
+        <span class="nav__brand-mark">AI</span>
+        <span>智启AI导师</span>
+      </a>
+      <ul class="nav__links">
+        <li><a class="nav__link active" href="#">今日</a></li>
+        <li><a class="nav__link" href="#">错题本</a></li>
+        <li><a class="nav__link" href="#">知识图谱</a></li>
+        <li><a class="nav__link" href="#">预测卷</a></li>
+        <li><a class="nav__link" href="#">AI 导师</a></li>
+      </ul>
+      <div class="nav__actions">
+        <button class="nav__icon-btn" id="themeBtn" aria-label="切换主题">
+          <i data-lucide="moon"></i>
+        </button>
+        <button class="nav__icon-btn" aria-label="搜索">
+          <i data-lucide="search"></i>
+        </button>
+        <button class="nav__icon-btn" aria-label="通知">
+          <i data-lucide="bell"></i>
+        </button>
+        <div style="
+          width: 36px; height: 36px; border-radius: 50%;
+          background: linear-gradient(135deg, var(--p-400), var(--p-700));
+          display: inline-flex; align-items: center; justify-content: center;
+          color: #fff; font-weight: 600; font-size: 14px;
+          font-family: var(--font-display);
+          cursor: pointer;
+        ">张</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =============== APP =============== -->
+  <main class="app">
+
+    <!-- =============== HERO =============== -->
+    <header class="hero">
+      <div>
+        <div class="hero__greeting">GOOD AFTERNOON · 周二 9月15日</div>
+        <h1 class="hero__title">小明, 今天的<br/><em>三次练习</em>已就绪</h1>
+        <p class="hero__sub">基于你的薄弱点, AI 已把今日任务安排好。先复习错题, 再做预测卷, 节奏刚刚好。</p>
+      </div>
+      <div class="streak" title="连续 12 天">
+        <span class="streak__icon"><i data-lucide="flame"></i></span>
+        <span class="streak__body">
+          <span class="streak__num">12</span>
+          <span class="streak__label">连续学习 · 天</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- =============== STATS =============== -->
+    <section class="section">
+      <div class="stats">
+        <div class="stat stat--accent">
+          <div class="stat__head">
+            <div class="stat__icon"><i data-lucide="target"></i></div>
+            <span class="stat__delta stat__delta--up">
+              <i data-lucide="trending-up"></i> +5 较上周
+            </span>
+          </div>
+          <div class="stat__value">78<span class="stat__value-suffix">/100</span></div>
+          <div class="stat__label">综合得分</div>
+          <div class="spark" aria-hidden="true">
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#d71920"/>
+                  <stop offset="1" stop-color="#d71920" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path class="spark__area" fill="url(#g1)" d="M0,22 L10,20 L20,24 L30,18 L40,16 L50,18 L60,14 L70,12 L80,10 L90,8 L100,6 L100,32 L0,32 Z"/>
+              <path class="spark__line" stroke="#d71920" d="M0,22 L10,20 L20,24 L30,18 L40,16 L50,18 L60,14 L70,12 L80,10 L90,8 L100,6"/>
+              <circle class="spark__dot" cx="100" cy="6" r="3" fill="#d71920"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat stat--blue">
+          <div class="stat__head">
+            <div class="stat__icon"><i data-lucide="alert-triangle"></i></div>
+            <span class="stat__delta stat__delta--up">
+              <i data-lucide="trending-down"></i> −2 较上周
+            </span>
+          </div>
+          <div class="stat__value">12<span class="stat__value-suffix">个</span></div>
+          <div class="stat__label">薄弱知识点</div>
+          <div class="spark" aria-hidden="true">
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#2563eb"/>
+                  <stop offset="1" stop-color="#2563eb" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path class="spark__area" fill="url(#g2)" d="M0,12 L10,14 L20,10 L30,16 L40,18 L50,14 L60,20 L70,22 L80,18 L90,24 L100,26 L100,32 L0,32 Z"/>
+              <path class="spark__line" stroke="#2563eb" d="M0,12 L10,14 L20,10 L30,16 L40,18 L50,14 L60,20 L70,22 L80,18 L90,24 L100,26"/>
+              <circle class="spark__dot" cx="100" cy="26" r="3" fill="#2563eb"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat stat--warm">
+          <div class="stat__head">
+            <div class="stat__icon"><i data-lucide="check-circle-2"></i></div>
+            <span class="stat__delta">
+              <i data-lucide="circle-dot"></i> 目标 40
+            </span>
+          </div>
+          <div class="stat__value">28<span class="stat__value-suffix">题</span></div>
+          <div class="stat__label">今日已完成 · 70%</div>
+          <div class="spark" aria-hidden="true">
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="g3" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#f59e0b"/>
+                  <stop offset="1" stop-color="#f59e0b" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path class="spark__area" fill="url(#g3)" d="M0,28 L10,24 L20,26 L30,20 L40,22 L50,16 L60,18 L70,12 L80,10 L90,6 L100,4 L100,32 L0,32 Z"/>
+              <path class="spark__line" stroke="#f59e0b" d="M0,28 L10,24 L20,26 L30,20 L40,22 L50,16 L60,18 L70,12 L80,10 L90,6 L100,4"/>
+              <circle class="spark__dot" cx="100" cy="4" r="3" fill="#f59e0b"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="stat stat--green">
+          <div class="stat__head">
+            <div class="stat__icon"><i data-lucide="clock"></i></div>
+            <span class="stat__delta">
+              <i data-lucide="circle-dot"></i> 目标 60
+            </span>
+          </div>
+          <div class="stat__value">42<span class="stat__value-suffix">分钟</span></div>
+          <div class="stat__label">今日学习时长</div>
+          <div class="spark" aria-hidden="true">
+            <svg viewBox="0 0 100 32" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="g4" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#059669"/>
+                  <stop offset="1" stop-color="#059669" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path class="spark__area" fill="url(#g4)" d="M0,24 L10,22 L20,18 L30,20 L40,16 L50,14 L60,10 L70,8 L80,12 L90,6 L100,8 L100,32 L0,32 Z"/>
+              <path class="spark__line" stroke="#059669" d="M0,24 L10,22 L20,18 L30,20 L40,16 L50,14 L60,10 L70,8 L80,12 L90,6 L100,8"/>
+              <circle class="spark__dot" cx="100" cy="8" r="3" fill="#059669"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== WEAK POINTS =============== -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>薄弱点 · 优先攻克</span>
+            <span class="section__eyebrow-num">12 个</span>
+          </div>
+          <h2 class="section__title">按学科看看, 你最该练的是</h2>
+        </div>
+        <a href="#" class="section__link">
+          全部薄弱点 <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="chips">
+        <button class="chip active" data-subj="chinese">语文 <span class="chip__count">1</span></button>
+        <button class="chip" data-subj="math">数学 <span class="chip__count">5</span></button>
+        <button class="chip" data-subj="english">英语 <span class="chip__count">1</span></button>
+        <button class="chip" data-subj="physics">物理 <span class="chip__count">3</span></button>
+        <button class="chip" data-subj="chemistry">化学 <span class="chip__count">2</span></button>
+        <button class="chip" data-subj="biology">生物 <span class="chip__count">0</span></button>
+        <button class="chip" data-subj="history">历史 <span class="chip__count">0</span></button>
+        <button class="chip" data-subj="geography">地理 <span class="chip__count">0</span></button>
+        <button class="chip" data-subj="politics">政治 <span class="chip__count">0</span></button>
+      </div>
+
+      <div class="weak-grid" id="weakGrid">
+        <!-- populated by JS -->
+      </div>
+    </section>
+
+    <!-- =============== ACTIONS =============== -->
+    <section class="section">
+      <div class="section__head">
+        <div class="section__heading">
+          <div class="section__eyebrow">
+            <span>下一步</span>
+            <span class="section__eyebrow-num">8 个出口</span>
+          </div>
+          <h2 class="section__title">从薄弱到掌握, 只差这几步</h2>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a href="#" class="action action--featured">
+          <span class="action__icon"><i data-lucide="play"></i></span>
+          <div class="action__title">开始今日练习</div>
+          <div class="action__desc">10 道精选题 · 预计 25 分钟 · 答错自动入错题本</div>
+          <span class="action__footer">立即开始 <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="#" class="action action--blue">
+          <span class="action__icon"><i data-lucide="camera"></i></span>
+          <div class="action__title">拍照解题</div>
+          <div class="action__desc">PWA 拍照, AI 即时识别并解析 · 支持手写印刷</div>
+          <span class="action__footer">打开相机 <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="#" class="action action--warm">
+          <span class="action__icon"><i data-lucide="file-text"></i></span>
+          <div class="action__title">生成预测卷</div>
+          <div class="action__desc">9 科覆盖 · 难度自适应 · 基于本周错题</div>
+          <span class="action__footer">选择学科 <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="#" class="action action--green">
+          <span class="action__icon"><i data-lucide="message-circle"></i></span>
+          <div class="action__title">AI 讲题</div>
+          <div class="action__desc">拍照或文字提问 · 即时拆解思路与考点</div>
+          <span class="action__footer">发起对话 <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="#" class="action action--ink">
+          <span class="action__icon"><i data-lucide="map"></i></span>
+          <div class="action__title">学习路径</div>
+          <div class="action__desc">基于 SRS 间隔重复 · 算法重温错题</div>
+          <span class="action__footer">查看路径 <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="#" class="action action--ink">
+          <span class="action__icon"><i data-lucide="book-x"></i></span>
+          <div class="action__title">错题本</div>
+          <div class="action__desc">247 道错题 · 12 个薄弱点已自动归类</div>
+          <span class="action__footer">查看全部 <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="#" class="action action--ink">
+          <span class="action__icon"><i data-lucide="network"></i></span>
+          <div class="action__title">知识图谱</div>
+          <div class="action__desc">跨学科联动 · 找到你的知识盲区</div>
+          <span class="action__footer">展开图谱 <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a href="#" class="action action--ink">
+          <span class="action__icon"><i data-lucide="pen-line"></i></span>
+          <div class="action__title">作文 AI 批改</div>
+          <div class="action__desc">4 维评分 · 锚定原文 · 立意/结构/语言/规范</div>
+          <span class="action__footer">上传作文 <i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- =============== FEED (LOOP CLOSURE) =============== -->
+    <section class="section">
+      <div class="feed">
+        <h3 class="feed__title">今日 Loop</h3>
+        <div class="feed-list">
+          <div class="feed-item feed-item--success">
+            <span class="feed-item__bullet"><i data-lucide="check"></i></span>
+            <div class="feed-item__body">
+              <div class="feed-item__text">
+                完成 <strong>三角函数综合</strong> 5 题精练 · 正确率 80%
+              </div>
+              <div class="feed-item__sub">薄弱度指数 7.2 → 6.4 · 间隔 +1 天</div>
+            </div>
+            <div class="feed-item__time">14:32</div>
+          </div>
+
+          <div class="feed-item feed-item--accent">
+            <span class="feed-item__bullet"><i data-lucide="camera"></i></span>
+            <div class="feed-item__body">
+              <div class="feed-item__text">
+                拍照加入 <strong>导数与切线</strong> 错题 · 涉及高频考点
+              </div>
+              <div class="feed-item__sub">3 道相似题已推荐 · 已加入今日复习</div>
+            </div>
+            <div class="feed-item__time">13:48</div>
+          </div>
+
+          <div class="feed-item feed-item--info">
+            <span class="feed-item__bullet"><i data-lucide="message-circle"></i></span>
+            <div class="feed-item__body">
+              <div class="feed-item__text">
+                AI 导师讲解 <strong>数列通项</strong> · 思路已保存
+              </div>
+              <div class="feed-item__sub">推荐做 2 道基础题巩固 → 进入预测卷</div>
+            </div>
+            <div class="feed-item__time">11:20</div>
+          </div>
+
+          <div class="feed-item feed-item--success">
+            <span class="feed-item__bullet"><i data-lucide="check"></i></span>
+            <div class="feed-item__body">
+              <div class="feed-item__text">
+                作文 <strong>《谈坚持》</strong> 批改完成 · 得分 46/50
+              </div>
+              <div class="feed-item__sub">立意 23 · 结构 9 · 语言 9 · 规范 5 · 复盘已生成</div>
+            </div>
+            <div class="feed-item__time">10:05</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =============== FOOTER =============== -->
+  <footer class="footer">
+    <p><strong>智启 AI 导师</strong> · 高考/中考错题诊断与预测学习平台</p>
+    <div class="footer__links">
+      <a class="footer__link" href="#">关于</a>
+      <a class="footer__link" href="#">方法论</a>
+      <a class="footer__link" href="#">省份政策</a>
+      <a class="footer__link" href="#">帮助中心</a>
+      <a class="footer__link" href="#">隐私</a>
+    </div>
+    <p style="margin-top: 16px; font-size: 11px;">仅供学习参考 · 拍错题判得准, 但真题才是检验标准</p>
+  </footer>
+
+  <!-- =============== BEHAVIOR =============== -->
+  <script>
+    // Init icons
+    lucide.createIcons();
+
+    // Theme toggle
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
+      lucide.createIcons();
+    });
+
+    // Subject chip switcher
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        renderWeak(chip.dataset.subj);
+      });
+    });
+
+    // Weak points data (per subject) — 9 学科
+    const weakData = {
+      chinese: [
+        { name: '病句辨析 · 搭配不当', diff: 3, freq: 'mid', wrong: 3, weight: 5.5, mastery: 55 },
+        { name: '文言文 · 词类活用', diff: 2, freq: 'low', wrong: 1, weight: 2.5, mastery: 71 },
+      ],
+      math: [
+        { name: '导数与切线', diff: 4, freq: 'high', wrong: 4, weight: 9.6, mastery: 32 },
+        { name: '三角函数综合应用', diff: 3, freq: 'high', wrong: 6, weight: 7.2, mastery: 41 },
+        { name: '数列通项与求和', diff: 4, freq: 'mid', wrong: 3, weight: 5.8, mastery: 48 },
+        { name: '立体几何 · 空间向量', diff: 2, freq: 'mid', wrong: 2, weight: 4.1, mastery: 56 },
+        { name: '概率与统计 · 分布列', diff: 3, freq: 'low', wrong: 1, weight: 2.8, mastery: 67 },
+      ],
+      english: [
+        { name: '阅读理解 · 推理题', diff: 3, freq: 'mid', wrong: 3, weight: 5.2, mastery: 47 },
+        { name: '应用文 · 邀请函', diff: 2, freq: 'low', wrong: 1, weight: 2.0, mastery: 75 },
+      ],
+      physics: [
+        { name: '电磁感应综合', diff: 5, freq: 'high', wrong: 5, weight: 9.1, mastery: 28 },
+        { name: '力学 · 牛顿定律应用', diff: 3, freq: 'high', wrong: 4, weight: 6.5, mastery: 44 },
+        { name: '电路 · 动态分析', diff: 4, freq: 'mid', wrong: 2, weight: 4.2, mastery: 51 },
+      ],
+      chemistry: [
+        { name: '化学反应速率与平衡', diff: 4, freq: 'high', wrong: 3, weight: 6.8, mastery: 39 },
+        { name: '有机化学 · 同分异构', diff: 3, freq: 'mid', wrong: 2, weight: 4.5, mastery: 52 },
+      ],
+      biology: [
+        { name: '代谢 · 光合作用', diff: 3, freq: 'high', wrong: 3, weight: 6.0, mastery: 35 },
+      ],
+      history: [
+        { name: '近代史 · 洋务运动', diff: 3, freq: 'mid', wrong: 2, weight: 4.5, mastery: 65 },
+        { name: '论述题 · 史观', diff: 4, freq: 'mid', wrong: 1, weight: 3.2, mastery: 72 },
+      ],
+      geography: [
+        { name: '等高线 · 地形判读', diff: 3, freq: 'mid', wrong: 2, weight: 4.0, mastery: 58 },
+        { name: '时区计算', diff: 3, freq: 'low', wrong: 1, weight: 2.5, mastery: 70 },
+      ],
+      politics: [
+        { name: '马原 · 矛盾特殊性', diff: 4, freq: 'low', wrong: 1, weight: 3.0, mastery: 78 },
+      ],
+    };
+
+    function renderWeak(subj) {
+      const grid = document.getElementById('weakGrid');
+      const items = weakData[subj] || [];
+      grid.innerHTML = items.map((k, i) => {
+        const lvl = k.weight >= 7 ? 'high' : k.weight >= 4 ? 'mid' : 'low';
+        const freqLabel = { high: '高频', mid: '中频', low: '低频' }[k.freq];
+        const w = Math.round(k.weight * 10);
+        return `
+          <article class="weak weak--${lvl}" tabindex="0">
+            <div class="weak__top">
+              <div class="weak__main">
+                <div class="weak__title">
+                  <span class="weak__name">${k.name}</span>
+                </div>
+                <div class="weak__meta">
+                  <span class="weak__meta-item">
+                    <span class="freq">
+                      <span class="freq__dot freq__dot--${k.freq}"></span>
+                      ${freqLabel}考点
+                    </span>
+                  </span>
+                  <span class="weak__meta-item">
+                    <i data-lucide="layers"></i>
+                    难度 ${k.diff}/5
+                  </span>
+                  <span class="weak__meta-item">
+                    <i data-lucide="history"></i>
+                    最近 ${k.wrong} 道错
+                  </span>
+                  <span class="weak__meta-item">
+                    <i data-lucide="percent"></i>
+                    掌握度 ${k.mastery}%
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="weak__bar">
+              <div class="weak__bar-track">
+                <div class="weak__bar-fill" style="width: ${w}%"></div>
+              </div>
+              <div class="weak__bar-meta">
+                <span class="weak__bar-score">${k.weight.toFixed(1)}</span>
+                <span>/10</span>
+              </div>
+              <span class="weak__cta">练习这题 <i data-lucide="arrow-right"></i></span>
+            </div>
+          </article>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    renderWeak('chinese');
+  </script>
+
+</body>
+</html>

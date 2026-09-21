@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 · 找不到这道题 · 智启AI导师</title>
+  <meta name="description" content="这道题可能已被删除, 或者链接有误" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
+      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
+      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
+      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
+      --w-50:#fffbeb; --w-500:#f59e0b;
+      --e-50:#fef2f2; --e-500:#ef4444;
+      --i-50:#f0f9ff; --i-500:#0284c7;
+
+      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
+      --line:#e8eaee; --line-soft:#f1f3f5;
+      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
+
+      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
+      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','DM Sans',monospace;
+
+      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
+      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
+      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
+      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
+      --sh-4: 0 24px 60px -16px rgba(11,18,32,.2), 0 6px 20px rgba(11,18,32,.06);
+      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
+      --ease-out: cubic-bezier(.22,1,.36,1);
+      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms; --dur-4:680ms;
+    }
+    html.dark {
+      --bg:#0a0d14; --surface:#131720; --surface-2:#1a1f2c; --surface-3:#232838;
+      --line:#232838; --line-soft:#1f2533;
+      --ink:#e8ecf3; --ink-2:#a8b0c2; --ink-3:#6f7689; --ink-4:#4d5468;
+      --p-50:#2a0e10; --p-100:#3a1316; --p-200:#4d1820;
+      --b-50:#0d1c33; --s-50:#052e22; --w-50:#2a1d05; --e-50:#2a0d0d; --i-50:#06222e;
+    }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.55;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      background:
+        radial-gradient(60% 80% at 30% 20%, color-mix(in srgb, var(--p-500) 4%, transparent) 0%, transparent 60%),
+        var(--bg);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+    /* ============ TOP NAV (minimal) ============ */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 17px; color: var(--ink);
+    }
+    .brand__mark {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 13px;
+      box-shadow: var(--sh-primary);
+    }
+    .nav__back {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px;
+      color: var(--ink-3);
+      font-size: 13px;
+      border-radius: var(--r-pill);
+      transition: background var(--dur-1), color var(--dur-1);
+    }
+    .nav__back:hover { background: var(--surface-2); color: var(--ink); }
+    .nav__back svg { width: 14px; height: 14px; }
+
+    /* ============ MAIN CONTENT ============ */
+    .main {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px 24px;
+    }
+    .container {
+      max-width: 920px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    /* ============ LEFT: ILLUSTRATION ============ */
+    .visual {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .visual__num {
+      font-family: var(--font-display);
+      font-size: clamp(160px, 20vw, 240px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -.04em;
+      color: var(--ink);
+      position: relative;
+      z-index: 2;
+    }
+    .visual__num em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .visual__num span {
+      position: relative;
+      display: inline-block;
+    }
+    .visual__num span::after {
+      content: '';
+      position: absolute; left: -8px; right: -8px; bottom: 16px;
+      height: 16px;
+      background: var(--p-200);
+      border-radius: 8px;
+      z-index: -1;
+      transform: skewX(-8deg);
+    }
+    html.dark .visual__num span::after { background: var(--p-800); }
+
+    /* Floating shapes around 404 */
+    .shape {
+      position: absolute;
+      animation: float 4s ease-in-out infinite;
+    }
+    .shape:nth-child(2) { top: 8%;  left: 12%;  animation-delay: 0s; }
+    .shape:nth-child(3) { top: 24%; right: 8%; animation-delay: 1s; }
+    .shape:nth-child(4) { bottom: 14%; left: 18%; animation-delay: 2s; }
+    .shape:nth-child(5) { bottom: 8%;  right: 18%; animation-delay: 0.5s; }
+    .shape:nth-child(6) { top: 50%;  left: 6%;   animation-delay: 1.5s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-16px) rotate(8deg); }
+    }
+
+    .shape--book {
+      width: 48px; height: 56px;
+      background: linear-gradient(135deg, var(--b-500), var(--b-700));
+      border-radius: 6px;
+      box-shadow: var(--sh-2);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff;
+    }
+    .shape--pencil {
+      width: 8px; height: 56px;
+      background: var(--w-500);
+      border-radius: 2px;
+      box-shadow: var(--sh-2);
+      transform: rotate(20deg);
+    }
+    .shape--ruler {
+      width: 56px; height: 12px;
+      background: linear-gradient(135deg, var(--s-500), var(--s-700));
+      border-radius: 4px;
+      box-shadow: var(--sh-2);
+      transform: rotate(-15deg);
+    }
+    .shape--pi {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--p-100), var(--p-200));
+      color: var(--p-700);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 24px; font-weight: 700;
+      box-shadow: var(--sh-2);
+    }
+    .shape--camera {
+      width: 56px; height: 48px;
+      background: linear-gradient(135deg, var(--i-500), var(--b-700));
+      border-radius: 8px;
+      box-shadow: var(--sh-2);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff;
+    }
+
+    /* ============ RIGHT: CONTENT ============ */
+    .content {
+      max-width: 440px;
+    }
+    .content__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .12em;
+      padding: 4px 10px;
+      background: var(--p-50);
+      color: var(--p-700);
+      border-radius: var(--r-pill);
+      margin-bottom: 16px;
+    }
+    html.dark .content__eyebrow { background: var(--p-100); color: var(--p-200); }
+    .content__title {
+      font-family: var(--font-display);
+      font-size: 38px; font-weight: 700;
+      line-height: 1.1; letter-spacing: -.025em;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .content__title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--p-500), var(--p-700));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .content__desc {
+      font-size: 15px;
+      color: var(--ink-2);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .actions {
+      display: flex; flex-direction: column; gap: 8px;
+      margin-bottom: 24px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px;
+      height: 48px;
+      padding: 0 20px;
+      border-radius: var(--r-pill);
+      font-size: 14px; font-weight: 600;
+      transition: all var(--dur-1);
+    }
+    .btn--primary {
+      background: linear-gradient(135deg, var(--p-500), var(--p-600));
+      color: #fff;
+      box-shadow: var(--sh-primary);
+    }
+    .btn--primary:hover { transform: translateY(-1px); }
+    .btn--ghost {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    .btn--ghost:hover { background: var(--surface-2); }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* ============ SUGGESTIONS (4 popular pages) ============ */
+    .suggest {
+      padding-top: 24px;
+      border-top: 1px solid var(--line-soft);
+    }
+    .suggest__title {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .suggest__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .suggest-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      transition: all var(--dur-1);
+    }
+    .suggest-link:hover {
+      border-color: var(--subj-color, var(--p-500));
+      background: color-mix(in srgb, var(--subj-color, var(--p-500)) 4%, var(--surface));
+    }
+    .suggest-link__icon {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--subj-color, var(--p-500)) 12%, transparent);
+      color: var(--subj-color, var(--p-500));
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .suggest-link__icon svg { width: 14px; height: 14px; }
+    .suggest-link__main { min-width: 0; flex: 1; }
+    .suggest-link__name {
+      font-size: 12px; font-weight: 600;
+      color: var(--ink);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .suggest-link__arrow {
+      color: var(--ink-3);
+    }
+    .suggest-link__arrow svg { width: 12px; height: 12px; }
+
+    /* ============ OFFLINE BANNER (top sticky) ============ */
+    .offline-banner {
+      position: fixed;
+      top: 16px; left: 50%; transform: translateX(-50%);
+      max-width: 480px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--w-500);
+      border-radius: var(--r-md);
+      box-shadow: var(--sh-3);
+      display: none;
+      align-items: center; gap: 12px;
+      z-index: 100;
+    }
+    .offline-banner.show { display: flex; }
+    .offline-banner__icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--w-50);
+      color: var(--w-700);
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    html.dark .offline-banner__icon { background: rgba(245, 158, 11, 0.16); color: var(--w-500); }
+    .offline-banner__icon svg { width: 16px; height: 16px; }
+    .offline-banner__main { flex: 1; }
+    .offline-banner__title {
+      font-size: 12px; font-weight: 600;
+      color: var(--ink);
+    }
+    .offline-banner__desc {
+      font-size: 11px;
+      color: var(--ink-3);
+    }
+    .offline-banner__retry {
+      padding: 4px 10px;
+      background: var(--w-500);
+      color: #fff;
+      border-radius: var(--r-pill);
+      font-size: 11px; font-weight: 600;
+    }
+
+    /* ============ ANIMATIONS ============ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: none; }
+    }
+    .container > * { animation: fadeUp 600ms var(--ease-out) both; }
+    .container > *:nth-child(2) { animation-delay: 100ms; }
+    .shape { animation: float 4s ease-in-out infinite; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 800px) {
+      .container { grid-template-columns: 1fr; gap: 24px; }
+      .visual { aspect-ratio: 2 / 1; max-width: 320px; margin: 0 auto; }
+      .visual__num { font-size: 120px; }
+      .shape:nth-child(2), .shape:nth-child(3), .shape:nth-child(4), .shape:nth-child(5), .shape:nth-child(6) { display: none; }
+      .content { text-align: center; margin: 0 auto; max-width: 480px; }
+      .suggest__grid { grid-template-columns: 1fr; }
+      .actions { align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ TOP NAV ============ -->
+  <nav class="nav">
+    <a href="landing.html" class="brand">
+      <span class="brand__mark">AI</span>
+      <span>智启AI导师</span>
+    </a>
+    <a href="javascript:history.back()" class="nav__back">
+      <i data-lucide="arrow-left"></i>
+      返回上页
+    </a>
+  </nav>
+
+  <!-- ============ OFFLINE BANNER (toggled via JS) ============ -->
+  <div class="offline-banner" id="offlineBanner" role="status">
+    <div class="offline-banner__icon">
+      <i data-lucide="cloud-off"></i>
+    </div>
+    <div class="offline-banner__main">
+      <div class="offline-banner__title">网络已断开 · 离线模式</div>
+      <div class="offline-banner__desc">本地缓存可继续查看已下载内容</div>
+    </div>
+    <button class="offline-banner__retry" id="retryBtn">重试</button>
+  </div>
+
+  <main class="main">
+    <div class="container">
+
+      <!-- ============ LEFT: 404 ILLUSTRATION ============ -->
+      <section class="visual" aria-hidden="true">
+        <div class="shape shape--book">
+          <i data-lucide="book-open" style="width: 24px; height: 24px;"></i>
+        </div>
+        <div class="shape shape--pencil"></div>
+        <div class="shape shape--ruler"></div>
+        <div class="shape shape--pi">π</div>
+        <div class="shape shape--camera">
+          <i data-lucide="camera" style="width: 24px; height: 24px;"></i>
+        </div>
+        <div class="visual__num" aria-hidden="true"><em>4</em><span>0</span><em>4</em></div>
+      </section>
+
+      <!-- ============ RIGHT: CONTENT ============ -->
+      <section class="content">
+        <div class="content__eyebrow">NOT FOUND · HTTP 404</div>
+        <h1 class="content__title">找不到<em>这道题</em></h1>
+        <p class="content__desc">
+          它可能已被删除, 或者链接有误。<br/>
+          AI 已把过去 247 道错题都保管好了, 回到 Loop 继续学习吧。
+        </p>
+
+        <div class="actions">
+          <a href="practice-hub-v2.html" class="btn btn--primary">
+            <i data-lucide="home"></i>
+            回到 Loop Hub
+          </a>
+          <button class="btn btn--ghost" onclick="history.back()">
+            <i data-lucide="arrow-left"></i>
+            返回上页
+          </button>
+          <button class="btn btn--ghost" id="searchBtn">
+            <i data-lucide="search"></i>
+            搜题
+          </button>
+        </div>
+
+        <!-- 推荐跳转 — 9 学科色卡 -->
+        <div class="suggest">
+          <div class="suggest__title">
+            <i data-lucide="compass" style="width:14px;height:14px;"></i>
+            或前往 9 学科
+          </div>
+          <div class="suggest__grid" id="suggestGrid"></div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    // 9 学科 — 严格顺序
+    const SUBJECTS = [
+      { code: 'chinese',   name: '语文', icon: 'book-open-text', color: '#c2410c', href: 'mastery.html' },
+      { code: 'math',      name: '数学', icon: 'function-square', color: '#d71920', href: 'mastery.html?subject=math' },
+      { code: 'english',   name: '英语', icon: 'languages',     color: '#7c3aed', href: 'mastery.html?subject=english' },
+      { code: 'physics',   name: '物理', icon: 'atom',          color: '#2563eb', href: 'mastery.html?subject=physics' },
+      { code: 'chemistry', name: '化学', icon: 'flask-conical', color: '#059669', href: 'mastery.html?subject=chemistry' },
+      { code: 'biology',   name: '生物', icon: 'leaf',          color: '#0891b2', href: 'mastery.html?subject=biology' },
+      { code: 'history',   name: '历史', icon: 'scroll',        color: '#b45309', href: 'mastery.html?subject=history' },
+      { code: 'geography', name: '地理', icon: 'mountain',      color: '#65a30d', href: 'mastery.html?subject=geography' },
+      { code: 'politics',  name: '政治', icon: 'scale',         color: '#be185d', href: 'mastery.html?subject=politics' },
+    ];
+
+    document.getElementById('suggestGrid').innerHTML = SUBJECTS.map(s => `
+      <a href="${s.href}" class="suggest-link" style="--subj-color:${s.color}">
+        <div class="suggest-link__icon">
+          <i data-lucide="${s.icon}"></i>
+        </div>
+        <div class="suggest-link__main">
+          <div class="suggest-link__name">${s.name}</div>
+        </div>
+        <div class="suggest-link__arrow">
+          <i data-lucide="arrow-right"></i>
+        </div>
+      </a>
+    `).join('');
+    lucide.createIcons();
+
+    // 搜题按钮 → 跳错题本 (有搜索功能)
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      window.location.href = 'wrong-book.html';
+    });
+
+    // 离线检测 (PWA 关键)
+    const offlineBanner = document.getElementById('offlineBanner');
+    const retryBtn = document.getElementById('retryBtn');
+
+    function updateOnlineStatus() {
+      if (navigator.onLine) {
+        offlineBanner.classList.remove('show');
+      } else {
+        offlineBanner.classList.add('show');
+      }
+    }
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    retryBtn.addEventListener('click', () => {
+      if (navigator.onLine) {
+        offlineBanner.classList.remove('show');
+        location.reload();
+      }
+    });
+    updateOnlineStatus();
+  </script>
+
+</body>
+</html>
