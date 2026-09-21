@@ -188,6 +188,25 @@ await R.load();
 await tick(0);
 check('统计失败不影响复习', R.getState(), 'success');
 
+// 13. 接口返回非数值时不得进入 HTML 路径（防注入 / 防错渲染）
+window.AIAPI.srsQueue = () => Promise.resolve({ queue: QUEUE, total: 2 });
+await R.load();
+await tick(0);
+window.AIAPI.srsReview = () =>
+  Promise.resolve({
+    new_interval: '<img src=x onerror="window.__pwned=1">',
+    mastery_delta: '0.08',
+    group_bonus: '<script>window.__pwned=1</script>',
+  });
+doc.querySelector('button[data-quality="4"]').dispatchEvent(new window.Event('click', { bubbles: true }));
+await tick(30);
+const fb = doc.getElementById('feedback');
+check('恶意字符串未生成元素', fb.querySelectorAll('img, script').length, 0);
+check('未执行注入脚本', window.__pwned, undefined);
+check('字符串被降级为 ?', /下次复习：\? 天后/.test(fb.textContent), true);
+check('非数值 delta 被忽略', /掌握度/.test(fb.textContent), false);
+await tick(900);
+
 for (const r of results) {
   console.log(`${r.ok ? 'OK  ' : 'FAIL'} ${r.name.padEnd(26)} 实际=${JSON.stringify(r.got)}` + (r.ok ? '' : ` 期望=${JSON.stringify(r.want)}`));
 }

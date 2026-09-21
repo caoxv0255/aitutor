@@ -43,6 +43,11 @@
     return SUBJECT_NAMES[code] || code || '未分类';
   }
 
+  /** 只接受有限数值，其余一律当作"没有" —— 接口返回值不得直接进 DOM/HTML 路径 */
+  function numOr(v) {
+    return typeof v === 'number' && isFinite(v) ? v : null;
+  }
+
   /* ── 状态机 ─────────────────────────────────────────────────────────── */
   function setState(name, ctx) {
     return machine.set(name, ctx);
@@ -160,14 +165,25 @@
     return global.AIAPI.srsReview(payload)
       .then(function (data) {
         submitting = false;
-        const delta = data && typeof data.mastery_delta === 'number' ? data.mastery_delta : null;
+        const delta = numOr(data && data.mastery_delta);
+        const interval = numOr(data && data.new_interval);
+        const bonus = numOr(data && data.group_bonus);
+
+        // 不拼接 innerHTML：接口返回值即使今天是数字，也不该进入 HTML 解析路径。
+        // 统一按"数值可信、其余一律当文本"处理，见 SPEC-DATA G6 同级的类型边界纪律。
         els.feedback.hidden = false;
-        els.feedback.innerHTML =
-          '下次复习：<b>' +
-          (data && data.new_interval !== undefined ? data.new_interval : '?') +
-          '</b> 天后' +
-          (delta === null ? '' : ' · 掌握度 <b>' + (delta >= 0 ? '+' : '') + delta + '</b>') +
-          (data && data.group_bonus ? ' · 相似题加分 <b>+' + data.group_bonus + '</b>' : '');
+        els.feedback.textContent = '';
+        els.feedback.appendChild(document.createTextNode('下次复习：'));
+        els.feedback.appendChild(global.AIUI.el('b', null, interval === null ? '?' : String(interval)));
+        els.feedback.appendChild(document.createTextNode(' 天后'));
+        if (delta !== null) {
+          els.feedback.appendChild(document.createTextNode(' · 掌握度 '));
+          els.feedback.appendChild(global.AIUI.el('b', null, (delta >= 0 ? '+' : '') + delta));
+        }
+        if (bonus !== null && bonus > 0) {
+          els.feedback.appendChild(document.createTextNode(' · 相似题加分 '));
+          els.feedback.appendChild(global.AIUI.el('b', null, '+' + bonus));
+        }
         els.qualityLabel.textContent = '已记录，0.8 秒后进入下一组…';
 
         return new global.Promise(function (resolve) {
