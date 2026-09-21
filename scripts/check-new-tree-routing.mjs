@@ -23,13 +23,21 @@ const BASE = process.env.BCT_URL || 'http://localhost:3002';
 const UA = 'Mozilla/5.0 (X11; Linux x86_64)';
 
 /**
- * 与 server.js 的 DEFAULT_NEW_TREE_PAGES 保持一致。
- * 若环境变量 NEW_TREE_PAGES 覆盖过, 以覆盖值为准（门禁要检查"实际部署的东西"）。
+ * 接管清单**从 server.js 读取**（唯一真相源），不在本文件维护副本 ——
+ * 副本必然与真相漂移：曾实测"server.js 已加 dashboard.html，门禁仍报 6 页"，
+ * 于是新页刚好落在门禁射程之外。环境变量 NEW_TREE_PAGES 仍可覆盖（检查实际部署）。
  */
-const PAGES = (
-  process.env.NEW_TREE_PAGES ||
-  'login.html,register.html,photo-solve.html,wrong-book.html,review-session.html,mastery.html'
-)
+function pagesFromServer() {
+  const src = fs.readFileSync('server.js', 'utf8');
+  const m = src.match(/DEFAULT_NEW_TREE_PAGES\s*=\s*'([^']+)'/);
+  if (!m) throw new Error('无法从 server.js 解析 DEFAULT_NEW_TREE_PAGES');
+  return m[1]
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+const PAGES = (process.env.NEW_TREE_PAGES || pagesFromServer().join(','))
   .split(',')
   .map((s) => s.trim())
   .filter(Boolean);

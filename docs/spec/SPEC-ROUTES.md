@@ -130,7 +130,11 @@
 | 页 | 状态 | 测试 | 备注 |
 |---|---|---|---|
 | `photo-solve.html` | ✅ | `tests/frontend/photo-solve-states.test.mjs`（28 项） | 原 `pwa-photo.html` / `vision-result.html` 仍是静态稿，待本页收编后废弃 |
-| `wrong-book.html` | ✅ | `tests/frontend/wrong-book-states.test.mjs`（33 项） | 覆盖原静态稿；受 G1 缺口限制暂不支持标记复习/删除 |
+| `wrong-book.html` | ✅ | `tests/frontend/wrong-book-states.test.mjs`（44 项） | 覆盖原静态稿；G1 已关闭，支持标记复习/删除 |
+| `dashboard.html` | ✅ | `tests/frontend/dashboard-states.test.mjs`（50 项） | 接 `/api/user/dashboard` + `/api/user/today`；今日任务失败不拖垮整页 |
+
+> 批次 1-3 已建页面均已在 `server.js` 的 `NEW_TREE_PAGES` 中接管（根路径可达）；
+> 接管清单由门禁 `scripts/check-new-tree-routing.mjs` 从 `server.js` 读取后逐页校验 md5。
 
 > 老对象同样的三件套 —— 每页只写差异部分，代价约 1 小时/页，而不是重写一套样式与状态机。
 

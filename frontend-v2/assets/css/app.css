@@ -879,3 +879,90 @@ video {
   font-weight: 700;
   color: var(--ink);
 }
+
+/* ── 仪表盘（dashboard） ─────────────────────────────────────────────── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.stat-cell {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 14px 16px;
+}
+
+.stat-cell b {
+  display: block;
+  font-family: var(--font-num);
+  font-size: 24px;
+  color: var(--brand-red);
+  line-height: 1.2;
+}
+
+.stat-cell span {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.task-row:first-child {
+  border-top: 0;
+}
+
+.task-name {
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.task-status {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.task-status--done {
+  color: var(--ch-green);
+}
+
+.dist-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.dist-label {
+  flex: none;
+  width: 64px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.dist-bar {
+  flex: 1;
+}
+
+.dist-count {
+  flex: none;
+  font-family: var(--font-num);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 767px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="description" content="学习仪表盘 — 今日任务、整体进度、薄弱知识点与学科分布">
+  <title>学习仪表盘 · 智启AI导师</title>
+  <link rel="stylesheet" href="/assets/v2/css/app.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a href="/">← 首页</a>
+      <span class="eyebrow">Dashboard</span>
+    </header>
+
+    <h1>学习仪表盘</h1>
+    <p class="lede" id="greeting">看看今天的任务，以及最近的练习情况。</p>
+
+    <!-- 六态：成功 / 加载 / 空 / 错误 / 未登录 / 离线 -->
+    <div id="state-region" aria-live="polite">
+      <section class="state state--empty" data-state="empty">
+        <div class="state-card">
+          <h2>还没有学习记录</h2>
+          <p id="empty-copy">先拍一张卷子，或从今日复习开始。</p>
+          <p>
+            <a class="btn btn-ghost" href="/photo-solve.html">去拍照解题</a>
+            <a class="btn btn-ghost" href="/review-session.html">去今日复习</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="state state--loading" data-state="loading">
+        <div class="state-card">
+          <h2>正在加载学习数据…</h2>
+          <p class="skeleton skeleton--w90"></p>
+          <p class="skeleton skeleton--w70"></p>
+          <p class="skeleton skeleton--w50"></p>
+        </div>
+      </section>
+
+      <section class="state state--success" data-state="success">
+        <div class="stat-grid" id="stat-grid"></div>
+
+        <h2 class="section-title">今日任务</h2>
+        <div class="card" id="task-list"></div>
+
+        <h2 class="section-title">薄弱知识点</h2>
+        <div class="card" id="weak-list"></div>
+
+        <h2 class="section-title">学科分布</h2>
+        <div class="card" id="dist-list"></div>
+
+        <p class="form-alt">
+          <a href="/mastery.html">查看掌握度</a> ·
+          <a href="/wrong-book.html">错题本</a> ·
+          <a href="/review-session.html">今日复习</a>
+        </p>
+      </section>
+
+      <section class="state state--error" data-state="error">
+        <div class="state-card">
+          <h2>加载失败</h2>
+          <p id="error-copy">服务暂时不可用。</p>
+          <p><button class="btn btn-ghost" id="retry-btn" type="button">重试</button></p>
+        </div>
+      </section>
+
+      <section class="state state--auth" data-state="auth">
+        <div class="state-card">
+          <h2>需要登录</h2>
+          <p>学习数据属于个人账号，请先登录。</p>
+          <p><a class="btn" href="/login.html?next=dashboard.html">去登录</a></p>
+        </div>
+      </section>
+
+      <section class="state state--offline" data-state="offline">
+        <div class="state-card">
+          <h2>当前处于离线状态</h2>
+          <p>仪表盘需要联网统计，恢复网络后重试。</p>
+          <p><button class="btn btn-ghost" id="offline-retry-btn" type="button">重新连接</button></p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="/assets/v2/js/ui.js"></script>
+  <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/dashboard.js"></script>
+</body>
+</html>

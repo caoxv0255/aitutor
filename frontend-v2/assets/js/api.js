@@ -155,6 +155,32 @@
       return request('/api/srs/engine/stats', { signal: signal });
     },
 
+    /* ── 仪表盘 / 今日任务 / 签到 ───────────────────────────────────────── */
+
+    /**
+     * 学习仪表盘：GET /api/user/dashboard
+     * → { user, overview:{total_wrong_questions,total_practice,avg_accuracy,study_days},
+     *     subject_distribution:[{subject,count,percentage}],
+     *     daily_practice:[{date,practice_count,accuracy}],
+     *     monthly_trend, weak_points:[{id,name,subject,wrong_count,practice_count,accuracy,level}] }
+     *
+     * ⚠️ 标度（G6-b 同类）：本端点的 accuracy / percentage 是**后端已算好的百分比字符串**
+     * （如 "60.0"），与 /api/knowledge/mastery 的 0..1 不同 —— 页面不要再乘。
+     */
+    userDashboard: function (signal) {
+      return request('/api/user/dashboard', { signal: signal });
+    },
+
+    /** 今日任务：GET /api/user/today → { date, streak_days, tasks[] } */
+    todayTasks: function (signal) {
+      return request('/api/user/today', { signal: signal });
+    },
+
+    /** 签到状态：GET /api/gamification/checkin/status */
+    checkinStatus: function (signal) {
+      return request('/api/gamification/checkin/status', { signal: signal });
+    },
+
     /* ── 知识掌握度 ────────────────────────────────────────────────────── */
 
     /**
