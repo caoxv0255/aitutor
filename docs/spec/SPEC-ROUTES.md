@@ -54,7 +54,7 @@
 | `subject-picker.html` | `GET/PUT /api/user/subjects` | |
 | `subject-detail.html` | `GET /api/knowledge/mastery`、`GET /api/knowledge/points` | |
 | `knowledge-star.html` | `GET /api/knowledge/star-map` | |
-| `review-session.html` | `GET /api/review/session/history`、`GET /api/review/weak-points`、`/api/srs/*` | 切片链路的复习端 |
+| `review-session.html` | `GET /api/srs/engine/queue`、`POST /api/srs/engine/review`、`GET /api/srs/engine/stats` | ✅ 已按新架构重建（46 项验收）；原静态稿里的半接线仅作接口样本 |
 | `learning-journey.html` | `GET /api/analytics/learning-path`、`GET /api/loop/summary` | |
 | `predictive-paper.html` | `GET /api/exam/papers`、`POST /api/exam/pdf/generate` | |
 | `pwa-photo.html` | `POST /api/vision/batch-parse` | **切片链路入口**，被 `photo-solve.html` 取代 |

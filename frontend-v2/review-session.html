@@ -1,770 +1,109 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#d71920" />
-  <title>复习 · 智启AI导师</title>
-  <meta name="description" content="SM2 间隔重复算法 · 错题 1 + 相似题 3 = 1 组 · 一键评分 · 0-5 回忆质量" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;600;700&display=swap" />
-
-  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
-
-  <style>
-    :root {
-      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
-      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
-      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
-      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
-      --w-50:#fff7ed; --w-500:#f59e0b;
-      --e-50:#fef2f2; --e-500:#ef4444;
-
-      --ch-orange:#c2410c; --ch-red:#d71920; --ch-purple:#7c3aed;
-      --ch-blue:#2563eb; --ch-green:#059669; --ch-cyan:#0891b2;
-      --ch-amber:#b45309; --ch-lime:#65a30d; --ch-pink:#be185d;
-
-      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
-      --line:#e8eaee; --line-soft:#f1f3f5;
-      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
-
-      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
-      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
-      --font-mono:'JetBrains Mono','DM Sans',monospace;
-      --font-serif:'Noto Serif SC','DM Sans',serif;
-
-      --r-sm:10px; --r-md:16px; --r-lg:22px; --r-xl:28px; --r-pill:9999px;
-      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
-      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
-      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
-      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
-      --ease-out: cubic-bezier(.22,1,.36,1);
-      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms; --dur-4:680ms;
-    }
-
-    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 16px; line-height: 1.55;
-      min-height: 100vh;
-      min-height: 100dvh;
-      overscroll-behavior: contain;
-    }
-    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
-
-    /* ============ TOP PROGRESS BAR ============ */
-    .topbar {
-      position: sticky;
-      top: 0; z-index: 30;
-      background: var(--surface);
-      border-bottom: 1px solid var(--line-soft);
-      padding: 12px 16px;
-      padding-top: calc(12px + env(safe-area-inset-top, 0));
-    }
-    .topbar__row {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-    .topbar__exit {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 6px 12px;
-      background: var(--surface-2);
-      border-radius: var(--r-pill);
-      font-size: 12px;
-      color: var(--ink-2);
-      font-weight: 500;
-      transition: background var(--dur-1);
-    }
-    .topbar__exit:hover { background: var(--surface-3); }
-    .topbar__exit svg { width: 14px; height: 14px; }
-    .topbar__meta {
-      font-size: 12px;
-      color: var(--ink-3);
-      font-variant-numeric: tabular-nums;
-      font-weight: 500;
-    }
-    .topbar__meta strong { color: var(--ink); font-weight: 600; }
-    .topbar__sub {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--ink-3);
-      letter-spacing: .04em;
-    }
-
-    /* ============ CARD STAGE ============ */
-    .stage {
-      padding: 24px 16px 32px;
-      max-width: 520px;
-      margin: 0 auto;
-      display: flex; flex-direction: column;
-      gap: 16px;
-    }
-
-    /* 卡片翻转 */
-    .card {
-      perspective: 1200px;
-      min-height: 380px;
-      cursor: pointer;
-    }
-    .card__inner {
-      position: relative;
-      width: 100%; min-height: 380px;
-      transition: transform var(--dur-3) var(--ease-out);
-      transform-style: preserve-3d;
-    }
-    .card.flipped .card__inner { transform: rotateY(180deg); }
-
-    .card__face {
-      position: absolute;
-      inset: 0;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-lg);
-      padding: 24px 20px;
-      box-shadow: var(--sh-1);
-      backface-visibility: hidden;
-      display: flex; flex-direction: column;
-    }
-    .card__face--back { transform: rotateY(180deg); }
-
-    /* FRONT */
-    .card__tag {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 10px;
-      background: color-mix(in srgb, var(--card-color, var(--p-500)) 12%, transparent);
-      color: var(--card-color, var(--p-500));
-      border-radius: var(--r-pill);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .04em;
-      align-self: flex-start;
-      margin-bottom: 12px;
-    }
-    .card__tag svg { width: 12px; height: 12px; }
-    .card__difficulty {
-      display: inline-flex; gap: 2px; align-items: center;
-      margin-left: 6px;
-    }
-    .card__difficulty svg {
-      width: 11px; height: 11px;
-      color: var(--w-500);
-    }
-    .card__stem {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      line-height: 1.7;
-      color: var(--ink);
-      flex: 1;
-      margin-bottom: 16px;
-      overflow: hidden;
-    }
-    .card__hint {
-      font-size: 12px;
-      color: var(--ink-3);
-      text-align: center;
-      padding-top: 12px;
-      border-top: 1px dashed var(--line-soft);
-    }
-    .card__hint svg { width: 12px; height: 12px; vertical-align: -2px; margin-right: 4px; }
-
-    /* BACK */
-    .card__answer {
-      font-family: var(--font-mono);
-      font-size: 18px;
-      font-weight: 600;
-      padding: 16px;
-      background: color-mix(in srgb, var(--card-color, var(--p-500)) 6%, var(--surface-2));
-      border-radius: var(--r-sm);
-      color: var(--card-color, var(--p-500));
-      border-left: 4px solid var(--card-color, var(--p-500));
-      margin-bottom: 12px;
-    }
-    .card__explain {
-      font-size: 13px;
-      color: var(--ink-2);
-      line-height: 1.6;
-      flex: 1;
-      padding: 12px 16px;
-      background: var(--surface-2);
-      border-radius: var(--r-sm);
-    }
-    .card__explain strong {
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    /* ============ 0-5 评分控件 ★ 红线 ============ */
-    .rate {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-lg);
-      padding: 20px;
-      box-shadow: var(--sh-1);
-    }
-    .rate__head {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 4px;
-    }
-    .rate__title {
-      font-family: var(--font-display);
-      font-size: 16px; font-weight: 600;
-      color: var(--ink);
-    }
-    .rate__hint {
-      font-size: 11px;
-      color: var(--ink-3);
-      letter-spacing: .04em;
-    }
-    .rate__hint strong { color: var(--ink); font-weight: 600; }
-    .rate__desc {
-      font-size: 12px;
-      color: var(--ink-3);
-      margin-bottom: 14px;
-    }
-    .rate__options {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 6px;
-    }
-    .rate__btn {
-      min-height: 56px;
-      padding: 6px 4px;
-      border: 2px solid var(--line);
-      border-radius: var(--r-md);
-      background: var(--surface);
-      cursor: pointer;
-      transition: all var(--dur-1);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 2px;
-      font-family: var(--font-display);
-    }
-    .rate__btn:hover { transform: translateY(-2px); box-shadow: var(--sh-1); }
-    .rate__btn:active { transform: scale(0.96); }
-    .rate__btn-num {
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -.02em;
-      color: var(--ink);
-    }
-    .rate__btn-label {
-      font-size: 10px;
-      font-weight: 500;
-      color: var(--ink-3);
-      line-height: 1.1;
-    }
-    .rate__btn[data-q="0"]:hover { border-color: var(--e-500); }
-    .rate__btn[data-q="0"].selected { background: var(--e-500); border-color: var(--e-500); }
-    .rate__btn[data-q="0"].selected .rate__btn-num,
-    .rate__btn[data-q="0"].selected .rate__btn-label { color: #fff; }
-    .rate__btn[data-q="1"]:hover { border-color: var(--w-500); }
-    .rate__btn[data-q="1"].selected { background: var(--w-500); border-color: var(--w-500); }
-    .rate__btn[data-q="1"].selected .rate__btn-num,
-    .rate__btn[data-q="1"].selected .rate__btn-label { color: #fff; }
-    .rate__btn[data-q="2"]:hover { border-color: var(--w-700); }
-    .rate__btn[data-q="2"].selected { background: var(--w-700); border-color: var(--w-700); }
-    .rate__btn[data-q="2"].selected .rate__btn-num,
-    .rate__btn[data-q="2"].selected .rate__btn-label { color: #fff; }
-    .rate__btn[data-q="3"]:hover { border-color: var(--i-500); }
-    .rate__btn[data-q="3"].selected { background: var(--i-500); border-color: var(--i-500); }
-    .rate__btn[data-q="3"].selected .rate__btn-num,
-    .rate__btn[data-q="3"].selected .rate__btn-label { color: #fff; }
-    .rate__btn[data-q="4"]:hover { border-color: var(--s-500); }
-    .rate__btn[data-q="4"].selected { background: var(--s-500); border-color: var(--s-500); }
-    .rate__btn[data-q="4"].selected .rate__btn-num,
-    .rate__btn[data-q="4"].selected .rate__btn-label { color: #fff; }
-    .rate__btn[data-q="5"]:hover { border-color: var(--s-700); }
-    .rate__btn[data-q="5"].selected { background: linear-gradient(135deg, var(--s-500), var(--s-700)); border-color: var(--s-700); }
-    .rate__btn[data-q="5"].selected .rate__btn-num,
-    .rate__btn[data-q="5"].selected .rate__btn-label { color: #fff; }
-
-    /* 答题区 */
-    .answer-input {
-      margin-top: 12px;
-      padding: 12px;
-      background: var(--surface-2);
-      border-radius: var(--r-sm);
-      border: 1px solid var(--line-soft);
-    }
-    .answer-input__label {
-      font-size: 11px;
-      color: var(--ink-3);
-      letter-spacing: .04em;
-      margin-bottom: 6px;
-    }
-    .answer-input__field {
-      width: 100%;
-      padding: 8px 12px;
-      background: var(--surface);
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-sm);
-      font-family: var(--font-mono);
-      font-size: 14px;
-      color: var(--ink);
-      outline: none;
-    }
-    .answer-input__field:focus {
-      border-color: var(--card-color, var(--p-500));
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--card-color, var(--p-500)) 15%, transparent);
-    }
-
-    /* ============ FOOTER ============ */
-    .footer {
-      display: flex; gap: 10px;
-      padding: 0 16px calc(16px + env(safe-area-inset-bottom, 0));
-      max-width: 560px;
-      margin: 0 auto;
-    }
-    .footer__btn {
-      display: flex; align-items: center; justify-content: center;
-      gap: 6px;
-      height: 52px;
-      padding: 0 20px;
-      border-radius: var(--r-pill);
-      font-size: 14px;
-      font-weight: 600;
-      transition: all var(--dur-1);
-      white-space: nowrap;
-    }
-    .footer__btn--ghost {
-      flex: 0 0 auto;
-      background: transparent;
-      color: var(--ink-3);
-      border: 1px solid var(--line);
-    }
-    .footer__btn--ghost:hover { background: var(--surface-2); }
-    .footer__btn--primary {
-      background: linear-gradient(135deg, var(--p-500), var(--p-600));
-      color: #fff;
-      box-shadow: var(--sh-primary);
-    }
-    .footer__btn--primary:hover { transform: translateY(-1px); }
-    .footer__btn--primary:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; transform: none; }
-    .footer__btn--primary:disabled:hover { transform: none; }
-
-    /* ============ OFFLINE BANNER (PM §F.3 E11) ============ */
-    .offline {
-      position: fixed;
-      top: 16px; left: 50%; transform: translateX(-50%);
-      max-width: 360px;
-      padding: 10px 14px;
-      background: var(--ink);
-      color: #fff;
-      border-radius: var(--r-pill);
-      box-shadow: var(--sh-3);
-      display: none;
-      align-items: center; gap: 8px;
-      font-size: 12px;
-      z-index: 40;
-    }
-    .offline.show { display: inline-flex; }
-    .offline__icon {
-      width: 16px; height: 16px;
-      display: inline-flex; align-items: center; justify-content: center;
-      color: var(--w-500);
-    }
-    .offline__icon svg { width: 14px; height: 14px; }
-
-    /* ============ ANIMATIONS ============ */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: none; }
-    }
-    .stage > * { animation: fadeUp 320ms var(--ease-out) both; }
-    .stage > *:nth-child(2) { animation-delay: 80ms; }
-    .stage > *:nth-child(3) { animation-delay: 160ms; }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,*::before,*::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
-
-    /* ============ RESPONSIVE ============ */
-    @media (max-width: 540px) {
-      .rate__options { gap: 4px; }
-      .rate__btn { min-height: 52px; padding: 4px 2px; }
-      .rate__btn-num { font-size: 18px; }
-      .rate__btn-label { font-size: 9px; }
-    }
-    @media (max-width: 380px) {
-      .rate__btn-num { font-size: 16px; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="description" content="今日复习 — 按遗忘曲线排期的错题重做，一组一题加相似题">
+  <title>今日复习 · 智启AI导师</title>
+  <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
+  <div class="wrap">
+    <header class="topbar">
+      <a href="wrong-book.html">← 错题本</a>
+      <span class="eyebrow">Review</span>
+    </header>
 
-  <!-- ============ TOP BAR ============ -->
-  <header class="topbar">
-    <div class="topbar__row">
-      <button class="topbar__exit" id="exitBtn">
-        <i data-lucide="x"></i>
-        退出
-      </button>
-      <div class="topbar__meta">
-        <strong id="groupText">组 1 / 3</strong> · 卡片 <strong id="cardText">1 / 4</strong>
-      </div>
-    </div>
-    <div class="topbar__sub">
-      SM2 调度 · 错题 <strong id="wrongSubject">数学</strong> · <span id="contextLine">今日 1 组到时</span>
-    </div>
-  </header>
+    <h1>今日复习</h1>
+    <p class="lede">按遗忘曲线排期，只推送该复习的错题。自评后系统会调整下次间隔。</p>
 
-  <!-- ============ STAGE ============ -->
-  <main class="stage">
-    <!-- 卡片 (front = 题干, back = 答案+解析) -->
-    <div class="card" id="card">
-      <div class="card__inner">
-        <!-- FRONT -->
-        <div class="card__face card__face--front">
-          <div class="card__tag" id="cardTag" style="--card-color:#d71920">
-            <i data-lucide="book-x"></i>
-            错题 #1 (错题本体)
-            <span class="card__difficulty">
-              <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
-            </span>
-          </div>
-          <div class="card__stem">
-            已知函数 f(x) = x³ − 3x, 求曲线在点 (1, −2) 处的<strong>切线方程</strong>。
-          </div>
-          <div class="answer-input">
-            <div class="answer-input__label">你的答案 (可选, 可直接评分)</div>
-            <input class="answer-input__field" type="text" placeholder="例: y = -2" />
-          </div>
-          <div class="card__hint">
-            <i data-lucide="help-circle"></i>
-            点击卡片查看答案 · 看完后用下方 0-5 评分回忆质量
-          </div>
+    <div id="stat-region" aria-live="polite" class="stat-row"></div>
+
+    <!-- 六态：成功 / 加载 / 空 / 错误 / 未登录 / 离线
+         空态承担两种语义：今日无排期（reason=none）与本次已复习完（reason=done） -->
+    <div id="state-region" aria-live="polite">
+      <section class="state state--empty" data-state="empty">
+        <div class="state-card">
+          <h2 id="empty-title">今日没有待复习的错题</h2>
+          <p id="empty-copy">去错题本看看，或先拍照解析一张卷子。</p>
+          <p><a class="btn btn-ghost" href="wrong-book.html">去错题本</a></p>
         </div>
-        <!-- BACK -->
-        <div class="card__face card__face--back">
-          <div class="card__tag" style="--card-color:#059669">
-            <i data-lucide="check-circle-2"></i>
-            答案 + 解析
-          </div>
-          <div class="card__answer">y = -2</div>
-          <div class="card__explain">
-            <strong>解题思路:</strong> f'(x) = 3x² − 3, 代入 x=1 得 f'(1) = 0;
-            切线斜率为 0; 由点斜式 y − (−2) = 0 × (x − 1), 即 <strong>y = −2</strong>.
-          </div>
+      </section>
+
+      <section class="state state--loading" data-state="loading">
+        <div class="state-card">
+          <h2>正在取今日队列…</h2>
+          <p class="skeleton skeleton--w90"></p>
+          <p class="skeleton skeleton--w70"></p>
+          <p class="skeleton skeleton--w50"></p>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <!-- 0-5 评分控件 (★ 红线: 横向大按钮组) -->
-    <div class="rate">
-      <div class="rate__head">
-        <div class="rate__title">回忆质量 (0-5)</div>
-        <div class="rate__hint">EF: <strong>2.50</strong> → 下一个</div>
-      </div>
-      <p class="rate__desc">回忆得越准, 下次复习间隔越长 · 选 5 = 完美回忆, 选 0 = 完全不会</p>
-      <div class="rate__options" id="rateOptions">
-        <button class="rate__btn" data-q="0">
-          <span class="rate__btn-num">0</span>
-          <span class="rate__btn-label">完全不会</span>
-        </button>
-        <button class="rate__btn" data-q="1">
-          <span class="rate__btn-num">1</span>
-          <span class="rate__btn-label">错误多</span>
-        </button>
-        <button class="rate__btn" data-q="2">
-          <span class="rate__btn-num">2</span>
-          <span class="rate__btn-label">困难</span>
-        </button>
-        <button class="rate__btn" data-q="3">
-          <span class="rate__btn-num">3</span>
-          <span class="rate__btn-label">勉强答出</span>
-        </button>
-        <button class="rate__btn" data-q="4">
-          <span class="rate__btn-num">4</span>
-          <span class="rate__btn-label">正确有犹豫</span>
-        </button>
-        <button class="rate__btn" data-q="5">
-          <span class="rate__btn-num">5</span>
-          <span class="rate__btn-label">完美回忆</span>
-        </button>
-      </div>
-    </div>
+      <section class="state state--success" data-state="success">
+        <div class="progress-line">
+          <span id="progress">第 1 / 1 组</span>
+          <span id="kp-label"></span>
+        </div>
 
-    <!-- Footer: 跳过 / 下一题 -->
-    <div class="footer">
-      <button class="footer__btn footer__btn--ghost" id="skipBtn">
-        <i data-lucide="skip-forward"></i>
-        跳过本题
-      </button>
-      <button class="footer__btn footer__btn--primary" id="nextBtn" disabled>
-        下一题
-        <i data-lucide="arrow-right"></i>
-      </button>
-    </div>
-  </main>
+        <article class="q-card">
+          <div class="q-head">
+            <span class="tag" id="subject-tag">数学</span>
+            <span class="tag" id="mastery-tag">掌握度 0%</span>
+            <span class="tag" id="weak-tag" hidden>薄弱</span>
+          </div>
 
-  <!-- ============ OFFLINE BANNER (PM §F.3 E11) ============ -->
-  <div class="offline" id="offlineBanner" role="status" aria-live="polite">
-    <div class="offline__icon"><i data-lucide="cloud-off"></i></div>
-    <span>网络断开 · 评分已本地暂存, 联网后自动同步</span>
+          <p class="stem" id="stem"></p>
+
+          <div class="answer-block" id="answer-block" hidden>
+            <div id="user-answer"></div>
+            <div id="correct-answer"></div>
+          </div>
+
+          <div class="feedback" id="feedback" hidden></div>
+
+          <div class="quality">
+            <span class="quality-label" id="quality-label">做完后自评：这题你掌握得怎么样？</span>
+            <div class="quality-grid" id="quality-grid">
+              <button class="quality-btn" type="button" data-quality="0">忘了</button>
+              <button class="quality-btn" type="button" data-quality="1">很难</button>
+              <button class="quality-btn" type="button" data-quality="2">困难</button>
+              <button class="quality-btn" type="button" data-quality="3">一般</button>
+              <button class="quality-btn" type="button" data-quality="4">容易</button>
+              <button class="quality-btn quality-btn--best" type="button" data-quality="5">秒答</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="state state--error" data-state="error">
+        <div class="state-card">
+          <h2>取队列失败</h2>
+          <p id="error-copy">服务暂时不可用。</p>
+          <p><button class="btn btn-ghost" id="retry-btn" type="button">重试</button></p>
+        </div>
+      </section>
+
+      <section class="state state--auth" data-state="auth">
+        <div class="state-card">
+          <h2>需要登录</h2>
+          <p>复习记录要记到你的账号下，请先登录。</p>
+          <p><a class="btn" href="login.html?next=review-session.html">去登录</a></p>
+        </div>
+      </section>
+
+      <section class="state state--offline" data-state="offline">
+        <div class="state-card">
+          <h2>当前处于离线状态</h2>
+          <p>复习需要联网读取队列与回写记录，恢复网络后重试。</p>
+          <p><button class="btn btn-ghost" id="offline-retry-btn" type="button">重新连接</button></p>
+        </div>
+      </section>
+    </div>
   </div>
 
-  <script>
-    /* ============ 真实后端连接 (Round 12 P0 接通) ============ */
-    const API_BASE = '/api';   // nginx 反代到 :3002 → F3 backend
-    const JWT_KEY = 'aitutor_jwt';
-    // 支持从 URL ?token=xxx 注入 (Demo 用)
-    const urlToken = new URLSearchParams(location.search).get('token');
-    if (urlToken) localStorage.setItem(JWT_KEY, urlToken);
-    let token = localStorage.getItem(JWT_KEY);
-    // 没 token: 显示快速登录提示
-    if (!token) {
-      document.body.insertAdjacentHTML('afterbegin', `
-        <div style="position:fixed;top:0;left:0;right:0;background:#1e40af;color:#fff;padding:10px 16px;z-index:9999;display:flex;align-items:center;gap:12px;font-size:13px;">
-          <span>🛡️ 需要登录获取真实错题</span>
-          <a href="login.html?next=review-session" style="background:#fff;color:#1e40af;padding:6px 14px;border-radius:9999px;font-weight:600;text-decoration:none;">立即登录</a>
-          <a href="javascript:localStorage.setItem('${JWT_KEY}','demo');location.reload()" style="background:rgba(255,255,255,.2);color:#fff;padding:6px 14px;border-radius:9999px;text-decoration:none;">用 demo 体验</a>
-          <a href="javascript:document.querySelector('[data-role=login-banner]').remove()" style="margin-left:auto;color:#fff;cursor:pointer;text-decoration:none;">×</a>
-        </div>`);
-    }
-
-    /* ============ 状态机 ============ */
-    const card = document.getElementById('card');
-    const rateBtns = document.querySelectorAll('.rate__btn');
-    const nextBtn = document.getElementById('nextBtn');
-    const groupText = document.getElementById('groupText');
-    const cardText = document.getElementById('cardText');
-
-    // session state
-    let queue = [];          // 从 /api/srs/engine/queue 拉的今日队列
-    let groupIdx = 0;        // 当前第几组 (错题 + 相似题)
-    let cardIdx = 0;         // 组内第几张卡 (1-4)
-    let groupResults = [];    // 本组评分结果 [{card_index, correct, q}]
-    let selectedQ = null;
-    let currentCard = null;  // 当前卡 (来自 group[cardIdx])
-    let stats = { correct: 0, total: 0, masteryDelta: 0 };
-
-    /* ============ 启动: 拉真队列 ============ */
-    async function loadQueue() {
-      try {
-        const r = await fetch(`${API_BASE}/srs/engine/queue`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const j = await r.json();
-        if (!j.success) throw new Error(j.message);
-        queue = j.data.queue;
-        groupText.innerHTML = `组 <strong>1 / ${queue.length}</strong>`;
-        if (queue.length === 0) {
-          card.innerHTML = `
-            <div class="card__face card__face--front" style="text-align:center;padding:48px 24px;">
-              <div style="font-size:48px;margin-bottom:16px;">🎉</div>
-              <div style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:8px;">今日无复习任务</div>
-              <div style="font-size:13px;color:var(--ink-3);margin-bottom:24px;">所有错题都已掌握, 继续拍照入库新错题!</div>
-              <a href="pwa-photo.html" style="display:inline-flex;padding:12px 24px;background:var(--p-500);color:#fff;border-radius:9999px;font-weight:600;text-decoration:none;">→ 拍照新错题</a>
-            </div>`;
-          rateBtns.forEach(b => b.style.display = 'none');
-          nextBtn.style.display = 'none';
-          document.getElementById('skipBtn').style.display = 'none';
-          return;
-        }
-        loadCard();
-      } catch (e) {
-        card.innerHTML = `
-          <div class="card__face card__face--front" style="text-align:center;padding:48px 24px;">
-            <div style="font-size:48px;margin-bottom:16px;color:var(--e-500);">⚠️</div>
-            <div style="font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--ink);margin-bottom:8px;">加载失败</div>
-            <div style="font-size:13px;color:var(--ink-3);">${e.message}</div>
-          </div>`;
-        rateBtns.forEach(b => b.style.display = 'none');
-        nextBtn.style.display = 'none';
-        document.getElementById('skipBtn').style.display = 'none';
-      }
-    }
-
-    /* ============ 加载当前卡 ============ */
-    function loadCard() {
-      if (groupIdx >= queue.length) {
-        showComplete();
-        return;
-      }
-      const group = queue[groupIdx].group;
-      cardIdx = Math.min(cardIdx, group.length - 1);
-      currentCard = group[cardIdx];
-
-      groupText.innerHTML = `组 <strong>${groupIdx + 1} / ${queue.length}</strong>`;
-      cardText.innerHTML = `卡片 <strong>${cardIdx + 1} / ${group.length}</strong>`;
-
-      // 更新卡片内容
-      const cardTag = document.querySelector('.card__tag');
-      const cardStem = document.querySelector('.card__stem');
-      const cardAnswer = document.querySelector('.card__answer');
-      const cardExplain = document.querySelector('.card__explain');
-
-      if (cardTag) {
-        cardTag.innerHTML = `
-          ${currentCard.kind === 'wrong' ? '<i data-lucide="book-x"></i> 错题' : '<i data-lucide="copy"></i> 相似题'}
-          <span class="card__difficulty">${'★'.repeat(currentCard.difficulty || 3)}</span>
-        `;
-        cardTag.style.setProperty('--card-color', currentCard.kind === 'wrong' ? '#d71920' : '#7c3aed');
-      }
-      if (cardStem) cardStem.textContent = currentCard.stem || '(无题干)';
-      if (cardAnswer) cardAnswer.textContent = queue[groupIdx].correct_answer || '—';
-      if (cardExplain) {
-        const wq = queue[groupIdx];
-        cardExplain.innerHTML = `
-          <strong>${currentCard.kind === 'wrong' ? '错题回顾:' : '相似题:'}</strong>
-          ${currentCard.kind === 'wrong'
-            ? `你之前答 "${wq.user_answer}", 正确答案是 "${wq.correct_answer}"`
-            : `这是与 "${wq.kp_name}" 同考点的相似题, 练一练巩固`}
-        `;
-      }
-
-      // 重置评分
-      rateBtns.forEach(b => b.classList.remove('selected'));
-      nextBtn.disabled = true;
-      selectedQ = null;
-      card.classList.remove('flipped');
-      lucide.createIcons();
-    }
-
-    /* ============ 评分 ============ */
-    rateBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        rateBtns.forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedQ = Number(btn.dataset.q);
-        nextBtn.disabled = false;
-        if (navigator.vibrate) navigator.vibrate(10);
-      });
-    });
-
-    /* ============ 下一题 (关键) ============ */
-    nextBtn.addEventListener('click', async () => {
-      if (selectedQ === null) return;
-      const group = queue[groupIdx];
-
-      // 1. 记录本卡结果
-      const userAnswer = card.querySelector('.answer-input__field')?.value?.trim() || null;
-      const isCorrect = (userAnswer && group.correct_answer && userAnswer.toLowerCase().includes(group.correct_answer.toLowerCase()));
-      groupResults.push({
-        card_index: cardIdx + 1,
-        correct: isCorrect || selectedQ >= 4,  // q=4-5 自动认为对
-        q: selectedQ,
-        user_answer: userAnswer,
-      });
-      stats.total += 1;
-      if (groupResults[groupResults.length - 1].correct) stats.correct += 1;
-
-      // 2. 推进: 下一张卡 OR 提交本组
-      cardIdx += 1;
-      if (cardIdx < group.group.length) {
-        loadCard();
-      } else {
-        // 本组完成 → 提交到后端
-        await submitGroup(group, groupResults);
-        // 推进: 下一组
-        groupIdx += 1;
-        cardIdx = 0;
-        groupResults = [];
-        loadCard();
-      }
-    });
-
-    /* ============ 跳过 ============ */
-    document.getElementById('skipBtn').addEventListener('click', () => {
-      card.classList.remove('flipped');
-      rateBtns.forEach(b => b.classList.remove('selected'));
-      nextBtn.disabled = true;
-      selectedQ = null;
-      // 跳过: 不计入, 直接下一组
-      groupIdx += 1;
-      cardIdx = 0;
-      groupResults = [];
-      loadCard();
-    });
-
-    /* ============ 提交本组评分到后端 ============ */
-    async function submitGroup(group, results) {
-      const wq = group;
-      try {
-        const r = await fetch(`${API_BASE}/srs/engine/review`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            wrong_id: wq.wrong_id,
-            quality: results[0]?.q ?? 3,  // 用主错题卡评分
-            time_spent_ms: 12000,
-            group_results: results.map(r => ({ card_index: r.card_index, correct: r.correct })),
-          }),
-        });
-        const j = await r.json();
-        if (j.success) {
-          stats.masteryDelta += j.data.mastery_delta || 0;
-          console.log(`✅ 提交 OK · mastery_delta=${j.data.mastery_delta} · 下一复习 ${new Date(j.data.next_review_at).toLocaleDateString('zh-CN')}`);
-        } else {
-          alert(`提交失败: ${j.message}`);
-        }
-      } catch (e) {
-        console.error('提交出错:', e);
-      }
-    }
-
-    /* ============ 全部完成 ============ */
-    function showComplete() {
-      const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-      card.innerHTML = `
-        <div class="card__face card__face--front" style="text-align:center;padding:48px 24px;">
-          <div style="font-size:48px;margin-bottom:16px;">🎉</div>
-          <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--ink);margin-bottom:8px;">今日复习完成!</div>
-          <div style="font-size:14px;color:var(--ink-3);margin-bottom:16px;">
-            答对 ${stats.correct} / ${stats.total} · 准确率 ${accuracy}%
-          </div>
-          <div style="font-size:14px;color:var(--p-500);font-weight:600;margin-bottom:24px;">
-            mastery ${stats.masteryDelta >= 0 ? '+' : ''}${stats.masteryDelta.toFixed(2)}
-          </div>
-          <a href="practice-hub-v2.html" style="display:inline-flex;padding:12px 24px;background:var(--p-500);color:#fff;border-radius:9999px;font-weight:600;text-decoration:none;">→ 回 Loop Hub</a>
-        </div>`;
-      rateBtns.forEach(b => b.style.display = 'none');
-      nextBtn.style.display = 'none';
-      document.getElementById('skipBtn').style.display = 'none';
-      card.classList.remove('flipped');
-    }
-
-    /* 卡片翻转 */
-    card.addEventListener('click', (e) => {
-      if (e.target.tagName === 'INPUT') return;
-      card.classList.toggle('flipped');
-    });
-
-    /* 退出 */
-    document.getElementById('exitBtn').addEventListener('click', () => {
-      if (confirm('确定退出本次复习?\n\n未评分的卡片将不计入复习, EF 不更新')) {
-        history.back();
-      }
-    });
-
-    /* 离线检测 (PM §F.3 E11) */
-    const offlineBanner = document.getElementById('offlineBanner');
-    function updateOnlineStatus() {
-      offlineBanner.classList.toggle('show', !navigator.onLine);
-    }
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-    updateOnlineStatus();
-
-    /* Init: loadQueue */
-    lucide.createIcons();
-    loadQueue();
-  </script>
-
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/review-session.js"></script>
 </body>
 </html>

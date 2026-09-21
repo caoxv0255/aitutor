@@ -137,6 +137,24 @@
       }
     },
 
+    /* ── SRS 复习（批次 2） ────────────────────────────────────────────── */
+
+    /** 今日复习队列：GET /api/srs/engine/queue → { queue, total, generated_at } */
+    srsQueue: function (limit, signal) {
+      const q = limit ? '?limit=' + encodeURIComponent(limit) : '';
+      return request('/api/srs/engine/queue' + q, { signal: signal });
+    },
+
+    /** 提交一组复习：POST /api/srs/engine/review { wrong_id, quality(0-5), time_spent_ms, group_results } */
+    srsReview: function (payload, signal) {
+      return request('/api/srs/engine/review', { method: 'POST', body: payload, signal: signal });
+    },
+
+    /** 复习统计：GET /api/srs/engine/stats → { total_reviews, today_reviews, due_count, active_days_30d } */
+    srsStats: function (signal) {
+      return request('/api/srs/engine/stats', { signal: signal });
+    },
+
     /** 错题列表：GET /api/user/wrong-questions（支持 page/page_size/subject/reviewed） */
     getWrongQuestions: function (query, signal) {
       const qs = new global.URLSearchParams();

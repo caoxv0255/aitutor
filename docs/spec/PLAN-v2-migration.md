@@ -184,7 +184,9 @@ curl -s -o /dev/null -w "%{http_code}\n" -A "Mozilla/5.0 (X11; Linux x86_64)" \
 |---|---|---|
 | 基线 | photo-solve、wrong-book | ✅ |
 | 1 | login、register | ✅ 2026-09-21（36 + 35 项验收） |
-| 2 | review-session、mastery | ⬜ |
+| 基线 | 响应式（Q1）：四档断点 + SPEC-UI 草稿 | ✅ 2026-09-21（16 项验收；渲染层未验证） |
+| 2 | review-session | ✅ 2026-09-21（46 项验收，接 SRS queue/review/stats） |
+| 2 | mastery | ⬜ |
 | 3 | dashboard、practice-hub、essay、learning-path | ⬜ |
 | 4 | 10 个增量页 + subject-exam 模板 | ⬜ |
 | 5 | 收编 + 旧树下线 | ⬜ |

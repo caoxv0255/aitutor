@@ -369,9 +369,153 @@ select {
   }
 }
 
-@media (max-width: 560px) {
-  h1 { font-size: 27px; }
-  .wrap { padding: 22px 16px 56px; }
+/* 注：降级块在文件末尾的响应式规范一节中统一维护，此处保留原位置以免影响既有层叠顺序。 */
+
+/* ==========================================================================
+ * 响应式断点规范（2026-09-21 · Q1「一套响应式」）
+ *
+ *   桌面   ≥ 1024px   默认样式（容器 max-width 760，表单 440）
+ *   平板   768–1023   容器与卡片内边距收窄
+ *   手机   ≤ 767px    单列；工具条堆叠；按钮全宽；触控目标 ≥ 44px
+ *   小屏   ≤ 480px    字号下调一级；缩略图缩小
+ *
+ * 实现方式：桌面优先（max-width 查询），与既有代码风格一致。
+ * 新页面**必须复用这套断点**，不得自造 —— 见 docs/spec/SPEC-UI.md。
+ * ========================================================================== */
+
+/* 全局防溢出：长公式 / 长英文串不得撑破容器 */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-wrap: anywhere;
+}
+
+img,
+canvas,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── 平板 768–1023 ────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .wrap {
+    padding: 26px 18px 60px;
+  }
+
+  .q-card,
+  .card,
+  .state-card {
+    padding: 18px;
+  }
+}
+
+/* ── 手机 ≤ 767 ───────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  h1 {
+    font-size: 27px;
+  }
+
+  .wrap {
+    padding: 22px 16px 56px;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  /* 工具条与操作区在窄屏堆叠，避免挤压 */
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar .field {
+    justify-content: space-between;
+  }
+
+  .field-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  /* 触控目标：主要按钮 ≥ 44px，且窄屏下占满一行 */
+  .btn {
+    min-height: 44px;
+  }
+
+  .field-row .btn,
+  .q-actions .btn {
+    width: 100%;
+  }
+
+  .q-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .q-head {
+    flex-wrap: wrap;
+  }
+
+  /* 缩略图的删除按钮是不可省略的操作，同样给足触控面积 */
+  .thumb {
+    width: 100px;
+    height: 100px;
+  }
+
+  .thumb button {
+    top: 2px;
+    right: 2px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .pager {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .stat-row {
+    gap: 8px;
+  }
+
+  .stat-chip {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+/* ── 小屏 ≤ 480 ───────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  body {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .lede {
+    font-size: 15px;
+  }
+
+  .dropzone {
+    padding: 24px 16px;
+  }
+
+  .thumb {
+    width: 84px;
+    height: 84px;
+  }
+
+  .form-stack {
+    gap: 14px;
+  }
 }
 
 /* ── 工具栏 / 统计 / 分页（错题本） ───────────────────────────────────── */
@@ -506,4 +650,97 @@ select {
 
 .btn-block {
   width: 100%;
+}
+
+/* ── 复习会话（review-session） ───────────────────────────────────────── */
+.progress-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 18px 0 10px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.stem {
+  margin: 0 0 16px;
+  font-size: 17px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.answer-block {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.quality {
+  margin-top: 18px;
+}
+
+.quality-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.quality-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.quality-btn {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.quality-btn:hover:not(:disabled) {
+  border-color: var(--brand-red);
+  background: var(--brand-red-50);
+}
+
+.quality-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quality-btn--best {
+  border-color: var(--ch-green);
+  color: var(--ch-green);
+}
+
+.feedback {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.feedback b {
+  font-family: var(--font-num);
+  color: var(--brand-red);
+}
+
+@media (max-width: 480px) {
+  .quality-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
