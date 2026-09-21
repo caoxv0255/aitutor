@@ -27,6 +27,13 @@ router.post('/initialize', userInitializeHandler);
 router.get('/wrong-questions', getWrongQuestions);
 router.post('/wrong-questions', addWrongQuestion);
 
+// G1 (2026-09-21): 错题闭环 —— 标记复习 / 删除
+// updateWrongQuestion / deleteWrongQuestion 早已实现(sql 以 user_email 兜底, 越权或不存在 → 404),
+// 但此前从未挂载路由 → 错题"只能进不能出", 错题本无法闭环(见 docs/spec/SPEC-DATA.md G1).
+// 放在 /stats 与 /export 之后: 两者是 GET, 与这里的 PUT/DELETE 不冲突.
+router.put('/wrong-questions/:id', updateWrongQuestion);
+router.delete('/wrong-questions/:id', deleteWrongQuestion);
+
 router.get('/wrong-questions/stats', getWrongQuestionStats);
 router.get('/wrong-questions/export', exportWrongQuestions);
 

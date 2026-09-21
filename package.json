@@ -26,7 +26,8 @@
     "backfill:uid": "node scripts/backfill-question-uid.js",
     "gate": "bash scripts/release-gate.sh",
     "e2e:legacy": "bash scripts/e2e_final.sh",
-    "e2e:report": "bash scripts/e2e_final.sh 2>&1 | tee /tmp/e2e-report.log"
+    "e2e:report": "bash scripts/e2e_final.sh 2>&1 | tee /tmp/e2e-report.log",
+    "test:frontend": "node tests/frontend/sw-handled-path.test.mjs && node tests/frontend/pwa-guest-banner.test.mjs && node tests/frontend/photo-solve-states.test.mjs && node tests/frontend/wrong-book-states.test.mjs"
   },
   "dependencies": {
     "@playwright/test": "^1.61.1",
