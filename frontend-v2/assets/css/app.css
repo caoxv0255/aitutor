@@ -436,3 +436,74 @@ select {
 .btn-danger:hover {
   background: var(--brand-red-50);
 }
+
+/* ── 表单（login / register） ─────────────────────────────────────────── */
+.form-card {
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+}
+
+.form-field input:focus-visible,
+.form-field select:focus-visible {
+  outline: 2px solid var(--brand-red);
+  outline-offset: 1px;
+}
+
+.form-hint {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.form-error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--brand-red-darker);
+}
+
+.form-alt {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.form-alt a {
+  color: var(--brand-red);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.form-alt a:hover {
+  text-decoration: underline;
+}
+
+.btn-block {
+  width: 100%;
+}

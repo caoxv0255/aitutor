@@ -19,9 +19,11 @@
 
 | # | 决策 | 我的默认假设 | 推翻后的影响 |
 |---|---|---|---|
-| **Q1** | 移动端是否并入同一套响应式 | **是**：一套响应式，不再维护"桌面 F3 + 移动 PWA"两个产品 | 若维持两棵树，阶段 2 切片要各做一遍，SPEC-UI 组件表翻倍 |
-| **Q2** | 是否允许为 v2 新开后端接口 | **先按现有 142 handler 收敛**，缺口接口单列 P1，不阻塞前端 | 若允许新开，SPEC-DATA 需重写，页面按理想形态设计 |
-| **Q3** | 旧树下线窗口 | **双轨并存到全部 P0 页面就绪**，再按 灰度→默认→301→删 切换 | 若要求限期，需先砍页面范围 |
+| **Q1** | 移动端是否并入同一套响应式 | ✅ **已定：一套响应式**（2026-09-21） | ~~若维持两棵树，SPEC-UI 组件表翻倍~~ |
+| **Q2** | 是否允许为 v2 新开后端接口 | ✅ **已定：允许，缺口即补**（2026-09-21） | 新增接口须同时过 BCT 契约测试与门禁 |
+| **Q3** | 旧树下线窗口 | ✅ **已定：立刻切默认，旧树只留回滚**（2026-09-21） | 落地为"新树优先 + 旧树兜底"，硬切须待批次 1-3 完成 |
+
+> 三项决策的落地方式与执行卡片见 `docs/spec/PLAN-v2-migration.md`。
 
 ---
 
@@ -34,8 +36,8 @@
 
 | 目标页 | 现有 | 依赖接口 | 备注 |
 |---|---|---|---|
-| `login.html` | v2 + F3 + legacy | `POST /api/auth/login`、`POST /api/auth/register`、`GET /api/auth/me` | 游客态走 `POST /api/guest-login` |
-| `register.html` | v2 + F3 | `POST /api/auth/register`、`GET /api/provinces` | |
+| `login.html` | v2 + F3 + legacy | `POST /api/auth/login`、`GET /api/auth/me`、`POST /api/auth/guest-login` | ✅ 已按新架构重建（36 项验收），含 `?next=` 防开放重定向 |
+| `register.html` | v2 + F3 | `POST /api/auth/register`、`GET /api/provinces` | ✅ 已按新架构重建（35 项验收），年级枚举与后端 `VALID_GRADES` 逐项对齐 |
 | `wrong-book.html` | v2 + F3 | `GET/POST /api/user/wrong-questions`、`GET /api/user/wrong-questions/stats`、`GET /api/user/wrong-questions/export` | 切片链路的终点页 |
 | `mastery.html` | v2 + F3 | `GET /api/knowledge/mastery`、`GET /api/knowledge/map`、`GET /api/knowledge/:kpId/practice` | |
 | `essay.html` | v2 + F3 | `POST /api/essay/grade`、`GET /api/essay`、`POST /api/essay/upload` | 长耗时，加载态必须可中断 |
@@ -103,6 +105,8 @@
 每页必须同时满足（阶段 3 横向复制时逐条打勾）：
 
 1. **六态齐备**：成功 / 加载 / 空 / 错误 / 未登录(401·403) / 离线，且六态都可被机械触发（见 §4）
+
+   > **例外（2026-09-21）**：认证页（`login` / `register`）没有"未登录"态 —— 表单态本身即未登录态，故实现为 **5 态**。已在页面注释与 `PLAN-v2-migration.md` 中标注。
 2. **零境外请求**：页面不得引用 `fonts.googleapis` / `unpkg` / `jsdelivr`（旧 v2 24 页每页 2 处 Google Fonts + 1–2 处 CDN）
 3. **样式不在页内**：不得内联 `<style>` 块，共享样式走 `frontend-v2/assets/css/*`（旧 v2 每页内联 47–65KB）
 4. **a11y 底线**：所有输入有 `label`；状态区有 `aria-live="polite"`；图标不用 emoji；`prefers-reduced-motion` 有降级

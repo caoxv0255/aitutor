@@ -90,6 +90,53 @@
       });
     },
 
+    /* ── 认证 ─────────────────────────────────────────────────────────── */
+
+    /** 登录：POST /api/auth/login → { token, user } */
+    login: function (email, password, signal) {
+      return request('/api/auth/login', { method: 'POST', body: { email: email, password: password }, signal: signal });
+    },
+
+    /** 注册：POST /api/auth/register → { token, user }（201） */
+    register: function (payload, signal) {
+      return request('/api/auth/register', { method: 'POST', body: payload, signal: signal });
+    },
+
+    /** 游客登录：POST /api/auth/guest-login → { token, user } */
+    guestLogin: function (signal) {
+      return request('/api/auth/guest-login', { method: 'POST', body: {}, signal: signal });
+    },
+
+    /** 当前用户：GET /api/auth/me */
+    me: function (signal) {
+      return request('/api/auth/me', { signal: signal });
+    },
+
+    /** 退出：POST /api/auth/logout（JWT 无状态，服务端只保证 200） */
+    logout: function (signal) {
+      return request('/api/auth/logout', { method: 'POST', body: {}, signal: signal });
+    },
+
+    /** 把登录结果落到本地（token 是唯一真相源，务必与 getToken 的键一致） */
+    saveSession: function (data) {
+      try {
+        if (data && data.token) global.localStorage.setItem(TOKEN_KEY, data.token);
+        if (data && data.user) global.localStorage.setItem('user', JSON.stringify(data.user));
+      } catch {
+        /* 隐私模式下 localStorage 可能不可用，静默降级 */
+      }
+      return data;
+    },
+
+    clearSession: function () {
+      try {
+        global.localStorage.removeItem(TOKEN_KEY);
+        global.localStorage.removeItem('user');
+      } catch {
+        /* 同上 */
+      }
+    },
+
     /** 错题列表：GET /api/user/wrong-questions（支持 page/page_size/subject/reviewed） */
     getWrongQuestions: function (query, signal) {
       const qs = new global.URLSearchParams();

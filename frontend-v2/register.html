@@ -1,793 +1,113 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="description" content="注册智启AI导师 — 邮箱注册，保存你的错题本与学习进度">
   <title>注册 · 智启AI导师</title>
-  <meta name="description" content="1 步完成注册 · 手机号/微信/邮箱 · 游客可先试 3 次拍照 · 注册后数据合并" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
-
-  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
-
-  <style>
-    :root {
-      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
-      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
-      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
-      --s-50:#ecfdf5; --s-500:#059669; --s-700:#065f46;
-      --w-50:#fff7eb; --s-w-100:#fef3c7; --w-500:#f59e0b;
-      --e-50:#fef2f2; --e-500:#ef4444;
-      --i-50:#f0f9ff; --i-500:#0284c7;
-
-      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
-      --line:#e8eaee; --line-soft:#f1f3f5;
-      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
-
-      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
-      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
-      --font-mono:'JetBrains Mono','DM Sans',monospace;
-
-      --r-sm:10px; --r-md:14px; --r-lg:22px; --r-pill:9999px;
-      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
-      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
-      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
-      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
-      --ease-out: cubic-bezier(.22,1,.36,1);
-      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
-    }
-    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font-family: var(--font-body); font-size: 16px; line-height: 1.55;
-      min-height: 100vh; min-height: 100dvh;
-      background:
-        radial-gradient(60% 50% at 30% 0%, color-mix(in srgb, var(--p-500) 6%, transparent) 0%, transparent 60%),
-        radial-gradient(70% 50% at 100% 100%, color-mix(in srgb, var(--b-500) 5%, transparent) 0%, transparent 60%),
-        var(--bg);
-    }
-    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
-    input { font: inherit; }
-
-    /* ============ LAYOUT (centered card, mobile-first) ============ */
-    .page {
-      min-height: 100vh; min-height: 100dvh;
-      display: flex; flex-direction: column;
-      padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0));
-    }
-    .nav {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 480px;
-      width: 100%;
-      margin: 0 auto 32px;
-    }
-    .brand {
-      display: flex; align-items: center; gap: 10px;
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 16px;
-      color: var(--ink);
-    }
-    .brand__mark {
-      width: 28px; height: 28px; border-radius: 8px;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      display: inline-flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 700; font-size: 13px;
-      box-shadow: var(--sh-primary);
-    }
-    .login-link {
-      font-size: 13px;
-      color: var(--ink-3);
-    }
-    .login-link a {
-      color: var(--p-500);
-      font-weight: 600;
-    }
-    .login-link a:hover { text-decoration: underline; }
-
-    /* ============ MAIN CARD ============ */
-    .main {
-      max-width: 480px;
-      width: 100%;
-      margin: auto;
-    }
-
-    /* ============ METHOD SELECTOR (tabs) ============ */
-    .method-tabs {
-      display: flex;
-      gap: 4px;
-      padding: 4px;
-      background: var(--surface-2);
-      border-radius: var(--r-pill);
-      margin-bottom: 24px;
-    }
-    .method-tab {
-      flex: 1;
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 6px;
-      padding: 10px 14px;
-      border-radius: var(--r-pill);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ink-3);
-      transition: all var(--dur-1);
-      white-space: nowrap;
-    }
-    .method-tab svg { width: 14px; height: 14px; }
-    .method-tab:hover { color: var(--ink-2); }
-    .method-tab.active {
-      background: var(--surface);
-      color: var(--ink);
-      box-shadow: var(--sh-1);
-    }
-    .method-tab__badge {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 1px 6px;
-      background: var(--p-50);
-      color: var(--p-700);
-      border-radius: 9999px;
-      margin-left: 2px;
-    }
-
-    /* ============ HEADER ============ */
-    .head {
-      margin-bottom: 24px;
-    }
-    .head__step {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 10px;
-      background: var(--p-50);
-      color: var(--p-700);
-      border-radius: var(--r-pill);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .04em;
-      margin-bottom: 8px;
-    }
-    .head__title {
-      font-family: var(--font-display);
-      font-size: 26px; font-weight: 700;
-      line-height: 1.15; letter-spacing: -.02em;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-    .head__title em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .head__sub {
-      font-size: 13px;
-      color: var(--ink-3);
-      line-height: 1.5;
-    }
-
-    /* ============ PHONE FORM (默认) ============ */
-    .form-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-lg);
-      padding: 24px 20px;
-      box-shadow: var(--sh-1);
-      margin-bottom: 16px;
-    }
-    .form { display: none; }
-    .form.active { display: flex; flex-direction: column; gap: 14px; }
-
-    /* Phone input with prefix */
-    .phone {
-      display: flex;
-      align-items: stretch;
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-md);
-      background: var(--surface);
-      transition: all var(--dur-1);
-      overflow: hidden;
-    }
-    .phone:focus-within {
-      border-color: var(--p-500);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-500) 12%, transparent);
-    }
-    .phone__prefix {
-      display: flex; align-items: center; gap: 4px;
-      padding: 0 12px 0 14px;
-      background: var(--surface-2);
-      border-right: 1px solid var(--line);
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--ink);
-      cursor: pointer;
-      user-select: none;
-    }
-    .phone__prefix svg { width: 12px; height: 12px; color: var(--ink-3); }
-    .phone__input {
-      flex: 1;
-      min-width: 0;
-      padding: 12px 14px;
-      border: none;
-      outline: none;
-      background: transparent;
-      font-family: var(--font-mono);
-      font-size: 16px;
-      color: var(--ink);
-      letter-spacing: .04em;
-    }
-    .phone__input::placeholder { color: var(--ink-4); }
-
-    /* OTP input row */
-    .otp {
-      display: flex;
-      gap: 8px;
-    }
-    .otp__input {
-      flex: 1;
-      min-width: 0;
-      padding: 12px 14px;
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-md);
-      background: var(--surface);
-      font-family: var(--font-mono);
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--ink);
-      letter-spacing: .12em;
-      outline: none;
-      transition: all var(--dur-1);
-    }
-    .otp__input:focus {
-      border-color: var(--p-500);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-500) 12%, transparent);
-    }
-    .otp__input::placeholder { color: var(--ink-4); }
-    .otp__send {
-      flex: 0 0 auto;
-      padding: 0 16px;
-      background: var(--surface-2);
-      border: 1px solid var(--line);
-      border-radius: var(--r-md);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ink-2);
-      white-space: nowrap;
-      transition: all var(--dur-1);
-    }
-    .otp__send:hover:not(:disabled) { background: var(--p-50); color: var(--p-700); border-color: var(--p-200); }
-    .otp__send:disabled { color: var(--ink-4); cursor: not-allowed; }
-    .otp__send--countdown { color: var(--p-700); }
-
-    /* Email form */
-    .email {
-      padding: 12px 14px;
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-md);
-      background: var(--surface);
-      transition: all var(--dur-1);
-    }
-    .email:focus-within {
-      border-color: var(--p-500);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-500) 12%, transparent);
-    }
-    .email input {
-      width: 100%;
-      border: none;
-      outline: none;
-      background: transparent;
-      font-size: 14px;
-      color: var(--ink);
-    }
-    .email input::placeholder { color: var(--ink-4); }
-
-    /* Password */
-    .pwd-wrap {
-      position: relative;
-    }
-    .pwd {
-      width: 100%;
-      min-width: 0;
-      padding: 12px 14px;
-      padding-right: 44px;
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-md);
-      background: var(--surface);
-      font-size: 14px;
-      color: var(--ink);
-      outline: none;
-      transition: all var(--dur-1);
-    }
-    .pwd:focus {
-      border-color: var(--p-500);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-500) 12%, transparent);
-    }
-    .pwd::placeholder { color: var(--ink-4); }
-    .pwd-toggle {
-      position: absolute; right: 6px; top: 50%;
-      transform: translateY(-50%);
-      width: 32px; height: 32px;
-      border-radius: var(--r-sm);
-      color: var(--ink-3);
-      display: inline-flex; align-items: center; justify-content: center;
-    }
-    .pwd-toggle:hover { background: var(--surface-2); color: var(--ink); }
-    .pwd-toggle svg { width: 16px; height: 16px; }
-
-    /* Strength */
-    .strength {
-      display: flex; align-items: center; gap: 8px;
-      margin-top: 8px;
-    }
-    .strength__bar {
-      display: flex; gap: 2px; flex: 1;
-    }
-    .strength__bar div {
-      flex: 1; height: 4px;
-      background: var(--surface-3);
-      border-radius: 9999px;
-      transition: all var(--dur-2);
-    }
-    .strength__bar div.on-weak { background: var(--e-500); }
-    .strength__bar div.on-mid  { background: var(--w-500); }
-    .strength__bar div.on-strong { background: var(--s-500); }
-    .strength__label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--ink-3);
-      min-width: 36px;
-      text-align: right;
-    }
-    .strength__label--weak   { color: var(--e-500); }
-    .strength__label--mid    { color: var(--w-700); }
-    .strength__label--strong { color: var(--s-500); }
-
-    /* Invite code */
-    .invite {
-      padding: 12px;
-      background: linear-gradient(135deg, var(--w-50), var(--surface));
-      border: 1px dashed color-mix(in srgb, var(--w-500) 35%, transparent);
-      border-radius: var(--r-md);
-    }
-    .invite__row {
-      display: flex; align-items: center; gap: 10px;
-    }
-    .invite__icon {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: var(--w-100);
-      color: var(--w-700);
-      display: inline-flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .invite__icon svg { width: 16px; height: 16px; }
-    .invite__main { flex: 1; min-width: 0; }
-    .invite__title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ink);
-    }
-    .invite__desc {
-      font-size: 11px;
-      color: var(--ink-3);
-    }
-    .invite__btn {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--w-700);
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    /* Submit button — ADDED 2026-09-17: explicit flex centering for icon+text */
-    .submit {
-      display: inline-flex;       /* 水平居中 */
-      align-items: center;        /* 垂直居中 */
-      justify-content: center;    /* 文字+图标整体居中 */
-      gap: 8px;
-      height: 52px;
-      background: linear-gradient(135deg, var(--p-500), var(--p-600));
-      color: #fff;
-      border-radius: var(--r-pill);
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 1;
-      box-shadow: var(--sh-primary);
-      transition: all var(--dur-1);
-      margin-top: 4px;
-      cursor: pointer;
-      border: none;
-      width: 100%;
-    }
-    .submit:hover:not(:disabled) { transform: translateY(-1px); }
-    .submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-    .submit svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-    /* Password mismatch hint — ADDED 2026-09-17 */
-    .pwd-mismatch-hint {
-      display: flex; align-items: center; gap: 6px;
-      padding: 8px 10px;
-      background: var(--e-50);
-      border: 1px solid color-mix(in srgb, var(--e-500) 25%, transparent);
-      border-radius: var(--r-sm);
-      font-size: 12px;
-      color: var(--e-500);
-      margin-top: -6px;
-    }
-    .pwd-mismatch-hint[hidden] { display: none; }
-    .pwd-mismatch-hint svg { width: 13px; height: 13px; flex-shrink: 0; }
-
-    /* Error */
-    .error {
-      padding: 10px 12px;
-      background: var(--e-50);
-      border: 1px solid color-mix(in srgb, var(--e-500) 30%, transparent);
-      border-radius: var(--r-md);
-      display: none;
-      align-items: center; gap: 8px;
-      font-size: 12px;
-      color: var(--e-500);
-    }
-    .error.show { display: flex; }
-    .error svg { width: 14px; height: 14px; flex-shrink: 0; }
-
-    /* ============ DIVIDER + SOCIAL ============ */
-    .divider {
-      display: flex; align-items: center; gap: 12px;
-      margin: 8px 0;
-      font-size: 11px;
-      color: var(--ink-3);
-      letter-spacing: .04em;
-    }
-    .divider::before, .divider::after {
-      content: ''; flex: 1; height: 1px;
-      background: var(--line);
-    }
-
-    .social-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .social-btn {
-      height: 48px;
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 8px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-md);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ink);
-      transition: all var(--dur-1);
-    }
-    .social-btn:hover { background: var(--surface-2); }
-    .social-btn svg { width: 18px; height: 18px; }
-    .social-btn--wechat { color: #07c160; }
-    .social-btn--apple svg { color: var(--ink); }
-
-    /* ============ GUEST CTA (PM §A.2.1) ============ */
-    .guest {
-      padding: 14px 16px;
-      background: var(--surface);
-      border: 1.5px dashed var(--line);
-      border-radius: var(--r-md);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .guest__icon {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: var(--surface-2);
-      color: var(--ink-2);
-      display: inline-flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .guest__icon svg { width: 18px; height: 18px; }
-    .guest__main { flex: 1; }
-    .guest__title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 2px;
-    }
-    .guest__desc {
-      font-size: 11px;
-      color: var(--ink-3);
-    }
-    .guest__btn {
-      padding: 8px 14px;
-      background: var(--ink);
-      color: var(--bg);
-      border-radius: var(--r-pill);
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    /* ============ FOOTER (terms) ============ */
-    .terms {
-      margin-top: 24px;
-      text-align: center;
-      font-size: 11px;
-      color: var(--ink-3);
-      line-height: 1.6;
-    }
-    .terms a { color: var(--p-500); font-weight: 600; }
-    .terms a:hover { text-decoration: underline; }
-
-    /* ============ ANIMATIONS ============ */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: none; }
-    }
-    .form.active > * { animation: fadeUp 280ms var(--ease-out) both; }
-    .form.active > *:nth-child(1) { animation-delay: 0ms; }
-    .form.active > *:nth-child(2) { animation-delay: 60ms; }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,*::before,*::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
-
-    @media (min-width: 720px) {
-      .page { padding: 48px 24px; }
-      .head__title { font-size: 32px; }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
+  <div class="wrap">
+    <header class="topbar">
+      <a href="login.html">← 已有账号，去登录</a>
+      <span class="eyebrow">Sign up</span>
+    </header>
 
-  <div class="page">
-    <!-- Nav -->
-    <nav class="nav">
-      <a href="landing.html" class="brand">
-        <span class="brand__mark">AI</span>
-        <span>智启AI导师</span>
-      </a>
-      <span class="login-link">
-        已有账号? <a href="login.html" data-preserve-next>立即登录 →</a>
-      </span>
-    </nav>
+    <div class="form-card">
+      <h1>注册</h1>
+      <p class="lede">注册后错题与学习进度会保存在你的账号下。</p>
 
-    <main class="main">
-      <!-- Header -->
-      <header class="head">
-        <div class="head__step">第 1 步 · 仅账号凭证 · 约 60s 完成</div>
-        <h1 class="head__title">创建你的<em>账号</em></h1>
-        <p class="head__sub">完成账号后, 我们会引导你完成 5 步设置 (昵称 → 年级 → 省份 → 选科 → 首题拍照)</p>
-      </header>
+      <!-- 状态：表单 / 加载 / 成功 / 错误 / 离线（认证页以表单态承担"未登录"语义） -->
+      <div id="state-region" aria-live="polite">
+        <section class="state state--form" data-state="form">
+          <form id="register-form" class="form-stack" novalidate>
+            <label class="form-field" for="email">
+              邮箱
+              <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+            </label>
 
-      <!-- Method tabs — REMOVED 2026-09-17: phone/wechat disabled (no sms/wechat backend yet). Email-only per PM §A.2.2. -->
-      <div class="form-card">
-        <!-- EMAIL form (only auth method — phone/wechat hidden until backend ready) -->
-        <form class="form active" id="form-email" novalidate>
-          <div class="email">
-            <input type="email" name="email" placeholder="邮箱地址" autocomplete="email" required />
+            <label class="form-field" for="password">
+              密码
+              <input id="password" name="password" type="password" autocomplete="new-password" required placeholder="至少 8 位，含大小写字母与数字">
+              <span class="form-hint">至少 8 位，需包含大写字母、小写字母和数字。</span>
+            </label>
+
+            <label class="form-field" for="grade">
+              年级
+              <select id="grade" name="grade" required>
+                <option value="">请选择年级</option>
+                <optgroup label="学段">
+                  <option value="小学">小学</option>
+                  <option value="初中">初中</option>
+                  <option value="高中">高中</option>
+                </optgroup>
+                <optgroup label="小学">
+                  <option value="小一">小一</option>
+                  <option value="小二">小二</option>
+                  <option value="小三">小三</option>
+                  <option value="小四">小四</option>
+                  <option value="小五">小五</option>
+                  <option value="小六">小六</option>
+                </optgroup>
+                <optgroup label="初中">
+                  <option value="初一">初一</option>
+                  <option value="初二">初二</option>
+                  <option value="初三">初三</option>
+                </optgroup>
+                <optgroup label="高中">
+                  <option value="高一">高一</option>
+                  <option value="高二">高二</option>
+                  <option value="高三">高三</option>
+                </optgroup>
+              </select>
+            </label>
+
+            <p class="form-error" id="form-error" hidden></p>
+
+            <button class="btn btn-block" id="submit-btn" type="submit">注册并开始</button>
+          </form>
+        </section>
+
+        <section class="state state--loading" data-state="loading">
+          <div class="state-card">
+            <h2>正在创建账号…</h2>
+            <p class="skeleton skeleton--w70"></p>
+            <p class="skeleton skeleton--w50"></p>
           </div>
-          <div class="pwd-wrap">
-            <input class="pwd" name="password" type="password" placeholder="设置密码 (8+ 字符, 含大小写+数字)"
-                   minlength="8" autocomplete="new-password" required />
-            <button type="button" class="pwd-toggle" aria-label="显示密码">
-              <i data-lucide="eye"></i>
-            </button>
+        </section>
+
+        <section class="state state--success" data-state="success">
+          <div class="state-card">
+            <h2>注册成功</h2>
+            <p id="success-copy">正在进入引导…</p>
           </div>
-          <div class="strength">
-            <div class="strength__bar">
-              <div></div><div></div><div></div><div></div>
-            </div>
-            <span class="strength__label" id="strengthLabel">弱</span>
+        </section>
+
+        <section class="state state--error" data-state="error">
+          <div class="state-card">
+            <h2>注册失败</h2>
+            <p id="error-copy">请检查填写的信息。</p>
+            <p><button class="btn btn-ghost" id="retry-btn" type="button">返回修改</button></p>
           </div>
-          <!-- 确认密码 — ADDED 2026-09-17: 防误输, 与 production register.html 同步 -->
-          <div class="pwd-wrap">
-            <input class="pwd pwd-confirm" name="passwordConfirm" type="password"
-                   placeholder="再次输入密码" minlength="8" autocomplete="new-password" required />
-            <button type="button" class="pwd-toggle" aria-label="显示密码">
-              <i data-lucide="eye"></i>
-            </button>
+        </section>
+
+        <section class="state state--offline" data-state="offline">
+          <div class="state-card">
+            <h2>当前处于离线状态</h2>
+            <p>注册需要联网，恢复网络后重试。</p>
+            <p><button class="btn btn-ghost" id="offline-retry-btn" type="button">重新连接</button></p>
           </div>
-          <div class="pwd-mismatch-hint" id="pwdMismatch" hidden>
-            <i data-lucide="alert-circle"></i>
-            <span>两次密码不一致, 请重新输入</span>
-          </div>
-          <div class="invite">
-            <div class="invite__icon"><i data-lucide="ticket"></i></div>
-            <div class="invite__main">
-              <div class="invite__title">有邀请码?</div>
-              <div class="invite__desc">学校批量开通可填, 享 30 天 Pro</div>
-            </div>
-            <span class="invite__btn">填写 →</span>
-          </div>
-          <div class="error" id="error-email">
-            <i data-lucide="alert-circle"></i>
-            <span>该邮箱已注册, 试试登录?</span>
-          </div>
-          <button type="submit" class="submit" id="submitBtn">
-            <span id="submitText">注册并继续</span>
-            <i data-lucide="arrow-right" id="submitIcon"></i>
-          </button>
-        </form>
+        </section>
       </div>
 
-      <!-- Divider -->
-      <div class="divider">其他方式</div>
-
-      <!-- Guest mode (PM §A.2.1) -->
-      <button class="guest" id="guestBtn">
-        <div class="guest__icon"><i data-lucide="user-round"></i></div>
-        <div class="guest__main">
-          <div class="guest__title">先试用, 后注册</div>
-          <div class="guest__desc">不登录也能拍照 3 次/天, 注册时数据自动合并</div>
-        </div>
-        <span class="guest__btn">→</span>
-      </button>
-
-      <!-- Terms -->
-      <p class="terms">
-        注册即代表同意 <a href="#">服务条款</a> 与 <a href="#">隐私协议</a><br/>
-        你的数据本地加密 · GDPR / 等保三级 · 14 天内可注销删除
-      </p>
-    </main>
+      <p class="form-alt">已有账号？<a href="login.html">去登录</a></p>
+    </div>
   </div>
 
-  <script>
-    /* ============ Method tabs — REMOVED 2026-09-17: phone/wechat disabled ============ */
-
-    /* ============ Password show/hide ============ */
-    document.querySelectorAll('.pwd-toggle').forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        const wrap = toggle.closest('.pwd-wrap');
-        const input = wrap.querySelector('.pwd');
-        if (!input) return;
-        const showing = input.type === 'text';
-        input.type = showing ? 'password' : 'text';
-        toggle.innerHTML = `<i data-lucide="${showing ? 'eye' : 'eye-off'}"></i>`;
-        lucide.createIcons();
-      });
-    });
-
-    /* ============ Password strength meter ============ */
-    const pwd = document.querySelector('.pwd:not(.pwd-confirm)');
-    const pwdConfirm = document.querySelector('.pwd-confirm');
-    const strengthLabel = document.getElementById('strengthLabel');
-    const strengthSegs = document.querySelectorAll('.strength__bar div');
-    const mismatchHint = document.getElementById('pwdMismatch');
-
-    function calcStrength(v) {
-      let s = 0;
-      if (v.length >= 8) s++;
-      if (v.length >= 12) s++;
-      if (/[A-Z]/.test(v) && /[a-z]/.test(v)) s++;
-      if (/\d/.test(v)) s++;
-      if (/[^A-Za-z0-9]/.test(v)) s++;
-      return Math.min(4, s);
-    }
-    pwd.addEventListener('input', () => {
-      const level = calcStrength(pwd.value);
-      const labels = ['', '弱', '中', '良好', '强'];
-      const classes = ['', 'weak', 'mid', 'strong', 'strong'];
-      strengthLabel.textContent = labels[level];
-      strengthLabel.className = 'strength__label strength__label--' + classes[level];
-      strengthSegs.forEach((seg, i) => {
-        seg.className = i < level
-          ? (level <= 1 ? 'on-weak' : level <= 2 ? 'on-mid' : 'on-strong')
-          : '';
-      });
-      // re-check confirm when pwd changes
-      if (pwdConfirm.value) checkPwdMatch();
-    });
-
-    /* ============ Confirm password live check — ADDED 2026-09-17 ============ */
-    function checkPwdMatch() {
-      if (!pwdConfirm.value) {
-        mismatchHint.hidden = true;
-        pwdConfirm.style.borderColor = '';
-        return true;
-      }
-      const ok = pwd.value === pwdConfirm.value;
-      mismatchHint.hidden = ok;
-      pwdConfirm.style.borderColor = ok ? '' : 'var(--e-500)';
-      return ok;
-    }
-    pwdConfirm.addEventListener('input', checkPwdMatch);
-
-    /* ============ Submit (email only) — REPLACED mock alert with real /api/register call ============ */
-    const formEmail = document.getElementById('form-email');
-    const errorEl = document.getElementById('error-email');
-    const errorText = errorEl.querySelector('span');
-    const submitBtn = document.getElementById('submitBtn');
-    const submitText = document.getElementById('submitText');
-    const submitIcon = document.getElementById('submitIcon');
-
-    function showError(msg) {
-      errorText.textContent = msg;
-      errorEl.classList.add('show');
-    }
-    function setLoading(loading) {
-      submitBtn.disabled = loading;
-      submitText.textContent = loading ? '注册中...' : '注册并继续';
-      submitIcon.style.opacity = loading ? 0.5 : 1;
-    }
-
-    // Redirect-if-logged-in (mirror production register.html)
-    if (localStorage.getItem('token')) {
-      location.href = AIT_AUTH_NAV ? AIT_AUTH_NAV.goAfterAuth() : (location.href = 'dashboard.html');
-    }
-
-    formEmail.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      errorEl.classList.remove('show');
-
-      const email = formEmail.email.value.trim();
-      const password = pwd.value;
-      const passwordConfirm = pwdConfirm.value;
-
-      // Client-side validation
-      if (!email) return showError('请填写邮箱');
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('邮箱格式不正确');
-      if (password.length < 8) return showError('密码至少 8 位');
-      if (!/[A-Z]/.test(password) || !/[a-z]/.test(password)) return showError('密码需含大小写字母');
-      if (!/\d/.test(password)) return showError('密码需含数字');
-      if (!checkPwdMatch()) return showError('两次密码不一致');
-
-      setLoading(true);
-      try {
-        // Default grade — onboarding step 2 lets user change it
-        const res = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, grade: '高三' })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || data.error || '注册失败');
-        // D062 envelope compat
-        const payload = data.data || data;
-        localStorage.setItem('token', payload.token);
-        localStorage.setItem('user', JSON.stringify(payload.user));
-        // Preserve ?next= if user came from a protected page
-        if (window.AIT_AUTH_NAV) AIT_AUTH_NAV.goAfterAuth();
-        else location.href = 'dashboard.html';
-      } catch (err) {
-        showError(err.message);
-        setLoading(false);
-      }
-    });
-
-    /* Guest mode — REPLACED alert with real /api/guest-login */
-    document.getElementById('guestBtn').addEventListener('click', async () => {
-      if (!confirm('以游客模式进入?\n\n· 可拍照 3 次/天\n· 错题存本地, 注册时合并\n· 不会上传到云端')) return;
-      const btn = document.getElementById('guestBtn');
-      btn.disabled = true;
-      try {
-        const res = await fetch('/api/guest-login', { method: 'POST' });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || data.error || '游客登录失败');
-        const payload = data.data || data;
-        localStorage.setItem('token', payload.token);
-        localStorage.setItem('user', JSON.stringify(payload.user));
-        if (window.AIT_AUTH_NAV) AIT_AUTH_NAV.goAfterAuth();
-        else location.href = 'dashboard.html';
-      } catch (err) {
-        alert('游客模式暂不可用: ' + err.message);
-        btn.disabled = false;
-      }
-    });
-  </script>
-  <!-- ADDED 2026-09-17: 引入 auth-nav.js 支持 ?next= 跳转 (frontend-hygiene-loop P2-3) -->
-  <script src="assets/js/auth-nav.js"></script>
-  <script>
-    /* ADDED 2026-09-17: 跳转链接带 next (frontend-hygiene-loop P2-3) */
-    if (window.AIT_AUTH_NAV) window.AIT_AUTH_NAV.attachNextToLinks();
-
-    /* Init */
-    lucide.createIcons();
-  </script>
-
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/register.js"></script>
 </body>
 </html>
