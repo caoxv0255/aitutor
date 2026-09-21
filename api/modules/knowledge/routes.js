@@ -399,8 +399,9 @@ router.get('/star-map', authMiddleware, async (req, res) => {
         subject_code: r.subject_code,
         level: r.level,
         difficulty: r.difficulty,
+        // G6: mastery 与 is_weak 必须同标度 —— 前者是 DB 原始值(0..100)，阈值也用 0..100
         mastery: r.mastery_score != null ? parseFloat(r.mastery_score) : null,
-        is_weak: r.mastery_score != null ? parseFloat(r.mastery_score) < 0.5 : false,
+        is_weak: r.mastery_score != null ? parseFloat(r.mastery_score) < 50 : false,
         attempt_count: r.attempt_count || 0,
       })),
       edges: edgeRows.map(r => ({ from: r.from_kp, to: r.to_kp, strength: r.strength, type: r.type })),

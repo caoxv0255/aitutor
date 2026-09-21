@@ -164,6 +164,14 @@ else
   fail "存在硬编码凭据 (清单见上; 请改为环境变量读取, 缺失即报错)"
 fi
 
+# 2026-09-21 (G6): mastery_score 曾被两套标度读写(差 100 倍), 导致 SRS 复习把
+# 掌握度 60 覆写成 1 —— 两边各自自洽, 单测发现不了, 只能靠静态判据拦。
+if node tests/api/mastery-scale-guard.test.js; then
+  ok "mastery 标度一致 (0..100)"
+else
+  fail "mastery 标度疑似分裂 (见上; 例外须写进 tests/api/mastery-scale-guard.test.js 的 ALLOW 并注明理由)"
+fi
+
 # ── 7. 前端行为测试 (jsdom) ──
 # 2026-09-21: 新主树 frontend-v2/ 的每页都以"六态机 + 错误分类"验收,
 # 测试落在 tests/frontend/ 里独立跑, 无人守门 —— 改动共享层(ui.js/api.js/app.css)

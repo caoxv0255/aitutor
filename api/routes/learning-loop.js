@@ -145,6 +145,12 @@ function clampScore(score) {
  * @param {boolean} feedback.hint_requested - 是否请求提示
  * @returns {Promise<object>} 更新结果摘要
  */
+/**
+ * ⚠️ 死代码（2026-09-21 标记）：本函数未被任何路由调用 —— 活路径是
+ * `processSingleFeedbackSql`（见同文件 270/366 行的调用）。
+ * 它还停留在旧的 **0..1 标度**（clampScore + DELTA/100），留着会误导下一个读者
+ * 以为是活代码而照抄。删除需产品决策（Scope Discipline P2 → FOLLOW-UP）。
+ */
 async function processSingleFeedback(client, feedback) {
   const { userEmail, knowledge_point_id, is_correct, time_spent_ms, hint_requested } = feedback;
 
@@ -557,8 +563,9 @@ router.get('/graph', authMiddleware, async (req, res) => {
         stats: {
           total_nodes: cyNodes.length,
           total_edges: cyEdges.length,
-          mastered: cyNodes.filter((n) => n.data.mastery !== null && n.data.mastery >= 0.7).length,
-          weak: cyNodes.filter((n) => n.data.mastery !== null && n.data.mastery < 0.4).length,
+          // G6: mastery 来自 student_knowledge_mastery，标度 0..100
+          mastered: cyNodes.filter((n) => n.data.mastery !== null && n.data.mastery >= 70).length,
+          weak: cyNodes.filter((n) => n.data.mastery !== null && n.data.mastery < 40).length,
         },
       })
     );
@@ -601,8 +608,10 @@ async function processSingleFeedbackSql(client, feedback) {
   const attemptCount = currentRow ? currentRow.attempt_count : 0;
   const correctCount = currentRow ? currentRow.correct_count : 0;
 
-  // Step 2: 计算新分数 (clamp [0, 1])
-  const newScore = Math.max(0, Math.min(1, oldScore + delta / 100));
+  // Step 2: 计算新分数
+  // 2026-09-21 (G6): DELTA 已是 0..100 单位(15/5/-20)，此前误除 100 并 clamp 到 1，
+  // 会把旧值 60 变成 1（见 docs/spec/SPEC-DATA.md §2.5）。
+  const newScore = Math.max(0, Math.min(100, oldScore + delta));
   const newAttemptCount = attemptCount + 1;
   const newCorrectCount = correctCount + (is_correct ? 1 : 0);
 
@@ -655,32 +664,32 @@ function isCorrectToQuality(isCorrect, timeSpentMs) {
 async function processRippleEffect(client, { userEmail, knowledge_point_id, newScore }) {
   const ripple = { upward: [], downward: [] };
 
-  if (newScore >= 0.8) {
+  if (newScore >= RIPPLE_THRESHOLD.UPWARD_MIN) {
     const upstreamIds = await queryUpstreamNodes(client, knowledge_point_id).catch(() => []);
     for (const preId of upstreamIds) {
       try {
         await client.query(
           `UPDATE student_knowledge_mastery
-           SET mastery_score = LEAST(1.0, mastery_score + 0.02), updated_at = NOW()
+           SET mastery_score = LEAST(100, mastery_score + $3), updated_at = NOW()
            WHERE user_email = $1 AND knowledge_point_id = $2`,
-          [userEmail, preId]
+          [userEmail, preId, RIPPLE.UPWARD_BOOST]
         );
-        ripple.upward.push({ id: preId, delta: 0.02 });
+        ripple.upward.push({ id: preId, delta: RIPPLE.UPWARD_BOOST });
       } catch (e) { /* 继续 */ }
     }
   }
 
-  if (newScore <= 0.4) {
+  if (newScore <= RIPPLE_THRESHOLD.DOWNWARD_MAX) {
     const downstreamIds = await queryDownstreamNodes(client, knowledge_point_id).catch(() => []);
     for (const postId of downstreamIds) {
       try {
         await client.query(
           `UPDATE student_knowledge_mastery
-           SET mastery_score = GREATEST(0.0, mastery_score - 0.05), updated_at = NOW()
+           SET mastery_score = GREATEST(0, mastery_score + $3), updated_at = NOW()
            WHERE user_email = $1 AND knowledge_point_id = $2`,
-          [userEmail, postId]
+          [userEmail, postId, RIPPLE.DOWNWARD_PENALTY]
         );
-        ripple.downward.push({ id: postId, delta: -0.05 });
+        ripple.downward.push({ id: postId, delta: RIPPLE.DOWNWARD_PENALTY });
       } catch (e) { /* 继续 */ }
     }
   }

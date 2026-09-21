@@ -242,13 +242,15 @@ router.post('/complete', authMiddleware, async (req, res) => {
       const oldInterval = row.interval_days || 0;
 
       // ── 计算新的掌握度（复用数据飞轮的 delta 逻辑）──
+      // 2026-09-21 (G6): 统一到 0..100。此前此处用 0..1 delta 与 clamp(…,1)，
+      // 会把 learning-loop 按 0..100 写下的 60 覆写成 1（见 docs/spec/SPEC-DATA.md §2.5）。
       let masteryDelta;
       if (is_correct) {
-        masteryDelta = timeSpent > 60000 ? 0.05 : 0.12;
+        masteryDelta = timeSpent > 60000 ? 5 : 12;
       } else {
-        masteryDelta = -0.15;
+        masteryDelta = -15;
       }
-      const newMastery = Math.max(0, Math.min(1, oldMastery + masteryDelta));
+      const newMastery = Math.max(0, Math.min(100, oldMastery + masteryDelta));
 
       // ── SM-2 计算新间隔 ──
       const quality = toQualityScore(is_correct, timeSpent);
@@ -393,7 +395,9 @@ router.post('/review', authMiddleware, async (req, res) => {
       return res.status(400).json(errorResponse('缺少或非法字段: wrong_id + quality(0-5)'));
     }
     const userEmail = req.user.email;
-    const MASTERY_DELTA_MAP = { 0: -0.15, 1: -0.10, 2: -0.05, 3: 0.04, 4: 0.08, 5: 0.12 };
+    // 2026-09-21 (G6): mastery_score 统一到 0..100（与 schema / knowledge / study-plan 一致）。
+    // 此前用 0..1 标度：读 60 的旧值 + 0.08 后被 clamp 成 1，等于把掌握度清零。见 SPEC-DATA §2.5。
+    const MASTERY_DELTA_MAP = { 0: -15, 1: -10, 2: -5, 3: 4, 4: 8, 5: 12 };
     const EF_INIT = 2.5;
     client = await pool.connect();
     await client.query('BEGIN');
@@ -414,14 +418,14 @@ router.post('/review', authMiddleware, async (req, res) => {
     );
     const oldEF = cur.rows[0] ? parseFloat(cur.rows[0].ease_factor) : EF_INIT;
     const oldInterval = cur.rows[0] ? (cur.rows[0].interval_days || 0) : 0;
-    const oldMastery = cur.rows[0] ? parseFloat(cur.rows[0].mastery_score) : 0.5;
+    const oldMastery = cur.rows[0] ? parseFloat(cur.rows[0].mastery_score) : 50;
     let groupBonus = 0;
     let effectiveQuality = quality;
     if (Array.isArray(group_results) && group_results.length > 0) {
       const simResults = group_results.filter(r => r.card_index >= 2 && r.card_index <= 4);
       if (simResults.length === 3) {
         const correctCount = simResults.filter(r => r.correct).length;
-        if (correctCount >= 2) groupBonus = 0.05;
+        if (correctCount >= 2) groupBonus = 5;
         if (correctCount === 0) effectiveQuality = Math.min(2, quality);
       }
     }
@@ -430,7 +434,7 @@ router.post('/review', authMiddleware, async (req, res) => {
     nextReview.setDate(nextReview.getDate() + newInterval);
     const baseDelta = MASTERY_DELTA_MAP[effectiveQuality] ?? 0;
     const totalDelta = parseFloat((baseDelta + groupBonus).toFixed(3));
-    const newMastery = Math.max(0, Math.min(1, oldMastery + totalDelta));
+    const newMastery = Math.max(0, Math.min(100, oldMastery + totalDelta));
     await client.query(
       `INSERT INTO student_knowledge_mastery
          (user_email, knowledge_point_id, mastery_score, attempt_count, correct_count,
@@ -520,7 +524,7 @@ router.get('/queue', authMiddleware, async (req, res) => {
         correct_answer: row.correct_answer,
         mastery_score: row.mastery_score ? parseFloat(row.mastery_score) : 0,
         ease_factor: row.ease_factor ? parseFloat(row.ease_factor) : 2.5,
-        is_weak: (row.mastery_score || 0) < 0.5,
+        is_weak: (row.mastery_score || 0) < 50,
         group: [
           { card_index: 1, kind: 'wrong', qid: row.wrong_id, stem: row.stem, options: null, difficulty: 3 },
           ...similar.map((s, i) => ({ card_index: i + 2, kind: 'similar', ...s })),

@@ -93,7 +93,8 @@
     els.kpLabel.textContent = item.kp_name || '';
     els.subjectTag.textContent = subjectLabel(item.subject_code);
 
-    const mastery = Math.round((item.mastery_score || 0) * 100);
+    // G6 (2026-09-21): 队列返回的 mastery_score 已是 0..100，不要再 ×100
+    const mastery = Math.round(item.mastery_score || 0);
     els.masteryTag.textContent = '掌握度 ' + mastery + '%';
     els.weakTag.hidden = !item.is_weak;
 

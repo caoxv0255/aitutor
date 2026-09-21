@@ -40,7 +40,7 @@ const QUEUE = [
     stem: '解方程 x²-5x+6=0',
     user_answer: 'x=1',
     correct_answer: 'x=2 或 x=3',
-    mastery_score: 0.3,
+    mastery_score: 30,
     is_weak: true,
   },
   {
@@ -48,7 +48,7 @@ const QUEUE = [
     subject_code: 'physics',
     kp_name: '牛顿第二定律',
     stem: '求物体加速度',
-    mastery_score: 0.7,
+    mastery_score: 70,
     is_weak: false,
   },
 ];

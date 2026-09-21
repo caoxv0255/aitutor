@@ -470,8 +470,9 @@ async function initTables(pool) {
       is_correct BOOLEAN NOT NULL,
       time_spent_ms INTEGER DEFAULT 0,
       review_quality INTEGER CHECK (review_quality BETWEEN 0 AND 5),
-      old_mastery NUMERIC(4,2),
-      new_mastery NUMERIC(4,2),
+      -- 2026-09-21 (G6): mastery 统一到 0..100, 100 需要 3 位整数 → NUMERIC(5,2)
+      old_mastery NUMERIC(5,2),
+      new_mastery NUMERIC(5,2),
       old_interval INTEGER,
       new_interval INTEGER,
       old_ease NUMERIC(4,2),
