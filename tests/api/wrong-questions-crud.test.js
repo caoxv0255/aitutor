@@ -46,9 +46,14 @@ async function call(method, path, { token, body } = {}) {
 async function main() {
   console.log(`\nG1 错题闭环契约测试 → ${BASE_URL}\n`);
 
-  // 无 token 也要能证明"路由存在": 用一个假 token, 期望走到 handler 的 404 分支
-  // (若路由未挂载, Express 返回 HTML, json 解析失败)
-  const token = process.env.BCT_TOKEN || 'g1-probe-token';
+  // 该测试必须带**有效** token 才能证明"路由存在 + 越权兜底"（无 token 只会得到 401,
+  // 401 无法区分"路由存在"与"路由缺失"）。缺 token 时按"跳过"处理, 不制造假失败。
+  const token = process.env.BCT_TOKEN;
+  if (!token) {
+    console.log('  (跳过: 未提供 BCT_TOKEN —— 该测试需要一个有效 JWT;');
+    console.log('   生成方式见文件头: 用 .env 的 JWT_SECRET 签一个短期探针 token)');
+    process.exit(0);
+  }
 
   const put = await call('PUT', '/api/user/wrong-questions/0', { token, body: { reviewed: 1 } });
   ok('PUT 返回 JSON envelope', put.json !== null, `实际 body 前 80 字: ${put.text.slice(0, 80)}`);

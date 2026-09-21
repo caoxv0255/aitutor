@@ -51,9 +51,13 @@ BCT_URL=$(resolve_bct_url || true)
 # 旧逻辑 grep "Test Files .+ passed" 会误判 — vitest 失败时也输出 "passed" 字符串 (如 "1 failed | 12 passed")
 # 新逻辑: 检查 vitest 输出没有 "failed" 标记 (失败时 vitest 会输出 "×" + "Failed Tests N" + "Tests  N failed")
 step "1/6 单元测试 (vitest)"
-VITEST_OUT=$(npx vitest run --reporter=dot 2>&1 || true)
-if echo "$VITEST_OUT" | grep -qE "Failed Tests|× |failed "; then
-  fail "vitest 失败: $(echo "$VITEST_OUT" | grep -E "× |Failed Tests" | head -3 | tr '\n' ' ')"
+# 2026-09-21 修复: 原判据是 grep "Failed Tests|× |failed ", 会漏掉 vitest 的
+# "No test suite found" 一类错误 —— 实测曾有两次门禁报"vitest 全绿", 而 vitest
+# 实际在报错。退出码才是权威判据。
+VITEST_OUT=$(npx vitest run --reporter=dot 2>&1)
+VITEST_RC=$?
+if [ "$VITEST_RC" -ne 0 ]; then
+  fail "vitest 退出码 $VITEST_RC: $(echo "$VITEST_OUT" | grep -E "× |Failed Tests|No test suite|Error:" | head -3 | tr '\n' ' ')"
 else
   ok "vitest 全绿"
 fi
