@@ -272,7 +272,10 @@ if (NEW_TREE_ENABLED) {
     '/assets/v2',
     express.static(path.join(DESIGN_V2_DIR, 'assets'), {
       etag: true,
-      maxAge: '1h',
+      // 迭代期不设 maxAge: 改 CSS 后浏览器立即拉新（协商 304）。
+      // 生产切换时恢复 maxAge: '1h' 并配 contenthash 文件名。
+      cacheControl: false,
+      lastModified: true,
     })
   );
 

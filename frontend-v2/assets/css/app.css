@@ -1422,6 +1422,12 @@ a.btn:focus-visible {
   display: none;
 }
 
+@media (min-width: 768px) {
+  .tabbar {
+    display: none !important;
+  }
+}
+
 @media (max-width: 767px) {
   .tabbar {
     position: fixed;
