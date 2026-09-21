@@ -172,6 +172,15 @@ else
   fail "mastery 标度疑似分裂 (见上; 例外须写进 tests/api/mastery-scale-guard.test.js 的 ALLOW 并注明理由)"
 fi
 
+# 2026-09-21 (G6-c): 线上实际约束(0..1) 与 db.js 声明(0..100) 曾长期不一致 ——
+# 仓库 schema 说一套、线上跑另一套, 任何按 db.js 新建的库都会得到不同的约束。
+# 比对射程: 声明表是否存在 + 数值列精度 + CHECK 约束定义(语义归一化)。
+if node scripts/check-schema-drift.mjs; then
+  ok "仓库 schema 与线上一致 (数值精度 + CHECK)"
+else
+  fail "schema drift (见上; 有意差异须登记到 scripts/check-schema-drift.mjs 的 ALLOW 并注明理由)"
+fi
+
 # ── 7. 前端行为测试 (jsdom) ──
 # 2026-09-21: 新主树 frontend-v2/ 的每页都以"六态机 + 错误分类"验收,
 # 测试落在 tests/frontend/ 里独立跑, 无人守门 —— 改动共享层(ui.js/api.js/app.css)
