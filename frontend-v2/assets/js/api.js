@@ -155,6 +155,21 @@
       return request('/api/srs/engine/stats', { signal: signal });
     },
 
+    /* ── 知识掌握度 ────────────────────────────────────────────────────── */
+
+    /**
+     * 掌握度概览：GET /api/knowledge/mastery
+     * 返回 { subject, overall, by_topic:[{kp_id,topic,mastery,questions_done,accuracy}], weak_points }
+     *
+     * ⚠️ 标度（SPEC-DATA G6-b）：本端点的 overall / by_topic[].mastery 是 **0..1**，
+     * 与 /api/srs/engine/queue 的 mastery_score(0..100) 不同。展示层需 ×100，
+     * 归一化只在页面里做一次，不要在多处重复乘。
+     */
+    knowledgeMastery: function (subject, signal) {
+      const q = subject ? '?subject=' + encodeURIComponent(subject) : '';
+      return request('/api/knowledge/mastery' + q, { signal: signal });
+    },
+
     /** 错题列表：GET /api/user/wrong-questions（支持 page/page_size/subject/reviewed） */
     getWrongQuestions: function (query, signal) {
       const qs = new global.URLSearchParams();

@@ -39,7 +39,7 @@
 | `login.html` | v2 + F3 + legacy | `POST /api/auth/login`、`GET /api/auth/me`、`POST /api/auth/guest-login` | ✅ 已按新架构重建（36 项验收），含 `?next=` 防开放重定向 |
 | `register.html` | v2 + F3 | `POST /api/auth/register`、`GET /api/provinces` | ✅ 已按新架构重建（35 项验收），年级枚举与后端 `VALID_GRADES` 逐项对齐 |
 | `wrong-book.html` | v2 + F3 | `GET/POST /api/user/wrong-questions`、`GET /api/user/wrong-questions/stats`、`GET /api/user/wrong-questions/export` | 切片链路的终点页 |
-| `mastery.html` | v2 + F3 | `GET /api/knowledge/mastery`、`GET /api/knowledge/map`、`GET /api/knowledge/:kpId/practice` | |
+| `mastery.html` | v2 + F3 | `GET /api/knowledge/mastery`、`GET /api/knowledge/map`、`GET /api/knowledge/:kpId/practice` | ✅ 已按新架构重建（51 项验收）；标度见 G6-b（本端点 0..1） |
 | `essay.html` | v2 + F3 | `POST /api/essay/grade`、`GET /api/essay`、`POST /api/essay/upload` | 长耗时，加载态必须可中断 |
 | `practice-hub.html` | v2 + F3 | `POST /api/exam/session/start`、`POST /api/exam/session/submit`、`GET /api/exam/questions` | |
 | `learning-path.html` | v2 + F3 | `GET /api/learning-path/current`、`GET /api/analytics/learning-path` | |
