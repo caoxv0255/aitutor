@@ -30,8 +30,9 @@
 
 | # | 缺口 | 证据 | 影响 page | 优先级 |
 |---|---|---|---|---|
-| **G6-b** | **API 输出层标度也不统一**：`/api/knowledge/mastery` 的 `overall` / `by_topic[].mastery` 按 **0..1** 返回（F3 `mastery.html:311` 用 `overall * 100` 显示），而 `/api/knowledge/map` 的 `nodes[].mastery` 与 `/api/srs/engine/queue` 的 `mastery_score` 按 **0..100** 返回 | `api/modules/knowledge/routes.js:48,54` vs `:402`；消费者 `ai-tutor-frontend/pages/mastery.html:310-311` | mastery / 复习 / 图谱 | **P1，需决策**（统一需同时改 F3 消费方） |
-| ~~**G6**~~ | ~~`mastery_score` 两套标度（会导致 SRS 复习把 60 覆写成 1）~~ | **代码已修 2026-09-21**：活路径统一 0..100 —— `srs-engine` review 4 处 + route A 3 处、`learning-loop` 活路径(`/100` 多余)与涟漪阈值、`knowledge/routes:403` 的 `is_weak`；schema `NUMERIC(4,2)→(5,2)`；新增静态闸门 `tests/api/mastery-scale-guard.test.js` 并接入门禁 6/7（它首跑又抓出 2 处真实违规） | ~~全局~~ | ⚠️ **代码已修，历史数据回填待执行**（`037_mastery_scale_unify.sql`） |
+| **G6-c** | **schema drift：仓库声明与线上实际不一致** | `api/core/db.js:452` 声明 `CHECK (mastery_score BETWEEN 0 AND 100)`，而线上 `pg_constraint` 实际是 `CHECK (mastery_score >= 0 AND mastery_score <= 1)`。首次执行回填迁移时被线上约束拦下才暴露。**任何按 db.js 新建的库都会得到与线上不同的约束** —— 这正是 G6 反复出现的土壤 | 全局 | **P1**：约束已由 `037` 迁移对齐；但**缺少 drift 检测机制**，建议加一条"仓库 schema vs 线上 schema 比对"门禁 |
+| **G6-b** | **API 输出层标度也不统一**：`overall` / `by_topic[].mastery` 按 **0..1** 返回（F3 `mastery.html:311` 用 `overall * 100` 显示），而 `/api/knowledge/map` 的 `nodes[].mastery` 与 `/api/srs/engine/queue` 的 `mastery_score` 按 **0..100** 返回 | `api/modules/knowledge/routes.js:48,54` vs `:402`；消费者 `ai-tutor-frontend/pages/mastery.html:310-311` | mastery / 复习 / 图谱 | **P1，需决策**（统一需同时改 F3 消费方） |
+| ~~**G6**~~ | ~~`mastery_score` 两套标度（会导致 SRS 复习把 60 覆写成 1）~~ | **已于 2026-09-21 关闭**：活路径统一 0..100（`srs-engine` review 4 处 + route A 3 处、`learning-loop` 活路径与涟漪阈值、`knowledge/routes:403`、图谱统计）；schema 精度 `NUMERIC(4,2)→(5,2)`；**线上约束由 0..1 迁移为 0..100**；历史数据回填完成（3 行 + 2 行日志）；静态闸门 `tests/api/mastery-scale-guard.test.js` 已接入门禁 6/7（它首跑又抓出 2 处真实违规） | ~~全局~~ | ✅ 已关闭（详见 §2.6） |
 | ~~**G1**~~ | ~~无法标记已复习 / 删除错题~~ | **已于 2026-09-21 关闭**：`api/modules/user/routes.js` 新增 `PUT/DELETE /wrong-questions/:id`（handler 早已实现，只差挂载）。契约测试 `tests/api/wrong-questions-crud.test.js` 8/8；前端 `wrong-book.html` 已接上行级操作，验收 44/44 | ~~wrong-book~~ | ✅ 已关闭 |
 | **G2** | 错题列表不返回 `question_type` / `correct_answer` 的稳定性保证 | SQL 是 `SELECT wq.*`，字段取决于表结构；新页面已做 `content \|\| question` 兼容 | wrong-book | P1 |
 | **G3** | vision 解析结果字段名不稳定 | `api/services/visionSearchService.js:679` 用 `{success, pageIndex, duration_ms, ...parsed}` spread，具体字段随 LLM 输出漂移 | photo-solve | P1 —— 建议后端固化为稳定 schema |
@@ -80,6 +81,41 @@ newMastery = max(0, min(1, 60 + 0.08)) = 1
 | **B 统一到 0..1**（与 SRS 自洽） | 改 `knowledge/routes` + `study-plan` + schema CHECK + 索引；已有 0..100 历史数据需 ÷100 回填 | 改动面更大，且与 `NUMERIC(5,2)` 精度设计冲突 |
 
 在决策落地前，`mastery.html` 的掌握度百分比**无法保证正确**，因此该页暂缓实施（页面骨架与验收模板已就绪）。
+
+---
+
+## 2.6 G6 修复与回填执行记录（2026-09-21）
+
+### 执行过程（含一次失败，值得留档）
+
+1. 首次执行 `037` 只做了"放宽精度 + ×100 回填"，**被线上 CHECK 约束拒绝**：
+
+   ```
+   ERROR: new row for relation "student_knowledge_mastery" violates check constraint
+          "student_knowledge_mastery_mastery_score_check"
+   DETAIL: Failing row contains (... 40.00 ...)
+   ```
+
+   事务随之回滚，数据未受影响（已核对：仍为 0.40/0.45/0.50）。
+2. 该失败暴露了 **G6-c 的 schema drift**：线上约束是 `0..1`，而 `api/core/db.js:452` 声明 `0..100`。
+3. 据此把 `037` 补全为：放宽精度 → **摘除 0..1 约束** → ×100 回填 → **建立 0..100 约束**（幂等）。
+
+### 验证证据（全部机械可复现）
+
+| # | 检查 | 命令要点 | 结果 |
+|---|---|---|---|
+| 1 | 约束已换 | `pg_get_constraintdef` | `CHECK (mastery_score >= 0 AND mastery_score <= 100)` |
+| 2 | 无残留小标度 | `COUNT(*) WHERE mastery_score > 0 AND <= 1` | `skm=0, log=0` |
+| 3 | 回填数值 | 直查两表 | `kp_dc=50.00 kp_dt=40.00 kp_em=45.00`；日志 `old=32.00 new=40.00` |
+| 4 | 列精度 | `information_schema.columns` | 三列均 `NUMERIC(5,2)` |
+| 5 | 幂等 | 重跑迁移 | `UPDATE 0 ×3`，无副作用 |
+| 6 | 端到端（读） | 用探针 token 调两接口 | `/api/knowledge/mastery` → `overall=0.45`、by_topic `0.4/0.45/0.5`；`/api/srs/engine/queue` → `mastery_score=40/45/50` |
+
+> 第 6 项同时**实证了 G6-b**：同一份数据，一个端点返回 0.45，另一个返回 45。
+
+### 未完成（需重启）
+
+服务仍在跑修复前的代码，因此队列的 `is_weak` 仍按旧阈值 `< 0.5` 判定 —— 实测 `40/45/50` 三个都被判为 `False`；修复后 `< 50` 应使 40、45 为 `True`。**重启 `uibe-tutor` 后需重跑第 6 项确认。**
 
 ---
 
