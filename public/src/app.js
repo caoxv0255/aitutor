@@ -34,9 +34,9 @@ class App {
       const banner = document.getElementById('guest-data-banner');
       const text = document.getElementById('guest-banner-text');
       if (!banner || !text) return;
-      text.innerHTML = `📦 你已有 <b>${summary.total}</b> 条本地数据，<a href="/login.html" class="underline font-semibold">立即注册</a>永久保留`;
-      banner.classList.remove('hidden');
-      setTimeout(() => { try { banner.classList.add('hidden'); } catch (_) {} }, 8000);
+      text.innerHTML = `📦 你已有 <b>${summary.total}</b> 条本地数据，<a href="/login.html">立即注册</a>永久保留`;
+      banner.classList.add('guest-banner--visible');
+      setTimeout(() => { try { banner.classList.remove('guest-banner--visible'); } catch (_) {} }, 8000);
     })();
   }
 

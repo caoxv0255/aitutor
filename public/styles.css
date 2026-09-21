@@ -1602,3 +1602,30 @@ body {
   width: 100%;
   margin: 0;
 }
+
+/* ==========================================================================
+ * 游客数据提示条 (Phase-H3-fix)
+ * 2026-09-21 修复：原先 class 引用 8 个 Tailwind 工具类，但本 PWA 未加载
+ * Tailwind 且 styles.css 里一个都没定义（含 .hidden），导致提示条永不隐藏、
+ * 在 JS 填文案前就显示成空条（审计 R3）。改为项目自有语义类。
+ * ========================================================================== */
+.guest-banner {
+  display: none;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255, 149, 0, 0.14);
+  border-bottom: 1px solid var(--separator);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.guest-banner--visible {
+  display: block;
+}
+
+.guest-banner a {
+  color: var(--aitutor-primary);
+  font-weight: 600;
+  text-decoration: underline;
+}
