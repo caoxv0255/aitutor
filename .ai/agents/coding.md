@@ -97,6 +97,9 @@ IDEA → CODING → CODING → CODING
 3. 当前真实代码
 4. 当前数据库 / runtime 状态
 5. 已批准的测试与 DoD
+6. **前端任务的 SoT** (2026-09-21 起): `docs/spec/PLAN-v2-migration.md` (执行计划) >
+   `docs/spec/SPEC-ROUTES.md` (页面×接口×状态) > `docs/spec/SPEC-DATA.md` (接口缺口)
+   —— 页面长什么样、接哪个接口、怎样算完成，以这三份为准，不以设计稿或旧页面为准
 
 **优先级**:
 
@@ -171,7 +174,8 @@ CONFLICT DETECTED
 - 相关模块 / routes / handlers / services
 - database schema (`database/migrations/*.sql` + `api/core/db.js`)
 - service layer (`api/routes/` + `api/modules/`)
-- frontend integration (`ai-tutor-frontend/` + `public/`)
+- frontend integration —— **新代码落点是 `frontend-v2/`**（见 §6.2）；旧树
+  `ai-tutor-frontend/`(F3) / `frontend/`(legacy) / `public/`(PWA) 只读参考
 - existing tests (`tests/`)
 - package/dependencies (`package.json`)
 - 当前 git status + git diff
@@ -239,6 +243,49 @@ T1-T4 — 测试
 - **REAL FAILURE** — 我引入的，修复
 - **ENVIRONMENT FAILURE** — 环境问题（DB 没起 / 端口占用），修复环境
 - **PRE-EXISTING FAILURE** — Sprint 之前就坏的，**不能算成自己的成功**
+
+### 6.2 前端主树纪律（2026-09-21 起，必读）
+
+**唯一新代码落点 = `frontend-v2/`**。`ai-tutor-frontend/`(F3)、`frontend/`(legacy)、
+`public/`(PWA) 已**冻结**：可读、可迁移资产，不再新增功能。桌面与移动走**同一套响应式**，
+不再维护"桌面 F3 + 移动 PWA"两条线（Q1 决策）。
+
+**三件套必须复用，不得每页重写**：
+
+| 层 | 文件 | 约束 |
+|---|---|---|
+| 状态机 | `assets/js/ui.js` | 六态互斥 + `mapError` 错误分类 |
+| 数据层 | `assets/js/api.js` | 所有请求的出入口；页面**不得**直接 `fetch` |
+| 视觉 | `assets/css/app.css` | clay token 与组件类；页面**不得**内联 `<style>` |
+
+**新增页面的硬约束**（缺一不可）：
+
+1. **六态齐备**：成功 / 加载 / 空 / 错误 / 未登录(401·403) / 离线
+   —— 例外：认证页（login / register）为 5 态，表单态即未登录态
+2. **零境外请求**：不得出现 `fonts.googleapis` / `unpkg` / `jsdelivr`
+3. **a11y**：输入有 `label`；状态区 `aria-live="polite"`；图标不用 emoji；
+   `prefers-reduced-motion` 有降级
+4. **配套验收**：`tests/frontend/<page>-states.test.mjs`，并把该文件追加到
+   `package.json` 的 `test:frontend`（门禁 7/7 会自动覆盖）
+5. **骨架照抄**：页面抄 `wrong-book.html`，逻辑抄 `assets/js/wrong-book.js`，
+   只写差异部分（这是"每页边际成本落在业务差异上"的前提）
+
+**改共享层（`ui.js` / `api.js` / `app.css`）后必须跑全量 `npm run test:frontend`** ——
+这三份是所有页面共用的，改坏一个选择器会同时影响全部页面，而单页测试看不出来。
+
+**凭据纪律**：一律从环境变量读取（如 `PAPERS_DB_URL` / `DATABASE_URL`），
+缺失即抛错退出；不得在代码里写死任何口令 / token。
+
+### 6.3 UI 事实口径
+
+涉及界面时必须区分三种证据，不得混用：
+
+- **static inspection** —— HTML 源码 + grep（能证"引用对"，不能证"渲染对"）
+- **jsdom / 行为测试** —— DOM 结构与状态机（能证"逻辑对"，不能证"像素对"）
+- **真实浏览器** —— Playwright / 人工截图（能证"看得见"）
+
+若某类证据因环境不可得（如本机 Chrome 出网被阻断），**必须写明"未验证"**，
+不得因为其它层通过就推断该层也通过。
 
 ---
 
@@ -334,8 +381,12 @@ pending
 | **L2 Integration** | 跨 module | vitest + supertest |
 | **L3 API / DB** | 真后端 + 真 DB | Backend Contract Test (BCT) |
 | **L4 Product DoD** | 端到端 + DB SQL 验证 | shell 脚本 + psql |
+| **L5 Frontend Behavior** | 页面状态机 / 错误分类 / 安全参数 | jsdom（`tests/frontend/*.test.mjs`）|
 
 **不要把 "unit tests passed" 等价成 "product requirement passed"。**
+
+L5 是 2026-09-21 新增的一层：它验证的是"页面在六种状态下行为正确"，
+既不是渲染验证（需真浏览器），也不是接口验证（需 BCT）。三者不可互相替代。
 
 如果存在真实数据库验证，优先提供真实 DB evidence。
 
@@ -686,4 +737,7 @@ IMPLEMENTATION INCOMPLETE
 
 ---
 
-**协议结束 — DSH v1.0 (2026-08-28)**
+> **v1.1 (2026-09-21)**: 新增 §6.2 前端主树纪律（frontend-v2 + 三件套 + 六态 DoD + 凭据纪律）、
+> §6.3 UI 事实口径；§2 补前端 SoT；§4 扫描清单指向新主树；§10 增 L5 前端行为层。
+
+**协议结束 — DSH v1.1 (2026-09-21)**

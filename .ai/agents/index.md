@@ -2,8 +2,9 @@
 
 > **目的**: 不同类型的 AI agent（Claude Code / Cursor / Hermes / DeepSeek 等）进入本项目时, 先读本文件, 然后按当前角色读对应子文件。
 >
-> **最后更新**: 2026-08-28 (D083 补全)
+> **最后更新**: 2026-09-21 (对齐 v2 主树 + 门禁 7 项)
 > **配合**: `.ai/context.md` (5 分钟入口) + `.ai/decisions/` (决策历史)
+> **前端新代码看**: `docs/spec/PLAN-v2-migration.md` (可执行计划) + `docs/spec/SPEC-ROUTES.md` (页面×接口×状态)
 
 ---
 
@@ -28,6 +29,9 @@
 | 审查一个 sprint 的实现 | review | (本目录 coding.md + review.md) | `decisions/` 最新 ADR |
 | 跑发布前 5 项门禁 | testing | (本目录 testing.md) | `status/gate-status.yaml` |
 | 数据迁移 / 回填 | migration | `runbooks/db-migration.md` | `architecture/database.md` + D063 (uid) |
+| **新写 / 重建前端页面** | coding → testing | `docs/spec/PLAN-v2-migration.md` §3 单页任务卡 | `SPEC-ROUTES.md` + `SPEC-DATA.md` |
+| **改前端共享层** (`ui.js`/`api.js`/`app.css`) | coding → testing | (本目录 coding.md §6.2) | 必须跑全量 `npm run test:frontend` |
+| **判断某页能否开工** | review | `SPEC-ROUTES.md` §3 DoD | `PLAN-v2-migration.md` §1 决策点 |
 
 ---
 
@@ -39,9 +43,23 @@
 2. **改 client.js 后** 必须验证: `npm test` + BCT + `git diff --stat` 看波及页面
 3. **改 auth / security 后** 必须重建 docker 镜像验证容器端
 4. **改迁移前** 必须验证: 全新 DB + 已存在 DB 两种情况
-5. **commit 前** 必须 `npm run gate` 全绿（或 `SKIP_DOCKER=1` 在 WSL 下）
+5. **commit 前** 必须 `npm run gate` 全绿（7 项；或 `SKIP_DOCKER=1` 在 WSL 下）
 6. **不要改既有 lint 债务** (基线 2445 项); 新代码必须 lint 干净
 7. **不要修改 `.ai/decisions/`** (除非收到 Deviation Proposal 授权)
+
+### 3.1 新增约束（2026-09-21，来自实际事故）
+
+8. **运行时文件必须入库**：被页面/服务引用的资源不得留在 `.gitignore` 目录 ——
+   `check-tracked-refs`（门禁 6/7）会拦。事故：`/v2` 的 24 个页面曾长期被 gitignore，
+   线上在服务它们而仓库里没有，clone 到新机器即整站 404。
+9. **凭据一律走环境变量**，缺失即抛错退出；不得硬编码口令/token
+   （`check-no-hardcoded-secrets` 会拦）。见 `SPEC-DATA.md`。
+10. **不确定就写"未验证"**：不得把"没法测 / 没测 / 看起来对"写成"通过"。
+    验收结论必须给出可复现的命令与输出，且区分**分析**与**实施**两种完成度。
+11. **动生产服务（重启 systemd 单元、改数据库口令）必须先拿到用户明确授权**，
+    重启后要核对「线上产物 md5 == 本地文件 md5」，不能只看进程起来了。
+12. **提交分组顺序**：先提功能文件、再提门禁/基础设施改动 ——
+    反序会被引用完整性检查拦下（事故：`login.html` 已入库却引用未入库的 `login.js`）。
 
 ---
 
@@ -81,6 +99,15 @@ L3 — Hermes / Memory Plane (辅助上下文, 不决策)
 - ❌ Hermes TUI 实现细节 → 见 Hermes 仓库
 - ❌ AI agent 框架选型（LangGraph / AutoGen / CrewAI）→ 见 D079 (architecture boundary)
 - ❌ AI OS / 多 agent swarm → **明确禁止**进入 aitutor (D079)
+
+---
+
+## 8. 版本
+
+- **v1.1 (2026-09-21)**: 对齐 v2 主树 + 门禁 7 项；新增 §3.1 六条约束
+  （运行时文件入库 / 凭据走环境变量 / 事实口径 / 生产变更授权 / md5 校验 / 提交顺序）；
+  §2 补三条前端任务映射
+- **v1.0 (2026-08-28)**: D083 初版
 
 ---
 

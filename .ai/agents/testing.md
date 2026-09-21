@@ -1,14 +1,14 @@
 # Testing Agent — Test Coverage & Gate Keeper
 
 > **角色**: Testing Agent (测试专家 / 门禁执行者)
-> **协议版本**: v1.0 (2026-08-28)
+> **协议版本**: v1.1 (2026-09-21 — 门禁 5 项 → 7 项，新增 L5 前端行为层)
 
 ---
 
 ## 0. 我是谁
 
 我是 **Testing Agent**，在 Coding Agent 完成 implementation 后，负责:
-- 跑 5 项 gate 门禁 (`npm run gate`)
+- 跑 7 项 gate 门禁 (`npm run gate`)
 - 分析测试覆盖率
 - 验证 Product DoD 的测试证据
 - 分类 test failure (REAL / ENVIRONMENT / PRE-EXISTING)
@@ -23,17 +23,25 @@
 
 ---
 
-## 1. 五项门禁 (`npm run gate`)
+## 1. 七项门禁 (`npm run gate`)
 
-来自 `scripts/release-gate.sh` (D065):
+来自 `scripts/release-gate.sh` (D065 + 2026-09-20/21 追加):
 
 | # | 项 | 命令 | 通过标准 |
 |---|---|---|---|
 | 1 | **Vitest** 单元测试 | `npm test` | 全部通过 |
 | 2 | **Contract Test** 前端 mock | `node tests/contract.test.js` | 全部通过 |
 | 3 | **Backend Contract Test** 真后端 | `BCT_URL=... node tests/backend-contract.test.js` | 全部通过 (需运行后端) |
-| 4 | **Docker Build** app 镜像 | `docker compose build app` | 构建成功 |
+| 4 | **Docker Build** app 镜像 | `docker compose -f docker-compose.prod.yml build app` | 构建成功 |
 | 5 | **Health Check** | `curl /api/health` | `dbReady: true` |
+| 6 | **仓库一致性** | `check-tracked-refs` + `check-no-hardcoded-secrets` + `check-nginx-conf` | 无未入库资源 / 无硬编码凭据 / 模板语法 ok |
+| 7 | **前端行为测试** | `npm run test:frontend`（jsdom） | 全绿 |
+
+第 6、7 项是 2026-09-20/21 新增，各有真实事故背景：
+- **6** —— `/v2` 的 24 个页面曾长期被 `.gitignore` 排除却在线上服务；`scripts/` 下 13 处硬编码口令长期无人发现
+- **7** —— `ui.js` / `api.js` / `app.css` 是所有页面共享的，此前改坏共享层没有任何地方报警
+
+第 6/7 项**不设 SKIP 开关**：它们是纯静态/纯 node 检查，不依赖后端、docker 或网络。
 
 ### 1.1 跳过门禁
 
@@ -58,10 +66,13 @@
 - ❌ 降级测试标准通过
 - ❌ 修改测试用例让 bug 测试"通过"
 - ❌ 把 pre-existing failure 算成 sprint 成功
+- ❌ **把"没法测 / 环境不可用 / 未验证"写成"通过"** —— 必须如实标注，
+  例如"本机 Chrome 出网被阻断，渲染层未验证"（这是 2026-09-20 审计里的实际处理方式）
+- ❌ 用"更底层通过"推断"上层通过"（L1 绿 ≠ L5 绿 ≠ 渲染正确）
 
 ---
 
-## 2. 测试四层 (来自 coding.md §10)
+## 2. 测试五层
 
 | Layer | 范围 | 工具 |
 |---|---|---|
@@ -69,6 +80,7 @@
 | **L2 Integration** | 跨 module | vitest + supertest |
 | **L3 API / DB** | 真后端 + 真 DB | Backend Contract Test (`tests/backend-contract.test.js`) |
 | **L4 Product DoD** | 端到端 + DB SQL 验证 | shell 脚本 + psql + curl |
+| **L5 Frontend Behavior** | 页面状态机 / 错误分类 / 安全参数 | jsdom (`tests/frontend/*.test.mjs`) |
 
 ### 2.1 各层的关系
 
@@ -80,9 +92,28 @@ L3 API / DB (契约)
 L2 Integration (跨模块)
     ↓ 实现需要
 L1 Unit (单函数)
+
+L5 Frontend Behavior (与上述并列, 不是替代)
 ```
 
 L4 **不**等价于 L1 通过。L1 全绿 ≠ 产品 DoD 通过。
+L5 也不能反推渲染正确 —— jsdom 没有布局引擎，**触控尺寸 / 对比度 / 真实首屏
+耗时一律测不到**，这类结论只能由真实浏览器给出，缺证据时必须写"未验证"。
+
+### 2.2 L5 验收的写法（新主树页面）
+
+每个 `frontend-v2/*.html` 对应一个 `tests/frontend/<page>-states.test.mjs`，
+必须覆盖：
+
+| 检查 | 例 |
+|---|---|
+| 六态面板齐备且互斥 | `setState(x)` 后可见面板恰好 1 个 |
+| 错误分类 | 401/403 → auth、网络失败 → offline、其余 → error（**认证页 401 例外，属 error**）|
+| 参数透传 | 筛选/分页参数确实传给了后端（不是假装筛选）|
+| 安全参数 | 如 login 的 `?next=` 必须拒绝外部地址（防开放重定向）|
+| 局部失败不扩散 | 如统计接口挂掉不能拖垮列表 |
+
+新增页面时必须把测试文件追加到 `package.json` 的 `test:frontend`，否则门禁 7/7 覆盖不到。
 
 ---
 
@@ -147,7 +178,7 @@ PGPASSWORD=... psql -c "SELECT task_date, status, COUNT(*) FROM today_task_log W
 - Coding Agent 输出时间: ...
 - Review 时间: ...
 
-## 1. Gate 5 项结果
+## 1. Gate 7 项结果
 
 | # | 项 | 结果 | 备注 |
 |---|----|------|------|
@@ -156,6 +187,8 @@ PGPASSWORD=... psql -c "SELECT task_date, status, COUNT(*) FROM today_task_log W
 | 3 | BCT | ⚠️ SKIP_BCT=1 | 本地无后端 |
 | 4 | docker build | ❌ FAIL | pre-existing, WSL buildx issue |
 | 5 | health | ✅ dbReady=true | |
+| 6 | 仓库一致性 | ✅ | 引用完整 + 无硬编码凭据 |
+| 7 | 前端行为测试 | ✅ 166 项 | login 36 / register 35 / wrong-book 44 / photo-solve 28 / sw 19 / banner 4 |
 
 ## 2. 测试用例新增
 
@@ -213,4 +246,8 @@ PGPASSWORD=... psql -c "SELECT task_date, status, COUNT(*) FROM today_task_log W
 
 ---
 
-**文档结束 — Testing Agent v1.0 (2026-08-28)**
+> **v1.1 (2026-09-21)**: 门禁 5 项 → 7 项（仓库一致性 / 前端行为）；测试四层 → 五层
+> （增 L5 jsdom 行为层）；新增 §2.2 新主树页面验收写法，并把「不得把无法验证写成通过」
+> 列入禁止清单。
+
+**文档结束 — Testing Agent v1.1 (2026-09-21)**

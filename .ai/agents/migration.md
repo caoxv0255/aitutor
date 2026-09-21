@@ -1,7 +1,7 @@
 # Migration Agent — Database Schema & Data Migration
 
 > **角色**: Migration Agent (DB 变更 / 数据迁移专家)
-> **协议版本**: v1.0 (2026-08-28)
+> **协议版本**: v1.1 (2026-09-21 — 新增 §8.5 连接串纪律 / §8.6 文件级迁移)
 
 ---
 
@@ -224,6 +224,37 @@ DROP TABLE IF EXISTS today_task_log;
 - 必须有 backup
 - 必须有产品决策审批
 - 必须在 migration 文件注释里 **显式标注**: `⚠️ IRREVERSIBLE — requires L0 approval`
+
+---
+
+## 8.5 数据脚本的连接串纪律（2026-09-21 新增）
+
+**任何**迁移 / 回填 / 解析脚本连接数据库时：
+
+```js
+const dbUrl = env.PAPERS_DB_URL || env.DATABASE_URL;
+if (!dbUrl) throw new Error('缺少数据库连接串: 请设置 PAPERS_DB_URL（或 DATABASE_URL）');
+```
+
+```python
+db_url = os.environ.get("PAPERS_DB_URL") or os.environ.get("DATABASE_URL")
+if not db_url:
+    raise RuntimeError("缺少数据库连接串: 请设置 PAPERS_DB_URL（或 DATABASE_URL）")
+```
+
+**不得**保留硬编码连接串作为 fallback —— 事故：`scripts/` 下 13 个脚本长期内联
+同一段 postgres 口令（`parse-*` / `retry-*` / `batch-parse-*` / `storage-service` 等），
+既不在任何一次增量 diff 里，也无门禁覆盖，直到整仓扫描才发现。
+现在由门禁 6/7 的 `check-no-hardcoded-secrets.mjs` 拦截。
+
+### 8.6 文件级迁移同样适用（`/v2` 事故）
+
+"迁移"不只是 DB。移动运行时文件（页面、静态资源）时：
+
+- 被服务端/页面引用的资源**必须**进入版本控制 —— 门禁 6/7 的 `check-tracked-refs` 会拦
+- 事故：`docs/design/*.html` 24 个页面长期被 `.gitignore` 排除，却在线上由 `/v2` 提供服务；
+  clone 到新机器即整站 404，且 `git checkout` 历史版本也拿不回来
+- 搬迁后要验证「线上产物 md5 == 本地文件 md5」，而不是只看服务返回 200
 
 ---
 

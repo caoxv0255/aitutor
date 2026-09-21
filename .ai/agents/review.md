@@ -88,6 +88,25 @@
 🚩 **红旗 7**: untracked 文件 + .env.bak 没处理就开始新 coding
 → 必须先 housekeeping
 
+🚩 **红旗 8**: 结论写"已验证 / 通过"，但实际是"环境所限没测"（2026-09-21 新增）
+→ 要求区分**分析**与**实施**两种完成度，如实标注未验证项；
+   例：本机 Chrome 出网被阻断 → 渲染/触控/对比度属"未验证"，不得写成通过
+
+🚩 **红旗 9**: 改了 `frontend-v2/assets/js/ui.js` / `api.js` / `app.css`（共享层）
+   但没跑全量 `npm run test:frontend`（2026-09-21 新增）
+→ 这三份是全部页面共用的，单页测试看不出跨页破坏；要求重跑
+
+🚩 **红旗 10**: 新增了 `frontend-v2/*.html` 但没有配套
+   `tests/frontend/<page>-states.test.mjs`，或没追加到 `package.json` 的 `test:frontend`
+→ 该页没有进入门禁 7/7 的射程；要求补齐
+
+🚩 **红旗 11**: 往 `frontend-v2/` 里引入了境外 CDN（`fonts.googleapis` / `unpkg` / `jsdelivr`）
+   或内联 `<style>` 块（2026-09-21 新增）
+→ 违反 SPEC-ROUTES §3 DoD；旧 v2 每页内联 47–65KB 样式、每页 2 处 Google Fonts 正是要消除的债
+
+🚩 **红旗 12**: 为认证页（login/register）要求"六态齐备"
+→ 认证页按定义只有 5 态（表单态即未登录态），这是**已批准的例外**，不算缺陷
+
 ---
 
 ## 3. 审查方法
@@ -115,7 +134,27 @@ PGPASSWORD=... psql -c "SELECT COUNT(*) FROM today_task_log;"
 curl -sf http://localhost:3002/api/health
 curl -sf -X POST http://localhost:3002/api/user/today/1/start \
   -H "Authorization: Bearer $JWT"
+
+# 6. 验证前端行为验收真跑过（2026-09-21 新增，门禁 7/7）
+npm run --silent test:frontend
+# 输出末行应为 "✅ N 项全部通过"；出现 FAIL / ❌ 即失败
+
+# 7. 验证线上产物与本地一致（改过部署/静态服务后必做）
+curl -s -A "Mozilla/5.0 (X11; Linux x86_64)" http://localhost:3002/v2/<page>.html | md5sum
+md5sum frontend-v2/<page>.html
+# 两个 md5 必须相同 —— 只看进程"起来了"不算验证
 ```
+
+### 3.0 前端任务的门禁配套
+
+审查 `frontend-v2/` 相关改动时，必须对照 `docs/spec/SPEC-ROUTES.md` §3 的 6 条 DoD
+逐条要证据，其中三条最容易缺失：
+
+| DoD | 要什么证据 |
+|---|---|
+| 六态齐备（认证页 5 态） | 测试里 `setState` 互斥断言 + 各态触发用例 |
+| 零境外请求 | `grep -c "googleapis\|jsdelivr\|unpkg"` = 0 |
+| 接口走统一数据层 | 页面源码里 `fetch(` 出现次数 = 0（应全部走 `api.js`）|
 
 ### 3.2 必看 ADR
 
@@ -202,4 +241,7 @@ Regression 风险：NONE / [列出]
 
 ---
 
-**文档结束 — Review Agent v1.0 (2026-08-28)**
+> **v1.1 (2026-09-21)**: 新增红旗 8-12（事实口径 / 共享层未回归 / 新页缺验收 /
+> 引入境外 CDN 或内联样式 / 认证页六态误判）；§3.1 补前端行为验收与线上 md5 校验命令。
+
+**文档结束 — Review Agent v1.1 (2026-09-21)**
