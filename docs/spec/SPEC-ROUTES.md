@@ -57,8 +57,8 @@
 | `review-session.html` | `GET /api/srs/engine/queue`、`POST /api/srs/engine/review`、`GET /api/srs/engine/stats` | ✅ 已按新架构重建（46 项验收）；原静态稿里的半接线仅作接口样本 |
 | `learning-journey.html` | `GET /api/analytics/learning-path`、`GET /api/loop/summary` | |
 | `predictive-paper.html` | `GET /api/exam/papers`、`POST /api/exam/pdf/generate` | |
-| `pwa-photo.html` | `POST /api/vision/batch-parse` | **切片链路入口**，被 `photo-solve.html` 取代 |
-| `vision-result.html` | `POST /api/vision/search`、`POST /api/rag/explain` | **切片链路结果页** |
+| ~~`pwa-photo.html`~~ | `POST /api/vision/batch-parse` | **2026-09-22 已删除**：被 `photo-solve.html` 取代（PLAN 批次 5）。原表声称它调 batch-parse，实测**代码里零 fetch** |
+| ~~`vision-result.html`~~ | `POST /api/vision/search`、`POST /api/rag/explain` | **2026-09-22 已删除**：同上，实测零 fetch，"依赖 rag/explain"是文档想当然 |
 | `notifications.html` | `GET /api/loop/feed`、`GET /api/loop/actions` | |
 | `settings.html` | `GET/PUT /api/user/profile`、`POST /api/auth/prefs/province` | |
 | `state-library.html` | 无（静态） | 组件/状态展示页，作为 SPEC-UI 的可执行附录 |
@@ -129,7 +129,7 @@
 
 | 页 | 状态 | 测试 | 备注 |
 |---|---|---|---|
-| `photo-solve.html` | ✅ | `tests/frontend/photo-solve-states.test.mjs`（28 项） | 原 `pwa-photo.html` / `vision-result.html` 仍是静态稿，待本页收编后废弃 |
+| `photo-solve.html` | ✅ | `tests/frontend/photo-solve-states.test.mjs`（30 项） | 2026-09-22 收编完成：`pwa-photo.html` / `vision-result.html` 已删；从它们吸收了 9 学科下拉与结果区原图对照 |
 | `wrong-book.html` | ✅ | `tests/frontend/wrong-book-states.test.mjs`（44 项） | 覆盖原静态稿；G1 已关闭，支持标记复习/删除 |
 | `dashboard.html` | ✅ | `tests/frontend/dashboard-states.test.mjs`（50 项） | 接 `/api/user/dashboard` + `/api/user/today`；今日任务失败不拖垮整页 |
 

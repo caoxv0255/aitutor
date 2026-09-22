@@ -111,7 +111,8 @@ body
 learning-path / login / register）。此前只有 dashboard 是样板 —— 那次"全量铺开"只补了
 字体/暗色/tabbar，壳没换，所以观感仍是旧页；这次是真迁，痕迹在
 `check-ui-standard.mjs` 的 `MIGRATED` 清单里（人工维护，不是口头约定）。
-剩下 16 个原型页（含 pwa-photo 仍带 `.wrap`）是已知欠账，门禁只记 backlog 不计失败。
+剩下 14 个原型页是已知欠账，门禁只记 backlog 不计失败
+（`pwa-photo.html` / `vision-result.html` 已于 2026-09-22 删除 —— 被 photo-solve 取代，见 PLAN 批次 5）。
 
 ### 5.5.2 标准件目录
 

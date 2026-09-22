@@ -107,6 +107,28 @@
     });
   }
 
+  /* ── 结果区原图对照 ─────────────────────────────────────────────────────
+   * 收编自 pwa-photo.html / vision-result.html（2026-09-22 两页下线）：
+   * 原型里的"OCR 原图对照"是唯一不需要新接口就能落地的一块 —— 原图就在本地 files 里。
+   * 刻意没搬的：置信度 98% / 耗时 2.4s / "12 个同学标记为正确" —— 原型里是硬编码假数据，
+   * 后端不返回这些字段，搬到接线页里就是造假。
+   * ──────────────────────────────────────────────────────────────────── */
+  function renderResultImages() {
+    if (!els.resultImages) return;
+    els.resultImages.innerHTML = '';
+    files.forEach(function (file, i) {
+      const li = global.document.createElement('li');
+      li.className = 'thumb';
+
+      const img = global.document.createElement('img');
+      img.alt = '第 ' + (i + 1) + ' 张原题照片';
+      img.src = global.URL.createObjectURL(file);
+
+      li.appendChild(img);
+      els.resultImages.appendChild(li);
+    });
+  }
+
   /* ── 结果渲染 ───────────────────────────────────────────────────────── */
   function itemContent(q) {
     return q.content || q.full_content || q.question || q.text || '（无题干）';
@@ -116,6 +138,7 @@
     const questions = data.questions || [];
     els.results.innerHTML = '';
     els.failed.innerHTML = '';
+    renderResultImages();
 
     questions.forEach(function (q, i) {
       const li = global.document.createElement('li');
@@ -263,6 +286,7 @@
     els.successTitle = $('success-title');
     els.results = $('results');
     els.failed = $('failed');
+    els.resultImages = $('result-images');
 
     $('photo-input').addEventListener('change', onPick);
     $('solve-form').addEventListener('submit', function (e) {

@@ -51,12 +51,17 @@
         <div class="field-row">
           <label class="field" for="subject-select">
             学科
+            <!-- 9 学科（PM-BRIEF §A.3 学科色 / §B.2）；后端 exam-questions.js 同样是这 9 个 code。
+                 2026-09-22 收编 pwa-photo 时补齐：此前只有 6 个，缺生物/历史/地理。 -->
             <select id="subject-select">
               <option value="math">数学</option>
               <option value="physics">物理</option>
               <option value="chemistry">化学</option>
               <option value="chinese">语文</option>
               <option value="english">英语</option>
+              <option value="biology">生物</option>
+              <option value="history">历史</option>
+              <option value="geography">地理</option>
               <option value="politics">政治</option>
             </select>
           </label>
@@ -92,6 +97,10 @@
       <div class="section section--tight"><div class="container">
         <div class="state-card">
           <h2 id="success-title">解析完成</h2>
+          <!-- 原图对照：pwa-photo / vision-result 原型里有"OCR 原图对照"这一块，
+               两页下线后把它收编过来 —— 数据是本页已选的照片（files），不需要新接口。
+               注意：只回显真实照片，不复制原型里的假置信度 / 假耗时 / 假"12 人标记正确"。 -->
+          <ul class="thumbs" id="result-images"></ul>
           <ul class="results" id="results"></ul>
           <ul class="failed-list" id="failed"></ul>
         </div>

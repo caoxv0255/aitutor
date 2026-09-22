@@ -14,11 +14,12 @@ const PAGES = [
   // PM §F.11 IA v2: 16 用户路由
   'landing', 'register', 'login', 'onboarding', 'review-session',
   'practice-hub-v2', 'knowledge-star', 'subject-detail', 'wrong-book',
-  'learning-path', 'predictive-paper', 'essay', 'pwa-photo', 'settings',
+  'learning-path', 'predictive-paper', 'essay', 'settings',
   'notifications', 'error-404', 'subject-picker',
   // dev-only
-  'mastery', 'vision-result', 'state-library', 'teacher-dashboard',
+  'mastery', 'state-library', 'teacher-dashboard',
   'learning-journey',
+  // 2026-09-22: pwa-photo / vision-result 已从 frontend-v2 删除（被 photo-solve 取代）
 ];
 
 const REPORT_PATH = path.join(process.cwd(), 'docs', 'design', '_e2e-screenshots', 'DEPLOYMENT_REPORT.md');

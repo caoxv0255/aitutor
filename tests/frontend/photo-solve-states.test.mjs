@@ -83,6 +83,12 @@ check('接口成功 → success', PS.getState(), 'success');
 check('渲染题目卡片数', window.document.querySelectorAll('#results .q-card').length, 1);
 check('渲染失败项', window.document.querySelectorAll('#failed li').length, 1);
 
+// 7b. 收编 pwa-photo / vision-result 后新增的两项（2026-09-22 两页下线）
+//     学科下拉补齐 9 科（PM-BRIEF §A.3）；结果区回显真实原图（只回显照片，不造置信度/耗时）
+const subjectCodes = [...window.document.querySelectorAll('#subject-select option')].map((o) => o.value);
+check('学科下拉 9 科', subjectCodes.join(','), 'math,physics,chemistry,chinese,english,biology,history,geography,politics');
+check('结果区回显原图数', window.document.querySelectorAll('#result-images .thumb').length, 1);
+
 // 8. HTTP 500 → error（带后端 message）
 window.AIAPI.batchParse = () => Promise.reject(window.AIAPI.ApiError('整卷解析失败: LLM 超时', { status: 500 }));
 await PS.submit();

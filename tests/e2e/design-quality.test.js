@@ -9,6 +9,13 @@
 //   6. 移动端响应式 (iPhone 14 Pro viewport)
 //   7. prefers-reduced-motion 兼容
 //
+// ⚠️ 失修说明（2026-09-22）：路由切换后本用例的 requiredSelectors 仍是设计稿原型的选择器
+//    （.method-tab / .week__row / .anno / .camera …），而 /login.html /wrong-book.html
+//    /essay.html 等路径**已被新树接管**，取到的是 frontend-v2 的页面 —— 断言必然对不上。
+//    本用例**不在 release-gate 内**（门禁跑的是 tests/frontend/* 的 jsdom 测试），
+//    修它需要 playwright + 可联网的浏览器环境（本机 Chrome 出网被阻断）。
+//    在重写之前，它的结果不代表新树页面的质量，别拿它当验收依据。
+//
 // 运行:
 //   node tests/e2e/design-quality.test.js
 // 或: BASE_URL=http://127.0.0.1:8765 node tests/e2e/design-quality.test.js
@@ -34,15 +41,15 @@ const PAGES = [
   { name: 'learning-path', path: '/learning-path.html', requiredSelectors: ['.week__row'] },
   { name: 'predictive-paper', path: '/predictive-paper.html', requiredSelectors: ['.q, [class*="q"]'], allowFewerSubjects: true },
   { name: 'essay', path: '/essay.html', requiredSelectors: ['.anno'], allowFewerSubjects: true },
-  { name: 'pwa-photo', path: '/pwa-photo.html', requiredSelectors: ['.camera'], requiresThemeToggle: false },
   { name: 'settings', path: '/settings.html', requiredSelectors: ['.subject-tile', '.tab'] },
   { name: 'notifications', path: '/notifications.html', requiredSelectors: ['.notif'], allowFewerSubjects: true },
   { name: 'error-404', path: '/error-404.html', requiredSelectors: ['.suggest-link'], allowFewerSubjects: true, requiresThemeToggle: false },
   { name: 'subject-picker', path: '/subject-picker.html', requiredSelectors: ['.opt', '.province__cell'] },
   // v1 老 mastery (knowledge-star 改造前的, 待 301 重定向)
   { name: 'mastery', path: '/mastery.html', requiredSelectors: ['.subj', '.heatmap__row-head'] },
-  { name: 'vision-result', path: '/vision-result.html', requiredSelectors: [], allowFewerSubjects: true },
   // dev-only (PM §F.11 移出主树)
+  // 2026-09-22: pwa-photo / vision-result 已从 frontend-v2 删除（被 photo-solve 取代，
+  //   见 PLAN-v2-migration 批次 5），对应条目同步移除。
   { name: 'state-library', path: '/state-library.html', requiredSelectors: ['.state-card'], allowFewerSubjects: true, requiresThemeToggle: false },
   { name: 'teacher-dashboard', path: '/teacher-dashboard.html', requiredSelectors: ['.subj-row, .subj-card'], requiresThemeToggle: false },
   { name: 'learning-journey', path: '/learning-journey.html', requiredSelectors: ['.node, .step'], allowFewerSubjects: true, requiresThemeToggle: false },
