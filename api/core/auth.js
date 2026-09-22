@@ -33,7 +33,7 @@ export function validateJWTSecret() {
   }
 }
 
-export function generateToken(payload, expiresIn = '7d') {
+export function generateToken(payload, expiresIn = process.env.JWT_EXPIRES_IN || '7d') {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
 }
 
