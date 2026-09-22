@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="/assets/v2/css/fonts.css">
   <link rel="stylesheet" href="/assets/v2/css/system.css">
   <link rel="stylesheet" href="/assets/v2/css/app.css">
+  <!-- KaTeX 0.18.7（MIT）自托管在 assets/vendor/katex/ —— 解析结果里有 LaTeX 公式。
+       禁止改回 CDN：审计 R2 要求零境外请求。 -->
+  <link rel="stylesheet" href="/assets/v2/vendor/katex/katex.min.css">
 </head>
 <body>
   <nav class="nav">
@@ -44,7 +47,7 @@
       <form id="solve-form" novalidate>
         <label class="dropzone" for="photo-input">
           <span class="dropzone-title">点击选择或拍摄题目照片</span>
-          <span class="dropzone-hint">支持多选，单张 ≤ 10MB，最多 20 张</span>
+          <span class="dropzone-hint">支持多选，单张 ≤ 10MB，最多 20 张；每张图解析其中最清晰的一道题（后端限制），多题请分张拍</span>
           <input id="photo-input" type="file" accept="image/*" multiple capture="environment">
         </label>
         <ul class="thumbs" id="thumbs"></ul>
@@ -101,8 +104,13 @@
                两页下线后把它收编过来 —— 数据是本页已选的照片（files），不需要新接口。
                注意：只回显真实照片，不复制原型里的假置信度 / 假耗时 / 假"12 人标记正确"。 -->
           <ul class="thumbs" id="result-images"></ul>
-          <ul class="results" id="results"></ul>
-          <ul class="failed-list" id="failed"></ul>
+          <!-- 结果多时可上下滑动（容器自身滚动，移动端限高；桌面随整页滚）。
+               tabindex + role 是给它键盘可达性 —— WCAG 2.1 AA / PM-BRIEF F.5：
+               可滚动区域必须能用键盘滚动，否则键盘用户拿不到被裁掉的内容。 -->
+          <div class="results-scroll" id="results-scroll" tabindex="0" role="region" aria-label="解析结果（可滚动）">
+            <ul class="results" id="results"></ul>
+            <ul class="failed-list" id="failed"></ul>
+          </div>
         </div>
       </div></div>
     </section>
@@ -150,6 +158,7 @@
     <a class="tabbar__item" href="/v2/settings.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>我的</a>
   </nav>
 
+  <script src="/assets/v2/vendor/katex/katex.min.js"></script>
   <script src="/assets/v2/js/ui.js"></script>
   <script src="/assets/v2/js/api.js"></script>
   <script src="/assets/v2/js/photo-solve.js"></script>

@@ -7,12 +7,20 @@ const html = fs.readFileSync(`${DIR}/photo-solve.html`, 'utf8');
 const uiJs = fs.readFileSync(`${DIR}/assets/js/ui.js`, 'utf8');
 const apiJs = fs.readFileSync(`${DIR}/assets/js/api.js`, 'utf8');
 const pageJs = fs.readFileSync(`${DIR}/assets/js/photo-solve.js`, 'utf8');
+// KaTeX 自托管在 assets/vendor/katex/（零境外请求）；jsdom 不加载外链，同样内联
+const katexJs = fs.readFileSync(`${DIR}/assets/vendor/katex/katex.min.js`, 'utf8');
 
 // 外链脚本改成内联，jsdom 不加载本地相对路径
+//
+// ⚠️ 替换串必须用**函数形式**：String.replace 的替换串里 `$` 是特殊符号
+//    （`$'` = 匹配之后的部分、`$&` = 整个匹配…），而 photo-solve.js 里有
+//    `'$'` 这种字面量，直接拼模板串会把源码啃坏（报 SyntaxError: Invalid or
+//    unexpected token，且症状是脚本"看起来加载了但对象没挂上"）。
 const inlined = html
-  .replace(/<script src="[^"]*ui\.js"><\/script>/, `<script>${uiJs}</script>`)
-  .replace(/<script src="[^"]*api\.js"><\/script>/, `<script>${apiJs}</script>`)
-  .replace(/<script src="[^"]*photo-solve\.js"><\/script>/, `<script>${pageJs}</script>`);
+  .replace(/<script src="[^"]*katex\.min\.js"><\/script>/, () => `<script>${katexJs}</script>`)
+  .replace(/<script src="[^"]*ui\.js"><\/script>/, () => `<script>${uiJs}</script>`)
+  .replace(/<script src="[^"]*api\.js"><\/script>/, () => `<script>${apiJs}</script>`)
+  .replace(/<script src="[^"]*photo-solve\.js"><\/script>/, () => `<script>${pageJs}</script>`);
 
 const dom = new JSDOM(inlined, {
   runScripts: 'dangerously',
@@ -88,6 +96,45 @@ check('渲染失败项', window.document.querySelectorAll('#failed li').length, 
 const subjectCodes = [...window.document.querySelectorAll('#subject-select option')].map((o) => o.value);
 check('学科下拉 9 科', subjectCodes.join(','), 'math,physics,chemistry,chinese,english,biology,history,geography,politics');
 check('结果区回显原图数', window.document.querySelectorAll('#result-images .thumb').length, 1);
+
+// 7c. LaTeX 渲染（2026-09-22 用户反馈：公式以 $...$ 原文出现）
+//     mock 用实测 batch-parse 的真实字段形状（raw_text + latex_formulas）
+window.AIAPI.batchParse = () =>
+  Promise.resolve({
+    questions: [{
+      pageIndex: 1,
+      raw_text: 'Solve x^2 + 2x - 3 = 0',
+      latex_formulas: ['$x^2 + 2x - 3 = 0$', '$$S = \\pi \\cdot r^2$$'],
+      subject_code: 'math'
+    }],
+    success_count: 1
+  });
+await PS.submit();
+check('公式渲染成 KaTeX 节点', window.document.querySelectorAll('#results .q-card .katex').length, 2);
+check('独立公式独占一块', window.document.querySelectorAll('#results .formula--block').length, 1);
+check('题干不重复【公式】段', /【公式】/.test(window.document.getElementById('results').textContent), false);
+
+// 7d. 公式链路的注入面：恶意串走文本节点，不产生元素
+window.AIAPI.batchParse = () =>
+  Promise.resolve({
+    questions: [{
+      pageIndex: 1,
+      raw_text: '<img src=x onerror="window.__pwned=1">',
+      latex_formulas: ['$\\href{javascript:alert(1)}{x}$'],
+      analysis: '<script>window.__pwned=1</script>'
+    }],
+    success_count: 1
+  });
+await PS.submit();
+check('恶意题干未生成元素', window.document.querySelectorAll('#results img').length, 0);
+check('恶意分析未生成元素', window.document.querySelectorAll('#results script').length, 0);
+check('未执行注入脚本', window.__pwned, undefined);
+check('\\href 未被 KaTeX 放行', window.document.querySelectorAll('#results a').length, 0);
+
+// 7e. 结果区可滚动（容器 + 键盘可达）
+const scroll = window.document.getElementById('results-scroll');
+check('结果区滚动容器存在', !!scroll, true);
+check('滚动容器可聚焦', scroll.getAttribute('tabindex'), '0');
 
 // 8. HTTP 500 → error（带后端 message）
 window.AIAPI.batchParse = () => Promise.reject(window.AIAPI.ApiError('整卷解析失败: LLM 超时', { status: 500 }));

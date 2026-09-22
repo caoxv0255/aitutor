@@ -94,6 +94,19 @@ aitutor/
 | **工程化**   | ESLint 9 · Prettier · GitHub Actions CI/CD                         |
 | **部署**     | Docker · systemd service                                           |
 
+### 前端自托管依赖（零境外请求）
+
+`frontend-v2`（现行唯一前端框架）不引用任何境外 CDN，第三方资产全部自托管：
+
+| 资产 | 路径 | 说明 |
+| --- | --- | --- |
+| 字体 | `frontend-v2/assets/fonts/` | DM Sans / Noto Sans SC / Serif SC / JetBrains Mono（woff2） |
+| KaTeX 0.18.7 | `frontend-v2/assets/vendor/katex/` | 拍照解题的公式渲染，MIT，含 fonts + LICENSE |
+
+公式按 `$...$`（行内）/ `$$...$$`（独立）解析，文本段一律走 `createTextNode`，
+KaTeX 以 `trust: false` + `maxExpand` 上限渲染；结果区由 `.results-scroll` 承载滚动
+（移动端限高、桌面随页滚、容器可键盘聚焦）。详见 `docs/spec/SPEC-UI.md` §5.5.4。
+
 ## 快速开始
 
 ### 环境要求

@@ -129,9 +129,76 @@
     });
   }
 
+  /* ── LaTeX 渲染（KaTeX，自托管） ───────────────────────────────────────
+   * 后端 parseImageToQuestion 明确返回 latex_formulas —— 实测（2026-09-22，/api/vision/batch-parse）
+   * 拿到的是 ['$x^2 + 2x - 3 = 0$', '$S = \pi \cdot r^2$', '$(a+b)^2 - (a-b)^2$']，
+   * 此前一律 textContent，公式就以 $...$ 原文出现在页面上。
+   *
+   * 安全（这条链路修过注入，别再开回去）：
+   *   - 文本段走 createTextNode，永不 innerHTML
+   *   - 公式段交给 KaTeX render()，且 trust:false（禁 \href/\url/\includegraphics）、
+   *     maxExpand 上限（防恶意宏展开把页面卡死）
+   *   - 渲染失败退回原文，不静默丢内容
+   * ──────────────────────────────────────────────────────────────────── */
+  const KATEX_OPTS = { throwOnError: false, trust: false, strict: false, maxExpand: 1000 };
+
+  function stripDelims(raw) {
+    const s = String(raw || '').trim();
+    if (s.length > 4 && s.slice(0, 2) === '$$' && s.slice(-2) === '$$') {
+      return { tex: s.slice(2, -2), display: true };
+    }
+    if (s.length > 2 && s.charAt(0) === '$' && s.charAt(s.length - 1) === '$') {
+      return { tex: s.slice(1, -1), display: false };
+    }
+    return { tex: s, display: false };
+  }
+
+  function renderFormula(target, raw) {
+    const f = stripDelims(raw);
+    if (!f.tex) return;
+    const span = global.document.createElement('span');
+    span.className = 'formula' + (f.display ? ' formula--block' : '');
+    if (global.katex && typeof global.katex.render === 'function') {
+      try {
+        global.katex.render(f.tex, span, {
+          throwOnError: KATEX_OPTS.throwOnError,
+          trust: KATEX_OPTS.trust,
+          strict: KATEX_OPTS.strict,
+          maxExpand: KATEX_OPTS.maxExpand,
+          displayMode: f.display,
+        });
+      } catch (e) {
+        span.textContent = String(raw);
+      }
+    } else {
+      span.textContent = String(raw); // 未加载 KaTeX 就退回原文
+    }
+    target.appendChild(span);
+  }
+
+  /** 文本 + $行内$ + $$独立$$ 混排渲染：公式段交给 KaTeX，其余一律纯文本节点 */
+  function renderMixed(target, text) {
+    const src = String(text || '');
+    const re = /\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$/g;
+    let last = 0;
+    let m;
+    while ((m = re.exec(src)) !== null) {
+      if (m.index > last) {
+        target.appendChild(global.document.createTextNode(src.slice(last, m.index)));
+      }
+      renderFormula(target, m[0]);
+      last = m.index + m[0].length;
+    }
+    if (last < src.length) {
+      target.appendChild(global.document.createTextNode(src.slice(last)));
+    }
+  }
+
   /* ── 结果渲染 ───────────────────────────────────────────────────────── */
   function itemContent(q) {
-    return q.content || q.full_content || q.question || q.text || '（无题干）';
+    // raw_text 优先：full_content = raw_text + "【公式】" + 公式原文，
+    // 直接显示会把公式再抄一遍（实测 2026-09-22）。公式由 latex_formulas 单独渲染。
+    return q.raw_text || q.content || q.question || q.text || q.full_content || '（无题干）';
   }
 
   function renderResults(data) {
@@ -168,15 +235,26 @@
 
       const body = global.document.createElement('p');
       body.className = 'q-body';
-      body.textContent = itemContent(q);
+      renderMixed(body, itemContent(q));
 
       li.appendChild(head);
       li.appendChild(body);
 
+      // 公式区：后端单独给的 latex_formulas（实测字段存在且带 $ 定界符）
+      const formulas = Array.isArray(q.latex_formulas) ? q.latex_formulas : [];
+      if (formulas.length) {
+        const box = global.document.createElement('div');
+        box.className = 'formula-list';
+        formulas.forEach(function (f) {
+          renderFormula(box, f);
+        });
+        li.appendChild(box);
+      }
+
       if (q.analysis || q.error_analysis) {
         const ana = global.document.createElement('p');
         ana.className = 'q-analysis';
-        ana.textContent = q.analysis || q.error_analysis;
+        renderMixed(ana, q.analysis || q.error_analysis);
         li.appendChild(ana);
       }
 

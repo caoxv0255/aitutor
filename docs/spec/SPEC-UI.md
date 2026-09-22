@@ -127,6 +127,8 @@ learning-path / login / register）。此前只有 dashboard 是样板 —— �
 | 按钮 | `.cta-primary`（主）/ `.cta-secondary`（次） | ⚠️ 弃用旧 `.btn`，新页一律用标准件 |
 | 图标 | 内联 SVG（24×24，stroke=currentColor） | **禁止 emoji 当图标** |
 | 底部 Tab | `.tabbar` > `.tabbar__item`×5(`aria-current`) + `.tabbar__item--raise`（拍照中央凸起） | 移动端主导航（PM-BRIEF B.2）；≤767px 显示，桌面隐藏 |
+| 公式 | `.formula`（行内）/ `.formula--block`（独立，可横向滚动）；容器 `.formula-list` | 由**自托管 KaTeX 0.18.7**（`assets/vendor/katex/`，MIT，仅 woff2，604KB）渲染；**禁止改回 CDN** |
+| 长内容区 | `.results-scroll`（≤767px 限高 62vh + `overflow-y:auto` + `overscroll-behavior:contain`） | 解析结果可上下滑动；容器带 `tabindex="0"` + `role="region"` + 焦点环（键盘可达，PM-BRIEF F.5） |
 | 桌面导航 | `.nav` > `.nav__inner` > `.brand` + `.nav__links` + `.nav__cta` | 移动端 links 隐藏 |
 
 ### 5.5.3 判据（机械可查 → 由 `check-ui-standard.mjs` 强制）
@@ -144,6 +146,52 @@ learning-path / login / register）。此前只有 dashboard 是样板 —— �
 11. 底部 Tab **恰好 1 份**（2026-09-22 修：脚本重复执行曾让 6 页各挂两份 `<nav class="tabbar">`，
     同为 `position: fixed` 会叠在一起）；认证页（login/register）**不得有** Tab
     —— 由同一次修复加进门禁，射程是 frontend-v2 全部接管页
+
+### 5.5.4 公式渲染约定（KaTeX 自托管）
+
+**路径约定**
+
+- 自托管目录：`frontend-v2/assets/vendor/katex/`（MIT，`LICENSE` 与产物同目录）
+- 引入位置：`katex.min.css` 放 `<head>`（在 fonts → system → app **之后**）；
+  `katex.min.js` 放 `</body>` 前的**第一个** script（必须先于 ui.js / api.js / 页面脚本，
+  否则页面脚本执行时 `window.katex` 还没挂上，公式会静默退回原文）
+- 字体：`katex.min.css` 用相对路径 `fonts/KaTeX_*.woff2` 引用，与 CSS 同目录、一起入库
+  （20 个 woff2 + css + js + LICENSE ≈ 604KB），`/assets/v2` → `frontend-v2/assets` 的
+  静态映射覆盖整个目录，无需额外路由
+- **禁止改回 CDN**（jsdelivr / unpkg / googleapis）：审计 R2 要求零境外请求，
+  `check-ui-standard.mjs` 会拦这三类域名
+- 升级方式：整体替换本目录（产物 + fonts + LICENSE），改完跑
+  `node tests/frontend/photo-solve-states.test.mjs`（KaTeX 节点数断言会兜底）
+- ⚠️ 版本现状：vendor 是 **0.18.7**，而 `package.json` 的 npm 依赖 `katex` 仍是 0.16.33。
+  页面只用 vendor 这一份，两者不一致是已知债；升级时以 vendor 为准
+
+**定界符规则**（`photo-solve.js` 的 `renderMixed` / `renderFormula`）
+
+| 输入 | 判定 | 输出 |
+|---|---|---|
+| `$...$` | 行内 | `<span class="formula">`，`displayMode: false`，随文排 |
+| `$$...$$` | 独立 | `<span class="formula formula--block">`，`displayMode: true`，独占一行、可横向滚动 |
+| 其余文本 | 无公式 | `document.createTextNode`，**永不 innerHTML** |
+
+- 扫描正则 `/\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$/g`：`$$` 分支在前，否则 `$$x$$` 会被
+  误判成空的行内式
+- 渲染选项固定：`throwOnError: false`、`trust: false`（禁 `\href` / `\url` / `\includegraphics`）、
+  `strict: false`、`maxExpand: 1000`（防恶意宏展开把页面卡死）
+- 渲染失败或 KaTeX 未加载 → **退回原文**，不静默丢内容
+- 题干取 `raw_text` 优先于 `full_content`：后者 = `raw_text` + `【公式】` + 公式原文，
+  直接用会把公式抄两遍（2026-09-22 实测）。公式统一由 `latex_formulas` 单独渲染进 `.formula-list`
+- 已知缺口 **G13**（SPEC-DATA）：后端 `raw_text` 目前**不带** `$` 定界符，只有 `latex_formulas`
+  带；因此题干正文里的公式暂按纯文本显示 —— 后端补上定界符后前端无需再改
+
+**结果区滚动（`.results-scroll`）**
+
+- 结构：`<div class="results-scroll" tabindex="0" role="region" aria-label="…">`
+  包住 `.results` + `.failed-list`
+- ≤767px：`max-height: 62vh` + `overflow-y: auto` + `overscroll-behavior: contain`
+  （滚动不穿透到 body）+ `-webkit-overflow-scrolling: touch`
+- ≥768px：`max-height: none`，随整页滚动 —— 避免"页面里还有一个页面"的双重滚动条
+- 可访问性：`overflow` 容器默认不可聚焦，故给 `tabindex="0"` + `role="region"` + 焦点环，
+  否则键盘用户拿不到被裁掉的内容（PM-BRIEF F.5）
 
 ---
 

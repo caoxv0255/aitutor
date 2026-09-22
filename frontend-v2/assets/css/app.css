@@ -293,6 +293,47 @@ select {
 /* ── 结果 ─────────────────────────────────────────────────────────────── */
 .results { list-style: none; margin: 0; padding: 0; }
 
+/* 解析结果可上下滑动（2026-09-22 用户反馈：内容多时看不到底）
+   只在移动端限高 —— 桌面随整页滚，避免出现"页面里还有一个页面"的双重滚动条。
+   overflow 容器默认不可聚焦，HTML 侧给了 tabindex="0"，这里补焦点环（PM-BRIEF F.5）。 */
+.results-scroll { max-height: none; }
+
+@media (max-width: 767px) {
+  .results-scroll {
+    max-height: 62vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 4px;
+    border-radius: var(--r-md);
+  }
+}
+
+.results-scroll:focus-visible {
+  outline: 3px solid var(--brand-text);
+  outline-offset: 2px;
+}
+
+/* 公式（KaTeX 自托管）：行内随文，独立公式独占一行 */
+.formula { display: inline-block; }
+
+.formula--block {
+  display: block;
+  margin: 10px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.formula-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+}
+
 .q-card {
   background: var(--surface);
   border: 1px solid var(--line-soft);
