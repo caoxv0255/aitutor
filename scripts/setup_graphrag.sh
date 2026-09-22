@@ -34,11 +34,19 @@ if [ ! -f ".env" ]; then
 fi
 
 if ! grep -q "GRAPHRAG_API_KEY" .env; then
+    # 2026-09-22: key 不再内联在本脚本里 (曾泄露到公共 GitHub, 见
+    # docs/security/credential-rotation.md L3)。key 只从调用方环境变量带进来,
+    # 落入 .env (git 忽略, 从未入库); 未设置则报错退出。
+    if [ -z "${GRAPHRAG_API_KEY:-}" ]; then
+        echo "错误: .env 缺少 GRAPHRAG_API_KEY, 且当前环境未设置该变量。"
+        echo "请先 export GRAPHRAG_API_KEY=<你的 key> 再运行本脚本。"
+        exit 1
+    fi
     echo "在 .env 中添加 GraphRAG 配置..."
-    cat >> .env << 'EOF'
-
-# GraphRAG 配置
-GRAPHRAG_API_KEY=sk-df8Z1pBQemztkHgcwnttSoVuWz1cjNfGmDAkU4nlpTvQH9jd
+    {
+        printf '\n# GraphRAG 配置\n'
+        printf 'GRAPHRAG_API_KEY=%s\n' "$GRAPHRAG_API_KEY"
+        cat << 'EOF'
 GRAPHRAG_API_BASE=https://mydamoxing.cn/v1
 GRAPHRAG_MODEL=kimi-k2.6
 GRAPHRAG_CODING_MODEL=K2.6-code-preview
@@ -46,6 +54,7 @@ GRAPHRAG_RATE_LIMIT_PER_HOUR=420
 GRAPHRAG_SERVICE_HOST=127.0.0.1
 GRAPHRAG_SERVICE_PORT=8100
 EOF
+    } >> .env
 fi
 
 # 4. 初始化数据库

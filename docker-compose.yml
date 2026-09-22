@@ -14,7 +14,9 @@ services:
       - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY}
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
       - PORT=3000
-      - DATABASE_URL=postgresql://aitutor:aitutor_password@db:5432/aitutor_db
+      # 2026-09-22 (凭据轮换报告 B4): 口令不再用字面量默认值, 改读 .env 的
+      # POSTGRES_PASSWORD, 两处必须一致; 缺失即启动失败 (compose 自动加载 .env)。
+      - DATABASE_URL=postgresql://aitutor:${POSTGRES_PASSWORD:?请在 .env 设置 POSTGRES_PASSWORD}@db:5432/aitutor_db
       - REDIS_URL=redis://redis:6379
       # D068 (2026-08-17): Override .env — use Windows host IP, not host.docker.internal
       - OLLAMA_URL=http://172.21.144.1:11434
@@ -51,7 +53,7 @@ services:
     environment:
       - POSTGRES_DB=aitutor_db
       - POSTGRES_USER=aitutor
-      - POSTGRES_PASSWORD=aitutor_password
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?请在 .env 设置 POSTGRES_PASSWORD}
       - POSTGRES_INITDB_ARGS=--encoding=UTF8 --lc-collate=C --lc-ctype=C
     volumes:
       - pgdata:/var/lib/postgresql/data

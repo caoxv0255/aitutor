@@ -13,7 +13,9 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const OUT_DIR = path.join(ROOT, 'docs', 'audits');
 const BASE = process.env.BASE_URL || 'http://localhost:3002';
 const TEST_EMAIL = `verify_${Date.now()}@test.local`;
-const TEST_PWD = 'verifyPass123!';
+// 2026-09-22: 口令不再硬编码 (曾随本文件入库, 见 docs/security/credential-rotation.md L5)。
+// 每次运行随机生成 —— 账号本来就是一次性的 (email 带时间戳); 需要固定口令时用 TEST_PWD 环境变量。
+const TEST_PWD = process.env.TEST_PWD || `Vp_${Date.now().toString(36)}!x`;
 
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
 

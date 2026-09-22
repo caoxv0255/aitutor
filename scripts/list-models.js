@@ -1,6 +1,14 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 import axios from 'axios';
 
-const API_KEY = 'sk-df8Z1pBQemztkHgcwnttSoVuWz1cjNfGmDAkU4nlpTvQH9jd';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '..');
+dotenv.config({ path: path.join(ROOT, '.env') });
+
+// mydamoxing.cn 网关的凭据走 GRAPHRAG_API_KEY (与 graphrag_service/config.py 一致)
+const API_KEY = process.env.GRAPHRAG_API_KEY;
 const BASE_URL = 'https://mydamoxing.cn/v1';
 
 async function listModels() {

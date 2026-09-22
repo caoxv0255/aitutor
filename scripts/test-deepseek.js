@@ -1,6 +1,13 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 import axios from 'axios';
 
-const API_KEY = 'sk-22aeb75bda054d3cb6c56548ea81f146';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '..');
+dotenv.config({ path: path.join(ROOT, '.env') });
+
+const API_KEY = process.env.DEEPSEEK_API_KEY;
 const BASE_URL = 'https://api.deepseek.com/v1';
 
 async function testChat() {
