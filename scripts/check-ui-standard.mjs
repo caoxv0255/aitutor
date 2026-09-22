@@ -19,8 +19,25 @@ import path from 'node:path';
 
 const DIR = 'frontend-v2';
 
-/** 已按标准重建的页面（迁完一页加一行） */
-const MIGRATED = ['dashboard.html']; // 标准骨架样板；其余 9 页已获字体/暗色/tabbar，骨架迁移逐页跟进
+/**
+ * 已按标准重建的页面（迁完一页加一行 —— 迁移进度因此是机械可查的）
+ *
+ * 2026-09-22: 10 个接管页全部上标准骨架。此前只有 dashboard 是样板，其余 9 页仍是
+ * 旧壳（.wrap + .topbar）—— 那次"批量铺开"没真正做到，是名称上铺开、观感没跟上。
+ * 现在整个清单不再区分样板与例外：迁完没迁完以这份清单为准。
+ */
+const MIGRATED = [
+  'dashboard.html',
+  'essay.html',
+  'learning-path.html',
+  'login.html',
+  'mastery.html',
+  'photo-solve.html',
+  'practice-hub.html',
+  'register.html',
+  'review-session.html',
+  'wrong-book.html',
+];
 
 /** 认证类页面只有 5 态（表单态即未登录态） */
 const AUTH_PAGES = new Set(['login.html', 'register.html']);
@@ -96,6 +113,20 @@ for (const p of pages) {
   const cdn = html.match(/fonts\.googleapis|fonts\.gstatic|jsdelivr|unpkg/g);
   if (cdn) problems.push(`${p}: 引用境外 CDN ${[...new Set(cdn)].join(',')}（DoD 要求零境外请求）`);
   if (/<style[^>]*>/.test(html)) problems.push(`${p}: 含内联 <style>（样式必须来自共享层）`);
+
+  // 底部 Tab（PM-BRIEF §B.2 移动端主导航）：非认证页恰好 1 份，认证页 0 份
+  //
+  // 2026-09-22: 最初把 tabbar 插进页面时脚本重复执行过一次，essay/learning-path/
+  // mastery/practice-hub/review-session/wrong-book 六页各有两份 <nav class="tabbar">
+  // （同为 position:fixed 会叠在一起）。修完加这条规则，防止同一坑复发。
+  const tabbars = [...html.matchAll(/<nav[^>]*class="[^"]*\btabbar\b/g)].length;
+  if (AUTH_PAGES.has(p)) {
+    if (tabbars > 0) problems.push(`${p}: 认证页不应出现底部 Tab（登录/注册的目标是单一动作，不该给二级导航）`);
+  } else if (tabbars === 0) {
+    problems.push(`${p}: 缺底部 Tab .tabbar（PM-BRIEF §B.2：移动端主导航，5 Tab 中央凸起）`);
+  } else if (tabbars > 1) {
+    problems.push(`${p}: 底部 Tab 有 ${tabbars} 份（只能 1 份；2026-09-22 修过六页重复，禁复发）`);
+  }
 
   // 图标不用 emoji（只查可交互元素的文本）
   const emojiInControls = html.match(/<(button|a)[^>]*>[^<]*[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu);

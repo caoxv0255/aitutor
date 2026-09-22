@@ -106,6 +106,13 @@ body
 └── footer.footer > .container
 ```
 
+**覆盖范围**（2026-09-22）：10 个接管页**全部**为标准骨架
+（dashboard / photo-solve / wrong-book / practice-hub / mastery / review-session / essay /
+learning-path / login / register）。此前只有 dashboard 是样板 —— 那次"全量铺开"只补了
+字体/暗色/tabbar，壳没换，所以观感仍是旧页；这次是真迁，痕迹在
+`check-ui-standard.mjs` 的 `MIGRATED` 清单里（人工维护，不是口头约定）。
+剩下 16 个原型页（含 pwa-photo 仍带 `.wrap`）是已知欠账，门禁只记 backlog 不计失败。
+
 ### 5.5.2 标准件目录
 
 | 组件 | 必需结构 | 用途 |
@@ -133,6 +140,9 @@ body
 8. 字体层级 = PM-BRIEF §B.2（DM Sans / Noto Sans SC / Serif SC / JetBrains Mono）
 9. 移动端 ≤767px 有 `.tabbar` 且 `.nav__links` 隐藏
 10. 不使用已淘汰的 `.wrap` / `.topbar` 骨架
+11. 底部 Tab **恰好 1 份**（2026-09-22 修：脚本重复执行曾让 6 页各挂两份 `<nav class="tabbar">`，
+    同为 `position: fixed` 会叠在一起）；认证页（login/register）**不得有** Tab
+    —— 由同一次修复加进门禁，射程是 frontend-v2 全部接管页
 
 ---
 

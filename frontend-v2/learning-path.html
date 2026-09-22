@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)">
   <meta name="description" content="学习路径 — 四阶段进度时间轴、今日任务与推荐理由">
   <title>学习路径 · 智启AI导师</title>
   <link rel="stylesheet" href="/assets/v2/css/fonts.css">
@@ -11,70 +12,113 @@
   <link rel="stylesheet" href="/assets/v2/css/app.css">
 </head>
 <body>
-  <div class="wrap">
-    <header class="topbar">
-      <a href="/dashboard.html">← 仪表盘</a>
-      <span class="eyebrow">Learning path</span>
-    </header>
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true"></span>
+        智启AI导师
+      </a>
+      <div class="nav__links">
+        <a class="nav__link" href="/dashboard.html">仪表盘</a>
+        <a class="nav__link" href="/practice-hub.html">练习</a>
+        <a class="nav__link" href="/review-session.html">复习</a>
+        <a class="nav__link" href="/wrong-book.html">错题本</a>
+        <a class="nav__cta" href="/photo-solve.html">拍照解题</a>
+      </div>
+    </div>
+  </nav>
 
-    <h1>学习路径</h1>
-    <p class="lede" id="lede">按阶段推进的学习计划，每天只给你该做的那一件事。</p>
+  <header class="hero hero--app">
+    <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="container">
+      <div class="hero__copy">
+        <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Learning path</div>
+        <h1 class="hero__title">学习路径</h1>
+        <p class="hero__sub" id="lede">按阶段推进的学习计划，每天只给你该做的那一件事。</p>
+      </div>
+    </div>
+  </header>
 
-    <form class="toolbar" id="filter-form">
-      <label class="field" for="subject-filter">
-        学科
-        <select id="subject-filter">
-          <option value="math">数学</option>
-          <option value="physics">物理</option>
-          <option value="chemistry">化学</option>
-          <option value="chinese">语文</option>
-          <option value="english">英语</option>
-          <option value="politics">政治</option>
-        </select>
-      </label>
-      <button class="btn btn-ghost" type="submit">切换</button>
-    </form>
+  <div class="section section--tight">
+    <div class="container">
+      <form class="toolbar" id="filter-form">
+        <label class="field" for="subject-filter">
+          学科
+          <select id="subject-filter">
+            <option value="math">数学</option>
+            <option value="physics">物理</option>
+            <option value="chemistry">化学</option>
+            <option value="chinese">语文</option>
+            <option value="english">英语</option>
+            <option value="politics">政治</option>
+          </select>
+        </label>
+        <button class="btn btn-ghost" type="submit">切换</button>
+      </form>
+    </div>
+  </div>
 
-    <!-- 六态：成功 / 加载 / 空 / 错误 / 未登录 / 离线
-         空态由后端的 empty_state 驱动（无数据 / 本周已 100%）—— 文案与动作都来自后端，
-         前端只做 URL 映射（后端给的路径实测有 404，见 SPEC-DATA G8）。 -->
-    <div id="state-region" aria-live="polite">
-      <section class="state state--empty" data-state="empty">
-        <div class="state-card">
-          <h2 id="empty-title">学习路径还没准备好</h2>
-          <p id="empty-copy">先做几道诊断题。</p>
-          <p id="empty-actions"></p>
-        </div>
-      </section>
-
-      <section class="state state--loading" data-state="loading">
-        <div class="state-card">
-          <h2>正在生成学习路径…</h2>
-          <p class="skeleton skeleton--w90"></p>
-          <p class="skeleton skeleton--w70"></p>
-          <p class="skeleton skeleton--w50"></p>
-        </div>
-      </section>
-
-      <section class="state state--success" data-state="success">
-        <div class="card">
-          <div class="overall">
-            <div>
-              <span class="overall-value" id="progress-value">0</span><span class="overall-unit">%</span>
-            </div>
-            <div class="overall-meta" id="progress-meta"></div>
+  <!-- 六态：成功 / 加载 / 空 / 错误 / 未登录 / 离线
+       空态由后端的 empty_state 驱动（无数据 / 本周已 100%）—— 文案与动作都来自后端，
+       前端只做 URL 映射（后端给的路径实测有 404，见 SPEC-DATA G8）。
+       每个状态自带 section + container（标准骨架），保证六态观感一致。 -->
+  <div id="state-region" aria-live="polite">
+    <section class="state state--empty" data-state="empty">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2 id="empty-title">学习路径还没准备好</h2>
+            <p id="empty-copy">先做几道诊断题。</p>
+            <p id="empty-actions"></p>
           </div>
-          <div class="chip-row" id="cited-stats"></div>
-          <p class="form-hint" id="reason"></p>
         </div>
+      </div>
+    </section>
 
-        <h2 class="section-title">四阶段</h2>
-        <div class="card">
-          <ul class="timeline" id="stage-list"></ul>
+    <section class="state state--loading" data-state="loading">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="section__eyebrow">LOADING</div>
+          <h2 class="section__title">正在生成学习路径…</h2>
+          <div class="state-card" style="margin-top: 20px">
+            <p class="skeleton skeleton--w90"></p>
+            <p class="skeleton skeleton--w70"></p>
+            <p class="skeleton skeleton--w50"></p>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div id="task-block" hidden>
-          <h2 class="section-title">今日任务</h2>
+    <section class="state state--success" data-state="success">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="card">
+            <div class="overall">
+              <div>
+                <span class="overall-value" id="progress-value">0</span><span class="overall-unit">%</span>
+              </div>
+              <div class="overall-meta" id="progress-meta"></div>
+            </div>
+            <div class="chip-row" id="cited-stats"></div>
+            <p class="form-hint" id="reason"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section section--cream section--tight">
+        <div class="container">
+          <div class="section__eyebrow">STAGES</div>
+          <h2 class="section__title">四阶段</h2>
+          <div class="card">
+            <ul class="timeline" id="stage-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="task-block" class="section section--tight" hidden>
+        <div class="container">
+          <div class="section__eyebrow">TODAY</div>
+          <h2 class="section__title">今日任务</h2>
           <div class="card">
             <div class="task-row">
               <span class="task-name" id="task-title"></span>
@@ -84,50 +128,62 @@
             <p id="task-action"></p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="state state--error" data-state="error">
-        <div class="state-card">
-          <h2>加载失败</h2>
-          <p id="error-copy">服务暂时不可用。</p>
-          <p><button class="btn btn-ghost" id="retry-btn" type="button">重试</button></p>
+    <section class="state state--error" data-state="error">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>加载失败</h2>
+            <p id="error-copy">服务暂时不可用。</p>
+            <p><button class="cta-secondary" id="retry-btn" type="button">重试</button></p>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="state state--auth" data-state="auth">
-        <div class="state-card">
-          <h2>需要登录</h2>
-          <p>学习路径基于你的练习记录，请先登录。</p>
-          <p><a class="btn" href="/login.html?next=learning-path.html">去登录</a></p>
+    <section class="state state--auth" data-state="auth">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>需要登录</h2>
+            <p>学习路径基于你的练习记录，请先登录。</p>
+            <div class="hero__ctas">
+              <a class="cta-primary" href="/login.html?next=learning-path.html">去登录</a>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="state state--offline" data-state="offline">
-        <div class="state-card">
-          <h2>当前处于离线状态</h2>
-          <p>学习路径需要联网生成，恢复网络后重试。</p>
-          <p><button class="btn btn-ghost" id="offline-retry-btn" type="button">重新连接</button></p>
+    <section class="state state--offline" data-state="offline">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>当前处于离线状态</h2>
+            <p>学习路径需要联网生成，恢复网络后重试。</p>
+            <p><button class="cta-secondary" id="offline-retry-btn" type="button">重新连接</button></p>
+          </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   </div>
 
-  <script src="/assets/v2/js/ui.js"></script>
-  <script src="/assets/v2/js/api.js"></script>
-  <script src="/assets/v2/js/learning-path.js"></script>
-<nav class="tabbar" aria-label="底部导航">
-  <a class="tabbar__item" href="/dashboard.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg></span>首页</a>
-  <a class="tabbar__item" href="/wrong-book.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span>错题</a>
-  <a class="tabbar__item tabbar__item--raise" href="/photo-solve.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/></svg></span>拍照</a>
-  <a class="tabbar__item" href="/review-session.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v6h6"/></svg></span>复习</a>
-  <a class="tabbar__item" href="/v2/settings.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>我的</a>
-  </nav>
-<nav class="tabbar" aria-label="底部导航">
+  <footer class="footer">
+    <div class="container">智启AI导师 · 数据仅用于你的个人学习记录</div>
+  </footer>
+
+  <nav class="tabbar" aria-label="底部导航">
     <a class="tabbar__item" href="/dashboard.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg></span>首页</a>
     <a class="tabbar__item" href="/wrong-book.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span>错题</a>
     <a class="tabbar__item tabbar__item--raise" href="/photo-solve.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/></svg></span>拍照</a>
     <a class="tabbar__item" href="/review-session.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v6h6"/></svg></span>复习</a>
     <a class="tabbar__item" href="/v2/settings.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>我的</a>
   </nav>
+
+  <script src="/assets/v2/js/ui.js"></script>
+  <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/learning-path.js"></script>
 </body>
 </html>

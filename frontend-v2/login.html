@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)">
   <meta name="description" content="登录智启AI导师 — 继续你的错题本、拍照解题与学习计划">
   <title>登录 · 智启AI导师</title>
   <link rel="stylesheet" href="/assets/v2/css/fonts.css">
@@ -11,73 +12,108 @@
   <link rel="stylesheet" href="/assets/v2/css/app.css">
 </head>
 <body>
-  <div class="wrap">
-    <header class="topbar">
-      <a href="/">← 返回首页</a>
-      <span class="eyebrow">Sign in</span>
-    </header>
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true"></span>
+        智启AI导师
+      </a>
+    </div>
+  </nav>
 
-    <div class="form-card">
-      <h1>登录</h1>
-      <p class="lede">登录后可继续拍照解题、错题本与学习计划。</p>
+  <header class="hero hero--app">
+    <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="container">
+      <div class="hero__copy">
+        <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Sign in</div>
+        <h1 class="hero__title">登录</h1>
+        <p class="hero__sub">登录后可继续拍照解题、错题本与学习计划。</p>
+      </div>
+    </div>
+  </header>
 
-      <!-- 状态：表单 / 加载 / 成功 / 错误 / 离线
-           认证页没有"未登录"这一状态 —— 表单态本身即未登录态（见 SPEC-ROUTES §3 例外）。 -->
-      <div id="state-region" aria-live="polite">
-        <section class="state state--form" data-state="form">
-          <form id="login-form" class="form-stack" novalidate>
-            <label class="form-field" for="email">
-              邮箱
-              <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
-            </label>
+  <!-- 五态：表单 / 加载 / 成功 / 错误 / 离线
+       认证页没有"未登录"这一状态 —— 表单态本身即未登录态（见 SPEC-ROUTES §3 例外）。
+       认证页不插底部 Tab：这一页只有一个目标动作。 -->
+  <div id="state-region" aria-live="polite">
+    <section class="state state--form" data-state="form">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="card">
+            <form id="login-form" class="form-stack" novalidate>
+              <label class="form-field" for="email">
+                邮箱
+                <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+              </label>
 
-            <label class="form-field" for="password">
-              密码
-              <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="至少 6 位">
-            </label>
+              <label class="form-field" for="password">
+                密码
+                <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="至少 6 位">
+              </label>
 
-            <p class="form-error" id="form-error" hidden></p>
+              <p class="form-error" id="form-error" hidden></p>
 
-            <button class="btn btn-block" id="submit-btn" type="submit">登录</button>
-            <button class="btn btn-ghost btn-block" id="guest-btn" type="button">以游客身份继续</button>
-          </form>
+              <button class="btn btn-block" id="submit-btn" type="submit">登录</button>
+              <button class="btn btn-ghost btn-block" id="guest-btn" type="button">以游客身份继续</button>
+            </form>
 
-          <p class="form-alt">还没有账号？<a href="register.html">注册</a></p>
-        </section>
+            <p class="form-alt">还没有账号？<a href="register.html">注册</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <section class="state state--loading" data-state="loading">
+    <section class="state state--loading" data-state="loading">
+      <div class="section section--tight">
+        <div class="container">
           <div class="state-card">
             <h2>正在登录…</h2>
             <p class="skeleton skeleton--w70"></p>
             <p class="skeleton skeleton--w50"></p>
           </div>
-        </section>
+        </div>
+      </div>
+    </section>
 
-        <section class="state state--success" data-state="success">
+    <section class="state state--success" data-state="success">
+      <div class="section section--tight">
+        <div class="container">
           <div class="state-card">
             <h2>登录成功</h2>
             <p id="success-copy">正在跳转…</p>
           </div>
-        </section>
+        </div>
+      </div>
+    </section>
 
-        <section class="state state--error" data-state="error">
+    <section class="state state--error" data-state="error">
+      <div class="section section--tight">
+        <div class="container">
           <div class="state-card">
             <h2>登录失败</h2>
             <p id="error-copy">邮箱或密码不正确。</p>
-            <p><button class="btn btn-ghost" id="retry-btn" type="button">重新输入</button></p>
+            <p><button class="cta-secondary" id="retry-btn" type="button">重新输入</button></p>
           </div>
-        </section>
+        </div>
+      </div>
+    </section>
 
-        <section class="state state--offline" data-state="offline">
+    <section class="state state--offline" data-state="offline">
+      <div class="section section--tight">
+        <div class="container">
           <div class="state-card">
             <h2>当前处于离线状态</h2>
             <p>登录需要联网，恢复网络后重试。</p>
-            <p><button class="btn btn-ghost" id="offline-retry-btn" type="button">重新连接</button></p>
+            <p><button class="cta-secondary" id="offline-retry-btn" type="button">重新连接</button></p>
           </div>
-        </section>
+        </div>
       </div>
-    </div>
+    </section>
   </div>
+
+  <footer class="footer">
+    <div class="container">智启AI导师 · 数据仅用于你的个人学习记录</div>
+  </footer>
 
   <script src="/assets/v2/js/ui.js"></script>
   <script src="/assets/v2/js/api.js"></script>
