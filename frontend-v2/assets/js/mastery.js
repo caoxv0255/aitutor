@@ -148,6 +148,7 @@
   function boot() {
     els.region = $('state-region');
     els.subjectFilter = $('subject-filter');
+    global.AISubjects.fillSelect(els.subjectFilter, { includeAll: true });
     els.overallValue = $('overall-value');
     els.overallMeta = $('overall-meta');
     els.topicList = $('topic-list');

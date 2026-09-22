@@ -20,15 +20,6 @@
 
   const STATES = ['empty', 'loading', 'success', 'error', 'auth', 'offline'];
 
-  const SUBJECT_NAMES = {
-    math: '数学',
-    physics: '物理',
-    chemistry: '化学',
-    chinese: '语文',
-    english: '英语',
-    politics: '政治',
-  };
-
   /** 内联 SVG 图标（24×24 stroke，禁止 emoji） */
   const ICONS = {
     wrong:
@@ -58,7 +49,7 @@
   }
 
   function subjectLabel(code) {
-    return SUBJECT_NAMES[code] || code || '未分类';
+    return global.AISubjects.name(code) || '未分类';
   }
 
   /** 后端返回的百分比字符串 → 显示串，缺失显示 '—' */

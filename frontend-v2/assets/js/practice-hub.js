@@ -261,6 +261,11 @@
     els.viewResult = $('view-result');
     els.subjectSelect = $('subject-select');
     els.countSelect = $('count-select');
+
+    // 学科下拉统一到 9 科（单一数据源 subjects.js）。
+    // 组卷入口 subject 必填，不提供「全部」；保留原默认数学。
+    global.AISubjects.fillSelect(els.subjectSelect, { selected: 'math' });
+
     els.historyList = $('history-list');
     els.quizProgress = $('quiz-progress');
     els.quizMeta = $('quiz-meta');

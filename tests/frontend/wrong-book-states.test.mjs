@@ -6,11 +6,13 @@ const DIR = 'frontend-v2';
 const html = fs.readFileSync(`${DIR}/wrong-book.html`, 'utf8');
 const uiJs = fs.readFileSync(`${DIR}/assets/js/ui.js`, 'utf8');
 const apiJs = fs.readFileSync(`${DIR}/assets/js/api.js`, 'utf8');
+const subjectsJs = fs.readFileSync(`${DIR}/assets/js/subjects.js`, 'utf8');
 const pageJs = fs.readFileSync(`${DIR}/assets/js/wrong-book.js`, 'utf8');
 
 const inlined = html
   .replace(/<script src="[^"]*ui\.js"><\/script>/, `<script>${uiJs}</script>`)
   .replace(/<script src="[^"]*api\.js"><\/script>/, `<script>${apiJs}</script>`)
+  .replace(/<script src="[^"]*subjects\.js"><\/script>/, `<script>${subjectsJs}</script>`)
   .replace(/<script src="[^"]*wrong-book\.js"><\/script>/, `<script>${pageJs}</script>`);
 
 const dom = new JSDOM(inlined, {

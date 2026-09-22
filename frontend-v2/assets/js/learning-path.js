@@ -180,6 +180,8 @@
   function boot() {
     els.region = $('state-region');
     els.subjectFilter = $('subject-filter');
+    // 无「全部」项（后端必填 subject），默认保持改动前的数学
+    global.AISubjects.fillSelect(els.subjectFilter, { selected: 'math' });
     els.progressValue = $('progress-value');
     els.progressMeta = $('progress-meta');
     els.citedStats = $('cited-stats');

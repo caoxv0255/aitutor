@@ -54,19 +54,9 @@
         <div class="field-row">
           <label class="field" for="subject-select">
             学科
-            <!-- 9 学科（PM-BRIEF §A.3 学科色 / §B.2）；后端 exam-questions.js 同样是这 9 个 code。
-                 2026-09-22 收编 pwa-photo 时补齐：此前只有 6 个，缺生物/历史/地理。 -->
-            <select id="subject-select">
-              <option value="math">数学</option>
-              <option value="physics">物理</option>
-              <option value="chemistry">化学</option>
-              <option value="chinese">语文</option>
-              <option value="english">英语</option>
-              <option value="biology">生物</option>
-              <option value="history">历史</option>
-              <option value="geography">地理</option>
-              <option value="politics">政治</option>
-            </select>
+            <!-- 9 科由 assets/js/subjects.js 的 fillSelect() 统一填充（PM-BRIEF §B.2 / §F.8）；
+                 后端 exam-questions.js 同样是这 9 个 code。 -->
+            <select id="subject-select"></select>
           </label>
           <button class="btn" id="parse-btn" type="submit">开始解析</button>
           <button class="btn btn-ghost" id="cancel-btn" type="button" hidden>中断</button>
@@ -161,6 +151,7 @@
   <script src="/assets/v2/vendor/katex/katex.min.js"></script>
   <script src="/assets/v2/js/ui.js"></script>
   <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/subjects.js"></script>
   <script src="/assets/v2/js/photo-solve.js"></script>
 </body>
 </html>

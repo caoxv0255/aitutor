@@ -6,6 +6,7 @@ const DIR = 'frontend-v2';
 const html = fs.readFileSync(`${DIR}/photo-solve.html`, 'utf8');
 const uiJs = fs.readFileSync(`${DIR}/assets/js/ui.js`, 'utf8');
 const apiJs = fs.readFileSync(`${DIR}/assets/js/api.js`, 'utf8');
+const subjectsJs = fs.readFileSync(`${DIR}/assets/js/subjects.js`, 'utf8');
 const pageJs = fs.readFileSync(`${DIR}/assets/js/photo-solve.js`, 'utf8');
 // KaTeX 自托管在 assets/vendor/katex/（零境外请求）；jsdom 不加载外链，同样内联
 const katexJs = fs.readFileSync(`${DIR}/assets/vendor/katex/katex.min.js`, 'utf8');
@@ -20,6 +21,7 @@ const inlined = html
   .replace(/<script src="[^"]*katex\.min\.js"><\/script>/, () => `<script>${katexJs}</script>`)
   .replace(/<script src="[^"]*ui\.js"><\/script>/, () => `<script>${uiJs}</script>`)
   .replace(/<script src="[^"]*api\.js"><\/script>/, () => `<script>${apiJs}</script>`)
+  .replace(/<script src="[^"]*subjects\.js"><\/script>/, () => `<script>${subjectsJs}</script>`)
   .replace(/<script src="[^"]*photo-solve\.js"><\/script>/, () => `<script>${pageJs}</script>`);
 
 const dom = new JSDOM(inlined, {
@@ -94,7 +96,7 @@ check('渲染失败项', window.document.querySelectorAll('#failed li').length, 
 // 7b. 收编 pwa-photo / vision-result 后新增的两项（2026-09-22 两页下线）
 //     学科下拉补齐 9 科（PM-BRIEF §A.3）；结果区回显真实原图（只回显照片，不造置信度/耗时）
 const subjectCodes = [...window.document.querySelectorAll('#subject-select option')].map((o) => o.value);
-check('学科下拉 9 科', subjectCodes.join(','), 'math,physics,chemistry,chinese,english,biology,history,geography,politics');
+check('学科下拉 9 科', subjectCodes.join(','), 'chinese,math,english,physics,chemistry,biology,history,geography,politics');
 check('结果区回显原图数', window.document.querySelectorAll('#result-images .thumb').length, 1);
 
 // 7c. LaTeX 渲染（2026-09-22 用户反馈：公式以 $...$ 原文出现）

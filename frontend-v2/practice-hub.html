@@ -79,14 +79,8 @@
               <div class="form-stack">
                 <label class="form-field" for="subject-select">
                   学科
-                  <select id="subject-select">
-                    <option value="math">数学</option>
-                    <option value="physics">物理</option>
-                    <option value="chemistry">化学</option>
-                    <option value="chinese">语文</option>
-                    <option value="english">英语</option>
-                    <option value="politics">政治</option>
-                  </select>
+                  <!-- 9 科由 assets/js/subjects.js 的 fillSelect() 统一填充（PM-BRIEF §F.8） -->
+                  <select id="subject-select"></select>
                 </label>
                 <label class="form-field" for="count-select">
                   题量
@@ -221,6 +215,7 @@
 
   <script src="/assets/v2/js/ui.js"></script>
   <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/subjects.js"></script>
   <script src="/assets/v2/js/practice-hub.js"></script>
 </body>
 </html>

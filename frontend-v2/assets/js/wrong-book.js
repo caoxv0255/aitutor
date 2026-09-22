@@ -15,15 +15,6 @@
   const STATES = ['empty', 'loading', 'success', 'error', 'auth', 'offline'];
   const PAGE_SIZE = 10;
 
-  const SUBJECT_NAMES = {
-    math: '数学',
-    physics: '物理',
-    chemistry: '化学',
-    chinese: '语文',
-    english: '英语',
-    politics: '政治',
-  };
-
   const els = {};
   let machine = null;
   let page = 1;
@@ -33,9 +24,9 @@
     return global.document.getElementById(id);
   }
 
-  /** 如有学科中文名就用后端的，否则本地兜底 */
+  /** 如有学科中文名就用后端的，否则查学科单一数据源（AISubjects） */
   function subjectLabel(row) {
-    return row.subject_name || SUBJECT_NAMES[row.subject_code] || row.subject_code || '未分类';
+    return row.subject_name || global.AISubjects.name(row.subject_code) || '未分类';
   }
 
   function formatDate(iso) {
@@ -226,6 +217,8 @@
     els.errorCopy = $('error-copy');
     els.subjectFilter = $('subject-filter');
     els.reviewedFilter = $('reviewed-filter');
+
+    global.AISubjects.fillSelect(els.subjectFilter, { includeAll: true });
 
     machine = global.AIUI.createStateMachine(els.region, STATES, { render: renderState });
 

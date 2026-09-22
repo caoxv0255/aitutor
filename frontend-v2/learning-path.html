@@ -44,14 +44,8 @@
       <form class="toolbar" id="filter-form">
         <label class="field" for="subject-filter">
           学科
-          <select id="subject-filter">
-            <option value="math">数学</option>
-            <option value="physics">物理</option>
-            <option value="chemistry">化学</option>
-            <option value="chinese">语文</option>
-            <option value="english">英语</option>
-            <option value="politics">政治</option>
-          </select>
+          <!-- 9 学科 option 由 assets/js/subjects.js 注入（学科单一数据源） -->
+          <select id="subject-filter"></select>
         </label>
         <button class="btn btn-ghost" type="submit">切换</button>
       </form>
@@ -184,6 +178,7 @@
 
   <script src="/assets/v2/js/ui.js"></script>
   <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/subjects.js"></script>
   <script src="/assets/v2/js/learning-path.js"></script>
 </body>
 </html>

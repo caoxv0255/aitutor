@@ -19,14 +19,6 @@
   'use strict';
 
   const STATES = ['empty', 'loading', 'success', 'error', 'auth', 'offline'];
-  const SUBJECT_NAMES = {
-    math: '数学',
-    physics: '物理',
-    chemistry: '化学',
-    chinese: '语文',
-    english: '英语',
-    politics: '政治',
-  };
 
   const els = {};
   let machine = null;
@@ -40,7 +32,7 @@
   }
 
   function subjectLabel(code) {
-    return SUBJECT_NAMES[code] || code || '未分类';
+    return global.AISubjects.name(code) || '未分类';
   }
 
   /** 只接受有限数值，其余一律当作"没有" —— 接口返回值不得直接进 DOM/HTML 路径 */

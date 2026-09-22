@@ -356,6 +356,11 @@
     els.region = $('state-region');
     els.thumbs = $('thumbs');
     els.subject = $('subject-select');
+
+    // 学科下拉统一到 9 科（单一数据源 subjects.js）。
+    // 必须显式 selected:'math'：PM-BRIEF 新顺序语文排第一，不指定的话默认学科会静默变成语文。
+    global.AISubjects.fillSelect(els.subject, { selected: 'math' });
+
     els.parseBtn = $('parse-btn');
     els.cancelBtn = $('cancel-btn');
     els.emptyCopy = $('empty-copy');

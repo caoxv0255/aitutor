@@ -6,11 +6,13 @@ const DIR = 'frontend-v2';
 const html = fs.readFileSync(`${DIR}/practice-hub.html`, 'utf8');
 const uiJs = fs.readFileSync(`${DIR}/assets/js/ui.js`, 'utf8');
 const apiJs = fs.readFileSync(`${DIR}/assets/js/api.js`, 'utf8');
+const subjectsJs = fs.readFileSync(`${DIR}/assets/js/subjects.js`, 'utf8');
 const pageJs = fs.readFileSync(`${DIR}/assets/js/practice-hub.js`, 'utf8');
 
 const inlined = html
   .replace(/<script src="[^"]*ui\.js"><\/script>/, `<script>${uiJs}</script>`)
   .replace(/<script src="[^"]*api\.js"><\/script>/, `<script>${apiJs}</script>`)
+  .replace(/<script src="[^"]*subjects\.js"><\/script>/, `<script>${subjectsJs}</script>`)
   .replace(/<script src="[^"]*practice-hub\.js"><\/script>/, `<script>${pageJs}</script>`);
 
 const dom = new JSDOM(inlined, {
@@ -59,6 +61,12 @@ const RESULT = {
 window.AIAPI.practiceHistory = () => Promise.resolve({ sessions: [{ subject: 'math', started_at: '2026-09-20T10:00:00Z', accuracy: '70.0' }], total: 1 });
 window.AIAPI.startPractice = () => Promise.resolve(SESSION);
 window.AIAPI.submitPractice = () => Promise.resolve(RESULT);
+
+// 学科下拉统一到 9 科（subjects.js fillSelect，subject 必填无「全部」，默认数学）
+const subjectCodes = [...doc.querySelectorAll('#subject-select option')].map((o) => o.value);
+check('学科下拉 9 科', subjectCodes.join(','), 'chinese,math,english,physics,chemistry,biology,history,geography,politics');
+check('学科下拉默认数学', doc.getElementById('subject-select').value, 'math');
+check('组卷入口无「全部」项', subjectCodes.includes(''), false);
 
 // 1. 六态与互斥
 const panels = [...doc.querySelectorAll('[data-state]')].map((n) => n.getAttribute('data-state'));
