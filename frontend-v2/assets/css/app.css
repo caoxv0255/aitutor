@@ -1780,3 +1780,124 @@ a.btn:focus-visible {
     height: 300px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * 批次 4 · 后 5 页组件（predictive-paper / subject-detail / state-library /
+ * learning-journey / subject-exam）—— 只在文件末尾追加，不改既有行。
+ * 断点全部复用既有 @media（1023/767/480），此处不新增响应式块。
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 得分/掌握度圆环（PM F.16.7「80 分圆环」、B.3:179「大圆环」）
+ * 用法：容器 style 里设 --ring-pct(0-100)；--ring-color 可选 */
+.ring {
+  --ring-pct: 0;
+  --ring-color: var(--brand-red);
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: conic-gradient(var(--ring-color) calc(var(--ring-pct) * 1%), var(--line-soft) 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.ring::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  background: var(--surface);
+}
+
+.ring--lg {
+  width: 190px;
+  height: 190px;
+}
+
+.ring__value {
+  position: relative;
+  font-family: var(--font-num);
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.ring__unit {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+/* 命题依据 meta 行（PM §S2 / F.16.7，predictive-paper 每题一条） */
+.q-prov {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--brand-red);
+  background: var(--brand-red-50);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+/* 题目选项行（subject-exam / predictive-paper 整卷视图） */
+.q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.q-options span {
+  padding: 8px 12px;
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+/* 缺接口说明态登记（批次 4 约定：缺接口不伪造数据，页面内说明） */
+.missing-note {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border: 1px dashed var(--line);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-3);
+}
+
+.missing-note b {
+  color: var(--ink-2);
+}
+
+/* 学习闭环阶段时间线（learning-journey，复用 .stage 的补充语义） */
+.stage-name {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.stage--completed .stage-name::after {
+  content: '✓';
+  margin-left: 6px;
+  color: var(--ch-green, #059669);
+}
+
+.stage--current .stage-name::after {
+  content: '进行中';
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--brand-text, var(--brand-red));
+}
+
+/* 圆环下方的说明文字（subject-detail 概览，跟随圆环居中） */
+.ring-caption {
+  text-align: center;
+}

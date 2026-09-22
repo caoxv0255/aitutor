@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)">
-  <meta name="description" content="学习闭环 — Loop 闭环可视化（dev-only）：拍照 → 入库 → 复习 → 掌握 → 预测 → 回流">
-  <title>学习闭环 · 智启AI导师</title>
+  <meta name="description" content="学科卷模板 — 1 份模板 × 9 学科参数复用：整卷浏览 + 练习报告">
+  <title>学科卷 · 智启AI导师</title>
   <link rel="stylesheet" href="/assets/v2/css/fonts.css">
   <link rel="stylesheet" href="/assets/v2/css/system.css">
   <link rel="stylesheet" href="/assets/v2/css/app.css">
@@ -32,9 +32,9 @@
     <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="container">
       <div class="hero__copy">
-        <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Learning Journey</div>
-        <h1 class="hero__title">学习闭环</h1>
-        <p class="hero__sub">从拍照到掌握，Loop 的每一步现在走到了哪里（dev-only 可视化）。</p>
+        <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Subject Exam</div>
+        <h1 class="hero__title" id="page-title">学科卷</h1>
+        <p class="hero__sub">1 份模板 × 学科参数（SPEC-ROUTES §1.3「模板化 12 → 1」）：整卷浏览与练习报告。</p>
       </div>
     </div>
   </header>
@@ -45,11 +45,14 @@
       <div class="section section--tight">
         <div class="container">
           <div class="state-card">
-            <h2 id="empty-title">闭环还没有开始</h2>
-            <p id="empty-copy">先拍一道题入库，Loop 才能转起来。</p>
+            <h2 id="empty-title">没有可展示的内容</h2>
+            <p id="empty-copy">该学科暂无试卷或练习记录。</p>
             <div class="hero__ctas">
-              <a class="cta-primary" href="/photo-solve.html">去拍照</a>
+              <a class="cta-primary" href="/practice-hub.html">去练习</a>
             </div>
+          </div>
+          <div class="missing-note" id="empty-note" hidden>
+            <b>参数说明：</b><span id="empty-note-copy"></span>
           </div>
         </div>
       </div>
@@ -59,7 +62,7 @@
       <div class="section section--tight">
         <div class="container">
           <div class="section__eyebrow">LOADING</div>
-          <h2 class="section__title">正在读取闭环数据…</h2>
+          <h2 class="section__title">正在读取学科卷…</h2>
           <div class="card">
             <p class="skeleton skeleton--w90"></p>
             <p class="skeleton skeleton--w70"></p>
@@ -73,35 +76,40 @@
       <div class="section section--tight">
         <div class="container">
           <div class="card">
-            <div class="section__eyebrow">LOOP OVERVIEW</div>
-            <h2 class="section__title">闭环总览</h2>
-            <div class="stat-grid" id="loop-stats"></div>
+            <div class="section__eyebrow" id="exam-eyebrow">SUBJECT EXAM</div>
+            <h2 class="section__title" id="exam-title">学科卷</h2>
+            <div class="field">
+              <label for="subject-select">学科（模板参数）</label>
+              <select id="subject-select"></select>
+            </div>
+            <ul class="tabs" id="exam-tabs">
+              <li><button class="tab tab--on" type="button" data-tab="paper">试卷</button></li>
+              <li><button class="tab" type="button" data-tab="report">练习报告</button></li>
+            </ul>
           </div>
 
-          <div class="card">
-            <div class="section__eyebrow">STAGES</div>
-            <h2 class="section__title">路径阶段</h2>
-            <p class="section__sub" id="path-reason"></p>
-            <ol class="timeline" id="stage-list"></ol>
+          <div class="card" id="tab-paper">
+            <div class="section__eyebrow">PAPERS</div>
+            <h2 class="section__title">试卷列表</h2>
+            <div id="paper-list"></div>
           </div>
 
-          <div class="card">
-            <div class="section__eyebrow">NEXT ACTIONS</div>
-            <h2 class="section__title">下一步</h2>
-            <p class="form-hint">后端给出的旧树链接按 G8 映射：认识的跳新树，不认识的渲染为不可点文字，不放死链。</p>
-            <div id="action-list"></div>
+          <div class="card" id="paper-view" hidden>
+            <div class="section__eyebrow" id="paper-eyebrow">PAPER</div>
+            <h2 class="section__title" id="paper-title">试卷</h2>
+            <div class="chip-row" id="paper-meta"></div>
+            <p class="form-error" id="paper-error" role="alert" hidden></p>
+            <div class="q-actions">
+              <button class="btn btn-ghost" id="paper-close-btn" type="button">返回列表</button>
+            </div>
+            <div id="question-list"></div>
           </div>
 
-          <div class="card">
-            <div class="section__eyebrow">HOT KPS</div>
-            <h2 class="section__title">薄弱知识点 Top 10</h2>
-            <div id="kp-list"></div>
-          </div>
-
-          <div class="card">
-            <div class="section__eyebrow">SUBJECTS</div>
-            <h2 class="section__title">错题学科分布</h2>
-            <div id="dist-list"></div>
+          <div class="card" id="tab-report" hidden>
+            <div class="section__eyebrow">REPORT</div>
+            <h2 class="section__title">练习报告</h2>
+            <p class="form-hint">来自练习会话历史（GET /api/exam/session/history），按当前学科过滤。</p>
+            <div id="report-list"></div>
           </div>
         </div>
       </div>
@@ -111,7 +119,7 @@
       <div class="section section--tight">
         <div class="container">
           <div class="state-card">
-            <h2>闭环数据读取失败</h2>
+            <h2>学科卷读取失败</h2>
             <p id="error-copy">服务暂时不可用。</p>
             <p><button class="cta-secondary" id="retry-btn" type="button">重试</button></p>
           </div>
@@ -124,9 +132,9 @@
         <div class="container">
           <div class="state-card">
             <h2>需要登录</h2>
-            <p>闭环数据与你的账号绑定，请先登录。</p>
+            <p>学科卷与练习记录绑定你的账号，请先登录。</p>
             <div class="hero__ctas">
-              <a class="cta-primary" href="/login.html?next=learning-journey.html">去登录</a>
+              <a class="cta-primary" id="auth-link" href="/login.html?next=subject-exam.html">去登录</a>
             </div>
           </div>
         </div>
@@ -138,7 +146,7 @@
         <div class="container">
           <div class="state-card">
             <h2>当前处于离线状态</h2>
-            <p>闭环数据需要联网读取，恢复网络后重试。</p>
+            <p>学科卷需要联网读取，恢复网络后重试。</p>
             <p><button class="cta-secondary" id="offline-retry-btn" type="button">重新连接</button></p>
           </div>
         </div>
@@ -147,7 +155,7 @@
   </div>
 
   <footer class="footer">
-    <div class="container">智启AI导师 · 学习闭环可视化（dev-only）</div>
+    <div class="container">智启AI导师 · 数据仅用于你的个人学习记录</div>
   </footer>
 
   <nav class="tabbar" aria-label="底部导航">
@@ -161,6 +169,6 @@
   <script src="/assets/v2/js/ui.js"></script>
   <script src="/assets/v2/js/api.js"></script>
   <script src="/assets/v2/js/subjects.js"></script>
-  <script src="/assets/v2/js/learning-journey.js"></script>
+  <script src="/assets/v2/js/subject-exam.js"></script>
 </body>
 </html>

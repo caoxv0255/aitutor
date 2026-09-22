@@ -1,1108 +1,170 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>预测卷结果 · 智启AI导师</title>
-  <meta name="description" content="AI 智能组卷已完成 · 基于薄弱点的 10 题预测卷 · 答错自动入错题本, 重新进入复习循环。" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;700&display=swap" />
-
-  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
-
-  <style>
-    :root {
-      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
-      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
-      --p-800:#7a1014; --p-900:#660f13;
-      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
-      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
-      --w-50:#fffbeb; --s-w-100:#fef3c7; --w-500:#f59e0b; --w-700:#b45309;
-      --e-50:#fef2f2; --e-500:#ef4444;
-      --i-50:#f0f9ff; --i-500:#0284c7;
-
-      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
-      --line:#e8eaee; --line-soft:#f1f3f5;
-      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
-
-      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
-      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
-      --font-mono:'JetBrains Mono','DM Sans',monospace;
-      --font-serif:'Noto Serif SC','DM Sans',serif;
-
-      --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px;
-      --s-6:24px; --s-7:32px; --s-8:40px; --s-9:56px; --s-10:72px;
-
-      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
-
-      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
-      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
-      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
-      --sh-4: 0 20px 48px -16px rgba(11,18,32,.18), 0 4px 12px rgba(11,18,32,.06);
-      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
-      --sh-success: 0 8px 28px -8px rgba(5,150,105,.28), 0 2px 6px rgba(5,150,105,.12);
-
-      --ease-out: cubic-bezier(.22,1,.36,1);
-      --ease-spring: cubic-bezier(.34,1.56,.64,1);
-      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms; --dur-4:680ms;
-    }
-
-    html.dark {
-      --bg:#0a0d14; --surface:#131720; --surface-2:#1a1f2c; --surface-3:#232838;
-      --line:#232838; --line-soft:#1f2533;
-      --ink:#e8ecf3; --ink-2:#a8b0c2; --ink-3:#6f7689; --ink-4:#4d5468;
-      --p-50:#2a0e10; --p-100:#3a1316; --p-200:#4d1820;
-      --b-50:#0d1c33; --s-50:#052e22; --w-50:#2a1d05; --e-50:#2a0d0d; --i-50:#06222e;
-      --sh-1: 0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
-      --sh-2: 0 4px 16px -4px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.3);
-      --sh-3: 0 12px 32px -8px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.3);
-      --sh-success: 0 12px 32px -8px rgba(0,0,0,.5), 0 2px 6px rgba(5,150,105,.2);
-    }
-
-    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 15px; line-height: 1.55;
-      font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
-      min-height: 100vh;
-      transition: background var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out);
-    }
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
-    ::selection { background: var(--p-100); color: var(--p-800); }
-
-    .nav {
-      position: sticky; top: 0; z-index: 50;
-      background: color-mix(in srgb, var(--bg) 86%, transparent);
-      backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid var(--line-soft);
-    }
-    .nav__inner {
-      max-width: 1280px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px var(--s-7);
-    }
-    .nav__brand {
-      display: flex; align-items: center; gap: 10px;
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 17px; color: var(--ink);
-    }
-    .nav__brand-mark {
-      width: 28px; height: 28px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      display: inline-flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 700; font-size: 13px;
-      box-shadow: var(--sh-primary);
-    }
-    .nav__step {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 13px; color: var(--ink-3);
-    }
-    .nav__step-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--s-500);
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--s-500) 20%, transparent);
-    }
-    .nav__step strong { color: var(--ink); font-weight: 600; }
-    .nav__actions { display: flex; gap: 8px; }
-    .icon-btn {
-      width: 38px; height: 38px; border-radius: var(--r-sm);
-      display: inline-flex; align-items: center; justify-content: center;
-      color: var(--ink-2);
-      transition: background var(--dur-1), color var(--dur-1);
-    }
-    .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
-    .icon-btn svg { width: 18px; height: 18px; }
-
-    .app { max-width: 1280px; margin: 0 auto; padding: var(--s-7); }
-
-    .crumbs {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 13px; color: var(--ink-3);
-      margin-bottom: var(--s-5);
-    }
-    .crumbs a:hover { color: var(--p-500); }
-    .crumbs svg { width: 12px; height: 12px; }
-    .crumbs__current { color: var(--ink); font-weight: 500; }
-
-    /* ============ HERO + SCORE ============ */
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-      gap: var(--s-7);
-      align-items: end;
-      margin-bottom: var(--s-8);
-      padding-bottom: var(--s-7);
-      border-bottom: 1px solid var(--line-soft);
-    }
-    .hero__eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--p-500);
-      margin-bottom: var(--s-3);
-    }
-    .hero__eyebrow::before { content:''; width: 24px; height: 1.5px; background: var(--p-500); }
-    .hero__title {
-      font-family: var(--font-display);
-      font-size: clamp(32px, 4.5vw, 52px);
-      font-weight: 700; line-height: 1.05;
-      letter-spacing: -.025em;
-      color: var(--ink);
-    }
-    .hero__title em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--s-500), var(--s-700));
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero__title .accent-down {
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero__sub {
-      margin-top: var(--s-4);
-      font-size: 15px; color: var(--ink-2);
-      max-width: 540px;
-    }
-    .hero__sub strong { color: var(--ink); font-weight: 600; }
-    .hero__paper-id {
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-top: var(--s-3);
-      font-family: var(--font-mono);
-      font-size: 11px; font-weight: 500;
-      color: var(--ink-3);
-      padding: 4px 10px;
-      background: var(--surface-2);
-      border-radius: var(--r-pill);
-      border: 1px solid var(--line);
-    }
-
-    /* 大圆形分数展示 */
-    .score-ring {
-      position: relative;
-      width: 220px; height: 220px;
-      margin-left: auto;
-    }
-    .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-    .score-ring__track {
-      fill: none;
-      stroke: var(--surface-3);
-      stroke-width: 12;
-    }
-    .score-ring__fill {
-      fill: none;
-      stroke: var(--s-500);
-      stroke-width: 12;
-      stroke-linecap: round;
-      transition: stroke-dashoffset var(--dur-4) var(--ease-spring);
-    }
-    .score-ring__center {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center;
-    }
-    .score-ring__value {
-      font-family: var(--font-display);
-      font-size: 56px; font-weight: 700;
-      line-height: 1;
-      letter-spacing: -.03em;
-      color: var(--s-500);
-      font-variant-numeric: tabular-nums;
-    }
-    .score-ring__value sup {
-      font-size: 20px; font-weight: 600;
-      color: var(--ink-3);
-      vertical-align: super;
-      margin-left: 2px;
-    }
-    .score-ring__label {
-      margin-top: 4px;
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--ink-3);
-    }
-    .score-ring__delta {
-      margin-top: 8px;
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 12px; font-weight: 600;
-      color: var(--s-700);
-      padding: 3px 10px;
-      background: var(--s-50);
-      border-radius: var(--r-pill);
-    }
-    html.dark .score-ring__delta { background: var(--s-50); color: var(--s-100); }
-    .score-ring__delta svg { width: 12px; height: 12px; }
-
-    /* ============ STATS ROW ============ */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--s-4);
-      margin-bottom: var(--s-8);
-    }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-md);
-      padding: var(--s-5);
-      display: flex; flex-direction: column; gap: var(--s-2);
-      transition: all var(--dur-2) var(--ease-out);
-    }
-    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--sh-2); }
-    .stat-card__head {
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .stat-card__icon {
-      width: 32px; height: 32px;
-      border-radius: var(--r-sm);
-      display: inline-flex; align-items: center; justify-content: center;
-    }
-    .stat-card__icon svg { width: 16px; height: 16px; }
-    .stat-card--success .stat-card__icon { background: var(--s-50); color: var(--s-500); }
-    .stat-card--error .stat-card__icon   { background: var(--e-50); color: var(--e-500); }
-    .stat-card--warning .stat-card__icon { background: var(--w-50); color: var(--w-700); }
-    .stat-card--info .stat-card__icon    { background: var(--i-50); color: var(--i-500); }
-    html.dark .stat-card--success .stat-card__icon { background: var(--s-50); color: var(--s-100); }
-    html.dark .stat-card--error .stat-card__icon   { background: var(--e-50); color: #fca5a5; }
-    html.dark .stat-card--warning .stat-card__icon { background: var(--w-50); color: var(--s-w-100); }
-    html.dark .stat-card--info .stat-card__icon    { background: var(--i-50); color: #bae6fd; }
-    .stat-card__value {
-      font-family: var(--font-display);
-      font-size: 28px; font-weight: 700;
-      letter-spacing: -.02em;
-      color: var(--ink);
-      font-variant-numeric: tabular-nums;
-      display: flex; align-items: baseline; gap: 4px;
-    }
-    .stat-card__value small {
-      font-size: 14px; font-weight: 500;
-      color: var(--ink-3);
-    }
-    .stat-card__label {
-      font-size: 12px; font-weight: 500;
-      color: var(--ink-3);
-    }
-
-    /* ============ SECTION ============ */
-    .section { margin-bottom: var(--s-9); }
-    .section__head {
-      display: flex; align-items: end; justify-content: space-between;
-      gap: var(--s-4); margin-bottom: var(--s-5);
-    }
-    .section__heading { display: flex; flex-direction: column; gap: 6px; }
-    .section__eyebrow {
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--ink-3);
-      display: flex; align-items: center; gap: 8px;
-    }
-    .section__eyebrow-num {
-      font-family: var(--font-display);
-      font-variant-numeric: tabular-nums;
-      background: var(--surface-3); color: var(--ink-2);
-      padding: 2px 8px; border-radius: var(--r-pill);
-      font-size: 11px;
-    }
-    .section__eyebrow-num--urgent { background: var(--p-50); color: var(--p-700); }
-    html.dark .section__eyebrow-num--urgent { background: var(--p-100); color: var(--p-200); }
-    .section__title {
-      font-family: var(--font-display);
-      font-size: 24px; font-weight: 600;
-      line-height: 1.25; letter-spacing: -.015em;
-      color: var(--ink);
-    }
-    .section__link {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 13px; font-weight: 500;
-      color: var(--ink-2);
-      transition: color var(--dur-1);
-    }
-    .section__link:hover { color: var(--p-500); }
-    .section__link svg { width: 14px; height: 14px; transition: transform var(--dur-1); }
-    .section__link:hover svg { transform: translateX(2px); }
-
-    /* ============ LOOP CLOSURE BANNER ============ */
-    .loop-banner {
-      position: relative;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: var(--s-5);
-      align-items: center;
-      padding: var(--s-6) var(--s-7);
-      background:
-        linear-gradient(135deg, color-mix(in srgb, var(--p-500) 4%, var(--surface)) 0%, var(--surface) 100%);
-      border: 1px solid var(--p-200);
-      border-radius: var(--r-lg);
-      overflow: hidden;
-      margin-bottom: var(--s-9);
-    }
-    html.dark .loop-banner { background: linear-gradient(135deg, color-mix(in srgb, var(--p-500) 8%, var(--surface)) 0%, var(--surface) 100%); border-color: var(--p-700); }
-    .loop-banner::before {
-      content:'';
-      position: absolute; left: -10%; top: -50%;
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, var(--p-100) 0%, transparent 70%);
-      opacity: 0.5;
-      pointer-events: none;
-    }
-    html.dark .loop-banner::before { background: radial-gradient(circle, var(--p-100) 0%, transparent 70%); opacity: 0.25; }
-    .loop-banner__icon {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      display: inline-flex; align-items: center; justify-content: center;
-      color: #fff;
-      box-shadow: var(--sh-primary);
-      flex-shrink: 0;
-    }
-    .loop-banner__icon svg { width: 26px; height: 26px; }
-    .loop-banner__title {
-      font-family: var(--font-display);
-      font-size: 18px; font-weight: 700;
-      letter-spacing: -.01em;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .loop-banner__title em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .loop-banner__sub {
-      font-size: 13px; color: var(--ink-2);
-      line-height: 1.5;
-    }
-    .loop-banner__sub strong { color: var(--ink); font-weight: 600; }
-    .loop-banner__arrow {
-      font-family: var(--font-mono);
-      font-size: 11px; font-weight: 500;
-      color: var(--p-700);
-      padding: 4px 10px;
-      background: var(--p-50);
-      border-radius: var(--r-pill);
-      letter-spacing: .04em;
-    }
-    html.dark .loop-banner__arrow { background: var(--p-100); color: var(--p-200); }
-
-    /* ============ Q GRID (10 题结果) ============ */
-    .q-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: var(--s-3);
-    }
-    .q {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-md);
-      padding: var(--s-4);
-      display: flex; flex-direction: column; gap: var(--s-2);
-      transition: all var(--dur-2) var(--ease-out);
-      cursor: pointer;
-      min-height: 124px;
-    }
-    .q:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--sh-2);
-      border-color: var(--q-color, var(--line));
-    }
-    .q__head {
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .q__num {
-      font-family: var(--font-display);
-      font-size: 12px; font-weight: 700;
-      color: var(--ink-3);
-    }
-    .q__badge {
-      display: inline-flex; align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: var(--r-pill);
-      font-size: 10px; font-weight: 700;
-      letter-spacing: .04em;
-    }
-    .q__badge svg { width: 10px; height: 10px; }
-    .q--correct .q__badge { background: var(--s-50); color: var(--s-700); }
-    .q--wrong .q__badge   { background: var(--e-50); color: var(--e-500); }
-    .q--skip .q__badge    { background: var(--surface-3); color: var(--ink-3); }
-    html.dark .q--correct .q__badge { background: var(--s-50); color: var(--s-100); }
-    html.dark .q--wrong .q__badge   { background: var(--e-50); color: #fca5a5; }
-    .q__stem {
-      font-family: var(--font-serif);
-      font-size: 13px; line-height: 1.4;
-      color: var(--ink);
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .q__kp {
-      margin-top: auto;
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 11px; font-weight: 500;
-      color: var(--ink-3);
-    }
-    .q--correct { --q-color: var(--s-500); }
-    .q--wrong   { --q-color: var(--e-500); }
-    .q--skip    { --q-color: var(--ink-4); }
-
-    /* ============ WRONG ANSWERS DETAIL ============ */
-    .wrongs {
-      display: flex; flex-direction: column; gap: var(--s-3);
-    }
-    .wrong-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-md);
-      padding: var(--s-5) var(--s-6);
-      display: grid;
-      grid-template-columns: 40px 1fr auto;
-      gap: var(--s-4);
-      align-items: start;
-      position: relative;
-      overflow: hidden;
-    }
-    .wrong-card::before {
-      content:'';
-      position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-      background: var(--e-500);
-    }
-    .wrong-card__num {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: var(--e-50);
-      color: var(--e-500);
-      display: inline-flex; align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-size: 14px; font-weight: 700;
-    }
-    html.dark .wrong-card__num { background: var(--e-50); color: #fca5a5; }
-    .wrong-card__stem {
-      font-family: var(--font-serif);
-      font-size: 15px; line-height: 1.5;
-      color: var(--ink);
-      margin-bottom: var(--s-3);
-    }
-    .wrong-card__answers {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: var(--s-3);
-      font-size: 13px;
-    }
-    .wrong-card__answer-label {
-      display: block;
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: var(--ink-3);
-      margin-bottom: 4px;
-    }
-    .wrong-card__answer-yours {
-      color: var(--e-500);
-      font-family: var(--font-mono);
-    }
-    .wrong-card__answer-correct {
-      color: var(--s-700);
-      font-family: var(--font-mono);
-      font-weight: 600;
-    }
-    .wrong-card__meta {
-      margin-top: var(--s-3);
-      display: flex; align-items: center; gap: var(--s-3);
-      font-size: 12px; color: var(--ink-3);
-    }
-    .wrong-card__meta-item { display: inline-flex; align-items: center; gap: 4px; }
-    .wrong-card__meta-item svg { width: 12px; height: 12px; }
-    .wrong-card__auto {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 10px;
-      background: var(--p-50);
-      color: var(--p-700);
-      border-radius: var(--r-pill);
-      font-size: 11px; font-weight: 700;
-      letter-spacing: .04em;
-      align-self: center;
-    }
-    .wrong-card__auto svg { width: 12px; height: 12px; }
-    html.dark .wrong-card__auto { background: var(--p-100); color: var(--p-200); }
-
-    /* ============ WEAKNESS UPDATE (loop 反馈) ============ */
-    .feedback {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--s-3);
-    }
-    .fb-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-md);
-      padding: var(--s-4) var(--s-5);
-      display: flex; align-items: center; gap: var(--s-3);
-    }
-    .fb-card__icon {
-      width: 36px; height: 36px;
-      border-radius: var(--r-sm);
-      display: inline-flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .fb-card__icon svg { width: 16px; height: 16px; }
-    .fb-card--up .fb-card__icon { background: var(--s-50); color: var(--s-500); }
-    .fb-card--down .fb-card__icon { background: var(--e-50); color: var(--e-500); }
-    .fb-card--neutral .fb-card__icon { background: var(--b-50); color: var(--b-500); }
-    html.dark .fb-card--up .fb-card__icon { background: var(--s-50); color: var(--s-100); }
-    html.dark .fb-card--down .fb-card__icon { background: var(--e-50); color: #fca5a5; }
-    html.dark .fb-card--neutral .fb-card__icon { background: var(--b-50); color: #93c5fd; }
-    .fb-card__body { min-width: 0; flex: 1; }
-    .fb-card__title {
-      font-family: var(--font-display);
-      font-size: 13px; font-weight: 600;
-      color: var(--ink);
-      word-break: keep-all;
-    }
-    .fb-card__delta {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 11px; font-weight: 600;
-      font-variant-numeric: tabular-nums;
-    }
-    .fb-card--up .fb-card__delta   { color: var(--s-500); }
-    .fb-card--down .fb-card__delta { color: var(--e-500); }
-    .fb-card__delta svg { width: 11px; height: 11px; }
-
-    /* ============ CTA ============ */
-    .cta-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--s-3);
-    }
-    .cta-btn {
-      display: flex; align-items: center; gap: var(--s-3);
-      padding: var(--s-5) var(--s-5);
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-md);
-      transition: all var(--dur-2) var(--ease-out);
-      cursor: pointer;
-    }
-    .cta-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--sh-2);
-    }
-    .cta-btn--featured {
-      background: linear-gradient(135deg, var(--p-50) 0%, var(--surface) 100%);
-      border-color: var(--p-200);
-    }
-    html.dark .cta-btn--featured { background: linear-gradient(135deg, var(--p-100) 0%, var(--surface) 100%); border-color: var(--p-700); }
-    .cta-btn--featured:hover { border-color: var(--p-500); }
-    .cta-btn__icon {
-      width: 40px; height: 40px;
-      border-radius: var(--r-sm);
-      display: inline-flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .cta-btn--primary .cta-btn__icon { background: var(--p-500); color: #fff; }
-    .cta-btn--blue .cta-btn__icon    { background: var(--b-500); color: #fff; }
-    .cta-btn--ink .cta-btn__icon     { background: var(--surface-3); color: var(--ink-2); }
-    .cta-btn--primary .cta-btn__icon svg,
-    .cta-btn--blue .cta-btn__icon svg { color: #fff; }
-    .cta-btn__icon svg { width: 20px; height: 20px; }
-    .cta-btn__body { flex: 1; min-width: 0; }
-    .cta-btn__title {
-      font-family: var(--font-display);
-      font-size: 14px; font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 2px;
-    }
-    .cta-btn--featured .cta-btn__title { color: var(--p-700); }
-    html.dark .cta-btn--featured .cta-btn__title { color: var(--p-200); }
-    .cta-btn__sub {
-      font-size: 12px;
-      color: var(--ink-3);
-    }
-    .cta-btn__arrow {
-      color: var(--ink-3);
-      transition: transform var(--dur-1);
-      flex-shrink: 0;
-    }
-    .cta-btn:hover .cta-btn__arrow { transform: translateX(3px); color: var(--ink); }
-    .cta-btn__arrow svg { width: 16px; height: 16px; }
-
-    /* ============ ENTRY ============ */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .hero, .loop-banner, .section, .stats-row { animation: fadeInUp var(--dur-3) var(--ease-out) both; }
-    .loop-banner { animation-delay: 60ms; }
-    .stats-row { animation-delay: 120ms; }
-    .section:nth-of-type(1) { animation-delay: 180ms; }
-    .section:nth-of-type(2) { animation-delay: 240ms; }
-    .section:nth-of-type(3) { animation-delay: 300ms; }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,*::before,*::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    :focus-visible {
-      outline: 2px solid var(--p-500);
-      outline-offset: 3px;
-      border-radius: var(--r-sm);
-    }
-
-    /* ============ RESPONSIVE ============ */
-    @media (max-width: 1024px) {
-      .hero { grid-template-columns: 1fr; }
-      .score-ring { margin: 0 auto; }
-      .q-grid { grid-template-columns: repeat(4, 1fr); }
-      .stats-row { grid-template-columns: repeat(2, 1fr); }
-      .feedback, .cta-row { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      .app { padding: var(--s-5); }
-      .q-grid { grid-template-columns: repeat(2, 1fr); }
-      .stats-row { grid-template-columns: 1fr; }
-      .wrong-card__answers { grid-template-columns: 1fr; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="预测卷 — 按薄弱点组卷的试卷列表与整卷浏览，每题附命题依据">
+  <title>预测卷 · 智启AI导师</title>
+  <link rel="stylesheet" href="/assets/v2/css/fonts.css">
+  <link rel="stylesheet" href="/assets/v2/css/system.css">
+  <link rel="stylesheet" href="/assets/v2/css/app.css">
 </head>
 <body>
-
-  <!-- NAV -->
   <nav class="nav">
-    <div class="nav__inner">
-      <a href="#" class="nav__brand">
-        <span class="nav__brand-mark">AI</span>
-        <span>智启AI导师</span>
+    <div class="container nav__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true"></span>
+        智启AI导师
       </a>
-      <div class="nav__step">
-        <span class="nav__step-dot"></span>
-        <span>预测卷已批改 · <strong>2 道自动入库</strong></span>
-      </div>
-      <div class="nav__actions">
-        <button class="icon-btn" id="themeBtn" aria-label="切换主题">
-          <i data-lucide="moon"></i>
-        </button>
-        <button class="icon-btn" aria-label="下载报告">
-          <i data-lucide="download"></i>
-        </button>
+      <div class="nav__links">
+        <a class="nav__link" href="/dashboard.html">仪表盘</a>
+        <a class="nav__link" href="/practice-hub.html">练习</a>
+        <a class="nav__link" href="/review-session.html">复习</a>
+        <a class="nav__link" href="/wrong-book.html">错题本</a>
+        <a class="nav__cta" href="/photo-solve.html">拍照解题</a>
       </div>
     </div>
   </nav>
 
-  <main class="app">
-
-    <!-- 面包屑 -->
-    <div class="crumbs">
-      <a href="#">首页</a>
-      <i data-lucide="chevron-right"></i>
-      <a href="#">练习中心</a>
-      <i data-lucide="chevron-right"></i>
-      <a href="#">学习路径</a>
-      <i data-lucide="chevron-right"></i>
-      <span class="crumbs__current">预测卷结果</span>
-    </div>
-
-    <!-- HERO + 大分数圆环 -->
-    <header class="hero">
-      <div>
-        <div class="hero__eyebrow">EXAM PAPER · 已批改</div>
-        <h1 class="hero__title">
-          数学薄弱点<em>预测卷</em><br/>
-          <span class="accent-down">正确率 80%</span>
-        </h1>
-        <p class="hero__sub">
-          基于你 <strong>12 个薄弱点</strong> 智能组卷 10 题, 用时 18 分 24 秒。2 道答错已自动加入错题本, 进入今晚的复习队列。
-        </p>
-        <span class="hero__paper-id">
-          <i data-lucide="hash"></i>
-          PAPER_2026_09_15_MATH_WEAKNESS
-        </span>
-      </div>
-
-      <div class="score-ring" aria-label="综合得分 80/100">
-        <svg viewBox="0 0 200 200">
-          <circle class="score-ring__track" cx="100" cy="100" r="86"/>
-          <circle class="score-ring__fill" cx="100" cy="100" r="86"
-                  stroke-dasharray="540" stroke-dashoffset="108"
-                  style="filter: drop-shadow(0 4px 12px rgba(5,150,105,.35));"/>
-        </svg>
-        <div class="score-ring__center">
-          <div class="score-ring__value">80<sup>/100</sup></div>
-          <div class="score-ring__label">综合得分</div>
-          <div class="score-ring__delta">
-            <i data-lucide="trending-up"></i>
-            +12 较上次
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- LOOP CLOSURE BANNER -->
-    <div class="loop-banner">
-      <div class="loop-banner__icon">
-        <i data-lucide="refresh-cw"></i>
-      </div>
-      <div>
-        <div class="loop-banner__title">
-          Loop 已自动闭合 · <em>2 道错题进入今晚复习</em>
-        </div>
-        <div class="loop-banner__sub">
-          你的<strong>「导数与切线」</strong>薄弱度指数从 <strong>9.6 → 10.0</strong>(+0.4), <strong>「三角函数综合」</strong>从 <strong>7.2 → 7.6</strong>(+0.4)。两题已加入错题本, SM-2 算法已重新算间隔。
-        </div>
-      </div>
-      <div class="loop-banner__arrow">下次复习 → 明天</div>
-    </div>
-
-    <!-- STATS ROW -->
-    <div class="stats-row">
-      <div class="stat-card stat-card--success">
-        <div class="stat-card__head">
-          <span class="stat-card__icon"><i data-lucide="check-circle-2"></i></span>
-        </div>
-        <div class="stat-card__value">8<small>/10</small></div>
-        <div class="stat-card__label">答对题数</div>
-      </div>
-      <div class="stat-card stat-card--error">
-        <div class="stat-card__head">
-          <span class="stat-card__icon"><i data-lucide="x-circle"></i></span>
-        </div>
-        <div class="stat-card__value">2<small>/10</small></div>
-        <div class="stat-card__label">答错 · 已入库</div>
-      </div>
-      <div class="stat-card stat-card--warning">
-        <div class="stat-card__head">
-          <span class="stat-card__icon"><i data-lucide="clock"></i></span>
-        </div>
-        <div class="stat-card__value">18<small>分 24 秒</small></div>
-        <div class="stat-card__label">用时</div>
-      </div>
-      <div class="stat-card stat-card--info">
-        <div class="stat-card__head">
-          <span class="stat-card__icon"><i data-lucide="zap"></i></span>
-        </div>
-        <div class="stat-card__value">2.1<small>题/分</small></div>
-        <div class="stat-card__label">答题速度</div>
+  <header class="hero hero--app">
+    <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="container">
+      <div class="hero__copy">
+        <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Predictive Paper</div>
+        <h1 class="hero__title">预测卷</h1>
+        <p class="hero__sub">真题题库按学科检索整卷；AI 薄弱点组卷与命题依据命中逻辑待后端引擎就绪。</p>
       </div>
     </div>
+  </header>
 
-    <!-- Q GRID -->
-    <section class="section">
-      <div class="section__head">
-        <div class="section__heading">
-          <div class="section__eyebrow">
-            <span>逐题总览</span>
-            <span class="section__eyebrow-num">10 题</span>
+  <!-- 六态：成功 / 加载 / 空 / 错误 / 未登录 / 离线 -->
+  <div id="state-region" aria-live="polite">
+    <section class="state state--empty" data-state="empty">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2 id="empty-title">暂无试卷</h2>
+            <p id="empty-copy">该学科还没有可用的试卷，先去练习或拍照入库积累错题。</p>
+            <div class="hero__ctas">
+              <a class="cta-primary" href="/practice-hub.html">去练习</a>
+              <a class="cta-secondary" href="/photo-solve.html">拍照解题</a>
+            </div>
           </div>
-          <h2 class="section__title">点击任一题查看详情</h2>
+          <div class="missing-note">
+            <b>缺失登记：</b>PM §F.2 的 AI 预测卷引擎（GET /api/predicted-paper/{id}，
+            含 80 分得分圆环、「今天已完成」空态、每题 source_provenance 命题依据与 Loop 闭环 banner）
+            后端暂未提供。本页先落真题题库的试卷列表与整卷浏览，命题依据行渲染题库已有的
+            年份 / 省份 / 题型 / 难度 / 考点字段，命中逻辑（hit_logic）一列等引擎接口后再补。
+          </div>
         </div>
-        <a href="#" class="section__link">
-          导出完整报告 <i data-lucide="arrow-right"></i>
-        </a>
-      </div>
-
-      <div class="q-grid">
-        <article class="q q--correct" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#01</span>
-            <span class="q__badge"><i data-lucide="check"></i> 正确</span>
-          </div>
-          <div class="q__stem">求曲线 y = x² 在 (1, 1) 处的切线方程。</div>
-          <span class="q__kp">导数与切线</span>
-        </article>
-
-        <article class="q q--correct" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#02</span>
-            <span class="q__badge"><i data-lucide="check"></i> 正确</span>
-          </div>
-          <div class="q__stem">已知 sin α = 3/5, 求 cos 2α 的值。</div>
-          <span class="q__kp">三角函数</span>
-        </article>
-
-        <article class="q q--wrong" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#03</span>
-            <span class="q__badge"><i data-lucide="x"></i> 答错</span>
-          </div>
-          <div class="q__stem">曲线 y = ln x 在 (1, 0) 处的<em>切线方程</em>。</div>
-          <span class="q__kp">导数与切线</span>
-        </article>
-
-        <article class="q q--correct" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#04</span>
-            <span class="q__badge"><i data-lucide="check"></i> 正确</span>
-          </div>
-          <div class="q__stem">等差数列前 n 项和公式 Sₙ = ?</div>
-          <span class="q__kp">数列</span>
-        </article>
-
-        <article class="q q--correct" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#05</span>
-            <span class="q__badge"><i data-lucide="check"></i> 正确</span>
-          </div>
-          <div class="q__stem">已知 a₃ = 5, a₇ = 13, 求公差 d。</div>
-          <span class="q__kp">数列</span>
-        </article>
-
-        <article class="q q--correct" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#06</span>
-            <span class="q__badge"><i data-lucide="check"></i> 正确</span>
-          </div>
-          <div class="q__stem">求二项式 (a+b)⁵ 展开式中 a³b² 的系数。</div>
-          <span class="q__kp">二项式定理</span>
-        </article>
-
-        <article class="q q--correct" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#07</span>
-            <span class="q__badge"><i data-lucide="check"></i> 正确</span>
-          </div>
-          <div class="q__stem">向量 a = (1, 2), b = (3, 4), 求 a · b。</div>
-          <span class="q__kp">向量</span>
-        </article>
-
-        <article class="q q--wrong" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#08</span>
-            <span class="q__badge"><i data-lucide="x"></i> 答错</span>
-          </div>
-          <div class="q__stem">三角函数化简: sin²α + sin²β + 2 sinα sinβ cos(α+β) = ?</div>
-          <span class="q__kp">三角函数综合</span>
-        </article>
-
-        <article class="q q--correct" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#09</span>
-            <span class="q__badge"><i data-lucide="check"></i> 正确</span>
-          </div>
-          <div class="q__stem">求椭圆 x²/9 + y²/4 = 1 的离心率。</div>
-          <span class="q__kp">圆锥曲线</span>
-        </article>
-
-        <article class="q q--correct" tabindex="0">
-          <div class="q__head">
-            <span class="q__num">#10</span>
-            <span class="q__badge"><i data-lucide="check"></i> 正确</span>
-          </div>
-          <div class="q__stem">若复数 z = 1 + i, 求 |z|。</div>
-          <span class="q__kp">复数</span>
-        </article>
       </div>
     </section>
 
-    <!-- WRONG ANSWERS DETAIL -->
-    <section class="section">
-      <div class="section__head">
-        <div class="section__heading">
-          <div class="section__eyebrow">
-            <span>错题明细 · 自动入库</span>
-            <span class="section__eyebrow-num section__eyebrow-num--urgent">2 题</span>
+    <section class="state state--loading" data-state="loading">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="section__eyebrow">LOADING</div>
+          <h2 class="section__title">正在组卷…</h2>
+          <div class="card">
+            <p class="skeleton skeleton--w90"></p>
+            <p class="skeleton skeleton--w70"></p>
+            <p class="skeleton skeleton--w50"></p>
           </div>
-          <h2 class="section__title">你的答案 vs 标准答案</h2>
         </div>
-        <a href="#" class="section__link">
-          查看全部 <i data-lucide="arrow-right"></i>
-        </a>
-      </div>
-
-      <div class="wrongs">
-        <article class="wrong-card">
-          <div class="wrong-card__num">3</div>
-          <div>
-            <div class="wrong-card__stem">
-              曲线 y = ln x 在点 (1, 0) 处的<strong>切线方程</strong>。
-            </div>
-            <div class="wrong-card__answers">
-              <div>
-                <span class="wrong-card__answer-label">你的答案</span>
-                <span class="wrong-card__answer-yours">y = 2(x − 1)</span>
-              </div>
-              <div>
-                <span class="wrong-card__answer-label">标准答案</span>
-                <span class="wrong-card__answer-correct">y = x − 1</span>
-              </div>
-            </div>
-            <div class="wrong-card__meta">
-              <span class="wrong-card__meta-item">
-                <i data-lucide="tag"></i>
-                导数与切线
-              </span>
-              <span class="wrong-card__meta-item">
-                <i data-lucide="layers"></i>
-                难度 3/5
-              </span>
-              <span class="wrong-card__meta-item">
-                <i data-lucide="alert-triangle"></i>
-                高频考点
-              </span>
-            </div>
-          </div>
-          <span class="wrong-card__auto">
-            <i data-lucide="book-x"></i>
-            已自动入库
-          </span>
-        </article>
-
-        <article class="wrong-card">
-          <div class="wrong-card__num">8</div>
-          <div>
-            <div class="wrong-card__stem">
-              三角函数化简: sin²α + sin²β + 2 sinα sinβ cos(α+β) = ?
-            </div>
-            <div class="wrong-card__answers">
-              <div>
-                <span class="wrong-card__answer-label">你的答案</span>
-                <span class="wrong-card__answer-yours">sin(α + β)²</span>
-              </div>
-              <div>
-                <span class="wrong-card__answer-label">标准答案</span>
-                <span class="wrong-card__answer-correct">sin²(α + β)</span>
-              </div>
-            </div>
-            <div class="wrong-card__meta">
-              <span class="wrong-card__meta-item">
-                <i data-lucide="tag"></i>
-                三角函数综合
-              </span>
-              <span class="wrong-card__meta-item">
-                <i data-lucide="layers"></i>
-                难度 4/5
-              </span>
-              <span class="wrong-card__meta-item">
-                <i data-lucide="alert-triangle"></i>
-                高频考点
-              </span>
-            </div>
-          </div>
-          <span class="wrong-card__auto">
-            <i data-lucide="book-x"></i>
-            已自动入库
-          </span>
-        </article>
       </div>
     </section>
 
-    <!-- WEAKNESS UPDATE (loop feedback) -->
-    <section class="section">
-      <div class="section__head">
-        <div class="section__heading">
-          <div class="section__eyebrow">
-            <span>薄弱点变化</span>
-            <span class="section__eyebrow-num">实时</span>
+    <section class="state state--success" data-state="success">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="card">
+            <div class="section__eyebrow">PAPERS</div>
+            <h2 class="section__title">试卷列表</h2>
+            <p class="section__sub">按学科筛选真题整卷，点开可浏览整卷与逐题答案解析。</p>
+            <div class="field">
+              <label for="subject-filter">学科</label>
+              <select id="subject-filter"></select>
+            </div>
+            <div id="paper-list"></div>
+            <p class="form-error" id="paper-error" role="alert" hidden></p>
+            <div class="missing-note">
+              <b>缺失登记：</b>AI 薄弱点组卷（predicted-paper 引擎）与 source_provenance
+              （依据真题 / 考点 / 命中逻辑 / AI 改编比例）字段后端暂无对应接口，当前命题依据行
+              渲染的是题库实有字段。
+            </div>
           </div>
-          <h2 class="section__title">这次答错, 如何影响你的薄弱度</h2>
+
+          <div class="card" id="paper-view" hidden>
+            <div class="section__eyebrow" id="paper-eyebrow">PAPER</div>
+            <h2 class="section__title" id="paper-title">试卷</h2>
+            <div class="chip-row" id="paper-meta"></div>
+            <div class="q-actions">
+              <button class="btn" id="pdf-btn" type="button">导出 PDF</button>
+              <button class="btn btn-ghost" id="paper-close-btn" type="button">返回列表</button>
+              <span class="form-hint" id="pdf-hint"></span>
+            </div>
+            <div id="question-list"></div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="feedback">
-        <div class="fb-card fb-card--down">
-          <div class="fb-card__icon"><i data-lucide="trending-down"></i></div>
-          <div class="fb-card__body">
-            <div class="fb-card__title">导数与切线</div>
-            <div class="fb-card__delta">
-              <i data-lucide="arrow-down"></i>
-              薄弱度指数 9.6 → 10.0 (+0.4)
-            </div>
+    <section class="state state--error" data-state="error">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>试卷读取失败</h2>
+            <p id="error-copy">服务暂时不可用。</p>
+            <p><button class="cta-secondary" id="retry-btn" type="button">重试</button></p>
           </div>
         </div>
-        <div class="fb-card fb-card--down">
-          <div class="fb-card__icon"><i data-lucide="trending-down"></i></div>
-          <div class="fb-card__body">
-            <div class="fb-card__title">三角函数综合</div>
-            <div class="fb-card__delta">
-              <i data-lucide="arrow-down"></i>
-              薄弱度指数 7.2 → 7.6 (+0.4)
-            </div>
-          </div>
-        </div>
-        <div class="fb-card fb-card--up">
-          <div class="fb-card__icon"><i data-lucide="trending-up"></i></div>
-          <div class="fb-card__body">
-            <div class="fb-card__title">数列 / 向量 / 复数</div>
-            <div class="fb-card__delta">
-              <i data-lucide="arrow-up"></i>
-              综合掌握度 +3.2%
+      </div>
+    </section>
+
+    <section class="state state--auth" data-state="auth">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>需要登录</h2>
+            <p>试卷与练习记录绑定你的账号，请先登录。</p>
+            <div class="hero__ctas">
+              <a class="cta-primary" href="/login.html?next=predictive-paper.html">去登录</a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA — 闭环行动 -->
-    <section class="section">
-      <div class="section__head">
-        <div class="section__heading">
-          <div class="section__eyebrow">
-            <span>下一步 · Loop 继续</span>
-            <span class="section__eyebrow-num">3 选 1</span>
+    <section class="state state--offline" data-state="offline">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>当前处于离线状态</h2>
+            <p>试卷需要联网读取，恢复网络后重试。</p>
+            <p><button class="cta-secondary" id="offline-retry-btn" type="button">重新连接</button></p>
           </div>
-          <h2 class="section__title">把今天的循环推得更远</h2>
         </div>
       </div>
-
-      <div class="cta-row">
-        <a href="#" class="cta-btn cta-btn--featured">
-          <span class="cta-btn__icon"><i data-lucide="refresh-cw"></i></span>
-          <div class="cta-btn__body">
-            <div class="cta-btn__title">立即重温 2 道错题</div>
-            <div class="cta-btn__sub">系统已重算 SM-2 间隔, 越早复习越高效</div>
-          </div>
-          <span class="cta-btn__arrow"><i data-lucide="arrow-right"></i></span>
-        </a>
-        <a href="#" class="cta-btn">
-          <span class="cta-btn__icon cta-btn--blue"><i data-lucide="message-circle"></i></span>
-          <div class="cta-btn__body">
-            <div class="cta-btn__title">AI 讲题 · 看思路</div>
-            <div class="cta-btn__sub">问「为什么 sin²α 化简成 sin²(α+β)」</div>
-          </div>
-          <span class="cta-btn__arrow"><i data-lucide="arrow-right"></i></span>
-        </a>
-        <a href="#" class="cta-btn">
-          <span class="cta-btn__icon cta-btn--ink"><i data-lucide="map"></i></span>
-          <div class="cta-btn__body">
-            <div class="cta-btn__title">查看更新后的学习路径</div>
-            <div class="cta-btn__sub">薄弱度已重算, 看新的排期</div>
-          </div>
-          <span class="cta-btn__arrow"><i data-lucide="arrow-right"></i></span>
-        </a>
-      </div>
     </section>
+  </div>
 
-  </main>
+  <footer class="footer">
+    <div class="container">智启AI导师 · 数据仅用于你的个人学习记录</div>
+  </footer>
 
-  <script>
-    lucide.createIcons();
-    const themeBtn = document.getElementById('themeBtn');
-    themeBtn.addEventListener('click', () => {
-      const dark = document.documentElement.classList.toggle('dark');
-      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
-      lucide.createIcons();
-    });
+  <nav class="tabbar" aria-label="底部导航">
+    <a class="tabbar__item" href="/dashboard.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg></span>首页</a>
+    <a class="tabbar__item" href="/wrong-book.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span>错题</a>
+    <a class="tabbar__item tabbar__item--raise" href="/photo-solve.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/></svg></span>拍照</a>
+    <a class="tabbar__item" href="/review-session.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v6h6"/></svg></span>复习</a>
+    <a class="tabbar__item" href="/settings.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>我的</a>
+  </nav>
 
-    // Animate score ring on load
-    window.addEventListener('load', () => {
-      const ring = document.querySelector('.score-ring__fill');
-      if (ring) {
-        ring.style.strokeDashoffset = '540';
-        requestAnimationFrame(() => {
-          ring.style.strokeDashoffset = '108';
-        });
-      }
-    });
-  </script>
-
+  <script src="/assets/v2/js/ui.js"></script>
+  <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/subjects.js"></script>
+  <script src="/assets/v2/js/predictive-paper.js"></script>
 </body>
 </html>
