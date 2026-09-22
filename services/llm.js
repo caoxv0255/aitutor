@@ -163,16 +163,22 @@ async function recordUsage(model, totalTokens, feature = 'other') {
 }
 
 async function callWithFallback(systemPrompt, userPrompt, options, callFn) {
-  const { model = DEFAULT_MODEL, retries = MAX_RETRIES, feature = 'other' } = options;
-  
+  // budgetEnforce (2026-09-22, 默认 true 保持现状): false 时预算超额不抛错、照常调用,
+  // 但 recordUsage 与 ai_trace 记账照常 (「只观测不拦」). 仅由调用点显式传入生效.
+  const { model = DEFAULT_MODEL, retries = MAX_RETRIES, feature = 'other', budgetEnforce = true } = options;
+
   let currentModel = model;
   const fallbackChain = [...FALLBACK_MATRIX[model] || []];
   let attempt = 0;
 
   while (attempt <= retries) {
     try {
-      if (!await checkBudget(currentModel, options.max_tokens || 3000, feature)) {
-        throw new Error(`${feature}功能每日预算已耗尽`);
+      const budgetOk = await checkBudget(currentModel, options.max_tokens || 3000, feature);
+      if (!budgetOk) {
+        if (budgetEnforce) {
+          throw new Error(`${feature}功能每日预算已耗尽`);
+        }
+        console.warn(`[LLM] 预算已超额, 按观测模式放行: feature=${feature} model=${currentModel}`);
       }
 
       const result = await callFn(systemPrompt, userPrompt, { ...options, model: currentModel });

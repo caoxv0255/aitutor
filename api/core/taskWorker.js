@@ -111,6 +111,7 @@ async function processNext() {
           max_tokens: promptConfig.maxTokens,
           jsonMode: false,
           task_type: 'image_recognition',
+          budgetEnforce: false, // 2026-09-22 拍板: 路径 A 新接入口径为「只观测不拦」, 记账照常
           request_id: `task_${task.id}`,
           user_id: task.user_email,
           session_id: String(task.id),

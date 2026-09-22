@@ -48,6 +48,7 @@ export default async function handler(req, res) {
       jsonMode: false,
       feature: 'explain_question',
       task_type: 'explain_question',
+      budgetEnforce: false, // 2026-09-22 拍板: 路径 A 新接入口径为「只观测不拦」, 记账照常
       request_id: req.traceId,
       user_id: req.user?.email,
     });
