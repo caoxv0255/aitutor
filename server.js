@@ -6,7 +6,7 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 
 import { swaggerUI, swaggerSpec } from './api/core/swagger.js';
-import { authMiddleware, validateJWTSecret } from './api/core/auth.js';
+import { authMiddleware, requireAdmin, validateJWTSecret } from './api/core/auth.js';
 import { getDb } from './api/core/db.js';
 import { startWorker } from './api/core/taskWorker.js';
 import { ensureSeeds } from './api/core/ensureSeeds.js';
@@ -65,6 +65,14 @@ const apiLimiter = rateLimit({
   // key and bump the budget for known users.
   keyGenerator: (req /*, res */) => (req.user && req.user.email) ? `u:${req.user.email}` : `ip:${req.ip}`,
   max: (req /*, res */) => (req.user && req.user.email) ? 120 : 30,
+  message: { error: '请求过于频繁，请稍后再试' },
+});
+// H3-b (2026-09-22): /api/essay/grade 双键限流 —— 已认证按 email, 兜底 ip.
+// 挂在 authMiddleware 之后, 此时 req.user 已就绪.
+const essayLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 5,
+  keyGenerator: (req /*, res */) => (req.user && req.user.email) ? `u:${req.user.email}` : `ip:${req.ip}`,
   message: { error: '请求过于频繁，请稍后再试' },
 });
 
@@ -401,18 +409,22 @@ const wrapHandler = (handler) => async (req, res, next) => {
 
 app.get('/api/health', async (_req, res) => {
   let dbReady = false;
-  let dbError = '';
   try {
     await getDb();
     dbReady = true;
   } catch (e) {
-    dbError = e && e.message ? String(e.message) : 'db_error';
+    // H1-b (2026-09-22): dbError 不回显给客户端 (信息泄露), 仅保留服务端日志
+    console.error('[health] db check failed:', e && e.message ? e.message : e);
   }
-  res.json(createSuccessResponse({ dbReady, dbError }, '服务运行正常'));
+  res.json(createSuccessResponse({ dbReady }, '服务运行正常'));
 });
 
-app.get('/api-docs', swaggerUI);
-app.get('/api-docs.json', swaggerSpec);
+// H1-c (2026-09-22): Swagger 文档在生产环境 404 (端点/ schema 信息泄露).
+// 生产不注册路由, 请求落入底部统一 404 fallback; 非 production 保持可访问.
+if (process.env.NODE_ENV !== 'production') {
+  app.get('/api-docs', swaggerUI);
+  app.get('/api-docs.json', swaggerSpec);
+}
 
 // Audit-2026-08-24 Fix-4: 收口说明
 // 以下 7 个 endpoint 仍由 server.js 直接挂, 未走 api/modules/*/routes.js
@@ -425,7 +437,8 @@ app.get('/api/provinces/:code', wrapHandler(getProvinceByCode));
 app.get('/api/province-stats/:code', wrapHandler(getProvinceStats));
 app.get('/api/province-trends/:code', wrapHandler(getProvinceTrends));
 app.get('/api/province-compare', wrapHandler(getProvinceCompare));
-app.post('/api/provinces/seed', async (req, res) => {
+// H1-a (2026-09-22): 种子导入/清缓存为管理操作, 未授权可写库 → 加 auth + admin 门
+app.post('/api/provinces/seed', authMiddleware, requireAdmin, async (req, res) => {
   try {
     const result = await seedProvinces();
     // D072 (2026-08-24): 清 cache, 让 province 列表刷新
@@ -439,7 +452,7 @@ app.post('/api/provinces/seed', async (req, res) => {
 
 // D072 (2026-08-24): 临时 admin 端点清 province cache (直接 INSERT 后用)
 // 用法: curl -X POST http://localhost:3002/api/cache/clear-provinces
-app.post('/api/cache/clear-provinces', async (req, res) => {
+app.post('/api/cache/clear-provinces', authMiddleware, requireAdmin, async (req, res) => {
   try {
     await CacheService.invalidateProvinces();
     res.json({ success: true, message: 'Province cache cleared' });
@@ -458,7 +471,7 @@ app.get('/api/class-detail', authMiddleware, wrapHandler(getClassDetail));
 // D086 §12 L4 · 作文批改（拍照 / 上传 → AI 4 维评分 + 锚定回原文）
 //   注: V1.0 两阶段管线 (/api/essay/transcribe + /api/essay/grade) 待 Phase 1 单测通过后注册.
 //   现存 D086 L4 端点保留 30 天 (D070 sunset).
-app.post ('/api/essay/grade', authMiddleware, wrapHandler(gradeEssayHandler));
+app.post ('/api/essay/grade', authMiddleware, essayLimiter, wrapHandler(gradeEssayHandler));
 app.get  ('/api/essay',         authMiddleware, wrapHandler(listEssaysHandler));
 app.get  ('/api/essay/:id',     authMiddleware, wrapHandler(getEssayHandler));
 // D086 §12 L4 V1.0 · 图片上传 (Patch 2 强制: 转录前必须先上传拿 URL)
@@ -480,6 +493,23 @@ app.post('/api/proxy', authMiddleware, proxyLimiter, wrapHandler(proxyHandler));
 // 它把旧 frontend/ + public/ (PWA) 调用的旧路径 (/api/login, /api/questions 等)
 // 转发到新路径或返回 410 Gone. 兼容期 30 天 (D070 sunset: 2026-09-23).
 // F3 (ai-tutor-frontend) 已对齐新路径, 不需要 alias.
+// H3-a (2026-09-22): authLimiter 挂到预认证端点, 必须先于全局 authMiddleware 链,
+// 否则未认证请求不会被限流 (暴力破解/撞库面).
+// 含 legacy-compat 旧路径 (/api/login 等直接转发 handler, 不经 /api/auth 前缀).
+app.use(
+  [
+    '/api/auth/login',
+    '/api/auth/register',
+    '/api/auth/guest',
+    '/api/auth/guest-login',
+    '/api/auth/reset-password',
+    '/api/login',
+    '/api/register',
+    '/api/guest-login',
+  ],
+  authLimiter
+);
+
 app.use('/api/', auditMiddleware, authMiddleware, apiLimiter, legacyCompatRouter, modulesRouter);
 
 // 404 fallback. Message intentionally generic — leaking valid routes is
