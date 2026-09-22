@@ -1,0 +1,54 @@
+# docker-compose.design-v2.yml
+# Round 12+: 部署 docs/design/ (PM-BRIEF v2 22 页) 独立端口 8081
+# 与 F3 旧版 3002 共存, 共享 PostgreSQL 真实数据
+# 风险: 0 (不动 F3 systemd 服务, 共享 DB 但不同 app 实例)
+
+version: '3.8'
+
+services:
+  design-v2:
+    image: aitutor-design-v2:r1
+    build:
+      context: .
+      dockerfile: Dockerfile.design-v2
+    env_file:
+      - .env
+    ports:
+      - "8081:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - SERVE_F3=false
+      - SERVE_DESIGN_V2=true
+      - DESIGN_V2_DIR=/app/docs/design
+      # 凭据一律来自 .env（env_file + 变量插值），不在这里写明文：
+      # 用 ${VAR:?} 而不是 ${VAR:-默认值} —— 缺了就报错退出，绝不退回一个写死的口令/JWT 密钥
+      # （2026-09-22 入库前清理：此处曾有内联 DB 口令与 JWT_SECRET 兜底明文）
+      - "JWT_SECRET=${JWT_SECRET:?JWT_SECRET 必填，写入 .env}"
+      - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      - "DATABASE_URL=${DATABASE_URL:?DATABASE_URL 必填，写入 .env}"
+      - OLLAMA_URL=http://172.21.144.1:11434
+      - EMBEDDING_BASE_URL=http://172.21.144.1:11434
+      - EMBEDDING_PROVIDER=ollama
+      - EMBEDDING_MODEL=bge-m3
+      - EMBEDDING_DIMS=1024
+    volumes:
+      - ./docs/design:/app/docs/design:ro
+      - design-v2-cache:/app/cache
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3001/api/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - aitutor-network
+
+networks:
+  aitutor-network:
+    driver: bridge
+
+volumes:
+  design-v2-cache:

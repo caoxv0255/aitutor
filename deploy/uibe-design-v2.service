@@ -1,0 +1,21 @@
+[Unit]
+Description=UIBE AI Tutor - Design V2 (PM-BRIEF v2 22 pages, Round 12)
+Documentation=https://aitutor.uibe.online/v2/
+After=network.target
+
+[Service]
+Type=simple
+User=flaskappuser
+Group=flaskappuser
+WorkingDirectory=/home/flaskappuser/Desktop/NewDisk_2T/aitutor
+Environment=NODE_ENV=production
+Environment=PORT=8090
+Environment=F3_BACKEND=http://127.0.0.1:3002
+ExecStart=/usr/bin/node server-design-v2.js
+Restart=always
+RestartSec=5
+StandardOutput=append:/home/flaskappuser/Desktop/NewDisk_2T/aitutor/logs/design-v2.log
+StandardError=append:/home/flaskappuser/Desktop/NewDisk_2T/aitutor/logs/design-v2.log
+
+[Install]
+WantedBy=multi-user.target
