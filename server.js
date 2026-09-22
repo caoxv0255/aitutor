@@ -259,8 +259,13 @@ app.get(/^\/(frontend)(\/.*)?$/, (req, res) => {
 // 均可通过改环境变量 + 重启完成，不需要改代码。
 // ═══════════════════════════════════════════════════════════════════════════
 const NEW_TREE_ENABLED = process.env.NEW_TREE !== 'off';
+// 批次 4（2026-09-22）：+5 增量页（onboarding/notifications/settings/subject-picker/knowledge-star）
+// 与 +5 收尾页（predictive-paper/subject-detail/state-library/learning-journey/subject-exam 模板）。
+// state-library / learning-journey 为 dev-only 陈列页（PM §F.11），接管后根路径可达但不进主导航。
 const DEFAULT_NEW_TREE_PAGES =
-  'login.html,register.html,photo-solve.html,wrong-book.html,review-session.html,mastery.html,dashboard.html,practice-hub.html,essay.html,learning-path.html';
+  'login.html,register.html,photo-solve.html,wrong-book.html,review-session.html,mastery.html,dashboard.html,practice-hub.html,essay.html,learning-path.html,' +
+  'onboarding.html,notifications.html,settings.html,subject-picker.html,knowledge-star.html,' +
+  'predictive-paper.html,subject-detail.html,state-library.html,learning-journey.html,subject-exam.html';
 const NEW_TREE_PAGES = (process.env.NEW_TREE_PAGES || DEFAULT_NEW_TREE_PAGES)
   .split(',')
   .map((s) => s.trim())

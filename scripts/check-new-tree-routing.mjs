@@ -12,6 +12,11 @@
  *   2. /assets/v2/css/app.css 与 /assets/v2/js/ui.js 返回 200（资源命名空间可用）
  *   3. 旧树兜底未被破坏: /f3/pages/index.html 与 / 返回 200
  *   4. 根路径 / 的产物仍是旧树（未硬切），桌面 md5 == ai-tutor-frontend/pages/index.html
+ *   5. 双向交叉校验: frontend-v2 顶层正式页必须在接管清单（豁免 NOT_TAKEN_OVER），
+ *      清单页必须真实存在 —— server.js 漏页时真相源无法自察，靠此判据兜底
+ * 解析说明: DEFAULT_NEW_TREE_PAGES 支持多段 '+' 拼接（20 页起分段书写），
+ *   解析取整个右侧表达式中的全部字符串字面量按 JS 语义拼接 —— 旧正则只捕获
+ *   第一个字面量，曾导致后 10 页落在门禁射程之外（实测只报 10 页）。
  *
  * 与 release-gate 的其它检查一致: 后端不可达时默认跳过（除非 REQUIRE_NEW_TREE=1）。
  */
@@ -29,9 +34,16 @@ const UA = 'Mozilla/5.0 (X11; Linux x86_64)';
  */
 function pagesFromServer() {
   const src = fs.readFileSync('server.js', 'utf8');
-  const m = src.match(/DEFAULT_NEW_TREE_PAGES\s*=\s*'([^']+)'/);
+  // 捕获 DEFAULT_NEW_TREE_PAGES 右侧整个表达式（到语句结束的 ';' 为止），
+  // 再提取其中全部单引号字符串字面量按 JS 语义拼接 —— 兼容单字符串与
+  // 多段 '+' 拼接写法（2026-09-22 起 20 页即分段拼接）。旧正则只捕获
+  // 第一个字面量，导致拼接写法下后半清单落在门禁射程之外（实测只报 10 页）。
+  const m = src.match(/DEFAULT_NEW_TREE_PAGES\s*=\s*([\s\S]*?);/);
   if (!m) throw new Error('无法从 server.js 解析 DEFAULT_NEW_TREE_PAGES');
-  return m[1]
+  const literals = [...m[1].matchAll(/'([^']*)'/g)].map((x) => x[1]);
+  if (!literals.length) throw new Error('DEFAULT_NEW_TREE_PAGES 表达式中未找到字符串字面量');
+  return literals
+    .join('')
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
@@ -41,6 +53,16 @@ const PAGES = (process.env.NEW_TREE_PAGES || pagesFromServer().join(','))
   .split(',')
   .map((s) => s.trim())
   .filter(Boolean);
+
+// 有意不接管的 frontend-v2 顶层页（仅经 /v2/ 命名空间提供）。新增豁免必须注明理由，
+// 否则新页落地后要么进 server.js 接管清单、要么进这里 —— 不允许两边都不在（静默失效）。
+const NOT_TAKEN_OVER = new Set([
+  'hero.html', // 视觉规格基准，/v2/ 的索引页
+  'landing.html', // /v2/ 落地原型页
+  'error-404.html', // /v2/ 的 404 模板（server.js DESIGN_V2_404），不走接管路由
+  'practice-hub-v2.html', // practice-hub 迭代原型，正式页仍为 practice-hub.html
+  'teacher-dashboard.html', // 教师端未迁移，仅 /v2/ 预览
+]);
 
 const md5 = (buf) => crypto.createHash('md5').update(buf).digest('hex');
 
@@ -59,6 +81,22 @@ async function main() {
   }
 
   const problems = [];
+
+  // 交叉校验（独立参照，2026-09-22）：接管清单读自 server.js，但 server.js 自己
+  // 漏页时本脚本无从察觉 —— 实测把清单删掉一页后仍报「N 页接管」全绿（真相源
+  // 无法自察缺漏）。故以 frontend-v2/ 顶层页面为第二参照双向核对：
+  //   a) frontend-v2 顶层正式页必须在清单里（豁免 NOT_TAKEN_OVER 并注明理由）；
+  //   b) 清单里的页必须真实存在于 frontend-v2（否则本地 md5 校验被跳过，接管成空路由）。
+  for (const f of fs.readdirSync('frontend-v2').filter((x) => x.endsWith('.html'))) {
+    if (!PAGES.includes(f) && !NOT_TAKEN_OVER.has(f)) {
+      problems.push(`frontend-v2/${f} 存在但不在 server.js 接管清单（缺失页名: ${f}）—— 新页漏登记或应加入 NOT_TAKEN_OVER 豁免清单`);
+    }
+  }
+  for (const page of PAGES) {
+    if (!fs.existsSync(`frontend-v2/${page}`)) {
+      problems.push(`清单页 frontend-v2/${page} 不存在 —— 接管了空路由，md5 校验将被跳过`);
+    }
+  }
 
   for (const page of PAGES) {
     const local = fs.existsSync(`frontend-v2/${page}`) ? md5(fs.readFileSync(`frontend-v2/${page}`)) : null;
