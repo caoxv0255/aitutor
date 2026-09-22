@@ -1,34 +1,44 @@
 import { errorResponse } from '../utils/response.js';
 // Phase-B-fix (2026-08-24): B10 — 改用 services/aiTrace.js 统一埋点 (request_id / cost 自动算)
 import { recordAiTraceAsync } from '../../services/aiTrace.js';
+// 2026-09-22 (路径 A): 模型表单一真相源 — 白名单 / key 映射派生自 services/llm.js 的 MODEL_CONFIGS.
+import { MODEL_CONFIGS } from '../../services/llm.js';
 
 const MAX_TOKENS_LIMIT = 4000;
 const MAX_MESSAGES_LENGTH = 20;
 const FETCH_TIMEOUT_MS = 30000;
 
-// P0-fix (2026-08-24): 模型白名单修正
-//   - qwen3-vl-plus → qwen-vl-plus (官方模型名, 之前拼写错误)
-//   - 删除 deepseek-v4-pro (DeepSeek 官方无此模型)
-//   - 删除 deepseek-coder (DeepSeek 官方已下线此独立模型)
-//   - 新增 deepseek-reasoner (DeepSeek 官方推理模型)
-const API_CONFIGS = {
-  qwen: {
+// 上游 endpoint 仍是 /api/proxy 自身的固定策略 (OpenAI 兼容端点), 不随 llm.js 的
+// DASHSCOPE_API_MODE / *_BASE_URL 覆盖而变, 以保持既有代理行为不变.
+const PROXY_PROVIDERS = [
+  {
+    name: 'qwen',
     endpoint: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
-    keyEnv: 'DASHSCOPE_API_KEY',
-    models: ['qwen-vl-plus', 'qwen-plus', 'qwen-max', 'qwen-turbo', 'qwen-vl-max']
+    keyEnv: 'DASHSCOPE_API_KEY'
   },
-  deepseek: {
+  {
+    name: 'deepseek',
     endpoint: 'https://api.deepseek.com/v1/chat/completions',
-    keyEnv: 'DEEPSEEK_API_KEY',
-    models: ['deepseek-chat', 'deepseek-reasoner']
+    keyEnv: 'DEEPSEEK_API_KEY'
   },
   // MiniMax CN 开放平台 (2026-08 实测): OpenAI 兼容 /v1/chat/completions
-  minimax: {
+  {
+    name: 'minimax',
     endpoint: 'https://api.minimaxi.com/v1/chat/completions',
-    keyEnv: 'MINIMAX_API_KEY',
-    models: ['MiniMax-M2.7', 'MiniMax-M2.7-highspeed', 'MiniMax-M2']
+    keyEnv: 'MINIMAX_API_KEY'
   }
-};
+];
+
+// 白名单 = MODEL_CONFIGS 中 keyEnv 落在上述三个远程 provider 的模型 (本地 Ollama 兜底
+// llava 的 keyEnv=OLLAMA_API_KEY 不在表中, 自动被排除, 与旧白名单一致).
+const API_CONFIGS = {};
+for (const provider of PROXY_PROVIDERS) {
+  API_CONFIGS[provider.name] = {
+    endpoint: provider.endpoint,
+    keyEnv: provider.keyEnv,
+    models: Object.keys(MODEL_CONFIGS).filter((m) => MODEL_CONFIGS[m].keyEnv === provider.keyEnv)
+  };
+}
 
 function getAPIConfig(model) {
   for (const [provider, config] of Object.entries(API_CONFIGS)) {

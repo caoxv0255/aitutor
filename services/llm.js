@@ -48,7 +48,9 @@ const isCustomMaaS = process.env.DASHSCOPE_BASE_URL &&
   process.env.DASHSCOPE_BASE_URL.includes('maas.aliyuncs.com') &&
   process.env.DASHSCOPE_API_MODE === 'compatible';
 
-const MODEL_CONFIGS = {
+// 模型定义单一真相源: endpoint / keyEnv / mode / 单价. /api/proxy 的白名单与 key 映射
+// 也从这里派生 (见 api/handlers/proxy.js), 避免两处模型表各自漂移.
+export const MODEL_CONFIGS = {
   'qwen-plus': { endpoint: DASHSCOPE_ENDPOINT, keyEnv: 'DASHSCOPE_API_KEY', mode: DASHSCOPE_API_MODE, costPerMillionTokens: 0.8 },
   'qwen-max': { endpoint: DASHSCOPE_ENDPOINT, keyEnv: 'DASHSCOPE_API_KEY', mode: DASHSCOPE_API_MODE, costPerMillionTokens: 2.4 },
   'qwen-turbo': { endpoint: DASHSCOPE_ENDPOINT, keyEnv: 'DASHSCOPE_API_KEY', mode: DASHSCOPE_API_MODE, costPerMillionTokens: 0.4 },

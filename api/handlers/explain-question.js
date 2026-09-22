@@ -2,8 +2,9 @@ import dotenv from 'dotenv';
 import { PROMPTS } from '../utils/prompts.js';
 import { parseExplainResponse } from '../utils/llmParser.js';
 import { errorResponse } from '../utils/response.js';
-// Phase-B-fix (2026-08-24): B10 — 改用 services/aiTrace.js 统一埋点
-import { recordAiTraceAsync } from '../../services/aiTrace.js';
+// 2026-09-22 (路径 A): 统一走 services/llm.js 封装 (Key 校验 / 超时 / 回退 / 预算 / ai_trace
+// 全部由封装负责), 不再直连 DashScope 兼容端点.
+import { chatCompletion } from '../../services/llm.js';
 dotenv.config();
 
 export default async function handler(req, res) {
@@ -31,55 +32,27 @@ export default async function handler(req, res) {
   const promptConfig = PROMPTS.QUESTION_EXPLAIN;
   const prompt = promptConfig.build(subjectName, question, knowledgePoint);
 
-  const tStart = Date.now();
   try {
+    // 保留原对外错误语义: 未配置 Key 仍返回 500 'AI服务未配置'
     const apiKey = process.env.DASHSCOPE_API_KEY;
     if (!apiKey) {
       return res.status(500).json(errorResponse('AI服务未配置'));
     }
 
-    const response = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: promptConfig.model,
-        messages: [{
-          role: 'user',
-          content: prompt
-        }],
-        temperature: promptConfig.temperature,
-        max_tokens: promptConfig.maxTokens
-      })
-    });
-
-    const data = await response.json();
-    
-    if (!response.ok) {
-      console.error('LLM API error:', data);
-      return res.status(500).json(errorResponse(data.error?.message || 'AI生成失败'));
-    }
-
-    const content = data.choices[0].message.content;
-    const { parsed, isFallback, quality } = parseExplainResponse(content);
-
-    // Phase-B-fix (2026-08-24): B10 — ai_trace 改用统一 recordAiTrace
-    const tLatency = Date.now() - tStart;
-    recordAiTraceAsync({
+    // 调用参数与原旁路逐项对齐: model=qwen-plus / temperature=0.7 / max_tokens=3000 /
+    // 不带 response_format (jsonMode: false). ai_trace 由 services/llm.js 统一写入.
+    const result = await chatCompletion('', prompt, {
+      model: promptConfig.model,
+      temperature: promptConfig.temperature,
+      max_tokens: promptConfig.maxTokens,
+      jsonMode: false,
+      feature: 'explain_question',
+      task_type: 'explain_question',
       request_id: req.traceId,
       user_id: req.user?.email,
-      task_type: 'explain_question',
-      provider: 'dashscope',
-      model: promptConfig.model,
-      prompt_tokens: data.usage?.prompt_tokens || 0,
-      completion_tokens: data.usage?.completion_tokens || 0,
-      latency_ms: tLatency,
-      cost_cny: ((data.usage?.total_tokens || 0) / 1_000_000) * 0.8,
-      success: response.ok,
-      error_message: response.ok ? null : (data.error?.message || 'API error'),
     });
+
+    const { parsed, isFallback, quality } = parseExplainResponse(result.content);
 
     if (isFallback || quality < 30) {
       console.warn(`[Explain] Low quality response for question (quality=${quality}, fallback=${isFallback})`);
@@ -94,17 +67,10 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    // Phase-B-fix (2026-08-24): B10 — 异常路径 ai_trace
-    recordAiTraceAsync({
-      request_id: req.traceId,
-      user_id: req.user?.email,
-      task_type: 'explain_question',
-      provider: 'dashscope',
-      latency_ms: Date.now() - tStart,
-      success: false,
-      error_message: error.message,
-    });
     console.error('Explain question error:', error);
-    return res.status(500).json(errorResponse('生成讲解失败，请重试'));
+    // 保留原错误语义: 上游 API 错误直接透出其 message. llm.js 统一封装为 'LLM API 错误: <msg>',
+    // 此处剥掉前缀还原上游原文; 其余异常仍走通用兜底文案 (状态码一律 500, 与原实现一致).
+    const upstream = /^LLM API 错误: (.*)$/.exec(error.message || '');
+    return res.status(500).json(errorResponse(upstream ? upstream[1] || 'AI生成失败' : '生成讲解失败，请重试'));
   }
 }

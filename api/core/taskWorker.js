@@ -4,6 +4,8 @@ import { parseImageRecognitionResponse, createTaskMetrics, logTaskMetrics } from
 import dotenv from 'dotenv';
 // Phase-B-fix (2026-08-24): B10 — 改用 services/aiTrace.js 统一埋点
 import { recordAiTraceAsync } from '../../services/aiTrace.js';
+// 2026-09-22 (路径 A): 视觉推理统一走 services/llm.js 封装, 不再直连 DashScope 兼容端点.
+import { visionChatCompletion } from '../../services/llm.js';
 dotenv.config();
 
 const MAX_RETRIES = 3;
@@ -83,70 +85,55 @@ async function processNext() {
 
     console.log(`[Worker] Processing task #${task.id} for ${task.user_email} (attempt ${retryCount + 1}/${MAX_RETRIES})`);
 
-    const apiKey = process.env.DASHSCOPE_API_KEY;
-    if (!apiKey) {
+    if (!process.env.DASHSCOPE_API_KEY) {
       throw new Error('DASHSCOPE_API_KEY 环境变量未配置');
     }
 
     const startTime = Date.now();
+    // services/llm.js 的 vision 出口在 finally 中写 ai_trace; 记录 LLM 调用失败是否已由封装
+    // 写过, 避免与下方 catch 的手写 trace 重复 (手写仅覆盖 LLM 调用之外的异常).
+    let llmTraceWritten = false;
 
     try {
       const promptConfig = PROMPTS.IMAGE_RECOGNITION;
       const prompt = promptConfig.build(task.subject, task.grade);
 
-      const response = await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: promptConfig.model,
-          messages: [{
-            role: 'user',
-            content: [
-              { type: 'text', text: prompt },
-              { type: 'image_url', image_url: { url: task.image_data } }
-            ]
-          }],
-          temperature: promptConfig.temperature,
-          max_tokens: promptConfig.maxTokens
-        })
-      });
+      // visionChatCompletion 接收不含 data: 前缀的纯 base64, 会自行拼回 `data:image/jpeg;base64,`;
+      // task.image_data 是 data URL (前端 canvas.toDataURL('image/jpeg')), 故此处剥掉前缀.
+      // 调用参数与原旁路对齐: qwen-vl-plus / temperature=0.7 / max_tokens=2000 / 无 response_format.
+      const rawBase64 = String(task.image_data || '').replace(/^data:image\/[\w+.-]+;base64,/i, '');
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error?.message || `API error: ${response.status}`);
+      let llmResult;
+      try {
+        llmResult = await visionChatCompletion('', prompt, rawBase64, {
+          model: promptConfig.model,
+          temperature: promptConfig.temperature,
+          max_tokens: promptConfig.maxTokens,
+          jsonMode: false,
+          task_type: 'image_recognition',
+          request_id: `task_${task.id}`,
+          user_id: task.user_email,
+          session_id: String(task.id),
+        });
+      } catch (llmErr) {
+        llmTraceWritten = true; // 失败 trace 已由 services/llm.js 写入
+        throw llmErr;
       }
 
-      const content = data.choices[0].message.content;
-      const { parsed: result, isFallback, quality } = parseImageRecognitionResponse(content);
+      const { parsed: result, isFallback, quality } = parseImageRecognitionResponse(llmResult.content);
 
       const endTime = Date.now();
       const tokenUsage = {
-        prompt: data.usage?.prompt_tokens || 0,
-        completion: data.usage?.completion_tokens || 0,
-        total: data.usage?.total_tokens || 0
+        prompt: llmResult.usage?.prompt_tokens || 0,
+        completion: llmResult.usage?.completion_tokens || 0,
+        total: llmResult.usage?.total_tokens || 0
       };
 
       const metrics = createTaskMetrics(task.id, startTime, endTime, promptConfig.model, tokenUsage, quality, isFallback);
       logTaskMetrics(metrics);
       await recordMetrics(pool, task.id, metrics);
 
-      // Phase-B-fix (2026-08-24): B10 — ai_trace 改用统一 recordAiTrace (含 task_id 作为 request_id)
-      recordAiTraceAsync({
-        request_id: `task_${task.id}`,
-        user_id: task.user_email,
-        session_id: String(task.id),
-        task_type: 'image_recognition',
-        provider: 'dashscope',
-        model: promptConfig.model,
-        prompt_tokens: tokenUsage.prompt,
-        completion_tokens: tokenUsage.completion,
-        latency_ms: metrics.processing_time_ms,
-        cost_cny: ((tokenUsage.total || 0) / 1_000_000) * 0.8,
-        success: true,
-      });
+      // Phase-B-fix (2026-08-24): B10 — 成功路径 ai_trace 由 services/llm.js 统一写入, 此处不再重复.
 
       taskStats.total++;
       if (isFallback) {
@@ -185,17 +172,20 @@ async function processNext() {
       logTaskMetrics(metrics);
 
       // Phase-B-fix (2026-08-24): B10 — 失败路径也 ai_trace
-      recordAiTraceAsync({
-        request_id: `task_${task.id}`,
-        user_id: task.user_email,
-        session_id: String(task.id),
-        task_type: 'image_recognition',
-        provider: 'dashscope',
-        model: PROMPTS.IMAGE_RECOGNITION.model,
-        latency_ms: endTime - startTime,
-        success: false,
-        error_message: err.message,
-      });
+      // LLM 调用失败时 services/llm.js 已写过 trace, 仅在封装未覆盖的异常 (解析/入库等) 补写.
+      if (!llmTraceWritten) {
+        recordAiTraceAsync({
+          request_id: `task_${task.id}`,
+          user_id: task.user_email,
+          session_id: String(task.id),
+          task_type: 'image_recognition',
+          provider: 'dashscope',
+          model: PROMPTS.IMAGE_RECOGNITION.model,
+          latency_ms: endTime - startTime,
+          success: false,
+          error_message: err.message,
+        });
+      }
 
       if (retryCount + 1 < MAX_RETRIES) {
         const delay = RETRY_DELAYS[retryCount] || RETRY_DELAYS[RETRY_DELAYS.length - 1];
