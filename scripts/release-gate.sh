@@ -168,6 +168,17 @@ else
   fail "存在硬编码凭据 (清单见上; 请改为环境变量读取, 缺失即报错)"
 fi
 
+# 2026-09-22 全仓安全扫描 (批次 project-fast-20260922132755) F1–F3:
+# api/handlers/essay 三处用 req.get('host') + req.protocol 拼内部自调用地址,
+# 并把调用方 JWT 转发过去 —— Host 头客户端可控即 SSRF, 且 /api/auth/guest-login
+# 是公开路由, 无需凭证即可拿 7 天 JWT 触发。三处同一模式, 只靠人工会漏。
+# 判据: 外发调用地址不得由请求头派生 (命中输出 file:line)。
+if node scripts/check-no-host-header-ssrf.mjs; then
+  ok "内部自调用地址未取自请求头 (无 Host/protocol 拼接 SSRF)"
+else
+  fail "内部自调用地址由请求头拼出 (见上; 请用 SELF_BASE_URL 或 127.0.0.1:\$PORT)"
+fi
+
 # 2026-09-21 (G6): mastery_score 曾被两套标度读写(差 100 倍), 导致 SRS 复习把
 # 掌握度 60 覆写成 1 —— 两边各自自洽, 单测发现不了, 只能靠静态判据拦。
 if node tests/api/mastery-scale-guard.test.js; then

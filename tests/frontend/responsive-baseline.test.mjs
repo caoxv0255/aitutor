@@ -48,9 +48,11 @@ for (const p of pages) {
 }
 check('全部页面有 viewport', badViewport.length, 0);
 // 下面两条是"目标状态"，未迁移的原型页会命中 —— 单独报告，不当作基线回归失败
+// 新架构页判据：引用共享层的真实路径（/assets/v2/js/*）。此前写成 'assets/js/ui.js'，
+// 与实际引用 '/assets/v2/js/ui.js' 不匹配，导致本组检查恒空转（2026-09-22 修正）。
 const newArchPages = pages.filter((p) => {
   const html = fs.readFileSync(path.join(DIR, p), 'utf8');
-  return html.includes('assets/js/ui.js') && html.includes('assets/js/api.js');
+  return html.includes('assets/v2/js/ui.js') && html.includes('assets/v2/js/api.js');
 });
 const newWithInline = inlineStyle.filter((p) => newArchPages.includes(p));
 const newWithCdn = cdnPages.filter((p) => newArchPages.includes(p));
@@ -59,7 +61,7 @@ check('新架构页无境外 CDN', newWithCdn.length, 0);
 
 // ── 5. 已建新页引用了共享样式表（而非各写一套） ──
 const noSharedCss = newArchPages.filter(
-  (p) => !fs.readFileSync(path.join(DIR, p), 'utf8').includes('assets/css/app.css')
+  (p) => !fs.readFileSync(path.join(DIR, p), 'utf8').includes('assets/v2/css/app.css')
 );
 check('新架构页引用 app.css', noSharedCss.length, 0);
 

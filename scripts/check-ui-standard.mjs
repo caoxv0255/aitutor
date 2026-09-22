@@ -88,6 +88,29 @@ const notes = [];
 const css = fs.readFileSync(`${DIR}/assets/css/app.css`, 'utf8');
 const system = fs.readFileSync(`${DIR}/assets/css/system.css`, 'utf8');
 
+/**
+ * 抽出 @media 块的规则体 (花括号配平, 支持块内多规则)。
+ * 用途见下方「静态可判断言」: 判的是 CSS 规则文本的存在性, 不是运行时行为 ——
+ * jsdom 无布局引擎, 「能不能真的滚到底 / tab 是否真的隐藏」测不了, 那是浏览器
+ * 实测 (Playwright) 的射程; 本断言只保证"把规则删了门禁必须红"。
+ */
+function mediaBlocks(cssText, mediaQuerySource) {
+  const blocks = [];
+  const open = new RegExp(`@media[^{]*${mediaQuerySource}[^{]*\\{`, 'gi');
+  let m;
+  while ((m = open.exec(cssText))) {
+    let depth = 1;
+    let i = open.lastIndex;
+    while (i < cssText.length && depth > 0) {
+      if (cssText[i] === '{') depth++;
+      else if (cssText[i] === '}') depth--;
+      i++;
+    }
+    blocks.push(cssText.slice(open.lastIndex, i - 1));
+  }
+  return blocks;
+}
+
 // ── 全局规则：标准文件本身 ───────────────────────────────────────────────
 if (!fs.existsSync(`${DIR}/assets/css/system.css`)) problems.push('缺少标准文件 assets/css/system.css');
 if (!fs.existsSync(`${DIR}/assets/css/fonts.css`)) problems.push('缺少字体样式 assets/css/fonts.css');
@@ -95,6 +118,28 @@ if (!/--brand-text:/.test(css)) problems.push('app.css 缺 --brand-text（暗色
 if (!/--dur-fast:\s*200ms/.test(css)) problems.push('app.css 缺 --dur-fast:200ms（微交互时长判据，SPEC-UI §5.5.3-6）');
 if (!/:focus-visible/.test(css)) problems.push('app.css 缺 :focus-visible 覆盖（skill CRITICAL）');
 if (!/@media\s*\(prefers-reduced-motion/.test(css + system)) problems.push('缺 prefers-reduced-motion 降级');
+
+// ── 静态可判断言 (2026-09-22): 两个 jsdom 测不到的洞 ─────────────────────
+// 1) .results-scroll 移动端限高+滚动 (2026-09-22 用户反馈"内容多时看不到底"):
+//    ≤767px 媒体查询里必须有 max-height + overflow-y:auto 的规则文本。
+//    判的是规则存在性, 不是运行时行为 (能否真的滚到底需浏览器实测)。
+const mobileBlocks = mediaBlocks(css, '\\(max-width:\\s*767px\\)');
+const rsBody = mobileBlocks.map((b) => b.match(/\.results-scroll\s*\{([^}]*)\}/)?.[1]).find(Boolean);
+if (!rsBody) {
+  problems.push('app.css 缺 ≤767px 媒体查询下的 .results-scroll 规则（判据: @media (max-width:767px) 块内 .results-scroll{...}，app.css ~302）');
+} else if (!/max-height/.test(rsBody) || !/overflow-y:\s*auto/.test(rsBody)) {
+  problems.push(`app.css 的 .results-scroll 移动端规则缺 max-height/overflow-y:auto（现为: ${rsBody.trim().replace(/\s+/g, ' ').slice(0, 80)}…）`);
+}
+
+// 2) 桌面端隐藏底部 Tab: ≥768px 媒体查询里必须有 .tabbar{display:none !important}。
+//    判的是规则存在性, 不是运行时行为 (真机布局需浏览器实测)。
+const desktopBlocks = mediaBlocks(css, '\\(min-width:\\s*768px\\)');
+const tabbarBody = desktopBlocks.map((b) => b.match(/\.tabbar\s*\{([^}]*)\}/)?.[1]).find(Boolean);
+if (!tabbarBody) {
+  problems.push('app.css 缺 ≥768px 媒体查询下的 .tabbar 隐藏规则（判据: @media (min-width:768px) 块内 .tabbar{display:none !important}，app.css ~1466）');
+} else if (!/display:\s*none\s*!important/.test(tabbarBody)) {
+  problems.push(`app.css 的 .tabbar 桌面端规则缺 display:none !important（现为: ${tabbarBody.trim().replace(/\s+/g, ' ').slice(0, 80)}…）`);
+}
 
 // ── 逐页规则 ─────────────────────────────────────────────────────────────
 const migratedSeen = [];
@@ -113,6 +158,24 @@ for (const p of pages) {
   const cdn = html.match(/fonts\.googleapis|fonts\.gstatic|jsdelivr|unpkg/g);
   if (cdn) problems.push(`${p}: 引用境外 CDN ${[...new Set(cdn)].join(',')}（DoD 要求零境外请求）`);
   if (/<style[^>]*>/.test(html)) problems.push(`${p}: 含内联 <style>（样式必须来自共享层）`);
+
+  // KaTeX 引入顺序与来源 (2026-09-22): 公式页里 katex.min.js 必须先于 ui.js/api.js/
+  // 页面脚本加载, 否则渲染时 KaTeX 未就绪会静默退回原文 —— 这个退化 jsdom 测不出
+  // (photo-solve-states.test.mjs 只测公式 DOM 存在性)。机械判据:
+  //   a. src 必须以 /assets/v2/vendor/katex/ 开头 (自托管, 防 CDN 回退);
+  //   b. katex 的 <script> 在页面所有其他本地 /assets/ <script> 之前。
+  // 判的是静态顺序, 不是运行时行为 (公式真渲染出来需浏览器实测)。
+  const katexScript = html.match(/<script[^>]*src="([^"]*katex\.min\.js)"[^>]*>/);
+  if (katexScript) {
+    if (!katexScript[1].startsWith('/assets/v2/vendor/katex/')) {
+      problems.push(`${p}: katex.min.js 必须自托管于 /assets/v2/vendor/katex/（当前 src: ${katexScript[1]}）`);
+    }
+    const katexIdx = html.indexOf(katexScript[0]);
+    const firstLocalScript = html.match(/<script[^>]*src="\/assets\/[^"]*"[^>]*>/);
+    if (firstLocalScript && html.indexOf(firstLocalScript[0]) < katexIdx) {
+      problems.push(`${p}: katex.min.js 必须先于其他本地脚本加载（防 KaTeX 未就绪静默退回原文）`);
+    }
+  }
 
   // 底部 Tab（PM-BRIEF §B.2 移动端主导航）：非认证页恰好 1 份，认证页 0 份
   //

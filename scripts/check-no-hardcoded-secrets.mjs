@@ -10,7 +10,11 @@
  *   1. 连接串形式: 协议头 + 用户名 + 冒号 + 口令 + @ + 主机
  *      (postgresql/mysql/mongodb/redis/amqp…)
  *   2. 赋值形式:   (password|passwd|pwd|secret|token|api_?key) = '明文'
- * 排除: .env.example 的 CHANGE_ME 占位、node_modules/archive/.git/测试夹具。
+ *   3. 无引号赋值: (…|api_?key) = 连续串 (shell/ini 形态, KEY=sk-…)
+ * 排除: .env.example 的 CHANGE_ME 占位、node_modules/archive/.git/测试夹具、
+ *       环境变量引用 (process.env.X / ${VAR} / $VAR)。
+ * 2026-09-22: 修复三个漏网口径 (sk- 前缀误当占位符 / 无引号赋值漏检 /
+ *       dev-verify 目录整跳过), 见 docs/security/credential-rotation.md §7。
  *
  * 输出: 命中即非零退出 (CI gate 失败)。
  */
@@ -22,7 +26,8 @@ const ROOT = process.cwd();
 const SCAN_EXT = new Set(['.js', '.mjs', '.cjs', '.ts', '.py', '.json', '.yml', '.yaml', '.sh', '.conf', '.service']);
 // 只扫 git 已跟踪文件: .env(已忽略) / 未跟踪产物天然不在版本历史里, 不构成"泄露"
 // 排除 tests/ docs/ .github/ 与 *.min.js: 测试夹具与压缩库里全是假值/语法符号, 属噪声
-const SKIP_DIRS = new Set(['node_modules', '.git', 'archive', '.codebuddy', 'coverage', 'dist', 'venv', 'runs', 'tests', 'docs', '.github', 'architecture-review', 'dev-verify']);
+// 2026-09-22: 移除 'dev-verify' —— 该目录里的明文测试口令(L5)曾因此完全不可见。
+const SKIP_DIRS = new Set(['node_modules', '.git', 'archive', '.codebuddy', 'coverage', 'dist', 'venv', 'runs', 'tests', 'docs', '.github', 'architecture-review']);
 const SKIP_FILE = /\.min\.js$/;
 // 本机/容器内部地址上的口令是基础设施默认值, 不构成"对外泄露"
 const LOCAL_HOST = /^(localhost|127\.0\.0\.1|db|db-host|postgres|redis|mysql)(:|$)/i;
@@ -30,7 +35,14 @@ const LOCAL_HOST = /^(localhost|127\.0\.0\.1|db|db-host|postgres|redis|mysql)(:|
 // 注意: 正则只描述"形状", 不写入任何真实凭据
 const DSN = /[a-z][a-z0-9+.-]*:\/\/([^\s:/@"']+):([^\s:/@"']+)@([^\s/"']+)/gi;
 const ASSIGN = /(?:password|passwd|pwd|secret|token|api_?key)\s*[:=]\s*['"]([^'"]{6,})['"]/gi;
-const PLACEHOLDER = /^(change_?me|your[_-]?\w+|xxx+|\*+|<[^>]+>|\$\{[^}]+\}|todo|placeholder|example|test|dummy|sk-|pk_)/i;
+// 2026-09-22: 无引号赋值 (shell/ini 形态 KEY=sk-...) 曾整体漏检。
+// 只认 '=' 不认 ':': YAML 的 `key: 普通单词` 会海量误伤, shell 赋值必用 '='。
+// 值限定为不含空白/$/引号的连续串, 因此 ${VAR:?} / $VAR / $(cmd) 天然不匹配。
+const ASSIGN_UNQUOTED = /(?:password|passwd|pwd|secret|token|api_?key)\s*=\s*([A-Za-z0-9_\-]{8,})(?=\s|$)/gi;
+// 2026-09-22: 移除 'sk-|pk_' 整体豁免 —— 它把所有真实 sk- key 当占位符放行。
+// 高识别度前缀只放行"明显的占位形态" (sk-xxxx… / sk-******), 长的高熵串必须报。
+const PLACEHOLDER = /^(change_?me|your[_-]?\w+|xxx+|\*+|<[^>]+>|\$\{[^}]+\}|todo|placeholder|example|test|dummy)/i;
+const KEY_PREFIX_PLACEHOLDER = /^(sk|pk)[_-][xX*0]{6,}$/;
 
 // 只扫 git tracked 文件
 const tracked = (() => {
@@ -70,7 +82,7 @@ function walk(dir, depth = 0) {
 
       for (const m of trimmed.matchAll(DSN)) {
         const [, user, pass, host] = m;
-        if (PLACEHOLDER.test(pass) || LOCAL_HOST.test(host.split(':')[0])) continue;
+        if (PLACEHOLDER.test(pass) || KEY_PREFIX_PLACEHOLDER.test(pass) || LOCAL_HOST.test(host.split(':')[0])) continue;
         findings.push({
           file: rel,
           line: i + 1,
@@ -80,10 +92,15 @@ function walk(dir, depth = 0) {
       }
       for (const m of trimmed.matchAll(ASSIGN)) {
         const val = m[1];
-        if (PLACEHOLDER.test(val) || val.startsWith('${') || val.startsWith('process.env')) continue;
+        if (PLACEHOLDER.test(val) || KEY_PREFIX_PLACEHOLDER.test(val) || val.startsWith('$') || val.startsWith('process.env')) continue;
         // 枚举常量: 值就是键名本身(如 AUTH_INVALID_TOKEN: 'AUTH_INVALID_TOKEN')
         if (trimmed.toUpperCase().includes(val.toUpperCase() + ':')) continue;
         findings.push({ file: rel, line: i + 1, kind: '明文赋值', snippet: `${m[0].split(/[:=]/)[0]}=***(len=${val.length})` });
+      }
+      for (const m of trimmed.matchAll(ASSIGN_UNQUOTED)) {
+        const val = m[1];
+        if (PLACEHOLDER.test(val) || KEY_PREFIX_PLACEHOLDER.test(val)) continue;
+        findings.push({ file: rel, line: i + 1, kind: '明文赋值(无引号)', snippet: `${m[0].split(/[:=]/)[0]}=***(len=${val.length})` });
       }
     });
   }
