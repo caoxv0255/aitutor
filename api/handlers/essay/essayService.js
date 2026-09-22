@@ -78,8 +78,11 @@ export async function _internalLLMCall({ images, essay_title, exam_level, grade,
     return { success: false, error: 'LLM_CALL_FAILED' };
   }
 
-  if (!resp.ok || !body.success) {
-    return { success: false, error: body.message || 'LLM_ERROR' };
+  // 2026-09-21 (G10): /api/proxy 成功时返回原生 OpenAI 格式(choices/usage)，
+  // 没有 success 字段 —— 旧判定 body.success 恒为 falsy，导致 LLM 调用即使成功
+  // 也被当作 LLM_ERROR（essay 上线以来从未真正出过报告的根因，E2E 实测）。
+  if (!resp.ok) {
+    return { success: false, error: body.message || body.error?.message || 'LLM_ERROR' };
   }
 
   return {

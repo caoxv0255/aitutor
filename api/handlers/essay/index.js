@@ -34,7 +34,8 @@ export async function gradeEssayHandler(req, res) {
   if (!result.success) {
     return errorJson(res, ErrorCode.INTERNAL_ERROR, result.message || '批改失败');
   }
-  return successJson(res, result.data, '批改完成', { requestId: req.requestId });
+  // 2026-09-21: result.reportId 是外层字段，此前被丢弃 —— 前端与历史列表都靠它关联
+  return successJson(res, { ...result.data, report_id: result.reportId }, '批改完成', { requestId: req.requestId });
 }
 
 /**
