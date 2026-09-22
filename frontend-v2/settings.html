@@ -1,1224 +1,284 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="设置 — 账号、学习档案、通知与隐私偏好管理">
   <title>设置 · 智启AI导师</title>
-  <meta name="description" content="账号 / 学习 / 通知 / 隐私 / 订阅 — 个人偏好与数据管理" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
-
-  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
-
-  <style>
-    :root {
-      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
-      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
-      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
-      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
-      --w-50:#fffbeb; --s-w-100:#fef3c7; --w-500:#f59e0b; --w-700:#b45309;
-      --e-50:#fef2f2; --e-500:#ef4444;
-      --i-50:#f0f9ff; --i-500:#0284c7;
-
-      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
-      --line:#e8eaee; --line-soft:#f1f3f5;
-      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
-
-      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
-      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
-      --font-mono:'JetBrains Mono','DM Sans',monospace;
-
-      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-pill:9999px;
-      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
-      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
-      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
-      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
-      --ease-out: cubic-bezier(.22,1,.36,1);
-      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
-    }
-
-    html.dark {
-      --bg:#0a0d14; --surface:#131720; --surface-2:#1a1f2c; --surface-3:#232838;
-      --line:#232838; --line-soft:#1f2533;
-      --ink:#e8ecf3; --ink-2:#a8b0c2; --ink-3:#6f7689; --ink-4:#4d5468;
-      --p-50:#2a0e10; --p-100:#3a1316; --p-200:#4d1820;
-      --b-50:#0d1c33; --s-50:#052e22; --w-50:#2a1d05; --e-50:#2a0d0d; --i-50:#06222e;
-      --sh-1: 0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
-      --sh-2: 0 4px 16px -4px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.3);
-      --sh-3: 0 12px 32px -8px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.3);
-    }
-
-    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 15px; line-height: 1.55;
-      font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
-      min-height: 100vh;
-    }
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
-    input, select, textarea { font: inherit; }
-
-    /* ============ NAV ============ */
-    .nav {
-      position: sticky; top: 0; z-index: 50;
-      background: color-mix(in srgb, var(--bg) 88%, transparent);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--line-soft);
-    }
-    .nav__inner {
-      max-width: 1280px; margin: 0 auto;
-      padding: 14px 32px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .nav__brand {
-      display: flex; align-items: center; gap: 10px;
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 17px; color: var(--ink);
-    }
-    .nav__brand-mark {
-      width: 28px; height: 28px; border-radius: 8px;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      display: inline-flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 700; font-size: 13px;
-      box-shadow: var(--sh-primary);
-    }
-    .nav__crumbs { display: flex; gap: 6px; font-size: 13px; color: var(--ink-3); }
-    .nav__crumbs svg { width: 12px; height: 12px; }
-    .nav__crumbs a:hover { color: var(--p-500); }
-    .nav__crumbs strong { color: var(--ink); font-weight: 500; }
-    .icon-btn {
-      width: 38px; height: 38px; border-radius: 8px;
-      display: inline-flex; align-items: center; justify-content: center;
-      color: var(--ink-2);
-    }
-    .icon-btn:hover { background: var(--surface-2); color: var(--ink); }
-    .icon-btn svg { width: 18px; height: 18px; }
-    .nav__avatar {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      color: #fff;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-family: var(--font-display); font-size: 14px; font-weight: 700;
-      box-shadow: var(--sh-primary);
-    }
-
-    .app { max-width: 1280px; margin: 0 auto; padding: 32px; }
-
-    /* ============ PAGE HEADER ============ */
-    .page-header {
-      display: flex; align-items: end; justify-content: space-between;
-      padding-bottom: 24px;
-      margin-bottom: 32px;
-      border-bottom: 1px solid var(--line-soft);
-    }
-    .page-header__eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--p-500);
-      margin-bottom: 8px;
-    }
-    .page-header__eyebrow::before { content: ''; width: 24px; height: 1.5px; background: var(--p-500); }
-    .page-header__title {
-      font-family: var(--font-display);
-      font-size: 32px; font-weight: 700;
-      line-height: 1.15; letter-spacing: -.02em;
-      color: var(--ink);
-    }
-    .page-header__title em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .page-header__sub {
-      font-size: 14px; color: var(--ink-3);
-      margin-top: 6px;
-    }
-
-    /* ============ LAYOUT (sidebar + content) ============ */
-    .layout {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 32px;
-      align-items: start;
-    }
-
-    /* ============ SIDEBAR TABS ============ */
-    .sidebar {
-      position: sticky;
-      top: 80px;
-      display: flex; flex-direction: column;
-      gap: 4px;
-    }
-    .tab {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 14px;
-      border-radius: var(--r-md);
-      font-size: 13px; font-weight: 500;
-      color: var(--ink-2);
-      text-align: left;
-      width: 100%;
-      transition: all var(--dur-1);
-    }
-    .tab:hover { background: var(--surface-2); color: var(--ink); }
-    .tab.active {
-      background: var(--surface);
-      color: var(--ink);
-      box-shadow: var(--sh-1);
-      font-weight: 600;
-    }
-    .tab.active::before {
-      content: '';
-      width: 3px; height: 16px;
-      background: var(--p-500);
-      border-radius: 9999px;
-      margin-right: 4px;
-    }
-    .tab svg { width: 16px; height: 16px; }
-    .tab__count {
-      margin-left: auto;
-      font-family: var(--font-mono);
-      font-size: 10px; font-weight: 600;
-      padding: 2px 6px;
-      background: var(--surface-3);
-      border-radius: 9999px;
-      color: var(--ink-3);
-    }
-    .tab.active .tab__count { background: var(--p-50); color: var(--p-700); }
-
-    .sidebar__divider {
-      height: 1px; background: var(--line-soft);
-      margin: 12px 0;
-    }
-    .sidebar__group-label {
-      font-size: 10px; font-weight: 700;
-      letter-spacing: .12em; text-transform: uppercase;
-      color: var(--ink-3);
-      padding: 0 14px;
-      margin-bottom: 6px;
-    }
-
-    /* ============ PANEL ============ */
-    .panel { display: none; animation: fadeUp 360ms var(--ease-out); }
-    .panel.active { display: block; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: none; }
-    }
-
-    /* ============ CARD ============ */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-lg);
-      padding: 24px;
-    }
-    .card + .card { margin-top: 16px; }
-    .card__head {
-      display: flex; align-items: start; justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .card__title {
-      font-family: var(--font-display);
-      font-size: 16px; font-weight: 600;
-      color: var(--ink);
-      display: flex; align-items: center; gap: 8px;
-    }
-    .card__title svg { width: 16px; height: 16px; color: var(--p-500); }
-    .card__sub {
-      font-size: 12px;
-      color: var(--ink-3);
-      margin-top: 2px;
-    }
-    .card__action {
-      font-size: 12px; font-weight: 600;
-      color: var(--p-500);
-      cursor: pointer;
-    }
-    .card__action:hover { text-decoration: underline; }
-
-    /* ============ FORM FIELDS ============ */
-    .field { display: flex; flex-direction: column; gap: 6px; }
-    .field__label {
-      font-size: 12px; font-weight: 600;
-      color: var(--ink-2);
-      display: flex; align-items: center; gap: 4px;
-    }
-    .field__label svg { width: 12px; height: 12px; color: var(--ink-3); }
-    .field__row {
-      display: flex; gap: 12px;
-    }
-    .field__input, .field__select, .field__textarea {
-      height: 40px;
-      padding: 0 14px;
-      background: var(--surface);
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-md);
-      color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 13px;
-      outline: none;
-      width: 100%;
-      transition: all var(--dur-1);
-    }
-    .field__textarea { padding: 10px 14px; height: 80px; resize: vertical; }
-    .field__input:focus, .field__select:focus, .field__textarea:focus {
-      border-color: var(--p-500);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-500) 12%, transparent);
-    }
-    .field__input::placeholder { color: var(--ink-4); }
-    .field__hint {
-      font-size: 11px;
-      color: var(--ink-3);
-      margin-top: 2px;
-    }
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-    /* ============ PROFILE (tab 1) ============ */
-    .profile-row {
-      display: flex; align-items: center; gap: 16px;
-      padding: 16px;
-      background: var(--surface-2);
-      border-radius: var(--r-md);
-    }
-    .profile-row__avatar {
-      width: 64px; height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      color: #fff;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-size: 24px; font-weight: 700;
-      box-shadow: var(--sh-primary);
-      flex-shrink: 0;
-    }
-    .profile-row__main { flex: 1; }
-    .profile-row__name {
-      font-family: var(--font-display);
-      font-size: 18px; font-weight: 700;
-      color: var(--ink);
-    }
-    .profile-row__email {
-      font-size: 12px; color: var(--ink-3);
-    }
-    .profile-row__meta {
-      margin-top: 6px;
-      display: flex; gap: 6px;
-      flex-wrap: wrap;
-    }
-    .meta-chip {
-      font-size: 11px; font-weight: 600;
-      padding: 3px 8px;
-      background: var(--surface);
-      border-radius: var(--r-pill);
-      color: var(--ink-3);
-    }
-    .meta-chip--pro {
-      background: linear-gradient(135deg, var(--w-50), var(--w-100));
-      color: var(--w-700);
-    }
-    .btn-upload {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 14px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-pill);
-      font-size: 12px; font-weight: 600;
-      color: var(--ink-2);
-      align-self: flex-start;
-    }
-    .btn-upload:hover { background: var(--surface-2); }
-    .btn-upload svg { width: 14px; height: 14px; }
-
-    /* ============ STUDY (tab 2) ============ */
-    .subject-tiles {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-    .subject-tile {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 12px;
-      background: var(--surface);
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-md);
-      cursor: pointer;
-      transition: all var(--dur-1);
-    }
-    .subject-tile:hover { border-color: color-mix(in srgb, var(--subj-color) 50%, var(--line)); }
-    .subject-tile.selected {
-      border-color: var(--subj-color);
-      background: color-mix(in srgb, var(--subj-color) 6%, var(--surface));
-    }
-    .subject-tile__dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--subj-color);
-      flex-shrink: 0;
-    }
-    .subject-tile__name {
-      font-size: 12px; font-weight: 600;
-      color: var(--ink);
-      flex: 1;
-    }
-    .subject-tile__check {
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      border: 1.5px solid var(--line);
-      display: inline-flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      transition: all var(--dur-1);
-    }
-    .subject-tile.selected .subject-tile__check {
-      background: var(--subj-color);
-      border-color: var(--subj-color);
-      color: #fff;
-    }
-    .subject-tile__check svg { width: 9px; height: 9px; opacity: 0; }
-    .subject-tile.selected .subject-tile__check svg { opacity: 1; }
-
-    /* Daily goal slider */
-    .slider {
-      position: relative;
-      width: 100%;
-      height: 6px;
-      background: var(--surface-3);
-      border-radius: 9999px;
-      margin: 24px 0 8px;
-    }
-    .slider__fill {
-      position: absolute; left: 0; top: 0; bottom: 0;
-      background: linear-gradient(90deg, var(--p-500), var(--p-700));
-      border-radius: 9999px;
-    }
-    .slider__thumb {
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 20px; height: 20px;
-      background: var(--surface);
-      border: 3px solid var(--p-500);
-      border-radius: 50%;
-      box-shadow: var(--sh-2);
-      cursor: grab;
-    }
-    .slider__markers {
-      position: relative;
-      display: flex; justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--ink-3);
-    }
-
-    /* Toggle (iOS-style) */
-    .toggle {
-      position: relative;
-      width: 40px; height: 22px;
-      background: var(--surface-3);
-      border-radius: 9999px;
-      cursor: pointer;
-      transition: background var(--dur-1);
-      flex-shrink: 0;
-    }
-    .toggle::after {
-      content: '';
-      position: absolute; left: 2px; top: 2px;
-      width: 18px; height: 18px;
-      background: var(--surface);
-      border-radius: 50%;
-      box-shadow: var(--sh-1);
-      transition: transform var(--dur-1);
-    }
-    .toggle--on { background: var(--p-500); }
-    .toggle--on::after { transform: translateX(18px); }
-
-    .toggle-row {
-      display: flex; align-items: center; gap: 16px;
-      padding: 16px 0;
-      border-top: 1px solid var(--line-soft);
-    }
-    .toggle-row:first-child { border-top: none; }
-    .toggle-row__main { flex: 1; min-width: 0; }
-    .toggle-row__title {
-      font-size: 14px; font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 2px;
-    }
-    .toggle-row__desc {
-      font-size: 12px; color: var(--ink-3);
-      line-height: 1.5;
-    }
-    .toggle-row__extra {
-      flex: 0 0 auto;
-    }
-
-    /* Risk zone (danger) */
-    .danger-zone {
-      border: 1px dashed var(--e-500);
-      background: var(--e-50);
-      border-radius: var(--r-md);
-      padding: 20px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px;
-    }
-    html.dark .danger-zone { background: rgba(239, 68, 68, 0.06); }
-    .danger-zone__main { flex: 1; }
-    .danger-zone__title {
-      font-size: 14px; font-weight: 600;
-      color: var(--e-500);
-      margin-bottom: 2px;
-    }
-    .danger-zone__desc {
-      font-size: 12px; color: var(--ink-3);
-    }
-    .btn-danger {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 14px;
-      background: var(--surface);
-      color: var(--e-500);
-      border: 1px solid var(--e-500);
-      border-radius: var(--r-pill);
-      font-size: 12px; font-weight: 600;
-    }
-    .btn-danger:hover { background: var(--e-500); color: #fff; }
-    .btn-danger svg { width: 14px; height: 14px; }
-
-    /* Save bar (sticky bottom) */
-    .save-bar {
-      position: fixed;
-      bottom: 24px; left: 50%; transform: translateX(-50%);
-      display: inline-flex; align-items: center; gap: 12px;
-      padding: 8px 16px 8px 20px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 9999px;
-      box-shadow: var(--sh-3);
-      z-index: 40;
-    }
-    .save-bar__text {
-      font-size: 13px; color: var(--ink-2);
-    }
-    .save-bar__text strong { color: var(--ink); font-weight: 600; }
-    .btn-save {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 8px 16px;
-      background: linear-gradient(135deg, var(--p-500), var(--p-600));
-      color: #fff;
-      border-radius: 9999px;
-      font-size: 12px; font-weight: 600;
-    }
-    .btn-save:hover { transform: translateY(-1px); }
-    .btn-discard {
-      padding: 6px 12px;
-      font-size: 12px;
-      color: var(--ink-3);
-      border-radius: 9999px;
-    }
-    .btn-discard:hover { background: var(--surface-2); color: var(--ink); }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,*::before,*::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
-    input:focus-visible, select:focus-visible, textarea:focus-visible { outline: none; }
-
-    /* ============ RESPONSIVE ============ */
-    @media (max-width: 900px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { position: static; flex-direction: row; flex-wrap: wrap; gap: 4px; }
-      .sidebar__group-label, .sidebar__divider { display: none; }
-      .tab { width: auto; }
-      .tab.active::before { display: none; }
-      .subject-tiles { grid-template-columns: 1fr 1fr; }
-      .field-row { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      .app { padding: 16px; }
-      .page-header { flex-direction: column; align-items: start; gap: 12px; }
-      .danger-zone { flex-direction: column; align-items: start; }
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/v2/css/fonts.css">
+  <link rel="stylesheet" href="/assets/v2/css/system.css">
+  <link rel="stylesheet" href="/assets/v2/css/app.css">
 </head>
 <body>
-
-  <!-- ============ NAV ============ -->
   <nav class="nav">
-    <div class="nav__inner">
-      <div style="display:flex;align-items:center;gap:24px">
-        <a href="landing.html" class="nav__brand">
-          <span class="nav__brand-mark">AI</span>
-          <span>智启AI导师</span>
-        </a>
-        <div class="nav__crumbs">
-          <a href="practice-hub-v2.html">练习中心</a>
-          <i data-lucide="chevron-right"></i>
-          <strong>设置</strong>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <button class="icon-btn" id="themeBtn" aria-label="切换主题">
-          <i data-lucide="moon"></i>
-        </button>
-        <div class="nav__avatar">明</div>
+    <div class="container nav__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true"></span>
+        智启AI导师
+      </a>
+      <div class="nav__links">
+        <a class="nav__link" href="/dashboard.html">仪表盘</a>
+        <a class="nav__link" href="/practice-hub.html">练习</a>
+        <a class="nav__link" href="/review-session.html">复习</a>
+        <a class="nav__link" href="/wrong-book.html">错题本</a>
+        <a class="nav__cta" href="/photo-solve.html">拍照解题</a>
       </div>
     </div>
   </nav>
 
-  <main class="app">
-
-    <!-- ============ PAGE HEADER ============ -->
-    <header class="page-header">
-      <div>
-        <div class="page-header__eyebrow">个人设置 · SETTINGS</div>
-        <h1 class="page-header__title">设置<em> · Preferences</em></h1>
-        <p class="page-header__sub">账号 / 学习 / 通知 / 隐私 / 订阅 — 数据本地加密, 改完实时生效</p>
+  <header class="hero hero--app">
+    <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="container">
+      <div class="hero__copy">
+        <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Settings</div>
+        <h1 class="hero__title">管理你的偏好</h1>
+        <p class="hero__sub">学习档案、通知与隐私都在这里。改完记得保存。</p>
       </div>
-    </header>
-
-    <!-- ============ LAYOUT ============ -->
-    <div class="layout">
-
-      <!-- ============ SIDEBAR TABS ============ -->
-      <aside class="sidebar" role="tablist">
-        <div class="sidebar__group-label">账户</div>
-        <button class="tab active" data-tab="account" role="tab">
-          <i data-lucide="user"></i>
-          账号资料
-        </button>
-        <button class="tab" data-tab="password" role="tab">
-          <i data-lucide="lock"></i>
-          密码与登录
-        </button>
-        <button class="tab" data-tab="study" role="tab">
-          <i data-lucide="book-open"></i>
-          学习偏好
-          <span class="tab__count">9</span>
-        </button>
-        <button class="tab" data-tab="notifications" role="tab">
-          <i data-lucide="bell"></i>
-          通知
-          <span class="tab__count">3</span>
-        </button>
-
-        <div class="sidebar__divider"></div>
-        <div class="sidebar__group-label">数据</div>
-        <button class="tab" data-tab="privacy" role="tab">
-          <i data-lucide="shield"></i>
-          隐私与数据
-        </button>
-        <button class="tab" data-tab="billing" role="tab">
-          <i data-lucide="credit-card"></i>
-          订阅
-        </button>
-        <button class="tab" data-tab="about" role="tab">
-          <i data-lucide="info"></i>
-          关于
-        </button>
-      </aside>
-
-      <!-- ============ PANEL: 账号资料 ============ -->
-      <section class="panel active" id="panel-account">
-        <div class="card">
-          <div class="card__head">
-            <div>
-              <div class="card__title">
-                <i data-lucide="user"></i>
-                个人资料
-              </div>
-              <div class="card__sub">公开资料, 其他同学可见</div>
-            </div>
-            <span class="card__action">已保存 · 1 分钟前</span>
-          </div>
-
-          <div class="profile-row">
-            <div class="profile-row__avatar">明</div>
-            <div class="profile-row__main">
-              <div class="profile-row__name">张小明</div>
-              <div class="profile-row__email">xiaoming@uibe.edu.cn</div>
-              <div class="profile-row__meta">
-                <span class="meta-chip meta-chip--pro">⚡ Pro · 2026.10 到期</span>
-                <span class="meta-chip">高三 · 北京海淀</span>
-                <span class="meta-chip">加入 247 天</span>
-              </div>
-            </div>
-            <button class="btn-upload">
-              <i data-lucide="camera"></i>
-              更换头像
-            </button>
-          </div>
-
-          <div style="height: 1px; background: var(--line-soft); margin: 24px 0;"></div>
-
-          <div class="field-row" style="margin-bottom: 16px;">
-            <div class="field">
-              <label class="field__label" for="name">
-                <i data-lucide="user"></i> 显示名
-              </label>
-              <input class="field__input" type="text" id="name" value="张小明" />
-            </div>
-            <div class="field">
-              <label class="field__label" for="email">
-                <i data-lucide="mail"></i> 邮箱 (登录凭证)
-              </label>
-              <input class="field__input" type="email" id="email" value="xiaoming@uibe.edu.cn" />
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label class="field__label" for="phone">
-                <i data-lucide="phone"></i> 手机号 (选填)
-              </label>
-              <input class="field__input" type="tel" id="phone" placeholder="+86 138 0000 0000" />
-            </div>
-            <div class="field">
-              <label class="field__label" for="school">
-                <i data-lucide="school"></i> 学校
-              </label>
-              <input class="field__input" type="text" id="school" value="北京 101 中学" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="field__label" for="bio">
-              <i data-lucide="quote"></i> 个人简介 (选填)
-            </label>
-            <textarea class="field__textarea" id="bio" placeholder="一句话介绍自己...">高三, 目标高考数学 130+, 用智启 247 天</textarea>
-            <div class="field__hint">127/200 字符</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ PANEL: 密码与登录 ============ -->
-      <section class="panel" id="panel-password">
-        <div class="card">
-          <div class="card__head">
-            <div>
-              <div class="card__title">
-                <i data-lucide="lock"></i>
-                修改密码
-              </div>
-              <div class="card__sub">建议每 90 天更换一次</div>
-            </div>
-          </div>
-
-          <div class="field" style="margin-bottom: 12px;">
-            <label class="field__label">当前密码</label>
-            <input class="field__input" type="password" placeholder="••••••••" />
-          </div>
-          <div class="field" style="margin-bottom: 12px;">
-            <label class="field__label">新密码</label>
-            <input class="field__input" type="password" placeholder="至少 6 位, 含大小写+数字" />
-            <div class="field__hint">提示: 包含字母 + 数字 + 8+ 字符更安全</div>
-          </div>
-          <div class="field" style="margin-bottom: 16px;">
-            <label class="field__label">确认新密码</label>
-            <input class="field__input" type="password" placeholder="再次输入新密码" />
-          </div>
-
-          <button class="btn-danger" style="background: var(--p-500); color: #fff; border-color: var(--p-500);">
-            <i data-lucide="check"></i>
-            更新密码
-          </button>
-        </div>
-
-        <div class="card">
-          <div class="card__title">
-            <i data-lucide="shield"></i>
-            两步验证
-          </div>
-          <div class="card__sub" style="margin: 4px 0 16px;">登录时除密码外还需要短信 / 验证器代码</div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">短信验证 (138 ****0000)</div>
-              <div class="toggle-row__desc">登录时发送 6 位验证码到手机</div>
-            </div>
-            <div class="toggle toggle--on" data-toggle="sms"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">验证器 App (TOTP)</div>
-              <div class="toggle-row__desc">支持 Google Authenticator / 1Password 等</div>
-            </div>
-            <div class="toggle" data-toggle="totp"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card__title">
-            <i data-lucide="monitor"></i>
-            登录设备
-          </div>
-          <div class="card__sub" style="margin: 4px 0 16px;">最近 30 天登录过此账号的设备</div>
-
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface-2); border-radius: var(--r-md);">
-              <i data-lucide="laptop" style="width:20px;height:20px;color:var(--ink-3);flex-shrink:0;"></i>
-              <div style="flex:1;min-width:0;">
-                <div style="font-size:13px;font-weight:600;">MacBook Pro · Chrome 132</div>
-                <div style="font-size:11px;color:var(--ink-3);">北京 · 当前设备 · 5 分钟前</div>
-              </div>
-              <span style="font-size:11px;padding:3px 8px;background:var(--s-50);color:var(--s-700);border-radius:9999px;font-weight:600;">当前</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface-2); border-radius: var(--r-md);">
-              <i data-lucide="smartphone" style="width:20px;height:20px;color:var(--ink-3);flex-shrink:0;"></i>
-              <div style="flex:1;min-width:0;">
-                <div style="font-size:13px;font-weight:600;">iPhone 15 Pro · Safari</div>
-                <div style="font-size:11px;color:var(--ink-3);">北京 · 3 小时 ago</div>
-              </div>
-              <button class="btn-discard">登出</button>
-            </div>
-            <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface-2); border-radius: var(--r-md);">
-              <i data-lucide="tablet" style="width:20px;height:20px;color:var(--ink-3);flex-shrink:0;"></i>
-              <div style="flex:1;min-width:0;">
-                <div style="font-size:13px;font-weight:600;">iPad Air · 智启AI导师 PWA</div>
-                <div style="font-size:11px;color:var(--ink-3);">北京 · 昨天</div>
-              </div>
-              <button class="btn-discard">登出</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ PANEL: 学习偏好 ============ -->
-      <section class="panel" id="panel-study">
-        <div class="card">
-          <div class="card__head">
-            <div>
-              <div class="card__title">
-                <i data-lucide="book-open"></i>
-                9 学科偏好
-              </div>
-              <div class="card__sub">选择你学的学科 · 未选的不出现在练习和错题本里</div>
-            </div>
-          </div>
-
-          <div class="subject-tiles" id="subjectTiles"></div>
-
-          <div style="display: flex; align-items: center; gap: 6px; margin-top: 12px; padding: 10px 14px; background: var(--surface-2); border-radius: var(--r-md); font-size: 12px; color: var(--ink-3);">
-            <i data-lucide="info" style="width:14px;height:14px;"></i>
-            已选 <strong id="selectedCount" style="color: var(--p-500); font-weight: 700;">9</strong> / 9 学科 · 其他学科随时在"知识图谱"里添加
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card__head">
-            <div>
-              <div class="card__title">
-                <i data-lucide="target"></i>
-                每日目标
-              </div>
-              <div class="card__sub">系统按 SM-2 算法自动分配, 你只需定一个总目标</div>
-            </div>
-          </div>
-
-          <div style="margin: 8px 0 4px; display: flex; justify-content: space-between; align-items: baseline;">
-            <span style="font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--p-500); font-variant-numeric: tabular-nums;">40</span>
-            <span style="font-size: 13px; color: var(--ink-3);">题 / 天</span>
-          </div>
-          <div class="slider">
-            <div class="slider__fill" style="width: 40%;"></div>
-            <div class="slider__thumb" style="left: 40%;"></div>
-          </div>
-          <div class="slider__markers">
-            <span>10</span><span>20</span><span>30</span>
-            <span style="color: var(--p-500); font-weight: 700;">40</span>
-            <span>50</span><span>70</span><span>100</span>
-          </div>
-
-          <div style="height: 1px; background: var(--line-soft); margin: 24px 0;"></div>
-
-          <div class="field-row" style="margin-bottom: 16px;">
-            <div class="field">
-              <label class="field__label">难度偏好</label>
-              <select class="field__select">
-                <option>智能自适应 (推荐)</option>
-                <option>偏基础 (60% 基础 / 40% 进阶)</option>
-                <option>均衡 (各 50%)</option>
-                <option>偏挑战 (30% 基础 / 70% 进阶)</option>
-              </select>
-            </div>
-            <div class="field">
-              <label class="field__label">答题时长上限</label>
-              <select class="field__select">
-                <option>不限时 (推荐)</option>
-                <option>30 秒 / 题</option>
-                <option>60 秒 / 题</option>
-                <option>90 秒 / 题</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">错题自动入错题本</div>
-              <div class="toggle-row__desc">所有错题自动入 SM-2 队列, 按算法排期</div>
-            </div>
-            <div class="toggle toggle--on"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">拍照时自动识别学科</div>
-              <div class="toggle-row__desc">Qwen-VL 自动识别 9 学科, 可手动调整</div>
-            </div>
-            <div class="toggle toggle--on"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">启用周末强化模式</div>
-              <div class="toggle-row__desc">周末推送预测卷, 模拟真实考试节奏</div>
-            </div>
-            <div class="toggle"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ PANEL: 通知 ============ -->
-      <section class="panel" id="panel-notifications">
-        <div class="card">
-          <div class="card__title">
-            <i data-lucide="bell"></i>
-            通知偏好
-          </div>
-          <div class="card__sub" style="margin: 4px 0 16px;">到复习时间、薄弱点预警、家长/老师提醒</div>
-
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">📚 复习提醒</div>
-              <div class="toggle-row__desc">到 SM-2 排期时间时通知</div>
-            </div>
-            <div class="toggle toggle--on"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">⚠️ 薄弱点预警</div>
-              <div class="toggle-row__desc">薄弱度指数突破阈值时推送</div>
-            </div>
-            <div class="toggle toggle--on"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">🎉 阶段性成就</div>
-              <div class="toggle-row__desc">掌握 / 提分 / 进步显著时祝贺</div>
-            </div>
-            <div class="toggle toggle--on"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">📊 周报推送</div>
-              <div class="toggle-row__desc">每周日晚上发送本周学情摘要</div>
-            </div>
-            <div class="toggle"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">🌙 免打扰时段</div>
-              <div class="toggle-row__desc">22:00 - 07:00 不推送任何通知</div>
-            </div>
-            <div class="toggle toggle--on"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card__title">
-            <i data-lucide="send"></i>
-            通知通道
-          </div>
-          <div class="card__sub" style="margin: 4px 0 16px;">哪些通道接收通知 (可多选)</div>
-          <div class="field-row" style="margin-bottom: 12px;">
-            <div class="toggle-row" style="border:none; padding:0;">
-              <div class="toggle-row__main">
-                <div class="toggle-row__title">应用内推送</div>
-              </div>
-              <div class="toggle toggle--on"></div>
-            </div>
-            <div class="toggle-row" style="border:none; padding:0;">
-              <div class="toggle-row__main">
-                <div class="toggle-row__title">邮件 (xiaoming@uibe.edu.cn)</div>
-              </div>
-              <div class="toggle toggle--on"></div>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="toggle-row" style="border:none; padding:0;">
-              <div class="toggle-row__main">
-                <div class="toggle-row__title">短信 (138 ****0000)</div>
-              </div>
-              <div class="toggle"></div>
-            </div>
-            <div class="toggle-row" style="border:none; padding:0;">
-              <div class="toggle-row__main">
-                <div class="toggle-row__title">微信 (小程序)</div>
-              </div>
-              <div class="toggle"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ PANEL: 隐私与数据 ============ -->
-      <section class="panel" id="panel-privacy">
-        <div class="card">
-          <div class="card__title">
-            <i data-lucide="shield"></i>
-            隐私设置
-          </div>
-          <div class="card__sub" style="margin: 4px 0 16px;">谁能看到你的数据 · 默认全部仅自己可见</div>
-
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">排行榜可见</div>
-              <div class="toggle-row__desc">教师端 / 班级排行榜显示你的名字</div>
-            </div>
-            <div class="toggle"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">学情数据用于算法优化</div>
-              <div class="toggle-row__desc">脱敏后用于 SM-2 算法参数优化 (默认关闭)</div>
-            </div>
-            <div class="toggle"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">家长端可查看学情</div>
-              <div class="toggle-row__desc">家长扫码绑定后可见周报</div>
-            </div>
-            <div class="toggle toggle--on"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card__title">
-            <i data-lucide="database"></i>
-            数据管理
-          </div>
-          <div class="card__sub" style="margin: 4px 0 16px;">导出 · 备份 · 删除</div>
-
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">导出全部数据 (PDF)</div>
-              <div class="toggle-row__desc">含 247 道错题 + 24 篇作文 + 1 年学情报告</div>
-            </div>
-            <button class="btn-upload">
-              <i data-lucide="download"></i>
-              立即导出
-            </button>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">每周自动备份到邮箱</div>
-              <div class="toggle-row__desc">每周日打包发送到注册邮箱</div>
-            </div>
-            <div class="toggle toggle--on"></div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-row__main">
-              <div class="toggle-row__title">API 接入 (高级)</div>
-              <div class="toggle-row__desc">生成 API key, 让你的 Notion / Obsidian 同步</div>
-            </div>
-            <div class="toggle"></div>
-          </div>
-        </div>
-
-        <div class="danger-zone">
-          <div class="danger-zone__main">
-            <div class="danger-zone__title">⚠️ 危险操作区</div>
-            <div class="danger-zone__desc">
-              注销账号将<strong style="color: var(--e-500);">永久删除</strong>全部错题、作文、学情、订阅。<br/>
-              此操作不可恢复, 14 天内可恢复, 之后数据彻底销毁。
-            </div>
-          </div>
-          <button class="btn-danger">
-            <i data-lucide="trash-2"></i>
-            注销账号
-          </button>
-        </div>
-      </section>
-
-      <!-- ============ PANEL: 订阅 ============ -->
-      <section class="panel" id="panel-billing">
-        <div class="card" style="background: linear-gradient(135deg, var(--w-50), var(--surface)); border-color: var(--w-100);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-            <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: linear-gradient(135deg, var(--w-500), #d97706); color: #fff; border-radius: 9999px; font-size: 11px; font-weight: 700;">⚡ PRO</span>
-            <span style="font-size: 12px; color: var(--w-700); font-weight: 600;">2026.10.15 到期 · 19 天后</span>
-          </div>
-          <div style="font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--ink); margin-bottom: 4px;">Pro · 高三冲刺版</div>
-          <div style="font-size: 13px; color: var(--ink-2); margin-bottom: 16px;">含 247 道错题 / 24 篇作文 / 高考真题 / 1v1 答疑</div>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
-            <div style="text-align: center; padding: 12px; background: var(--surface); border-radius: var(--r-md);">
-              <div style="font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums;">12 篇</div>
-              <div style="font-size: 11px; color: var(--ink-3); margin-top: 2px;">本月作文批改</div>
-            </div>
-            <div style="text-align: center; padding: 12px; background: var(--surface); border-radius: var(--r-md);">
-              <div style="font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums;">8 / 12</div>
-              <div style="font-size: 11px; color: var(--ink-3); margin-top: 2px;">本月拍照识别</div>
-            </div>
-            <div style="text-align: center; padding: 12px; background: var(--surface); border-radius: var(--r-md);">
-              <div style="font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums;">∞</div>
-              <div style="font-size: 11px; color: var(--ink-3); margin-top: 2px;">本周错题复习</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card__title">升级选项</div>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;">
-            <div style="padding: 16px; background: var(--surface-2); border-radius: var(--r-md); border: 1px solid var(--line);">
-              <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700;">免费版</div>
-              <div style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--ink); margin-top: 4px;">¥0</div>
-              <div style="font-size: 11px; color: var(--ink-3);">每月 5 题拍照</div>
-            </div>
-            <div style="padding: 16px; background: linear-gradient(135deg, var(--w-50), var(--surface)); border: 2px solid var(--w-500); border-radius: var(--r-md);">
-              <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--w-700);">Pro · 高考版 ⭐</div>
-              <div style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--ink); margin-top: 4px;">¥39<span style="font-size:12px;color:var(--ink-3);font-weight:500"> / 月</span></div>
-              <div style="font-size: 11px; color: var(--ink-3);">不限拍照 · 高考真题 · 1v1</div>
-            </div>
-            <div style="padding: 16px; background: var(--surface-2); border-radius: var(--r-md); border: 1px solid var(--line);">
-              <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700;">家庭版 · 4 账号</div>
-              <div style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--ink); margin-top: 4px;">¥99<span style="font-size:12px;color:var(--ink-3);font-weight:500"> / 月</span></div>
-              <div style="font-size: 11px; color: var(--ink-3);">全家共享 · 家长端</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ PANEL: 关于 ============ -->
-      <section class="panel" id="panel-about">
-        <div class="card">
-          <div style="display: flex; align-items: center; gap: 16px;">
-            <div style="width: 72px; height: 72px; border-radius: var(--r-md); background: linear-gradient(135deg, var(--p-500), var(--p-700)); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-display); font-size: 28px; font-weight: 700; box-shadow: var(--sh-primary);">AI</div>
-            <div>
-              <div style="font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--ink);">智启AI导师</div>
-              <div style="font-size: 13px; color: var(--ink-3); margin-top: 2px;">v1.0.0 · build 2026.09.15 · Django + PostgreSQL</div>
-              <div style="margin-top: 6px;">
-                <a style="font-size: 12px; color: var(--p-500); font-weight: 600; margin-right: 12px;">更新日志</a>
-                <a style="font-size: 12px; color: var(--p-500); font-weight: 600; margin-right: 12px;">服务条款</a>
-                <a style="font-size: 12px; color: var(--p-500); font-weight: 600; margin-right: 12px;">隐私协议</a>
-                <a style="font-size: 12px; color: var(--p-500); font-weight: 600;">联系我们</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card__title">技术栈</div>
-          <div class="card__sub" style="margin: 4px 0 16px;">用了哪些底层服务 (透明)</div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <div style="padding: 12px; background: var(--surface-2); border-radius: var(--r-md); display: flex; align-items: center; gap: 8px;">
-              <i data-lucide="brain" style="width:16px;height:16px;color:var(--p-500);"></i>
-              <div style="font-size:12px;">AI 模型: Qwen-VL-Max + bge-m3</div>
-            </div>
-            <div style="padding: 12px; background: var(--surface-2); border-radius: var(--r-md); display: flex; align-items: center; gap: 8px;">
-              <i data-lucide="database" style="width:16px;height:16px;color:var(--b-500);"></i>
-              <div style="font-size:12px;">数据库: PostgreSQL 16 + pgvector</div>
-            </div>
-            <div style="padding: 12px; background: var(--surface-2); border-radius: var(--r-md); display: flex; align-items: center; gap: 8px;">
-              <i data-lucide="workflow" style="width:16px;height:16px;color:var(--s-500);"></i>
-              <div style="font-size:12px;">图谱: Apache AGE (GraphRAG)</div>
-            </div>
-            <div style="padding: 12px; background: var(--surface-2); border-radius: var(--r-md); display: flex; align-items: center; gap: 8px;">
-              <i data-lucide="server" style="width:16px;height:16px;color:var(--w-700);"></i>
-              <div style="font-size:12px;">后端: Express + 12 模块</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" style="text-align: center;">
-          <div style="font-size: 13px; color: var(--ink-2); margin-bottom: 8px;">
-            "拍错题判得准, 但真题才是检验标准"
-          </div>
-          <div style="font-size: 11px; color: var(--ink-3);">© 2026 智启AI导师 · 仅供学习参考</div>
-        </div>
-      </section>
-
     </div>
+  </header>
 
-  </main>
+  <!-- 六态：成功 / 加载 / 空 / 错误 / 未登录 / 离线 -->
+  <div id="state-region" aria-live="polite">
+    <section class="state state--empty" data-state="empty">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>还没有学习档案</h2>
+            <p id="empty-copy">先完成初始化，再来管理偏好。</p>
+            <div class="hero__ctas">
+              <a class="cta-primary" href="/onboarding.html">去初始化</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <!-- ============ SAVE BAR (sticky bottom) ============ -->
-  <div class="save-bar" id="saveBar">
-    <span class="save-bar__text">
-      已修改 <strong>3</strong> 项 · 自动保存
-    </span>
-    <button class="btn-discard">放弃</button>
-    <button class="btn-save">
-      保存
-      <i data-lucide="check"></i>
-    </button>
+    <section class="state state--loading" data-state="loading">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="section__eyebrow">LOADING</div>
+          <h2 class="section__title">正在读取设置…</h2>
+          <div class="state-card" style="margin-top: 20px">
+            <p class="skeleton skeleton--w90"></p>
+            <p class="skeleton skeleton--w70"></p>
+            <p class="skeleton skeleton--w50"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--success" data-state="success">
+      <div class="section section--tight">
+        <div class="container">
+          <ul class="tabs" id="tab-bar" role="tablist" aria-label="设置分组">
+            <li><button class="tab tab--on" id="tab-account" data-tab="account" role="tab" aria-selected="true" type="button">账号</button></li>
+            <li><button class="tab" id="tab-password" data-tab="password" role="tab" aria-selected="false" type="button">密码</button></li>
+            <li><button class="tab" id="tab-study" data-tab="study" role="tab" aria-selected="false" type="button">学习</button></li>
+            <li><button class="tab" id="tab-notifications" data-tab="notifications" role="tab" aria-selected="false" type="button">通知</button></li>
+            <li><button class="tab" id="tab-privacy" data-tab="privacy" role="tab" aria-selected="false" type="button">隐私</button></li>
+            <li><button class="tab" id="tab-billing" data-tab="billing" role="tab" aria-selected="false" type="button">订阅</button></li>
+            <li><button class="tab" id="tab-about" data-tab="about" role="tab" aria-selected="false" type="button">关于</button></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section section--cream section--tight">
+        <div class="container">
+          <!-- 账号：GET /api/auth/me -->
+          <div class="card" id="panel-account" data-panel="account">
+            <div class="section__eyebrow">ACCOUNT</div>
+            <h2 class="section__title">账号信息</h2>
+            <div class="form-stack">
+              <p class="form-hint">登录邮箱：<b id="me-email">—</b></p>
+              <p class="form-hint">昵称：<b id="me-name">—</b></p>
+              <p class="form-hint">年级：<b id="me-grade">—</b></p>
+            </div>
+            <div class="q-actions">
+              <button class="btn btn-ghost" id="logout-btn" type="button">退出登录</button>
+            </div>
+            <p class="form-error" id="logout-error" role="alert" hidden></p>
+          </div>
+
+          <!-- 密码：后端修改密码接口未挂载（缺口登记，不伪造表单） -->
+          <div class="card" id="panel-password" data-panel="password" hidden>
+            <div class="section__eyebrow">PASSWORD</div>
+            <h2 class="section__title">修改密码</h2>
+            <div class="state-card">
+              <p>修改密码依赖的后端接口尚未提供，暂不支持在此页操作。</p>
+              <p class="form-hint">如需找回密码，请从登录页的找回入口处理。</p>
+              <div class="hero__ctas">
+                <a class="cta-secondary" href="/login.html">去登录页</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 学习：GET/POST /api/user/profile + GET /api/user/provinces -->
+          <div class="card" id="panel-study" data-panel="study" hidden>
+            <div class="section__eyebrow">STUDY</div>
+            <h2 class="section__title">学习档案</h2>
+            <div class="form-stack">
+              <label class="form-field" for="grade-select">
+                年级
+                <select id="grade-select"></select>
+              </label>
+              <label class="form-field" for="province-select">
+                省份 / 地区
+                <select id="province-select"></select>
+              </label>
+              <p class="form-hint" id="province-hint"></p>
+              <label class="form-field" for="target-score">
+                目标分数
+                <input id="target-score" name="target-score" type="number" min="0" max="750" step="1" inputmode="numeric" placeholder="650">
+              </label>
+              <label class="form-field" for="study-hours">
+                每日学习时长（小时）
+                <input id="study-hours" name="study-hours" type="number" min="0.5" max="16" step="0.5" inputmode="decimal" placeholder="2">
+              </label>
+            </div>
+            <p class="form-error" id="study-error" role="alert" hidden></p>
+            <p class="form-hint" id="study-saved" hidden>已保存。</p>
+            <div class="q-actions">
+              <button class="btn" id="study-save-btn" type="button">保存学习档案</button>
+            </div>
+          </div>
+
+          <!-- 通知：偏好存入 profile.preferences（F.10 契约形状），行为生效依赖后端通知系统 -->
+          <div class="card" id="panel-notifications" data-panel="notifications" hidden>
+            <div class="section__eyebrow">NOTIFICATIONS</div>
+            <h2 class="section__title">通知偏好</h2>
+            <div id="notif-rows">
+              <div class="switch-row">
+                <label for="ntf-review">复习提醒
+                  <span class="switch-hint">SM2 队列到期的每日提醒</span>
+                </label>
+                <input id="ntf-review" type="checkbox">
+              </div>
+              <div class="switch-row">
+                <label for="ntf-weak">薄弱预警
+                  <span class="switch-hint">知识点薄弱度超过阈值时提醒</span>
+                </label>
+                <input id="ntf-weak" type="checkbox">
+              </div>
+              <div class="switch-row">
+                <label for="ntf-achievement">阶段性成就</label>
+                <input id="ntf-achievement" type="checkbox">
+              </div>
+              <div class="switch-row">
+                <label for="ntf-weekly">每周报告</label>
+                <input id="ntf-weekly" type="checkbox">
+              </div>
+            </div>
+            <p class="form-hint">偏好会保存在你的档案里；推送行为的生效依赖后端通知系统（缺口已登记）。</p>
+            <p class="form-error" id="notif-error" role="alert" hidden></p>
+            <p class="form-hint" id="notif-saved" hidden>已保存。</p>
+            <div class="q-actions">
+              <button class="btn" id="notif-save-btn" type="button">保存通知偏好</button>
+            </div>
+          </div>
+
+          <!-- 隐私：偏好存入 profile.preferences（F.10 契约形状） -->
+          <div class="card" id="panel-privacy" data-panel="privacy" hidden>
+            <div class="section__eyebrow">PRIVACY</div>
+            <h2 class="section__title">隐私偏好</h2>
+            <div id="privacy-rows">
+              <div class="switch-row">
+                <label for="prv-leaderboard">出现在排行榜</label>
+                <input id="prv-leaderboard" type="checkbox">
+              </div>
+              <div class="switch-row">
+                <label for="prv-algo-opt">允许算法效果优化</label>
+                <input id="prv-algo-opt" type="checkbox">
+              </div>
+              <div class="switch-row">
+                <label for="prv-parent-view">允许家长查看</label>
+                <input id="prv-parent-view" type="checkbox">
+              </div>
+            </div>
+            <p class="form-hint">偏好会保存在你的档案里；具体生效范围以后端实现为准（缺口已登记）。</p>
+            <p class="form-error" id="privacy-error" role="alert" hidden></p>
+            <p class="form-hint" id="privacy-saved" hidden>已保存。</p>
+            <div class="q-actions">
+              <button class="btn" id="privacy-save-btn" type="button">保存隐私偏好</button>
+            </div>
+          </div>
+
+          <!-- 订阅：后端接口未提供（缺口登记，不伪造数据） -->
+          <div class="card" id="panel-billing" data-panel="billing" hidden>
+            <div class="section__eyebrow">BILLING</div>
+            <h2 class="section__title">订阅</h2>
+            <div class="state-card">
+              <p>订阅与支付依赖的后端接口尚未提供，本页暂不展示任何订阅信息。</p>
+            </div>
+          </div>
+
+          <!-- 关于：纯静态 -->
+          <div class="card" id="panel-about" data-panel="about" hidden>
+            <div class="section__eyebrow">ABOUT</div>
+            <h2 class="section__title">关于</h2>
+            <div class="form-stack">
+              <p class="form-hint">智启AI导师 — 拍照入库、SM2 复习、薄弱星图的学习闭环。</p>
+              <p class="form-hint">你的学习数据仅用于个人学习记录。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--error" data-state="error">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>设置读取失败</h2>
+            <p id="error-copy">服务暂时不可用。</p>
+            <p><button class="cta-secondary" id="retry-btn" type="button">重试</button></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--auth" data-state="auth">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>需要登录</h2>
+            <p>设置与你的账号绑定，请先登录。</p>
+            <div class="hero__ctas">
+              <a class="cta-primary" href="/login.html?next=settings.html">去登录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--offline" data-state="offline">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>当前处于离线状态</h2>
+            <p>设置需要联网读取，恢复网络后重试。</p>
+            <p><button class="cta-secondary" id="offline-retry-btn" type="button">重新连接</button></p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <script>
-    // ============ 9 学科 ============
-    const SUBJECTS = [
-      { code: 'chinese',   name: '语文', color: '#c2410c', active: true },
-      { code: 'math',      name: '数学', color: '#d71920', active: true },
-      { code: 'english',   name: '英语', color: '#7c3aed', active: true },
-      { code: 'physics',   name: '物理', color: '#2563eb', active: true },
-      { code: 'chemistry', name: '化学', color: '#059669', active: true },
-      { code: 'biology',   name: '生物', color: '#0891b2', active: true },
-      { code: 'history',   name: '历史', color: '#b45309', active: true },
-      { code: 'geography', name: '地理', color: '#65a30d', active: true },
-      { code: 'politics',  name: '政治', color: '#be185d', active: true },
-    ];
+  <footer class="footer">
+    <div class="container">智启AI导师 · 数据仅用于你的个人学习记录</div>
+  </footer>
 
-    const tilesContainer = document.getElementById('subjectTiles');
-    function renderSubjects() {
-      tilesContainer.innerHTML = SUBJECTS.map(s => `
-        <div class="subject-tile ${s.active ? 'selected' : ''}" data-code="${s.code}" style="--subj-color:${s.color}">
-          <div class="subject-tile__dot"></div>
-          <span class="subject-tile__name">${s.name}</span>
-          <span class="subject-tile__check"><i data-lucide="check"></i></span>
-        </div>
-      `).join('');
-    }
-    renderSubjects();
-    tilesContainer.addEventListener('click', e => {
-      const tile = e.target.closest('.subject-tile');
-      if (!tile) return;
-      tile.classList.toggle('selected');
-      const code = tile.dataset.code;
-      SUBJECTS.find(x => x.code === code).active = tile.classList.contains('selected');
-      document.getElementById('selectedCount').textContent = SUBJECTS.filter(x => x.active).length;
-    });
+  <nav class="tabbar" aria-label="底部导航">
+    <a class="tabbar__item" href="/dashboard.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg></span>首页</a>
+    <a class="tabbar__item" href="/wrong-book.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span>错题</a>
+    <a class="tabbar__item tabbar__item--raise" href="/photo-solve.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/></svg></span>拍照</a>
+    <a class="tabbar__item" href="/review-session.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v6h6"/></svg></span>复习</a>
+    <a class="tabbar__item" href="/settings.html" aria-current="page"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>我的</a>
+  </nav>
 
-    // Toggle 点击
-    document.querySelectorAll('.toggle').forEach(t => {
-      t.addEventListener('click', () => t.classList.toggle('toggle--on'));
-    });
-
-    // Tab 切换
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const target = tab.dataset.tab;
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        const panel = document.getElementById('panel-' + target);
-        if (panel) panel.classList.add('active');
-      });
-    });
-
-    // Theme
-    document.getElementById('themeBtn').addEventListener('click', () => {
-      const dark = document.documentElement.classList.toggle('dark');
-      themeBtn.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
-      lucide.createIcons();
-    });
-
-    lucide.createIcons();
-  </script>
-
+  <script src="/assets/v2/js/ui.js"></script>
+  <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/settings.js"></script>
 </body>
 </html>

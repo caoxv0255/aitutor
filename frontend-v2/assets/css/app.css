@@ -1538,3 +1538,245 @@ a.btn:focus-visible {
   width: 20px;
   height: 20px;
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * 批次 4 页面件（onboarding / settings / subject-picker / …）
+ *
+ * 只放"页面差异"，标准件仍在 system.css（改视觉改那里）。
+ * 断点只用 1023 / 767 / 480 三档（responsive-baseline 判据）。
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 选择卡（年级 / 学科 / 省份网格） ─────────────────────────────────── */
+.pick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.pick-card {
+  min-height: 44px;
+  padding: 12px 10px;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.pick-card:hover {
+  border-color: var(--brand-red-100);
+}
+
+.pick-card--on {
+  color: var(--brand-text);
+  font-weight: 700;
+  background: var(--brand-red-50);
+  border-color: var(--brand-red);
+}
+
+.pick-card--locked {
+  cursor: default;
+  color: var(--ink-3);
+  background: var(--surface-2);
+}
+
+.pick-card--locked.pick-card--on {
+  color: var(--brand-text);
+  background: var(--brand-red-50);
+}
+
+@media (max-width: 480px) {
+  .pick-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── 步骤条当前/已完成（onboarding） ──────────────────────────────────── */
+.loop__step.step--on {
+  box-shadow: 0 0 0 2px var(--brand-red) inset, var(--shadow-soft);
+}
+
+.loop__step.step--done .loop__num {
+  color: var(--ch-green);
+}
+
+/* ── 页内 Tab（settings 7 tab / notifications 分类） ─────────────────── */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tab {
+  min-height: 44px;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.tab--on {
+  color: #fff;
+  background: var(--brand-red);
+  border-color: var(--brand-red);
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .tabs {
+    gap: 6px;
+  }
+
+  .tab {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+/* ── 开关行（settings 的布尔项） ─────────────────────────────────────── */
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.switch-row:first-child {
+  border-top: 0;
+}
+
+.switch-row label {
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.switch-row input[type='checkbox'] {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--brand-red);
+}
+
+.switch-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* ── 星图（knowledge-star） ──────────────────────────────────────────── */
+.star-map {
+  position: relative;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.star-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.star-node--weak {
+  box-shadow: 0 0 0 3px var(--brand-red);
+}
+
+.star-node--empty {
+  background: var(--surface-2);
+  color: var(--ink-3);
+}
+
+.star-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.heat-grid {
+  display: grid;
+  grid-template-columns: 72px repeat(6, 1fr);
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 12px;
+}
+
+.heat-cell {
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-sm);
+  font-family: var(--font-num);
+  color: var(--ink-2);
+  background: var(--surface-2);
+}
+
+@media (max-width: 480px) {
+  .heat-grid {
+    grid-template-columns: 56px repeat(6, 1fr);
+    font-size: 11px;
+  }
+}
+
+/* ── 星图天空区（node-link 视图的画布，节点/连线按百分比定位） ─────────── */
+.star-sky {
+  position: relative;
+  height: 380px;
+  margin-top: 14px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+
+.star-edges {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.star-edges line {
+  stroke: var(--line);
+  stroke-width: 0.4;
+}
+
+.star-edges line.edge--weak {
+  stroke: var(--brand-red);
+  stroke-width: 0.8;
+}
+
+@media (max-width: 480px) {
+  .star-sky {
+    height: 300px;
+  }
+}

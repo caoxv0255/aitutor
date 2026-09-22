@@ -1,935 +1,158 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="选科策略 — 查看/调整你的 9 学科组合，语数外主科固定">
   <title>选科策略 · 智启AI导师</title>
-  <meta name="description" content="高考 3+3 vs 3+1+2 · 中考 9 科 · 31 省份 · 影响 3 年高中学习" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
-
-  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
-
-  <style>
-    :root {
-      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
-      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
-      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
-      --s-50:#ecfdf5; --s-100:#d1fae5; --s-500:#059669; --s-700:#065f46;
-      --w-50:#fff7ed; --s-w-100:#fef3c7; --w-500:#f59e0b; --w-700:#b45309;
-      --e-50:#fef2f2; --e-500:#ef4444;
-
-      --ch-orange:#c2410c;   /* 语文 */
-      --ch-red:#d71920;      /* 数学 */
-      --ch-purple:#7c3aed;   /* 英语 */
-      --ch-blue:#2563eb;     /* 物理 */
-      --ch-green:#059669;    /* 化学 */
-      --ch-cyan:#0891b2;     /* 生物 */
-      --ch-amber:#b45309;    /* 历史 */
-      --ch-lime:#65a30d;     /* 地理 */
-      --ch-pink:#be185d;     /* 政治 */
-
-      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
-      --line:#e8eaee; --line-soft:#f1f3f5;
-      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
-
-      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
-      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
-      --font-mono:'JetBrains Mono','DM Sans',monospace;
-
-      --r-sm:8px; --r-md:14px; --r-lg:20px; --r-xl:28px; --r-pill:9999px;
-      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
-      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
-      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
-      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
-      --ease-out: cubic-bezier(.22,1,.36,1);
-      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
-    }
-
-    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 15px; line-height: 1.55;
-      min-height: 100vh;
-      background:
-        radial-gradient(80% 60% at 50% -10%, color-mix(in srgb, var(--p-500) 6%, transparent) 0%, transparent 50%),
-        var(--bg);
-    }
-    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
-
-    /* ============ NAV ============ */
-    .nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-    }
-    .brand {
-      display: flex; align-items: center; gap: 10px;
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 17px; color: var(--ink);
-    }
-    .brand__mark {
-      width: 28px; height: 28px; border-radius: 8px;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      display: inline-flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 700; font-size: 13px;
-      box-shadow: var(--sh-primary);
-    }
-    .nav__crumbs { display: flex; gap: 6px; font-size: 13px; color: var(--ink-3); align-items: center; }
-    .nav__crumbs svg { width: 12px; height: 12px; }
-    .nav__crumbs a:hover { color: var(--p-500); }
-    .nav__crumbs strong { color: var(--ink); font-weight: 500; }
-    .nav__back {
-      width: 36px; height: 36px;
-      border-radius: var(--r-sm);
-      display: inline-flex; align-items: center; justify-content: center;
-      color: var(--ink-3);
-    }
-    .nav__back:hover { background: var(--surface-2); color: var(--ink); }
-
-    .app { max-width: 1100px; margin: 0 auto; padding: 16px 24px 80px; }
-
-    /* ============ HEADER ============ */
-    .head {
-      padding: 24px 0 32px;
-    }
-    .head__step {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 12px;
-      background: var(--p-50);
-      color: var(--p-700);
-      border-radius: var(--r-pill);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .04em;
-      margin-bottom: 12px;
-    }
-    .head__title {
-      font-family: var(--font-display);
-      font-size: 32px; font-weight: 700;
-      line-height: 1.15; letter-spacing: -.02em;
-      color: var(--ink);
-      margin-bottom: 8px;
-    }
-    .head__title em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .head__sub {
-      font-size: 15px; color: var(--ink-2);
-      max-width: 720px;
-    }
-
-    /* ============ STEP STRIP ============ */
-    .steps {
-      display: flex; gap: 4px;
-      margin: 16px 0 24px;
-    }
-    .step {
-      flex: 1; height: 6px;
-      background: var(--surface-3);
-      border-radius: 9999px;
-      overflow: hidden;
-      position: relative;
-    }
-    .step::after {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 0; background: var(--p-500);
-      border-radius: 9999px;
-      transition: width var(--dur-3) var(--ease-out);
-    }
-    .step.done::after { width: 100%; }
-    .step.active::after { width: 50%; background: linear-gradient(90deg, var(--p-500), var(--p-300)); }
-
-    /* ============ STRATEGY PICKER ============ */
-    .strategy {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-xl);
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: var(--sh-1);
-    }
-    .strategy__head {
-      display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .strategy__title {
-      font-family: var(--font-display);
-      font-size: 18px; font-weight: 600;
-      color: var(--ink);
-    }
-    .strategy__hint {
-      font-size: 12px;
-      color: var(--ink-3);
-    }
-    .strategy__opts {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .opt {
-      padding: 20px;
-      border: 2px solid var(--line);
-      border-radius: var(--r-lg);
-      cursor: pointer;
-      transition: all var(--dur-2);
-      background: var(--surface);
-      position: relative;
-    }
-    .opt:hover {
-      border-color: var(--opt-color, var(--p-300));
-      transform: translateY(-2px);
-      box-shadow: var(--sh-2);
-    }
-    .opt.selected {
-      border-color: var(--opt-color, var(--p-500));
-      background: color-mix(in srgb, var(--opt-color, var(--p-500)) 4%, var(--surface));
-    }
-    .opt__head {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 12px;
-    }
-    .opt__badge {
-      padding: 4px 10px;
-      background: var(--opt-color, var(--p-500));
-      color: #fff;
-      border-radius: 9999px;
-      font-family: var(--font-display);
-      font-size: 11px; font-weight: 700;
-      letter-spacing: .04em;
-    }
-    .opt__check {
-      position: absolute; top: 16px; right: 16px;
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      background: var(--opt-color, var(--p-500));
-      color: #fff;
-      display: none; place-items: center;
-      font-size: 11px; font-weight: 700;
-    }
-    .opt__check svg { width: 13px; height: 13px; }
-    .opt.selected .opt__check { display: grid; }
-    .opt__title {
-      font-family: var(--font-display);
-      font-size: 18px; font-weight: 700;
-      color: var(--ink);
-    }
-    .opt__desc {
-      font-size: 12px;
-      color: var(--ink-3);
-      margin-bottom: 12px;
-    }
-    .opt__formula {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      padding: 8px 12px;
-      background: var(--surface-2);
-      border-radius: var(--r-sm);
-      color: var(--ink-2);
-      letter-spacing: .04em;
-    }
-    .opt__formula strong { color: var(--opt-color, var(--p-500)); font-weight: 700; }
-    .opt__stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .opt__stat {
-      padding: 8px 10px;
-      background: var(--surface-2);
-      border-radius: var(--r-sm);
-      text-align: center;
-    }
-    .opt__stat-num {
-      font-family: var(--font-display);
-      font-size: 16px; font-weight: 700;
-      color: var(--opt-color, var(--p-500));
-      font-variant-numeric: tabular-nums;
-    }
-    .opt__stat-lbl {
-      font-size: 10px;
-      color: var(--ink-3);
-    }
-
-    /* ============ PROVINCE (collapsible) ============ */
-    .province {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-xl);
-      margin-bottom: 16px;
-      overflow: hidden;
-      box-shadow: var(--sh-1);
-    }
-    .province__head {
-      display: flex; align-items: center; gap: 14px;
-      padding: 16px 24px;
-      cursor: pointer;
-      transition: background var(--dur-1);
-    }
-    .province__head:hover { background: var(--surface-2); }
-    .province__head-icon {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: var(--surface-2);
-      color: var(--ink-2);
-      display: inline-flex; align-items: center; justify-content: center;
-    }
-    .province__head-icon svg { width: 18px; height: 18px; }
-    .province__head-meta { flex: 1; min-width: 0; }
-    .province__head-title {
-      font-size: 14px; font-weight: 600;
-      color: var(--ink);
-    }
-    .province__head-sub {
-      font-size: 12px;
-      color: var(--ink-3);
-    }
-    .province__head-arrow {
-      color: var(--ink-3);
-      transition: transform var(--dur-2);
-    }
-    .province__head-arrow svg { width: 16px; height: 16px; }
-    .province.open .province__head-arrow { transform: rotate(90deg); }
-
-    .province__body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height var(--dur-3) var(--ease-out);
-    }
-    .province.open .province__body {
-      max-height: 600px;
-      border-top: 1px solid var(--line-soft);
-    }
-    .province__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--line-soft);
-      padding: 1px;
-    }
-    .province__cell {
-      padding: 12px;
-      background: var(--surface);
-      transition: background var(--dur-1);
-      cursor: pointer;
-      font-size: 13px;
-      color: var(--ink);
-      text-align: center;
-      border: 2px solid transparent;
-    }
-    .province__cell:hover { background: var(--surface-2); }
-    .province__cell.selected {
-      background: color-mix(in srgb, var(--p-500) 8%, var(--surface));
-      border-color: var(--p-500);
-      color: var(--p-700);
-      font-weight: 600;
-    }
-    .province__cell.special {
-      background: linear-gradient(135deg, color-mix(in srgb, var(--w-500) 12%, var(--surface)) 0%, var(--surface) 100%);
-    }
-    .province__cell.special::after {
-      content: '⭐';
-      font-size: 10px;
-      margin-left: 4px;
-    }
-
-    /* ============ SUBJECT PICKER ============ */
-    .subjects {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-xl);
-      padding: 24px;
-      margin-bottom: 16px;
-      box-shadow: var(--sh-1);
-    }
-    .subjects__head {
-      display: flex; align-items: baseline; justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .subjects__title {
-      font-family: var(--font-display);
-      font-size: 18px; font-weight: 600;
-      color: var(--ink);
-    }
-    .subjects__count {
-      font-family: var(--font-display);
-      font-size: 13px;
-      font-weight: 700;
-      padding: 4px 12px;
-      background: var(--p-50);
-      color: var(--p-700);
-      border-radius: 9999px;
-      font-variant-numeric: tabular-nums;
-    }
-    .subjects__rule {
-      font-size: 12px;
-      color: var(--ink-3);
-      margin-bottom: 16px;
-    }
-    .subjects__rule strong { color: var(--p-500); font-weight: 600; }
-
-    .subjects__locked {
-      padding: 24px;
-      background: linear-gradient(135deg, var(--p-50), var(--surface));
-      border: 1px dashed color-mix(in srgb, var(--p-500) 35%, var(--line));
-      border-radius: var(--r-lg);
-      text-align: center;
-    }
-    .subjects__locked-icon {
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      background: var(--p-100);
-      color: var(--p-700);
-      display: inline-flex; align-items: center; justify-content: center;
-      margin-bottom: 8px;
-    }
-    .subjects__locked-icon svg { width: 24px; height: 24px; }
-    .subjects__locked-title {
-      font-size: 16px; font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .subjects__locked-desc {
-      font-size: 13px;
-      color: var(--ink-2);
-      margin-bottom: 12px;
-    }
-    .subjects__locked-list {
-      display: inline-flex; gap: 6px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .subjects__locked-tag {
-      padding: 4px 10px;
-      background: var(--surface);
-      border-radius: var(--r-pill);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    /* ============ 3+3 主科 (locked) + 选科 grid ============ */
-    .subjects__grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .subj {
-      padding: 14px;
-      border: 2px solid var(--line);
-      border-radius: var(--r-md);
-      cursor: pointer;
-      transition: all var(--dur-2);
-      background: var(--surface);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      position: relative;
-    }
-    .subj:hover { transform: translateY(-1px); box-shadow: var(--sh-1); }
-    .subj.selected {
-      border-color: var(--subj-color, var(--p-500));
-      background: color-mix(in srgb, var(--subj-color, var(--p-500)) 8%, var(--surface));
-    }
-    .subj.locked {
-      background: var(--surface-2);
-      cursor: not-allowed;
-      border-style: dashed;
-    }
-    .subj.locked:hover { transform: none; box-shadow: none; }
-    .subj__check {
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      border: 2px solid var(--line);
-      flex-shrink: 0;
-      transition: all var(--dur-1);
-      display: grid;
-      place-items: center;
-      color: #fff;
-      font-size: 11px;
-    }
-    .subj.selected .subj__check {
-      background: var(--subj-color, var(--p-500));
-      border-color: var(--subj-color, var(--p-500));
-    }
-    .subj__check svg { width: 11px; height: 11px; opacity: 0; }
-    .subj.selected .subj__check svg { opacity: 1; }
-    .subj__dot {
-      width: 12px; height: 12px;
-      border-radius: 50%;
-      background: var(--subj-color);
-      flex-shrink: 0;
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--subj-color) 18%, transparent);
-    }
-    .subj__name {
-      font-family: var(--font-display);
-      font-size: 14px; font-weight: 600;
-      color: var(--ink);
-      flex: 1;
-    }
-    .subj__tag {
-      font-size: 10px;
-      padding: 2px 6px;
-      background: var(--p-500);
-      color: #fff;
-      border-radius: var(--r-pill);
-      font-weight: 600;
-    }
-    .subj__tag--locked {
-      background: var(--ink-3);
-    }
-
-    /* ============ WARNING (3+1+2 constraint) ============ */
-    .warning {
-      padding: 14px;
-      background: var(--w-50);
-      border: 1px solid color-mix(in srgb, var(--w-500) 30%, transparent);
-      border-radius: var(--r-md);
-      margin-top: 12px;
-      display: flex;
-      gap: 10px;
-    }
-    .warning__icon {
-      color: var(--w-700);
-      flex-shrink: 0;
-    }
-    .warning__icon svg { width: 20px; height: 20px; }
-    .warning__text {
-      font-size: 13px;
-      color: var(--ink-2);
-      line-height: 1.5;
-    }
-    .warning__text strong { color: var(--w-700); font-weight: 600; }
-
-    /* ============ ACTION BAR ============ */
-    .action-bar {
-      position: sticky;
-      bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 20px;
-      margin-top: 32px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-pill);
-      box-shadow: var(--sh-3);
-      backdrop-filter: blur(8px);
-    }
-    .action-bar__summary {
-      flex: 1;
-      font-size: 13px;
-      color: var(--ink-2);
-    }
-    .action-bar__summary strong { color: var(--ink); font-weight: 600; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 10px 18px;
-      border-radius: var(--r-pill);
-      font-size: 14px; font-weight: 600;
-      transition: all var(--dur-1);
-      white-space: nowrap;
-    }
-    .btn svg { width: 14px; height: 14px; }
-    .btn--ghost {
-      background: transparent;
-      color: var(--ink-2);
-      border: 1px solid var(--line);
-    }
-    .btn--ghost:hover { background: var(--surface-2); }
-    .btn--primary {
-      background: linear-gradient(135deg, var(--p-500), var(--p-600));
-      color: #fff;
-      box-shadow: var(--sh-primary);
-    }
-    .btn--primary:hover { transform: translateY(-1px); }
-    .btn--primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-    .btn--primary:disabled:hover { transform: none; }
-
-    /* ============ ANIMATIONS ============ */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: none; }
-    }
-    .strategy { animation: fadeUp 480ms var(--ease-out); }
-    .province { animation: fadeUp 480ms 100ms var(--ease-out) both; }
-    .subjects { animation: fadeUp 480ms 200ms var(--ease-out) both; }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,*::before,*::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
-
-    /* ============ RESPONSIVE ============ */
-    @media (max-width: 800px) {
-      .strategy__opts { grid-template-columns: 1fr; }
-      .subjects__grid { grid-template-columns: repeat(2, 1fr); }
-      .province__grid { grid-template-columns: repeat(3, 1fr); }
-      .opt__stats { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 540px) {
-      .app { padding: 12px 16px 80px; }
-      .head__title { font-size: 24px; }
-      .subjects__grid { grid-template-columns: 1fr 1fr; }
-      .province__grid { grid-template-columns: repeat(2, 1fr); }
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/v2/css/fonts.css">
+  <link rel="stylesheet" href="/assets/v2/css/system.css">
+  <link rel="stylesheet" href="/assets/v2/css/app.css">
 </head>
 <body>
-
-  <div class="app">
-
-    <header class="nav">
-      <a href="landing.html" class="brand">
-        <span class="brand__mark">AI</span>
-        <span>智启AI导师</span>
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true"></span>
+        智启AI导师
       </a>
-      <div class="nav__crumbs">
-        <a href="javascript:history.back()" style="display:inline-flex;align-items:center;">
-          <i data-lucide="arrow-left" style="width:14px;height:14px;margin-right:4px;display:inline-block;vertical-align:middle;"></i>
-          上一步
-        </a>
-        <i data-lucide="chevron-right"></i>
-        <strong>选科策略</strong>
+      <div class="nav__links">
+        <a class="nav__link" href="/dashboard.html">仪表盘</a>
+        <a class="nav__link" href="/practice-hub.html">练习</a>
+        <a class="nav__link" href="/review-session.html">复习</a>
+        <a class="nav__link" href="/wrong-book.html">错题本</a>
+        <a class="nav__cta" href="/photo-solve.html">拍照解题</a>
       </div>
-      <button class="icon-btn" id="themeBtn" aria-label="切换主题" style="width:36px;height:36px;">
-        <i data-lucide="moon"></i>
-      </button>
-    </header>
-
-    <header class="head">
-      <div class="head__step">第 4 步 / 5 步 · 选科策略 · 影响 3 年高中学习</div>
-      <h1 class="head__title">选择你的<em>选科模式</em></h1>
-      <p class="head__sub">
-        基于你所在的省份, 系统推荐对应的选科模式 (3+3 或 3+1+2)。这不是随便选选 — 它决定你未来 3 年的高考方向。
-      </p>
-    </header>
-
-    <div class="steps">
-      <div class="step done"></div>
-      <div class="step done"></div>
-      <div class="step done"></div>
-      <div class="step active"></div>
-      <div class="step"></div>
     </div>
+  </nav>
 
-    <!-- ============ STRATEGY PICKER ============ -->
-    <section class="strategy">
-      <div class="strategy__head">
-        <div class="strategy__title">1. 选择选科模式</div>
-        <span class="strategy__hint">语数外 是必选 · 物理/历史 二选一为首选</span>
+  <header class="hero hero--app">
+    <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="container">
+      <div class="hero__copy">
+        <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Subjects</div>
+        <h1 class="hero__title">你的选科组合</h1>
+        <p class="hero__sub">语数外是主科必选；其余学科决定练习与复习的覆盖范围。</p>
       </div>
-      <div class="strategy__opts">
-        <div class="opt selected" data-strategy="3+3" id="opt-3+3" style="--opt-color: #2563eb">
-          <div class="opt__check"><i data-lucide="check"></i></div>
-          <div class="opt__head">
-            <span class="opt__badge">3+3</span>
-            <span class="opt__title">语数外 + 3 选科</span>
-          </div>
-          <p class="opt__desc">无首选限制 · 6 省市主流模式</p>
-          <div class="opt__formula">语 + 数 + 外 + <strong>3 选科</strong> (物 / 化 / 生 / 史 / 地 / 政 任选 3)</div>
-          <div class="opt__stats">
-            <div class="opt__stat"><div class="opt__stat-num">1</div><div class="opt__stat-lbl">首选科目</div></div>
-            <div class="opt__stat"><div class="opt__stat-num">3</div><div class="opt__stat-lbl">自由选科</div></div>
-            <div class="opt__stat"><div class="opt__stat-num">20</div><div class="opt__stat-lbl">组合方式</div></div>
-          </div>
-        </div>
-
-        <div class="opt" data-strategy="3+1+2" id="opt-3+1+2" style="--opt-color: #059669">
-          <div class="opt__check"><i data-lucide="check"></i></div>
-          <div class="opt__head">
-            <span class="opt__badge">3+1+2</span>
-            <span class="opt__title">语数外 + 1 首选 + 2 再选</span>
-          </div>
-          <p class="opt__desc">物理/历史 2 选 1 为首选 · 25 省主流模式</p>
-          <div class="opt__formula">语 + 数 + 外 + <strong>1 首选 (物/史)</strong> + <strong>2 再选 (化 / 生 / 政 / 地)</strong></div>
-          <div class="opt__stats">
-            <div class="opt__stat"><div class="opt__stat-num">1</div><div class="opt__stat-lbl">首选科目</div></div>
-            <div class="opt__stat"><div class="opt__stat-num">2</div><div class="opt__stat-lbl">再选科目</div></div>
-            <div class="opt__stat"><div class="opt__num">12</div><div class="opt__stat-lbl">组合方式</div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ PROVINCE (collapsible) ============ -->
-    <section class="province" id="provinceBlock">
-      <div class="province__head" id="provinceHead">
-        <div class="province__head-icon"><i data-lucide="map-pin"></i></div>
-        <div class="province__head-meta">
-          <div class="province__head-title">2. 选择你的省份</div>
-          <div class="province__head-sub">31 省份 · 决定可选模式 · <span id="provinceHint">点击展开列表</span></div>
-        </div>
-        <div class="province__head-arrow"><i data-lucide="chevron-right"></i></div>
-      </div>
-      <div class="province__body" id="provinceBody">
-        <div class="province__grid" id="provinceGrid"></div>
-      </div>
-    </section>
-
-    <!-- ============ SUBJECT PICKER ============ -->
-    <section class="subjects" id="subjectsBlock">
-      <div class="subjects__head">
-        <div class="subjects__title">3. 选择 9 学科 (按学校提供)</div>
-        <div class="subjects__count" id="countBadge">0 / 6 已选</div>
-      </div>
-      <p class="subjects__rule">
-        <strong>主科必选</strong>: 语文 / 数学 / 英语
-        · <span id="ruleText">3+3: 还需选 3 门</span>
-      </p>
-
-      <!-- 中考区: 9 科全开 -->
-      <div id="lockedArea" style="display:none;">
-        <div class="subjects__locked">
-          <div class="subjects__locked-icon"><i data-lucide="lock"></i></div>
-          <div class="subjects__locked-title">中考区 · 9 科全开</div>
-          <div class="subjects__locked-desc">系统已为你开启全部 9 个学科</div>
-          <div class="subjects__locked-list">
-            <span class="subjects__locked-tag" style="color:#c2410c">语文</span>
-            <span class="subjects__locked-tag" style="color:#d71920">数学</span>
-            <span class="subjects__locked-tag" style="color:#7c3aed">英语</span>
-            <span class="subjects__locked-tag" style="color:#2563eb">物理</span>
-            <span class="subjects__locked-tag" style="color:#059669">化学</span>
-            <span class="subjects__locked-tag" style="color:#0891b2">生物</span>
-            <span class="subjects__locked-tag" style="color:#b45309">历史</span>
-            <span class="subjects__locked-tag" style="color:#65a30d">地理</span>
-            <span class="subjects__locked-tag" style="color:#be185d">政治</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 高考区: 9 科可选 -->
-      <div id="selectArea">
-        <div class="subjects__grid" id="subjectsGrid"></div>
-        <div id="warningArea"></div>
-      </div>
-    </section>
-
-    <!-- ============ ACTION BAR ============ -->
-    <div class="action-bar">
-      <div class="action-bar__summary">
-        <span id="summaryText">请先选择 <strong>选科模式</strong> 和 <strong>省份</strong></span>
-      </div>
-      <a href="javascript:history.back()" class="btn btn--ghost">
-        <i data-lucide="arrow-left"></i>
-        上一步
-      </a>
-      <button class="btn btn--primary" id="confirmBtn" disabled>
-        完成选科
-        <i data-lucide="arrow-right"></i>
-      </button>
     </div>
+  </header>
 
+  <!-- 六态：成功 / 加载 / 空 / 错误 / 未登录 / 离线 -->
+  <div id="state-region" aria-live="polite">
+    <section class="state state--empty" data-state="empty">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>还没有选科记录</h2>
+            <p id="empty-copy">可以先用默认组合（语数外 + 物化生）开始，之后再回来调。</p>
+            <div class="hero__ctas">
+              <button class="cta-primary" id="empty-start-btn" type="button">用默认组合开始</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--loading" data-state="loading">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="section__eyebrow">LOADING</div>
+          <h2 class="section__title">正在读取选科…</h2>
+          <div class="state-card" style="margin-top: 20px">
+            <p class="skeleton skeleton--w90"></p>
+            <p class="skeleton skeleton--w70"></p>
+            <p class="skeleton skeleton--w50"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--success" data-state="success">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="card">
+            <div class="section__eyebrow" id="picker-eyebrow">PICK YOUR SUBJECTS</div>
+            <h2 class="section__title">调整选科</h2>
+            <p class="section__sub" id="picker-sub">语数外是主科，其余按你的选考组合挑。</p>
+            <div class="pick-grid" id="subject-grid"></div>
+            <p class="form-hint">已选 <b id="subject-count">0</b> 科<span id="subject-limit"></span></p>
+            <p class="form-error" id="picker-error" role="alert" hidden></p>
+            <div class="q-actions">
+              <button class="btn" id="save-btn" type="button">保存选科</button>
+            </div>
+            <p class="form-hint" id="picker-saved" hidden>已保存。</p>
+          </div>
+
+          <div class="card">
+            <div class="section__eyebrow">STRATEGY</div>
+            <h2 class="section__title">选科模式速查</h2>
+            <div class="form-stack">
+              <p class="form-hint"><b>中考区：</b>9 科全开（语数英 + 物化生 + 史地政）。</p>
+              <p class="form-hint"><b>3+3 省市：</b>北京、天津、上海、浙江、山东、海南 — 语数外 + 3 门选考。</p>
+              <p class="form-hint"><b>3+1+2 省市：</b>其余 25 省区市 — 语数外 + 1 首选 + 2 再选。</p>
+              <p class="form-hint">依据 PM §F.8 省份映射表；学段与省份在初始化时写入。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--error" data-state="error">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>选科读取失败</h2>
+            <p id="error-copy">服务暂时不可用。</p>
+            <p><button class="cta-secondary" id="retry-btn" type="button">重试</button></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--auth" data-state="auth">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>需要登录</h2>
+            <p>选科与你的账号绑定，请先登录。</p>
+            <div class="hero__ctas">
+              <a class="cta-primary" href="/login.html?next=subject-picker.html">去登录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--offline" data-state="offline">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>当前处于离线状态</h2>
+            <p>选科需要联网读取，恢复网络后重试。</p>
+            <p><button class="cta-secondary" id="offline-retry-btn" type="button">重新连接</button></p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <script>
-    // ============ 31 省 → 模式映射 (PM §F.8) ============
-    const PROVINCES_3_3 = ['北京', '天津', '上海', '浙江', '山东', '海南'];
-    const PROVINCES_3_1_2 = [
-      '河北', '辽宁', '江苏', '福建', '湖北', '湖南', '广东',
-      '重庆', '吉林', '黑龙江', '安徽', '江西', '贵州', '广西',
-      '甘肃', '山西', '内蒙古', '河南', '四川', '云南', '陕西',
-      '青海', '宁夏', '新疆', '西藏'
-    ];
-    // 9 学科 (严格顺序, 9 学科色)
-    const SUBJECTS = [
-      { code: 'chinese',   name: '语文', color: '#c2410c', core: true },
-      { code: 'math',      name: '数学', color: '#d71920', core: true },
-      { code: 'english',   name: '英语', color: '#7c3aed', core: true },
-      { code: 'physics',   name: '物理', color: '#2563eb' },
-      { code: 'chemistry', name: '化学', color: '#059669' },
-      { code: 'biology',   name: '生物', color: '#0891b2' },
-      { code: 'history',   name: '历史', color: '#b45309' },
-      { code: 'geography', name: '地理', color: '#65a30d' },
-      { code: 'politics',  name: '政治', color: '#be185d' },
-    ];
+  <footer class="footer">
+    <div class="container">智启AI导师 · 数据仅用于你的个人学习记录</div>
+  </footer>
 
-    let currentStrategy = '3+3';
-    let currentProvince = null;
+  <nav class="tabbar" aria-label="底部导航">
+    <a class="tabbar__item" href="/dashboard.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg></span>首页</a>
+    <a class="tabbar__item" href="/wrong-book.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span>错题</a>
+    <a class="tabbar__item tabbar__item--raise" href="/photo-solve.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/></svg></span>拍照</a>
+    <a class="tabbar__item" href="/review-session.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v6h6"/></svg></span>复习</a>
+    <a class="tabbar__item" href="/settings.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>我的</a>
+  </nav>
 
-    // ============ 渲染省份 ============
-    function renderProvinces() {
-      const grid = document.getElementById('provinceGrid');
-      grid.innerHTML = '';
-      [...PROVINCES_3_3, ...PROVINCES_3_1_2].forEach(p => {
-        const isSpecial = (p === '浙江');
-        const is333 = PROVINCES_3_3.includes(p);
-        const cell = document.createElement('div');
-        cell.className = 'province__cell' + (isSpecial ? ' special' : '');
-        cell.dataset.province = p;
-        cell.dataset.strategy = is333 ? '3+3' : '3+1+2';
-        cell.textContent = p;
-        if (isSpecial) {
-          cell.title = '特殊: 浙江 7 选 3 (含技术学科)';
-        }
-        cell.addEventListener('click', () => {
-          document.querySelectorAll('.province__cell').forEach(c => c.classList.remove('selected'));
-          cell.classList.add('selected');
-          currentProvince = p;
-          currentStrategy = cell.dataset.strategy;
-          // 同步更新策略卡片
-          document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
-          document.querySelector(`[data-strategy="${currentStrategy}"]`)?.classList.add('selected');
-          renderSubjects();
-          updateSummary();
-          // 折叠省份列表
-          document.getElementById('provinceBlock').classList.remove('open');
-        });
-        grid.appendChild(cell);
-      });
-    }
-    renderProvinces();
-
-    // ============ 策略切换 ============
-    document.querySelectorAll('.opt').forEach(opt => {
-      opt.addEventListener('click', () => {
-        if (opt.classList.contains('selected')) return;
-        document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
-        opt.classList.add('selected');
-        currentStrategy = opt.dataset.strategy;
-        // 清省份选择 (因为不同省份模式不同)
-        currentProvince = null;
-        document.querySelectorAll('.province__cell').forEach(c => c.classList.remove('selected'));
-        document.getElementById('provinceBlock').classList.remove('open');
-        renderSubjects();
-        updateSummary();
-      });
-    });
-
-    // ============ 渲染学科 ============
-    function renderSubjects() {
-      const grid = document.getElementById('subjectsGrid');
-      const lockedArea = document.getElementById('lockedArea');
-      const selectArea = document.getElementById('selectArea');
-      const ruleText = document.getElementById('ruleText');
-      const countBadge = document.getElementById('countBadge');
-
-      // 默认全部选中 6 科 (3 核心 + 3 选科)
-      const selectedSet = new Set(['chinese', 'math', 'english', 'physics', 'chemistry', 'biology']);
-      grid.innerHTML = '';
-
-      SUBJECTS.forEach(s => {
-        if (s.core) {
-          // 3 主科: 锁定必选
-          const el = document.createElement('div');
-          el.className = 'subj locked selected';
-          el.style.setProperty('--subj-color', s.color);
-          el.innerHTML = `
-            <div class="subj__check"><i data-lucide="check"></i></div>
-            <div class="subj__dot"></div>
-            <span class="subj__name">${s.name}</span>
-            <span class="subj__tag subj__tag--locked">主科</span>
-          `;
-          grid.appendChild(el);
-        } else {
-          const el = document.createElement('div');
-          el.className = 'subj';
-          el.style.setProperty('--subj-color', s.color);
-          el.dataset.code = s.code;
-          if (selectedSet.has(s.code)) el.classList.add('selected');
-          el.innerHTML = `
-            <div class="subj__check"><i data-lucide="check"></i></div>
-            <div class="subj__dot"></div>
-            <span class="subj__name">${s.name}</span>
-          `;
-          el.addEventListener('click', () => {
-            el.classList.toggle('selected');
-            updateCount();
-            updateWarning();
-            updateSummary();
-          });
-          grid.appendChild(el);
-        }
-      });
-
-      updateCount();
-      updateWarning();
-    }
-
-    function updateCount() {
-      const count = document.querySelectorAll('#subjectsGrid .subj.selected:not(.locked)').length + 3;
-      document.getElementById('countBadge').textContent = `${count} / 6 已选`;
-    }
-
-    function updateWarning() {
-      const count = document.querySelectorAll('#subjectsGrid .subj.selected:not(.locked)').length;
-      const max = currentStrategy === '3+3' ? 3 : 2;
-      const warning = document.getElementById('warningArea');
-
-      if (count > max) {
-        const msg = currentStrategy === '3+3'
-          ? `高考 ${max} 选 ${currentStrategy.replace('+', ' + ').replace('+', ' + ')} 最多选 <strong>3 门</strong>, 你已选 ${count} 门. 请减少 1 门.`
-          : `3+1+2 的再选最多 <strong>2 门</strong>, 你已选 ${count} 门. 请减少 1 门.`;
-        warning.innerHTML = `
-          <div class="warning">
-            <div class="warning__icon"><i data-lucide="alert-triangle"></i></div>
-            <div class="warning__text">${msg}</div>
-          </div>
-        `;
-      } else {
-        warning.innerHTML = '';
-      }
-    }
-
-    function updateSummary() {
-      const sumText = document.getElementById('summaryText');
-      const btn = document.getElementById('confirmBtn');
-      const count = document.querySelectorAll('#subjectsGrid .subj.selected:not(.locked)').length;
-      const max = currentStrategy === '3+3' ? 3 : 2;
-      const strategyLabel = currentStrategy.replace('+', ' + ').replace('+', ' + ');
-
-      if (!currentProvince) {
-        sumText.innerHTML = `请先选择 <strong>省份</strong> 后选 <strong>${count}/${max} 门选科</strong>`;
-        btn.disabled = true;
-      } else if (count > max) {
-        sumText.innerHTML = `<strong style="color:#ef4444">选科超限</strong> · 当前 ${count} 门 / 上限 ${max} 门 · 请减少 ${count - max} 门`;
-        btn.disabled = true;
-      } else if (count === 0) {
-        sumText.innerHTML = `已选 <strong>${currentProvince}</strong> · <strong>${strategyLabel}</strong> 模式 · 请选 ${max} 门`;
-        btn.disabled = true;
-      } else {
-        sumText.innerHTML = `<strong>${currentProvince}</strong> · <strong>${strategyLabel}</strong> 模式 · 已选 <strong>${count}/${max} 门</strong> · 可确认`;
-        btn.disabled = false;
-      }
-    }
-
-    // ============ 展开省份列表 ============
-    document.getElementById('provinceHead').addEventListener('click', () => {
-      document.getElementById('provinceBlock').classList.toggle('open');
-    });
-
-    // ============ Confirm ============
-    document.getElementById('confirmBtn').addEventListener('click', () => {
-      const subjects = Array.from(document.querySelectorAll('#subjectsGrid .subj.selected'))
-        .map(s => s.querySelector('.subj__name')?.textContent).filter(Boolean);
-      alert(
-        `✅ 选科已保存\n\n` +
-        `省份: ${currentProvince}\n` +
-        `模式: ${currentStrategy}\n` +
-        `学科: ${subjects.join(' / ')}\n\n` +
-        `(Demo · 实际会跳转拍照首题)`
-      );
-    });
-
-    // Init
-    renderSubjects();
-    lucide.createIcons();
-  </script>
-
+  <script src="/assets/v2/js/ui.js"></script>
+  <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/subjects.js"></script>
+  <script src="/assets/v2/js/subject-picker.js"></script>
 </body>
 </html>

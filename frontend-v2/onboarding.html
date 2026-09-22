@@ -1,974 +1,214 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>初始化 · 智启AI导师</title>
-  <meta name="description" content="5 步完成设置 · 昵称 → 年级 → 省份 → 选科 → 首题拍照 · 全程可跳" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
-
-  <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
-
-  <style>
-    :root {
-      --p-50:#fff5f5; --p-100:#ffe0e0; --p-200:#ffc5c5; --p-300:#ffa0a0;
-      --p-400:#f36b6b; --p-500:#d71920; --p-600:#b8151b; --p-700:#941218;
-      --b-50:#eff6ff; --b-500:#2563eb; --b-700:#1e40af;
-      --s-50:#ecfdf5; --s-500:#059669; --s-700:#065f46;
-      --w-50:#fff7eb; --w-500:#f59e0b;
-      --e-50:#fef2f2; --e-500:#ef4444;
-
-      --ch-orange:#c2410c; --ch-red:#d71920; --ch-purple:#7c3aed;
-      --ch-blue:#2563eb; --ch-green:#059669; --ch-cyan:#0891b2;
-      --ch-amber:#b45309; --ch-lime:#65a30d; --ch-pink:#be185d;
-
-      --bg:#fafbfc; --surface:#ffffff; --surface-2:#f7f8fa; --surface-3:#f1f3f5;
-      --line:#e8eaee; --line-soft:#f1f3f5;
-      --ink:#0b1220; --ink-2:#3a4256; --ink-3:#6b7388; --ink-4:#9ca3af;
-
-      --font-display:'DM Sans','Noto Sans SC',system-ui,sans-serif;
-      --font-body:'Noto Sans SC','DM Sans',system-ui,sans-serif;
-      --font-mono:'JetBrains Mono','DM Sans',monospace;
-
-      --r-sm:10px; --r-md:14px; --r-lg:22px; --r-pill:9999px;
-      --sh-1: 0 1px 2px rgba(11,18,32,.04), 0 0 0 1px rgba(11,18,32,.03);
-      --sh-2: 0 2px 8px -2px rgba(11,18,32,.08), 0 1px 2px rgba(11,18,32,.04);
-      --sh-3: 0 8px 24px -8px rgba(11,18,32,.12), 0 2px 4px rgba(11,18,32,.04);
-      --sh-primary: 0 8px 28px -8px rgba(215,25,32,.28), 0 2px 6px rgba(215,25,32,.12);
-      --ease-out: cubic-bezier(.22,1,.36,1);
-      --dur-1:150ms; --dur-2:280ms; --dur-3:480ms;
-    }
-    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-    body {
-      background: var(--bg); color: var(--ink);
-      font-family: var(--font-body); font-size: 16px; line-height: 1.55;
-      min-height: 100vh; min-height: 100dvh;
-      background:
-        radial-gradient(60% 40% at 100% 0%, color-mix(in srgb, var(--p-500) 5%, transparent) 0%, transparent 60%),
-        radial-gradient(70% 50% at 0% 100%, color-mix(in srgb, var(--b-500) 4%, transparent) 0%, transparent 60%),
-        var(--bg);
-    }
-    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
-    input, select { font: inherit; }
-
-    /* ============ LAYOUT ============ */
-    .page {
-      min-height: 100vh; min-height: 100dvh;
-      display: flex; flex-direction: column;
-      padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0));
-    }
-    .nav {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 600px;
-      width: 100%;
-      margin: 0 auto 16px;
-    }
-    .brand {
-      display: flex; align-items: center; gap: 10px;
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 16px;
-    }
-    .brand__mark {
-      width: 28px; height: 28px; border-radius: 8px;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      display: inline-flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 700; font-size: 13px;
-      box-shadow: var(--sh-primary);
-    }
-    .nav__skip {
-      font-size: 13px;
-      color: var(--ink-3);
-      padding: 6px 12px;
-      border-radius: var(--r-pill);
-    }
-    .nav__skip:hover { color: var(--p-500); background: var(--surface); }
-
-    /* Progress bar (5 dots) */
-    .progress {
-      max-width: 600px;
-      width: 100%;
-      margin: 0 auto 20px;
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-    .progress__dot {
-      flex: 1;
-      height: 4px;
-      background: var(--surface-3);
-      border-radius: 9999px;
-      transition: background var(--dur-2);
-    }
-    .progress__dot.done { background: var(--p-500); }
-    .progress__dot.active {
-      background: linear-gradient(90deg, var(--p-500), var(--p-300));
-      animation: pulse-bar 2s ease-in-out infinite alternate;
-    }
-    @keyframes pulse-bar {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    /* Main */
-    .main {
-      max-width: 600px;
-      width: 100%;
-      margin: auto;
-    }
-
-    /* Step header */
-    .step-head {
-      margin-bottom: 16px;
-      text-align: center;
-    }
-    .step-head__pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 12px;
-      background: var(--p-50);
-      color: var(--p-700);
-      border-radius: var(--r-pill);
-      font-size: 11px; font-weight: 600;
-      letter-spacing: .04em;
-      margin-bottom: 8px;
-    }
-    html.dark .step-head__pill { background: var(--p-100); color: var(--p-200); }
-    .step-head__title {
-      font-family: var(--font-display);
-      font-size: 24px; font-weight: 700;
-      line-height: 1.2; letter-spacing: -.02em;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-    .step-head__title em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .step-head__sub {
-      font-size: 13px;
-      color: var(--ink-3);
-      line-height: 1.5;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    .step-head__auto {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 12px;
-      background: color-mix(in srgb, var(--s-500) 12%, transparent);
-      color: var(--s-700);
-      border-radius: var(--r-pill);
-      font-size: 11px; font-weight: 600;
-      margin-top: 8px;
-    }
-    html.dark .step-head__auto { color: var(--s-500); }
-
-    /* Step panels */
-    .step-panel {
-      display: none;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-lg);
-      padding: 24px 20px;
-      box-shadow: var(--sh-1);
-    }
-    .step-panel.active { display: block; animation: fadeUp 320ms var(--ease-out) both; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: none; }
-    }
-
-    /* ============ STEP 1: 昵称 + 头像 ============ */
-    .avatar-row {
-      display: flex; align-items: center; gap: 16px;
-      margin-bottom: 16px;
-    }
-    .avatar {
-      width: 80px; height: 80px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      color: #fff;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-size: 28px; font-weight: 700;
-      box-shadow: var(--sh-primary);
-      flex-shrink: 0;
-      position: relative;
-      cursor: pointer;
-    }
-    .avatar__upload {
-      position: absolute; bottom: -4px; right: -4px;
-      width: 28px; height: 28px;
-      background: var(--surface);
-      border: 2px solid var(--surface);
-      border-radius: 50%;
-      display: inline-flex; align-items: center; justify-content: center;
-      color: var(--ink-2);
-      box-shadow: var(--sh-1);
-    }
-    .avatar__upload svg { width: 14px; height: 14px; }
-    .avatar-info {
-      flex: 1;
-    }
-    .avatar-info__name {
-      font-family: var(--font-display);
-      font-size: 20px; font-weight: 700;
-      color: var(--ink);
-    }
-    .avatar-info__hint {
-      font-size: 12px;
-      color: var(--ink-3);
-      margin-top: 2px;
-    }
-    .field { margin-bottom: 16px; }
-    .field__label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--ink-2);
-      margin-bottom: 6px;
-      letter-spacing: .04em;
-    }
-    .field__input, .field__select {
-      width: 100%;
-      min-width: 0;
-      padding: 12px 14px;
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-md);
-      background: var(--surface);
-      font-family: var(--font-body);
-      font-size: 14px;
-      color: var(--ink);
-      outline: none;
-      transition: all var(--dur-1);
-    }
-    .field__input:focus, .field__select:focus {
-      border-color: var(--p-500);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-500) 12%, transparent);
-    }
-    .field__input::placeholder { color: var(--ink-4); }
-    .field__hint {
-      font-size: 11px;
-      color: var(--ink-3);
-      margin-top: 4px;
-    }
-    .field__counter {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--ink-3);
-      text-align: right;
-      margin-top: 4px;
-    }
-
-    /* ============ STEP 2: 年级 ============ */
-    .grades-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .grade-card {
-      padding: 16px 12px;
-      background: var(--surface);
-      border: 2px solid var(--line);
-      border-radius: var(--r-md);
-      cursor: pointer;
-      transition: all var(--dur-1);
-      text-align: center;
-    }
-    .grade-card:hover { border-color: var(--p-300); transform: translateY(-2px); box-shadow: var(--sh-1); }
-    .grade-card.selected {
-      border-color: var(--p-500);
-      background: var(--p-50);
-    }
-    html.dark .grade-card.selected { background: var(--p-100); }
-    .grade-card__icon {
-      width: 40px; height: 40px;
-      margin: 0 auto 8px;
-      border-radius: 50%;
-      background: var(--surface-2);
-      color: var(--ink-2);
-      display: inline-flex; align-items: center; justify-content: center;
-    }
-    .grade-card.selected .grade-card__icon {
-      background: var(--p-500); color: #fff;
-    }
-    .grade-card__icon svg { width: 20px; height: 20px; }
-    .grade-card__name {
-      font-family: var(--font-display);
-      font-size: 15px; font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 2px;
-    }
-    .grade-card__sub {
-      font-size: 11px;
-      color: var(--ink-3);
-    }
-    .grade-card.selected .grade-card__sub { color: var(--p-700); }
-
-    .auto-detect {
-      padding: 12px 14px;
-      background: color-mix(in srgb, var(--s-500) 8%, var(--surface-2));
-      border-radius: var(--r-md);
-      font-size: 12px;
-      color: var(--s-700);
-      margin-top: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    html.dark .auto-detect { color: var(--s-500); }
-    .auto-detect svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-    /* ============ STEP 3: 省份 ============ */
-    .province-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      max-height: 280px;
-      overflow-y: auto;
-      padding: 2px;
-    }
-    .province-cell {
-      padding: 10px 8px;
-      background: var(--surface);
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-sm);
-      cursor: pointer;
-      font-size: 12px;
-      color: var(--ink);
-      text-align: center;
-      transition: all var(--dur-1);
-      position: relative;
-    }
-    .province-cell:hover { background: var(--surface-2); }
-    .province-cell.selected {
-      background: var(--p-50);
-      border-color: var(--p-500);
-      color: var(--p-700);
-      font-weight: 600;
-    }
-    html.dark .province-cell.selected { background: var(--p-100); color: var(--p-200); }
-    .province-cell.special {
-      background: linear-gradient(135deg, color-mix(in srgb, var(--w-500) 12%, var(--surface)) 0%, var(--surface) 100%);
-    }
-    .province-cell.special::after {
-      content: '⭐';
-      font-size: 9px;
-      margin-left: 3px;
-    }
-
-    .strategy-hint {
-      margin-top: 16px;
-      padding: 12px 14px;
-      background: color-mix(in srgb, var(--p-500) 8%, var(--surface));
-      border-radius: var(--r-md);
-      font-size: 12px;
-      color: var(--ink-2);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    html.dark .strategy-hint { background: var(--p-100); color: var(--p-200); }
-    .strategy-hint__tag {
-      padding: 2px 8px;
-      background: var(--p-500);
-      color: #fff;
-      border-radius: 9999px;
-      font-size: 11px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .strategy-hint__tag--alt {
-      background: var(--b-500);
-    }
-    .strategy-hint__tag--cnt {
-      background: var(--s-500);
-    }
-
-    /* ============ STEP 4: 选科 (inline 简化版) ============ */
-    .strategy-pick {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-    .strategy-pick button {
-      flex: 1;
-      padding: 10px 12px;
-      background: var(--surface);
-      border: 1.5px solid var(--line);
-      border-radius: var(--r-pill);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--ink-3);
-      white-space: nowrap;
-      transition: all var(--dur-1);
-    }
-    .strategy-pick button.active {
-      background: var(--ink);
-      color: var(--bg);
-      border-color: var(--ink);
-    }
-    html.dark .strategy-pick button.active { background: var(--ink); color: var(--d-bg); }
-
-    .subjects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .subj-card {
-      padding: 12px 10px;
-      border: 2px solid var(--line);
-      border-radius: var(--r-md);
-      cursor: pointer;
-      transition: all var(--dur-1);
-      background: var(--surface);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .subj-card.locked {
-      background: var(--surface-2);
-      cursor: not-allowed;
-      border-style: dashed;
-    }
-    .subj-card.locked:hover { transform: none; box-shadow: none; }
-    .subj-card.selected {
-      border-color: var(--subj-color, var(--p-500));
-      background: color-mix(in srgb, var(--subj-color, var(--p-500)) 8%, var(--surface));
-    }
-    .subj-card__check {
-      width: 16px; height: 16px;
-      border-radius: 50%;
-      border: 1.5px solid var(--line);
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      transition: all var(--dur-1);
-      color: #fff;
-    }
-    .subj-card.selected .subj-card__check {
-      background: var(--subj-color, var(--p-500));
-      border-color: var(--subj-color, var(--p-500));
-    }
-    .subj-card__check svg { width: 10px; height: 10px; opacity: 0; }
-    .subj-card.selected .subj-card__check svg { opacity: 1; }
-    .subj-card__dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--subj-color);
-      flex-shrink: 0;
-    }
-    .subj-card__name {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ink);
-      flex: 1;
-      min-width: 0;
-    }
-    .subj-card__tag {
-      font-size: 10px;
-      padding: 2px 6px;
-      background: var(--ink-3);
-      color: var(--bg);
-      border-radius: var(--r-pill);
-      font-weight: 600;
-    }
-    .count-badge {
-      padding: 10px 14px;
-      background: var(--surface-2);
-      border-radius: var(--r-pill);
-      font-size: 12px;
-      color: var(--ink-3);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .count-badge strong { color: var(--p-500); font-weight: 700; font-family: var(--font-mono); }
-
-    /* ============ STEP 5: 首题引导 ============ */
-    .hero-prompt {
-      text-align: center;
-      padding: 24px 16px;
-    }
-    .hero-prompt__icon {
-      width: 96px; height: 96px;
-      margin: 0 auto 16px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      color: #fff;
-      display: inline-flex; align-items: center; justify-content: center;
-      box-shadow: var(--sh-primary);
-      animation: pulse-icon 2.5s ease-in-out infinite;
-    }
-    @keyframes pulse-icon {
-      0%, 100% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--p-500) 25%, transparent), var(--sh-primary); }
-      50% { box-shadow: 0 0 0 16px color-mix(in srgb, var(--p-500) 0%, transparent), var(--sh-primary); }
-    }
-    .hero-prompt__icon svg { width: 40px; height: 40px; }
-    .hero-prompt__title {
-      font-family: var(--font-display);
-      font-size: 20px; font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 8px;
-    }
-    .hero-prompt__title em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--p-500), var(--p-700));
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-prompt__sub {
-      font-size: 13px;
-      color: var(--ink-3);
-      line-height: 1.5;
-      max-width: 360px;
-      margin: 0 auto 16px;
-    }
-    .hero-prompt__sample {
-      padding: 12px 14px;
-      background: var(--surface-2);
-      border-radius: var(--r-md);
-      border-left: 3px solid var(--p-500);
-      text-align: left;
-      font-size: 13px;
-      color: var(--ink-2);
-      max-width: 360px;
-      margin: 0 auto 16px;
-    }
-    .hero-prompt__sample-lbl {
-      font-size: 10px;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: var(--ink-3);
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .hero-prompt__sample-math {
-      font-family: var(--font-mono);
-      color: var(--ink);
-    }
-
-    /* ============ FOOTER (actions) ============ */
-    .footer {
-      display: flex; gap: 10px;
-      margin-top: 24px;
-    }
-    .btn {
-      flex: 1;
-      display: flex; align-items: center; justify-content: center;
-      gap: 6px;
-      height: 52px;
-      border-radius: var(--r-pill);
-      font-size: 14px;
-      font-weight: 600;
-      transition: all var(--dur-1);
-      white-space: nowrap;
-    }
-    .btn svg { width: 16px; height: 16px; }
-    .btn--ghost {
-      flex: 0 0 auto;
-      background: transparent;
-      color: var(--ink-3);
-      border: 1px solid var(--line);
-      padding: 0 18px;
-    }
-    .btn--ghost:hover { background: var(--surface-2); }
-    .btn--primary {
-      background: linear-gradient(135deg, var(--p-500), var(--p-600));
-      color: #fff;
-      box-shadow: var(--sh-primary);
-    }
-    .btn--primary:hover { transform: translateY(-1px); }
-    .btn--primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,*::before,*::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    :focus-visible { outline: 2px solid var(--p-500); outline-offset: 2px; border-radius: 4px; }
-
-    @media (max-width: 720px) {
-      .step-head__title { font-size: 22px; }
-    }
-    @media (max-width: 540px) {
-      .grades-grid { grid-template-columns: repeat(2, 1fr); }
-      .subjects-grid { grid-template-columns: 1fr 1fr; }
-      .province-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="初始化引导 — 5 步设定昵称、年级、省份与选科，启动你的学习闭环">
+  <title>初始化引导 · 智启AI导师</title>
+  <link rel="stylesheet" href="/assets/v2/css/fonts.css">
+  <link rel="stylesheet" href="/assets/v2/css/system.css">
+  <link rel="stylesheet" href="/assets/v2/css/app.css">
 </head>
 <body>
-
-  <div class="page">
-    <!-- Nav -->
-    <nav class="nav">
-      <a href="landing.html" class="brand">
-        <span class="brand__mark">AI</span>
-        <span>智启AI导师</span>
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true"></span>
+        智启AI导师
       </a>
-      <a href="practice-hub-v2.html" class="nav__skip">稍后再设 →</a>
-    </nav>
-
-    <!-- 5-dot progress -->
-    <div class="progress" id="progress">
-      <div class="progress__dot active" data-step="1"></div>
-      <div class="progress__dot" data-step="2"></div>
-      <div class="progress__dot" data-step="3"></div>
-      <div class="progress__dot" data-step="4"></div>
-      <div class="progress__dot" data-step="5"></div>
+      <div class="nav__links">
+        <a class="nav__link" href="/dashboard.html">仪表盘</a>
+        <a class="nav__link" href="/practice-hub.html">练习</a>
+        <a class="nav__link" href="/review-session.html">复习</a>
+        <a class="nav__link" href="/wrong-book.html">错题本</a>
+        <a class="nav__cta" href="/photo-solve.html">拍照解题</a>
+      </div>
     </div>
+  </nav>
 
-    <main class="main">
-      <!-- ============ STEP 1: 昵称 + 头像 ============ -->
-      <section class="step-panel active" id="panel-1">
-        <div class="step-head">
-          <div class="step-head__pill">第 1 步 / 共 5 步 · 个人资料</div>
-          <h2 class="step-head__title">你希望我们<em>怎么称呼</em>你?</h2>
-          <p class="step-head__sub">昵称会显示在排行榜和错题本里, 同学都能看到</p>
+  <header class="hero hero--app">
+    <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="container">
+      <div class="hero__copy">
+        <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Onboarding</div>
+        <h1 class="hero__title">先用 5 步认识你</h1>
+        <p class="hero__sub">年级与省份决定考试类型，选科决定给你练什么题。每一步都可以用默认值跳过。</p>
+        <div class="hero__ctas">
+          <a class="cta-secondary" href="/dashboard.html">稍后再设置</a>
         </div>
-        <div class="avatar-row">
-          <div class="avatar" id="avatar">
-            <span id="avatarInitial">明</span>
-            <div class="avatar__upload" aria-label="更换头像">
-              <i data-lucide="camera"></i>
-            </div>
-          </div>
-          <div class="avatar-info">
-            <input type="text" id="nickname" class="field__input" maxlength="12" placeholder="输入昵称" value="张小明" style="font-size:16px; font-weight:600;" />
-            <div class="field__hint">12 字以内 · 班级排行榜显示</div>
-          </div>
-        </div>
-        <div class="footer">
-          <button class="btn btn--ghost" id="skip-1">稍后</button>
-          <button class="btn btn--primary" id="next-1">
-            下一步: 选择年级
-            <i data-lucide="arrow-right"></i>
-          </button>
-        </div>
-      </section>
+      </div>
+    </div>
+  </header>
 
-      <!-- ============ STEP 2: 年级 ============ -->
-      <section class="step-panel" id="panel-2">
-        <div class="step-head">
-          <div class="step-head__pill">第 2 步 / 共 5 步 · 年级</div>
-          <h2 class="step-head__title">你在<em>哪个年级</em>?</h2>
-          <p class="step-head__sub">决定考试类型和学科范围</p>
-        </div>
-        <div class="grades-grid">
-          <div class="grade-card" data-grade="g7" data-type="中考区">
-            <div class="grade-card__icon"><i data-lucide="book-open"></i></div>
-            <div class="grade-card__name">初一</div>
-            <div class="grade-card__sub">1-6 年级</div>
-          </div>
-          <div class="grade-card" data-grade="g8" data-type="中考区">
-            <div class="grade-card__icon"><i data-lucide="book-open"></i></div>
-            <div class="grade-card__name">初二</div>
-            <div class="grade-card__sub">1-6 年级</div>
-          </div>
-          <div class="grade-card" data-grade="g9" data-type="中考区">
-            <div class="grade-card__icon"><i data-lucide="book-open"></i></div>
-            <div class="grade-card__name">初三</div>
-            <div class="grade-card__sub">1-6 年级</div>
-          </div>
-          <div class="grade-card selected" data-grade="g10" data-type="高考区">
-            <div class="grade-card__icon"><i data-lucide="graduation-cap"></i></div>
-            <div class="grade-card__name">高一</div>
-            <div class="grade-card__sub">10-12 年级</div>
-          </div>
-          <div class="grade-card" data-grade="g11" data-type="高考区">
-            <div class="grade-card__icon"><i data-lucide="graduation-cap"></i></div>
-            <div class="grade-card__name">高二</div>
-            <div class="grade-card__sub">10-12 年级</div>
-          </div>
-          <div class="grade-card" data-grade="g12" data-type="高考区">
-            <div class="grade-card__icon"><i data-lucide="graduation-cap"></i></div>
-            <div class="grade-card__name">高三</div>
-            <div class="grade-card__sub">10-12 年级</div>
-          </div>
-        </div>
-        <div class="auto-detect" id="autoDetect" style="display:none;">
-          <i data-lucide="sparkles"></i>
-          <span id="autoText">已自动判定 → <strong id="autoExamType">高考区</strong> · 下一步选择省份</span>
-        </div>
-        <div class="footer">
-          <button class="btn btn--ghost" id="prev-2">
-            <i data-lucide="arrow-left"></i>
-            上一步
-          </button>
-          <button class="btn btn--primary" id="next-2">
-            下一步: 选择省份
-            <i data-lucide="arrow-right"></i>
-          </button>
-        </div>
-      </section>
-
-      <!-- ============ STEP 3: 省份 ============ -->
-      <section class="step-panel" id="panel-3">
-        <div class="step-head">
-          <div class="step-head__pill">第 3 步 / 共 5 步 · 省份</div>
-          <h2 class="step-head__title">你来自<em>哪个省份</em>?</h2>
-          <p class="step-head__sub">高考时必填, 自动确定选科模式 (3+3 或 3+1+2)</p>
-        </div>
-        <div class="province-grid" id="provinceGrid"></div>
-        <div class="strategy-hint" id="strategyHint" style="display:none;">
-          <span class="strategy-hint__tag" id="strategyTag">3+3</span>
-          <span id="strategyText">此省为 3+3 选科模式 · 选 3 门即可</span>
-        </div>
-        <div class="footer">
-          <button class="btn btn--ghost" id="prev-3">
-            <i data-lucide="arrow-left"></i>
-            上一步
-          </button>
-          <button class="btn btn--primary" id="next-3">
-            下一步: 选择学科
-            <i data-lucide="arrow-right"></i>
-          </button>
-        </div>
-      </section>
-
-      <!-- ============ STEP 4: 选科 (inline, 简化版) ============ -->
-      <section class="step-panel" id="panel-4">
-        <div class="step-head">
-          <div class="step-head__pill">第 4 步 / 共 5 步 · 学科</div>
-          <h2 class="step-head__title">选<em>9 学科</em>中你学的</h2>
-          <p class="step-head__sub" id="strategySub">默认全开 · 取消不学的可减少干扰</p>
-        </div>
-        <div class="strategy-pick" id="strategyPick">
-          <button class="active" data-mode="default">按推荐 (中考 9 科全开 / 高考 6 科)</button>
-        </div>
-        <div class="subjects-grid" id="subjectsGrid"></div>
-        <div class="count-badge">
-          <span>已选</span>
-          <span><strong id="countBadge">6</strong> 科</span>
-        </div>
-        <div class="footer">
-          <button class="btn btn--ghost" id="prev-4">
-            <i data-lucide="arrow-left"></i>
-            上一步
-          </button>
-          <button class="btn btn--primary" id="next-4">
-            下一步: 拍照首题
-            <i data-lucide="arrow-right"></i>
-          </button>
-        </div>
-      </section>
-
-      <!-- ============ STEP 5: 首题引导 ============ -->
-      <section class="step-panel" id="panel-5">
-        <div class="step-head">
-          <div class="step-head__pill">最后 1 步 · 完成 Loop 启动</div>
-          <h2 class="step-head__title">拍照<em>第一道错题</em></h2>
-          <p class="step-head__sub">AI 会在 0.4 秒内识别, 自动入库并排入 SM2 复习队列</p>
-        </div>
-        <div class="hero-prompt">
-          <div class="hero-prompt__icon">
-            <i data-lucide="camera"></i>
-          </div>
-          <div class="hero-prompt__title">试试<em>扫描这道</em></div>
-          <div class="hero-prompt__sub">用 PWA 拍照, 或直接上传相册照片, 体验完整解析</div>
-          <div class="hero-prompt__sample">
-            <div class="hero-prompt__sample-lbl">示例题</div>
-            <div class="hero-prompt__sample-math">
-              f(x) = x³ − 3x, 求曲线在 (1, −2) 处的切线方程
+  <!-- 六态：成功 / 加载 / 空 / 错误 / 未登录 / 离线
+       每个状态自带 section + container（标准骨架），保证六态观感一致。 -->
+  <div id="state-region" aria-live="polite">
+    <section class="state state--empty" data-state="empty">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>暂时无法初始化</h2>
+            <p id="empty-copy">没能取到省份列表，稍后再来一次。</p>
+            <div class="hero__ctas">
+              <a class="cta-primary" href="/dashboard.html">先回主屏</a>
             </div>
           </div>
         </div>
-        <div class="footer">
-          <button class="btn btn--ghost" id="skip-5">
-            跳过 (演示用)
-          </button>
-          <button class="btn btn--primary" id="finish">
-            <i data-lucide="camera"></i>
-            拍照首题
-            </button>
+      </div>
+    </section>
+
+    <section class="state state--loading" data-state="loading">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="section__eyebrow">LOADING</div>
+          <h2 class="section__title">正在准备初始化…</h2>
+          <div class="state-card" style="margin-top: 20px">
+            <p class="skeleton skeleton--w90"></p>
+            <p class="skeleton skeleton--w70"></p>
+            <p class="skeleton skeleton--w50"></p>
+          </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
+
+    <section class="state state--success" data-state="success">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="loop loop--auto" id="step-bar"></div>
+        </div>
+      </div>
+
+      <div class="section section--cream section--tight">
+        <div class="container">
+          <div class="card" id="wizard">
+            <div class="section__eyebrow" id="step-eyebrow">STEP 1 / 5</div>
+            <h2 class="section__title" id="step-title">怎么称呼你？</h2>
+
+            <div id="panel-1" data-step="1">
+              <div class="form-stack">
+                <label class="form-field" for="nickname">
+                  昵称
+                  <input id="nickname" name="nickname" type="text" maxlength="16" autocomplete="nickname" placeholder="小明">
+                </label>
+                <p class="form-hint">头像取昵称首字：<b id="avatar-initial">小</b>（后端暂无头像上传接口，见 SPEC-DATA 缺口登记）</p>
+              </div>
+            </div>
+
+            <div id="panel-2" data-step="2" hidden>
+              <p class="section__sub">选定年级后自动判定中考区 / 高考区，省份列表随之切换。</p>
+              <div class="pick-grid" id="grade-grid"></div>
+              <p class="form-hint" id="grade-hint">默认按高考区准备。</p>
+            </div>
+
+            <div id="panel-3" data-step="3" hidden>
+              <div class="form-stack">
+                <label class="form-field" for="province">
+                  省份 / 地区
+                  <select id="province"></select>
+                </label>
+              </div>
+              <p class="form-hint" id="strategy-hint">选择省份后给出选科模式。</p>
+            </div>
+
+            <div id="panel-4" data-step="4" hidden>
+              <p class="section__sub" id="subject-sub">语数外是主科，其余按你的选考组合挑。</p>
+              <div class="pick-grid" id="subject-grid"></div>
+              <p class="form-hint">已选 <b id="subject-count">6</b> 科<span id="subject-limit">（高考最多 6 科）</span></p>
+            </div>
+
+            <div id="panel-5" data-step="5" hidden>
+              <p class="section__sub">拍下第一道错题，它会立刻进入错题本，并排到复习队列第 1 位。</p>
+              <div class="final-cta">
+                <div class="final-cta__inner">
+                  <h3 class="final-cta__title">拍第一道题</h3>
+                  <p class="final-cta__sub">也可以先回主屏看今天能做什么，之后随时补拍。</p>
+                  <div class="final-cta__row">
+                    <a class="final-cta__btn" href="/photo-solve.html">去拍照解题</a>
+                    <a class="final-cta__btn final-cta__btn--ghost" href="/dashboard.html">回主屏</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="form-error" id="step-error" role="alert" hidden></p>
+
+            <div class="q-actions" id="nav-actions">
+              <button class="btn btn-ghost" id="prev-btn" type="button">上一步</button>
+              <button class="btn" id="next-btn" type="button">下一步</button>
+              <button class="btn" id="finish-btn" type="button" hidden>完成初始化</button>
+            </div>
+          </div>
+
+          <div class="card" id="done-block" hidden>
+            <div class="state-card">
+              <h2>初始化完成</h2>
+              <p id="done-copy">年级、省份与选科已保存，首题拍照后即可进入复习队列。</p>
+              <div class="hero__ctas">
+                <a class="cta-primary" href="/photo-solve.html">去拍第一道题</a>
+                <a class="cta-secondary" href="/dashboard.html">回主屏</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--error" data-state="error">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>初始化失败</h2>
+            <p id="error-copy">服务暂时不可用。</p>
+            <p><button class="cta-secondary" id="retry-btn" type="button">重试</button></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--auth" data-state="auth">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>需要登录</h2>
+            <p>初始化会写入你的个人档案，请先登录。</p>
+            <div class="hero__ctas">
+              <a class="cta-primary" href="/login.html?next=onboarding.html">去登录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="state state--offline" data-state="offline">
+      <div class="section section--tight">
+        <div class="container">
+          <div class="state-card">
+            <h2>当前处于离线状态</h2>
+            <p>省份列表需要联网获取，恢复网络后重试。</p>
+            <p><button class="cta-secondary" id="offline-retry-btn" type="button">重新连接</button></p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <script>
-    // ============ PM §F.8 省份映射 ============
-    const PROVINCES_3_3 = ['北京', '天津', '上海', '浙江', '山东', '海南'];
-    const ALL_PROVINCES = [
-      '北京', '天津', '上海', '浙江', '山东', '海南',         // 3+3
-      '河北', '辽宁', '江苏', '福建', '湖北', '湖南', '广东', '重庆',
-      '吉林', '黑龙江', '安徽', '江西', '贵州', '广西', '甘肃',
-      '山西', '内蒙古', '河南', '四川', '云南', '陕西', '青海',
-      '宁夏', '新疆', '西藏'                                  // 3+1+2
-    ];
+  <footer class="footer">
+    <div class="container">智启AI导师 · 数据仅用于你的个人学习记录</div>
+  </footer>
 
-    // ============ 9 学科 (严格顺序) ============
-    const SUBJECTS = [
-      { code: 'chinese',   name: '语文', color: 'var(--ch-orange)' },
-      { code: 'math',      name: '数学', color: 'var(--ch-red)' },
-      { code: 'english',   name: '英语', color: 'var(--ch-purple)' },
-      { code: 'physics',   name: '物理', color: 'var(--ch-blue)' },
-      { code: 'chemistry', name: '化学', color: 'var(--ch-green)' },
-      { code: 'biology',   name: '生物', color: 'var(--ch-cyan)' },
-      { code: 'history',   name: '历史', color: 'var(--ch-amber)' },
-      { code: 'geography', name: '地理', color: 'var(--ch-lime)' },
-      { code: 'politics',  name: '政治', color: 'var(--ch-pink)' },
-    ];
+  <nav class="tabbar" aria-label="底部导航">
+    <a class="tabbar__item" href="/dashboard.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg></span>首页</a>
+    <a class="tabbar__item" href="/wrong-book.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span>错题</a>
+    <a class="tabbar__item tabbar__item--raise" href="/photo-solve.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/></svg></span>拍照</a>
+    <a class="tabbar__item" href="/review-session.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v6h6"/></svg></span>复习</a>
+    <a class="tabbar__item" href="/v2/settings.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>我的</a>
+  </nav>
 
-    // ============ 状态 ============
-    let currentStep = 1;
-    const userData = { nickname: '张小明', grade: 'g10', province: null, subjects: new Set(['chinese', 'math', 'english', 'physics', 'chemistry', 'biology']) };
-
-    function goTo(step) {
-      document.querySelectorAll('.step-panel').forEach((p, i) => {
-        p.classList.toggle('active', i + 1 === step);
-      });
-      document.querySelectorAll('.progress__dot').forEach((d, i) => {
-        d.className = 'progress__dot' + (i + 1 < step ? ' done' : i + 1 === step ? ' active' : '');
-      });
-      currentStep = step;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ============ STEP 1: 昵称同步 ============
-    const nicknameInput = document.getElementById('nickname');
-    const avatarInitial = document.getElementById('avatarInitial');
-    nicknameInput.addEventListener('input', () => {
-      userData.nickname = nicknameInput.value || '小明';
-      avatarInitial.textContent = userData.nickname.slice(0, 1);
-    });
-
-    // ============ STEP 2: 年级选择 + 自动判定 ============
-    document.querySelectorAll('#panel-2 .grade-card').forEach(card => {
-      card.addEventListener('click', () => {
-        document.querySelectorAll('#panel-2 .grade-card').forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        userData.grade = card.dataset.grade;
-        userData.examType = card.dataset.type;
-        const detect = document.getElementById('autoDetect');
-        detect.style.display = 'flex';
-        document.getElementById('autoExamType').textContent = userData.examType;
-        // 重置省份
-        userData.province = null;
-        document.querySelectorAll('.province-cell').forEach(c => c.classList.remove('selected'));
-        document.getElementById('strategyHint').style.display = 'none';
-      });
-    });
-
-    // ============ STEP 3: 省份渲染 ============
-    function renderProvinces() {
-      const grid = document.getElementById('provinceGrid');
-      grid.innerHTML = '';
-      ALL_PROVINCES.forEach(p => {
-        const isSpecial = (p === '浙江');
-        const cell = document.createElement('div');
-        cell.className = 'province-cell' + (isSpecial ? ' special' : '');
-        cell.textContent = p;
-        cell.addEventListener('click', () => {
-          document.querySelectorAll('.province-cell').forEach(c => c.classList.remove('selected'));
-          cell.classList.add('selected');
-          userData.province = p;
-          // 判定选科模式
-          const is333 = PROVINCES_3_3.includes(p);
-          userData.strategy = is333 ? '3+3' : '3+1+2';
-          // 显示 hint
-          const hint = document.getElementById('strategyHint');
-          hint.style.display = 'flex';
-          const tag = document.getElementById('strategyTag');
-          tag.textContent = userData.strategy;
-          tag.className = 'strategy-hint__tag' + (is333 ? '' : ' strategy-hint__tag--alt');
-          // 若是 中考区, 标记 9 科全开
-          if (userData.examType === '中考区') {
-            tag.textContent = '9 科';
-            tag.className = 'strategy-hint__tag strategy-hint__tag--cnt';
-          }
-          document.getElementById('strategyText').textContent = is333
-            ? '此省为 3+3 模式 · 选 3 门即可'
-            : '此省为 3+1+2 模式 · 选 1 首选 + 2 再选';
-        });
-        grid.appendChild(cell);
-      });
-    }
-    renderProvinces();
-
-    // ============ STEP 4: 选科 ============
-    function renderSubjects() {
-      const grid = document.getElementById('subjectsGrid');
-      grid.innerHTML = '';
-      SUBJECTS.forEach(s => {
-        const card = document.createElement('div');
-        card.className = 'subj-card';
-        card.style.setProperty('--subj-color', s.color);
-        const isCore = ['chinese', 'math', 'english'].includes(s.code);
-        const isSelected = userData.subjects.has(s.code);
-        if (isCore) card.classList.add('locked');
-        if (isSelected) card.classList.add('selected');
-        card.innerHTML = `
-          <div class="subj-card__check">${isSelected ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}</div>
-          <div class="subj-card__dot"></div>
-          <span class="subj-card__name">${s.name}</span>
-          ${isCore ? '<span class="subj-card__tag">主科</span>' : ''}
-        `;
-        if (!isCore) {
-          card.addEventListener('click', () => {
-            if (userData.subjects.has(s.code)) userData.subjects.delete(s.code);
-            else userData.subjects.add(s.code);
-            card.classList.toggle('selected');
-            updateCount();
-            renderSubjects();
-          });
-        }
-        grid.appendChild(card);
-      });
-    }
-    function updateCount() {
-      const n = userData.subjects.size;
-      document.getElementById('countBadge').textContent = n;
-    }
-    renderSubjects();
-
-    // 模式切换 (按推荐 / 自选)
-    document.querySelectorAll('#strategyPick button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('#strategyPick button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        // 重置为默认
-        userData.subjects = new Set(['chinese', 'math', 'english', 'physics', 'chemistry', 'biology']);
-        renderSubjects();
-      });
-    });
-
-    // ============ STEP 1-5 导航按钮 ============
-    document.getElementById('skip-1').addEventListener('click', () => goTo(2));
-    document.getElementById('next-1').addEventListener('click', () => goTo(2));
-    document.getElementById('prev-2').addEventListener('click', () => goTo(1));
-    document.getElementById('next-2').addEventListener('click', () => goTo(3));
-    document.getElementById('prev-3').addEventListener('click', () => goTo(2));
-    document.getElementById('next-3').addEventListener('click', () => goTo(4));
-    document.getElementById('prev-4').addEventListener('click', () => goTo(3));
-    document.getElementById('next-4').addEventListener('click', () => goTo(5));
-    document.getElementById('skip-5').addEventListener('click', () => {
-      alert('(Demo · 跳到 practice-hub-v2.html)');
-    });
-    document.getElementById('finish').addEventListener('click', () => {
-      alert('✅ 设置完成 · 跳转 photo-solve.html 拍照首题');
-    });
-    // nav 稍后再设
-    document.querySelector('.nav__skip').addEventListener('click', (e) => {
-      e.preventDefault();
-      if (confirm('稍后再设置? 你的错题会进入 SM2 默认队列 (可能不够精准)')) {
-        // 跳到 hub
-        alert('(Demo · 跳到 practice-hub-v2.html)');
-      }
-    });
-
-    // Init
-    lucide.createIcons();
-  </script>
-
+  <script src="/assets/v2/js/ui.js"></script>
+  <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/subjects.js"></script>
+  <script src="/assets/v2/js/onboarding.js"></script>
 </body>
 </html>
