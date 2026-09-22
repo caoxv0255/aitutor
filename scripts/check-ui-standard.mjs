@@ -68,12 +68,26 @@ const DEPRECATED = [
  *   - TAKEN_OVER（已接管页）：全局规则 + 骨架规则全部强制
  *   - 其余（未迁移原型）：只记 backlog，不计失败 —— 它们是已知欠账
  *     （SPEC-ROUTES §1 在跟踪），让门禁永久红只会让它失去信任。
+ *
+ * 2026-09-22 修 (接管页解析盲点): DEFAULT_NEW_TREE_PAGES 自 20 页起改为多段
+ * '+' 拼接书写，旧正则 /=\s*'([^']+)'/ 只捕获第一个字面量 → 仅解析出 10 页，
+ * 后 10 页被当作 backlog 跳过全部逐页判据（漏检/假绿）。现改为「取右侧表达式
+ * 全部字符串字面量、按 JS 语义拼接」，与 scripts/check-new-tree-routing.mjs
+ * 的 pagesFromServer 同款已验证写法（那里注释详述了同款盲点与修法）。
  */
 function takenOverFromServer() {
   const src = fs.readFileSync('server.js', 'utf8');
-  const m = src.match(/DEFAULT_NEW_TREE_PAGES\s*=\s*'([^']+)'/);
+  // 捕获右侧整个表达式（到语句结束的 ';'），再提取其中全部单引号字面量按 JS
+  // 语义拼接 —— 兼容单字符串与多段 '+' 拼接（单段时结果与旧正则一致）。
+  const m = src.match(/DEFAULT_NEW_TREE_PAGES\s*=\s*([\s\S]*?);/);
   if (!m) throw new Error('无法从 server.js 解析 DEFAULT_NEW_TREE_PAGES');
-  return m[1].split(',').map((s) => s.trim()).filter(Boolean);
+  const literals = [...m[1].matchAll(/'([^']*)'/g)].map((x) => x[1]);
+  if (!literals.length) throw new Error('DEFAULT_NEW_TREE_PAGES 表达式中未找到字符串字面量');
+  return literals
+    .join('')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 const takenOver = new Set(takenOverFromServer());
