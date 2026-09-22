@@ -2,7 +2,7 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { authMiddleware } from '../core/auth.js';
+import { authMiddleware, requireAdmin } from '../core/auth.js';
 import { errorResponse } from '../utils/response.js';
 import obsidianSyncService from '../services/obsidian-sync.js';
 
@@ -123,11 +123,7 @@ router.get('/list', authMiddleware, async (req, res) => {
   }
 });
 
-router.post('/reindex', authMiddleware, async (req, res) => {
-  if (req.user?.email !== 'admin@uibe.edu.cn') {
-    return res.status(403).json(errorResponse('权限不足'));
-  }
-  
+router.post('/reindex', authMiddleware, requireAdmin, async (req, res) => {
   try {
     await obsidianSyncService.syncKnowledgeToGraphRAG();
     

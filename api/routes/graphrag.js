@@ -4,7 +4,7 @@
  */
 import express from 'express';
 import axios from 'axios';
-import { authMiddleware } from '../core/auth.js';
+import { authMiddleware, requireAdmin } from '../core/auth.js';
 import { errorResponse } from '../utils/response.js';
 
 const router = express.Router();
@@ -183,11 +183,7 @@ router.get('/paper-source', authMiddleware, async (req, res) => {
  * GET /api/admin/graphrag/jobs
  * 索引任务状态
  */
-router.get('/admin/jobs', authMiddleware, async (req, res) => {
-  if (req.user?.email !== 'admin@uibe.edu.cn') {
-    return res.status(403).json(errorResponse('权限不足'));
-  }
-
+router.get('/admin/jobs', authMiddleware, requireAdmin, async (req, res) => {
   await forwardGetToGraphRAG(req, res, '/api/admin/graphrag/jobs');
 });
 
@@ -195,11 +191,7 @@ router.get('/admin/jobs', authMiddleware, async (req, res) => {
  * GET /api/admin/graphrag/stats
  * 统计信息
  */
-router.get('/admin/stats', authMiddleware, async (req, res) => {
-  if (req.user?.email !== 'admin@uibe.edu.cn') {
-    return res.status(403).json(errorResponse('权限不足'));
-  }
-
+router.get('/admin/stats', authMiddleware, requireAdmin, async (req, res) => {
   await forwardGetToGraphRAG(req, res, '/api/admin/graphrag/stats');
 });
 
@@ -207,11 +199,7 @@ router.get('/admin/stats', authMiddleware, async (req, res) => {
  * POST /api/admin/graphrag/reindex
  * 触发重新索引
  */
-router.post('/admin/reindex', authMiddleware, async (req, res) => {
-  if (req.user?.email !== 'admin@uibe.edu.cn') {
-    return res.status(403).json(errorResponse('权限不足'));
-  }
-
+router.post('/admin/reindex', authMiddleware, requireAdmin, async (req, res) => {
   const { index_name } = req.body;
   if (!index_name) {
     return res.status(400).json(errorResponse('索引名称必填'));
