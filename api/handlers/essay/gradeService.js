@@ -34,6 +34,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PROMPTS_DIR = join(__dirname, 'prompts');
 
+// 服务端自调用基址 (2026-09-22 SSRF 修复):
+//   内部 fetch 的目标只能取自配置或本进程监听端口, 不得取自 req 的 Host /
+//   X-Forwarded-Host / protocol —— 那些由客户端可控, 会把携带调用方 JWT 的
+//   服务端请求引到任意主机。写法与 api/routes/rag-search.js 的内部自调用一致。
+const SELF_BASE_URL = process.env.SELF_BASE_URL || `http://127.0.0.1:${process.env.PORT || 3002}`;
+
 // ────────────────────────────────────────────────────────────────────────────
 // 入参 Schema
 // ────────────────────────────────────────────────────────────────────────────
@@ -293,8 +299,8 @@ async function buildGradePrompt({ transcript, essay_title, subject, exam_level, 
 // LLM 调用 (复用 /api/proxy, 文本模型)
 // ────────────────────────────────────────────────────────────────────────────
 
-async function callLLMText({ messages, authHeader, proto, host, task_type = 'essay_grade' }) {
-  const url = `${proto}://${host}/api/proxy`;
+async function callLLMText({ messages, authHeader, task_type = 'essay_grade' }) {
+  const url = `${SELF_BASE_URL}/api/proxy`;
   const model = 'qwen-plus';
   const temperature = 0.4;
   const max_tokens = 3500;
@@ -453,9 +459,6 @@ export async function gradeEssay({
       null
     );
   }
-  const proto = req?.protocol || 'http';
-  const host = (req?.get && req.get('host')) || 'localhost:3002';
-
   // ─── 3. 装配 prompt ───
   const promptText = await buildGradePrompt({
     transcript: validReq.transcript,
@@ -475,7 +478,7 @@ export async function gradeEssay({
   // ─── 4. 调 LLM ───
   let content;
   try {
-    content = await callLLMText({ messages, authHeader, proto, host, task_type: 'essay_grade' });
+    content = await callLLMText({ messages, authHeader, task_type: 'essay_grade' });
   } catch (e) {
     if (e instanceof EssayError) throw e;
     throw new EssayError(

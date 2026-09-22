@@ -22,6 +22,12 @@ import { logger } from '../../core/logger.js';
 import { EssayError } from './errors.js';
 import { ErrorCode } from '../../utils/errorCodes.js';
 
+// 服务端自调用基址 (2026-09-22 SSRF 修复):
+//   内部 fetch 的目标只能取自配置或本进程监听端口, 不得取自 req 的 Host /
+//   X-Forwarded-Host / protocol —— 那些由客户端可控, 会把携带调用方 JWT 的
+//   服务端请求引到任意主机。写法与 api/routes/rag-search.js 的内部自调用一致。
+const SELF_BASE_URL = process.env.SELF_BASE_URL || `http://127.0.0.1:${process.env.PORT || 3002}`;
+
 // ────────────────────────────────────────────────────────────────────────────
 // Patch 2: 入参 Schema
 // images 改为 URL 数组, 强制前端先调 /api/upload/image
@@ -137,13 +143,11 @@ function splitBySentenceEnd(text) {
  * @param {object} args
  * @param {Array<{type:string, text?:string, image_url?:{url:string}}>} args.messages
  * @param {string} args.authHeader
- * @param {string} args.proto
- * @param {string} args.host
  * @param {string} [args.task_type='essay_transcribe']
  * @returns {Promise<string>} 原始 LLM content
  */
-async function callVLM({ messages, authHeader, proto, host, task_type = 'essay_transcribe' }) {
-  const url = `${proto}://${host}/api/proxy`;
+async function callVLM({ messages, authHeader, task_type = 'essay_transcribe' }) {
+  const url = `${SELF_BASE_URL}/api/proxy`;
   const model = 'qwen-vl-max';
   const temperature = 0.1;
   const max_tokens = 3000;
@@ -343,7 +347,7 @@ You are not a teacher — do NOT evaluate, correct, or complete any text.
  * @param {object} args
  * @param {string[]} args.images      URL 数组 (Patch 2: 已上传到 /api/upload/image)
  * @param {'chinese'|'english'} args.subject
- * @param {object} [args.req]         Express request, 用于透传 auth + proto/host
+ * @param {object} [args.req]         Express request, 用于透传 auth (不再用于拼地址)
  * @returns {Promise<{
  *   transcript: {
  *     paragraphs: Array<{paragraph_index:number, lines:Array<{line_no:number, text:string, uncertain_chars:string[]}>}>,
@@ -375,9 +379,6 @@ export async function transcribeEssay({ images, subject, req }) {
       null
     );
   }
-  const proto = req?.protocol || 'http';
-  const host = (req?.get && req.get('host')) || 'localhost:3002';
-
   const promptText = subject === 'english' ? TRANSCRIBE_PROMPT_EN : TRANSCRIBE_PROMPT_CN;
   const messages = [
     {
@@ -392,7 +393,7 @@ export async function transcribeEssay({ images, subject, req }) {
   // ─── 3. 调 VLM ───
   let content;
   try {
-    content = await callVLM({ messages, authHeader, proto, host, task_type: 'essay_transcribe' });
+    content = await callVLM({ messages, authHeader, task_type: 'essay_transcribe' });
   } catch (e) {
     if (e instanceof EssayError) throw e;
     throw new EssayError(

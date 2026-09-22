@@ -28,6 +28,12 @@ const VALID_GRADES = new Set([
 
 const VALID_LEVELS = new Set(['gaokao', 'zhongkao']);
 
+// 服务端自调用基址 (2026-09-22 SSRF 修复):
+//   内部 fetch 的目标只能取自配置或本进程监听端口, 不得取自 req 的 Host /
+//   X-Forwarded-Host / protocol —— 那些由客户端可控, 会把携带调用方 JWT 的
+//   服务端请求引到任意主机。写法与 api/routes/rag-search.js 的内部自调用一致。
+const SELF_BASE_URL = process.env.SELF_BASE_URL || `http://127.0.0.1:${process.env.PORT || 3002}`;
+
 /**
  * LLM 调用（可被 mock）
  * 通过 fetch /api/proxy 走统一网关
@@ -57,10 +63,8 @@ export async function _internalLLMCall({ images, essay_title, exam_level, grade,
     },
   ];
 
-  // 调用 /api/proxy
-  const proto = (req && req.protocol) || 'http';
-  const host  = (req && req.get && req.get('host')) || 'localhost:3002';
-  const url = `${proto}://${host}/api/proxy`;
+  // 调用 /api/proxy (自身基址, 非请求头)
+  const url = `${SELF_BASE_URL}/api/proxy`;
 
   let resp, body;
   try {
@@ -68,6 +72,13 @@ export async function _internalLLMCall({ images, essay_title, exam_level, grade,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        // 保留转发调用者自己的 JWT (2026-09-22 链路分析):
+        //   /api/proxy 挂在 authMiddleware + per-user 限流之后 (server.js:468),
+        //   handler 依赖 req.user 归账 ai_trace —— 不带 JWT 会直接 401, grading 即坏。
+        //   该 JWT 只发往固定 loopback, 且本就是调用者自己的凭证 (他本可直接调
+        //   /api/proxy), 转发不新增任何权限; SSRF 风险在"目的地址客户端可控",
+        //   已由 SELF_BASE_URL 消除。引入内部服务凭证需改全局 authMiddleware,
+        //   超出本次修复射程。
         'Authorization': authHeader,
       },
       body: JSON.stringify({ model, messages, temperature, max_tokens: maxTokens }),

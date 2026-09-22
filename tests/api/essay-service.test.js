@@ -8,7 +8,7 @@ vi.mock('../../api/core/logger.js', () => ({
   logger: { info: () => {}, error: () => {}, warn: () => {}, debug: () => {} },
 }));
 
-import { parseLLMJsonOutput, extractParagraphs } from '../../api/handlers/essay/essayService.js';
+import { parseLLMJsonOutput, extractParagraphs, _internalLLMCall } from '../../api/handlers/essay/essayService.js';
 
 describe('parseLLMJsonOutput()', () => {
   it('标准 JSON 字符串', () => {
@@ -62,5 +62,39 @@ describe('extractParagraphs()', () => {
     const ps = extractParagraphs({}, '');
     expect(ps).toHaveLength(1);
     expect(ps[0].id).toBe('p1');
+  });
+});
+
+// 2026-09-22 全仓安全扫描 F1–F3: 内部自调用地址曾取自 req 的 Host 头 (SSRF),
+// 这里用"恶意 Host"做行为断言 —— 静态闸门只能看形状, 这条保证真实调用地址不受请求头影响。
+describe('_internalLLMCall() — 内部自调用地址不受请求头影响 (SSRF)', () => {
+  it('伪造 Host + protocol 时, 仍然只请求 127.0.0.1:$PORT/api/proxy', async () => {
+    const urls = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (url) => {
+        urls.push(url);
+        return { ok: true, json: async () => ({ data: { model: 'qwen-vl-plus' } }) };
+      })
+    );
+    try {
+      await _internalLLMCall({
+        images: ['http://127.0.0.1:3002/uploads/a.jpg'],
+        essay_title: '春天来了',
+        exam_level: 'gaokao',
+        grade: '高三',
+        req: {
+          protocol: 'https',
+          get: (k) => (k === 'host' ? 'evil.example.com' : undefined),
+          headers: { authorization: 'Bearer test-token' },
+        },
+      });
+    } finally {
+      vi.unstubAllGlobals();
+    }
+
+    expect(urls).toHaveLength(1);
+    expect(urls[0]).toMatch(/^http:\/\/127\.0\.0\.1:\d+\/api\/proxy$/);
+    expect(urls[0]).not.toContain('evil.example.com');
   });
 });

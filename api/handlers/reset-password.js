@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import { randomInt } from 'crypto';
 import { getDb } from '../core/db.js';
 import { errorResponse, successResponse } from '../utils/response.js';
 
@@ -7,8 +8,10 @@ const CODE_EXPIRE_MS = 5 * 60 * 1000;
 const CODE_RATE_LIMIT_MS = 60 * 1000;
 const MAX_VERIFY_ATTEMPTS = 5;
 
+// 2026-09-22: Math.random() 不是密码学随机, 验证码可被预测 → 改用 crypto.randomInt
+// (randomInt 上界为开区间, 故用 1000000 覆盖 100000..999999)
 function generateCode() {
-  return String(Math.floor(100000 + Math.random() * 900000));
+  return String(randomInt(100000, 1000000));
 }
 
 export async function sendResetCodeHandler(req, res) {
