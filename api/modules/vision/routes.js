@@ -47,6 +47,8 @@ router.post('/search', authMiddleware, async (req, res) => {
       parse: result.parse,
       errorAnalysis: result.errorAnalysis,
       similarQuestions: result.similarQuestions,
+      // F3-fix (2026-09-22): 增量字段 — 相似题为空时说明原因 (embedding 不可用/无过阈值结果), 前端可展示诚实空态
+      similarNotice: result.similarNotice || null,
       learningPlan: result.learningPlan,
       ingest: result.ingest ? { success: true } : { success: false }
     }, '拍照搜题完成'));

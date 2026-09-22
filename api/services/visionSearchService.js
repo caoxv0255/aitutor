@@ -1,5 +1,6 @@
 import { getDb } from '../core/db.js';
 import { llm, MODELS } from '../../services/llm.js';
+import { getEmbedding } from '../../services/embedding.js';
 import { logger } from '../core/logger.js';
 import { parseImageToQuestion } from '../routes/vision-parse.js';
 import { ingestQuestion } from '../routes/rag-search.js';
@@ -178,6 +179,7 @@ export class VisionSearchService {
       parse: null,
       errorAnalysis: null,
       similarQuestions: [],
+      similarNotice: null,
       learningPlan: null,
       ingest: null
     };
@@ -245,13 +247,17 @@ export class VisionSearchService {
       }
 
       if (includeSimilarQuestions) {
-        result.similarQuestions = await this.findSimilarQuestions(
+        const similar = await this.findSimilarQuestions(
           getDb(),
-          result.parse.subject_code,
-          result.parse.inferred_kp_id,
-          result.parse.question_type,
-          result.parse.difficulty
+          result.parse.full_content,
+          {
+            subjectCode: result.parse.subject_code,
+            requestId: options.request_id,
+            userId: options.user_email,
+          }
         );
+        result.similarQuestions = similar.questions;
+        result.similarNotice = similar.notice;
       }
 
       if (generateLearningPlan && result.errorAnalysis.knowledge_points) {
@@ -291,55 +297,101 @@ export class VisionSearchService {
     }
   }
 
-  static async findSimilarQuestions(poolPromise, subjectCode, kpId, questionType, difficulty, limit = 5) {
+  /**
+   * F3-fix (2026-09-22): 相似题改为真实语义相似度检索 (pgvector cosine).
+   *
+   * 历史问题: 旧实现按学科/难度/年份过滤后用 ORDER BY RANDOM 随机排序，
+   *   返回的是"同学科随机题"而非相似题，属功能造假，已移除。
+   *
+   * 修复哲学: 宁可诚实的空，不要随机的有。
+   *   - 查询题干 → services/embedding.js 取向量
+   *   - 对 question_vectors.q_embedding 做 cosine 检索 (HNSW 索引 idx_qv_q)
+   *   - 相似度阈值过滤 (env SIMILAR_QUESTIONS_MIN_SIMILARITY, 默认 0.60)
+   *     依据: bge-m3 中文 K12 题干, 同知识点题对 cosine 通常 ≥0.60,
+   *           跨知识点/跨学科题对多落在 0.30~0.55; 0.60 是宁可漏召不可误召的下限
+   *   - 排除源题自身 (题干精确相同者)
+   *   - 任何一步失败 (文本过短 / embedding 不可用 / 无过阈值结果 / DB 异常)
+   *     → 返回空数组 + notice 文案, 绝不回退随机或其他伪相似
+   *
+   * @param {Promise<Pool>} poolPromise
+   * @param {string} queryText 源题题干 (parse.full_content)
+   * @param {{subjectCode?:string, limit?:number, requestId?:string, userId?:string}} [options]
+   * @returns {Promise<{questions: Array, notice: string|null}>}
+   */
+  static async findSimilarQuestions(poolPromise, queryText, options = {}) {
+    const { subjectCode, limit = 5, requestId, userId } = options;
+    const threshold = parseFloat(process.env.SIMILAR_QUESTIONS_MIN_SIMILARITY || '0.60');
+
+    const empty = (notice) => ({ questions: [], notice });
+
     try {
+      const text = (queryText || '').trim();
+      if (text.length < 10) {
+        return empty('题目文本过短，无法计算语义相似度，未检索相似题');
+      }
+
+      let queryEmbedding;
+      try {
+        queryEmbedding = await getEmbedding(text, { request_id: requestId, user_id: userId });
+      } catch (embErr) {
+        logger.warn(`[VisionSearch] 相似题 embedding 失败: ${embErr.message}`);
+        return empty('相似题检索暂不可用（向量嵌入服务异常），本次不返回相似题');
+      }
+
       const pool = await poolPromise;
-      const minYear = new Date().getFullYear() - 3;
-      
-      let query = `
-        SELECT id, question_uid, stem, options, answer, analysis, 
-               knowledge_points, difficulty, question_type, subject_code, year, score
-        FROM exam_questions
-        WHERE subject_code = $1
-          AND year >= $2
-          AND answer IS NOT NULL AND TRIM(answer) != ''
-          AND difficulty >= $3 AND difficulty <= $4
-      `;
-      
-      const params = [subjectCode, minYear, Math.max(1, difficulty - 1), Math.min(5, difficulty + 1)];
-      let paramIdx = 5;
+      const embeddingStr = `[${queryEmbedding.join(',')}]`;
 
-      if (questionType) {
-        query += ` AND question_type = $${paramIdx++}`;
-        params.push(questionType);
+      const params = [embeddingStr, text, threshold];
+      let paramIdx = 4;
+      let subjectClause = '';
+      if (subjectCode) {
+        subjectClause = ` AND qv.subject_code = $${paramIdx++}`;
+        params.push(subjectCode);
       }
-
-      if (kpId) {
-        query += ` AND (knowledge_points LIKE $${paramIdx} OR knowledge_points IS NULL)`;
-        params.push(`%${kpId}%`);
-      }
-
-      query += ' ORDER BY RANDOM() LIMIT $' + paramIdx;
       params.push(limit);
+
+      const query = `
+        SELECT q.question_uid, q.stem, q.options, q.answer, q.analysis,
+               q.knowledge_points, q.difficulty, q.question_type, q.subject_code, q.year, q.score,
+               1 - (qv.q_embedding <=> $1) AS similarity
+        FROM question_vectors qv
+        JOIN exam_questions q ON q.id = qv.question_id
+        WHERE qv.q_embedding IS NOT NULL
+          AND q.answer IS NOT NULL AND TRIM(q.answer) != ''
+          AND q.stem IS DISTINCT FROM $2
+          AND 1 - (qv.q_embedding <=> $1) >= $3
+          ${subjectClause}
+        ORDER BY qv.q_embedding <=> $1
+        LIMIT $${paramIdx}
+      `;
 
       const result = await pool.query(query, params);
 
-      return result.rows.map(q => ({
-        id: q.question_uid,
-        content: q.stem,
-        options: q.options ? JSON.parse(q.options) : [],
-        answer: q.answer,
-        explanation: q.analysis,
-        knowledge_points: q.knowledge_points,
-        difficulty: q.difficulty,
-        question_type: q.question_type,
-        subject_code: q.subject_code,
-        year: q.year,
-        score: q.score
-      }));
+      if (result.rows.length === 0) {
+        return empty('题库中暂未找到达到相似度阈值的题目');
+      }
+
+      return {
+        questions: result.rows.map(q => ({
+          id: q.question_uid,
+          content: q.stem,
+          options: q.options ? JSON.parse(q.options) : [],
+          answer: q.answer,
+          explanation: q.analysis,
+          knowledge_points: q.knowledge_points,
+          difficulty: q.difficulty,
+          question_type: q.question_type,
+          subject_code: q.subject_code,
+          year: q.year,
+          score: q.score,
+          // F3-fix: 增量字段 — 真实 cosine 相似度 (0~1), 不删不改既有字段
+          similarity: parseFloat(Number(q.similarity).toFixed(4))
+        })),
+        notice: null
+      };
     } catch (error) {
       logger.warn(`[VisionSearch] 查找相似题目失败: ${error.message}`);
-      return [];
+      return empty('相似题检索失败，本次不返回相似题');
     }
   }
 

@@ -495,6 +495,10 @@
           item.innerHTML = '<div style="font-size:var(--font-size-caption);color:var(--color-on-surface-variant);margin-bottom:var(--space-1);">相似题目 ' + (index + 1) + '</div><div style="font-size:var(--font-size-body);color:var(--color-on-surface);line-height:var(--line-height-body);">' + (q.content || '').substring(0, 100) + '...</div>';
           similarList.appendChild(item);
         });
+        // F3-fix: 诚实空态 — 无相似题时展示后端 notice 原因, 而非静默空白
+        if ((data.similarQuestions || []).length === 0 && data.similarNotice) {
+          similarList.textContent = data.similarNotice;
+        }
 
         var planContent = document.getElementById('planContent');
         if (data.learningPlan) {
