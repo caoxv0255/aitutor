@@ -106,13 +106,18 @@ body
 └── footer.footer > .container
 ```
 
-**覆盖范围**（2026-09-22）：10 个接管页**全部**为标准骨架
-（dashboard / photo-solve / wrong-book / practice-hub / mastery / review-session / essay /
-learning-path / login / register）。此前只有 dashboard 是样板 —— 那次"全量铺开"只补了
+**覆盖范围**（2026-09-22，同日更新接管页数）：20 个接管页**全部**为标准骨架 ——
+清单以 `server.js` 的 `DEFAULT_NEW_TREE_PAGES` 为真相源：
+login / register / photo-solve / wrong-book / review-session / mastery / dashboard /
+practice-hub / essay / learning-path / onboarding / notifications / settings / subject-picker /
+knowledge-star / predictive-paper / subject-detail / state-library / learning-journey / subject-exam。
+此前只有 dashboard 是样板 —— 那次"全量铺开"只补了
 字体/暗色/tabbar，壳没换，所以观感仍是旧页；这次是真迁，痕迹在
-`check-ui-standard.mjs` 的 `MIGRATED` 清单里（人工维护，不是口头约定）。
-剩下 14 个原型页是已知欠账，门禁只记 backlog 不计失败
-（`pwa-photo.html` / `vision-result.html` 已于 2026-09-22 删除 —— 被 photo-solve 取代，见 PLAN 批次 5）。
+`server.js` 的接管清单与 `check-ui-standard.mjs` 的 `MIGRATED` 清单里（人工维护，不是口头约定）。
+剩下 5 个原型页是已知欠账，门禁只记 backlog 不计失败
+（hero / landing / error-404 / practice-hub-v2 / teacher-dashboard，见
+`check-new-tree-routing.mjs` 的 `NOT_TAKEN_OVER` 清单；
+`pwa-photo.html` / `vision-result.html` 已于 2026-09-22 删除 —— 被 photo-solve 取代，见 PLAN 批次 5）。
 
 ### 5.5.2 标准件目录
 
