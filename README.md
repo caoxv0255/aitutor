@@ -57,6 +57,8 @@ aitutor/
 ├── services/                    # 独立服务层
 │   ├── llm.js                   # LLM 封装 (文本 + 流式 + 多模态)
 │   └── embedding.js             # DashScope Embedding API
+├── frontend-v2/                 # 现行主前端树 (v2)：/v2/ 全量 + 已接管页根路径
+├── ai-tutor-frontend/           # F3 前端 (/f3/*，旧树兜底)
 ├── public/                      # PWA 移动端 (SPA)
 │   ├── src/
 │   │   ├── js/
@@ -66,7 +68,7 @@ aitutor/
 │   │   ├── components/          # 图片裁剪等 UI 组件
 │   │   └── app.js               # SPA 入口
 │   └── manifest.json            # PWA 配置
-├── frontend/                    # PC 端多页应用 (MPA)
+├── frontend/                    # 旧树 PC 多页应用 (MPA，冻结后 301 → /f3，仅作回滚)
 │   ├── assets/
 │   │   ├── css/                 # style.css, brand.css
 │   │   └── js/                  # components.js, exam-mode.js, qr.js 等
@@ -93,6 +95,15 @@ aitutor/
 | **测试**     | Vitest                                                             |
 | **工程化**   | ESLint 9 · Prettier · GitHub Actions CI/CD                         |
 | **部署**     | Docker · systemd service                                           |
+
+### 前端主树（frontend-v2）与页面接管
+
+`frontend-v2/` 是现行主前端树；旧树（`frontend/` legacy、`ai-tutor-frontend/` F3、`public/` PWA）只作兜底与回滚。
+
+- **路由**：`/v2/` 始终提供新树全部页面；根路径按 `server.js` 的 `DEFAULT_NEW_TREE_PAGES` 接管已重建页（旧树同名页被优先遮蔽），其余路径仍走旧树。新树资源走独立命名空间 `/assets/v2/`，与 legacy 资源零撞名。
+- **接管进度**：根路径接管 **20** 页（`server.js` 的 `DEFAULT_NEW_TREE_PAGES`）；另有 **5** 个 v2 原型页（`hero.html`、`landing.html`、`error-404.html`、`practice-hub-v2.html`、`teacher-dashboard.html`）有意不接管，仅经 `/v2/` 预览。`frontend-v2/` 顶层共 25 个页面。
+- **回滚**：改环境变量 + 重启即可，不动代码 —— `NEW_TREE=off` 让全部路径回到旧树（新页仍可从 `/v2/` 访问）；`NEW_TREE_PAGES=a.html,b.html` 缩小接管射程。
+- **门禁**：`scripts/check-new-tree-routing.mjs`（校验接管路由）、`scripts/check-ui-standard.mjs`（视觉标准，`MIGRATED` 清单当前 10 页）。迁移计划与批次见 `docs/spec/PLAN-v2-migration.md`，视觉规格见 `docs/spec/SPEC-UI.md`。
 
 ### 前端自托管依赖（零境外请求）
 
@@ -133,19 +144,24 @@ cp .env.example .env
 # 必填
 DATABASE_URL=postgresql://user:password@localhost:5432/aitutor
 JWT_SECRET=your-secret-key-at-least-32-characters-long
-DASHSCOPE_API_KEY=your-dashscope-api-key
+EMBEDDING_BASE_URL=http://host.docker.internal:11434
+EMBEDDING_MODEL=bge-m3
 
 # 可选
+DASHSCOPE_API_KEY=your-dashscope-api-key
 DEEPSEEK_API_KEY=your-deepseek-api-key
+GRAPHRAG_API_KEY=your-graphrag-api-key
 PG_POOL_MAX=20
-PORT=3000
+PORT=3002
 ```
+
+完整变量清单与「必填/可选」标注以 `.env.example` 为准；凭据轮换与泄露处置见 `docs/security/credential-rotation.md`。
 
 ### 启动
 
 ```bash
 npm start
-# 访问 http://localhost:3000
+# 访问 http://localhost:3002
 ```
 
 ### Docker 部署
@@ -219,11 +235,13 @@ event: error       → 错误信息
 
 ```bash
 npm test                # 运行测试
+npm run test:frontend   # 前端 v2 状态机 / 响应式用例 (node 直跑)
 npm run test:watch      # 监听模式
 npm run test:coverage   # 覆盖率报告
 npm run lint            # ESLint 检查
 npm run lint:fix        # 自动修复
 npm run format          # Prettier 格式化
+npm run gate            # 发布门禁 (release-gate.sh，含路由/视觉/凭据等静态检查)
 ```
 
 ## 知识点覆盖
