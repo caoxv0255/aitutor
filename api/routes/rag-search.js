@@ -21,7 +21,7 @@ import express from 'express';
 import { getDb } from '../core/db.js';
 import { getEmbedding } from '../../services/embedding.js';
 import { successResponse, errorResponse } from '../utils/response.js';
-import { authMiddleware } from '../core/auth.js';
+import { authMiddleware, requireAdmin } from '../core/auth.js';
 
 const router = express.Router();
 
@@ -554,7 +554,8 @@ export async function getIngestStats() {
 /**
  * POST /api/rag/ingest — 录入题目到向量库
  */
-router.post('/ingest', authMiddleware, async (req, res) => {
+// H2-fix (2026-09-22): 向量库写端点必须 admin-only, 防普通用户投毒.
+router.post('/ingest', authMiddleware, requireAdmin, async (req, res) => {
   try {
     const { content, knowledge_point_id, subject_code, difficulty, question_type, source_paper_id, metadata } =
       req.body;

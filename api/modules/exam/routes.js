@@ -25,8 +25,9 @@ router.get('/papers/:id', getExamPaperById);
 // 且 paper_file_path 会进入文件系统读路径, 必须 admin-only.
 router.post('/papers', requireAdmin, createExamPaper);
 
-router.post('/questions', createExamQuestion);
-router.post('/questions/batch', batchCreateQuestions);
+// H2-fix (2026-09-22): 写端点必须 admin-only, 防普通用户向题库投毒.
+router.post('/questions', requireAdmin, createExamQuestion);
+router.post('/questions/batch', requireAdmin, batchCreateQuestions);
 
 // D091-front-loop-2026-09-14: 同类题推荐 (基于 v2 KP ID 精确匹配, 比 RAG 文本匹配更准)
 router.get('/questions/similar', getSimilarQuestionsByV2Kp);
