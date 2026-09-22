@@ -13,6 +13,7 @@ import { generateExamPdf } from '../../handlers/exam-pdf.js';
 import questionsRouter from '../../handlers/questions.js';
 import explainQuestionRouter from '../../handlers/explain-question.js';
 import { getDb } from '../../core/db.js';
+import { requireAdmin } from '../../core/auth.js';
 import { errorResponse, successResponse } from '../../utils/response.js';
 import { enrichQuestionsWithTables } from '../../services/questionTables.js';
 
@@ -20,7 +21,9 @@ const router = express.Router();
 
 router.get('/papers', getExamPapers);
 router.get('/papers/:id', getExamPaperById);
-router.post('/papers', createExamPaper);
+// C2-fix: 创建试卷含「先 DELETE 同学科同年试卷再 INSERT」的破坏性写,
+// 且 paper_file_path 会进入文件系统读路径, 必须 admin-only.
+router.post('/papers', requireAdmin, createExamPaper);
 
 router.post('/questions', createExamQuestion);
 router.post('/questions/batch', batchCreateQuestions);

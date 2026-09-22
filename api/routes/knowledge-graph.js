@@ -65,12 +65,18 @@ router.get('/file', authMiddleware, async (req, res) => {
   }
   
   try {
-    const fullPath = path.join(
-      __dirname,
-      '../../database/knowledge-points',
-      filePath
-    );
-    
+    const baseDir = path.resolve(__dirname, '../../database/knowledge-points');
+    const fullPath = path.resolve(baseDir, filePath);
+
+    // 防路径穿越 (C1-fix): 拒绝绝对路径与 .. 逃逸, 解析后必须落在 knowledge-points 目录内
+    // (写法与 api/handlers/upload/imageHandler.js 的二次防御保持一致)
+    if (
+      path.isAbsolute(filePath) ||
+      (fullPath !== baseDir && !fullPath.startsWith(baseDir + path.sep))
+    ) {
+      return res.status(400).json(errorResponse('非法文件路径'));
+    }
+
     if (!fs.existsSync(fullPath)) {
       return res.status(404).json(errorResponse('文件不存在'));
     }

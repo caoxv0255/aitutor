@@ -281,27 +281,45 @@ export async function generateExamPdf(req, res) {
         filePath = filePath.replace(/解析版/g, '原卷版');
       }
 
+      // C2-fix: 防路径穿越 — paper_file_path 来自 DB 写入口 (createExamPaper),
+      // 拒绝绝对路径与 .. 逃逸; 解析后必须落在允许目录集合 (database/ uploads/) 内.
+      // 原实现 baseDirs 含 '.' 且存在 fs.existsSync(filePath) 直读兜底, 等于任意文件读.
+      const allowedRoots = [
+        path.resolve(process.cwd(), 'database'),
+        path.resolve(process.cwd(), 'uploads')
+      ];
+      const isPathAllowed = (p) =>
+        allowedRoots.some((root) => p.startsWith(root + path.sep));
+
+      if (path.isAbsolute(filePath) || filePath.split(/[\\/]+/).includes('..')) {
+        return res.status(400).json(errorResponse('非法文件路径'));
+      }
+
       const provinceName = PROVINCE_MAP[paper.province_code] || paper.province_code;
 
       const baseDirs = [
         path.join('database', '高考真题', provinceName),
         path.join('database', '高考真题'),
         'database',
-        'uploads',
-        '.'
+        'uploads'
       ];
 
       let foundFilePath = null;
       for (const baseDir of baseDirs) {
-        const fullPath = path.join(process.cwd(), baseDir, filePath);
-        if (fs.existsSync(fullPath)) {
+        const fullPath = path.resolve(process.cwd(), baseDir, filePath);
+        if (isPathAllowed(fullPath) && fs.existsSync(fullPath)) {
           foundFilePath = fullPath;
           break;
         }
       }
 
-      if (!foundFilePath && fs.existsSync(filePath)) {
-        foundFilePath = filePath;
+      // 兼容「DB 里存了 database/... 或 uploads/... 全相对路径」的历史数据,
+      // 但同样强制落在允许目录内 (替代原 fs.existsSync(filePath) 无校验兜底).
+      if (!foundFilePath) {
+        const directPath = path.resolve(process.cwd(), filePath);
+        if (isPathAllowed(directPath) && fs.existsSync(directPath)) {
+          foundFilePath = directPath;
+        }
       }
 
       if (foundFilePath) {
