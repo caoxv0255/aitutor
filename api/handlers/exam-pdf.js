@@ -1,6 +1,7 @@
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { getDb } from '../core/db.js';
 import { errorResponse } from '../utils/response.js';
 import { placeholderToText } from '../services/questionTables.js';
@@ -12,6 +13,16 @@ const SUBJECT_MAP = {
   physics: '物理', chemistry: '化学', biology: '生物',
   politics: '政治', history: '历史', geography: '地理'
 };
+
+// ── 中文字体 (B-1) ─────────────────────────────────────────────
+// 原实现硬编码 C:/Windows/Fonts/simhei.ttf, Linux 上 fs.readFileSync 必抛 ENOENT
+// → 500「生成PDF失败」(无有效信息)。改为随仓库分发字体, 路径按模块位置解析,
+// 不依赖 process.cwd(); 缺字体时在 registerFont 前给出明确报错。
+// 选用 Noto Sans CJK SC (SIL OFL 1.1, 可再分发 + 可嵌入), 单文件 TTC, 覆盖简中 + 拉丁。
+const moduleDir = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = path.resolve(moduleDir, '..', '..');
+export const CJK_FONT_PATH = path.join(REPO_ROOT, 'assets', 'fonts', 'NotoSansCJK-Regular.ttc');
+const CJK_FONT_FACE = 'NotoSansCJKsc-Regular';
 
 const QUESTION_TYPE_MAP = {
   choice: '单选题', multiple_choice: '多选题',
@@ -97,6 +108,20 @@ try {
   throw new Error('Word 转换 PDF 失败');
 }
 
+export function registerCjkFonts(doc) {
+  if (!fs.existsSync(CJK_FONT_PATH)) {
+    throw new Error(
+      `中文字体缺失: ${CJK_FONT_PATH} 不存在, 无法渲染中文试卷 (请将 NotoSansCJK-Regular.ttc 置于 assets/fonts/)`
+    );
+  }
+  try {
+    doc.registerFont('simhei', CJK_FONT_PATH, CJK_FONT_FACE);
+    doc.registerFont('simsun', CJK_FONT_PATH, CJK_FONT_FACE);
+  } catch (err) {
+    throw new Error(`中文字体加载失败: ${err.message} (文件: ${CJK_FONT_PATH})`);
+  }
+}
+
 async function generateFromDocx(docxPath, paper) {
   try {
     const pdfPath = convertDocxToPdfWithWord(docxPath);
@@ -117,8 +142,7 @@ async function generateFromDocx(docxPath, paper) {
     bufferPages: true
   });
 
-  doc.registerFont('simhei', 'C:/Windows/Fonts/simhei.ttf');
-  doc.registerFont('simsun', 'C:/Windows/Fonts/simhei.ttf');
+  registerCjkFonts(doc);
 
   return new Promise((resolve) => {
     const chunks = [];
@@ -166,8 +190,7 @@ async function generateFromDatabase(paper, questions, includeAnswer, includeAnal
     bufferPages: true
   });
 
-  doc.registerFont('simhei', 'C:/Windows/Fonts/simhei.ttf');
-  doc.registerFont('simsun', 'C:/Windows/Fonts/simhei.ttf');
+  registerCjkFonts(doc);
 
   return new Promise((resolve) => {
     const chunks = [];
