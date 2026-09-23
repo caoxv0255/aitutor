@@ -143,6 +143,9 @@ const cases = [
     method: 'PUT', url: '/api/user/wrong-questions/7', body: { reviewed: 1 } },
 
   { name: 'deleteWrongQuestion', fn: () => AIAPI.deleteWrongQuestion(7), method: 'DELETE', url: '/api/user/wrong-questions/7' },
+
+  { name: 'askTutor', fn: () => AIAPI.askTutor({ question: '如何求函数极值？', subject: 'math' }),
+    method: 'POST', url: '/api/tutor/ask', body: { question: '如何求函数极值？', subject: 'math' } },
 ];
 
 for (const tc of cases) {
@@ -195,6 +198,66 @@ check('clearSession 清 user', window.localStorage.getItem('user'), null);
 }
 
 check('request 为公开方法', typeof AIAPI.request, 'function');
+
+// ── tutor 流式 askTutorStream：URL/method/header/payload 契约 ──────────────
+// 非 SSE 响应（如 401 JSON）不会进入流式读取分支，但请求形状必须先冻结。
+// 3 个接地字段由后端 metadata 事件携带，不在请求体（前端消费，不改造契约）。
+window.localStorage.setItem('authToken', T);
+{
+  const origFetch = window.fetch;
+  let streamCall = null;
+  window.fetch = (url, init) => {
+    streamCall = { url, init };
+    return Promise.resolve({
+      ok: false,
+      status: 401,
+      headers: { get: () => 'application/json' },
+      json: () => Promise.resolve({ message: '未授权' }),
+    });
+  };
+  const events = [];
+  let streamErr = null;
+  try {
+    await AIAPI.askTutorStream(
+      { question: '如何求函数极值？', subject: 'math' },
+      { onEvent: (e) => events.push(e) }
+    );
+  } catch (e) {
+    streamErr = e;
+  }
+  window.fetch = origFetch;
+
+  check('askTutorStream URL', streamCall && streamCall.url, '/api/tutor/ask/stream');
+  check('askTutorStream method', streamCall && streamCall.init.method, 'POST');
+  check('askTutorStream Authorization', streamCall && streamCall.init.headers.Authorization, 'Bearer ' + T);
+  check('askTutorStream Content-Type', streamCall && streamCall.init.headers['Content-Type'], 'application/json');
+  check('askTutorStream payload', streamCall && JSON.parse(streamCall.init.body), { question: '如何求函数极值？', subject: 'math' });
+  check('askTutorStream 非 SSE → reject', !!streamErr, true);
+  check('askTutorStream 非 SSE → error 事件', events.some((e) => e.event === 'error'), true);
+
+  // 无 onEvent 回调 → 立即拒绝（不静默吞掉）
+  let noCbErr = null;
+  try {
+    await AIAPI.askTutorStream({ question: 'x' }, {});
+  } catch (e) {
+    noCbErr = e;
+  }
+  check('askTutorStream 缺 onEvent → reject', !!noCbErr, true);
+}
+
+// ── SSE 帧解析（纯函数，接地字段随 metadata 帧下发） ────────────────────────
+check(
+  'parseSseFrame metadata',
+  JSON.stringify(AIAPI.parseSseFrame('event: metadata\ndata: {"grounded":false,"groundingNotice":"未接地"}')),
+  JSON.stringify({ event: 'metadata', data: { grounded: false, groundingNotice: '未接地' } })
+);
+check(
+  'parseSseFrame content',
+  JSON.stringify(AIAPI.parseSseFrame('event: content\ndata: {"delta":"你好"}')),
+  JSON.stringify({ event: 'content', data: { delta: '你好' } })
+);
+check('parseSseFrame 非 JSON data 原样返回', AIAPI.parseSseFrame('data: hello').data, 'hello');
+check('parseSseFrame 空帧', AIAPI.parseSseFrame(''), null);
 
 // ── 汇总 ───────────────────────────────────────────────────────────────────
 for (const r of results) {

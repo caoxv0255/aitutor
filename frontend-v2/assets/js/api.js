@@ -342,5 +342,121 @@
         signal: signal,
       });
     },
+
+    /* ── AI 导师问答（tutor） ───────────────────────────────────────────
+     * 入参 payload：{ question(必填), knowledge_point_id?, subject?, current_topic_name? }
+     *
+     * 响应增量契约 (F1/G4，2026-09-23，见 api/routes/tutor-agent.js)：
+     *   grounded: boolean        — false 表示本次回答未依据题库内容
+     *   citations: array         — 命中题号列表（[{question_id, similarity}]），无则 []
+     *   groundingNotice: string|null — 未接地时的**后端原文说明**；已接地 → null
+     *   ⇒ 前端只消费后端产出的文案，不得自造/改写；无这三字段时按“未知”处理（不伪造状态）。
+     * ──────────────────────────────────────────────────────────────────── */
+
+    /** 单次问答（非流式）：POST /api/tutor/ask → { response, diagnosis, learning_path, metadata, context, usage, duration_ms, grounded, citations, groundingNotice } */
+    askTutor: function (payload, signal) {
+      return request('/api/tutor/ask', { method: 'POST', body: payload, signal: signal });
+    },
+
+    /**
+     * 流式问答：POST /api/tutor/ask/stream（SSE）。
+     * @param {object} payload  { question, knowledge_point_id?, subject?, current_topic_name? }
+     * @param {{onEvent: function({event,data}), signal?: AbortSignal}} opts
+     *        onEvent 收到 { event, data }，event ∈ metadata|content|done|error。
+     *        ⚠️ 流式三字段随 metadata（meta）事件下发（后端约定）；缺字段即视为未知，不伪造。
+     * @returns {Promise<void>} 流结束即 resolve；业务/网络错误 reject（并把 error 事件交给 onEvent）。
+     */
+    askTutorStream: function (payload, opts) {
+      opts = opts || {};
+      const onEvent = opts.onEvent;
+      if (typeof onEvent !== 'function') {
+        return Promise.reject(ApiError('askTutorStream: onEvent 回调必填', { kind: 'request' }));
+      }
+
+      const headers = { 'Content-Type': 'application/json' };
+      const token = getToken();
+      if (token) headers.Authorization = 'Bearer ' + token;
+
+      return global
+        .fetch('/api/tutor/ask/stream', {
+          method: 'POST',
+          headers: headers,
+          credentials: 'same-origin',
+          body: JSON.stringify(payload || {}),
+          signal: opts.signal,
+        })
+        .then(
+          function (res) {
+            const contentType = res.headers && res.headers.get ? res.headers.get('content-type') || '' : '';
+            if (String(contentType).indexOf('text/event-stream') === -1) {
+              // 业务错误：后端返回普通 JSON（401/400/500…）
+              return res
+                .json()
+                .catch(function () {
+                  return null;
+                })
+                .then(function (body) {
+                  const msg = (body && (body.message || body.error)) || '请求失败（HTTP ' + res.status + '）';
+                  onEvent({ event: 'error', data: { message: msg, status: res.status } });
+                  throw ApiError(msg, { status: res.status, payload: body });
+                });
+            }
+            // 无流式能力的环境（如无 ReadableStream/TextDecoderStream）→ 如实报错，不伪造
+            if (!res.body || typeof res.body.getReader !== 'function' || typeof global.TextDecoderStream !== 'function') {
+              const msg = '当前环境不支持流式响应';
+              onEvent({ event: 'error', data: { message: msg } });
+              throw ApiError(msg, { kind: 'request' });
+            }
+
+            const reader = res.body.pipeThrough(new global.TextDecoderStream()).getReader();
+            let buf = '';
+            const normalize = function (s) {
+              return s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            };
+            function pump() {
+              return reader.read().then(function (r) {
+                if (r.done) return undefined;
+                buf += normalize(r.value);
+                let idx;
+                while ((idx = buf.indexOf('\n\n')) !== -1) {
+                  const frame = buf.slice(0, idx);
+                  buf = buf.slice(idx + 2);
+                  const ev = parseSseFrame(frame);
+                  if (ev) onEvent(ev);
+                }
+                return pump();
+              });
+            }
+            return pump();
+          },
+          function (err) {
+            if (err && err.name === 'AbortError') throw err;
+            throw ApiError('网络连接不可用', { kind: 'network' });
+          }
+        );
+    },
   };
+
+  /**
+   * 解析单个 SSE 帧 "event: x\ndata: {...}" → { event, data }。
+   * data 非 JSON 时原样返回字符串；空 data 返回 { event, data: '' }。
+   */
+  function parseSseFrame(frame) {
+    if (!frame) return null;
+    const lines = frame.split('\n');
+    let event = 'message';
+    let data = '';
+    lines.forEach(function (line) {
+      if (line.indexOf('event:') === 0) event = line.slice(6).trim();
+      else if (line.indexOf('data:') === 0) data += line.slice(5).trim();
+    });
+    if (!data) return { event: event, data: '' };
+    try {
+      return { event: event, data: JSON.parse(data) };
+    } catch (e) {
+      return { event: event, data: data };
+    }
+  }
+
+  global.AIAPI.parseSseFrame = parseSseFrame;
 })(window);

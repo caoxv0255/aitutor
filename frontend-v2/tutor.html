@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#d71920" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="AI 导师讲题 — 提一个问题，导师结合题库题目拆解思路；未命中题库时如实说明，不编造依据">
+  <title>AI 导师讲题 · 智启AI导师</title>
+  <link rel="stylesheet" href="/assets/v2/css/fonts.css">
+  <link rel="stylesheet" href="/assets/v2/css/system.css">
+  <link rel="stylesheet" href="/assets/v2/css/app.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true"></span>
+        智启AI导师
+      </a>
+      <div class="nav__links">
+        <a class="nav__link" href="/dashboard.html">仪表盘</a>
+        <a class="nav__link" href="/practice-hub.html">练习</a>
+        <a class="nav__link" href="/review-session.html">复习</a>
+        <a class="nav__link" href="/wrong-book.html">错题本</a>
+        <a class="nav__cta" href="/v2/tutor.html" aria-current="page">AI 讲题</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero hero--app">
+    <div class="hero-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="container">
+      <div class="hero__copy">
+        <div class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>AI tutor</div>
+        <h1 class="hero__title">AI 导师讲题</h1>
+        <p class="hero__sub">提一个问题，导师结合题库中的题目拆解思路；若未检索到可依据的题目，会如实说明，不编造依据。</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="section section--tight">
+    <div class="container">
+      <form id="tutor-form" novalidate>
+        <label class="field" for="question-input">
+          你的问题
+          <textarea id="question-input" name="question" rows="4" maxlength="1000"
+            placeholder="例如：已知函数 f(x)=x²-2x+1，如何求它的最小值？"></textarea>
+        </label>
+        <div class="field-row">
+          <label class="field" for="subject-select">
+            学科
+            <!-- 9 科由 assets/js/subjects.js 的 fillSelect() 统一填充（单一数据源） -->
+            <select id="subject-select"></select>
+          </label>
+          <button class="btn" id="ask-btn" type="submit">请教导师</button>
+          <button class="btn btn-ghost" id="cancel-btn" type="button" hidden>中断</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="state-region" aria-live="polite">
+    <section class="state state--empty" data-state="empty">
+      <div class="section section--tight"><div class="container">
+        <div class="state-card">
+          <h2>还没有提问</h2>
+          <p id="empty-copy">在上方写下你的问题，导师的回答会出现在这里。</p>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="state state--loading" data-state="loading">
+      <div class="section section--tight"><div class="container">
+        <div class="state-card">
+          <h2 id="loading-title">正在思考…</h2>
+          <p class="skeleton skeleton--w90"></p>
+          <p class="skeleton skeleton--w70"></p>
+          <p class="skeleton skeleton--w50"></p>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="state state--success" data-state="success">
+      <div class="section section--tight"><div class="container">
+        <div class="state-card">
+          <h2 id="success-title">导师回答</h2>
+          <!-- 说明横幅：仅在 grounded===false 且后端给了 groundingNotice 原文时显示；
+               文案直接取后端 groundingNotice，前端不自造/改写（见 assets/js/tutor.js）。 -->
+          <div class="tutor-notice" id="grounding-notice" role="status" hidden></div>
+          <article class="tutor-answer" id="tutor-answer"></article>
+          <!-- 出处（可选）：grounded===true 且 citations 非空时轻量展示命中题号。 -->
+          <div class="tutor-citations" id="tutor-citations" hidden></div>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="state state--error" data-state="error">
+      <div class="section section--tight"><div class="container">
+        <div class="state-card">
+          <h2>导师暂时无法回答</h2>
+          <p id="error-copy">服务暂时不可用。</p>
+          <p><button class="btn btn-ghost" id="retry-btn" type="button">重试</button></p>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="state state--auth" data-state="auth">
+      <div class="section section--tight"><div class="container">
+        <div class="state-card">
+          <h2>需要登录后才能提问</h2>
+          <p>问答会绑定到你的学习记录，请先登录或注册。</p>
+          <p><a class="btn" href="/login.html?next=tutor.html">去登录</a></p>
+        </div>
+      </div></div>
+    </section>
+
+    <section class="state state--offline" data-state="offline">
+      <div class="section section--tight"><div class="container">
+        <div class="state-card">
+          <h2>当前处于离线状态</h2>
+          <p>恢复网络后可重新提问；已输入的问题会保留在本页。</p>
+          <p><button class="btn btn-ghost" id="offline-retry-btn" type="button">重新连接</button></p>
+        </div>
+      </div></div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="container">智启AI导师 · 数据仅用于你的个人学习记录</div>
+  </footer>
+
+  <nav class="tabbar" aria-label="底部导航">
+    <a class="tabbar__item" href="/dashboard.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg></span>首页</a>
+    <a class="tabbar__item" href="/wrong-book.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span>错题</a>
+    <a class="tabbar__item tabbar__item--raise" href="/v2/tutor.html" aria-current="page"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg></span>讲题</a>
+    <a class="tabbar__item" href="/review-session.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v6h6"/></svg></span>复习</a>
+    <a class="tabbar__item" href="/v2/settings.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>我的</a>
+  </nav>
+
+  <script src="/assets/v2/js/ui.js"></script>
+  <script src="/assets/v2/js/api.js"></script>
+  <script src="/assets/v2/js/subjects.js"></script>
+  <script src="/assets/v2/js/tutor.js"></script>
+</body>
+</html>

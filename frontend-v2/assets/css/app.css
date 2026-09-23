@@ -1901,3 +1901,37 @@ a.btn:focus-visible {
 .ring-caption {
   text-align: center;
 }
+
+/* ── AI 导师讲题（tutor.html） ──────────────────────────────────────────
+ * 说明横幅文案来自后端 groundingNotice 原文（前端只做呈现，不造语义）；
+ * 未接地时给醒目但克制的提示，已接地时不出现。色值全部走 token，
+ * 暗色由 system.css/app.css 的 token 覆盖自动适配。
+ * ──────────────────────────────────────────────────────────────────── */
+.tutor-notice {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--brand-red);
+  background: var(--brand-red-50);
+  border-radius: var(--r-md);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+.tutor-answer {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.tutor-citations {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-3);
+}

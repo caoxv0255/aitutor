@@ -62,6 +62,8 @@ const NOT_TAKEN_OVER = new Set([
   'error-404.html', // /v2/ 的 404 模板（server.js DESIGN_V2_404），不走接管路由
   'practice-hub-v2.html', // practice-hub 迭代原型，正式页仍为 practice-hub.html
   'teacher-dashboard.html', // 教师端未迁移，仅 /v2/ 预览
+  'tutor.html', // 波次 2 新建的 AI 导师讲题页（frontend-v2）；先以 /v2/ 命名空间提供，
+  // 待并入 DEFAULT_NEW_TREE_PAGES 时移出本豁免（改 server.js 需重启，本次不做）。
 ]);
 
 const md5 = (buf) => crypto.createHash('md5').update(buf).digest('hex');
