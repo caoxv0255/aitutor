@@ -24,7 +24,10 @@ import jwt from 'jsonwebtoken';
 
 // ── mock 重依赖: embedding / db / OCR / ingest / LLM ──────────────────────
 // 全部换成 spy, 既能给受控返回值, 又能断言"零调用"。
-vi.mock('../../services/embedding.js', () => ({ getEmbedding: vi.fn() }));
+vi.mock('../../services/embedding.js', () => ({
+  getEmbedding: vi.fn(),
+  getEmbeddingProvenance: vi.fn(() => ({ provider: 'remote', model: 'text-embedding-v3', dim: 1024 })),
+}));
 vi.mock('../../api/core/db.js', () => ({ getDb: vi.fn() }));
 vi.mock('../../api/routes/vision-parse.js', () => ({
   parseImageToQuestion: vi.fn(),

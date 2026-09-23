@@ -29,6 +29,8 @@ const loadGolden = (f) => JSON.parse(readFileSync(resolve(GOLDEN_DIR, f), 'utf8'
 vi.mock('../../services/embedding.js', () => ({
   getEmbedding: vi.fn(),
   getBatchEmbeddings: vi.fn(async () => []),
+  // P0-guard (2026-09-23): 溯源守卫读取当前 env 生效的 provider/model。
+  getEmbeddingProvenance: vi.fn(() => ({ provider: 'remote', model: 'text-embedding-v3', dim: 1024 })),
   EMBEDDING_MODEL: 'bge-m3',
   EMBEDDING_DIMS: 1024,
   EMBEDDING_PROVIDER: 'local',

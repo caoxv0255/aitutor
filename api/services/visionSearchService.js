@@ -1,6 +1,6 @@
 import { getDb } from '../core/db.js';
 import { llm, MODELS } from '../../services/llm.js';
-import { getEmbedding } from '../../services/embedding.js';
+import { getEmbedding, getEmbeddingProvenance } from '../../services/embedding.js';
 import { logger } from '../core/logger.js';
 import { parseImageToQuestion } from '../routes/vision-parse.js';
 import { ingestQuestion } from '../routes/rag-search.js';
@@ -119,6 +119,40 @@ const MULTIMODAL_ANALYSIS_PROMPT = (subjectName) => `你是一位拥有20年教�
 - formulas字段必须提取所有数学/物理/化学公式
 - diagram_elements必须详细描述图像中的所有关键元素
 - 语义描述必须准确，能够帮助学生理解公式和图表的含义`;
+
+// ──────────────────────────────────────────────────────────────────────────
+// P0-guard (2026-09-23): 向量溯源一致性守卫
+//
+// 事故: question_vectors.q_embedding 是 ollama/bge-m3 产物, 查询侧 env 被切到
+//   remote/text-embedding-v3 后, 跨模型 cosine 仅 ≈0.635, 且 services/embedding.js
+//   的维度校验「只 warn 不拦」, 于是页面静默返回一片 0.6 附近的垃圾相似度。
+//
+// 本函数在【查询路径】比对「当前 env 生效的 provider+model」与
+//   「question_vectors.metadata 记录的 model/provider」:
+//   - 一致 → 返回 null, 正常检索。
+//   - 不一致 → 返回不一致明细, 调用方拒答 (空数组 + 明确 notice), 绝不返回
+//     可能无意义的相似度。
+// 谓词匹配口径: metadata 未记录 provider 的历史行 (provider 为 NULL) 不因缺
+//   provider 判定不一致, 但 model 必须一致。
+// ──────────────────────────────────────────────────────────────────────────
+async function detectProvenanceMismatch(pool, prov) {
+  const { rows } = await pool.query(
+    `SELECT DISTINCT metadata->>'model' AS model, metadata->>'provider' AS provider
+       FROM question_vectors
+      WHERE q_embedding IS NOT NULL
+        AND (
+          COALESCE(metadata->>'model', '') IS DISTINCT FROM $1
+          OR (metadata->>'provider' IS NOT NULL AND metadata->>'provider' IS DISTINCT FROM $2)
+        )
+      LIMIT 10`,
+    [prov.model, prov.provider]
+  );
+  if (rows.length === 0) return null;
+  return {
+    models: [...new Set(rows.map((r) => r.model || '(空)'))],
+    providers: [...new Set(rows.map((r) => r.provider || '(空)'))],
+  };
+}
 
 export class VisionSearchService {
   static async preprocessImage(imageBase64, options = {}) {
@@ -341,6 +375,9 @@ export class VisionSearchService {
       const pool = await poolPromise;
       const embeddingStr = `[${queryEmbedding.join(',')}]`;
 
+      // P0-guard (2026-09-23): 当前 env 实际生效的 provider+model。
+      const prov = getEmbeddingProvenance();
+
       const params = [embeddingStr, text, threshold];
       let paramIdx = 4;
       let subjectClause = '';
@@ -349,7 +386,14 @@ export class VisionSearchService {
         params.push(subjectCode);
       }
       params.push(limit);
+      const limitIdx = paramIdx++;
+      params.push(prov.model);
+      const modelIdx = paramIdx++;
+      params.push(prov.provider);
+      const providerIdx = paramIdx++;
 
+      // 溯源守卫 (SQL 层): 只有当库中不存在任何 provider/model 与当前 env 不一致的
+      // 向量行时才返回结果。不一致 → 谓词为假 → 0 行 → 下方 probe 区分原因并拒答。
       const query = `
         SELECT q.question_uid, q.stem, q.options, q.answer, q.analysis,
                q.knowledge_points, q.difficulty, q.question_type, q.subject_code, q.year, q.score,
@@ -361,13 +405,36 @@ export class VisionSearchService {
           AND q.stem IS DISTINCT FROM $2
           AND 1 - (qv.q_embedding <=> $1) >= $3
           ${subjectClause}
+          AND NOT EXISTS (
+            SELECT 1 FROM question_vectors v
+            WHERE v.q_embedding IS NOT NULL
+              AND (
+                COALESCE(v.metadata->>'model', '') IS DISTINCT FROM $${modelIdx}
+                OR (v.metadata->>'provider' IS NOT NULL
+                    AND v.metadata->>'provider' IS DISTINCT FROM $${providerIdx})
+              )
+          )
         ORDER BY qv.q_embedding <=> $1
-        LIMIT $${paramIdx}
+        LIMIT $${limitIdx}
       `;
 
       const result = await pool.query(query, params);
 
       if (result.rows.length === 0) {
+        // 区分「无过阈值命中」与「溯源不一致 (SQL 谓词已排除全部行)」。
+        const mismatch = await detectProvenanceMismatch(pool, prov);
+        if (mismatch) {
+          logger.error(
+            `[VisionSearch] 向量溯源不一致: 库中 model=[${mismatch.models.join(', ')}] `
+            + `provider=[${mismatch.providers.join(', ')}], 当前查询 model=${prov.model} `
+            + `provider=${prov.provider}; 拒绝返回相似题`
+          );
+          return empty(
+            `相似题检索已拒绝：向量库溯源不一致（库中为 ${mismatch.models.join('/')}，`
+            + `当前查询使用 ${prov.model}），返回的相似度无意义，`
+            + `请先用当前 provider 重新嵌入 question_vectors`
+          );
+        }
         return empty('题库中暂未找到达到相似度阈值的题目');
       }
 

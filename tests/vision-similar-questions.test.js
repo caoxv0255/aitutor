@@ -24,9 +24,11 @@ const SERVICE_PATH = resolve(__dirname, '../api/services/visionSearchService.js'
 // mock embedding provider — 测试不打任何真实 embedding 服务 (含本地 ollama)
 vi.mock('../services/embedding.js', () => ({
   getEmbedding: vi.fn(),
+  // P0-guard (2026-09-23): 溯源守卫读取当前 env 生效的 provider/model。
+  getEmbeddingProvenance: vi.fn(() => ({ provider: 'remote', model: 'text-embedding-v3', dim: 1024 })),
 }));
 
-import { getEmbedding } from '../services/embedding.js';
+import { getEmbedding, getEmbeddingProvenance } from '../services/embedding.js';
 import { VisionSearchService } from '../api/services/visionSearchService.js';
 
 const SAMPLE_ROW = {
@@ -53,6 +55,8 @@ const LONG_TEXT = '已知二次函数 f(x) = x^2 - 2x + 1，求其在区间 [0, 
 beforeEach(() => {
   vi.clearAllMocks();
   delete process.env.SIMILAR_QUESTIONS_MIN_SIMILARITY;
+  // 默认: 当前查询 env = remote/text-embedding-v3 (与库一致)
+  getEmbeddingProvenance.mockReturnValue({ provider: 'remote', model: 'text-embedding-v3', dim: 1024 });
 });
 
 afterEach(() => {
@@ -155,5 +159,89 @@ describe('F3: 相似题真相似度检索 (禁用 RANDOM 冒充)', () => {
 
     expect(r.questions).toEqual([]);
     expect(r.notice).toBeTruthy();
+  });
+});
+
+// ────────────────────────────────────────────────────────────────────────────
+// P0-guard (2026-09-23): 向量溯源一致性守卫回归
+//
+// 事故: 库是 ollama/bge-m3 产物, 查询 env 切到 remote/text-embedding-v3,
+//   跨模型 cos≈0.635 却照常返回 (维度只 warn 不拦) → 页面一片垃圾相似度。
+// 守卫: 查询路径比对 env 的 provider+model 与 question_vectors.metadata,
+//   不一致 → 拒答 (空数组), similarNotice 说明「库中 X / 当前查询 Y」。
+// ────────────────────────────────────────────────────────────────────────────
+describe('P0-guard: 向量溯源不一致必须拒答', () => {
+  // 主查询 (含溯源谓词) 返回 mainRows; 溯源 probe (DISTINCT metadata->>'model') 返回 mismatchedRows。
+  function makeProvenancePool({ mainRows, mismatchedRows }) {
+    return {
+      query: vi.fn((sql) =>
+        sql.includes("DISTINCT metadata->>'model'")
+          ? Promise.resolve({ rows: mismatchedRows })
+          : Promise.resolve({ rows: mainRows })
+      ),
+    };
+  }
+
+  it('8. 溯源不一致 (库 bge-m3 / 查询 text-embedding-v3) → 拒答, 不返回任何结果, notice 说明原因', async () => {
+    getEmbedding.mockResolvedValue(new Array(1024).fill(0.01));
+    // 真实 DB 里溯源谓词把不一致的行全部排除 → 主查询 0 行; probe 查到库中旧模型。
+    const pool = makeProvenancePool({
+      mainRows: [],
+      mismatchedRows: [{ model: 'bge-m3', provider: 'ollama' }],
+    });
+
+    const r = await VisionSearchService.findSimilarQuestions(
+      Promise.resolve(pool), LONG_TEXT, { subjectCode: 'math' }
+    );
+
+    // 拒答: 空结果, 绝不返回可能无意义的相似度
+    expect(r.questions).toEqual([]);
+    expect(r.notice).toBeTruthy();
+    expect(r.notice).toContain('溯源不一致');
+    expect(r.notice).toContain('bge-m3');            // 库中模型
+    expect(r.notice).toContain('text-embedding-v3'); // 当前查询模型
+    expect(r.notice).toContain('拒绝');
+  });
+
+  it('9. 溯源一致 (均为 text-embedding-v3) → 正常返回结果', async () => {
+    getEmbedding.mockResolvedValue(new Array(1024).fill(0.01));
+    const pool = makeProvenancePool({ mainRows: [SAMPLE_ROW], mismatchedRows: [] });
+
+    const r = await VisionSearchService.findSimilarQuestions(
+      Promise.resolve(pool), LONG_TEXT, { subjectCode: 'math' }
+    );
+
+    expect(r.notice).toBeNull();
+    expect(r.questions).toHaveLength(1);
+    expect(r.questions[0].similarity).toBeCloseTo(0.8235, 4);
+  });
+
+  it('10. 溯源一致但无过阈值命中 → 阈值空态 (不得误报为溯源不一致)', async () => {
+    getEmbedding.mockResolvedValue(new Array(1024).fill(0.01));
+    const pool = makeProvenancePool({ mainRows: [], mismatchedRows: [] });
+
+    const r = await VisionSearchService.findSimilarQuestions(
+      Promise.resolve(pool), LONG_TEXT, { subjectCode: 'math' }
+    );
+
+    expect(r.questions).toEqual([]);
+    expect(r.notice).toContain('阈值');
+    expect(r.notice).not.toContain('溯源不一致');
+  });
+
+  it('11. 主查询 SQL 带溯源谓词, 且 model/provider 作为参数传入 (不是 JS 事后过滤)', async () => {
+    getEmbedding.mockResolvedValue(new Array(1024).fill(0.01));
+    const pool = makeProvenancePool({ mainRows: [SAMPLE_ROW], mismatchedRows: [] });
+
+    await VisionSearchService.findSimilarQuestions(
+      Promise.resolve(pool), LONG_TEXT, { subjectCode: 'math', limit: 5 }
+    );
+
+    const [sql, params] = pool.query.mock.calls.find(([s]) => s.includes('q_embedding <=> $1'));
+    // params = [embedding, text, threshold, subject, limit, model, provider]
+    expect(params[5]).toBe('text-embedding-v3');
+    expect(params[6]).toBe('remote');
+    expect(sql).toContain('NOT EXISTS');
+    expect(sql).toMatch(/metadata->>'model'/);
   });
 });

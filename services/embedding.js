@@ -189,4 +189,24 @@ export async function getBatchEmbeddings(texts) {
   return results;
 }
 
-export { EMBEDDING_MODEL, EMBEDDING_DIMS, EMBEDDING_PROVIDER };
+/**
+ * 返回「当前 env 实际生效」的 embedding 溯源三元组 (provider/model/dim)。
+ *
+ * 为什么单独导出 (2026-09-23): 查询侧 (visionSearchService.findSimilarQuestions)
+ * 需要拿它跟 question_vectors.metadata 记录的 model 比对, 防止「库是 X 模型、
+ * 查询用 Y 模型」的静默垃圾相似度。这里在【调用时】读 process.env, 而不是用
+ * 模块加载期捕获的常量, 这样运行时切换/测试覆写都能反映真实值。
+ *
+ * @returns {{provider: string, model: string, dim: number}}
+ */
+export function getEmbeddingProvenance() {
+  const provider = process.env.EMBEDDING_PROVIDER || EMBEDDING_PROVIDER;
+  const defaults = PROVIDER_DEFAULTS[provider] || PROVIDER_DEFAULTS.remote;
+  return {
+    provider,
+    model: process.env.EMBEDDING_MODEL || defaults.model,
+    dim: parseInt(process.env.EMBEDDING_DIMS || defaults.dim, 10),
+  };
+}
+
+export { EMBEDDING_MODEL, EMBEDDING_DIMS, EMBEDDING_PROVIDER, PROVIDER_DEFAULTS };
