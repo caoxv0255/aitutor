@@ -526,6 +526,13 @@ app.use((req, res) => {
 
 app.use(errorHandler);
 
+// 2026-09-23: 允许临时/测试实例跳过 task worker。
+// taskWorker 从共享的 task_queue 取任务 —— 同一个库上跑第二个 server.js 实例
+// 会与主实例争抢队列 (任务被非预期进程消费)。门禁需要一个独立进程 (独立
+// 限流桶) 跑 BCT, 因此提供此开关。命名与既有 DEV_AUTH_BYPASS 一致 (严格 === '1')。
+// 默认 (不设 / 非 '1') 行为与改动前完全一致: 照常 startWorker()。
+const SKIP_TASK_WORKER = process.env.SKIP_TASK_WORKER === '1';
+
 async function start() {
   try {
     await getDb();
@@ -536,7 +543,11 @@ async function start() {
     } else if (seedResult.reason) {
       logger.info(`[Seed] 跳过: ${seedResult.reason}`);
     }
-    startWorker();
+    if (SKIP_TASK_WORKER) {
+      logger.info('[Worker] SKIP_TASK_WORKER=1 — 跳过 startWorker (临时实例模式, 不争抢 task_queue)');
+    } else {
+      startWorker();
+    }
     app.listen(PORT, () => {
       logger.info(`Server running at http://localhost:${PORT}`);
     });
