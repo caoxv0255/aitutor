@@ -96,11 +96,11 @@ async function runCypher(client, cypher, params = {}, resultDef = 'result agtype
  * 查询直接前置节点（当前节点依赖的，1 跳 PREREQUISITE）
  * Cypher: (current)-[:PREREQUISITE]->(pre)
  *
- * ⚠️ 边名已对齐（A 步第一批，2026-09-23）：线上图实际边名是 PREREQUISITE(5487)，
- *    DEPENDS_ON = 0。写入侧 scripts/sync-obsidian-to-age.js 仍写 DEPENDS_ON，
- *    读写边名不一致，重建图会让本查询再次失效。
- *    仍未生效的原因只剩一条：KnowledgePoint 节点无 id 属性（A 步第二批，待拍板）
- *    → 恒返回 []。失败时不再静默返回 []，而是抛错由调用方显式降级并回显。
+ * ✅ 边名已对齐（A 步第一批，2026-09-23）：线上图实际边名是 PREREQUISITE(5487)，
+ *    DEPENDS_ON = 0；写入侧 scripts/sync-obsidian-to-age.js 也已同步改 PREREQUISITE。
+ *    id 属性已回写（A 步第二批）：按 kp_unit_cleaned.unit_graphid 回写
+ *    KnowledgePoint.id，5493/5493 全覆盖，取值即 knowledge_points.id（A 词表）。
+ *    至此本查询已生效；失败时不再静默返回 []，而是抛错由调用方显式降级并回显。
  */
 async function queryUpstreamNodes(client, knowledgePointId) {
   const result = await runCypher(

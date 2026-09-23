@@ -3,7 +3,7 @@
  * sync-obsidian-to-age.js — 方案A：宏观知识图谱同步脚本
  *
  * 将 Obsidian Markdown 知识点文件同步到 PostgreSQL Apache AGE 图数据库。
- * 解析 YAML Frontmatter 元数据 + [[ ]] 双向链接，幂等创建 KnowledgePoint 节点和 DEPENDS_ON 关系。
+ * 解析 YAML Frontmatter 元数据 + [[ ]] 双向链接，幂等创建 KnowledgePoint 节点和 PREREQUISITE 关系。
  *
  * 架构边界：仅属于方案 A（Macro Graph），不涉及向量检索（方案B）或 GraphRAG 推理（方案C）。
  *
@@ -193,14 +193,16 @@ async function upsertNode(client, { id, name, subject, module, difficulty, conte
 }
 
 /**
- * 批量创建 DEPENDS_ON 关系（MERGE 防重复边）
+ * 批量创建 PREREQUISITE 关系（MERGE 防重复边）
  *
- * ⚠️ 已知状态：线上图里 DEPENDS_ON = 0，实际边名是 PREREQUISITE(5487) /
- *    HAS_KNOWLEDGE_POINT(5493) / HAS_CHAPTER(770) / HAS_SUBJECT(9)，
- *    且 KnowledgePoint 节点属性为 {name, chapter, subject, seq_in_chapter}（无 id）。
- *    本脚本写入的是另一套命名（DEPENDS_ON + {id}），与线上图不同源 →
- *    即使本脚本跑通，tutor-agent 的 queryPrerequisites 也查不到它。
- *    统一边名/属性属于 A 步（数据对齐），本轮未做。
+ * A 步第二批（2026-09-23）：边名由 DEPENDS_ON 统一为 PREREQUISITE，与线上图一致
+ *   （线上实际边名：PREREQUISITE(5487) / HAS_KNOWLEDGE_POINT(5493) /
+ *    HAS_CHAPTER(770) / HAS_SUBJECT(9)），也与 tutor-agent / learning-loop 的
+ *    查询侧边名一致（第一批 7c4c8be 已改）。
+ *
+ * ⚠️ 仍存的对齐缺口：本脚本 MERGE 用 {id} 定位节点，而历史图节点的 id 属性
+ *    此前缺失（A 步第二批已按 kp_unit_cleaned.unit_graphid 回写 id）。
+ *    若 id 回写未完成，本脚本写入的节点会与历史节点并存为两套。
  *
  * @param {pg.Client} client
  * @param {Array<{fromId: string, toId: string}>} edges
@@ -211,7 +213,7 @@ async function createEdges(client, edges) {
       await execCypher(
         client,
         `MATCH (a:KnowledgePoint {id: $fromId}), (b:KnowledgePoint {id: $toId})
-         MERGE (a)-[:DEPENDS_ON]->(b)`,
+         MERGE (a)-[:PREREQUISITE]->(b)`,
         { fromId, toId },
         'result agtype'
       );
@@ -341,8 +343,8 @@ async function main() {
       throw new Error(`节点批量创建失败，已回滚: ${err.message}`);
     }
 
-    // ── Phase 3: 解析链接 & 创建 DEPENDS_ON 关系 ──────────
-    console.log(`\n🔗 Phase 3: 解析前置依赖，创建 DEPENDS_ON 关系`);
+    // ── Phase 3: 解析链接 & 创建 PREREQUISITE 关系 ──────────
+    console.log(`\n🔗 Phase 3: 解析前置依赖，创建 PREREQUISITE 关系`);
 
     // 从数据库查询当前所有节点的 name → id（含历史数据）
     const dbNameMap = await getNodeNameMap(client);

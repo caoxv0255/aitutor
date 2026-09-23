@@ -151,20 +151,20 @@ function parseAgtype(val) {
  *   第 1 跳: MATCH (kp)-[:PREREQUISITE]->(pre) — 直接前置
  *   第 2 跳: MATCH (kp)-[:PREREQUISITE]->(mid)-[:PREREQUISITE]->(pre2) — 间接前置
  *
- * ⚠️⚠️ 防跳跃机制当前【仍未生效】(2026-09-23 实测) —— 本函数目前仍返回 []：
- *   1. 边名已对齐（A 步第一批，2026-09-23）：线上图实际边名是
- *      PREREQUISITE(5487) / HAS_KNOWLEDGE_POINT(5493) / HAS_CHAPTER(770) /
- *      HAS_SUBJECT(9)，DEPENDS_ON = 0，故查询侧改查 PREREQUISITE。
- *      ⚠️ 写入侧 scripts/sync-obsidian-to-age.js 仍写 DEPENDS_ON，读写边名不一致，
- *      重建图会导致本查询再次失效（见该文件注释）。
- *   2. 节点属性仍不匹配：KnowledgePoint 实际属性是
- *      {name, chapter, subject, seq_in_chapter}，**没有 id**，
- *      所以 `{id: $id}` 永远命中不到任何节点 —— 这是当前返回 [] 的唯一原因。
- *      回写 id 属 A 步第二批，需先对 id 词表拍板，本轮未动。
- *   因此调用方拿到 [] 时，代表"防跳跃未生效"，不是"该知识点没有前置"。
+ * ✅ 防跳跃机制【已生效】(A 步 2026-09-23 收口，见 tests/age-prereq-gate.test.js)：
+ *   1. 边名对齐（第一批）：线上图实际边名是 PREREQUISITE(5487) /
+ *      HAS_KNOWLEDGE_POINT(5493) / HAS_CHAPTER(770) / HAS_SUBJECT(9)，DEPENDS_ON = 0。
+ *      查询侧与写入侧 scripts/sync-obsidian-to-age.js 已统一为 PREREQUISITE。
+ *   2. id 回写（第二批）：KnowledgePoint 原本只有
+ *      {name, chapter, subject, seq_in_chapter}、`{id: $id}` 命中不到任何节点；
+ *      现已按 kp_unit_cleaned.unit_graphid join kp_unit_to_tag_mapping 回写
+ *      KnowledgePoint.id，5493/5493 全覆盖，取值即 knowledge_points.id（A 词表，
+ *      形如 CHEM-B1-024），与调用方传入的 knowledge_point_id 同词表。
  *
  * @param {object} ageClient
- * @param {string} knowledgePointId
+ * @param {string} knowledgePointId - A 词表 id（如 CHEM-B1-024）。
+ *   必须传 id：本函数按 `{id: $id}` 匹配，传 name 命中不到任何节点（恒 []）。
+ *   调用方拿到 [] 时，代表"该知识点没有前置"，不再代表防跳跃失效。
  * @returns {Promise<Array<{id: string, name: string, hop: number}>>}
  */
 export async function queryPrerequisites(ageClient, knowledgePointId) {
