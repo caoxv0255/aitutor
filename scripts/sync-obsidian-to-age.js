@@ -153,15 +153,29 @@ function scanMarkdownFiles(dir) {
 
 /**
  * 执行 Cypher 查询（参数化），返回结果行
- * Apache AGE 的 cypher() 函数不支持命名参数，须使用 $1/$2 等占位符
+ *
+ * Apache AGE 1.6 的 `cypher(name, cstring, agtype)` 硬约束：
+ *   - 图名：必须是名字常量（传 $1 → “a name constant is expected”）
+ *   - Cypher 串：必须是 dollar-quoted 常量（传 $1 → “a dollar-quoted string constant is expected”）
+ *   - 参数 map：必须是绑定参数（写字面量 → “third argument of cypher function must be a parameter”）
+ * 因此唯一可行形状是：图名/Cypher 内联，`$1` 放在 `$$...$$` **之外**承载 agtype 参数 map，
+ * Cypher 内部用**命名参数** `$name`（`$1/$2` 在 AGE 里是非法的，会 parse error）。
+ *
+ * ⚠️ 历史 bug：旧注释声称"须使用 $1/$2 占位符"且把 $1 写进 `$$...$$` 内 —— 这是错的，
+ *    PG 解析阶段就报 “unexpected character at or near "$"”，每次抛错都被上层 catch 吞掉，
+ *    导致节点/边实际从未写入成功（DEPENDS_ON 至今为 0）。
+ *
  * @param {pg.Client} client
- * @param {string} cypherQuery - Cypher 语句
- * @param {any[]} params - 参数数组
+ * @param {string} cypherQuery - Cypher 语句，内部用 $name 命名参数
+ * @param {object} params - 命名参数 map（键名不含 $）
  * @param {string} resultDef - AS 子句中的列定义，如 "result agtype"
  */
-async function execCypher(client, cypherQuery, params = [], resultDef = 'result agtype') {
-  const sql = `SELECT * FROM cypher('${GRAPH_NAME}', $$ ${cypherQuery} $$) AS (${resultDef})`;
-  return client.query(sql, params);
+async function execCypher(client, cypherQuery, params = {}, resultDef = 'result agtype') {
+  if (cypherQuery.includes('$$')) {
+    throw new Error('[SyncObsidian] Cypher 不得包含 $$（会提前截断 dollar-quoted 常量）');
+  }
+  const sql = `SELECT * FROM cypher('${GRAPH_NAME}', $$ ${cypherQuery} $$, $1) AS (${resultDef})`;
+  return client.query(sql, [JSON.stringify(params)]);
 }
 
 /**
@@ -170,16 +184,24 @@ async function execCypher(client, cypherQuery, params = [], resultDef = 'result 
 async function upsertNode(client, { id, name, subject, module, difficulty, content }) {
   await execCypher(
     client,
-    `MERGE (kp:KnowledgePoint {id: $1})
-     SET kp.name = $2, kp.subject = $3, kp.module = $4, kp.difficulty = $5, kp.content = $6
+    `MERGE (kp:KnowledgePoint {id: $id})
+     SET kp.name = $name, kp.subject = $subject, kp.module = $module, kp.difficulty = $difficulty, kp.content = $content
      RETURN kp`,
-    [id, name, subject, module, difficulty, (content || '').slice(0, 500)],
+    { id, name, subject, module, difficulty, content: (content || '').slice(0, 500) },
     'kp agtype'
   );
 }
 
 /**
  * 批量创建 DEPENDS_ON 关系（MERGE 防重复边）
+ *
+ * ⚠️ 已知状态：线上图里 DEPENDS_ON = 0，实际边名是 PREREQUISITE(5487) /
+ *    HAS_KNOWLEDGE_POINT(5493) / HAS_CHAPTER(770) / HAS_SUBJECT(9)，
+ *    且 KnowledgePoint 节点属性为 {name, chapter, subject, seq_in_chapter}（无 id）。
+ *    本脚本写入的是另一套命名（DEPENDS_ON + {id}），与线上图不同源 →
+ *    即使本脚本跑通，tutor-agent 的 queryPrerequisites 也查不到它。
+ *    统一边名/属性属于 A 步（数据对齐），本轮未做。
+ *
  * @param {pg.Client} client
  * @param {Array<{fromId: string, toId: string}>} edges
  */
@@ -188,9 +210,9 @@ async function createEdges(client, edges) {
     try {
       await execCypher(
         client,
-        `MATCH (a:KnowledgePoint {id: $1}), (b:KnowledgePoint {id: $2})
+        `MATCH (a:KnowledgePoint {id: $fromId}), (b:KnowledgePoint {id: $toId})
          MERGE (a)-[:DEPENDS_ON]->(b)`,
-        [fromId, toId],
+        { fromId, toId },
         'result agtype'
       );
     } catch (err) {
@@ -208,7 +230,7 @@ async function getNodeNameMap(client) {
   const result = await execCypher(
     client,
     `MATCH (kp:KnowledgePoint) RETURN kp.name AS name, kp.id AS id`,
-    [],
+    {},
     'name agtype, id agtype'
   );
 

@@ -12,6 +12,10 @@
  *   5. 上下文组装 + 防跳跃机制 → LLM 推理 → 结构化 JSON 输出
  *
  * 架构边界：方案 C 仅消费 A/B 数据，不修改图谱或向量索引。
+ *
+ * ⚠️ 已知缺陷 (2026-09-23)：「防跳跃机制」从未生效，见 queryPrerequisites 的说明。
+ *    图查询能跑通（参数化已于本轮修好），但 DEPENDS_ON=0 且 KnowledgePoint 节点无 id 属性，
+ *    所以前置列表恒为 []。A 步（数据对齐）完成前，不要把空列表解读为"无前置"。
  */
 
 import express from 'express';
@@ -103,10 +107,28 @@ async function borrowAgeClient(pool) {
 
 /**
  * 执行 Cypher 查询（参数化）
+ *
+ * Apache AGE 1.6 的 `cypher(name, cstring, agtype)` 对三个实参有硬约束：
+ *   - 图名：必须是名字常量，传 $1 报 “a name constant is expected”
+ *   - Cypher 串：必须是 dollar-quoted 常量，传 $1 报 “a dollar-quoted string constant is expected”
+ *   - 参数 map：必须是绑定参数，写成字面量报 “third argument of cypher function must be a parameter”
+ * 所以唯一可行的参数化形状是：图名/Cypher 内联，`$1` 放在 `$$...$$` **之外**承载 agtype map，
+ * Cypher 内部一律用命名参数（`{id: $id}`），值由 map 的键提供。
+ *
+ * ⚠️ 历史 bug：旧写法把 `$1` 写在 `$$...$$` 里，PG 解析阶段直接抛
+ *    “unexpected character at or near "$"”，异常被上层 catch 吞掉 → 前置依赖恒为空。
+ *
+ * @param {object} client - 已 AGE 初始化的 pg client
+ * @param {string} cypher - Cypher 语句，内部用 $name 命名参数
+ * @param {object} params - 命名参数 map（键名不含 $）
+ * @param {string} resultDef - AS 子句列定义
  */
-async function runCypher(client, cypher, params = [], resultDef = 'result agtype') {
-  const sql = `SELECT * FROM cypher('${GRAPH_NAME}', $$ ${cypher} $$) AS (${resultDef})`;
-  return client.query(sql, params);
+async function runCypher(client, cypher, params = {}, resultDef = 'result agtype') {
+  if (cypher.includes('$$')) {
+    throw new Error('[TutorAgent] Cypher 不得包含 $$（会提前截断 dollar-quoted 常量）');
+  }
+  const sql = `SELECT * FROM cypher('${GRAPH_NAME}', $$ ${cypher} $$, $1) AS (${resultDef})`;
+  return client.query(sql, [JSON.stringify(params)]);
 }
 
 /**
@@ -128,54 +150,60 @@ function parseAgtype(val) {
  *   第 1 跳: MATCH (kp)-[:DEPENDS_ON]->(pre) — 直接前置
  *   第 2 跳: MATCH (kp)-[:DEPENDS_ON]->(mid)-[:DEPENDS_ON]->(pre2) — 间接前置
  *
+ * ⚠️⚠️ 防跳跃机制当前【未生效】(2026-09-23 实测) —— 本函数即使参数化修好也仍返回 []：
+ *   1. 边名不匹配：图里实际只有 PREREQUISITE(5487) / HAS_KNOWLEDGE_POINT(5493) /
+ *      HAS_CHAPTER(770) / HAS_SUBJECT(9)，**DEPENDS_ON = 0**；
+ *   2. 节点属性不匹配：KnowledgePoint 实际属性是
+ *      {name, chapter, subject, seq_in_chapter}，**没有 id**，
+ *      所以 `{id: $id}` 永远命中不到任何节点。
+ *   这两条属于 A 步（数据对齐）范畴，本轮只做了 C 步（参数化止血），未改数据层。
+ *   因此调用方拿到 [] 时，代表"防跳跃未生效"，不是"该知识点没有前置"。
+ *
  * @param {object} ageClient
  * @param {string} knowledgePointId
  * @returns {Promise<Array<{id: string, name: string, hop: number}>>}
  */
-async function queryPrerequisites(ageClient, knowledgePointId) {
+export async function queryPrerequisites(ageClient, knowledgePointId) {
   const prereqs = [];
   const seenIds = new Set();
 
-  try {
-    // ── 第 1 跳：直接前置依赖 ──
-    const hop1 = await runCypher(
-      ageClient,
-      `MATCH (kp:KnowledgePoint {id: $1})-[:DEPENDS_ON]->(pre:KnowledgePoint)
-       RETURN pre.id, pre.name, pre.content`,
-      [knowledgePointId],
-      'id agtype, name agtype, content agtype'
-    );
+  // ── 第 1 跳：直接前置依赖 ──
+  // 注意：不再 try/catch 静默吞错 —— 解析/绑定失败必须冒泡，由调用方显式降级。
+  const hop1 = await runCypher(
+    ageClient,
+    `MATCH (kp:KnowledgePoint {id: $id})-[:DEPENDS_ON]->(pre:KnowledgePoint)
+     RETURN pre.id, pre.name, pre.content`,
+    { id: knowledgePointId },
+    'id agtype, name agtype, content agtype'
+  );
 
-    for (const row of hop1.rows) {
-      const id = parseAgtype(row.id);
-      const name = parseAgtype(row.name);
-      const content = parseAgtype(row.content);
-      if (id) {
-        prereqs.push({ id, name: name || id, hop: 1, content: content || '' });
-        seenIds.add(id);
-      }
+  for (const row of hop1.rows) {
+    const id = parseAgtype(row.id);
+    const name = parseAgtype(row.name);
+    const content = parseAgtype(row.content);
+    if (id) {
+      prereqs.push({ id, name: name || id, hop: 1, content: content || '' });
+      seenIds.add(id);
     }
+  }
 
-    // ── 第 2 跳：间接前置依赖（经中间节点）──
-    const hop2 = await runCypher(
-      ageClient,
-      `MATCH (kp:KnowledgePoint {id: $1})-[:DEPENDS_ON]->(mid:KnowledgePoint)-[:DEPENDS_ON]->(pre2:KnowledgePoint)
-       RETURN pre2.id, pre2.name, pre2.content`,
-      [knowledgePointId],
-      'id agtype, name agtype, content agtype'
-    );
+  // ── 第 2 跳：间接前置依赖（经中间节点）──
+  const hop2 = await runCypher(
+    ageClient,
+    `MATCH (kp:KnowledgePoint {id: $id})-[:DEPENDS_ON]->(mid:KnowledgePoint)-[:DEPENDS_ON]->(pre2:KnowledgePoint)
+     RETURN pre2.id, pre2.name, pre2.content`,
+    { id: knowledgePointId },
+    'id agtype, name agtype, content agtype'
+  );
 
-    for (const row of hop2.rows) {
-      const id = parseAgtype(row.id);
-      const name = parseAgtype(row.name);
-      const content = parseAgtype(row.content);
-      if (id && !seenIds.has(id)) {
-        prereqs.push({ id, name: name || id, hop: 2, content: content || '' });
-        seenIds.add(id);
-      }
+  for (const row of hop2.rows) {
+    const id = parseAgtype(row.id);
+    const name = parseAgtype(row.name);
+    const content = parseAgtype(row.content);
+    if (id && !seenIds.has(id)) {
+      prereqs.push({ id, name: name || id, hop: 2, content: content || '' });
+      seenIds.add(id);
     }
-  } catch (err) {
-    console.warn(`[TutorAgent] 图谱查询异常 (kp=${knowledgePointId}): ${err.message}`);
   }
 
   return prereqs;
@@ -537,7 +565,8 @@ export async function askTutorAgent({ question, knowledge_point_id, user_email, 
       ageClient = await borrowAgeClient(pool);
       learningContext = await assembleLearningContext(pool, ageClient, user_email, knowledge_point_id);
     } catch (err) {
-      console.warn(`[TutorAgent] 方案A图谱查询失败: ${err.message}`);
+      // 不再静默吞错：前置查询失败要能看到完整原因（防跳跃此前正是被这个 warn 掩盖）。
+      console.error(`[TutorAgent] 方案A图谱查询失败 (kp=${knowledge_point_id}): ${err.message}`);
     } finally {
       if (ageClient) {
         ageClient.release();
@@ -741,7 +770,7 @@ router.post('/ask/stream', authMiddleware, async (req, res) => {
         ageClient = await borrowAgeClient(await getDb());
         learningContext = await assembleLearningContext(await getDb(), ageClient, userEmail, knowledge_point_id);
       } catch (err) {
-        console.warn(`[TutorAgent/Stream] 方案A图谱查询失败: ${err.message}`);
+        console.error(`[TutorAgent/Stream] 方案A图谱查询失败 (kp=${knowledge_point_id}): ${err.message}`);
       } finally {
         if (ageClient) {
           ageClient.release();

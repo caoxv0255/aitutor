@@ -70,43 +70,63 @@ function parseAgtype(val) {
 }
 
 /**
+ * 执行 Cypher 查询（参数化）
+ *
+ * 与 tutor-agent.js 的 runCypher 同一形状。Apache AGE 1.6 的
+ * `cypher(name, cstring, agtype)` 只允许第三个实参（agtype 参数 map）是绑定参数，
+ * 图名与 Cypher 串必须是常量；Cypher 内部用命名参数 `$name`，值由 map 的键提供。
+ *
+ * ⚠️ 历史 bug：`$1` 写在 `$$...$$` 内部会被 PG 当成普通字符，绑定时直接报
+ *    “unexpected character at or near "$"”，异常被吞 → 涟漪效应恒为空。
+ *
+ * @param {object} client - 已 AGE 初始化的 pg client
+ * @param {string} cypher - Cypher 语句，内部用 $name 命名参数
+ * @param {object} params - 命名参数 map（键名不含 $）
+ * @param {string} resultDef - AS 子句列定义
+ */
+async function runCypher(client, cypher, params = {}, resultDef = 'result agtype') {
+  if (cypher.includes('$$')) {
+    throw new Error('[LearningLoop] Cypher 不得包含 $$（会提前截断 dollar-quoted 常量）');
+  }
+  const sql = `SELECT * FROM cypher('${GRAPH_NAME}', $$ ${cypher} $$, $1) AS (${resultDef})`;
+  return client.query(sql, [JSON.stringify(params)]);
+}
+
+/**
  * 查询直接前置节点（当前节点依赖的，1 跳 DEPENDS_ON）
  * Cypher: (current)-[:DEPENDS_ON]->(pre)
+ *
+ * ⚠️ 与 tutor-agent.js 的 queryPrerequisites 同源缺陷：图里 DEPENDS_ON=0
+ *    （实际是 PREREQUISITE），且 KnowledgePoint 节点无 id 属性 → 恒返回 []。
+ *    A 步（数据对齐）完成前，涟漪效应实际不生效。
+ *    失败时不再静默返回 []，而是抛错由调用方显式降级并回显。
  */
 async function queryUpstreamNodes(client, knowledgePointId) {
-  try {
-    const result = await client.query(
-      `SELECT * FROM cypher('${GRAPH_NAME}', $$
-         MATCH (kp:KnowledgePoint {id: $1})-[:DEPENDS_ON]->(pre:KnowledgePoint)
-         RETURN pre.id
-       $$) AS (id agtype)`,
-      [knowledgePointId]
-    );
-    return result.rows.map((r) => parseAgtype(r.id)).filter(Boolean);
-  } catch (err) {
-    console.warn(`[LearningLoop] 上游查询失败 (kp=${knowledgePointId}): ${err.message}`);
-    return [];
-  }
+  const result = await runCypher(
+    client,
+    `MATCH (kp:KnowledgePoint {id: $id})-[:DEPENDS_ON]->(pre:KnowledgePoint)
+     RETURN pre.id`,
+    { id: knowledgePointId },
+    'id agtype'
+  );
+  return result.rows.map((r) => parseAgtype(r.id)).filter(Boolean);
 }
 
 /**
  * 查询直接后置节点（依赖当前节点的，反向 1 跳）
  * Cypher: (post)-[:DEPENDS_ON]->(current)
+ *
+ * ⚠️ 同上：A 步完成前恒返回 []；失败抛错，不静默吞。
  */
 async function queryDownstreamNodes(client, knowledgePointId) {
-  try {
-    const result = await client.query(
-      `SELECT * FROM cypher('${GRAPH_NAME}', $$
-         MATCH (post:KnowledgePoint)-[:DEPENDS_ON]->(kp:KnowledgePoint {id: $1})
-         RETURN post.id
-       $$) AS (id agtype)`,
-      [knowledgePointId]
-    );
-    return result.rows.map((r) => parseAgtype(r.id)).filter(Boolean);
-  } catch (err) {
-    console.warn(`[LearningLoop] 下游查询失败 (kp=${knowledgePointId}): ${err.message}`);
-    return [];
-  }
+  const result = await runCypher(
+    client,
+    `MATCH (post:KnowledgePoint)-[:DEPENDS_ON]->(kp:KnowledgePoint {id: $id})
+     RETURN post.id`,
+    { id: knowledgePointId },
+    'id agtype'
+  );
+  return result.rows.map((r) => parseAgtype(r.id)).filter(Boolean);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -190,42 +210,49 @@ async function processSingleFeedback(client, feedback) {
   );
 
   // ── Step 4: 图谱涟漪效应 ──
+  // best-effort：图谱不可用/查询失败不得回滚主写入事务，但必须回显错误（不静默吞）。
   const rippleResults = { upward: [], downward: [] };
 
-  // 向上巩固：掌握度 ≥ 0.8 → 奖励直接前置节点
-  if (newScore >= RIPPLE_THRESHOLD.UPWARD_MIN) {
-    const upstreamIds = await queryUpstreamNodes(client, knowledge_point_id);
+  try {
+    // 向上巩固：掌握度 ≥ 0.8 → 奖励直接前置节点
+    if (newScore >= RIPPLE_THRESHOLD.UPWARD_MIN) {
+      const upstreamIds = await queryUpstreamNodes(client, knowledge_point_id);
 
-    for (const preId of upstreamIds) {
-      await client.query(
-        `INSERT INTO student_knowledge_mastery
-           (user_email, knowledge_point_id, mastery_score, attempt_count, correct_count, updated_at)
-         VALUES ($1, $2, $3, 0, 0, NOW())
-         ON CONFLICT (user_email, knowledge_point_id)
-         DO UPDATE SET
-           mastery_score = LEAST(100, student_knowledge_mastery.mastery_score + $3),
-           updated_at = NOW()`,
-        [userEmail, preId, RIPPLE.UPWARD_BOOST]);
-      rippleResults.upward.push({ id: preId, delta: RIPPLE.UPWARD_BOOST });
+      for (const preId of upstreamIds) {
+        await client.query(
+          `INSERT INTO student_knowledge_mastery
+             (user_email, knowledge_point_id, mastery_score, attempt_count, correct_count, updated_at)
+           VALUES ($1, $2, $3, 0, 0, NOW())
+           ON CONFLICT (user_email, knowledge_point_id)
+           DO UPDATE SET
+             mastery_score = LEAST(100, student_knowledge_mastery.mastery_score + $3),
+             updated_at = NOW()`,
+          [userEmail, preId, RIPPLE.UPWARD_BOOST]
+        );
+        rippleResults.upward.push({ id: preId, delta: RIPPLE.UPWARD_BOOST });
+      }
     }
-  }
 
-  // 向下预警：掌握度 ≤ 0.4 → 惩罚直接后置节点
-  if (newScore <= RIPPLE_THRESHOLD.DOWNWARD_MAX) {
-    const downstreamIds = await queryDownstreamNodes(client, knowledge_point_id);
+    // 向下预警：掌握度 ≤ 0.4 → 惩罚直接后置节点
+    if (newScore <= RIPPLE_THRESHOLD.DOWNWARD_MAX) {
+      const downstreamIds = await queryDownstreamNodes(client, knowledge_point_id);
 
-    for (const postId of downstreamIds) {
-      await client.query(
-        `INSERT INTO student_knowledge_mastery
-           (user_email, knowledge_point_id, mastery_score, attempt_count, correct_count, updated_at)
-         VALUES ($1, $2, $3, 0, 0, NOW())
-         ON CONFLICT (user_email, knowledge_point_id)
-         DO UPDATE SET
-           mastery_score = GREATEST(0, student_knowledge_mastery.mastery_score + $3),
-           updated_at = NOW()`,
-        [userEmail, postId, RIPPLE.DOWNWARD_PENALTY]);
-      rippleResults.downward.push({ id: postId, delta: RIPPLE.DOWNWARD_PENALTY });
+      for (const postId of downstreamIds) {
+        await client.query(
+          `INSERT INTO student_knowledge_mastery
+             (user_email, knowledge_point_id, mastery_score, attempt_count, correct_count, updated_at)
+           VALUES ($1, $2, $3, 0, 0, NOW())
+           ON CONFLICT (user_email, knowledge_point_id)
+           DO UPDATE SET
+             mastery_score = GREATEST(0, student_knowledge_mastery.mastery_score + $3),
+             updated_at = NOW()`,
+          [userEmail, postId, RIPPLE.DOWNWARD_PENALTY]
+        );
+        rippleResults.downward.push({ id: postId, delta: RIPPLE.DOWNWARD_PENALTY });
+      }
     }
+  } catch (err) {
+    console.error(`[LearningLoop] 涟漪效应失败 (kp=${knowledge_point_id}): ${err.message}`);
   }
 
   return {
@@ -397,7 +424,10 @@ router.post('/batch', authMiddleware, async (req, res) => {
           knowledge_point_id: r.knowledge_point_id,
           newScore: r.new_score,
         });
-      } catch (e) { /* ripple 失败不影响主流程 */ }
+      } catch (e) {
+        // 不静默吞错：单条 ripple 失败不影响主流程，但必须可见。
+        console.error(`[LearningLoop] 批量 ripple 失败 (kp=${r.knowledge_point_id}): ${e.message}`);
+      }
     }
 
     console.log(`[LearningLoop] batch user=${userEmail} processed=${results.length}/${feedbacks.length}`);
@@ -503,11 +533,14 @@ router.get('/graph', authMiddleware, async (req, res) => {
     ageClient = await borrowAgeClient(pool);
 
     // ── 查询所有 KnowledgePoint 节点 ──
-    const nodesResult = await ageClient.query(
-      `SELECT * FROM cypher('${GRAPH_NAME}', $$
-         MATCH (kp:KnowledgePoint)
-         RETURN kp.id, kp.name, kp.subject, kp.module, kp.difficulty
-       $$) AS (id agtype, name agtype, subject agtype, module agtype, difficulty agtype)`
+    // ⚠️ KnowledgePoint 实际属性是 {name, chapter, subject, seq_in_chapter}，
+    //    没有 id / module / difficulty → 这些列返回 null（A 步数据对齐待办）。
+    const nodesResult = await runCypher(
+      ageClient,
+      `MATCH (kp:KnowledgePoint)
+       RETURN kp.id, kp.name, kp.subject, kp.module, kp.difficulty`,
+      {},
+      'id agtype, name agtype, subject agtype, module agtype, difficulty agtype'
     );
 
     const nodes = nodesResult.rows.map((r) => ({
@@ -519,11 +552,14 @@ router.get('/graph', authMiddleware, async (req, res) => {
     }));
 
     // ── 查询所有 DEPENDS_ON 边 ──
-    const edgesResult = await ageClient.query(
-      `SELECT * FROM cypher('${GRAPH_NAME}', $$
-         MATCH (a:KnowledgePoint)-[:DEPENDS_ON]->(b:KnowledgePoint)
-         RETURN a.id, b.id
-       $$) AS (source agtype, target agtype)`
+    // ⚠️ 图里 DEPENDS_ON = 0（实际边名是 PREREQUISITE 5487 条）→ 本查询恒为空，
+    //    GET /graph 目前只会返回孤立节点。A 步数据对齐待办。
+    const edgesResult = await runCypher(
+      ageClient,
+      `MATCH (a:KnowledgePoint)-[:DEPENDS_ON]->(b:KnowledgePoint)
+       RETURN a.id, b.id`,
+      {},
+      'source agtype, target agtype'
     );
 
     const edges = edgesResult.rows.map((r) => ({
@@ -665,7 +701,10 @@ async function processRippleEffect(client, { userEmail, knowledge_point_id, newS
   const ripple = { upward: [], downward: [] };
 
   if (newScore >= RIPPLE_THRESHOLD.UPWARD_MIN) {
-    const upstreamIds = await queryUpstreamNodes(client, knowledge_point_id).catch(() => []);
+    const upstreamIds = await queryUpstreamNodes(client, knowledge_point_id).catch((e) => {
+      console.error(`[LearningLoop] 上游查询失败 (kp=${knowledge_point_id}): ${e.message}`);
+      return [];
+    });
     for (const preId of upstreamIds) {
       try {
         await client.query(
@@ -675,12 +714,17 @@ async function processRippleEffect(client, { userEmail, knowledge_point_id, newS
           [userEmail, preId, RIPPLE.UPWARD_BOOST]
         );
         ripple.upward.push({ id: preId, delta: RIPPLE.UPWARD_BOOST });
-      } catch (e) { /* 继续 */ }
+      } catch (e) {
+        console.error(`[LearningLoop] 上游涟漪写入失败 (kp=${preId}): ${e.message}`);
+      }
     }
   }
 
   if (newScore <= RIPPLE_THRESHOLD.DOWNWARD_MAX) {
-    const downstreamIds = await queryDownstreamNodes(client, knowledge_point_id).catch(() => []);
+    const downstreamIds = await queryDownstreamNodes(client, knowledge_point_id).catch((e) => {
+      console.error(`[LearningLoop] 下游查询失败 (kp=${knowledge_point_id}): ${e.message}`);
+      return [];
+    });
     for (const postId of downstreamIds) {
       try {
         await client.query(
@@ -690,7 +734,9 @@ async function processRippleEffect(client, { userEmail, knowledge_point_id, newS
           [userEmail, postId, RIPPLE.DOWNWARD_PENALTY]
         );
         ripple.downward.push({ id: postId, delta: RIPPLE.DOWNWARD_PENALTY });
-      } catch (e) { /* 继续 */ }
+      } catch (e) {
+        console.error(`[LearningLoop] 下游涟漪写入失败 (kp=${postId}): ${e.message}`);
+      }
     }
   }
 
