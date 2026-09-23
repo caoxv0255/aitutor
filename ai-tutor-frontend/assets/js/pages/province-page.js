@@ -422,6 +422,15 @@ class ProvincePage {
         this.applyFilters();
       });
     }
+
+    // 事件委托：试卷卡片「查看详情」不再用内联 onclick，改由 data-paper-id + 委托触发
+    const papersList = document.getElementById('papers-list');
+    if (papersList) {
+      papersList.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-paper-id]');
+        if (btn) window.viewPaper(btn.dataset.paperId);
+      });
+    }
   }
 
   applyFilters() {
@@ -476,7 +485,7 @@ class ProvincePage {
         </div>
         <div class="question-count">PDF版</div>
         <div class="btn-group">
-          <button class="btn" onclick="viewPaper('${paper.id}')">查看详情</button>
+          <button class="btn" data-paper-id="${window.SecurityUtils.escapeHTML(String(paper.id))}">查看详情</button>
         </div>
       </div>
     `;
@@ -596,7 +605,7 @@ class ProvincePage {
       const color = SUBJECT_COLORS[subject] || '#666';
       const label = SUBJECT_LABELS[subject] || subject;
       legendHtml += `
-        <button class="subject-filter-btn" data-subject="${subject}" style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:none;border-radius:20px;background:#f5f5f5;color:#666;font-size:12px;cursor:pointer;transition:all 0.2s" onclick="window.ProvincePage.toggleSubjectFilter('${subject}', this)">
+        <button class="subject-filter-btn" data-subject="${window.SecurityUtils.escapeHTML(String(subject))}" style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:none;border-radius:20px;background:#f5f5f5;color:#666;font-size:12px;cursor:pointer;transition:all 0.2s">
           <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${color}"></span>
           ${label}
         </button>
@@ -628,7 +637,7 @@ class ProvincePage {
         const subjectColor = SUBJECT_COLORS[subject] || '#666';
         const subjectLabel = SUBJECT_LABELS[subject] || subject;
         
-        yearHtml += `<div class="subject-row" data-subject="${subject}" style="margin-bottom:12px">`;
+        yearHtml += `<div class="subject-row" data-subject="${window.SecurityUtils.escapeHTML(String(subject))}" style="margin-bottom:12px">`;
         yearHtml += `<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">`;
         yearHtml += `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${subjectColor}"></span>`;
         yearHtml += `<span style="font-size:12px;font-weight:600;color:#333">${subjectLabel}</span>`;
@@ -655,6 +664,11 @@ class ProvincePage {
     yearHtml += `</div>`;
     
     container.innerHTML = legendHtml + (yearHtml || '<p style="color:#999;text-align:center;padding:20px">暂无数据</p>');
+
+    // 事件委托：图例按钮不再用内联 onclick，改由 data-subject 绑定
+    container.querySelectorAll('.subject-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => window.ProvincePage.toggleSubjectFilter(btn.dataset.subject, btn));
+    });
   }
 
   toggleSubjectFilter(subject, btn) {
