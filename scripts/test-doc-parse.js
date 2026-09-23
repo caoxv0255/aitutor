@@ -34,7 +34,7 @@ console.log('First 500 chars:', content.substring(0, 500));
 console.log('---');
 
 // Step 2: Call LLM
-const apiKey = process.env.DEEPSEEK_API_KEY || process.env.GRAPHRAG_API_KEY;
+const apiKey = process.env.DEEPSEEK_API_KEY;
 console.log('\n=== 调用LLM ===');
 console.log('API Key:', apiKey ? '已配置' : '未配置');
 
