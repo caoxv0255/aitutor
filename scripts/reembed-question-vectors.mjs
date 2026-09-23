@@ -1,21 +1,27 @@
 #!/usr/bin/env node
 /**
- * scripts/reembed-question-vectors.mjs — 用 remote provider 全量/增量重嵌入向量
+ * scripts/reembed-question-vectors.mjs — 用本地 Ollama (bge-m3) 全量/增量重嵌入向量
  *
  * 背景 (2026-09-23 事故):
- *   question_vectors.q_embedding (5834 行) 是 ollama/bge-m3 产物, metadata 记录
- *   model=bge-m3/provider=ollama。查询侧 env 被切到 remote/text-embedding-v3 后,
- *   跨模型 cosine 仅 ≈0.635, 而 services/embedding.js 的维度校验「只 warn 不拦」,
- *   于是页面静默返回一片 0.6 附近的垃圾相似度。
+ *   question_vectors.q_embedding (5834 行) 混装两种产物: text-embedding-v3/remote
+ *   4045 行 与 bge-m3/ollama 1786 行 (+3 行 provider=NULL)。实测二者 cos 仅
+ *   0.789~0.941 (均值 0.854), 不可互换; 同一标签下混装会造成系统性偏低。
+ *   查询侧 services/embedding.js 的维度校验「只 warn 不拦」, 于是页面静默返回垃圾相似度。
  *
- * 本脚本: 用 remote (DashScope text-embedding-v3, compatible-mode) 逐批重算,
- *   并把 metadata 溯源字段改写为真实值, 让溯源不再撒谎。
+ * 本脚本 (方案 A): 用本地 Ollama bge-m3 原地重算整表, 并把 metadata 溯源字段
+ *   统一改写为 model=bge-m3/provider=ollama, 让溯源不再撒谎。
+ *   注意: Ollama bge-m3 默认会尝试 CUDA, 本机显存常被占满 → 必须强制 CPU
+ *   (请求体 options.num_gpu=0), 否则 OOM。
  *
  * 设计约束:
- *   - 幂等 / 可断点续跑: 只处理「metadata.model != text-embedding-v3」的行;
+ *   - 幂等 / 可断点续跑 (默认增量模式): 只处理「metadata.model != bge-m3」的行;
  *     已改写的行下次自动跳过 (--dry-run 可先看 pending 数)。
- *   - 批处理 + 限流 + 指数退避重试; 批失败自动降级为逐条补救, 单条失败不整批回滚,
+ *   - 全表重算 (--all): 忽略 model 谓词, 覆盖全表 (含已是 bge-m3 但 provider=NULL 的行);
+ *     跳过 metadata.source 已等于目标 source 的行, 中断后重跑只处理剩余行 (断点续跑)。
+ *     本次重算用 --all, 因为新算向量与库中旧 bge-m3 行不可互换。
+ *   - 批处理 + 指数退避重试; 批失败自动降级为逐条补救, 单条失败不整批回滚,
  *     最终失败清单落盘 docs/audits/reembed-question-vectors-failures.json。
+ *   - 每批算完立即落库 (onBatch), 中断后重跑安全 (已落库行只是被重算一遍)。
  *   - 文本来源以实际 schema 为准: question_vectors 用 q_text; rag_questions 用 content。
  *   - 不改动目标 model 之外的任何既有 metadata 键。
  *
@@ -23,10 +29,10 @@
  *   node scripts/reembed-question-vectors.mjs --dry-run
  *   node scripts/reembed-question-vectors.mjs --limit 5
  *   node scripts/reembed-question-vectors.mjs
- *   node scripts/reembed-question-vectors.mjs --table question_vectors
+ *   node scripts/reembed-question-vectors.mjs --all --table question_vectors
  *
- * 参数: --dry-run / --limit N / --batch-size N / --table all|question_vectors|rag_questions
- *       / --min-interval-ms N
+ * 参数: --dry-run / --all / --limit N / --batch-size N
+ *       / --table all|question_vectors|rag_questions / --min-interval-ms N
  */
 
 // 先加载 .env (side-effect import 在其它 import 之前执行), 使 services/embedding.js
@@ -44,10 +50,10 @@ const ROOT = path.resolve(path.dirname(__filename), '..');
 
 // ── 目标溯源三元组 (非机密) ────────────────────────────────────────────────
 export const TARGET = {
-  provider: 'remote',
-  model: 'text-embedding-v3',
+  provider: 'ollama',
+  model: 'bge-m3',
   dim: 1024,
-  source: 'reembed-2026-09-23',
+  source: 'reembed-2026-09-23-ollama-full',
 };
 
 // 判定「还是旧产物/未处理」的谓词: metadata 里记录的 model 不等于目标 model。
@@ -128,19 +134,36 @@ export function isFatalAccountError(e) {
   return /Arrearage|overdue-payment|Access denied/i.test(String(e?.message || e));
 }
 
-/** 构造 pending 查询 (question_vectors 用 q_text, rag_questions 用 content) */
-export function buildPendingQuery(table, { model = TARGET.model, limit = null } = {}) {
+/** 构造 pending 查询 (question_vectors 用 q_text, rag_questions 用 content)
+ *
+ * all=true → 全表重算: 忽略 model 谓词, 覆盖整表; 但跳过 metadata.source 已等于
+ *   目标 source 的行 → 中断后重跑只会处理剩余行 (断点续跑)。首跑 (source 未写过时)
+ *   命中全表。
+ * all=false (默认) → 保持原增量语义: 只挑 metadata.model != 目标 model 的行。
+ */
+export function buildPendingQuery(table, { model = TARGET.model, limit = null, all = false, source = TARGET.source } = {}) {
   const meta = VECTOR_TABLES[table];
   if (!meta) throw new Error(`未知表: ${table}`);
-  const limitClause = limit ? ' LIMIT $2' : '';
-  return {
-    sql: `SELECT id, ${meta.textColumn} AS text, metadata
+  const params = [];
+  const conds = [`${meta.textColumn} IS NOT NULL AND btrim(${meta.textColumn}) <> ''`];
+  if (all) {
+    // 全量: 不判 model; 以 source 作为「已完成」标记, 支持断点续跑。
+    params.push(source);
+    conds.push(`COALESCE(metadata->>'source', '') IS DISTINCT FROM $${params.length}`);
+  } else {
+    // model 恒为第一个参数 → PENDING_PREDICATE 的占位符 $1 成立
+    params.push(model);
+    conds.push(PENDING_PREDICATE);
+  }
+  let sql = `SELECT id, ${meta.textColumn} AS text, metadata
             FROM public.${table}
-           WHERE ${meta.textColumn} IS NOT NULL AND btrim(${meta.textColumn}) <> ''
-             AND ${PENDING_PREDICATE}
-           ORDER BY id${limitClause}`,
-    params: limit ? [model, limit] : [model],
-  };
+           WHERE ${conds.join(' AND ')}
+           ORDER BY id`;
+  if (limit) {
+    params.push(limit);
+    sql += ` LIMIT $${params.length}`;
+  }
+  return { sql, params };
 }
 
 /** 构造单行 UPDATE (写向量 + 合并溯源 metadata) */
@@ -156,10 +179,11 @@ export function buildUpdateSql(table) {
 
 /** CLI 参数解析 (--key value / --flag) */
 export function parseArgs(argv = []) {
-  const opts = { dryRun: false, limit: null, batchSize: 20, table: 'all', minIntervalMs: 0 };
+  const opts = { dryRun: false, all: false, limit: null, batchSize: 20, table: 'all', minIntervalMs: 0 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--dry-run') opts.dryRun = true;
+    else if (a === '--all') opts.all = true;
     else if (a === '--limit') opts.limit = parseInt(argv[++i], 10);
     else if (a === '--batch-size') opts.batchSize = parseInt(argv[++i], 10);
     else if (a === '--table') opts.table = argv[++i];
@@ -284,27 +308,41 @@ function loadDatabaseUrl() {
   return url;
 }
 
-function makeDashscopePost() {
-  const apiKey = process.env.EMBEDDING_API_KEY || process.env.DASHSCOPE_API_KEY || '';
-  if (!apiKey) throw new Error('EMBEDDING_API_KEY / DASHSCOPE_API_KEY 未配置');
-  const baseUrl = PROVIDER_DEFAULTS.remote.base_url;
+/**
+ * Ollama 原生 post: POST {base}/api/embeddings, body {model, prompt}, 取 response.embedding。
+ *
+ * Ollama 该端点单请求只吃一个 prompt, 故对传入的 texts 逐个串行请求, 再拼成
+ * OpenAI 兼容形状 {data:[{index, embedding}]} 供 embedItems 复用 (pickEmbedding 按 index 取)。
+ *
+ * 强制 CPU: 请求体带 options.num_gpu=0。本机 GPU 显存常被占满, bge-m3 走 CUDA
+ * 会 `CUDA error: out of memory`, 必须 CPU (实测 options.num_gpu=0 稳定返回 1024 维)。
+ */
+function makeOllamaPost() {
+  const baseUrl = (process.env.EMBEDDING_BASE_URL || PROVIDER_DEFAULTS.ollama.base_url).replace(/\/$/, '');
+  const model = process.env.EMBEDDING_MODEL || TARGET.model;
   return async (texts) => {
-    const resp = await axios.post(
-      `${baseUrl}/embeddings`,
-      { model: TARGET.model, input: texts, dimensions: TARGET.dim },
-      {
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
-        timeout: 30000,
+    const list = Array.isArray(texts) ? texts : [texts];
+    const data = [];
+    for (let i = 0; i < list.length; i++) {
+      const resp = await axios.post(
+        `${baseUrl}/api/embeddings`,
+        { model, prompt: String(list[i]).slice(0, 8000), options: { num_gpu: 0 } },
+        { headers: { 'Content-Type': 'application/json' }, timeout: 120000 }
+      );
+      const embedding = resp.data?.embedding;
+      if (!embedding || !Array.isArray(embedding)) {
+        throw new Error(`Ollama 返回格式异常: ${JSON.stringify(resp.data).slice(0, 200)}`);
       }
-    );
-    return resp.data;
+      data.push({ index: i, embedding });
+    }
+    return { data, usage: { total_tokens: 0 } };
   };
 }
 
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   if (opts.help) {
-    console.log('用法: node scripts/reembed-question-vectors.mjs [--dry-run] [--limit N] [--batch-size N] [--table all|question_vectors|rag_questions] [--min-interval-ms N]');
+    console.log('用法: node scripts/reembed-question-vectors.mjs [--dry-run] [--all] [--limit N] [--batch-size N] [--table all|question_vectors|rag_questions] [--min-interval-ms N]');
     return;
   }
 
@@ -316,18 +354,20 @@ async function main() {
     run_at: new Date().toISOString(),
     target: TARGET,
     dry_run: opts.dryRun,
+    all: opts.all,
     tables: {},
   };
 
   try {
     for (const table of tables) {
-      const { sql, params } = buildPendingQuery(table, { limit: opts.limit });
+      const { sql, params } = buildPendingQuery(table, { limit: opts.limit, all: opts.all });
       const { rows } = await pool.query(sql, params);
-      console.log(`\n[${table}] pending (metadata.model != ${TARGET.model}): ${rows.length}${opts.limit ? ` (limit ${opts.limit})` : ''}`);
+      const scope = opts.all ? '全表 (--all, 忽略 model 谓词; 跳过已完成 source)' : `pending (metadata.model != ${TARGET.model})`;
+      console.log(`\n[${table}] ${scope}: ${rows.length}${opts.limit ? ` (limit ${opts.limit})` : ''}`);
       report.tables[table] = { pending: rows.length, updated: 0, failed: 0, tokens: 0, requests: 0 };
       if (opts.dryRun || rows.length === 0) continue;
 
-      const post = makeDashscopePost();
+      const post = makeOllamaPost();
       const items = rows.map((r) => ({ id: r.id, text: String(r.text) }));
       const metaById = new Map(rows.map((r) => [r.id, r.metadata]));
       const updateSql = buildUpdateSql(table);

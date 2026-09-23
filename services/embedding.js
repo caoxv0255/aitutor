@@ -82,8 +82,10 @@ export async function getEmbedding(text, opts = {}) {
 
     if (EMBEDDING_PROVIDER === 'ollama') {
       // Ollama 原生 /api/embeddings: prompt 单数, response.embedding
+      // options.num_gpu=0 强制 CPU: bge-m3 走 CUDA 会 OOM (本机 GPU 显存常被占满),
+      //   与 scripts/reembed-question-vectors.mjs 的写入口径保持一致 (CPU 产物)。
       endpoint = `${EMBEDDING_BASE_URL}/api/embeddings`;
-      body = { model: EMBEDDING_MODEL, prompt: text.slice(0, 8000) };
+      body = { model: EMBEDDING_MODEL, prompt: text.slice(0, 8000), options: { num_gpu: 0 } };
     } else {
       // OpenAI 兼容: input, data[].embedding
       endpoint = `${EMBEDDING_BASE_URL}/embeddings`;

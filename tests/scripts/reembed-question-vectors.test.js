@@ -41,10 +41,10 @@ describe('reembed: 分批 chunk()', () => {
 
 describe('reembed: 幂等判定 isUpToDate()', () => {
   it('metadata.model === 目标 → 已处理 (跳过)', () => {
-    expect(isUpToDate({ model: TARGET.model, provider: 'remote' })).toBe(true);
+    expect(isUpToDate({ model: TARGET.model, provider: 'ollama' })).toBe(true);
   });
   it('旧模型产物 / 缺 model / 非对象 → 未处理', () => {
-    expect(isUpToDate({ model: 'bge-m3' })).toBe(false);
+    expect(isUpToDate({ model: 'text-embedding-v3' })).toBe(false);
     expect(isUpToDate({ dim: 1024 })).toBe(false);
     expect(isUpToDate(null)).toBe(false);
     expect(isUpToDate('x')).toBe(false);
@@ -55,21 +55,21 @@ describe('reembed: 溯源 metadata 合并', () => {
   it('写 dim/model/provider/source, 且保留其它既有键', () => {
     const merged = mergeProvenanceMetadata({
       source: 'batch02-11-embed-all',
-      model: 'bge-m3',
-      provider: 'ollama',
+      model: 'text-embedding-v3',
+      provider: 'remote',
       dim: 1024,
       custom_key: 'keep-me',
     });
     expect(merged).toMatchObject({
       dim: 1024,
-      model: 'text-embedding-v3',
-      provider: 'remote',
-      source: 'reembed-2026-09-23',
+      model: 'bge-m3',
+      provider: 'ollama',
+      source: TARGET.source,
       custom_key: 'keep-me',
     });
   });
   it('metadata 为 null → 仍产出合法对象', () => {
-    expect(mergeProvenanceMetadata(null)).toMatchObject({ model: TARGET.model });
+    expect(mergeProvenanceMetadata(null)).toMatchObject({ model: TARGET.model, provider: 'ollama' });
   });
 });
 
@@ -105,6 +105,18 @@ describe('reembed: SQL 目标列与幂等谓词', () => {
     expect(sql).toContain('content AS text');
     expect(sql).not.toContain('LIMIT');
   });
+  it('--all 全表模式: 忽略 model 谓词, 以 source 跳过已完成行 (断点续跑)', () => {
+    const { sql, params } = buildPendingQuery('question_vectors', { all: true });
+    expect(sql).not.toContain("metadata->>'model'");
+    expect(sql).toContain("COALESCE(metadata->>'source', '') IS DISTINCT FROM $1");
+    expect(params).toEqual([TARGET.source]);
+  });
+  it('--all + limit: 仍按 id 排序并只用 source/limit 作参数', () => {
+    const { sql, params } = buildPendingQuery('question_vectors', { all: true, limit: 7 });
+    expect(sql).not.toContain("metadata->>'model'");
+    expect(sql).toContain('LIMIT $2');
+    expect(params).toEqual([TARGET.source, 7]);
+  });
   it('UPDATE 写对应向量列 + 合并 metadata', () => {
     expect(buildUpdateSql('question_vectors')).toContain('q_embedding = $2::vector');
     expect(buildUpdateSql('rag_questions')).toContain('embedding = $2::vector');
@@ -122,6 +134,10 @@ describe('reembed: CLI 解析 parseArgs()', () => {
   it('解析 --dry-run / --limit / --table', () => {
     expect(parseArgs(['--dry-run', '--limit', '5', '--table', 'rag_questions']))
       .toMatchObject({ dryRun: true, limit: 5, table: 'rag_questions' });
+  });
+  it('解析 --all (全表重算开关), 默认 false', () => {
+    expect(parseArgs([])).toMatchObject({ all: false });
+    expect(parseArgs(['--all'])).toMatchObject({ all: true });
   });
   it('batch-size > 25 (DashScope 上限) → 抛', () => {
     expect(() => parseArgs(['--batch-size', '26'])).toThrow();

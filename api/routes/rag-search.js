@@ -19,7 +19,7 @@
 
 import express from 'express';
 import { getDb } from '../core/db.js';
-import { getEmbedding } from '../../services/embedding.js';
+import { getEmbedding, getEmbeddingProvenance } from '../../services/embedding.js';
 import { successResponse, errorResponse } from '../utils/response.js';
 import { authMiddleware, requireAdmin } from '../core/auth.js';
 
@@ -39,6 +39,38 @@ const DEFAULT_TOP_K = 10;
 
 /** 最大返回结果数 */
 const MAX_TOP_K = 50;
+
+/**
+ * P0-guard (2026-09-23): 向量溯源一致性守卫 — 与 api/services/visionSearchService.js
+ * 的 detectProvenanceMismatch 同口径 (model 必须一致; provider 仅非 NULL 时参与判定)。
+ *
+ * 事故: question_vectors 混装 text-embedding-v3/remote 与 bge-m3/ollama 两种产物,
+ *   查询侧 env 与库中 model 不一致时 cosine 无意义却照常返回 (维度只 warn 不拦)。
+ * 本函数在查询路径比对「当前 env 生效的 provider+model」与「库中 metadata 记录」,
+ *   不一致 → 返回明细, 调用方拒答 (空数组), 绝不返回可能无意义的相似度。
+ *
+ * @param {import('pg').Pool} pool
+ * @param {{provider:string, model:string, dim:number}} prov
+ * @returns {Promise<{models:string[], providers:string[]}|null>}
+ */
+async function detectProvenanceMismatch(pool, prov) {
+  const { rows } = await pool.query(
+    `SELECT DISTINCT metadata->>'model' AS model, metadata->>'provider' AS provider
+       FROM question_vectors
+      WHERE q_embedding IS NOT NULL
+        AND (
+          COALESCE(metadata->>'model', '') IS DISTINCT FROM $1
+          OR (metadata->>'provider' IS NOT NULL AND metadata->>'provider' IS DISTINCT FROM $2)
+        )
+      LIMIT 10`,
+    [prov.model, prov.provider]
+  );
+  if (rows.length === 0) return null;
+  return {
+    models: [...new Set(rows.map((r) => r.model || '(空)'))],
+    providers: [...new Set(rows.map((r) => r.provider || '(空)'))],
+  };
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 核心服务函数
@@ -388,6 +420,9 @@ export async function searchMultiVector(queryText, options = {}) {
 
   const pool = await getDb();
 
+  // P0-guard (2026-09-23): 当前 env 实际生效的 provider+model (调用时读 env, 非加载期常量)。
+  const prov = getEmbeddingProvenance();
+
   const weightSum = activeTypes.reduce((sum, t) => sum + (weights[t] || 0), 0);
   const normalizedWeights = {};
   activeTypes.forEach((t) => {
@@ -446,6 +481,15 @@ export async function searchMultiVector(queryText, options = {}) {
     paramIdx++;
   }
 
+  // P0-guard (2026-09-23): 溯源守卫 (SQL 层) — 与 visionSearchService.js:412-414 同口径。
+  // 只保留 model 与当前 env 一致的行; provider 仅当库中非 NULL 时才要求一致。
+  conditions.push(`COALESCE(metadata->>'model', '') = $${paramIdx}`);
+  params.push(prov.model);
+  paramIdx++;
+  conditions.push(`(metadata->>'provider' IS NULL OR metadata->>'provider' = $${paramIdx})`);
+  params.push(prov.provider);
+  paramIdx++;
+
   const whereClause = conditions.join(' AND ');
   params.push(limit);
 
@@ -471,6 +515,22 @@ export async function searchMultiVector(queryText, options = {}) {
   `;
 
   const result = await pool.query(sql, params);
+
+  if (result.rows.length === 0) {
+    // 区分「无过阈值命中」与「溯源不一致 (SQL 谓词已排除全部行)」。
+    const mismatch = await detectProvenanceMismatch(pool, prov);
+    if (mismatch) {
+      console.error(
+        `[RAG Multi] 向量溯源不一致: 库中 model=[${mismatch.models.join(', ')}] `
+        + `provider=[${mismatch.providers.join(', ')}], 当前查询 model=${prov.model} `
+        + `provider=${prov.provider}; 拒绝返回相似题`
+      );
+      // 契约与 visionSearchService.findSimilarQuestions 一致: 拒答时返回空结果。
+      // 文案: `相似题检索已拒绝：向量库溯源不一致（库中为 ${mismatch.models.join('/')}，
+      //   当前查询使用 ${prov.model}），返回的相似度无意义，请先用当前 provider 重新嵌入 question_vectors`
+      return [];
+    }
+  }
 
   return result.rows.map((row) => ({
     id: row.id,
