@@ -1,0 +1,125 @@
+{
+  "suite": "F3 相似题管线 — 确定性部分 (mock embedding + mock DB)",
+  "basis": "api/services/visionSearchService.js findSimilarQuestions (L321-396)",
+  "registered": "2026-09-23",
+  "note": "只编码今天已存在的确定性行为: 阈值由 SQL WHERE 强制、similarity 4 位小数、诚实空态 notice。绝不调用真实 LLM/embedding/外部 API。",
+  "cases": [
+    {
+      "id": "f3-001",
+      "name": "相似度按 4 位小数输出 + 既有字段契约不缺失",
+      "basis": "visionSearchService.js:374-391 (map + parseFloat(toFixed(4)))",
+      "input": {
+        "queryText": "已知二次函数 f(x)=x^2-2x+1，求其在区间[0,2]上的最大值与最小值",
+        "subjectCode": "math",
+        "limit": 5,
+        "embedding": "ok",
+        "rows": [
+          {
+            "question_uid": "q-uid-001",
+            "stem": "已知函数 f(x)=x^2, 求 f(2) 的值",
+            "options": null,
+            "answer": "A",
+            "analysis": "直接代入即可",
+            "knowledge_points": "kp_math_015",
+            "difficulty": 2,
+            "question_type": "choice",
+            "subject_code": "math",
+            "year": 2024,
+            "score": 5,
+            "similarity": 0.8234567
+          }
+        ]
+      },
+      "expected": {
+        "questionsLength": 1,
+        "question0": {
+          "similarity": 0.8235,
+          "fields": ["id", "content", "options", "answer", "explanation", "knowledge_points", "difficulty", "question_type", "subject_code", "year", "score", "similarity"]
+        },
+        "notice": null
+      }
+    },
+    {
+      "id": "f3-002",
+      "name": "无过阈值结果 → 诚实空态 + notice 含「阈值」",
+      "basis": "visionSearchService.js:370-372",
+      "input": {
+        "queryText": "已知二次函数 f(x)=x^2-2x+1，求其在区间[0,2]上的最大值与最小值",
+        "subjectCode": "math",
+        "limit": 5,
+        "embedding": "ok",
+        "rows": []
+      },
+      "expected": {
+        "questionsLength": 0,
+        "noticeContains": "阈值"
+      }
+    },
+    {
+      "id": "f3-003",
+      "name": "题干 <10 字 → 空态, 不调 embedding 也不查库",
+      "basis": "visionSearchService.js:328-331",
+      "input": {
+        "queryText": "太短",
+        "subjectCode": null,
+        "limit": 5,
+        "embedding": "ok",
+        "rows": []
+      },
+      "expected": {
+        "questionsLength": 0,
+        "noticeContains": "过短",
+        "embeddingNotCalled": true,
+        "dbNotCalled": true
+      }
+    },
+    {
+      "id": "f3-004",
+      "name": "embedding 异常 → 诚实空态 + notice 含「暂不可用」, 不查库 (禁止随机回退)",
+      "basis": "visionSearchService.js:333-339",
+      "input": {
+        "queryText": "已知二次函数 f(x)=x^2-2x+1，求其在区间[0,2]上的最大值与最小值",
+        "subjectCode": "math",
+        "limit": 5,
+        "embedding": "fail",
+        "rows": [
+          {
+            "question_uid": "q-uid-001",
+            "stem": "已知函数 f(x)=x^2, 求 f(2) 的值",
+            "options": null,
+            "answer": "A",
+            "analysis": "直接代入即可",
+            "knowledge_points": "kp_math_015",
+            "difficulty": 2,
+            "question_type": "choice",
+            "subject_code": "math",
+            "year": 2024,
+            "score": 5,
+            "similarity": 0.8234567
+          }
+        ]
+      },
+      "expected": {
+        "questionsLength": 0,
+        "noticeContains": "暂不可用",
+        "dbNotCalled": true
+      }
+    },
+    {
+      "id": "f3-005",
+      "name": "SIMILAR_QUESTIONS_MIN_SIMILARITY env 生效于阈值 SQL 参数 (默认 0.60, 可调)",
+      "basis": "visionSearchService.js:323 + 344-362 (params[2]=threshold)",
+      "input": {
+        "queryText": "已知二次函数 f(x)=x^2-2x+1，求其在区间[0,2]上的最大值与最小值",
+        "subjectCode": "math",
+        "limit": 5,
+        "embedding": "ok",
+        "rows": [],
+        "env": { "SIMILAR_QUESTIONS_MIN_SIMILARITY": "0.75" }
+      },
+      "expected": {
+        "thresholdParam": 0.75
+      }
+    }
+  ]
+}

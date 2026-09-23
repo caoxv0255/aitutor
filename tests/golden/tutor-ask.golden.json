@@ -1,0 +1,39 @@
+{
+  "suite": "tutor /ask 响应 schema — 确定性部分 (mock 检索 + mock chatCompletion)",
+  "basis": "api/routes/tutor-agent.js askTutorAgent (L462-552) + POST /ask (L561-587)",
+  "registered": "2026-09-23",
+  "note": "只断言今天已存在的契约字段。grounded / citations 属 F1 (未实施), 不在此断言 — 见 test.todo, 波次 2 落地后启用。",
+  "cases": [
+    {
+      "id": "tutor-ask-001",
+      "name": "响应含既有契约字段 (response/diagnosis/learning_path/metadata/context/usage/duration_ms)",
+      "basis": "tutor-agent.js:541-551 (return { ...parsed, context, usage, duration_ms }) + response.js createSuccessResponse",
+      "input": {
+        "question": "如何求函数的极值？",
+        "knowledge_point_id": null,
+        "subject": "math",
+        "similarQuestions": [],
+        "llm": {
+          "content": "{\"response\":\"先求导，令导数为零，再判断极值点。\",\"diagnosis\":{\"summary\":\"学情正常\",\"weak_points\":[],\"strong_points\":[],\"skip_allowed\":true},\"learning_path\":[{\"step\":1,\"action\":\"解答\",\"target\":\"函数极值\",\"reason\":\"无薄弱前置\"}],\"metadata\":{\"teaching_depth\":\"full_solution\",\"weak_kp_ids\":[],\"prerequisites_covered\":[]}}",
+          "usage": { "total_tokens": 42 }
+        }
+      },
+      "expected": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "message": "教学推理完成",
+          "dataKeys": ["response", "diagnosis", "learning_path", "metadata", "context", "usage", "duration_ms"],
+          "response": "先求导，令导数为零，再判断极值点。",
+          "context": {
+            "similar_questions_count": 0,
+            "prerequisites_count": 0,
+            "weak_prerequisites_count": 0,
+            "current_mastery": null
+          },
+          "usage": { "total_tokens": 42 }
+        }
+      }
+    }
+  ]
+}

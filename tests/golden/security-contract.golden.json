@@ -1,0 +1,29 @@
+{
+  "suite": "安全契约抽检 — 波次 1 已修项防回退 (无 token 401 / student 403)",
+  "basis": "api/core/auth.js authMiddleware (L51-88) + requireRole/requireAdmin (L90-102); 端点角色门见 api/modules/exam/routes.js:29 (H2) 与 api/routes/tutor-agent.js:561",
+  "registered": "2026-09-23",
+  "note": "db 全部 mock, 认证层断言不依赖真实 DB/网络。admin 通过门后的业务分支不苛求 (见既有 tests/api/write-endpoints-role.test.js)。",
+  "cases": [
+    {
+      "id": "sec-001",
+      "name": "无 token POST /api/tutor/ask → 401",
+      "basis": "api/routes/tutor-agent.js:561 (authMiddleware) + auth.js:72-75",
+      "input": { "method": "post", "path": "/api/tutor/ask", "token": null, "body": { "question": "hi" } },
+      "expected": { "status": 401, "success": false }
+    },
+    {
+      "id": "sec-002",
+      "name": "无 token POST /api/exam/questions → 401",
+      "basis": "api/modules/exam/routes.js:29 (requireAdmin) + auth.js:72-75",
+      "input": { "method": "post", "path": "/api/exam/questions", "token": null, "body": {} },
+      "expected": { "status": 401, "success": false }
+    },
+    {
+      "id": "sec-003",
+      "name": "student POST /api/exam/questions → 403 (H2 角色门防投毒)",
+      "basis": "api/modules/exam/routes.js:29 (requireAdmin) + auth.js:90-98",
+      "input": { "method": "post", "path": "/api/exam/questions", "token": "student", "body": {} },
+      "expected": { "status": 403, "success": false }
+    }
+  ]
+}
