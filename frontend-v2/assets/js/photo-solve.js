@@ -34,6 +34,14 @@
   function renderState(name, ctx) {
     ctx = ctx || {};
     if (name === 'empty' && els.emptyCopy) {
+      // 空态文案两类（以后端 batch-parse 实际返回的字段为据，不编字段）：
+      //   - no-image   ：还没选图（submit 前置拦截）→ 引导添加
+      //   - zero-result：OCR 已跑完但 questions 为空 → 「未解析出题目」→ 引导换图
+      //
+      // 任务原要求的第二类「解析成功但题库无匹配/无相似题」在此**无法区分**：
+      //   batch-parse 是纯 OCR 管线，只返回 {questions, failed, total_count, success_count,
+      //   failed_count}，不做题库匹配；「无相似题」属于 /api/vision/search 的
+      //   similarNotice 字段，本页并不调用该端点。故不新增该分支，避免编造字段。
       els.emptyCopy.textContent =
         ctx.reason === 'zero-result'
           ? '这几张图没有解析出题目，换一张更清晰的试试。'

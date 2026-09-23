@@ -79,6 +79,17 @@ window.localStorage.removeItem('authToken');
 await PS.submit();
 check('无 token → auth', PS.getState(), 'auth');
 
+// 6b. 空态两类文案（F3 尾巴 P8）：zero-result 分支 = 「未解析出题目」
+//     batch-parse 只返回 {questions, failed, *_count}，不做题库匹配 ——
+//     「解析成功但题库无匹配/无相似题」无法据此区分，故只断言可区分的两类：
+//       no-image（上文 §4 已断言）/ zero-result（本节）。
+window.localStorage.setItem('authToken', 'stub-token');
+window.AIAPI.batchParse = () =>
+  Promise.resolve({ questions: [], failed: [{ pageIndex: 1, error: 'OCR 识别失败' }], success_count: 0, failed_count: 1 });
+await PS.submit();
+check('空 questions → empty', PS.getState(), 'empty');
+check('未解析出题目文案', /这几张图没有解析出题目/.test(window.document.getElementById('empty-copy').textContent), true);
+
 // 7. 有 token + 接口成功 → success，并渲染卡片
 window.localStorage.setItem('authToken', 'stub-token');
 window.AIAPI.batchParse = () =>
