@@ -2,8 +2,25 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).parent.parent
 WORKSPACE = BASE_DIR / "graphrag_workspace"
+
+# 2026-09-23: 必须在读取任何环境变量之前加载项目根 .env。
+# 此前 config.py 只做 os.getenv，而 load_dotenv 发生在 db.py 导入时（晚于 config），
+# 导致 `GRAPHRAG_API_KEY or MINIMAX_API_KEY` 这条回退链在真实运行时拿到空串 ——
+# 静默失败：GRAPHRAG_API_KEY 长度 0，MiniMax 请求会带空 key。
+# override=False，保持「shell 已导出的变量优先」的原有语义。
+load_dotenv(BASE_DIR / ".env")
+
+# 2026-09-23: graphrag_llm 走 litellm，而 litellm 在 __init__ 时会从
+# raw.githubusercontent.com 拉取 model cost map（httpx 未设短超时）。本机到部分
+# CDN IP 的 443 被黑洞：connect 永久停在 SYN-SENT/EINPROGRESS，graphrag index
+# 还没开始任何 LLM/embedding 调用就卡死（曾误判为 tiktoken 下载）。实测 litellm
+# 1.92.0 支持 LITELLM_LOCAL_MODEL_COST_MAP=True 只用包内备份表。用 setdefault，
+# 不覆盖外部已设的值；该变量由 indexer/query 子进程继承。
+os.environ.setdefault("LITELLM_LOCAL_MODEL_COST_MAP", "True")
 
 # LLM 配置（从环境变量读取，不硬编码）
 # 2026-09-23: LLM 换到 MiniMax CN（与 Node 侧 services/llm.js、api/handlers/proxy.js
@@ -24,6 +41,9 @@ GRAPHRAG_EMBEDDING_API_BASE = os.getenv("GRAPHRAG_EMBEDDING_API_BASE", "http://1
 GRAPHRAG_EMBEDDING_MODEL = os.getenv("GRAPHRAG_EMBEDDING_MODEL", "bge-m3-cpu")
 # Ollama 不校验 key，但 GraphRAG 的 openai provider 要求 api_key 非空，故给占位值。
 GRAPHRAG_EMBEDDING_API_KEY = os.getenv("GRAPHRAG_EMBEDDING_API_KEY", "ollama")
+# 2026-09-23: graphrag 3.1.2 的 vector_store 默认 vector_size=3072，与 bge-m3 的 1024 维不符，
+# 会在写 lancedb 时抛 ValueError（维度校验）。显式声明维度，避免依赖默认值。
+GRAPHRAG_EMBEDDING_DIMS = int(os.getenv("GRAPHRAG_EMBEDDING_DIMS", "1024"))
 GRAPHRAG_RATE_LIMIT_PER_HOUR = int(os.getenv("GRAPHRAG_RATE_LIMIT_PER_HOUR", "420"))
 
 # 服务配置

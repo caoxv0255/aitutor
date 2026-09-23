@@ -110,10 +110,12 @@ def run_graphrag_query(index_name: str, query: str, method: str = "local") -> di
         raise HTTPException(status_code=404, detail=f"索引 {index_name} 不存在或未构建完成")
 
     cmd = [
-        "graphrag", "query",
+        sys.executable, "-m", "graphrag", "query",
         "--root", str(index_root),
         "--method", method,
-        "--community_level", "2",
+        # 2026-09-23: graphrag 3.1.2 的 CLI 参数是连字符形式，写成 --community_level
+        # 会直接报 "No such option: --community_level"（查询 500）。
+        "--community-level", "2",
         query,
     ]
 

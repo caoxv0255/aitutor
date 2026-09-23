@@ -21,6 +21,7 @@ from graphrag_service.config import (
     WORKSPACE, GRAPHRAG_API_KEY, GRAPHRAG_API_BASE,
     GRAPHRAG_MODEL, GRAPHRAG_EMBEDDING_API_BASE,
     GRAPHRAG_EMBEDDING_MODEL, GRAPHRAG_EMBEDDING_API_KEY,
+    GRAPHRAG_EMBEDDING_DIMS,
     MAX_REQUESTS_PER_MINUTE, INDEXES
 )
 from graphrag_service.db import (
@@ -59,7 +60,7 @@ def get_index_root(index_name: str) -> Path:
 
 
 def create_settings_yaml(index_root: Path, index_name: str):
-    """为指定索引创建 GraphRAG 3.0.9 兼容的 settings.yaml"""
+    """为指定索引创建 GraphRAG 3.1.2 兼容的 settings.yaml"""
     settings = {
         "completion_models": {
             "default_completion_model": {
@@ -67,7 +68,10 @@ def create_settings_yaml(index_root: Path, index_name: str):
                 "model": GRAPHRAG_MODEL,
                 "auth_method": "api_key",
                 "api_key": "${GRAPHRAG_API_KEY}",
-                "base_url": GRAPHRAG_API_BASE,
+                # 2026-09-23: graphrag_llm.ModelConfig 的字段名是 api_base（不是 base_url）。
+                # ModelConfig 设了 extra="allow"，写成 base_url 会被静默吞掉、api_base=None，
+                # litellm 于是退回默认 https://api.openai.com/v1 —— 配了 MiniMax/Ollama 却打去了 OpenAI。
+                "api_base": GRAPHRAG_API_BASE,
                 "retry": {"type": "exponential_backoff"},
             }
         },
@@ -77,7 +81,7 @@ def create_settings_yaml(index_root: Path, index_name: str):
                 "model": GRAPHRAG_EMBEDDING_MODEL,
                 "auth_method": "api_key",
                 "api_key": "${GRAPHRAG_EMBEDDING_API_KEY}",
-                "base_url": GRAPHRAG_EMBEDDING_API_BASE,
+                "api_base": GRAPHRAG_EMBEDDING_API_BASE,
                 "retry": {"type": "exponential_backoff"},
             }
         },
@@ -110,6 +114,8 @@ def create_settings_yaml(index_root: Path, index_name: str):
         "vector_store": {
             "type": "lancedb",
             "db_uri": "output/lancedb",
+            # graphrag 3.1.2 默认 vector_size=3072，与 bge-m3(1024) 不符会在写库时抛错。
+            "vector_size": GRAPHRAG_EMBEDDING_DIMS,
         },
         "embed_text": {
             "embedding_model_id": "default_embedding_model",
@@ -268,8 +274,12 @@ async def run_graphrag_index(index_name: str, job_id: int):
     update_job_status(job_id, "running")
 
     # 使用 GraphRAG CLI
+    # 2026-09-23: 不要写死 "graphrag" —— 它不在系统 PATH 里（只在 .venv/bin/），
+    # 服务/indexer 以 `python graphrag_service/indexer.py` 方式运行时 PATH 不含 venv，
+    # create_subprocess_exec("graphrag", ...) 会直接 FileNotFoundError（曾被 @retry 重试 3 次后吞成 RetryError）。
+    # 用当前解释器 + -m 调用，永远命中同一 venv。
     cmd = [
-        "graphrag", "index",
+        sys.executable, "-m", "graphrag", "index",
         "--root", str(index_root),
         "--verbose"
     ]
@@ -317,7 +327,9 @@ async def run_index_job(index_name: str) -> int:
     try:
         await run_graphrag_index(index_name, job_id)
     except Exception as e:
+        # 2026-09-23: 之前只 print，不落库 —— 失败任务会永远停在 'running'（静默失败）。
         print(f"索引任务异常: {e}")
+        update_job_status(job_id, "failed", error=str(e)[:2000])
         return job_id
 
     return job_id
