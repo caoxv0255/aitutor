@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import { getDb } from '../core/db.js';
+import { generateToken } from '../core/auth.js';
 import { errorResponse } from '../utils/response.js';
 
 export default async function handler(req, res) {
@@ -19,7 +19,8 @@ export default async function handler(req, res) {
     const user = result.rows[0];
 
     if (user) {
-      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
+      // 统一走 generateToken：有效期取 JWT_EXPIRES_IN，未配置回落 '7d'（与全站登录路径同口径）
+      const token = generateToken({ email: user.email });
       // 双格式响应: 信封 data 字段 (D062, PWA/F3 消费) + 顶层兼容字段 (legacy 页面/契约测试消费)
       const payload = { token, user: { email: user.email, grade: user.grade } };
       return res.json({ success: true, message: '游客登录成功', ...payload, data: payload });
@@ -42,7 +43,8 @@ export default async function handler(req, res) {
     `guest_id=${newGuestId}; Path=/; Max-Age=${365 * 24 * 60 * 60}; SameSite=Lax; HttpOnly${secureFlag}`
   );
 
-  const token = jwt.sign({ email: guestEmail }, process.env.JWT_SECRET, { expiresIn: '7d' });
+  // 统一走 generateToken：有效期取 JWT_EXPIRES_IN，未配置回落 '7d'（与全站登录路径同口径）
+  const token = generateToken({ email: guestEmail });
 
   // 双格式响应: 信封 data 字段 (D062, PWA/F3 消费) + 顶层兼容字段 (legacy 页面/契约测试消费)
   const payload = { token, user: { email: guestEmail, grade: defaultGrade } };
