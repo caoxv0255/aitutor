@@ -14,8 +14,9 @@
  * 架构边界：方案 C 仅消费 A/B 数据，不修改图谱或向量索引。
  *
  * ⚠️ 已知缺陷 (2026-09-23)：「防跳跃机制」从未生效，见 queryPrerequisites 的说明。
- *    图查询能跑通（参数化已于本轮修好），但 DEPENDS_ON=0 且 KnowledgePoint 节点无 id 属性，
- *    所以前置列表恒为 []。A 步（数据对齐）完成前，不要把空列表解读为"无前置"。
+ *    图查询能跑通（参数化已修好，边名也已对齐 PREREQUISITE），但 KnowledgePoint 节点
+ *    无 id 属性，所以前置列表仍恒为 []。A 步第二批（回写 id）完成前，
+ *    不要把空列表解读为"无前置"。
  */
 
 import express from 'express';
@@ -147,16 +148,19 @@ function parseAgtype(val) {
  * 方案 A 多跳查询：获取 knowledge_point_id 的前置依赖（1-2 跳）
  *
  * Cypher 逻辑：
- *   第 1 跳: MATCH (kp)-[:DEPENDS_ON]->(pre) — 直接前置
- *   第 2 跳: MATCH (kp)-[:DEPENDS_ON]->(mid)-[:DEPENDS_ON]->(pre2) — 间接前置
+ *   第 1 跳: MATCH (kp)-[:PREREQUISITE]->(pre) — 直接前置
+ *   第 2 跳: MATCH (kp)-[:PREREQUISITE]->(mid)-[:PREREQUISITE]->(pre2) — 间接前置
  *
- * ⚠️⚠️ 防跳跃机制当前【未生效】(2026-09-23 实测) —— 本函数即使参数化修好也仍返回 []：
- *   1. 边名不匹配：图里实际只有 PREREQUISITE(5487) / HAS_KNOWLEDGE_POINT(5493) /
- *      HAS_CHAPTER(770) / HAS_SUBJECT(9)，**DEPENDS_ON = 0**；
- *   2. 节点属性不匹配：KnowledgePoint 实际属性是
+ * ⚠️⚠️ 防跳跃机制当前【仍未生效】(2026-09-23 实测) —— 本函数目前仍返回 []：
+ *   1. 边名已对齐（A 步第一批，2026-09-23）：线上图实际边名是
+ *      PREREQUISITE(5487) / HAS_KNOWLEDGE_POINT(5493) / HAS_CHAPTER(770) /
+ *      HAS_SUBJECT(9)，DEPENDS_ON = 0，故查询侧改查 PREREQUISITE。
+ *      ⚠️ 写入侧 scripts/sync-obsidian-to-age.js 仍写 DEPENDS_ON，读写边名不一致，
+ *      重建图会导致本查询再次失效（见该文件注释）。
+ *   2. 节点属性仍不匹配：KnowledgePoint 实际属性是
  *      {name, chapter, subject, seq_in_chapter}，**没有 id**，
- *      所以 `{id: $id}` 永远命中不到任何节点。
- *   这两条属于 A 步（数据对齐）范畴，本轮只做了 C 步（参数化止血），未改数据层。
+ *      所以 `{id: $id}` 永远命中不到任何节点 —— 这是当前返回 [] 的唯一原因。
+ *      回写 id 属 A 步第二批，需先对 id 词表拍板，本轮未动。
  *   因此调用方拿到 [] 时，代表"防跳跃未生效"，不是"该知识点没有前置"。
  *
  * @param {object} ageClient
@@ -171,7 +175,7 @@ export async function queryPrerequisites(ageClient, knowledgePointId) {
   // 注意：不再 try/catch 静默吞错 —— 解析/绑定失败必须冒泡，由调用方显式降级。
   const hop1 = await runCypher(
     ageClient,
-    `MATCH (kp:KnowledgePoint {id: $id})-[:DEPENDS_ON]->(pre:KnowledgePoint)
+    `MATCH (kp:KnowledgePoint {id: $id})-[:PREREQUISITE]->(pre:KnowledgePoint)
      RETURN pre.id, pre.name, pre.content`,
     { id: knowledgePointId },
     'id agtype, name agtype, content agtype'
@@ -190,7 +194,7 @@ export async function queryPrerequisites(ageClient, knowledgePointId) {
   // ── 第 2 跳：间接前置依赖（经中间节点）──
   const hop2 = await runCypher(
     ageClient,
-    `MATCH (kp:KnowledgePoint {id: $id})-[:DEPENDS_ON]->(mid:KnowledgePoint)-[:DEPENDS_ON]->(pre2:KnowledgePoint)
+    `MATCH (kp:KnowledgePoint {id: $id})-[:PREREQUISITE]->(mid:KnowledgePoint)-[:PREREQUISITE]->(pre2:KnowledgePoint)
      RETURN pre2.id, pre2.name, pre2.content`,
     { id: knowledgePointId },
     'id agtype, name agtype, content agtype'

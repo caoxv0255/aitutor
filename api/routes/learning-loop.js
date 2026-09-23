@@ -93,18 +93,19 @@ async function runCypher(client, cypher, params = {}, resultDef = 'result agtype
 }
 
 /**
- * 查询直接前置节点（当前节点依赖的，1 跳 DEPENDS_ON）
- * Cypher: (current)-[:DEPENDS_ON]->(pre)
+ * 查询直接前置节点（当前节点依赖的，1 跳 PREREQUISITE）
+ * Cypher: (current)-[:PREREQUISITE]->(pre)
  *
- * ⚠️ 与 tutor-agent.js 的 queryPrerequisites 同源缺陷：图里 DEPENDS_ON=0
- *    （实际是 PREREQUISITE），且 KnowledgePoint 节点无 id 属性 → 恒返回 []。
- *    A 步（数据对齐）完成前，涟漪效应实际不生效。
- *    失败时不再静默返回 []，而是抛错由调用方显式降级并回显。
+ * ⚠️ 边名已对齐（A 步第一批，2026-09-23）：线上图实际边名是 PREREQUISITE(5487)，
+ *    DEPENDS_ON = 0。写入侧 scripts/sync-obsidian-to-age.js 仍写 DEPENDS_ON，
+ *    读写边名不一致，重建图会让本查询再次失效。
+ *    仍未生效的原因只剩一条：KnowledgePoint 节点无 id 属性（A 步第二批，待拍板）
+ *    → 恒返回 []。失败时不再静默返回 []，而是抛错由调用方显式降级并回显。
  */
 async function queryUpstreamNodes(client, knowledgePointId) {
   const result = await runCypher(
     client,
-    `MATCH (kp:KnowledgePoint {id: $id})-[:DEPENDS_ON]->(pre:KnowledgePoint)
+    `MATCH (kp:KnowledgePoint {id: $id})-[:PREREQUISITE]->(pre:KnowledgePoint)
      RETURN pre.id`,
     { id: knowledgePointId },
     'id agtype'
@@ -114,14 +115,14 @@ async function queryUpstreamNodes(client, knowledgePointId) {
 
 /**
  * 查询直接后置节点（依赖当前节点的，反向 1 跳）
- * Cypher: (post)-[:DEPENDS_ON]->(current)
+ * Cypher: (post)-[:PREREQUISITE]->(current)
  *
- * ⚠️ 同上：A 步完成前恒返回 []；失败抛错，不静默吞。
+ * ⚠️ 同上：边名已对齐 PREREQUISITE；节点仍无 id 属性 → 恒返回 []；失败抛错，不静默吞。
  */
 async function queryDownstreamNodes(client, knowledgePointId) {
   const result = await runCypher(
     client,
-    `MATCH (post:KnowledgePoint)-[:DEPENDS_ON]->(kp:KnowledgePoint {id: $id})
+    `MATCH (post:KnowledgePoint)-[:PREREQUISITE]->(kp:KnowledgePoint {id: $id})
      RETURN post.id`,
     { id: knowledgePointId },
     'id agtype'
@@ -551,12 +552,14 @@ router.get('/graph', authMiddleware, async (req, res) => {
       difficulty: parseAgtype(r.difficulty),
     }));
 
-    // ── 查询所有 DEPENDS_ON 边 ──
-    // ⚠️ 图里 DEPENDS_ON = 0（实际边名是 PREREQUISITE 5487 条）→ 本查询恒为空，
-    //    GET /graph 目前只会返回孤立节点。A 步数据对齐待办。
+    // ── 查询所有前置边 ──
+    // 边名已对齐 PREREQUISITE（A 步第一批，2026-09-23；实际 5487 条）。
+    // ⚠️ 但本查询仍恒为空：RETURN a.id / b.id 依赖节点 id 属性，而 KnowledgePoint
+    //    只有 {name, chapter, subject, seq_in_chapter} → GET /graph 仍只返回孤立节点。
+    //    属 A 步第二批（回写 id），待 id 词表拍板后处理。
     const edgesResult = await runCypher(
       ageClient,
-      `MATCH (a:KnowledgePoint)-[:DEPENDS_ON]->(b:KnowledgePoint)
+      `MATCH (a:KnowledgePoint)-[:PREREQUISITE]->(b:KnowledgePoint)
        RETURN a.id, b.id`,
       {},
       'source agtype, target agtype'
