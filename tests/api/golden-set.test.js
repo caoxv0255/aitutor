@@ -8,10 +8,10 @@
 //   2. tutor /ask 响应 — mock 检索 + mock chatCompletion, 断言既有契约字段
 //   3. 安全契约抽检    — 无 token 401 / student 403 (波次 1 已修项, 防回退)
 //
-// 不测 grounded / citations (F1 未实施, 属波次 2) — 用 test.todo 留档.
+// grounded / citations / groundingNotice (F1) 已于波次 2 A (2026-09-23) 启用为实断言.
 // harness 自检: 见文末 "harness 自检" describe — 证明改坏契约会让断言变红.
 
-import { describe, it, expect, vi, beforeAll, afterAll, beforeEach, afterEach, test } from 'vitest';
+import { describe, it, expect, vi, beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
@@ -221,8 +221,54 @@ describe('G2 golden: tutor /ask 响应 schema', () => {
     });
   }
 
-  // F1 未实施: grounded / citations 契约断言留待波次 2.
-  test.todo('F1 落地后启用: 断言 /api/tutor/ask 响应含 grounded 与 citations 契约字段');
+  // F1 已落地 (2026-09-23, 波次 2 A): grounded / citations / groundingNotice 启用为实断言.
+  it('F1: /api/tutor/ask 响应含 grounded/citations/groundingNotice 契约字段', async () => {
+    // 本 describe 无 beforeEach 清 mock, 上一个 case 的 chatCompletion 调用会带入计数
+    // (clearAllMocks 只清调用记录, 不清 mockResolvedValue 实现)。
+    vi.clearAllMocks();
+
+    // ── 检索空 → 未接地 (对应本 golden case 的空检索输入) ──
+    searchSimilarQuestions.mockResolvedValue([]);
+    chatCompletion.mockResolvedValue({
+      content: golden.cases[0].input.llm.content,
+      usage: golden.cases[0].input.llm.usage,
+    });
+
+    const resUngrounded = await request(app)
+      .post('/api/tutor/ask')
+      .set('Authorization', `Bearer ${studentToken()}`)
+      .send({ question: golden.cases[0].input.question, knowledge_point_id: null, subject: 'math' });
+
+    expect(resUngrounded.status).toBe(200);
+    const dUngrounded = resUngrounded.body.data;
+    expect(dUngrounded).toHaveProperty('grounded', false);
+    expect(dUngrounded).toHaveProperty('citations');
+    expect(Array.isArray(dUngrounded.citations)).toBe(true);
+    expect(dUngrounded.citations).toEqual([]);
+    expect(typeof dUngrounded.groundingNotice).toBe('string');
+    expect(dUngrounded.groundingNotice.length).toBeGreaterThan(0);
+    // 说明态: 检索空仍调用 LLM 作答
+    expect(chatCompletion).toHaveBeenCalledTimes(1);
+
+    // ── 检索有命中 → 已接地, citations 与命中一致 ──
+    searchSimilarQuestions.mockResolvedValue([
+      { id: 101, content: '题目A', similarity: 0.82 },
+      { id: 102, content: '题目B', similarity: 0.7712 },
+    ]);
+    const resGrounded = await request(app)
+      .post('/api/tutor/ask')
+      .set('Authorization', `Bearer ${studentToken()}`)
+      .send({ question: golden.cases[0].input.question, knowledge_point_id: null, subject: 'math' });
+
+    expect(resGrounded.status).toBe(200);
+    const dGrounded = resGrounded.body.data;
+    expect(dGrounded.grounded).toBe(true);
+    expect(dGrounded.citations).toEqual([
+      { question_id: 101, similarity: 0.82 },
+      { question_id: 102, similarity: 0.7712 },
+    ]);
+    expect(dGrounded.groundingNotice).toBeNull();
+  });
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -20,6 +20,7 @@ import { searchSimilarQuestions } from './rag-search.js';
 import { chatCompletion, streamChatCompletion, safeParseLLMJson } from '../../services/llm.js';
 import { successResponse, errorResponse } from '../utils/response.js';
 import { authMiddleware } from '../core/auth.js';
+import { logger } from '../core/logger.js';
 
 const router = express.Router();
 
@@ -39,6 +40,51 @@ const MASTERY_THRESHOLD = 60;
 
 /** LLM 推理默认模型 */
 const TUTOR_MODEL = 'qwen-plus';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 接地 (F1) / 引用 (G4) — 契约字段
+//   前端只消费后端产出的文案, 不自行编造说明。
+//   grounded      : 检索结果为空或未达阈值 → false
+//   citations     : 命中题目标识列表 (无命中 → [])
+//   groundingNotice: 未接地时给前端的原文说明; 已接地 → null
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** 未接地时给前端的说明文案 (后端产出, 前端不编) */
+const UNGROUNDED_NOTICE = '本次回答未依据题库内容，仅供参考';
+
+/** 未接地时注入系统提示的强制约束 (P1=B 说明态: 仍作答, 但不得编造依据) */
+const UNGROUNDED_GUARD = `
+
+## ⚠️ 接地约束（最高优先级，优先于以上所有教学规则）
+本次未从题库检索到任何可引用的题目，你没有任何事实依据。你必须：
+1. 绝对不得编造题号、题目内容或答案，也不得声称"题库中存在类似题"。
+2. 在回答开头明确说明：本次未在题库中找到可依据的题目，以下内容基于通用学科知识，可能不完全准确。
+3. 若问题超出通识范围或你无法确定，直接说明信息不足，不得臆测。`;
+
+/**
+ * 判定本次推理是否接地: 检索命中题库题目即为接地。
+ * @param {Array} similarQuestions - searchSimilarQuestions 的返回
+ * @returns {boolean}
+ */
+function isGrounded(similarQuestions) {
+  return Array.isArray(similarQuestions) && similarQuestions.length > 0;
+}
+
+/**
+ * 构建接地契约字段 (F1/G4, 2026-09-23)。增量字段, 不影响既有字段。
+ * @param {Array} similarQuestions
+ * @returns {{grounded: boolean, citations: Array<{question_id: (number|string), similarity: number}>, groundingNotice: (string|null)}}
+ */
+function buildGrounding(similarQuestions) {
+  const grounded = isGrounded(similarQuestions);
+  return {
+    grounded,
+    citations: grounded
+      ? similarQuestions.map((q) => ({ question_id: q.id, similarity: q.similarity }))
+      : [],
+    groundingNotice: grounded ? null : UNGROUNDED_NOTICE,
+  };
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Apache AGE 图谱查询（方案 A）
@@ -246,6 +292,9 @@ function buildSystemPrompt(context) {
 
   const masteryText = currentMastery !== null ? currentMastery.toFixed(2) : '未评估（首次接触）';
 
+  // F1 (P1=B): 检索未接地 → 注入"不得编造、须说明信息不足"的强制约束, 但仍正常作答。
+  const groundingGuard = isGrounded(similarQuestions) ? '' : UNGROUNDED_GUARD;
+
   return `你是一位经验丰富的AI导师，精通新高考全科教学。你正在使用"知识图谱驱动的教学推理系统"进行个性化辅导。
 
 ## 🛡️ 防跳跃教学机制（最高优先级）
@@ -269,7 +318,7 @@ ${prereqsText}
 ${weakText}
 
 ### 相似题目参考（来自向量检索，作为事实依据）
-${similarText}
+${similarText}${groundingGuard}
 
 ## 📤 输出要求
 你必须严格按照以下 JSON 格式输出，不得添加任何 Markdown 标记或非 JSON 内容：
@@ -411,6 +460,9 @@ function buildStreamSystemPrompt(context) {
 
   const masteryText = currentMastery !== null ? currentMastery.toFixed(2) : '未评估（首次接触）';
 
+  // F1 (P1=B): 同 /ask — 未接地仍作答, 但注入不得编造的强制约束。
+  const groundingGuard = isGrounded(similarQuestions) ? '' : UNGROUNDED_GUARD;
+
   return `你是一位经验丰富的AI导师，精通新高考全科教学。你正在使用“知识图谱驱动的教学推理系统”进行个性化辅导。
 
 ## 🛡️ 防跳跃教学机制（最高优先级）
@@ -433,7 +485,7 @@ ${prereqsText}
 ${weakText}
 
 ### 相似题目参考
-${similarText}
+${similarText}${groundingGuard}
 
 ## 📝 输出要求
 请直接输出你的教学内容（纯文本，不要包裹在 JSON 中）。支持 LaTeX 公式（$x^2$）和 Markdown 格式。段落之间用空行分隔。
@@ -540,6 +592,8 @@ export async function askTutorAgent({ question, knowledge_point_id, user_email, 
 
   return {
     ...parsed,
+    // F1/G4: 增量契约字段 (grounded / citations / groundingNotice), 既有字段不动。
+    ...buildGrounding(similarQuestions),
     context: {
       similar_questions_count: similarQuestions.length,
       prerequisites_count: learningContext.prereqs.length,
@@ -580,9 +634,10 @@ router.post('/ask', authMiddleware, async (req, res) => {
 
     return res.json(successResponse(result, '教学推理完成'));
   } catch (err) {
-    console.error('[TutorAgent] 推理失败:', err.message);
+    // M-2a: err.message 只进服务端日志, 不回显给客户端。
+    logger.error('[TutorAgent] 推理失败', { error: err });
     const status = err.message.includes('API Key') ? 503 : err.message.includes('超时') ? 504 : 500;
-    return res.status(status).json(errorResponse(`推理失败: ${err.message}`));
+    return res.status(status).json(errorResponse('推理失败，请稍后重试'));
   }
 });
 
@@ -609,8 +664,9 @@ router.get('/mastery/:kpId', authMiddleware, async (req, res) => {
 
     return res.json(successResponse(mastery));
   } catch (err) {
-    console.error('[TutorAgent] 掌握度查询失败:', err.message);
-    return res.status(500).json(errorResponse(`查询失败: ${err.message}`));
+    // M-2a: err.message 只进服务端日志, 不回显给客户端。
+    logger.error('[TutorAgent] 掌握度查询失败', { error: err });
+    return res.status(500).json(errorResponse('查询失败，请稍后重试'));
   }
 });
 
@@ -620,6 +676,7 @@ router.get('/mastery/:kpId', authMiddleware, async (req, res) => {
  * 事件协议：
  *   event: metadata  — 包含 diagnosis, learning_path 等结构化数据
  *   event: content   — 流式推送 LLM 教学文本 delta
+ *   event: meta      — F1/G4 接地契约 { grounded, citations, groundingNotice }（内容流结束后、done 之前）
  *   event: done      — 流结束，包含 duration_ms 统计
  *   event: error     — 错误信息
  */
@@ -636,7 +693,10 @@ router.post('/ask/stream', authMiddleware, async (req, res) => {
   let closed = false;
 
   // ── 客户端断开检测（防止内存泄漏）──
-  req.on('close', () => {
+  // 2026-09-23 修正: 原用 req.on('close'), 但 Node 22 下请求体被 express.json 读完
+  // 即触发 req 'close' (req.destroyed=true), 会在任何事件写出前把 closed 置 true,
+  // 导致整条 SSE（含 F1 meta）永不下发。改用 res 'close' —— 只有连接真正关闭才触发。
+  res.on('close', () => {
     closed = true;
   });
 
@@ -668,6 +728,9 @@ router.post('/ask/stream', authMiddleware, async (req, res) => {
     }
 
     if (closed) return res.end();
+
+    // ── F1/G4: 接地契约字段此刻已确定 (检索完成); 随末尾 meta 事件下发 ──
+    const grounding = buildGrounding(similarQuestions);
 
     // ── Step 2: 方案 A — Apache AGE 多跳图查询 + 学生掌握度 ──
     let learningContext = { prereqs: [], currentMastery: null, weakPrereqs: [] };
@@ -727,20 +790,25 @@ router.post('/ask/stream', authMiddleware, async (req, res) => {
         task_type: 'tutor_stream',
         user_id: userEmail,
         request_id: req.traceId,
-        signal: { addEventListener: (_, fn) => req.on('close', fn) },
+        // 同 closed 判定: 用 res 'close' 作中断信号, 避免请求体读完就误判断开。
+        signal: { addEventListener: (_, fn) => res.on('close', fn) },
       })) {
         if (closed) break;
         fullContent += chunk;
         sendEvent('content', { delta: chunk });
       }
     } catch (llmErr) {
+      // M-2a: llmErr.message 只进服务端日志, 不回显给客户端。
+      logger.error('[TutorAgent/Stream] LLM 推理失败', { error: llmErr });
       if (!closed) {
-        sendEvent('error', { message: `LLM 推理失败: ${llmErr.message}` });
+        sendEvent('error', { message: 'LLM 推理失败，请稍后重试' });
       }
     }
 
-    // ── Step 5: 发送完成事件 ──
+    // ── Step 5: 发送接地 meta 事件 + 完成事件 ──
     if (!closed) {
+      // F1/G4 约定: 末尾 meta 事件承载 grounded / citations / groundingNotice。
+      sendEvent('meta', grounding);
       sendEvent('done', {
         duration_ms: Date.now() - startTime,
         content_length: fullContent.length,
@@ -749,9 +817,10 @@ router.post('/ask/stream', authMiddleware, async (req, res) => {
 
     res.end();
   } catch (err) {
-    console.error('[TutorAgent/Stream] 流式推理失败:', err.message);
+    // M-2a: err.message 只进服务端日志, 不回显给客户端。
+    logger.error('[TutorAgent/Stream] 流式推理失败', { error: err });
     if (!closed) {
-      sendEvent('error', { message: `推理失败: ${err.message}` });
+      sendEvent('error', { message: '推理失败，请稍后重试' });
       res.end();
     }
   }
