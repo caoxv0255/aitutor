@@ -19,7 +19,9 @@ sys.path.insert(0, str(BASE_DIR))
 
 from graphrag_service.config import (
     WORKSPACE, GRAPHRAG_API_KEY, GRAPHRAG_API_BASE,
-    GRAPHRAG_MODEL, MAX_REQUESTS_PER_MINUTE, INDEXES
+    GRAPHRAG_MODEL, GRAPHRAG_EMBEDDING_API_BASE,
+    GRAPHRAG_EMBEDDING_MODEL, GRAPHRAG_EMBEDDING_API_KEY,
+    MAX_REQUESTS_PER_MINUTE, INDEXES
 )
 from graphrag_service.db import (
     get_db, create_job, update_job_status, get_docs_for_indexing, init_graphrag_tables
@@ -72,10 +74,10 @@ def create_settings_yaml(index_root: Path, index_name: str):
         "embedding_models": {
             "default_embedding_model": {
                 "model_provider": "openai",
-                "model": "text-embedding-3-small",
+                "model": GRAPHRAG_EMBEDDING_MODEL,
                 "auth_method": "api_key",
-                "api_key": "${GRAPHRAG_API_KEY}",
-                "base_url": GRAPHRAG_API_BASE,
+                "api_key": "${GRAPHRAG_EMBEDDING_API_KEY}",
+                "base_url": GRAPHRAG_EMBEDDING_API_BASE,
                 "retry": {"type": "exponential_backoff"},
             }
         },
@@ -166,9 +168,14 @@ def init_index(index_name: str) -> Path:
 
     # 创建 .env 文件（GraphRAG CLI 需要）
     env_path = index_root / ".env"
+    # settings.yaml 里有 ${GRAPHRAG_API_KEY} / ${GRAPHRAG_EMBEDDING_API_KEY} 两个占位，
+    # GraphRAG CLI 从索引根目录的 .env 解析，两边都要写。
     env_content = f"""GRAPHRAG_API_KEY={GRAPHRAG_API_KEY}
 GRAPHRAG_API_BASE={GRAPHRAG_API_BASE}
 GRAPHRAG_LLM_MODEL={GRAPHRAG_MODEL}
+GRAPHRAG_EMBEDDING_API_KEY={GRAPHRAG_EMBEDDING_API_KEY}
+GRAPHRAG_EMBEDDING_API_BASE={GRAPHRAG_EMBEDDING_API_BASE}
+GRAPHRAG_EMBEDDING_MODEL={GRAPHRAG_EMBEDDING_MODEL}
 """
     env_path.write_text(env_content, encoding="utf-8")
 

@@ -21,6 +21,8 @@ from pydantic import BaseModel
 from graphrag_service.config import (
     WORKSPACE, SERVICE_HOST, SERVICE_PORT, INDEXES,
     GRAPHRAG_API_KEY, GRAPHRAG_API_BASE, GRAPHRAG_MODEL,
+    GRAPHRAG_EMBEDDING_API_BASE, GRAPHRAG_EMBEDDING_MODEL,
+    GRAPHRAG_EMBEDDING_API_KEY,
     MAX_REQUESTS_PER_MINUTE,
 )
 from graphrag_service.db import (
@@ -116,8 +118,13 @@ def run_graphrag_query(index_name: str, query: str, method: str = "local") -> di
     ]
 
     env = os.environ.copy()
+    # LLM (MiniMax) 与 embedding (本机 Ollama) 两套凭证/端点分别注入：
+    # settings.yaml 里对应的 ${...} 占位由 GraphRAG CLI 从这两个变量解析。
     env["GRAPHRAG_API_KEY"] = GRAPHRAG_API_KEY
     env["GRAPHRAG_API_BASE"] = GRAPHRAG_API_BASE
+    env["GRAPHRAG_EMBEDDING_API_KEY"] = GRAPHRAG_EMBEDDING_API_KEY
+    env["GRAPHRAG_EMBEDDING_API_BASE"] = GRAPHRAG_EMBEDDING_API_BASE
+    env["GRAPHRAG_EMBEDDING_MODEL"] = GRAPHRAG_EMBEDDING_MODEL
 
     try:
         result = subprocess.run(

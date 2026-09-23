@@ -6,10 +6,24 @@ BASE_DIR = Path(__file__).parent.parent
 WORKSPACE = BASE_DIR / "graphrag_workspace"
 
 # LLM 配置（从环境变量读取，不硬编码）
-GRAPHRAG_API_KEY = os.getenv("GRAPHRAG_API_KEY", "")
-GRAPHRAG_API_BASE = os.getenv("GRAPHRAG_API_BASE", "https://mydamoxing.cn/v1")
-GRAPHRAG_MODEL = os.getenv("GRAPHRAG_MODEL", "kimi-k2.6")
+# 2026-09-23: LLM 换到 MiniMax CN（与 Node 侧 services/llm.js、api/handlers/proxy.js
+# 的 MiniMax provider 同一套：base https://api.minimaxi.com/v1，模型 MiniMax-M2.7）。
+# GRAPHRAG_API_KEY 未单独配置时回退到 MINIMAX_API_KEY —— 线上已经在 .env 里维护了
+# MINIMAX_API_KEY，再抄一份到 GRAPHRAG_API_KEY 等于多一处需要轮换的密钥副本；
+# 回退避免复制。这里只做环境变量读取，绝不把 key 值写回任何文件。
+GRAPHRAG_API_KEY = os.getenv("GRAPHRAG_API_KEY") or os.getenv("MINIMAX_API_KEY", "")
+GRAPHRAG_API_BASE = os.getenv("GRAPHRAG_API_BASE", "https://api.minimaxi.com/v1")
+GRAPHRAG_MODEL = os.getenv("GRAPHRAG_MODEL", "MiniMax-M2.7")
 GRAPHRAG_CODING_MODEL = os.getenv("GRAPHRAG_CODING_MODEL", "K2.6-code-preview")
+
+# Embedding 配置（与 LLM 分设，2026-09-23）
+# embedding 走本机 Ollama 的 bge-m3-cpu（CPU 变体，见 graphrag_service/Modelfile.bge-m3-cpu:
+# 两张 1080Ti 已被 llama-server / funasr / qwen3.6-infer 占满，默认 GPU 加载必 OOM，
+# 故 num_gpu=0 走 CPU；实测 /v1/embeddings 200、dim=1024、预热后约 0.14s/条）。
+GRAPHRAG_EMBEDDING_API_BASE = os.getenv("GRAPHRAG_EMBEDDING_API_BASE", "http://127.0.0.1:11434/v1")
+GRAPHRAG_EMBEDDING_MODEL = os.getenv("GRAPHRAG_EMBEDDING_MODEL", "bge-m3-cpu")
+# Ollama 不校验 key，但 GraphRAG 的 openai provider 要求 api_key 非空，故给占位值。
+GRAPHRAG_EMBEDDING_API_KEY = os.getenv("GRAPHRAG_EMBEDDING_API_KEY", "ollama")
 GRAPHRAG_RATE_LIMIT_PER_HOUR = int(os.getenv("GRAPHRAG_RATE_LIMIT_PER_HOUR", "420"))
 
 # 服务配置

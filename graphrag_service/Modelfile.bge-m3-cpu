@@ -1,0 +1,15 @@
+# GraphRAG embedding 用的 Ollama 变体: bge-m3 强制 CPU 推理。
+#
+# 为什么需要这个变体 (2026-09-23 实测):
+#   本机两张 1080Ti 已被 llama-server / funasr / qwen3.6-infer 占满, 仅剩 ~404MiB,
+#   而 bge-m3 (1.2GB) 加载时必 OOM; num_gpu=0 走 CPU 后实测 HTTP 200 / dim=1024,
+#   预热后约 0.07s/条, 完全够 GraphRAG 索引用。
+#
+# 重建命令 (模型已在 `ollama list` 里):
+#   ollama create bge-m3-cpu -f graphrag_service/Modelfile.bge-m3-cpu
+#
+# 验证:
+#   curl -s http://127.0.0.1:11434/api/embeddings \
+#     -d '{"model":"bge-m3-cpu","prompt":"测试"}' | python3 -c 'import sys,json;print(len(json.load(sys.stdin)["embedding"]))'
+FROM bge-m3:latest
+PARAMETER num_gpu 0
