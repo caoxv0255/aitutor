@@ -230,15 +230,19 @@ async function benchmarkGraphQueries() {
     for (let i = 0; i < GRAPH_ITERATIONS; i++) {
       const start = performance.now();
       try {
+        // A 步 (2026-09-23) 对齐: 边名 DEPENDS_ON → PREREQUISITE（图里 DEPENDS_ON=0 条，
+        // 查它恒 0 行），并把参数挪到 $$...$$ 之外用命名参数 map —— `$1` 写在
+        // $$...$$ 内部会直接 parse error，这里的计时量到的是报错而非查询。
+        // 形状与 api/routes/tutor-agent.js runCypher() 保持一致。
         await client.query(
           `SELECT * FROM cypher('knowledge_graph', $$
-             MATCH (kp:KnowledgePoint {id: $1})-[:DEPENDS_ON]->(pre:KnowledgePoint)
+             MATCH (kp:KnowledgePoint {id: $id})-[:PREREQUISITE]->(pre:KnowledgePoint)
              RETURN pre.id, pre.name
-           $$) AS (id agtype, name agtype)`,
-          [sampleKpId]
+           $$, $1) AS (id agtype, name agtype)`,
+          [JSON.stringify({ id: sampleKpId })]
         );
-      } catch {
-        // 节点可能不存在
+      } catch (err) {
+        console.log(`  ⚠️  1 跳查询失败: ${err.message.split('\n')[0]}`);
       }
       hop1Times.push(performance.now() - start);
     }
@@ -252,13 +256,13 @@ async function benchmarkGraphQueries() {
       try {
         await client.query(
           `SELECT * FROM cypher('knowledge_graph', $$
-             MATCH (kp:KnowledgePoint {id: $1})-[:DEPENDS_ON]->(mid:KnowledgePoint)-[:DEPENDS_ON]->(pre:KnowledgePoint)
+             MATCH (kp:KnowledgePoint {id: $id})-[:PREREQUISITE]->(mid:KnowledgePoint)-[:PREREQUISITE]->(pre:KnowledgePoint)
              RETURN pre.id, pre.name
-           $$) AS (id agtype, name agtype)`,
-          [sampleKpId]
+           $$, $1) AS (id agtype, name agtype)`,
+          [JSON.stringify({ id: sampleKpId })]
         );
-      } catch {
-        // 忽略
+      } catch (err) {
+        console.log(`  ⚠️  2 跳查询失败: ${err.message.split('\n')[0]}`);
       }
       hop2Times.push(performance.now() - start);
     }

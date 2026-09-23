@@ -13,13 +13,20 @@
  *
  * 架构边界：方案 C 仅消费 A/B 数据，不修改图谱或向量索引。
  *
- * ⚠️ 已知缺陷 (2026-09-23)：「防跳跃机制」从未生效，见 queryPrerequisites 的说明。
- *    图查询能跑通（参数化已修好，边名也已对齐 PREREQUISITE），但 KnowledgePoint 节点
- *    无 id 属性，所以前置列表仍恒为 []。A 步第二批（回写 id）完成前，
- *    不要把空列表解读为"无前置"。
+ * ⚠️ 历史缺陷 (2026-09-23)：「防跳跃机制」此前从未生效。
+ *    查询侧（Cypher 参数化）与数据侧（边名 PREREQUISITE + KnowledgePoint.id 回写）
+ *    已在 0a99cc1 修好，端到端能返回非空前置（见 tests/age-prereq-gate.test.js）。
+ *
+ * ⚠️ 未决 (2026-09-23 观测中)：上述修复从未在生产链路上被触发过 —— 新旧前端调
+ *    POST /api/tutor/ask 时都不传 knowledge_point_id，askTutorAgent 的 Step 2 整条
+ *    分支静默跳过。本轮只加观测（埋点/日志），不改任何业务行为，用来量化：
+ *      a) 究竟有多少请求缺 knowledge_point_id；
+ *      b) 这些请求里有多少「本来能由题目文本推断出 kp」。
+ *    数据攒够后再决定是否上"题目分类推断"。
  */
 
 import express from 'express';
+import { createHash } from 'node:crypto';
 import { getDb } from '../core/db.js';
 import { searchSimilarQuestions } from './rag-search.js';
 import { chatCompletion, streamChatCompletion, safeParseLLMJson } from '../../services/llm.js';
@@ -250,12 +257,177 @@ export async function queryStudentMastery(pool, userEmail, kpIds) {
 // 上下文组装 & 防跳跃检测
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 防跳跃可观测性 (2026-09-23)
+//   目的：把"Step 2 被静默跳过"变成可见，并顺带量化"题目文本能否推断出 kp"。
+//   只写日志，不改变任何业务流程。
+//
+//   脱敏约定：
+//     - 绝不打印 question 原文（学生手打内容，可能含 PII，且体量大）。
+//     - 用 `q_sha256_12`（去空白 sha256 前 12 位）+ `q_len` 作为一次请求的题目指纹：
+//       既能把同一道题的"跳过行"和"探针结果行" join 起来，又能横向比对命中率。
+//     - user_email 照实记，与既有的 logger.request / audit 口径一致（日志里已经有
+//       邮箱），另外用 request_id 与请求行关联。
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** 观测日志统一前缀，便于 grep */
+const OBS_TAG = '[TutorAgent][防跳跃]';
+
+/**
+ * 题目指纹：长度 + 去空白后 sha256 的前 12 位。
+ * @param {unknown} question
+ * @returns {{q_len: number, q_sha256_12: string}}
+ */
+export function questionFingerprint(question) {
+  const text = typeof question === 'string' ? question : '';
+  return {
+    q_len: text.length,
+    q_sha256_12: createHash('sha256').update(text.trim()).digest('hex').slice(0, 12),
+  };
+}
+
+/**
+ * 观测字段序列化成 `k=v k=v`（api/core/logger.js 只会挑固定字段进 JSON envelope，
+ * 自定义字段必须落进 message 才会被持久化）。
+ * @param {Record<string, unknown>} fields
+ */
+function formatObsFields(fields) {
+  return Object.entries(fields)
+    .map(([k, v]) => `${k}=${v === null || v === undefined || v === '' ? '-' : v}`)
+    .join(' ');
+}
+
+/**
+ * 观测探针：这道题「本来能不能」映射到 knowledge_point_id？
+ *
+ * 只做只读查询，结果只进日志，绝不参与业务决策（本轮不改行为）。
+ * 查的是 question_knowledge_points（7361 条题目→知识点映射，question_id 指
+ * exam_questions.id），按 **题干原文精确相等** 反查 —— 这是后续"题目分类推断"
+ * 最保守也最准的一条路径，先看它到底能覆盖多少真实请求。
+ *
+ * 执行计划（实测）：Seq Scan question_knowledge_points(7361) → Memoize +
+ * exam_questions 主键回表 + Filter(stem = $1)；热缓存 8~20ms，冷缓存约 260ms。
+ * 所以调用方必须「不 await」，详见 observeMissingKnowledgePointId。
+ *
+ * @param {{query: Function}} pool - 任意 pg Pool / Client
+ * @param {unknown} question - 学生提问原文（不出日志）
+ * @returns {Promise<{inferred: boolean, source: string, question_id: (number|null),
+ *   match_count: number, kp_ids: string[], elapsed_ms: number, error: (string|null),
+ *   q_len: number, q_sha256_12: string}>}
+ */
+export async function probeKpInference(pool, question) {
+  const startedAt = Date.now();
+  const result = {
+    inferred: false,
+    source: 'stem_exact',
+    question_id: null,
+    match_count: 0,
+    kp_ids: [],
+    elapsed_ms: 0,
+    error: null,
+    ...questionFingerprint(question),
+  };
+
+  try {
+    const text = typeof question === 'string' ? question.trim() : '';
+    if (!text) return { ...result, elapsed_ms: Date.now() - startedAt };
+
+    const { rows } = await pool.query(
+      `SELECT q.id AS question_id, kp.knowledge_point_id
+         FROM question_knowledge_points kp
+         JOIN exam_questions q ON q.id = kp.question_id
+        WHERE q.stem = $1
+        ORDER BY kp.relevance_score DESC NULLS LAST, kp.id
+        LIMIT 5`,
+      [text]
+    );
+
+    result.match_count = rows.length;
+    result.kp_ids = rows.map((r) => r.knowledge_point_id).filter(Boolean);
+    result.question_id = rows[0]?.question_id ?? null;
+    result.inferred = result.kp_ids.length > 0;
+  } catch (err) {
+    result.source = 'error';
+    result.error = err.message;
+  }
+
+  result.elapsed_ms = Date.now() - startedAt;
+  return result;
+}
+
+/**
+ * Step 2 缺 knowledge_point_id 时的观测出口。
+ *
+ * 同步先打一行「跳过」warn（同步执行，不受后续 LLM/探针异常影响），随后**异步**跑探针：
+ * 探针要回表 question_knowledge_points（实测冷缓存 ~260ms），不能拖在 LLM 之前的主
+ * 链路上，所以这里 fire-and-forget，结果独立成行、靠 q_sha256_12 与前一行 join。
+ *
+ * @param {string} [params.route] - 调用方标记（'ask' / 'ask_stream'），用于区分两条入口
+ * @returns {Promise<void>} 探针的 promise，返回值仅为便于测试断言；生产调用方可忽略。
+ */
+export function observeMissingKnowledgePointId({ pool, question, subject, route, requestId, userEmail, similarCount }) {
+  const fp = questionFingerprint(question);
+  const meta = { user: userEmail, requestId };
+
+  logger.warn(
+    `${OBS_TAG} Step2 跳过: 未传 knowledge_point_id ${formatObsFields({
+      route: route ?? null,
+      subject: subject ?? null,
+      similar_count: similarCount,
+      ...fp,
+    })}`,
+    meta
+  );
+
+  return probeKpInference(pool, question)
+    .then((r) => {
+      logger.info(
+        `${OBS_TAG} kp推断探针 ${formatObsFields({
+          route: route ?? null,
+          inferred: r.inferred,
+          source: r.source,
+          question_id: r.question_id,
+          match_count: r.match_count,
+          kp_ids: r.kp_ids.join('|'),
+          elapsed_ms: r.elapsed_ms,
+          error: r.error,
+          ...fp,
+        })}`,
+        meta
+      );
+    })
+    .catch((err) => {
+      logger.error(`${OBS_TAG} 探针异常 ${formatObsFields({ error: err.message, ...fp })}`, meta);
+    });
+}
+
 /**
  * 组装完整的学情上下文（方案 A 图谱 + 关系型掌握度）
+ *
+ * export 仅为可测性（tests/tutor-prereq-observability.test.js 直接验证 Step 2
+ * 正常路径的观测输出）；生产调用方仍只有 askTutorAgent。
  */
-async function assembleLearningContext(pool, ageClient, userEmail, knowledgePointId) {
+export async function assembleLearningContext(pool, ageClient, userEmail, knowledgePointId) {
   // 方案 A：多跳图查询
+  const startedAt = Date.now();
   const prereqs = await queryPrerequisites(ageClient, knowledgePointId);
+  const elapsedMs = Date.now() - startedAt;
+
+  // 观测：走到 queryPrerequisites 本身就要留痕（此前这条路径在生产从未被走过）。
+  logger.info(
+    `${OBS_TAG} queryPrerequisites 命中 ${formatObsFields({
+      knowledge_point_id: knowledgePointId,
+      count: prereqs.length,
+      hop1: prereqs.filter((p) => p.hop === 1).length,
+      hop2: prereqs.filter((p) => p.hop === 2).length,
+      ids: prereqs
+        .slice(0, 5)
+        .map((p) => p.id)
+        .join('|'),
+      elapsed_ms: elapsedMs,
+    })}`,
+    { user: userEmail }
+  );
 
   // 收集所有需要查询掌握度的知识点 ID
   const allKpIds = [knowledgePointId, ...prereqs.map((p) => p.id)];
@@ -570,13 +742,27 @@ export async function askTutorAgent({ question, knowledge_point_id, user_email, 
       learningContext = await assembleLearningContext(pool, ageClient, user_email, knowledge_point_id);
     } catch (err) {
       // 不再静默吞错：前置查询失败要能看到完整原因（防跳跃此前正是被这个 warn 掩盖）。
-      console.error(`[TutorAgent] 方案A图谱查询失败 (kp=${knowledge_point_id}): ${err.message}`);
+      logger.error(`${OBS_TAG} 方案A图谱查询失败 ${formatObsFields({ knowledge_point_id, error: err.message })}`, {
+        user: user_email,
+      });
     } finally {
       if (ageClient) {
         ageClient.release();
         ageClient = null;
       }
     }
+  } else {
+    // 观测专用分支：此处此前什么都不记，防跳跃"没跑"和"跑了但没前置"分不清。
+    // 不 await —— 探针只写日志，不许拖慢主链路。
+    observeMissingKnowledgePointId({
+      pool,
+      question,
+      subject,
+      route: 'ask',
+      requestId: request_id,
+      userEmail: user_email,
+      similarCount: similarQuestions.length,
+    });
   }
 
   // ── Step 3: 上下文组装 ──
@@ -774,12 +960,33 @@ router.post('/ask/stream', authMiddleware, async (req, res) => {
         ageClient = await borrowAgeClient(await getDb());
         learningContext = await assembleLearningContext(await getDb(), ageClient, userEmail, knowledge_point_id);
       } catch (err) {
-        console.error(`[TutorAgent/Stream] 方案A图谱查询失败 (kp=${knowledge_point_id}): ${err.message}`);
+        // 与 POST /ask 对齐：走结构化 logger，才能和观测行（OBS_TAG）落在同一日志流里。
+        logger.error(
+          `${OBS_TAG} 方案A图谱查询失败(stream) ${formatObsFields({ knowledge_point_id, error: err.message })}`,
+          { user: userEmail, requestId: req.traceId }
+        );
       } finally {
         if (ageClient) {
           ageClient.release();
           ageClient = null;
         }
+      }
+    } else {
+      // 观测专用分支，与 POST /ask 同一出口。必须埋这里：新树前端默认走 SSE
+      // （askTutorStream 优先），只在 /ask 埋等于大部分真实流量看不到。
+      // 整个调用必须自吞异常：埋点把 SSE 主链路搞挂就本末倒置了。
+      try {
+        observeMissingKnowledgePointId({
+          pool: await getDb(),
+          question,
+          subject,
+          route: 'ask_stream',
+          requestId: req.traceId,
+          userEmail,
+          similarCount: similarQuestions.length,
+        });
+      } catch (err) {
+        logger.error(`${OBS_TAG} 观测分支异常 ${formatObsFields({ error: err.message })}`, { user: userEmail });
       }
     }
 
