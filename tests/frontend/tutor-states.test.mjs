@@ -113,6 +113,17 @@ Tutor.onStreamEvent({ event: 'metadata', data: { grounded: true, citations: [{ q
 check('流式已接地 → 无横幅', NOTICE.hidden, true);
 check('流式已接地 → 出处可见', doc.getElementById('tutor-citations').hidden, false);
 
+// 8b. 兼容事件名 'meta'（后端测试用例用名），且 meta 可能在**流末尾**到达：
+//     首个 content 即切 success（回答可见），meta 到了再一次性定横幅（不闪动）
+Tutor.setState('loading');
+Tutor.onStreamEvent({ event: 'content', data: { delta: '末尾 meta 前的回答。' } });
+check('首个 content → 切 success', Tutor.getState(), 'success');
+check('content 阶段尚未定论 → 无横幅', NOTICE.hidden, true);
+Tutor.onStreamEvent({ event: 'meta', data: { grounded: false, citations: [], groundingNotice: BACKEND_NOTICE } });
+check('末尾 meta → 横幅出现', NOTICE.hidden, false);
+check('末尾 meta → 文案逐字', NOTICE.textContent, BACKEND_NOTICE);
+check('末尾 meta 后内容保留', /末尾 meta 前的回答。/.test(doc.getElementById('tutor-answer').textContent), true);
+
 // 9. 非流式集成：submit → askTutor 响应带未接地字段
 window.localStorage.setItem('authToken', 'stub-token');
 Object.defineProperty(window.navigator, 'onLine', { value: true, configurable: true });

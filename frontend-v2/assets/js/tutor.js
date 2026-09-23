@@ -97,15 +97,23 @@
   }
 
   /**
-   * 流式事件处理。metadata 事件携带接地三字段 → 一次性决定横幅（不在流过程中反复闪动）。
+   * 流式事件处理。
+   *
+   * ⚠️ 事件名约定待后端定稿：任务/后端测试（tests/api/tutor-grounding.test.js）写的是
+   * `meta`，而当前 api/routes/tutor-agent.js 发的是既有 `metadata` 事件 —— 两者并存，
+   * 故这里同时接受 `meta` 与 `metadata`，接地三字段从先到者取。meta 可能在**流开始**
+   * 或**流末尾**下发，故：
+   *   - 首个 content 即切换到 success（回答区可见）；
+   *   - meta 到达时再 application 一次横幅（幂等、只应用一次，不在流过程中反复闪动）。
    * @param {{event: string, data: object}} ev
    */
   function onStreamEvent(ev) {
     if (!ev || !ev.event) return;
-    if (ev.event === 'metadata') {
+    if (ev.event === 'metadata' || ev.event === 'meta') {
       applyGrounding(ev.data || {});
-      setState('success');
+      if (machine.get() !== 'success') setState('success');
     } else if (ev.event === 'content') {
+      if (machine.get() === 'loading') setState('success');
       appendAnswer(ev.data && ev.data.delta);
     } else if (ev.event === 'error') {
       const msg = (ev.data && ev.data.message) || '导师暂时无法回答';
