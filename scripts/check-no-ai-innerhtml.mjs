@@ -17,6 +17,13 @@
  *   (可跨行)。这类(如 `= ''` 清空、`= '<option>…</option>'` 静态文案)天然不携带
  *   动态数据, 不命中。
  *
+ *   v2 修正 (2026-09-23, 误报治理): 静态字面量右侧允许跟**同行注释**再判终结符 ——
+ *   `x.innerHTML = ''; // 说明` 与 `x.innerHTML = '静态'; <同行块注释>` 均视为静态放行。
+ *   此前同行 `//` 注释会被当作"字面量后还有内容"从而误判非静态, 逼开发者为了过检
+ *   挪动注释/改代码结构(闸门被讨厌的典型成因)。修正只剥离**字面量之后**的注释尾巴,
+ *   松紧不变: `'' + foo`、`'a' + foo // c`、`cond ? a : b`、`` `<b>${t}</b>` ``、
+ *   `+=` 仍全部判红(见 tests/scripts/check-no-ai-innerhtml.test.js 夹具)。
+ *
  * ALLOW 登记机制: 每个现存命中站点必须逐一人工核对后登记在下表 (文件:行号 +
  * 理由 + 登记日期)。核对不了、或含 AI/LLM 未消毒数据的, 宁可判红让人工看, 不得
  * 登记 —— 唯一例外是 tutor-stream.js:208 (已知的 AI delta 死代码), 按任务要求
@@ -27,6 +34,13 @@
  *   frontend/assets/js) 的 .js 文件。旧树 frontend/ 与 ai-tutor-frontend/ 是
  *   历史遗留, 其中大量 innerHTML 属一般 XSS 债务而非本闸门射程, 但仍在扫描
  *   目录内, 故一并登记并如实标注数据来源。
+ *
+ * 明确不覆盖 (需人工/其它闸门兜底): 跨文件数据流(仅看赋值行, 不追变量来源)、
+ *   动态属性访问 `el['innerHTML']` / `el[\`inner\` + x]`、`outerHTML` 赋值、
+ *   `setHTMLUnsafe(` / `insertAdjacentElement(` / `Range.createContextualFragment(`
+ *   等其它注入入口、RHS 前置注释(如 `= <块注释> ''`)、以及模板字面量后接拼接
+ *   (`` `<b>a</b>` + foo ``, 该形态按既有"无 ${} 即放行"规则放行)。命中判定是
+ *   行内形状匹配, 不是数据流分析。
  *
  * 输出: 命中未登记站点即非零退出。
  */
@@ -100,7 +114,24 @@ const ASSIGN = /\.innerHTML\s*(\+=|=)(?!=)/g;
 // 前导单/双引号字面量 (含转义); 用于判断 RHS 是否以纯静态字符串开头
 const STRING_LITERAL = /^(['"])(?:\\.|(?!\1)[\s\S])*\1/;
 
-/** 是否为"纯静态字面量": 单/双引号完整字面量(后跟仅 ;/}/)/] 等终结符), 或跨行模板字符串(不含 ${}) */
+/**
+ * 剥离**字面量之后**的同行注释尾巴, 只保留真正的代码终结符:
+ *   行注释(以两道斜杠开始)自该处起全部丢弃;
+ *   完整块注释(斜杠星号 ... 星号斜杠)先整体删除, 故其中含两道斜杠也不会误截。
+ * 调用点已确认: 传入的一定是字符串字面量匹配结果之后的剩余片段, 其中的两道斜杠
+ * 只可能是注释起始(不是字符串内容), 故无需区分字符串上下文。真正的拼接
+ * (`+ foo // c`) 剥离后仍剩 `+ foo`, 不会被误放行。
+ */
+function stripTrailingComments(s) {
+  let t = s;
+  // 先删**闭合的**块注释(可含 `//`), 再按首个 `//` 截断行注释
+  t = t.replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const i = t.indexOf('//');
+  if (i !== -1) t = t.slice(0, i);
+  return t;
+}
+
+/** 是否为"纯静态字面量": 单/双引号完整字面量(后跟仅 ;/}/)/] 等终结符, 允许同行注释), 或跨行模板字符串(不含 ${}) */
 function isStaticLiteral(lines, lineIdx, line, afterEqCol) {
   let text = line.slice(afterEqCol).trim();
   let idx = lineIdx;
@@ -121,8 +152,8 @@ function isStaticLiteral(lines, lineIdx, line, afterEqCol) {
   if (q === '"' || q === "'") {
     const m = STRING_LITERAL.exec(text);
     if (!m) return false;
-    // 字面量之后只能跟 ; / 空白 / } / ) / ] 等终结符, 否则视为拼接/表达式
-    return /^[\s;}\])]*$/.test(text.slice(m[0].length).trim());
+    // 字面量之后只能跟 ; / 空白 / } / ) / ] 等终结符(允许其后跟同行注释), 否则视为拼接/表达式
+    return /^[\s;}\])]*$/.test(stripTrailingComments(text.slice(m[0].length)));
   }
   if (q === '`') {
     const tmpl = readTemplateLiteral(lines, idx, col);

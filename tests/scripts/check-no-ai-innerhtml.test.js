@@ -114,6 +114,70 @@ describe('check-no-ai-innerhtml (AI 输出禁入 innerHTML 门禁)', () => {
     expect(code).toBe(0);
   });
 
+  // ── v2 误报修正: 静态字面量 + 同行注释 → 必须绿 ──
+  it('innerHTML = \'\' + 同行 // 注释 → 放行 (v2 修正: 后缀注释不再误判非静态)', () => {
+    const { code, out } = runOn({
+      'frontend-v2/assets/js/safe-comment-line.js': "els.similarList.innerHTML = ''; // 清空列表\n",
+    });
+    expect(code).toBe(0);
+    expect(out).toContain('✓');
+  });
+
+  it('innerHTML = 静态文案 + 同行块注释 → 放行', () => {
+    const { code } = runOn({
+      'frontend-v2/assets/js/safe-comment-block.js': "el.innerHTML = '静态文案'; /* 说明 */\n",
+    });
+    expect(code).toBe(0);
+  });
+
+  it('innerHTML = 静态字面量 + 同行注释 + 空格/Tab 变体 → 放行', () => {
+    const { code } = runOn({
+      'frontend-v2/assets/js/safe-comment-ws.js': "el.innerHTML = '';\t \t//   说明   \n",
+    });
+    expect(code).toBe(0);
+  });
+
+  // ── v2 防「顺手放松过头」: 有注释但 RHS 仍为动态 → 必须红 ──
+  it('innerHTML = 静态串 + 拼接 + 同行注释 → 仍拦截', () => {
+    const { code, out } = runOn({
+      'frontend-v2/assets/js/vuln7.js': "el.innerHTML = '<b>' + title + '</b>'; // 说明\n",
+    });
+    expect(code).toBe(1);
+    expect(out).toMatch(/vuln7\.js:1/);
+  });
+
+  it('innerHTML = \'\' + 变量 (带同行注释) → 仍拦截', () => {
+    const { code, out } = runOn({
+      'frontend-v2/assets/js/vuln8.js': "el.innerHTML = '' + foo; // 说明\n",
+    });
+    expect(code).toBe(1);
+    expect(out).toMatch(/vuln8\.js:1/);
+  });
+
+  it('innerHTML = 含 ${} 模板字符串 + 同行注释 → 仍拦截', () => {
+    const { code, out } = runOn({
+      'frontend/assets/js/vuln9.js': 'el.innerHTML = `<b>${html}</b>`; // 说明\n',
+    });
+    expect(code).toBe(1);
+    expect(out).toMatch(/vuln9\.js:1/);
+  });
+
+  it('innerHTML = 三元 (带同行注释) → 仍拦截', () => {
+    const { code, out } = runOn({
+      'frontend-v2/assets/js/vuln10.js': 'el.innerHTML = cond ? a : b; // 说明\n',
+    });
+    expect(code).toBe(1);
+    expect(out).toMatch(/vuln10\.js:1/);
+  });
+
+  it('innerHTML = 非静态变量 + 同行注释 → 仍拦截', () => {
+    const { code, out } = runOn({
+      'public/src/js/vuln11.js': 'el.innerHTML = payload; // 说明\n',
+    });
+    expect(code).toBe(1);
+    expect(out).toMatch(/vuln11\.js:1/);
+  });
+
   // 修完之后仓库必须是绿的: 这条同时是 M-4 门禁的验收。
   it('仓库本体当前通过 (现存站点已全部登记/为静态)', () => {
     const { code, out } = runOn({}, ROOT);
