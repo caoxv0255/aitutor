@@ -213,6 +213,17 @@ else
   fail "前端视觉标准未达标 (见上; 视觉只改 system.css，页面差异放 app.css)"
 fi
 
+# 2026-09-23 全仓安全评审 M-4: public/src/js/tutor-stream.js:208 把 LLM SSE delta
+# 未消毒拼进 innerHTML (`container.innerHTML += pending`) —— 当前死代码, 但接线即
+# Critical, 且 token 存 localStorage。人工发现必须落成永久闸门, 否则同类问题会反复。
+# 判据: 非静态 innerHTML 赋值/拼接、insertAdjacentHTML、document.write 均须登记到
+# scripts/check-no-ai-innerhtml.mjs 的 ALLOW (含理由+日期), 否则命中即非零退出。
+if node scripts/check-no-ai-innerhtml.mjs; then
+  ok "AI 输出未消毒进入 innerHTML (非静态 innerHTML / insertAdjacentHTML / document.write)"
+else
+  fail "存在未登记的 AI/LLM 数据进入 innerHTML 风险 (见上; 请改用 textContent/createTextNode, 公式用 KaTeX(trust:false), 或登记到 ALLOW)"
+fi
+
 # ── 7. 前端行为测试 (jsdom) ──
 # 2026-09-21: 新主树 frontend-v2/ 的每页都以"六态机 + 错误分类"验收,
 # 测试落在 tests/frontend/ 里独立跑, 无人守门 —— 改动共享层(ui.js/api.js/app.css)
