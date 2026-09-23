@@ -149,6 +149,53 @@ const scroll = window.document.getElementById('results-scroll');
 check('结果区滚动容器存在', !!scroll, true);
 check('滚动容器可聚焦', scroll.getAttribute('tabindex'), '0');
 
+// 7f. 相似题区（P8 2026-09-23）：解析成功 → 取首题题干调 /api/vision/similar-by-text
+//     （纯检索端点，本页不再走 /api/vision/search 的二次 OCR + LLM）
+window.AIAPI.batchParse = () =>
+  Promise.resolve({
+    questions: [{ pageIndex: 1, raw_text: '已知函数 f(x)=x^2-2x+1，求其最小值', subject_code: 'math' }],
+    success_count: 1
+  });
+let similarCall = null;
+window.AIAPI.similarByText = function (text, options) {
+  similarCall = { text: text, options: options };
+  return Promise.resolve({
+    similarQuestions: [{
+      id: 'q-1',
+      content: '已知函数 g(x)=x^2+2x+3，求其最小值',
+      answer: 'B',
+      subject_code: 'math',
+      difficulty: 3,
+      question_type: 'choice',
+      similarity: 0.8123
+    }],
+    similarNotice: null
+  });
+};
+await PS.submit();
+check('解析成功 → success', PS.getState(), 'success');
+check('有相似题 → 相似题区可见', window.document.getElementById('similar-questions').hidden, false);
+check('相似题卡片数', window.document.querySelectorAll('#similar-list .q-card').length, 1);
+check('用解析出的首题题干查询', similarCall && similarCall.text, '已知函数 f(x)=x^2-2x+1，求其最小值');
+check('透传学科', similarCall && similarCall.options && similarCall.options.subject, 'math');
+check('相似度标签', /相似度 81%/.test(window.document.getElementById('similar-list').textContent), true);
+
+// 7g. 解析成功但无相似题 → 展示后端 similarNotice 原文（三类空态的第三类；不编造）
+const SIMILAR_NOTICE = '题库中暂未找到达到相似度阈值的题目';
+window.AIAPI.similarByText = () =>
+  Promise.resolve({ similarQuestions: [], similarNotice: SIMILAR_NOTICE });
+await PS.submit();
+check('无相似题 → 区仍可见（区别于"没解析出题"）', window.document.getElementById('similar-questions').hidden, false);
+check('无相似题 → 列表为空', window.document.querySelectorAll('#similar-list .q-card').length, 0);
+check('similarNotice 用后端原文', window.document.getElementById('similar-notice').textContent, SIMILAR_NOTICE);
+check('similarNotice 可见', window.document.getElementById('similar-notice').hidden, false);
+
+// 7h. 相似题端点 401 → 如实降级：隐藏相似题区，不改动主成功态
+window.AIAPI.similarByText = () => Promise.reject(window.AIAPI.ApiError('未授权', { status: 401 }));
+await PS.submit();
+check('相似题 401 不影响主成功态', PS.getState(), 'success');
+check('相似题 401 → 隐藏相似题区', window.document.getElementById('similar-questions').hidden, true);
+
 // 8. HTTP 500 → error（带后端 message）
 window.AIAPI.batchParse = () => Promise.reject(window.AIAPI.ApiError('整卷解析失败: LLM 超时', { status: 500 }));
 await PS.submit();

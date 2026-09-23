@@ -81,6 +81,26 @@
       });
     },
 
+    /**
+     * 按题干文本查相似题：POST /api/vision/similar-by-text
+     * 入参 { text(必填, ≥10字), subject?, limit? }
+     * → { similarQuestions[], similarNotice|null }
+     *
+     * 纯检索（embedding + pgvector），不跑 OCR / 不调 LLM —— 供 photo-solve
+     * 在 batch-parse 拿到题干后单独取相似题，避免重传图片再跑一遍完整管线。
+     * 空态由后端 similarNotice 说明（阈值内无题 / 向量服务不可用），前端不编造。
+     */
+    similarByText: function (text, options, signal) {
+      const body = { text: text };
+      if (options && options.subject) body.subject = options.subject;
+      if (options && options.limit) body.limit = options.limit;
+      return request('/api/vision/similar-by-text', {
+        method: 'POST',
+        body: body,
+        signal: signal,
+      });
+    },
+
     /** 存入错题本：POST /api/user/wrong-questions */
     addWrongQuestion: function (payload, signal) {
       return request('/api/user/wrong-questions', {

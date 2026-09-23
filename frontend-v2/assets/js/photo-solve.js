@@ -289,6 +289,146 @@
     });
   }
 
+  /* ── 相似题（解析成功后按题干文本检索） ──────────────────────────────────
+   * 纯检索端点 /api/vision/similar-by-text：只做「文本 → pgvector cosine」，
+   * 不重传图片、不跑 OCR / LLM。此前若要相似题只能走 /api/vision/search，
+   * 会二次 OCR + 两段 LLM，本页因此一直没接相似题。
+   *
+   * 三类空态各自可区分，不互相冒充：
+   *   - no-image   ：还没选图（submit 前置拦截）→ empty 面板
+   *   - zero-result：OCR 跑完 questions 为空 → empty 面板
+   *   - no-similar ：解析成功、题干也拿到了，但后端阈值内无题 / 向量服务不可用
+   *                  → 本区展示后端 similarNotice 原文（不编造）
+   *
+   * HTML 不在本切片可改范围，容器由脚本创建；复用同页既有类（.results/.q-card/
+   * .tag/.q-body/.q-analysis），不写内联样式，也不改 system.css。
+   * ──────────────────────────────────────────────────────────────────────── */
+  function buildSimilarRegion() {
+    const card =
+      (els.results && els.results.closest && els.results.closest('.state-card')) || els.region;
+
+    const box = global.document.createElement('section');
+    box.id = 'similar-questions';
+    box.className = 'similar-questions';
+    box.hidden = true;
+
+    const title = global.document.createElement('h3');
+    title.className = 'similar-title';
+    title.textContent = '相似题';
+
+    const list = global.document.createElement('ul');
+    list.id = 'similar-list';
+    list.className = 'results';
+
+    const notice = global.document.createElement('p');
+    notice.id = 'similar-notice';
+    notice.className = 'similar-notice';
+    notice.hidden = true;
+
+    box.appendChild(title);
+    box.appendChild(list);
+    box.appendChild(notice);
+    card.appendChild(box);
+
+    els.similarBox = box;
+    els.similarList = list;
+    els.similarNotice = notice;
+  }
+
+  function resetSimilar() {
+    if (!els.similarBox) return;
+    // 静态清空（'' 为字面量，不携带动态内容）
+    els.similarList.innerHTML = '';
+    els.similarNotice.textContent = '';
+    els.similarNotice.hidden = true;
+    els.similarBox.hidden = true;
+  }
+
+  function showSimilarNotice(text) {
+    els.similarList.innerHTML = '';
+    els.similarNotice.textContent = text;
+    els.similarNotice.hidden = false;
+    els.similarBox.hidden = false;
+  }
+
+  function renderSimilar(data) {
+    const list = (data && data.similarQuestions) || [];
+    if (!list.length) {
+      // 诚实空态：文案一律取后端 similarNotice 原文，不编造"没有相似题"的原因
+      showSimilarNotice((data && data.similarNotice) || '题库中暂未找到相似题。');
+      return;
+    }
+
+    els.similarList.innerHTML = '';
+    els.similarNotice.hidden = true;
+
+    list.forEach(function (q, i) {
+      const li = global.document.createElement('li');
+      li.className = 'q-card';
+
+      const head = global.document.createElement('div');
+      head.className = 'q-head';
+
+      const idx = global.document.createElement('span');
+      idx.className = 'q-index';
+      idx.textContent = i + 1;
+      head.appendChild(idx);
+
+      const tags = [
+        q.subject_code || '',
+        q.difficulty ? '难度 ' + q.difficulty : '',
+        typeof q.similarity === 'number' ? '相似度 ' + Math.round(q.similarity * 100) + '%' : '',
+        q.question_type || '',
+      ].filter(Boolean);
+      tags.forEach(function (t) {
+        const tag = global.document.createElement('span');
+        tag.className = 'tag';
+        tag.textContent = t;
+        head.appendChild(tag);
+      });
+
+      const body = global.document.createElement('p');
+      body.className = 'q-body';
+      renderMixed(body, q.content || q.stem || '（无题干）');
+
+      li.appendChild(head);
+      li.appendChild(body);
+
+      if (q.answer) {
+        const ans = global.document.createElement('p');
+        ans.className = 'q-analysis';
+        renderMixed(ans, '答案：' + q.answer);
+        li.appendChild(ans);
+      }
+
+      els.similarList.appendChild(li);
+    });
+
+    els.similarBox.hidden = false;
+  }
+
+  /**
+   * 解析成功后取首题题干查相似题。失败只降级相似题区，不改动主成功态：
+   *   - 未登录/离线（401/403/网络）→ 隐藏相似题区，如实降级
+   *   - 其余错误 → 给一句如实的失败提示（不伪造相似题）
+   */
+  function loadSimilar(text, subject) {
+    resetSimilar();
+    if (!text) return global.Promise.resolve();
+    return global.AIAPI.similarByText(text, subject ? { subject: subject } : undefined)
+      .then(function (data) {
+        renderSimilar(data);
+      })
+      .catch(function (err) {
+        const mapped = global.AIUI.mapError(err);
+        if (mapped === 'auth' || mapped === 'offline') {
+          resetSimilar();
+          return;
+        }
+        showSimilarNotice('相似题暂时取不到，稍后可再试。');
+      });
+  }
+
   /* ── 存错题本 ───────────────────────────────────────────────────────── */
   function saveToWrongBook(q, btn) {
     const payload = {
@@ -339,14 +479,22 @@
       })
       .then(function (data) {
         controller = null;
-        if (!((data && data.questions) || []).length) {
+        const questions = (data && data.questions) || [];
+        if (!questions.length) {
           return setState('empty', { reason: 'zero-result' });
         }
+        resetSimilar();
         renderResults(data);
-        return setState('success', {
-          successCount: data.success_count || (data.questions || []).length,
+        setState('success', {
+          successCount: data.success_count || questions.length,
           failedCount: data.failed_count || (data.failed || []).length,
         });
+        // 相似题是增强信息：单独检索，失败也不回退主成功态
+        const first = questions[0];
+        return loadSimilar(
+          itemContent(first),
+          first.subject_code || first.subject || els.subject.value
+        );
       })
       .catch(function (err) {
         controller = null;
@@ -378,6 +526,8 @@
     els.results = $('results');
     els.failed = $('failed');
     els.resultImages = $('result-images');
+
+    buildSimilarRegion();
 
     $('photo-input').addEventListener('change', onPick);
     $('solve-form').addEventListener('submit', function (e) {

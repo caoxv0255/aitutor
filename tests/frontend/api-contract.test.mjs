@@ -76,6 +76,13 @@ const cases = [
     method: 'POST', url: '/api/vision/batch-parse',
     body: { images: [{ data: 'abc' }], user_hint: { default_subject: 'math' }, options: { concurrency: 3 } } },
 
+  { name: 'similarByText', fn: () => AIAPI.similarByText('已知函数 f(x)=x^2，求 f(2) 的值', { subject: 'math', limit: 5 }),
+    method: 'POST', url: '/api/vision/similar-by-text',
+    body: { text: '已知函数 f(x)=x^2，求 f(2) 的值', subject: 'math', limit: 5 } },
+
+  { name: 'similarByText(仅文本)', fn: () => AIAPI.similarByText('已知二次函数求最值'),
+    method: 'POST', url: '/api/vision/similar-by-text', body: { text: '已知二次函数求最值' } },
+
   { name: 'addWrongQuestion', fn: () => AIAPI.addWrongQuestion({ content: '1+1', subject_code: 'math' }),
     method: 'POST', url: '/api/user/wrong-questions', body: { content: '1+1', subject_code: 'math' } },
 
@@ -161,6 +168,9 @@ window.localStorage.removeItem('authToken');
   const sig = { marker: true };
   const c = await capture(() => AIAPI.batchParse([{ data: 'x' }], {}, sig));
   check('batchParse signal 透传', c.signal, sig);
+
+  const c2 = await capture(() => AIAPI.similarByText('题干文本至少十个字', { subject: 'math' }, sig));
+  check('similarByText signal 透传', c2.signal, sig);
 }
 
 // ── 非 fetch 公开方法：token 真相源 / session 落盘 / 错误分类 ──────────────

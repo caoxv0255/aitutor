@@ -1,7 +1,9 @@
 import express from 'express';
+import { z } from 'zod';
 import visionParseRouter from '../../routes/vision-parse.js';
 import { VisionSearchService } from '../../services/visionSearchService.js';
 import { authMiddleware } from '../../core/auth.js';
+import { getDb } from '../../core/db.js';
 import { successResponse, errorResponse } from '../../utils/response.js';
 
 const router = express.Router();
@@ -55,6 +57,62 @@ router.post('/search', authMiddleware, async (req, res) => {
   } catch (err) {
     console.error('[Vision Search] 拍照搜题失败:', err.message);
     return res.status(500).json(errorResponse(`搜题失败: ${err.message}`));
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// P8 (2026-09-23): 按题干文本查相似题 — 纯检索, 不跑 OCR / 不调 LLM
+//
+// 背景: photo-solve 已用 batch-parse 拿到题干文本, 再要相似题时若走
+//   POST /api/vision/search 会强制重传 image 并跑第二遍完整管线
+//   (二次 OCR visionSearchService.js:189 + errorAnalysis LLM :223 + learningPlan LLM :269),
+//   既慢又浪费算力。本端点只做「文本 → pgvector cosine 检索」。
+//
+// 复用 F3 的 VisionSearchService.findSimilarQuestions: 同一阈值
+//   (SIMILAR_QUESTIONS_MIN_SIMILARITY, 默认 0.60) + 同一 similarNotice 口径,
+//   返回字段与 POST /search 的相似题部分一致, 便于前端复用渲染。
+// ─────────────────────────────────────────────────────────────────────────────
+const MAX_SIMILAR_TEXT_LENGTH = 2000;
+
+const SimilarByTextSchema = z.object({
+  // 题干过短 (<10) 与 findSimilarQuestions 的诚实空态判据保持一致
+  text: z
+    .string({ required_error: '缺少必填字段: text (题干文本)' })
+    .trim()
+    .min(10, '题干文本过短，至少 10 个字才能计算语义相似度')
+    .max(MAX_SIMILAR_TEXT_LENGTH, `题干文本过长，上限 ${MAX_SIMILAR_TEXT_LENGTH} 字`),
+  subject: z.string().trim().max(32).optional(),
+  limit: z.number().int().min(1).max(20).optional(),
+});
+
+router.post('/similar-by-text', authMiddleware, async (req, res) => {
+  try {
+    const parsed = SimilarByTextSchema.safeParse(req.body || {});
+    if (!parsed.success) {
+      const msg = parsed.error.issues[0]?.message || '入参校验失败';
+      return res.status(400).json(errorResponse(msg));
+    }
+
+    const { text, subject, limit } = parsed.data;
+
+    // 纯检索: 只触及 embedding + question_vectors/exam_questions JOIN 查询;
+    // 不调用 parseImageToQuestion (OCR) / llm.chat (errorAnalysis / learningPlan) /
+    // ingestQuestion。embedding 不可用或无过阈值结果时, findSimilarQuestions 返回
+    // 空数组 + notice (诚实空态), 本端点原样透传, 不静默失败也不伪造结果。
+    const result = await VisionSearchService.findSimilarQuestions(getDb(), text, {
+      subjectCode: subject,
+      limit,
+      requestId: req.traceId,
+      userId: req.user?.email,
+    });
+
+    return res.json(successResponse({
+      similarQuestions: result.questions,
+      similarNotice: result.notice || null,
+    }, '相似题检索完成'));
+  } catch (err) {
+    console.error('[Vision similar-by-text] 失败:', err.message);
+    return res.status(500).json(errorResponse(`相似题检索失败: ${err.message}`));
   }
 });
 
