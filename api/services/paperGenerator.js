@@ -22,6 +22,9 @@ const QUESTION_TYPE_WEIGHTS = {
 };
 
 export class PaperGenerator {
+  // options 容错解析的累计失败计数 (可观测; 见 parseOptionsSafe)
+  static optionsParseFailureCount = 0;
+
   static async generatePersonalizedPaper(email, options) {
     const { 
       subject = 'math', 
@@ -255,6 +258,44 @@ export class PaperGenerator {
     return questions;
   }
 
+  /**
+   * options 字段容错解析 (2026-09-24)。
+   *
+   * 事故: exam_questions.options 并非总是合法 JSON 数组 (实测同一批数据里
+   *   纯文本如 "A. ①\tB. ②..."、合法但非数组如 {"A":...}、合法数组、空 并存)。
+   *   旧代码三处裸调 JSON.parse(options) (未做类型/异常防护): 纯文本行直接抛
+   *   SyntaxError, 而 assemblePaper 无 try/catch → 整张试卷生成失败。
+   *
+   * 策略 (与同源消费方 exam-pdf.js:parseOptions 一致): paperGenerator 的 options
+   *   最终要交给前端 `q.options.forEach` 渲染, 必须是数组。因此解析失败 / 非数组
+   *   一律按「无选项」([]) 处理, 绝不降级为原始字符串 (字符串有 length, 会让前端
+   *   的 `q.options.length > 0` 守卫通过, 随后 forEach 抛 TypeError)。
+   *   同时 warn + 累计计数, 不静默吞掉。
+   */
+  static parseOptionsSafe(raw, questionId) {
+    if (raw === null || raw === undefined || String(raw).trim() === '') return [];
+    let parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      PaperGenerator.optionsParseFailureCount += 1;
+      logger.warn(
+        `[PaperGenerator] options 非合法 JSON, 已按「无选项」处理 `
+        + `(question_uid=${questionId}, 累计失败=${PaperGenerator.optionsParseFailureCount}): `
+        + String(raw).slice(0, 80)
+      );
+      return [];
+    }
+    if (Array.isArray(parsed)) return parsed;
+    PaperGenerator.optionsParseFailureCount += 1;
+    logger.warn(
+      `[PaperGenerator] options 为合法 JSON 但非数组, 已按「无选项」处理 `
+      + `(question_uid=${questionId}, 累计失败=${PaperGenerator.optionsParseFailureCount}): `
+      + String(raw).slice(0, 80)
+    );
+    return [];
+  }
+
   static assemblePaper(subject, questions, distribution, difficulty, timeLimit, weakKPIds, kpCoverage, includeAnswer) {
     const sections = [];
     let totalScore = 0;
@@ -276,7 +317,7 @@ export class PaperGenerator {
           question_uid: q.question_uid,
           content: placeholderToText(q.stem),
           tables: q.tables || undefined,
-          options: q.options ? JSON.parse(q.options) : [],
+          options: PaperGenerator.parseOptionsSafe(q.options, q.question_uid),
           answer: includeAnswer ? q.answer : null,
           explanation: includeAnswer ? q.analysis : null,
           knowledge_point: q.knowledge_point_name,
@@ -302,7 +343,7 @@ export class PaperGenerator {
           question_uid: q.question_uid,
           content: placeholderToText(q.stem),
           tables: q.tables || undefined,
-          options: q.options ? JSON.parse(q.options) : [],
+          options: PaperGenerator.parseOptionsSafe(q.options, q.question_uid),
           answer: includeAnswer ? q.answer : null,
           explanation: includeAnswer ? q.analysis : null,
           knowledge_point: q.knowledge_point_name,
@@ -329,7 +370,7 @@ export class PaperGenerator {
           question_uid: q.question_uid,
           content: placeholderToText(q.stem),
           tables: q.tables || undefined,
-          options: q.options ? JSON.parse(q.options) : [],
+          options: PaperGenerator.parseOptionsSafe(q.options, q.question_uid),
           answer: includeAnswer ? q.answer : null,
           explanation: includeAnswer ? q.analysis : null,
           knowledge_point: q.knowledge_point_name,
