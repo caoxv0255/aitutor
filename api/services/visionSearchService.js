@@ -155,6 +155,9 @@ async function detectProvenanceMismatch(pool, prov) {
 }
 
 export class VisionSearchService {
+  // options 容错解析的累计失败计数 (可观测; 见 parseOptionsSafe)
+  static optionsParseFailureCount = 0;
+
   static async preprocessImage(imageBase64, options = {}) {
     const { brightness = 0, contrast = 0, rotate = 0, sharpen = false } = options;
     
@@ -352,6 +355,33 @@ export class VisionSearchService {
    * @param {{subjectCode?:string, limit?:number, requestId?:string, userId?:string}} [options]
    * @returns {Promise<{questions: Array, notice: string|null}>}
    */
+  /**
+   * options 字段容错解析 (2026-09-24)。
+   *
+   * 事故: exam_questions.options 有 3086/49506 行存的是纯文本选项串
+   *   (如 "A. ①\tB. ②\tC. ③\tD. ④"), 并非 JSON。旧代码在 .map() 内直接
+   *   JSON.parse, 一抛错就被外层 catch 吞成「相似题检索失败」空态, 导致随机
+   *   命中纯文本 options 行的检索恒为空 (注意: 是崩溃空态, 非守卫拒答)。
+   *
+   * 策略: 解析失败降级为原始字符串 (保留信息, 绝不回退随机), 同时 warn +
+   *   累计计数 (VisionSearchService.optionsParseFailureCount), 不静默吞掉;
+   *   绝不会让整条检索崩掉。
+   */
+  static parseOptionsSafe(raw, questionId) {
+    if (raw === null || raw === undefined || String(raw).trim() === '') return [];
+    try {
+      return JSON.parse(raw);
+    } catch {
+      VisionSearchService.optionsParseFailureCount += 1;
+      logger.warn(
+        `[VisionSearch] options 非合法 JSON, 已降级为原始文本 `
+        + `(question_uid=${questionId}, 累计失败=${VisionSearchService.optionsParseFailureCount}): `
+        + String(raw).slice(0, 80)
+      );
+      return String(raw);
+    }
+  }
+
   static async findSimilarQuestions(poolPromise, queryText, options = {}) {
     const { subjectCode, limit = 5, requestId, userId } = options;
     const threshold = parseFloat(process.env.SIMILAR_QUESTIONS_MIN_SIMILARITY || '0.60');
@@ -442,7 +472,7 @@ export class VisionSearchService {
         questions: result.rows.map(q => ({
           id: q.question_uid,
           content: q.stem,
-          options: q.options ? JSON.parse(q.options) : [],
+          options: VisionSearchService.parseOptionsSafe(q.options, q.question_uid),
           answer: q.answer,
           explanation: q.analysis,
           knowledge_points: q.knowledge_points,

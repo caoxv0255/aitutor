@@ -30,6 +30,7 @@ vi.mock('../services/embedding.js', () => ({
 
 import { getEmbedding, getEmbeddingProvenance } from '../services/embedding.js';
 import { VisionSearchService } from '../api/services/visionSearchService.js';
+import { logger } from '../api/core/logger.js';
 
 const SAMPLE_ROW = {
   question_uid: 'q-uid-001',
@@ -243,5 +244,60 @@ describe('P0-guard: 向量溯源不一致必须拒答', () => {
     expect(params[6]).toBe('remote');
     expect(sql).toContain('NOT EXISTS');
     expect(sql).toMatch(/metadata->>'model'/);
+  });
+});
+
+// ────────────────────────────────────────────────────────────────────────────
+// options 容错解析 (2026-09-24)
+//
+// 事故: exam_questions.options 有 3086/49506 行是纯文本选项串 (非 JSON),
+//   旧代码 .map() 内直接 JSON.parse → 抛错被外层 catch 吞成「检索失败」空态,
+//   随机命中纯文本行的检索恒为空。
+// 回归: 纯文本行必须返回该题 (options 降级为原始字符串) + warn + 计数,
+//   且不得变成「检索失败」空态; 合法 JSON 行不受影响。
+// ────────────────────────────────────────────────────────────────────────────
+describe('options 容错解析: 纯文本行不得让整条检索崩掉', () => {
+  const PURE_TEXT_OPTIONS = 'A. ①\tB. ②\tC. ③\tD. ④';
+  const ROW_PURE_TEXT = { ...SAMPLE_ROW, question_uid: 'q-pure-text', options: PURE_TEXT_OPTIONS };
+  const ROW_JSON = {
+    ...SAMPLE_ROW,
+    question_uid: 'q-json',
+    options: JSON.stringify(['A. ①', 'B. ②', 'C. ③', 'D. ④']),
+  };
+
+  it('12. 纯文本 options 行 → 返回该题, options 降级为原始字符串, warn + 计数自增 (非「检索失败」空态)', async () => {
+    const before = VisionSearchService.optionsParseFailureCount;
+    const warnSpy = vi.spyOn(logger, 'warn').mockImplementation(() => {});
+    getEmbedding.mockResolvedValue(new Array(1024).fill(0.01));
+    const pool = makePool([ROW_PURE_TEXT]);
+
+    const r = await VisionSearchService.findSimilarQuestions(
+      Promise.resolve(pool), LONG_TEXT, { subjectCode: 'math' }
+    );
+
+    // 关键: 不再返回「检索失败」空态
+    expect(r.notice).toBeNull();
+    expect(r.questions).toHaveLength(1);
+    expect(r.questions[0].id).toBe('q-pure-text');
+    // 降级策略: 保留原始文本 (不回退随机, 也不丢信息)
+    expect(r.questions[0].options).toBe(PURE_TEXT_OPTIONS);
+    // 可观测: warn + 累计计数自增 (不静默吞掉)
+    expect(VisionSearchService.optionsParseFailureCount).toBe(before + 1);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('降级为原始文本'));
+    warnSpy.mockRestore();
+  });
+
+  it('13. 合法 JSON options 行仍解析为数组, 且不触发降级 (对照组)', async () => {
+    getEmbedding.mockResolvedValue(new Array(1024).fill(0.01));
+    const pool = makePool([ROW_JSON]);
+    const before = VisionSearchService.optionsParseFailureCount;
+
+    const r = await VisionSearchService.findSimilarQuestions(
+      Promise.resolve(pool), LONG_TEXT, { subjectCode: 'math' }
+    );
+
+    expect(r.notice).toBeNull();
+    expect(r.questions[0].options).toEqual(['A. ①', 'B. ②', 'C. ③', 'D. ④']);
+    expect(VisionSearchService.optionsParseFailureCount).toBe(before);
   });
 });
