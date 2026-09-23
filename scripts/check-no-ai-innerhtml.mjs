@@ -26,9 +26,9 @@
  *
  * ALLOW 登记机制: 每个现存命中站点必须逐一人工核对后登记在下表 (文件:行号 +
  * 理由 + 登记日期)。核对不了、或含 AI/LLM 未消毒数据的, 宁可判红让人工看, 不得
- * 登记 —— 唯一例外是 tutor-stream.js:208 (已知的 AI delta 死代码), 按任务要求
- * 登记为"待清理 canary", 接线前必须改 textContent/createTextNode。
- * 新增站点未登记 → 非零退出 (release-gate 6/7 子项失败)。
+ * 登记。新增站点未登记 → 非零退出 (release-gate 6/7 子项失败)。
+ * (2026-09-24 债3: tutor-stream.js:208 已改 createTextNode 文本节点追加, 该
+ *  ALLOW 豁免已删除 —— 不再需要 canary。)
  *
  * 射程: 只扫三个前端源码目录 (frontend-v2/assets/js、public/src/js、
  *   frontend/assets/js) 的 .js 文件。旧树 frontend/ 与 ai-tutor-frontend/ 是
@@ -55,11 +55,10 @@ const SKIP_FILE = /\.min\.js$/;
 // ── ALLOW 白名单: 文件相对 ROOT 的路径 + 行号 ─────────────────────────────
 // 每项 { file, line, reason, date }。key = `${file}:${line}`。
 // 已逐一核对: 确认非"未消毒的 AI/LLM 输出"。含 API/用户数据但非 LLM 的遗留站点
-// 如实标注"遗留, 非 LLM 输出"。tutor-stream.js:208 是唯一的 AI delta 站点,
-// 标注"死代码, 接线前必须改 textContent/createTextNode"。
+// 如实标注"遗留, 非 LLM 输出"。tutor-stream.js:208 (原唯一的 AI delta 站点) 已
+// 于 2026-09-24 修复, 不再登记。
 const ALLOW = [
   // —— public/src/js ——
-  { file: 'public/src/js/tutor-stream.js', line: 208, reason: 'LLM delta 未消毒直拼 innerHTML（死代码未接线；接线即 Critical，须先改 textContent/createTextNode）', date: '2026-09-23' },
   { file: 'public/src/js/katex-stream.js', line: 147, reason: 'AI 输出经 _renderPlainText 转义(&<>) + KaTeX(trust:false) 渲染后写入，非未消毒直拼', date: '2026-09-23' },
   { file: 'public/src/js/mastery-graph.js', line: 252, reason: '图谱拓扑结构字段(score/subject/module/difficulty/id)，非 LLM 输出', date: '2026-09-23' },
   { file: 'public/src/js/mastery-graph.js', line: 311, reason: 'AI 诊断结构化指标(数值/日期)，非自由文本', date: '2026-09-23' },

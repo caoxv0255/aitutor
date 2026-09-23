@@ -204,8 +204,10 @@ export function createTypewriter(container, options = {}) {
 
   function flush() {
     if (!pending) return;
-    // 使用 innerHTML 追加（支持 Markdown 渲染后的 HTML）
-    container.innerHTML += pending;
+    // 流式追加：append() 的入参是 LLM 原始 delta（onContent 透传的纯文本，非 HTML），
+    // 故用文本节点追加 —— 不解析 HTML（防注入），且保留容器已有子节点
+    // （innerHTML += 会把整段重解析、破坏已插入的节点与事件）。
+    container.appendChild(document.createTextNode(pending));
     pending = '';
 
     // 自动滚动到底部
