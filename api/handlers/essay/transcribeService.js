@@ -21,6 +21,7 @@ import { z } from 'zod';
 import { logger } from '../../core/logger.js';
 import { EssayError } from './errors.js';
 import { ErrorCode } from '../../utils/errorCodes.js';
+import { isAllowedImageUrl } from './imageHostPolicy.js';
 
 // 服务端自调用基址 (2026-09-22 SSRF 修复):
 //   内部 fetch 的目标只能取自配置或本进程监听端口, 不得取自 req 的 Host /
@@ -28,17 +29,22 @@ import { ErrorCode } from '../../utils/errorCodes.js';
 //   服务端请求引到任意主机。写法与 api/routes/rag-search.js 的内部自调用一致。
 const SELF_BASE_URL = process.env.SELF_BASE_URL || `http://127.0.0.1:${process.env.PORT || 3002}`;
 
+// M-3 (2026-09-23): 图片 URL 宿主白名单 —— 逻辑在 ./imageHostPolicy.js (essayService
+//   共用同一份实现)。配置优先级: ESSAY_IMAGE_HOSTS > (回退) ALLOWED_ORIGINS,
+//   loopback 与 SELF_BASE_URL 的 host 恒定放行。详见该文件的头注释。
 // ────────────────────────────────────────────────────────────────────────────
+
 // Patch 2: 入参 Schema
 // images 改为 URL 数组, 强制前端先调 /api/upload/image
 // 注: z.string().url() 在 Node 22 下会接受 data: URL, 因此用 .refine 强约束 http/https
-// ────────────────────────────────────────────────────────────────────────────
-
 const ImageUrlSchema = z
   .string()
   .url({ message: 'images 必须是合法 URL' })
   .refine((val) => /^https?:\/\//i.test(val), {
     message: '图片 URL 必须是 http(s) 协议 (请先调用 /api/upload/image 上传)',
+  })
+  .refine((val) => isAllowedImageUrl(val), {
+    message: '图片 URL 的宿主不在白名单内 (请先调用 /api/upload/image 上传)',
   });
 
 const TranscribeRequestSchema = z.object({

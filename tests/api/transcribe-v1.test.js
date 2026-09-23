@@ -11,6 +11,10 @@
  *   2. Zod 校验失败 (paragraph_index 不连续, data: URL)
  *   3. VLM 异常 (timeout, 500)
  *
+ * 注 (M-3, 2026-09-23): 所有 fixture 图片地址用回环地址 127.0.0.1:3002 ——
+ *   ImageUrlSchema 现在校验宿主白名单 (自身基址 + ALLOWED_ORIGINS + loopback),
+ *   任意外网域名会被判 VALIDATION_REQUIRED_FIELD 而到不了被测分支。
+ *
  * 运行: npx vitest run tests/api/transcribe-v1.test.js
  * ============================================================================ */
 
@@ -179,7 +183,7 @@ describe('transcribeEssay: Zod 校验失败', () => {
 
     try {
       await transcribeEssay({
-        images: ['http://test.com/img1.jpg'],
+        images: ['http://127.0.0.1:3002/img1.jpg'],
         subject: 'chinese',
         req: mockReq(),
       });
@@ -204,7 +208,7 @@ describe('transcribeEssay: Zod 校验失败', () => {
 
     await expect(
       transcribeEssay({
-        images: ['http://test.com/img1.jpg'],
+        images: ['http://127.0.0.1:3002/img1.jpg'],
         subject: 'chinese',
         req: mockReq(),
       })
@@ -234,7 +238,7 @@ describe('transcribeEssay: Zod 校验失败', () => {
   it('images 包含 ftp: 协议: 同样拒绝', async () => {
     await expect(
       transcribeEssay({
-        images: ['ftp://test.com/img.jpg'],
+        images: ['ftp://127.0.0.1:3002/img.jpg'],
         subject: 'chinese',
         req: mockReq(),
       })
@@ -247,7 +251,7 @@ describe('transcribeEssay: Zod 校验失败', () => {
   it('subject 为非法枚举值 (如 "french"): 抛 VALIDATION_REQUIRED_FIELD', async () => {
     await expect(
       transcribeEssay({
-        images: ['http://test.com/img.jpg'],
+        images: ['http://127.0.0.1:3002/img.jpg'],
         subject: 'french', // ❌ 只允许 chinese | english
         req: mockReq(),
       })
@@ -261,8 +265,8 @@ describe('transcribeEssay: Zod 校验失败', () => {
     await expect(
       transcribeEssay({
         images: [
-          'http://test.com/1.jpg', 'http://test.com/2.jpg', 'http://test.com/3.jpg',
-          'http://test.com/4.jpg', 'http://test.com/5.jpg', 'http://test.com/6.jpg',
+          'http://127.0.0.1:3002/1.jpg', 'http://127.0.0.1:3002/2.jpg', 'http://127.0.0.1:3002/3.jpg',
+          'http://127.0.0.1:3002/4.jpg', 'http://127.0.0.1:3002/5.jpg', 'http://127.0.0.1:3002/6.jpg',
         ],
         subject: 'chinese',
         req: mockReq(),
@@ -276,7 +280,7 @@ describe('transcribeEssay: Zod 校验失败', () => {
   it('缺少 Authorization 头: 抛 AUTH_NOT_LOGIN', async () => {
     await expect(
       transcribeEssay({
-        images: ['http://test.com/img.jpg'],
+        images: ['http://127.0.0.1:3002/img.jpg'],
         subject: 'chinese',
         req: { protocol: 'http', get: () => 'localhost:3002', headers: {} }, // 无 authorization
       })
@@ -308,7 +312,7 @@ describe('transcribeEssay: VLM 异常', () => {
 
     await expect(
       transcribeEssay({
-        images: ['http://test.com/img.jpg'],
+        images: ['http://127.0.0.1:3002/img.jpg'],
         subject: 'chinese',
         req: mockReq(),
       })
@@ -327,7 +331,7 @@ describe('transcribeEssay: VLM 异常', () => {
 
     try {
       await transcribeEssay({
-        images: ['http://test.com/img.jpg'],
+        images: ['http://127.0.0.1:3002/img.jpg'],
         subject: 'chinese',
         req: mockReq(),
       });
@@ -348,7 +352,7 @@ describe('transcribeEssay: VLM 异常', () => {
 
     try {
       await transcribeEssay({
-        images: ['http://test.com/img.jpg'],
+        images: ['http://127.0.0.1:3002/img.jpg'],
         subject: 'chinese',
         req: mockReq(),
       });
@@ -368,7 +372,7 @@ describe('transcribeEssay: VLM 异常', () => {
 
     await expect(
       transcribeEssay({
-        images: ['http://test.com/img.jpg'],
+        images: ['http://127.0.0.1:3002/img.jpg'],
         subject: 'chinese',
         req: mockReq(),
       })
@@ -384,7 +388,7 @@ describe('transcribeEssay: VLM 异常', () => {
 
     try {
       await transcribeEssay({
-        images: ['http://test.com/img.jpg'],
+        images: ['http://127.0.0.1:3002/img.jpg'],
         subject: 'chinese',
         req: mockReq(),
       });
@@ -401,7 +405,7 @@ describe('transcribeEssay: VLM 异常', () => {
 
     try {
       await transcribeEssay({
-        images: ['http://test.com/img.jpg'],
+        images: ['http://127.0.0.1:3002/img.jpg'],
         subject: 'chinese',
         req: mockReq(),
       });
@@ -446,7 +450,7 @@ describe('transcribeEssay: 成功路径', () => {
     }));
 
     const result = await transcribeEssay({
-      images: ['http://test.com/img.jpg'],
+      images: ['http://127.0.0.1:3002/img.jpg'],
       subject: 'chinese',
       req: mockReq(),
     });
@@ -479,7 +483,7 @@ describe('transcribeEssay: 成功路径', () => {
     }));
 
     const result = await transcribeEssay({
-      images: ['http://test.com/img.jpg'],
+      images: ['http://127.0.0.1:3002/img.jpg'],
       subject: 'chinese',
       req: mockReq(),
     });

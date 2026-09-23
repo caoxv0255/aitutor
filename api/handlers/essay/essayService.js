@@ -20,6 +20,7 @@ import { logger } from '../../core/logger.js';
 import { PROMPTS, PROMPT_VERSION } from '../../utils/prompts.js';
 import { reconcile, newReportId } from './essayReconcile.js';
 import { insertEssayReport } from './essayStorage.js';
+import { isAllowedImageUrl } from './imageHostPolicy.js';
 
 const VALID_GRADES = new Set([
   '初一', '初二', '初三',
@@ -33,6 +34,11 @@ const VALID_LEVELS = new Set(['gaokao', 'zhongkao']);
 //   X-Forwarded-Host / protocol —— 那些由客户端可控, 会把携带调用方 JWT 的
 //   服务端请求引到任意主机。写法与 api/routes/rag-search.js 的内部自调用一致。
 const SELF_BASE_URL = process.env.SELF_BASE_URL || `http://127.0.0.1:${process.env.PORT || 3002}`;
+
+// M-3 (2026-09-23): 图片 URL 宿主白名单 —— 逻辑在 ./imageHostPolicy.js (transcribeService
+//   共用同一份实现)。配置优先级: ESSAY_IMAGE_HOSTS > (回退) ALLOWED_ORIGINS,
+//   loopback 与 SELF_BASE_URL 的 host 恒定放行。详见该文件的头注释。
+// ────────────────────────────────────────────────────────────────────────────
 
 /**
  * LLM 调用（可被 mock）
@@ -153,6 +159,12 @@ export async function gradeEssay({ user_email, images, essay_title, exam_level, 
   // 0. 校验
   if (!Array.isArray(images) || images.length === 0) {
     return { success: false, message: 'images 必填' };
+  }
+  // M-3: 宿主白名单 —— 拒绝任意站点的图片地址 (含 data: / ftp: / 内网地址)
+  if (images.some((u) => !isAllowedImageUrl(u))) {
+    // 不落 image 原文: 可能带 query token / 用户上传文件名
+    logger.warn?.('[essay] image host rejected', { reason: 'not in image host whitelist' });
+    return { success: false, message: 'images 只接受本站上传的 http(s) 图片地址 (请先调用 /api/upload/image)' };
   }
   if (!VALID_LEVELS.has(exam_level)) {
     return { success: false, message: 'exam_level 非法' };
