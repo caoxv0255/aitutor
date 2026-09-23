@@ -20,7 +20,6 @@ const FILES = [
   'api/routes/srs-engine.js',
   'api/routes/learning-loop.js',
   'api/modules/knowledge/routes.js',
-  'api/handlers/study-plan.js',
   'api/handlers/knowledge-profile.js',
 ];
 
