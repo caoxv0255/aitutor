@@ -34,6 +34,8 @@ database/OLD/
 database/北京中考真题/
 database/高考真题/
 database/高中知识点归纳汇总/
+# aitutor.zip 完整清单的未压缩逐条版（4.1MB，>1MB 阈值，只入库 .tsv.gz）
+database/aitutor-zip-manifest-*.tsv
 
 api/data/
 
