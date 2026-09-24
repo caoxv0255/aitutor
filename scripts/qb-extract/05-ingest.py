@@ -28,6 +28,8 @@ import json
 import os
 import sys
 
+import text_gate   # 入库文本闸门 (同目录; 见 text_gate.py)
+
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PAPERS_DIR = os.path.join(ROOT, 'database/preflight/qb-extract/out/papers')
 VLM_DIR = os.path.join(ROOT, 'database/preflight/qb-extract/out/vlm')
@@ -181,15 +183,36 @@ def plan(papers, vlm):
                     first_img = os.path.join('out/media', rel)
                 if m.get('kind') == 'figure' and rel:
                     figs.append((os.path.join('out/media', rel), v.get('semantic'), v.get('reading')))
+            # ── 入库文本闸门 (2026-09-24) ──
+            # 北京数学 2022–2024 事故: 30 行进池却是坏文本 (PUA / OLE 误码 / 跨省错配)。
+            # 这里在**写入前**拦: 只 strip PUA (字形噪声, 可安全删); OLE 误码族(æ ä ã ï å)
+            # 与 U+FFFD 是**不可恢复**的误解码 —— 只标记+计数, 绝不静默删 (那只会藏损坏);
+            # `（ ）` 是选择题作答空的合法形态, 仅告警计数。详见 text_gate.py。
+            _tg_opts = json.dumps(q.get('options'), ensure_ascii=False) if q.get('options') else None
+            _tg_clean, _tg_rep = text_gate.evaluate_question(
+                {'stem': q.get('stem') or '', 'options': _tg_opts, 'analysis': q.get('analysis')})
+            tg_stem = _tg_clean['stem']
+            tg_options = _tg_clean['options']
+            tg_analysis = _tg_clean['analysis']
+            stats['text:PUA剥离'] += _tg_rep['counts']['pua']
+            if _tg_rep['has_error']:
+                stats['text:OLE误码行'] += 1
+                if len(problems) < 200:
+                    problems.append(
+                        f"文本可疑(OLE误码/U+FFFD) {name} Q{num}: "
+                        f"ole={_tg_rep['counts']['ole_family']} "
+                        f"fffd={_tg_rep['counts']['replacement']} fields={list(_tg_rep['hits'])}")
+            if _tg_rep['has_warn']:
+                stats['text:空括号告警行'] += 1
             qrows.append({
                 'uid': quid,
                 'number': num,
                 'section': sec,
                 'type': qt,
-                'stem': q.get('stem') or '',
-                'options': json.dumps(q.get('options') or {}, ensure_ascii=False) if q.get('options') else None,
+                'stem': tg_stem,
+                'options': tg_options,
                 'answer': (q.get('answer') or None),
-                'analysis': (q.get('analysis') or None),
+                'analysis': tg_analysis,
                 # G8/G9 状态标注 + 来源溯源 (migration 023):
                 # 「100% 标注」要求每题都有状态值(含 MISSING_SOURCE), 不等于每题都有答案。
                 # 来源字段对应规范「无静默覆盖」—— 任何写入都要能回答「它从哪来」。
