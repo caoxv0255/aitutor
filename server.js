@@ -446,7 +446,7 @@ app.post('/api/provinces/seed', authMiddleware, requireAdmin, async (req, res) =
     res.json(result);
   } catch (err) {
     console.error('[seed-provinces] failed:', err.message, err.stack);
-    res.status(500).json({ error: '种子导入失败', detail: err.message });
+    res.status(500).json({ error: '种子导入失败', detail: '内部错误，详见服务端日志' });
   }
 });
 
@@ -457,7 +457,8 @@ app.post('/api/cache/clear-provinces', authMiddleware, requireAdmin, async (req,
     await CacheService.invalidateProvinces();
     res.json({ success: true, message: 'Province cache cleared' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('[cache/clear-provinces] failed:', err.message);
+    res.status(500).json({ error: '清缓存失败，请稍后重试' });
   }
 });
 

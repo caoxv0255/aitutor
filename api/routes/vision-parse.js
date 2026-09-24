@@ -337,7 +337,7 @@ router.post('/parse', authMiddleware, async (req, res) => {
   } catch (err) {
     console.error('[Vision] 图片解析失败:', err.message);
     const status = err.message.includes('API Key') ? 503 : 500;
-    return res.status(status).json(errorResponse(`解析失败: ${err.message}`));
+    return res.status(status).json(errorResponse('图片解析失败，请稍后重试'));
   }
 });
 
@@ -368,7 +368,7 @@ router.get('/knowledge-points', authMiddleware, async (req, res) => {
     return res.json(successResponse({ items: result.rows, total: result.rows.length }));
   } catch (err) {
     console.error('[Vision] 知识点列表查询失败:', err.message);
-    return res.status(500).json(errorResponse(`查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('知识点查询失败，请稍后重试'));
   }
 });
 

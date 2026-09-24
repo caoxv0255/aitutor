@@ -194,7 +194,7 @@ router.get('/daily-tasks', authMiddleware, async (req, res) => {
     );
   } catch (err) {
     console.error('[SRS] 每日任务查询失败:', err.message);
-    return res.status(500).json(errorResponse(`查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('每日任务查询失败，请稍后重试'));
   }
 });
 
@@ -324,7 +324,7 @@ router.post('/complete', authMiddleware, async (req, res) => {
     }
   } catch (err) {
     console.error('[SRS] 复习记录失败:', err.message);
-    return res.status(500).json(errorResponse(`复习记录失败: ${err.message}`));
+    return res.status(500).json(errorResponse('复习记录失败，请稍后重试'));
   } finally {
     if (client) client.release();
   }
@@ -376,7 +376,7 @@ router.get('/stats', authMiddleware, async (req, res) => {
     );
   } catch (err) {
     console.error('[SRS] 统计查询失败:', err.message);
-    return res.status(500).json(errorResponse(`统计查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('统计查询失败，请稍后重试'));
   }
 });
 
@@ -468,7 +468,7 @@ router.post('/review', authMiddleware, async (req, res) => {
   } catch (err) {
     if (client) try { await client.query('ROLLBACK'); } catch {}
     console.error('[SRS] review 失败:', err.message);
-    return res.status(500).json(errorResponse(`复习记录失败: ${err.message}`));
+    return res.status(500).json(errorResponse('复习记录失败，请稍后重试'));
   } finally {
     if (client) client.release();
   }
@@ -538,7 +538,7 @@ router.get('/queue', authMiddleware, async (req, res) => {
     }, `今日 ${out.length} 组复习 (1 组 = 1 错题 + 3 相似)`));
   } catch (err) {
     console.error('[SRS] queue 失败:', err.message);
-    return res.status(500).json(errorResponse(`队列查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('复习队列查询失败，请稍后重试'));
   }
 });
 

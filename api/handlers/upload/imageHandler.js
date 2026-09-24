@@ -138,7 +138,8 @@ export async function uploadImageHandler(req, res) {
   try {
     buffer = Buffer.from(parsed.data, 'base64');
   } catch (e) {
-    return errorJson(res, ErrorCode.UPLOAD_INVALID_BASE64, `base64 解码失败: ${e.message}`);
+    logger.error('[upload] base64 decode failed', { error: e.message });
+    return errorJson(res, ErrorCode.UPLOAD_INVALID_BASE64, 'base64 解码失败，请提供合法的图片数据');
   }
   if (buffer.length === 0) {
     return errorJson(res, ErrorCode.UPLOAD_INVALID_BASE64, 'base64 解码后为空');
@@ -181,7 +182,7 @@ export async function uploadImageHandler(req, res) {
     return errorJson(
       res,
       ErrorCode.UPLOAD_PROCESSING_FAILED,
-      `图片处理失败: ${e.message}`
+      '图片处理失败，请稍后重试'
     );
   }
 
@@ -210,7 +211,7 @@ export async function uploadImageHandler(req, res) {
     return errorJson(
       res,
       ErrorCode.UPLOAD_DISK_ERROR,
-      `图片保存失败: ${e.message}`
+      '图片保存失败，请稍后重试'
     );
   }
 

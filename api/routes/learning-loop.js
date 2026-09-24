@@ -352,7 +352,7 @@ router.post('/feedback', authMiddleware, async (req, res) => {
     );
   } catch (err) {
     console.error('[LearningLoop] 反馈处理失败:', err.message);
-    return res.status(500).json(errorResponse(`反馈处理失败: ${err.message}`));
+    return res.status(500).json(errorResponse('反馈处理失败，请稍后重试'));
   } finally {
     if (sqlClient) sqlClient.release();
     if (ageClient) ageClient.release();
@@ -447,7 +447,7 @@ router.post('/batch', authMiddleware, async (req, res) => {
     );
   } catch (err) {
     console.error('[LearningLoop] 批量反馈失败:', err.message);
-    return res.status(500).json(errorResponse(`批量反馈失败: ${err.message}`));
+    return res.status(500).json(errorResponse('批量反馈失败，请稍后重试'));
   } finally {
     if (sqlClient) sqlClient.release();
     if (ageClient) ageClient.release();
@@ -516,7 +516,7 @@ router.get('/mastery', authMiddleware, async (req, res) => {
     );
   } catch (err) {
     console.error('[LearningLoop] 掌握度查询失败:', err.message);
-    return res.status(500).json(errorResponse(`查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('掌握度查询失败，请稍后重试'));
   }
 });
 
@@ -610,7 +610,7 @@ router.get('/graph', authMiddleware, async (req, res) => {
     );
   } catch (err) {
     console.error('[LearningLoop] 图谱拓扑查询失败:', err.message);
-    return res.status(500).json(errorResponse(`图谱查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('图谱查询失败，请稍后重试'));
   } finally {
     if (ageClient) {
       ageClient.release();

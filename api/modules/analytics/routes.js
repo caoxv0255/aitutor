@@ -90,7 +90,7 @@ router.get('/system/stats', async (req, res) => {
     });
   } catch (e) {
     console.error('[system/stats] error:', e.message);
-    res.status(500).json({ success: false, error: e.message });
+    res.status(500).json({ success: false, error: '系统统计查询失败，请稍后重试' });
   }
 });
 

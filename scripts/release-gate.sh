@@ -21,6 +21,8 @@
 #  10. GraphRAG settings — settings.yaml 字段名对 graphrag 模型字段 (禁被 extra=allow 静默吞,
 #                         如 base_url vs 真字段 api_base) + api_base/api_key/model 非空
 #                         (scripts/check-graphrag-settings-fields.mjs; 需 .venv, 缺则判红)
+#  11. 错误回显收口      — err.message 禁入客户端响应体 (只进日志/状态码/抛出/服务层返回)
+#                         (scripts/check-no-err-message-echo.mjs; AST 判据 + ALLOW 豁免)
 #
 # 2026-09-23 (限流×门禁冲突, 测试侧修复, 不动生产限流语义):
 #   - 第 1 项旧写法 `VITEST_OUT=$(npx vitest …)` 在 `set -e` 下, 首个失败即整脚本
@@ -122,7 +124,7 @@ BCT_URL=$(resolve_bct_url || true)
 # 旧逻辑 grep "Test Files .+ passed" 会误判 — vitest 失败时也输出 "passed" 字符串 (如 "1 failed | 12 passed")
 # 2026-09-21 修复: 退出码才是权威判据 (会漏掉 "No test suite found" 一类错误)。
 # 2026-09-23 修复: 加 `|| VITEST_RC=$?` —— 否则 set -e 下首项失败即整脚本退出。
-step "1/10 单元测试 (vitest)"
+step "1/11 单元测试 (vitest)"
 VITEST_RC=0
 VITEST_OUT=$(npx vitest run --reporter=dot 2>&1) || VITEST_RC=$?
 if [ "$VITEST_RC" -ne 0 ]; then
@@ -132,7 +134,7 @@ else
 fi
 
 # ── 2. contract test (mock) ──
-step "2/10 前端 contract test (mock)"
+step "2/11 前端 contract test (mock)"
 CT_RC=0
 CT_OUT=$(node tests/contract.test.js 2>&1) || CT_RC=$?
 if [ "$CT_RC" -eq 0 ] && echo "$CT_OUT" | tail -1 | grep -qE "0 failed"; then
@@ -142,7 +144,7 @@ else
 fi
 
 # ── 3. Backend Contract Test (真后端, 临时实例 / 独立限流桶) ──
-step "3/10 Backend Contract Test (真后端)"
+step "3/11 Backend Contract Test (真后端)"
 if [ "${SKIP_BCT:-0}" = "1" ]; then
   echo "  (跳过: SKIP_BCT=1)"
 elif [ -n "$EXTERNAL_BCT_URL" ]; then
@@ -185,7 +187,7 @@ else
 fi
 
 # ── 4. docker build ──
-step "4/10 docker build (app 镜像)"
+step "4/11 docker build (app 镜像)"
 if [ "${SKIP_DOCKER:-0}" = "1" ]; then
   echo "  (跳过: SKIP_DOCKER=1)"
 elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
@@ -214,7 +216,7 @@ else
 fi
 
 # ── 5. health check (使用 auto-detect 的 BCT_URL) ──
-step "5/10 health check"
+step "5/11 health check"
 if [ -z "$BCT_URL" ]; then
   echo "  (跳过: 无 BCT_URL)"
   fail "/api/health 未通过 (无后端)" "health check"
@@ -233,7 +235,7 @@ fi
 #   R4 — .dockerignore 必须排除 AI Agent 元数据 (D079 §2.4/§9).
 # 2026-09-20 追加: deploy/*.conf 是模板, 不参与构建, 坏了没有任何地方会暴露
 #   (实例: uibe.conf 重复 upstream, nginx -t 报错但无人发现) → 在此拦截。
-step "6/10 仓库一致性 (引用完整性 + D079 边界 + nginx 模板 + 凭据)"
+step "6/11 仓库一致性 (引用完整性 + D079 边界 + nginx 模板 + 凭据)"
 if node scripts/check-tracked-refs.mjs; then
   ok "tracked 引用完整性 (无未入库的运行时依赖)"
 else
@@ -324,7 +326,7 @@ fi
 # 2026-09-21: 新主树 frontend-v2/ 的每页都以"六态机 + 错误分类"验收,
 # 测试落在 tests/frontend/ 里独立跑, 无人守门 —— 改动共享层(ui.js/api.js/app.css)
 # 可以悄悄破坏所有页面而不被发现。接入门禁即为这条回归兜底。
-step "7/10 前端行为测试 (jsdom)"
+step "7/11 前端行为测试 (jsdom)"
 FE_RC=0
 FE_OUT=$(npm run --silent test:frontend 2>&1) || FE_RC=$?
 if [ "$FE_RC" -ne 0 ] || echo "$FE_OUT" | grep -qE "FAIL|❌"; then
@@ -337,7 +339,7 @@ fi
 # tests/frontend/api-contract.test.mjs 早已存在 (170 项) 却未挂任何链 —— api.js 是
 # 所有页面的共享层, 改动必须再过本闸门。package.json 改动会被供应链 hook 拒绝,
 # 故在 shell 侧挂接。
-step "8/10 api.js 契约闸门 (jsdom, 170 项)"
+step "8/11 api.js 契约闸门 (jsdom, 170 项)"
 APIC_RC=0
 APIC_OUT=$(node tests/frontend/api-contract.test.mjs 2>&1) || APIC_RC=$?
 if [ "$APIC_RC" -eq 0 ]; then
@@ -352,7 +354,7 @@ fi
 # req 'close' → closed 在任何事件写出前被置 true → 整条 SSE 流是空的。
 # 这类回归 review 看不出来 (写法"看起来很对"), 必须机械化: 命中 req 的 'close'
 # 监听且处于 SSE/流式 handler 内即判红; 非流式请求的清理逻辑如实放行不误杀。
-step "9/10 SSE 断连检测 (流式响应禁 req.on('close'))"
+step "9/11 SSE 断连检测 (流式响应禁 req.on('close'))"
 if node scripts/check-no-sse-req-close.mjs; then
   ok "无 SSE/流式响应使用 req.on('close')"
 else
@@ -367,11 +369,18 @@ fi
 # 这类错 review 看不出 (因为不报错), 必须机械拦: 字段集从 .venv 里 import graphrag 的
 # pydantic 模型取得 (不硬编码), 并校验 api_base/api_key/model 非空 + vector_size。
 # 缺 .venv / graphrag 导入失败时, 脚本判红 (不静默 pass —— 否则即复现该事故)。
-step "10/10 GraphRAG settings.yaml 字段名 (禁 extra=allow 静默吞字段)"
+step "10/11 GraphRAG settings.yaml 字段名 (禁 extra=allow 静默吞字段)"
 if node scripts/check-graphrag-settings-fields.mjs; then
   ok "GraphRAG settings 字段名与 graphrag 模型一致 (api_base/api_key/model 非空)"
 else
   fail "GraphRAG settings.yaml 字段名/取值异常 (见上; 写错字段会被 ModelConfig(extra=allow) 静默吞 → 打默认端点卡死; 缺 .venv 亦判红)" "GraphRAG settings 字段"
+fi
+
+step "11/11 错误回显收口 (err.message 禁入响应体)"
+if node scripts/check-no-err-message-echo.mjs; then
+  ok "无错误对象 message 进入响应体 (err.message 只进日志)"
+else
+  fail "错误对象 message 被拼进响应体 (见上; 请改固定文案, err.message 只留给日志, 例外登记到 scripts/check-no-err-message-echo.mjs 的 ALLOW)" "错误回显"
 fi
 
 echo

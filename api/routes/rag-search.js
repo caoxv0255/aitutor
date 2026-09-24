@@ -640,7 +640,7 @@ router.post('/ingest', authMiddleware, requireAdmin, async (req, res) => {
   } catch (err) {
     console.error('[RAG] 录入失败:', err.message);
     const status = err.message.includes('API Key') ? 503 : 500;
-    return res.status(status).json(errorResponse(`录入失败: ${err.message}`));
+    return res.status(status).json(errorResponse('题目录入失败，请稍后重试'));
   }
 });
 
@@ -687,7 +687,7 @@ router.post('/search', authMiddleware, async (req, res) => {
   } catch (err) {
     console.error('[RAG] 检索失败:', err.message);
     const status = err.message.includes('API Key') ? 503 : 500;
-    return res.status(status).json(errorResponse(`检索失败: ${err.message}`));
+    return res.status(status).json(errorResponse('题目检索失败，请稍后重试'));
   }
 });
 
@@ -709,7 +709,7 @@ router.delete('/questions/:id', authMiddleware, async (req, res) => {
     return res.json(successResponse(null, '题目已删除'));
   } catch (err) {
     console.error('[RAG] 删除失败:', err.message);
-    return res.status(500).json(errorResponse(`删除失败: ${err.message}`));
+    return res.status(500).json(errorResponse('删除失败，请稍后重试'));
   }
 });
 
@@ -722,7 +722,7 @@ router.get('/stats', authMiddleware, async (req, res) => {
     return res.json(successResponse(stats));
   } catch (err) {
     console.error('[RAG] 统计查询失败:', err.message);
-    return res.status(500).json(errorResponse(`统计查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('统计查询失败，请稍后重试'));
   }
 });
 
@@ -796,7 +796,7 @@ router.post('/multi/search', authMiddleware, async (req, res) => {
   } catch (err) {
     console.error('[RAG Multi] 检索失败:', err.message);
     const status = err.message.includes('API Key') ? 503 : 500;
-    return res.status(status).json(errorResponse(`检索失败: ${err.message}`));
+    return res.status(status).json(errorResponse('题目检索失败，请稍后重试'));
   }
 });
 
@@ -848,7 +848,7 @@ router.post('/multi/upsert', authMiddleware, async (req, res) => {
       .json(successResponse({ id: result.id }, '四向量数据已成功保存'));
   } catch (err) {
     console.error('[RAG Multi] 保存失败:', err.message);
-    return res.status(500).json(errorResponse(`保存失败: ${err.message}`));
+    return res.status(500).json(errorResponse('保存失败，请稍后重试'));
   }
 });
 
@@ -870,7 +870,7 @@ router.get('/multi/questions/:question_id', authMiddleware, async (req, res) => 
     return res.json(successResponse(vectors));
   } catch (err) {
     console.error('[RAG Multi] 查询失败:', err.message);
-    return res.status(500).json(errorResponse(`查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('查询失败，请稍后重试'));
   }
 });
 
@@ -892,7 +892,7 @@ router.delete('/multi/questions/:question_id', authMiddleware, async (req, res) 
     return res.json(successResponse(null, '四向量记录已删除'));
   } catch (err) {
     console.error('[RAG Multi] 删除失败:', err.message);
-    return res.status(500).json(errorResponse(`删除失败: ${err.message}`));
+    return res.status(500).json(errorResponse('删除失败，请稍后重试'));
   }
 });
 
@@ -905,7 +905,7 @@ router.get('/multi/stats', authMiddleware, async (req, res) => {
     return res.json(successResponse(stats));
   } catch (err) {
     console.error('[RAG Multi] 统计查询失败:', err.message);
-    return res.status(500).json(errorResponse(`统计查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('统计查询失败，请稍后重试'));
   }
 });
 
@@ -931,7 +931,7 @@ router.post('/ask', authMiddleware, async (req, res) => {
     const data = await tutorRes.json();
     return res.status(tutorRes.status).json(data);
   } catch (err) {
-    return res.status(500).json(errorResponse('rag.ask 代理失败: ' + err.message));
+    return res.status(500).json(errorResponse('智能问答服务暂时不可用，请稍后重试'));
   }
 });
 
@@ -959,7 +959,7 @@ router.post('/explain', authMiddleware, async (req, res) => {
     const data = await tutorRes.json();
     return res.status(tutorRes.status).json(data);
   } catch (err) {
-    return res.status(500).json(errorResponse('rag.explain 代理失败: ' + err.message));
+    return res.status(500).json(errorResponse('题目讲解服务暂时不可用，请稍后重试'));
   }
 });
 

@@ -46,10 +46,11 @@ app.use('/api', async (req, res) => {
     const buf = Buffer.from(await r.arrayBuffer());
     res.end(buf);
   } catch (e) {
+    console.error('[design-v2] F3 proxy failed:', e.message);
     res.status(502).json({
       success: false,
       message: 'F3 backend unavailable',
-      error: e.message,
+      error: '上游服务调用失败，详见服务端日志',
       hint: `请确认 ${F3_BACKEND} 在跑 (systemctl status uibe-tutor)`
     });
   }
@@ -83,7 +84,10 @@ app.use(express.static(DESIGN_DIR, {
 app.get('/', (req, res) => {
   // Round 18: 直接返 hero.html (避免 301 redirect 让 CF cache 老路径)
   res.sendFile(path.join(DESIGN_DIR, 'hero.html'), (err) => {
-    if (err) res.status(500).json({ success: false, message: err.message });
+    if (err) {
+      console.error('[design-v2] sendFile failed:', err.message);
+      res.status(500).json({ success: false, message: '页面加载失败，请稍后重试' });
+    }
   });
 });
 

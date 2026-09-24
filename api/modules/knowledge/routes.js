@@ -410,7 +410,7 @@ router.get('/star-map', authMiddleware, async (req, res) => {
     }, `${nodes.rows.length} KP 节点 · ${edgeRows.length} 跨学科连线`));
   } catch (err) {
     console.error('[star-map] failed:', err.message);
-    return res.status(500).json(errorResponse(`星图查询失败: ${err.message}`));
+    return res.status(500).json(errorResponse('星图查询失败，请稍后重试'));
   }
 });
 

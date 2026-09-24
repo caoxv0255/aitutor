@@ -56,7 +56,7 @@ router.post('/search', authMiddleware, async (req, res) => {
     }, '拍照搜题完成'));
   } catch (err) {
     console.error('[Vision Search] 拍照搜题失败:', err.message);
-    return res.status(500).json(errorResponse(`搜题失败: ${err.message}`));
+    return res.status(500).json(errorResponse('拍照搜题失败，请稍后重试'));
   }
 });
 
@@ -112,7 +112,7 @@ router.post('/similar-by-text', authMiddleware, async (req, res) => {
     }, '相似题检索完成'));
   } catch (err) {
     console.error('[Vision similar-by-text] 失败:', err.message);
-    return res.status(500).json(errorResponse(`相似题检索失败: ${err.message}`));
+    return res.status(500).json(errorResponse('相似题检索失败，请稍后重试'));
   }
 });
 
@@ -185,7 +185,7 @@ router.post('/batch-parse', authMiddleware, async (req, res) => {
     }, '整卷解析完成'));
   } catch (err) {
     console.error('[Vision batch-parse] 失败:', err.message);
-    return res.status(500).json(errorResponse(`整卷解析失败: ${err.message}`));
+    return res.status(500).json(errorResponse('整卷解析失败，请稍后重试'));
   }
 });
 
@@ -208,7 +208,7 @@ router.post('/batch-ingest', authMiddleware, async (req, res) => {
     return res.json(successResponse(result, '批量入库完成'));
   } catch (err) {
     console.error('[Vision batch-ingest] 失败:', err.message);
-    return res.status(500).json(errorResponse(`批量入库失败: ${err.message}`));
+    return res.status(500).json(errorResponse('批量入库失败，请稍后重试'));
   }
 });
 
