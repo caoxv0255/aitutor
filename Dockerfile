@@ -1,5 +1,12 @@
 FROM node:22-slim
 
+# 归属标签: 发布门禁的镜像清理据此**限定范围**
+# (docker image prune -f --filter label=com.aitutor=1)。本机同机还有别的项目
+# (new-fastapi-openmaic / coze / elasticsearch), 无标签的笼统 prune 会误删它们
+# 遗留的 dangling 层, 拖慢其下次 build。改 label 后重新构建才带上, 存量旧镜像
+# 不带此标签 —— 存量已用 docker history 逐张确认归属后另行一次性回收。
+LABEL com.aitutor=1
+
 WORKDIR /app
 
 # 用国内 apt 镜像(VPN 全通道下更稳定)

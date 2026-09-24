@@ -1,5 +1,8 @@
 FROM postgres:15-bookworm
 
+# 归属标签: 与 Dockerfile 一致, 供限定范围的镜像清理识别 aitutor 自己的 dangling 镜像
+LABEL com.aitutor=1
+
 ENV AGE_TAG=PG15/v1.6.0-rc0
 ENV AGE_DIR=age-PG15-1.6.0-rc0
 ENV PGVECTOR_VERSION=0.7.0

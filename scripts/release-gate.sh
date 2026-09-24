@@ -203,6 +203,21 @@ elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
     fail "镜像构建失败 (5 分钟 timeout)" "docker build"
   fi
 
+  # ── 限定范围的镜像清理 (2026-09-24) ──
+  # 每次 build 都会把上一个 aitutor-app:latest 变成 dangling —— 13 轮门禁累积 12 个
+  # / 约 5–10GB, 而原先全仓零清理 → 纯累积 (实测 67 个 dangling, 27.55GB 可回收)。
+  # 只删**带 com.aitutor=1 标签**的 dangling 镜像 (Dockerfile/Dockerfile.db 已加该 label):
+  #   - 不碰同机别的项目 (new-fastapi-openmaic / coze / elasticsearch) 的 dangling ——
+  #     用户硬约束「不要碰别的项目」, 笼统 `docker image prune -f` 会误删它们遗留的层;
+  #   - 不带 -a, 只删无 tag 镜像; 运行中容器引用的带 tag 镜像不受影响;
+  #   - **不清理 build cache**: 动了下次 build 要重跑 apt + npm ci, 慢好几分钟。
+  # 归属锚点靠 label 而非路径/名字; 存量无标签旧镜像 (label 上线前产生) 不在此步射程内,
+  # 已由一次性回收按 docker history 逐张确认归属后处理。
+  # 该步是卫生步骤: 失败只如实打印, 不 fail —— 不改变 12 段的失败面与退出码语义。
+  PRUNE_OUT=$(docker image prune -f --filter "label=com.aitutor=1" 2>&1) || true
+  DANGLING_AFTER=$(docker images -f dangling=true -q | wc -l | tr -d ' ')
+  echo "  ↳ aitutor 限定清理 (label=com.aitutor=1): $(echo "$PRUNE_OUT" | tail -1); 当前 dangling=${DANGLING_AFTER}"
+
 # Audit-2026-08-24 Fix-4: server.js 直挂端点守门
 # 当前基线 7 个直挂 endpoint (provinces + province-trends + exam-pdf + adaptive-difficulty +
 # class-detail + proxy + cache/clear-provinces + provinces/seed). 任何新增必须走 api/modules/*.
