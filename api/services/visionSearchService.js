@@ -4,6 +4,7 @@ import { getEmbedding, getEmbeddingProvenance } from '../../services/embedding.j
 import { logger } from '../core/logger.js';
 import { parseImageToQuestion } from '../routes/vision-parse.js';
 import { ingestQuestion } from '../routes/rag-search.js';
+import { parseOptionsPassthrough } from './parseOptions.js';
 import sharp from 'sharp';
 
 const ERROR_ANALYSIS_PROMPT = (subjectName, question, studentAnswer = null) => `你是一位拥有20年教学经验的${subjectName}学科高级教师。
@@ -365,21 +366,18 @@ export class VisionSearchService {
    *
    * 策略: 解析失败降级为原始字符串 (保留信息, 绝不回退随机), 同时 warn +
    *   累计计数 (VisionSearchService.optionsParseFailureCount), 不静默吞掉;
-   *   绝不会让整条检索崩掉。
+   *   绝不会让整条检索崩掉。解析与判定已抽到 services/parseOptions.js
+   *   (语义 B「透传」), 本方法只保留本消费者专属的 warn 文案与静态计数。
    */
   static parseOptionsSafe(raw, questionId) {
-    if (raw === null || raw === undefined || String(raw).trim() === '') return [];
-    try {
-      return JSON.parse(raw);
-    } catch {
+    return parseOptionsPassthrough(raw, () => {
       VisionSearchService.optionsParseFailureCount += 1;
       logger.warn(
         `[VisionSearch] options 非合法 JSON, 已降级为原始文本 `
         + `(question_uid=${questionId}, 累计失败=${VisionSearchService.optionsParseFailureCount}): `
         + String(raw).slice(0, 80)
       );
-      return String(raw);
-    }
+    });
   }
 
   static async findSimilarQuestions(poolPromise, queryText, options = {}) {

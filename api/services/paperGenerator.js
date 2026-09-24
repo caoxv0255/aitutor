@@ -2,6 +2,8 @@ import { getDb } from '../core/db.js';
 import { llm, MODELS } from '../../services/llm.js';
 import { logger } from '../core/logger.js';
 import { enrichQuestionsWithTables, placeholderToText } from './questionTables.js';
+import { parseOptionsAsArray } from './parseOptions.js';
+import { normalizeQuestionType, toDbQuestionType } from './questionType.js';
 
 const DIFFICULTY_MAPPING = {
   easy: { min: 1, max: 2.5 },
@@ -24,6 +26,8 @@ const QUESTION_TYPE_WEIGHTS = {
 export class PaperGenerator {
   // options 容错解析的累计失败计数 (可观测; 见 parseOptionsSafe)
   static optionsParseFailureCount = 0;
+  // question_type 无法归一化 (如 'unknown') 被排除出分卷的累计计数 (可观测; 见 assemblePaper)
+  static unmappedQuestionTypeCount = 0;
 
   static async generatePersonalizedPaper(email, options) {
     const { 
@@ -194,6 +198,10 @@ export class PaperGenerator {
         
         if (needed <= 0) continue;
 
+        // question_type 归一化: distribution.byType 的 key 是中文标签,
+        // 而 DB 实际存代码 (choice/fill/solve) → 拼 SQL 前转回代码。
+        const dbType = toDbQuestionType(type);
+
         const kpToUse = kpCoverage.target.filter(kp => !usedKPIds.has(kp.id));
         const shuffledKP = [...kpToUse].sort(() => Math.random() - 0.5);
 
@@ -204,7 +212,7 @@ export class PaperGenerator {
             SELECT * FROM exam_questions
             WHERE subject_code = $1
               AND question_type = $2
-              AND difficulty >= $3 AND difficulty <= $4
+              AND difficulty::numeric >= $3 AND difficulty::numeric <= $4
               AND year >= $5
               AND answer IS NOT NULL AND TRIM(answer) != ''
               AND (knowledge_points LIKE $6 OR knowledge_points IS NULL)
@@ -212,7 +220,7 @@ export class PaperGenerator {
             LIMIT 1
           `, [
             subject,
-            type,
+            dbType,
             DIFFICULTY_MAPPING[difficulty].min,
             DIFFICULTY_MAPPING[difficulty].max,
             minYear,
@@ -234,16 +242,24 @@ export class PaperGenerator {
 
     if (questions.length < distribution.total) {
       const remaining = distribution.total - questions.length;
-      
+
+      // 排除已选题。原实现 `id NOT IN (...)` 占位符从 $3 起, 与 `LIMIT $3`
+      // 参数冲突 (且 questions 为空时会拼出非法的 `NOT IN ()` → SQL 语法错误,
+      // 整卷生成抛出)。改为: LIMIT 固定 $3, NOT IN 从 $4 起, 空列表则不加该条件。
+      const excludeIds = questions.map(q => q.id);
+      const excludeClause = excludeIds.length > 0
+        ? `AND id NOT IN (${excludeIds.map((_, i) => `$${i + 4}`).join(',')})`
+        : '';
+
       const result = await pool.query(`
         SELECT * FROM exam_questions
         WHERE subject_code = $1
           AND year >= $2
           AND answer IS NOT NULL AND TRIM(answer) != ''
-          AND id NOT IN (${questions.map((_, i) => `$${i + 3}`).join(',')})
+          ${excludeClause}
         ORDER BY RANDOM()
         LIMIT $3
-      `, [subject, minYear, remaining, ...questions.map(q => q.id)]);
+      `, [subject, minYear, remaining, ...excludeIds]);
 
       result.rows.forEach(q => {
         questions.push({
@@ -270,39 +286,42 @@ export class PaperGenerator {
    *   最终要交给前端 `q.options.forEach` 渲染, 必须是数组。因此解析失败 / 非数组
    *   一律按「无选项」([]) 处理, 绝不降级为原始字符串 (字符串有 length, 会让前端
    *   的 `q.options.length > 0` 守卫通过, 随后 forEach 抛 TypeError)。
-   *   同时 warn + 累计计数, 不静默吞掉。
+   *   同时 warn + 累计计数, 不静默吞掉。解析与判定已抽到 services/parseOptions.js
+   *   (语义 A「要数组」), 本方法只保留本消费者专属的 warn 文案与静态计数。
    */
   static parseOptionsSafe(raw, questionId) {
-    if (raw === null || raw === undefined || String(raw).trim() === '') return [];
-    let parsed;
-    try {
-      parsed = JSON.parse(raw);
-    } catch {
+    return parseOptionsAsArray(raw, (reason) => {
       PaperGenerator.optionsParseFailureCount += 1;
+      const label = reason === 'not-array' ? '为合法 JSON 但非数组' : '非合法 JSON';
       logger.warn(
-        `[PaperGenerator] options 非合法 JSON, 已按「无选项」处理 `
+        `[PaperGenerator] options ${label}, 已按「无选项」处理 `
         + `(question_uid=${questionId}, 累计失败=${PaperGenerator.optionsParseFailureCount}): `
         + String(raw).slice(0, 80)
       );
-      return [];
-    }
-    if (Array.isArray(parsed)) return parsed;
-    PaperGenerator.optionsParseFailureCount += 1;
-    logger.warn(
-      `[PaperGenerator] options 为合法 JSON 但非数组, 已按「无选项」处理 `
-      + `(question_uid=${questionId}, 累计失败=${PaperGenerator.optionsParseFailureCount}): `
-      + String(raw).slice(0, 80)
-    );
-    return [];
+    });
   }
 
   static assemblePaper(subject, questions, distribution, difficulty, timeLimit, weakKPIds, kpCoverage, includeAnswer) {
     const sections = [];
     let totalScore = 0;
 
-    const selectionQuestions = questions.filter(q => q.question_type === '选择题');
-    const fillQuestions = questions.filter(q => q.question_type === '填空题');
-    const solutionQuestions = questions.filter(q => ['解答题', '计算题', '证明题'].includes(q.question_type));
+    // question_type 归一化: DB 存代码 (choice/fill/solve), 分卷按中文标签。
+    // 归一后可匹配的入对应 section; 不可映射 (如 'unknown') → 记 warn + 计数, 不静默丢。
+    const selectionQuestions = questions.filter(q => normalizeQuestionType(q.question_type) === '选择题');
+    const fillQuestions = questions.filter(q => normalizeQuestionType(q.question_type) === '填空题');
+    const solutionQuestions = questions.filter(
+      q => ['解答题', '计算题', '证明题'].includes(normalizeQuestionType(q.question_type))
+    );
+
+    const unmapped = questions.filter(q => normalizeQuestionType(q.question_type) === null);
+    if (unmapped.length > 0) {
+      PaperGenerator.unmappedQuestionTypeCount += unmapped.length;
+      const kinds = [...new Set(unmapped.map(q => String(q.question_type)))].join(', ');
+      logger.warn(
+        `[PaperGenerator] ${unmapped.length} 道题 question_type 无法归一化, 已排除出分卷 `
+        + `(实际值=${kinds}; 累计未匹配=${PaperGenerator.unmappedQuestionTypeCount})`
+      );
+    }
 
     if (selectionQuestions.length > 0) {
       const scorePerQuestion = Math.round(60 / selectionQuestions.length);

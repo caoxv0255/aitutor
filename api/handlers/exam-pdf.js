@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { getDb } from '../core/db.js';
 import { errorResponse } from '../utils/response.js';
 import { placeholderToText } from '../services/questionTables.js';
+import { parseOptionsAsArray } from '../services/parseOptions.js';
 import mammoth from 'mammoth';
 import { execSync } from 'child_process';
 
@@ -41,19 +42,6 @@ const PROVINCE_MAP = {
   'yunnan': '云南高考', 'xizang': '西藏高考', 'shaanxi': '陕西高考', 'gansu': '甘肃高考',
   'qinghai': '青海高考', 'ningxia': '宁夏高考', 'xinjiang': '新疆高考'
 };
-
-function parseOptions(optionsJson) {
-  if (!optionsJson) return [];
-  try {
-    if (typeof optionsJson === 'string') {
-      const parsed = JSON.parse(optionsJson);
-      return Array.isArray(parsed) ? parsed : [];
-    }
-    return Array.isArray(optionsJson) ? optionsJson : [];
-  } catch (e) {
-    return [];
-  }
-}
 
 function getCachePdfPath(docxPath) {
   const dir = path.dirname(docxPath);
@@ -238,7 +226,7 @@ async function generateFromDatabase(paper, questions, includeAnswer, includeAnal
         doc.fontSize(11).font('simsun');
         doc.text(`${globalNum}. ${placeholderToText(q.stem)}`, { indent: 0 });
 
-        const options = parseOptions(q.options);
+        const options = parseOptionsAsArray(q.options);
         if (options.length > 0) {
           doc.moveDown(0.3);
           options.forEach(opt => {
