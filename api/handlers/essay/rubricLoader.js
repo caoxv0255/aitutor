@@ -62,7 +62,7 @@ export async function loadRubric(subject, exam_level) {
       logger.warn(`[rubricLoader] rubric 不存在: ${key} (path: ${filePath})`);
       return null;
     }
-    logger.error(`[rubricLoader] rubric 读取失败: ${key}`, { error: e.message });
+    logger.error(`[rubricLoader] rubric 读取失败: ${key}`, { error: e });
     throw e;
   }
 
@@ -71,7 +71,7 @@ export async function loadRubric(subject, exam_level) {
   try {
     parsed = JSON.parse(raw);
   } catch (e) {
-    logger.error(`[rubricLoader] rubric JSON 解析失败: ${key}`, { error: e.message });
+    logger.error(`[rubricLoader] rubric JSON 解析失败: ${key}`, { error: e });
     return null;
   }
 

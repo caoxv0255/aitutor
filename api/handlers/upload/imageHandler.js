@@ -138,7 +138,7 @@ export async function uploadImageHandler(req, res) {
   try {
     buffer = Buffer.from(parsed.data, 'base64');
   } catch (e) {
-    logger.error('[upload] base64 decode failed', { error: e.message });
+    logger.error('[upload] base64 decode failed', { error: e });
     return errorJson(res, ErrorCode.UPLOAD_INVALID_BASE64, 'base64 解码失败，请提供合法的图片数据');
   }
   if (buffer.length === 0) {
@@ -178,7 +178,7 @@ export async function uploadImageHandler(req, res) {
 
     processedMeta = processed.info; // { size, width, height, format }
   } catch (e) {
-    logger.error('[upload] sharp processing failed', { error: e.message, ext: parsed.ext, email });
+    logger.error('[upload] sharp processing failed', { error: e, ext: parsed.ext, email });
     return errorJson(
       res,
       ErrorCode.UPLOAD_PROCESSING_FAILED,
@@ -207,7 +207,7 @@ export async function uploadImageHandler(req, res) {
     await fs.mkdir(dir, { recursive: true });
     await fs.writeFile(fullPath, processed.data);
   } catch (e) {
-    logger.error('[upload] write file failed', { error: e.message, fullPath, email });
+    logger.error('[upload] write file failed', { error: e, fullPath, email });
     return errorJson(
       res,
       ErrorCode.UPLOAD_DISK_ERROR,

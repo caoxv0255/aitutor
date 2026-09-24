@@ -416,7 +416,7 @@ export async function getCurrentLearningPath(req, res) {
     });
   } catch (err) {
     logger.error?.('[learning-path/current] failed', {
-      requestId, subject, error: err.message, stack: err.stack
+      requestId, subject, error: err
     });
     return errorJson(res, ErrorCode.DATABASE_ERROR, 'Failed to load learning path');
   }

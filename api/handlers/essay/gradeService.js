@@ -260,7 +260,7 @@ async function loadGradeTemplate() {
   try {
     promptTemplateCache = await readFile(path, 'utf-8');
   } catch (e) {
-    logger.warn('[essay.grade] grade.v1.txt 加载失败, 使用内置 fallback', { error: e.message });
+    logger.warn('[essay.grade] grade.v1.txt 加载失败, 使用内置 fallback', { error: e });
     promptTemplateCache = GRADE_PROMPT_TEMPLATE;
   }
   return promptTemplateCache;

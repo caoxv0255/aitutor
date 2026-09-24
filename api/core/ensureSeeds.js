@@ -36,7 +36,7 @@ export async function ensureSeeds() {
       results.push('高考知识点导入完成');
     }
   } catch (e) {
-    logger.error('[Seed] 高考知识点自动导入失败', { error: e.message });
+    logger.error('[Seed] 高考知识点自动导入失败', { error: e });
   }
 
   // ── 2. 中考知识点 (level='zhongkao' 为 0 时导入, D068) ──
@@ -48,7 +48,7 @@ export async function ensureSeeds() {
       logger.info(`[Seed] 跳过: ${result.reason}`);
     }
   } catch (e) {
-    logger.error('[Seed] 中考知识点自动导入失败', { error: e.message });
+    logger.error('[Seed] 中考知识点自动导入失败', { error: e });
   }
 
   // ── 3. 省份 Seed (D069 补充, P0-3) ──
@@ -61,7 +61,7 @@ export async function ensureSeeds() {
       logger.info(`[Seed] 跳过: provinces 已有 ${r.rows[0].n} 条`);
     }
   } catch (e) {
-    logger.error('[Seed] 省份自动导入失败', { error: e.message });
+    logger.error('[Seed] 省份自动导入失败', { error: e });
   }
 
   // 返回最终状态

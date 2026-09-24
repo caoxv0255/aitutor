@@ -91,7 +91,7 @@ export async function _internalLLMCall({ images, essay_title, exam_level, grade,
     });
     body = await resp.json();
   } catch (e) {
-    logger.error?.('[essay] LLM call failed', { error: e.message });
+    logger.error?.('[essay] LLM call failed', { error: e });
     return { success: false, error: 'LLM_CALL_FAILED' };
   }
 
@@ -221,7 +221,7 @@ export async function gradeEssay({ user_email, images, essay_title, exam_level, 
       status: 'completed',
     });
   } catch (e) {
-    logger.error?.('[essay] insert failed', { error: e.message, reportId });
+    logger.error?.('[essay] insert failed', { error: e, reportId });
     return { success: false, message: '持久化失败', reportId };
   }
 
