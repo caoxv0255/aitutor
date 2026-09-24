@@ -411,7 +411,8 @@ router.post('/review', authMiddleware, async (req, res) => {
     }
     const wq = wrongQ.rows[0];
     const kpId = wq.knowledge_point_id;
-    if (!kpId) { await client.query('ROLLBACK'); return res.status(400).json(errorResponse('该错题未关联知识点')); }
+    // 文案可操作化: 指向用户下一步（去错题本补知识点），不暴露内部字段/表名。
+    if (!kpId) { await client.query('ROLLBACK'); return res.status(400).json(errorResponse('该题尚未关联知识点，无法开始复习。请先到错题本为它补充知识点，再回来复习。')); }
     const cur = await client.query(
       `SELECT mastery_score, ease_factor, interval_days FROM student_knowledge_mastery WHERE user_email=$1 AND knowledge_point_id=$2`,
       [userEmail, kpId]

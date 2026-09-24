@@ -429,14 +429,28 @@
   }
 
   /* ── 存错题本 ───────────────────────────────────────────────────────── */
+  /**
+   * 未关联知识点时，在后端"已存入"回执旁追加一条可见提示（复用 .tag 样式，不改 CSS）。
+   * 后端以 knowledge_point_missing 显式回告 —— 此前是静默落 NULL，用户以为存好了，
+   * 直到复习时报"未关联知识点"才发现。
+   */
+  function showKpMissingNote(btn, text) {
+    if (!btn || !btn.parentNode) return;
+    const note = global.document.createElement('span');
+    note.className = 'tag';
+    note.textContent = text;
+    btn.parentNode.appendChild(note);
+  }
+
   function saveToWrongBook(q, btn) {
     const payload = {
       content: itemContent(q),
       subject_code: q.subject_code || q.subject || els.subject.value,
       difficulty: q.difficulty || null,
       question_type: q.question_type || null,
+      // 解析结果可能只有 inferred_kp_*（未经校验的推断名），一并兜底，避免有名字却丢成 NULL
       knowledge_point_id: q.knowledge_point_id || q.inferred_kp_id || null,
-      knowledge_point_name: q.knowledge_point_name || null,
+      knowledge_point_name: q.knowledge_point_name || q.inferred_kp_name || null,
       error_analysis: q.analysis || q.error_analysis || null,
     };
 
@@ -444,9 +458,12 @@
     btn.textContent = '存入中…';
 
     return global.AIAPI.addWrongQuestion(payload)
-      .then(function () {
+      .then(function (data) {
         btn.textContent = '已存入';
         btn.disabled = true;
+        if (data && data.knowledge_point_missing) {
+          showKpMissingNote(btn, '未识别到知识点，暂不会进入复习队列；请到错题本补充知识点。');
+        }
       })
       .catch(function (err) {
         btn.disabled = false;

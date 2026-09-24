@@ -2,6 +2,16 @@ import { getDb } from '../core/db.js';
 import { successResponse, errorResponse } from '../utils/response.js';
 import PDFDocument from 'pdfkit';
 
+// 2026-09-24: 错题"未关联知识点"不再静默落 NULL —— 进程内计数 + warn，
+// 并在响应里显式回告 knowledge_point_missing，供前端提示用户去补充。
+// 计数仅用于本地可观测（重启归零）；落库侧的持久统计可直接查
+//   SELECT count(*) FROM wrong_questions WHERE knowledge_point_id IS NULL;
+let kpMissingCount = 0;
+
+export function getKpMissingCount() {
+  return kpMissingCount;
+}
+
 export async function getWrongQuestions(req, res) {
   const { email } = req.user;
   const { page = 1, page_size = 10, subject, knowledge_point_id, error_category, reviewed } = req.query;
@@ -113,9 +123,20 @@ export async function addWrongQuestion(req, res) {
         difficulty || 3, question_type || 'other', _correct_answer, _error_analysis,
         JSON.stringify(error_types || []), error_category || 'unknown']);
 
+    // 未带知识点：照常入库（不丢用户数据），但显式标记 + 计数 + warn，
+    // 避免"存成功却永远进不了复习队列"这种静默失败。知识点来源见写入侧
+    // 解析管线（vision-parse：用户指定 → LLM 推断并校验 → 名称模糊匹配）。
+    const kpMissing = !knowledge_point_id;
+    if (kpMissing) {
+      kpMissingCount += 1;
+      console.warn('[WrongQuestions] 错题 %d 未关联知识点，已入库但不进入 SRS 复习队列（进程累计 %d 条）',
+        result.rows[0].id, kpMissingCount);
+    }
+
     return res.json(successResponse({
       id: result.rows[0].id,
-      created_at: result.rows[0].created_at
+      created_at: result.rows[0].created_at,
+      knowledge_point_missing: kpMissing
     }, '添加错题成功'));
   } catch (error) {
     console.error('[WrongQuestions] 添加错题失败:', error.message);
