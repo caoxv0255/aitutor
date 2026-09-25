@@ -64,9 +64,7 @@ const NOT_TAKEN_OVER = new Set([
   'teacher-dashboard.html', // 教师端未迁移，仅 /v2/ 预览
   'tutor.html', // 波次 2 新建的 AI 导师讲题页（frontend-v2）；先以 /v2/ 命名空间提供，
   // 待并入 DEFAULT_NEW_TREE_PAGES 时移出本豁免（改 server.js 需重启，本次不做）。
-  'essay-review.html', // 批次 3 新建的批改报告阅读器（左图右文对照）；批次 4 才做连线/气泡/CSS，
-  // 故本批先以 /v2/essay-review.html?id= 命名空间提供（不动 server.js 挂载区），
-  // 待批次 4 完成后按同样方式并入 DEFAULT_NEW_TREE_PAGES 再移出本豁免。
+  // essay-review.html 已于 2026-09-25（批次 4）并入 DEFAULT_NEW_TREE_PAGES，不再豁免。
 ]);
 
 const md5 = (buf) => crypto.createHash('md5').update(buf).digest('hex');

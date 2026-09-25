@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="/assets/v2/css/fonts.css">
   <link rel="stylesheet" href="/assets/v2/css/system.css">
   <link rel="stylesheet" href="/assets/v2/css/app.css">
+  <link rel="stylesheet" href="/assets/v2/css/essay-review.css">
   <!-- Marked 17.0.4（MIT）与 DOMPurify 3.4.8（Apache-2.0 / MPL-2.0）自托管在
        assets/vendor/ —— 与 katex 同一做法（见 photo-solve.html）。审计 R2 要求
        零境外请求，二者都不得改回 CDN；许可证随源码一并入库（同目录 LICENSE*）。
        顺序要求：marked 必须在 DOMPurify 之前（页面脚本按此顺序调用）。
-       ⚠️ 本批只引入库与页面骨架；连线/气泡/CSS 属批次 4。 -->
+       批次 4：连线层（essay-connector.js）+ 气泡/抽屉（essay-bubble.js）在本页接入。 -->
 </head>
 <body>
   <nav class="nav">
@@ -118,8 +119,8 @@
             <p class="form-hint" id="text-empty" hidden>本次报告未包含作文文本。</p>
           </section>
 
-          <!-- 批次 4 的连线层：本批**不画线**，只预留容器（0 尺寸，不占布局）。
-               batch 4 用 CSS 把它绝对定位到 .reader-grid 上并绘制端点连线。 -->
+          <!-- 批次 4 的连线层：由 essay-connector.js 接管（CSS 绝对定位到 .reader-grid，
+               只画行/段级端点连线，不画精确高亮矩形）。 -->
           <svg id="connector-layer" class="connector-layer" width="0" height="0" aria-hidden="true"></svg>
         </div>
       </div>
@@ -181,5 +182,7 @@
   <script src="/assets/v2/js/ui.js"></script>
   <script src="/assets/v2/js/api.js"></script>
   <script src="/assets/v2/js/essay-review.js"></script>
+  <script src="/assets/v2/js/essay-connector.js"></script>
+  <script src="/assets/v2/js/essay-bubble.js"></script>
 </body>
 </html>

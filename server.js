@@ -275,7 +275,9 @@ const NEW_TREE_ENABLED = process.env.NEW_TREE !== 'off';
 const DEFAULT_NEW_TREE_PAGES =
   'login.html,register.html,photo-solve.html,wrong-book.html,review-session.html,mastery.html,dashboard.html,practice-hub.html,essay.html,learning-path.html,' +
   'onboarding.html,notifications.html,settings.html,subject-picker.html,knowledge-star.html,' +
-  'predictive-paper.html,subject-detail.html,state-library.html,learning-journey.html,subject-exam.html';
+  'predictive-paper.html,subject-detail.html,state-library.html,learning-journey.html,subject-exam.html,' +
+  // 2026-09-25 批次 4：批改报告阅读器（连线/气泡/CSS 已交付）并入接管清单
+  'essay-review.html';
 const NEW_TREE_PAGES = (process.env.NEW_TREE_PAGES || DEFAULT_NEW_TREE_PAGES)
   .split(',')
   .map((s) => s.trim())

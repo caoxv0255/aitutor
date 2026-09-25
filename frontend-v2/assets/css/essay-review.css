@@ -1,0 +1,577 @@
+/* ==========================================================================
+ * 作文智能批改 · 批次 4 · 批改报告阅读器样式（essay-review.css）
+ *
+ * 只服务 /v2/essay-review.html。色彩/字号/圆角/阴影一律取自共享层
+ * （fonts.css + system.css + app.css 的既有变量），本文件**不重定义色板**，
+ * 只新增组件私有的尺寸变量（--er-*）。不引任何 CDN 字体。
+ *
+ * 断点与其他新树页面一致：1023 / 767 / 480。
+ *   - ≤1023px：缩短栏间距
+ *   - ≤767px ：上下分屏；连线层不画线，改写侧边标记点 + 底部抽屉（由 JS 切换）
+ * ========================================================================== */
+
+/* ══════════════════════════════════════════════════════════════════════
+ * 顶部工具栏
+ * ══════════════════════════════════════════════════════════════════════ */
+.reader-bar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding: 12px 0 10px;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.reader-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.reader-bar__back {
+  display: inline-grid;
+  place-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 14px;
+  transition:
+    color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+.reader-bar__back:hover {
+  color: var(--brand-text);
+  border-color: var(--brand-text);
+}
+.reader-bar__title {
+  flex: 1 1 240px;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+.reader-bar__subject {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.reader-bar__subject select {
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14px;
+}
+.reader-bar__hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.score-badge {
+  display: inline-grid;
+  place-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+  color: #fff;
+  font-family: var(--font-num);
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: var(--shadow-soft);
+}
+
+.report-meta {
+  margin: 10px 0 4px;
+  font-size: 13px;
+  color: var(--ink-3);
+  overflow-wrap: anywhere;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * 分屏骨架：左图右文 + 覆盖其上的连线层
+ * ══════════════════════════════════════════════════════════════════════ */
+.reader-grid {
+  position: relative; /* 连线层/标记层的定位基准 */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--er-gap, 20px);
+  align-items: start;
+  margin-top: 12px;
+}
+.reader-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 总体评语（details 折叠卡） */
+.summary-card {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+.summary-card__summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  list-style: none;
+}
+.summary-card__summary::-webkit-details-marker {
+  display: none;
+}
+.summary-card__summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 8px;
+  color: var(--brand-text);
+  transition: transform var(--dur-fast) var(--ease);
+}
+.summary-card[open] .summary-card__summary::before {
+  transform: rotate(90deg);
+}
+.summary-body {
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.75;
+}
+.summary-body p {
+  margin: 0 0 8px;
+}
+.summary-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── 左栏：作文原图（缩放/平移容器）────────────────────────────────── */
+.essay-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.essay-canvas {
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  display: grid;
+  place-items: center;
+  touch-action: none; /* 拖拽平移不触发页面滚动 */
+  cursor: grab;
+}
+.essay-canvas:focus-visible {
+  outline: 3px solid var(--brand-text);
+  outline-offset: 2px;
+}
+.essay-canvas:active {
+  cursor: grabbing;
+}
+/*
+ * max-width:none 是必须的：连线端点用「图片自然像素 × 缩放」换算，
+ * 若此处被全局 `img{max-width:100%}` 压小，锚点会与渲染位置错位。
+ * 大图在 scale=1 时超出容器由 overflow:hidden 裁掉，用户可缩小后再看全貌。
+ */
+#essay-image {
+  display: block;
+  max-width: none;
+  transform-origin: 0 0;
+  will-change: transform;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.canvas-placeholder {
+  margin: 0;
+  padding: 24px 16px;
+  font-size: 14px;
+  color: var(--ink-3);
+  text-align: center;
+}
+.essay-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.essay-caption__hint {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* ── 右栏：AI 修改后的文本 ──────────────────────────────────────────── */
+.revised-text {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 2;
+  color: var(--ink);
+}
+.revised-text .para {
+  margin: 0 0 14px;
+  text-indent: 2em;
+  overflow-wrap: anywhere;
+}
+.revised-text .para:last-child {
+  margin-bottom: 0;
+}
+
+/* 句子：change_type 着色（class 驱动，无内联 style） */
+.sent {
+  border-radius: 6px;
+  transition: background var(--dur-fast) var(--ease);
+}
+.sent[data-annotation-index] {
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.sent--highlight {
+  background: color-mix(in srgb, var(--ch-green) 12%, transparent);
+  text-decoration-color: var(--ch-green);
+}
+.sent--masterstroke {
+  background: color-mix(in srgb, var(--ch-amber) 14%, transparent);
+  text-decoration-color: var(--ch-amber);
+}
+.sent--grammar-error {
+  background: color-mix(in srgb, var(--ch-red) 13%, transparent);
+  text-decoration-color: var(--ch-red);
+}
+.sent--advanced-vocab {
+  background: color-mix(in srgb, var(--ch-blue) 12%, transparent);
+  text-decoration-color: var(--ch-blue);
+}
+.sent--logic-issue {
+  background: color-mix(in srgb, var(--ch-purple) 13%, transparent);
+  text-decoration-color: var(--ch-purple);
+}
+.sent--unknown {
+  background: color-mix(in srgb, var(--ink-3) 12%, transparent);
+  text-decoration-color: var(--ink-3);
+}
+.sent--severity-minor {
+  text-decoration-thickness: 1px;
+}
+.sent--severity-moderate {
+  text-decoration-thickness: 2px;
+}
+.sent--severity-major {
+  text-decoration-thickness: 3px;
+}
+.sent--revised {
+  font-style: italic;
+}
+/* 悬停连线 / 句子时的高亮 */
+.sent.is-hl {
+  background: color-mix(in srgb, var(--brand-text) 18%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-text) 12%, transparent);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * 连线层（覆盖 .reader-grid；自身不滚动）
+ * ══════════════════════════════════════════════════════════════════════ */
+.connector-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 4;
+}
+.connector-item {
+  pointer-events: none;
+}
+.connector-line {
+  fill: none;
+  stroke: currentColor; /* 颜色来自 <g class="connector-tone-N"> 的 color */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.8;
+  pointer-events: stroke;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.connector-tone-0 {
+  color: var(--ch-red);
+}
+.connector-tone-1 {
+  color: var(--ch-orange);
+}
+.connector-tone-2 {
+  color: var(--ch-blue);
+}
+.connector-tone-3 {
+  color: var(--ch-green);
+}
+.connector-tone-4 {
+  color: var(--ch-purple);
+}
+.connector-tone-5 {
+  color: var(--ch-cyan);
+}
+.connector-item.is-hl .connector-line {
+  opacity: 1;
+}
+.connector-anchor-dot {
+  fill: currentColor;
+  color: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.connector-item.is-hl .connector-anchor-dot {
+  opacity: 1;
+}
+.connector-btn {
+  pointer-events: none;
+}
+.connector-btn__hit {
+  fill: var(--surface);
+  stroke: currentColor;
+  stroke-width: 1.5;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.connector-btn:hover .connector-btn__hit,
+.connector-btn:focus-visible .connector-btn__hit {
+  fill: var(--brand-red-50);
+}
+.connector-btn__label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  fill: var(--ink-2);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── 移动端标记点（仅 <768px 由 JS 生成）────────────────────────────── */
+.connector-markers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.connector-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-pill);
+  border: 1.5px solid var(--brand-text);
+  background: var(--surface);
+  color: var(--brand-text);
+  font-family: var(--font-num);
+  font-size: 12px;
+  font-weight: 700;
+  pointer-events: auto;
+  box-shadow: var(--shadow-soft);
+}
+.connector-marker--image {
+  border-color: var(--ch-blue);
+  color: var(--ch-blue);
+}
+.connector-marker--text {
+  border-color: var(--brand-text);
+  color: var(--brand-text);
+}
+.connector-marker:focus-visible {
+  outline: 3px solid var(--brand-text);
+  outline-offset: 2px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * 解析气泡（桌面）
+ * ══════════════════════════════════════════════════════════════════════ */
+.essay-bubble {
+  position: fixed; /* 相对视口绝对定位，便于按视口四边收敛防溢出 */
+  top: 0;
+  left: 0;
+  z-index: 60;
+  width: min(360px, calc(100vw - 24px));
+  max-height: min(60vh, calc(100vh - 24px));
+  overflow-y: auto;
+  padding: 12px 14px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+}
+.essay-bubble__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.essay-bubble__type {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  background: var(--brand-red-50);
+  color: var(--brand-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+.essay-bubble__close {
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  color: var(--ink-3);
+  font-size: 12px;
+}
+.essay-bubble__close:hover {
+  color: var(--brand-text);
+  border-color: var(--brand-text);
+}
+.essay-bubble__body {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.essay-bubble__body p {
+  margin: 0 0 8px;
+}
+.essay-bubble__body p:last-child {
+  margin-bottom: 0;
+}
+.essay-bubble__empty {
+  color: var(--ink-3);
+  font-size: 13px;
+}
+.essay-bubble__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 0;
+  list-style: none;
+}
+.bubble-tag {
+  padding: 2px 9px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: 12px;
+}
+.essay-bubble__close:focus-visible,
+.essay-bubble__body a:focus-visible {
+  outline: 3px solid var(--brand-text);
+  outline-offset: 2px;
+}
+
+/* Markdown 降级提示（批次 3 的 renderPlainText 会写入，这里给个样式） */
+.markdown-fallback {
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * 移动端底部抽屉（<768px 的解析形态）
+ * ══════════════════════════════════════════════════════════════════════ */
+.essay-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(11, 18, 32, 0.45);
+}
+.essay-drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 71;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-clay);
+}
+.essay-drawer::before {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 4px;
+  margin: 0 auto 12px;
+  border-radius: var(--r-pill);
+  background: var(--line);
+}
+.essay-drawer .essay-bubble__body {
+  font-size: 15px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * 断点
+ * ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+  .reader-grid {
+    --er-gap: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  .reader-grid {
+    grid-template-columns: minmax(0, 1fr); /* 上下分屏 */
+  }
+  .reader-bar__title {
+    flex-basis: 100%;
+    order: -1;
+    font-size: 18px;
+  }
+  .essay-canvas {
+    min-height: 180px;
+  }
+  .revised-text {
+    font-size: 16px;
+    line-height: 1.9;
+  }
+  /* 桌面气泡在移动端不用（改用抽屉），但仍给窄屏兜底尺寸 */
+  .essay-bubble {
+    width: calc(100vw - 24px);
+  }
+}
+
+@media (max-width: 480px) {
+  .reader-bar__inner {
+    gap: 8px;
+  }
+  .report-meta {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reader-grid *,
+  .essay-bubble,
+  .essay-drawer {
+    transition: none !important;
+    animation: none !important;
+  }
+}

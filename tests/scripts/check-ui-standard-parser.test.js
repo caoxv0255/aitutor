@@ -15,7 +15,7 @@
 //
 // 运行: npx vitest run tests/scripts/check-ui-standard-parser.test.js
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -97,10 +97,21 @@ describe('check-ui-standard 接管页解析 (多段拼接盲点)', () => {
     expect(out).toMatch(/未迁移原型（已知欠账，不计失败）: 1 页/);
   });
 
-  // 修复的验收: 仓库本体 server.js 是 20 页多段拼接, 必须解析成 20 而非 10。
-  it('仓库本体: 解析出 20 页接管 (修复前为 10)', () => {
+  // 修复的验收: 仓库本体 server.js 是多段拼接, 必须解析出**完整清单**, 而非只第一段。
+  // 期望页数从 server.js 现读（每次增减接管页不必改断言），判据核心是 > 10：
+  // 旧实现只捕获第一个字面量 → 恰好 10 页, 正是要防的漏检。
+  it('仓库本体: 解析出完整接管清单 (>10 页, 非只第一段)', () => {
+    const src = readFileSync(path.join(ROOT, 'server.js'), 'utf8');
+    const block = src.match(/DEFAULT_NEW_TREE_PAGES\s*=\s*([\s\S]*?);/);
+    const literals = [...block[1].matchAll(/'([^']*)'/g)].map((x) => x[1]);
+    const expected = literals
+      .join('')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean).length;
     const { code, out } = runIn(ROOT);
     expect(code).toBe(0);
-    expect(out).toMatch(/接管 20 页全部通过/);
+    expect(expected).toBeGreaterThan(10);
+    expect(out).toMatch(new RegExp(`接管 ${expected} 页全部通过`));
   }, 30000);
 });
