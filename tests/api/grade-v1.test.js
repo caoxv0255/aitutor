@@ -663,3 +663,106 @@ describe('gradeEssay: 成功路径', () => {
     expect(result.annotations[0].comment).toBe('<img src=x onerror=alert(1)>');
   });
 });
+
+// ────────────────────────────────────────────────────────────────────────────
+// 6. /api/proxy 真实响应形状 (2026-09-25 契约修复)
+//
+// 盲区说明: 此前所有 mock 都用自造 envelope {success:true, data:{choices}},
+// 而 /api/proxy (proxy.js:138) 透传上游原生 OpenAI 兼容响应 —— 顶层**没有**
+// success/data。旧判据 !body.success 恒为真 → 真实链路 analyze 恒 500,
+// 而 838 条单测全绿。本组用例直接用实测抓到的形状, 锁死这个盲区。
+// ────────────────────────────────────────────────────────────────────────────
+
+/** 2026-09-25 实测 /api/proxy 响应体: 顶层 keys = model,id,choices,created,object,usage */
+function proxyNativeBody(content) {
+  return {
+    model: 'qwen-plus',
+    id: 'chatcmpl-9f2f0e2a-1f1f-4c8b-9a3d-0000deadbeef',
+    choices: [
+      { index: 0, message: { role: 'assistant', content }, finish_reason: 'stop' },
+    ],
+    created: 1758790000,
+    object: 'chat.completion',
+    usage: { prompt_tokens: 2912, completion_tokens: 674, total_tokens: 3586 },
+  };
+}
+
+describe('gradeEssay: /api/proxy 真实响应形状 (无 success 字段)', () => {
+  beforeEach(() => { vi.stubGlobal('fetch', vi.fn()); });
+  afterEach(() => { vi.unstubAllGlobals(); vi.restoreAllMocks(); });
+
+  const run = () => gradeEssay({
+    user_email: 'test@uibe.edu.cn',
+    transcript: VALID_TRANSCRIPT,
+    essay_title: '春天来了',
+    exam_level: 'gaokao',
+    grade: '高三',
+    subject: 'chinese',
+    request_token: 'tx_test_001',
+    req: mockReq(),
+  });
+
+  it('原生 OpenAI 形状 (顶层无 success/data) → 正常解析出批改结果, 不抛网关失败', async () => {
+    globalThis.fetch.mockResolvedValueOnce(mockFetchResponse({
+      body: proxyNativeBody(JSON.stringify(VALID_GRADE_OUTPUT)),
+    }));
+
+    const result = await run();
+
+    expect(result.report_id).toBeTruthy();
+    expect(result.scores).toEqual(VALID_GRADE_OUTPUT.scores);
+    expect(result.scores.total).toBe(62);
+    expect(result.comment).toBe(VALID_GRADE_OUTPUT.comment);
+    expect(result.annotations.length).toBe(3);
+  });
+
+  it('旧 envelope 形状 {success,data:{choices}} 仍可解析 (向后兼容)', async () => {
+    globalThis.fetch.mockResolvedValueOnce(mockFetchResponse({
+      body: vlmSuccessBody(JSON.stringify(VALID_GRADE_OUTPUT)),
+    }));
+
+    const result = await run();
+
+    expect(result.scores.total).toBe(62);
+    expect(result.annotations.length).toBe(3);
+  });
+
+  it('HTTP 500 + 原生 error 体 → ESSAY_LLM_UPSTREAM_ERROR, 且错误信息含状态码与上游提示', async () => {
+    globalThis.fetch.mockResolvedValueOnce(mockFetchResponse({
+      ok: false,
+      status: 500,
+      body: { error: { code: 'InternalError', message: 'DashScope 5xx' } },
+    }));
+
+    try {
+      await run();
+      throw new Error('should have thrown');
+    } catch (err) {
+      expect(err).toBeInstanceOf(EssayError);
+      expect(err.code).toBe(ErrorCode.ESSAY_LLM_UPSTREAM_ERROR);
+      expect(err.statusCode).toBe(503);
+      // 可诊断: 不能只剩 "网关调用失败"
+      expect(err.message).toContain('HTTP 500');
+      expect(err.message).toContain('DashScope 5xx');
+      expect(err.details.status).toBe(500);
+      expect(err.details.body_keys).toEqual(['error']);
+    }
+  });
+
+  it('HTTP 200 但无正文 → ESSAY_LLM_UPSTREAM_ERROR, 且错误信息含顶层键 (可定位契约漂移)', async () => {
+    globalThis.fetch.mockResolvedValueOnce(mockFetchResponse({
+      body: { model: 'qwen-plus', id: 'x', choices: [], created: 1, object: 'chat.completion', usage: {} },
+    }));
+
+    try {
+      await run();
+      throw new Error('should have thrown');
+    } catch (err) {
+      expect(err).toBeInstanceOf(EssayError);
+      expect(err.code).toBe(ErrorCode.ESSAY_LLM_UPSTREAM_ERROR);
+      expect(err.message).toContain('HTTP 200');
+      expect(err.message).toContain('choices');   // 顶层键清单进错误信息
+      expect(err.details.body_excerpt).toBeTruthy();
+    }
+  });
+});

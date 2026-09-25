@@ -462,6 +462,52 @@ async function buildGradePrompt({ transcript, essay_title, subject, exam_level, 
 // LLM 调用 (复用 /api/proxy, 文本模型)
 // ────────────────────────────────────────────────────────────────────────────
 
+/**
+ * 从 /api/proxy 的响应体里取模型正文。
+ *
+ * 真实形状 (2026-09-25 实测): api/handlers/proxy.js:138 `res.status(...).json(data)`
+ * 直接透传上游原生 OpenAI 兼容响应:
+ *   { model, id, choices:[{ message:{ content } }], created, object, usage }
+ * —— 顶层**没有** success / data 包装。旧判据 `!body.success` 因此恒为真,
+ *    Stage B 自接入 analyze 后每次必抛 (此前该服务一直休眠, 从未被真调过)。
+ *
+ * 兼容旧 envelope { success:true, data:{ choices | content } }: 历史单测与
+ * 将来网关若再加包 envelope 时仍可解析。
+ *
+ * @param {any} body
+ * @returns {string|null}
+ */
+function extractProxyContent(body) {
+  const candidates = [
+    body?.choices?.[0]?.message?.content,
+    body?.data?.choices?.[0]?.message?.content,
+    body?.data?.content,
+    typeof body?.data === 'string' ? body.data : null,
+  ];
+  for (const c of candidates) {
+    if (typeof c === 'string' && c.trim()) return c;
+  }
+  return null;
+}
+
+/**
+ * 把网关响应体压成可诊断的片段 (只进日志, 不进响应体 —— 第 11 段)。
+ * @param {any} body
+ * @returns {{keys: string[], excerpt: string}}
+ */
+function describeProxyBody(body) {
+  const keys = body && typeof body === 'object' && !Array.isArray(body)
+    ? Object.keys(body).slice(0, 12)
+    : [];
+  let excerpt = '';
+  try {
+    excerpt = String(JSON.stringify(body) ?? '').slice(0, 200);
+  } catch (_) {
+    excerpt = '[unserializable]';
+  }
+  return { keys, excerpt };
+}
+
 async function callLLMText({ messages, authHeader, task_type = 'essay_grade' }) {
   const url = `${SELF_BASE_URL}/api/proxy`;
   const model = 'qwen-plus';
@@ -510,25 +556,37 @@ async function callLLMText({ messages, authHeader, task_type = 'essay_grade' }) 
     );
   }
 
-  if (!resp.ok || !body.success) {
-    const msg = body.message || body.error?.message || `HTTP ${resp.status}`;
+  // 2026-09-25: 判据只看 HTTP 状态 —— /api/proxy 透传原生响应, 没有 success 字段
+  // (旧判据 !body.success 恒为真 → Stage B 必定误判为失败, 且 HTTP 200 时丢掉
+  //  全部上游信息, 只剩 "HTTP 200", 无法定位)。
+  if (!resp.ok) {
+    const { keys, excerpt } = describeProxyBody(body);
+    const msg = body?.error?.message || body?.message || '(响应体无 message)';
+    logger.error('[essay.grade] LLM 网关返回错误状态', {
+      error: { status: resp.status, body_keys: keys, body_excerpt: excerpt, upstream_message: msg },
+      task_type,
+      model,
+    });
     throw new EssayError(
       resp.status >= 500 ? ErrorCode.ESSAY_LLM_UPSTREAM_ERROR : ErrorCode.INTERNAL_ERROR,
-      `LLM 网关调用失败: ${msg}`,
-      { status: resp.status, task_type, model }
+      `LLM 网关调用失败: HTTP ${resp.status}; 上游提示=${msg}; 顶层键=[${keys.join(',')}]`,
+      { status: resp.status, task_type, model, body_keys: keys, body_excerpt: excerpt }
     );
   }
 
-  const content =
-    body.data?.choices?.[0]?.message?.content ||
-    body.data?.content ||
-    (typeof body.data === 'string' ? body.data : null);
+  const content = extractProxyContent(body);
 
   if (!content) {
+    const { keys, excerpt } = describeProxyBody(body);
+    logger.error('[essay.grade] LLM 网关响应无可用正文', {
+      error: { status: resp.status, body_keys: keys, body_excerpt: excerpt },
+      task_type,
+      model,
+    });
     throw new EssayError(
-      ErrorCode.ESSAY_GRADE_PARSE_FAILED,
-      'LLM 返回内容为空',
-      { raw_excerpt: JSON.stringify(body.data).slice(0, 500) }
+      ErrorCode.ESSAY_LLM_UPSTREAM_ERROR,
+      `LLM 网关响应缺少正文: HTTP ${resp.status}; 顶层键=[${keys.join(',')}]; 片段=${excerpt}`,
+      { status: resp.status, task_type, model, body_keys: keys, body_excerpt: excerpt }
     );
   }
 
