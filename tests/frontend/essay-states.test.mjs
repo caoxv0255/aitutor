@@ -120,6 +120,26 @@ check('批注条数', doc.querySelectorAll('#note-list .note-item').length, 2);
 check('批注含引文', /第一段原句/.test(doc.getElementById('note-list').textContent), true);
 check('报告编号显示', /r-1/.test(doc.getElementById('result-sub').textContent), true);
 
+// 6b. 批次2 新键 (revised_text/severity/knowledge_points/bbox) 存在时渲染不受影响
+window.AIAPI.gradeEssay = () => Promise.resolve({
+  data: {
+    scores: { 内容: 18 },
+    summary: '扩展字段兼容',
+    annotations: [
+      { type: 'highlight', quote: '扩展句', comment: '扩展点评', revised_text: '改写后', severity: 'minor', knowledge_points: ['修辞'], bbox: { x: 1, y: 2, w: 3, h: 4 } },
+    ],
+    meta: {},
+  },
+  reportId: 'r-ext',
+});
+E.setFiles([{ size: 100 }]);
+await E.grade();
+await tick(20);
+check('新键不破坏批注条数', doc.querySelectorAll('#note-list .note-item').length, 1);
+check('新键仍渲染 quote', /扩展句/.test(doc.getElementById('note-list').textContent), true);
+check('新键仍渲染 comment', /扩展点评/.test(doc.getElementById('note-list').textContent), true);
+check('新键仍渲染 type 标签', /highlight/.test(doc.getElementById('note-list').textContent), true);
+
 // 7. 分项/批注缺失时不崩
 window.AIAPI.gradeEssay = () => Promise.resolve({ data: {}, reportId: null });
 await E.grade();

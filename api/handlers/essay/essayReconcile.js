@@ -318,7 +318,7 @@ export function resolveOverlaps(resolved) {
  *   6. 计算 anchor_metrics
  *
  * @param {Array<{paragraph_index:number, lines:Array}>} paragraphs  来自转录阶段
- * @param {Array<{id?:string, type:string, anchor:{paragraph_index:number, quote:string, line_no?:number}, comment:string}>} annotations
+ * @param {Array<{id?:string, type:string, anchor:{paragraph_index:number, quote:string, line_no?:number}, comment:string, revised_text?:string, severity?:string, knowledge_points?:string[], bbox?:{x:number,y:number,w:number,h:number}}>} annotations
  * @returns {{ resolved: Array, metrics: { raw_count, anchor_success_count, anchor_rate, final_valid_count } }}
  */
 export function reconcile(paragraphs, annotations) {
@@ -352,6 +352,7 @@ export function reconcile(paragraphs, annotations) {
         type: ann.type,
         comment: ann.comment || '',
         line_no: lineNo,
+        ...pickExtensionKeys(ann),
         anchor_failed: true,
         failure_reason: 'quote_too_short',
       });
@@ -371,6 +372,7 @@ export function reconcile(paragraphs, annotations) {
         type: ann.type,
         comment: ann.comment || '',
         line_no: lineNo,
+        ...pickExtensionKeys(ann),
         anchor_failed: true,
         failure_reason: 'paragraph_index_out_of_range',
       });
@@ -393,6 +395,7 @@ export function reconcile(paragraphs, annotations) {
         type: ann.type,
         comment: ann.comment || '',
         line_no: lineNo,
+        ...pickExtensionKeys(ann),
         anchor_failed: false,
       });
     } else {
@@ -407,6 +410,7 @@ export function reconcile(paragraphs, annotations) {
         type: ann.type,
         comment: ann.comment || '',
         line_no: lineNo,
+        ...pickExtensionKeys(ann),
         anchor_failed: true,
         failure_reason: 'quote_not_found',
       });
@@ -464,6 +468,33 @@ export function newReportId() {
 
 /** 旧契约去重优先级: clue > analysis > solution (数值越小越优先) */
 const LEGACY_TYPE_PRIORITY = Object.freeze({ clue: 0, analysis: 1, solution: 2 });
+
+// ────────────────────────────────────────────────────────────────────────────
+// 批次 2 (2026-09-25): annotations 契约扩展键透传
+//
+// reconcile() 会重建 resolved 对象, 若不做处理会丢掉新键。这里只复制**存在**
+// 的扩展键 (revised_text / severity / knowledge_points / bbox), 因此:
+//   - 老模型/老数据没有这些键时, 输出与旧版**逐字节一致**;
+//   - 新契约有这些键时, 原样带到 resolved[] 与前端。
+// 注意: bbox(图片坐标) 与 anchor.quote(文本锚定) 是两套独立信息, 此处只做搬运,
+//       不改动 anchor 的既有语义。
+// ────────────────────────────────────────────────────────────────────────────
+
+const EXT_KEYS = Object.freeze(['revised_text', 'severity', 'knowledge_points', 'bbox']);
+
+/**
+ * 复制存在的扩展键. 不做校验/兜底 (校验在 gradeService 的 Zod 层完成)。
+ * @param {object} ann
+ * @returns {object}
+ */
+export function pickExtensionKeys(ann) {
+  const out = {};
+  if (!ann || typeof ann !== 'object') return out;
+  for (const k of EXT_KEYS) {
+    if (ann[k] !== undefined) out[k] = ann[k];
+  }
+  return out;
+}
 
 /**
  * 把 { clue, solution, analysis } 摊平成带 type 的数组.

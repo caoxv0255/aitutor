@@ -31,7 +31,7 @@ import { saveImageFromBase64 } from '../upload/imageHandler.js';
 import { maasVisionChatCompletion } from '../../../services/llm.js';
 
 const DEFAULT_ESSAY_TITLE = '未命名';
-const PROMPT_VERSION = '3.0.0'; // 与 prompts/grade.v1.txt 的 prompt_version 对齐
+const PROMPT_VERSION = '3.1.0'; // 与 prompts/grade.v1.txt 的 prompt_version 对齐 (批次 2 扩展)
 
 // ────────────────────────────────────────────────────────────────────────────
 // 入参 Schema

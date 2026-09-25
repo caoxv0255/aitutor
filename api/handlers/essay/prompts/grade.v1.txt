@@ -19,6 +19,14 @@
 - "advanced_vocab"   : 高级词汇 (超出{{GRADE}}水平的表达, 值得学习)
 - "logic_issue"      : 逻辑/结构问题 (论证跳跃、前后矛盾、详略不当)
 
+[change_type 映射说明 — 不新增 change_type 字段, 一律用上面的 type 表达]
+常见的修改类型 (none/grammar/word_choice/structure/logic/punctuation) 请落到 type:
+- none            → 不产出批注 (除非是 highlight / masterstroke 表扬)
+- grammar         → grammar_error
+- punctuation     → grammar_error
+- word_choice     → 用词精彩/超出学段用 advanced_vocab; 用词不当/搭配错误用 grammar_error
+- structure/logic → logic_issue
+
 [输出 JSON 结构 — 不要包含任何 markdown 标记]
 {
   "annotations": [
@@ -30,7 +38,11 @@
         "quote": "原文子串, 必须在对应段落的文本中精确存在",
         "line_no": 1                           // 可选, 但建议提供
       },
-      "comment": "1-2 句中文点评"
+      "comment": "1-2 句中文点评",
+      "revised_text": "修改后的文本; 无需修改 (纯表扬) 时填空字符串 \"\"",
+      "severity": "minor" | "moderate" | "major",
+      "knowledge_points": ["涉及的知识点1", "知识点2"],
+      "bbox": { "x": 0-1000, "y": 0-1000, "w": 0-1000, "h": 0-1000 }
     }
   ],
   "scores": {
@@ -50,9 +62,20 @@
       "anchor_rate": 0.0-1.0,
       "final_valid_count": 你自己估计的有效数
     },
-    "prompt_version": "3.0.0"
+    "prompt_version": "3.1.0"
   }
 }
+
+[批次 2 扩展字段说明 — revised_text / severity / knowledge_points / bbox]
+- revised_text: 你建议的修改后文本; 若该处无需修改 (纯表扬) 填空字符串 ""
+- severity: 问题严重程度, 严格取 minor | moderate | major 之一
+- knowledge_points: 该批注对应的知识点数组 (可空数组 [])
+- bbox: 该片段在**图片中**的位置, 0-1000 归一化图片坐标:
+    {"x": 左上角横坐标, "y": 左上角纵坐标, "w": 宽, "h": 高}, 四项均为 0-1000 整数,
+    且必须满足 x+w<=1000、y+h<=1000。
+  bbox 与 anchor.quote **并存**: anchor.quote 负责**文本锚定**(段落内字符偏移),
+    bbox 只负责**图片坐标**。bbox 是近似区域, 请给出大致框住该 quote 的矩形;
+    若确实无法判断, 可省略 bbox 字段。
 
 [类型覆盖强制要求]
 - 必须至少 1 条 highlight
@@ -83,5 +106,7 @@
 □ 每条 annotation 的 anchor.quote 都能在对应段落文本中找到
 □ scores.total 严格 = content+language+structure+development
 □ type 取值严格在 5 个枚举内
+□ severity 取值严格在 minor/moderate/major 内
+□ bbox 各项均为 0-1000 整数, 且 x+w<=1000、y+h<=1000
 □ 总评 comment ≥ 3 句
 □ paragraph_index 严格对应 [段落 X] 编号

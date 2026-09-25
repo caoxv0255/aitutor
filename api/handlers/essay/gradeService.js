@@ -91,13 +91,79 @@ const AnchorSchema = z.object({
   line_no: z.number().int().nonnegative().optional(),
 });
 
-const AnnotationSchema = z.object({
+// ────────────────────────────────────────────────────────────────────────────
+// 批次 2 (2026-09-25): annotations 契约扩展 —— 4 个**向后兼容**的新键
+//
+//   revised_text / severity / knowledge_points / bbox
+//
+//   - 全部 optional: 缺失不报错 → 批次 1 已上线行为与老数据完全不变。
+//   - bbox 与 anchor.quote **共存**: quote 继续做**文本锚定**(段内字符偏移),
+//     bbox 专放**图片坐标**(0-1000 归一化)。anchor 的既有语义一个字节都不改。
+//   - severity 取值限定 minor/moderate/major 三枚举。
+//   - change_type 不新增键: 沿用现有 `type` 的 5 枚举体系 (映射见 prompt)。
+// ────────────────────────────────────────────────────────────────────────────
+
+/** bbox: 0-1000 归一化图片坐标, x/y 左上角, w/h 宽高 */
+export const BboxSchema = z
+  .object({
+    x: z.number().int().min(0).max(1000),
+    y: z.number().int().min(0).max(1000),
+    w: z.number().int().min(0).max(1000),
+    h: z.number().int().min(0).max(1000),
+  })
+  .refine((b) => b.x + b.w <= 1000 && b.y + b.h <= 1000, {
+    message: 'bbox 越界: 必须满足 x+w<=1000 且 y+h<=1000',
+  });
+
+export const SeveritySchema = z.enum(['minor', 'moderate', 'major']);
+
+export const KnowledgePointsSchema = z.array(z.string().min(1).max(50)).max(20);
+
+export const AnnotationSchema = z.object({
   id: z.string().optional(),
   type: AnnotationTypeSchema,
   anchor: AnchorSchema,
   comment: z.string().min(2, 'comment 至少 2 字符').max(500, 'comment 过长'),
   anchor_failed: z.boolean().optional(),
+  // 批次 2 扩展键 —— 一律 optional, 不做 default (缺失时输出不含该键, 保证增量语义)
+  revised_text: z.string().max(2000).optional(),
+  severity: SeveritySchema.optional(),
+  knowledge_points: KnowledgePointsSchema.optional(),
+  bbox: BboxSchema.optional(),
 });
+
+/**
+ * 批次 2 容错: 4 个扩展键都是**可选增强**, 单个键非法不应拖垮整篇批改。
+ * 在进入 GradeOutputSchema 强校验前, 把非法/越界的扩展键剔除 (dropped),
+ * 这样合法键照常落地, 非法键静默降级为"无"。
+ *
+ * 注意: 这不等于放宽校验 —— 非法值绝不会进入最终输出; 且 BboxSchema /
+ * SeveritySchema 本身仍是严格 Schema (单测直接断言其拒绝行为)。
+ *
+ * @param {object} parsed LLM 原始 JSON
+ * @returns {object} 就地清理后的对象
+ */
+export function sanitizeExtensionFields(parsed) {
+  if (!parsed || !Array.isArray(parsed.annotations)) return parsed;
+  for (const a of parsed.annotations) {
+    if (!a || typeof a !== 'object') continue;
+    if (a.bbox !== undefined && !BboxSchema.safeParse(a.bbox).success) {
+      logger.warn('[essay.grade] 丢弃非法 bbox (越界/格式错误)', { bbox: a.bbox });
+      delete a.bbox;
+    }
+    if (a.severity !== undefined && !SeveritySchema.safeParse(a.severity).success) {
+      logger.warn('[essay.grade] 丢弃非法 severity (枚举越界)', { severity: a.severity });
+      delete a.severity;
+    }
+    if (a.revised_text !== undefined && typeof a.revised_text !== 'string') {
+      delete a.revised_text;
+    }
+    if (a.knowledge_points !== undefined && !KnowledgePointsSchema.safeParse(a.knowledge_points).success) {
+      delete a.knowledge_points;
+    }
+  }
+  return parsed;
+}
 
 const ScoresSchema = z
   .object({
@@ -192,7 +258,11 @@ const GRADE_PROMPT_TEMPLATE = `你是一位拥有 20 年教学经验的{{SUBJECT
         "quote": "原文子串, 必须在对应段落的文本中精确存在",
         "line_no": 1                           // 可选, 但建议提供
       },
-      "comment": "1-2 句中文点评"
+      "comment": "1-2 句中文点评",
+      "revised_text": "修改后的文本 (无需修改时填空字符串)",
+      "severity": "minor" | "moderate" | "major",
+      "knowledge_points": ["涉及的知识点"],
+      "bbox": { "x": 0-1000, "y": 0-1000, "w": 0-1000, "h": 0-1000 }
     }
   ],
   "scores": {
@@ -212,9 +282,28 @@ const GRADE_PROMPT_TEMPLATE = `你是一位拥有 20 年教学经验的{{SUBJECT
       "anchor_rate": 0.0-1.0,
       "final_valid_count": 你自己估计的有效数
     },
-    "prompt_version": "3.0.0"
+    "prompt_version": "3.1.0"
   }
 }
+
+[批次 2 扩展字段说明 — revised_text / severity / knowledge_points / bbox]
+- revised_text: 你建议的修改后文本; 若该处无需修改 (纯表扬) 填空字符串 ""
+- severity: 问题严重程度, 严格取 minor | moderate | major 之一
+- knowledge_points: 该批注对应的知识点数组 (可空数组 [])
+- bbox: 该片段在**图片中**的位置, 0-1000 归一化图片坐标:
+    {"x": 左上角横坐标, "y": 左上角纵坐标, "w": 宽, "h": 高}, 四项均为 0-1000 整数,
+    且必须满足 x+w<=1000、y+h<=1000。bbox 与 anchor.quote 并存:
+    anchor.quote 负责**文本锚定**(段落内字符偏移), bbox 只负责**图片坐标**。
+    bbox 是近似区域, 请给出大致框住该 quote 的矩形; 若确实无法判断, 可省略 bbox 字段。
+
+[change_type 映射说明 — 不新增 change_type 字段, 一律用 type 表达]
+提示词常见的修改类型 (none/grammar/word_choice/structure/logic/punctuation) 请落到上面的 type:
+- none            → 不产出批注 (除非是 highlight / masterstroke 表扬)
+- grammar         → grammar_error
+- punctuation     → grammar_error
+- word_choice     → 用词精彩/超出学段用 advanced_vocab; 用词不当/搭配错误用 grammar_error
+- structure/logic → logic_issue
+不要输出独立的 change_type 字段。
 
 [类型覆盖强制要求]
 - 必须至少 1 条 highlight
@@ -245,6 +334,8 @@ const GRADE_PROMPT_TEMPLATE = `你是一位拥有 20 年教学经验的{{SUBJECT
 □ 每条 annotation 的 anchor.quote 都能在对应段落文本中找到
 □ scores.total 严格 = content+language+structure+development
 □ type 取值严格在 5 个枚举内
+□ severity 取值严格在 minor/moderate/major 内
+□ bbox 各项均为 0-1000 整数, 且 x+w<=1000、y+h<=1000
 □ 总评 comment ≥ 3 句
 □ paragraph_index 严格对应 [段落 X] 编号`;
 
@@ -576,7 +667,9 @@ export async function gradeEssay({
   }
 
   // ─── 6. Zod 强校验 ───
-  const zodResult = GradeOutputSchema.safeParse(parsed);
+  // 批次 2: 先剔除非法/越界的扩展键 (可选增强不应拖垮整篇批改),
+  //         再走与批次 1 完全相同的强校验。
+  const zodResult = GradeOutputSchema.safeParse(sanitizeExtensionFields(parsed));
   if (!zodResult.success) {
     logger.error('[essay.grade] Zod 校验失败', {
       issues: zodResult.error.issues,
