@@ -18,6 +18,7 @@ import express from 'express';
 
 const mocks = vi.hoisted(() => ({
   insertEssayReport: vi.fn(),
+  getEssayReport: vi.fn(),
   gradeEssay: vi.fn(),
   maasVisionChatCompletion: vi.fn(),
   saveImageFromBase64: vi.fn(),
@@ -25,6 +26,7 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock('../../api/handlers/essay/essayStorage.js', () => ({
   insertEssayReport: mocks.insertEssayReport,
+  getEssayReport: mocks.getEssayReport,
 }));
 vi.mock('../../api/handlers/essay/gradeService.js', () => ({
   gradeEssay: mocks.gradeEssay,
@@ -39,7 +41,7 @@ vi.mock('../../api/core/logger.js', () => ({
   logger: { info() {}, warn() {}, error() {}, debug() {} },
 }));
 
-import { analyzeEssay } from '../../api/handlers/essay/analyzeService.js';
+import { analyzeEssay, mapGradedToMeta, buildReportMeta } from '../../api/handlers/essay/analyzeService.js';
 import essayReviewRouter from '../../api/routes/essay-review.js';
 import { EssayError } from '../../api/handlers/essay/errors.js';
 import { ErrorCode } from '../../api/utils/errorCodes.js';
@@ -113,6 +115,13 @@ describe('analyzeEssay()', () => {
     expect(mocks.insertEssayReport).toHaveBeenCalledWith(expect.objectContaining({
       report_id: 'er_test_1', status: 'completed', exam_level: 'zhongkao', grade: '初三',
     }));
+    // 落库 meta 必须带上 scores(对象, 对齐 V0) + summary(comment 映射, 对齐 V0)
+    const stored = mocks.insertEssayReport.mock.calls[0][0];
+    expect(stored.meta.scores).toEqual(GRADED.scores);
+    expect(stored.meta.scores.total).toBe(62);
+    expect(stored.meta.summary).toBe(GRADED.comment);
+    expect(stored.meta.image_url).toBe('/uploads/essay/2026/09/abc.jpg');
+    expect(stored.meta.subject).toBe('chinese');
   });
 
   it('base64 会落盘取 URL (复用存储), 并把 base64 交给视觉通路', async () => {
@@ -167,6 +176,136 @@ describe('analyzeEssay()', () => {
       analyzeEssay({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'senior' }) })
     ).rejects.toMatchObject({ code: ErrorCode.ESSAY_LLM_UPSTREAM_ERROR });
     expect(mocks.gradeEssay).not.toHaveBeenCalled();
+  });
+});
+
+// ────────────────────────────────────────────────────────────────────────────
+// meta 映射 (增量兼容 V0 —— 缺口的直接回归)
+// ────────────────────────────────────────────────────────────────────────────
+
+describe('mapGradedToMeta()', () => {
+  it('scores(对象) → meta.scores; comment → meta.summary (键名对齐 V0)', () => {
+    const meta = mapGradedToMeta({
+      scores: { content: 17, language: 16, structure: 15, development: 14, total: 62 },
+      comment: '立意清晰, 结构完整。',
+    });
+    expect(meta.scores).toEqual({ content: 17, language: 16, structure: 15, development: 14, total: 62 });
+    expect(meta.scores.total).toBe(62);
+    expect(meta.summary).toBe('立意清晰, 结构完整。');
+    expect(Object.keys(meta).sort()).toEqual(['scores', 'summary']); // 不夹带其它键
+  });
+
+  it('模型未给 scores / comment → 不写占位 (空对象)', () => {
+    expect(mapGradedToMeta({})).toEqual({});
+    expect(mapGradedToMeta({ scores: null, comment: null })).toEqual({});
+    expect(mapGradedToMeta({ scores: undefined, comment: undefined })).toEqual({});
+  });
+
+  it('comment 为空白字符串 → 不写 summary (不造占位总评)', () => {
+    const meta = mapGradedToMeta({ scores: { total: 0 }, comment: '   ' });
+    expect(meta.summary).toBeUndefined();
+    expect('summary' in meta).toBe(false);
+  });
+
+  it('非法 graded (null/非对象 scores) → 安全降级', () => {
+    expect(mapGradedToMeta(null)).toEqual({});
+    expect(mapGradedToMeta({ scores: 'not-an-object', comment: 'hi' })).toEqual({ summary: 'hi' });
+  });
+});
+
+describe('buildReportMeta()', () => {
+  it('保留 Stage B meta, 并叠加 V0 兼容 scores/summary + image/subject/prompt_version', () => {
+    const meta = buildReportMeta(
+      {
+        scores: { content: 17, language: 16, structure: 15, development: 14, total: 62 },
+        comment: '总评。',
+        meta: { model: 'qwen-plus', anchor_metrics: { raw_count: 1, anchor_success_count: 1, anchor_rate: 1, final_valid_count: 1 } },
+      },
+      { imageUrl: '/uploads/essay/a.jpg', subject: 'chinese' }
+    );
+    expect(meta.scores.total).toBe(62);
+    expect(meta.summary).toBe('总评。');
+    expect(meta.model).toBe('qwen-plus');
+    expect(meta.anchor_metrics.anchor_rate).toBe(1);
+    expect(meta.image_url).toBe('/uploads/essay/a.jpg');
+    expect(meta.subject).toBe('chinese');
+    expect(meta.prompt_version).toBe('3.1.0');
+  });
+
+  it('模型未给字段时 meta 不含 scores/summary (保持缺失)', () => {
+    const meta = buildReportMeta({ meta: { model: 'qwen-plus' } }, { imageUrl: null, subject: 'english' });
+    expect('scores' in meta).toBe(false);
+    expect('summary' in meta).toBe(false);
+    expect(meta.image_url).toBeNull();
+  });
+});
+
+// ────────────────────────────────────────────────────────────────────────────
+// 缺口回归: 落库 meta 经报告端点回读后, 总分/总评都能取到 (形状验证)
+// ────────────────────────────────────────────────────────────────────────────
+describe('essay report 回读总分/总评 (mock 存储, 形状验证)', () => {
+  let server;
+  let base;
+
+  beforeEach(async () => {
+    process.env.DEV_AUTH_BYPASS = '1';
+    const app = express();
+    app.use(express.json({ limit: '10mb' }));
+    app.use('/api/essay', essayReviewRouter);
+    server = http.createServer(app);
+    await new Promise((r) => server.listen(0, r));
+    base = `http://127.0.0.1:${server.address().port}`;
+  });
+
+  afterEach(async () => {
+    await new Promise((r) => server.close(r));
+  });
+
+  it('报告行 meta 含 scores.total + summary → 接口原样返回 (V0 与批次 3 同形状)', async () => {
+    mocks.getEssayReport.mockResolvedValue({
+      report_id: 'er_mapped_1',
+      user_email: 'smoke@example.com',
+      essay_title: '春天',
+      meta: {
+        image_url: '/uploads/essay/x.jpg',
+        subject: 'chinese',
+        scores: { content: 17, language: 16, structure: 15, development: 14, total: 62 },
+        summary: '总评文字。',
+      },
+      annotations: [],
+      transcript: { paragraphs: [] },
+    });
+
+    const r = await fetch(`${base}/api/essay/report/er_mapped_1`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer test-token' },
+    });
+    expect(r.status).toBe(200);
+    const body = await r.json();
+    // successJson: data = 行对象; 批次 3 resolveScore/resolveComment 与 V0 均从此取
+    expect(body.data.meta.scores.total).toBe(62);
+    expect(body.data.meta.summary).toBe('总评文字。');
+    expect(body.data.image_url).toBe('/uploads/essay/x.jpg');
+  });
+
+  it('老数据 meta 无 scores/summary → 接口照常返回, 键保持缺失 (供前端如实标注)', async () => {
+    mocks.getEssayReport.mockResolvedValue({
+      report_id: 'er_legacy_1',
+      user_email: 'smoke@example.com',
+      essay_title: '旧作文',
+      meta: { image_url: null },
+      annotations: [],
+      transcript: { paragraphs: [] },
+    });
+
+    const r = await fetch(`${base}/api/essay/report/er_legacy_1`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer test-token' },
+    });
+    expect(r.status).toBe(200);
+    const body = await r.json();
+    expect(body.data.meta.scores).toBeUndefined();
+    expect(body.data.meta.summary).toBeUndefined();
   });
 });
 

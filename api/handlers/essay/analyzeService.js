@@ -85,6 +85,54 @@ async function resolveImage(image, { email }) {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
+// Stage B 产出 → meta 映射 (增量兼容 V0)
+//
+// 缺口 (批次 3 发现): V0 (essayService.js) 落库时写 meta.scores(对象) + meta.summary
+// (字符串), 而 V1 的 graded.scores / graded.comment **没进 meta** → 新链路
+// POST /api/essay/report/:reviewId 只回 essay_reports 行, 故取不到总分/总评。
+//
+// 映射 (键名对齐 V0, 不改任何既有键):
+//   graded.scores  → meta.scores   同 V0: 对象 { content, language, structure,
+//                                    development, total } (含 total, 供总分)
+//   graded.comment → meta.summary  同 V0: 字符串 (V0 的总评键名就是 summary)
+//
+// 只在字段真实存在时写入: 模型未给 (或为空) 则不写该键, 保持缺失, 让前端继续
+// 如实标注「未包含」——**绝不造占位**。
+// ────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @param {object} graded Stage B (gradeService.gradeEssay) 的产出
+ * @returns {object} 仅含真实存在的 scores / summary (可能为 {})
+ */
+export function mapGradedToMeta(graded) {
+  const out = {};
+  if (graded && graded.scores && typeof graded.scores === 'object') {
+    out.scores = graded.scores;
+  }
+  if (graded && typeof graded.comment === 'string' && graded.comment.trim()) {
+    out.summary = graded.comment;
+  }
+  return out;
+}
+
+/**
+ * 组装落库用 meta (analyze 成功路径的唯一来源, 供落库与验证复用)。
+ * = Stage B meta + V0 兼容的 scores/summary + 图片/学科/prompt 元信息。
+ * @param {object} graded Stage B 产出
+ * @param {{imageUrl:string, subject:string}} extra
+ * @returns {object}
+ */
+export function buildReportMeta(graded, { imageUrl, subject }) {
+  return {
+    ...(graded && graded.meta),
+    ...mapGradedToMeta(graded),
+    image_url: imageUrl,
+    subject,
+    prompt_version: PROMPT_VERSION,
+  };
+}
+
+// ────────────────────────────────────────────────────────────────────────────
 // 主入口
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -210,12 +258,7 @@ export async function analyzeEssay({ req }) {
   }
 
   // ─── 5. 落库 (复用 essay_reports) ───
-  const meta = {
-    ...graded.meta,
-    image_url: imageUrl,
-    subject,
-    prompt_version: PROMPT_VERSION,
-  };
+  const meta = buildReportMeta(graded, { imageUrl, subject });
   try {
     await insertEssayReport({
       report_id: graded.report_id,
