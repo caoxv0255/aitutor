@@ -19,6 +19,8 @@ import { traceIdMiddleware } from './api/middleware/traceId.js';
 import { createSuccessResponse, createErrorResponse, ErrorCode } from './api/utils/errorCodes.js';
 import modulesRouter from './api/modules/index.js';
 import legacyCompatRouter from './api/legacy-compat.js';
+// 2026-09-25: 作文智能批改 (analyze/report/list) — 复用 V1.0 两阶段服务 + 私有 MaaS 视觉
+import essayReviewRouter from './api/routes/essay-review.js';
 
 import { getProvinces, getProvinceByCode, getProvinceStats } from './api/handlers/provinces.js';
 import { getClassDetail } from './api/handlers/class-analysis.js';
@@ -472,6 +474,11 @@ app.get('/api/class-detail', authMiddleware, wrapHandler(getClassDetail));
 // D086 §12 L4 · 作文批改（拍照 / 上传 → AI 4 维评分 + 锚定回原文）
 //   注: V1.0 两阶段管线 (/api/essay/transcribe + /api/essay/grade) 待 Phase 1 单测通过后注册.
 //   现存 D086 L4 端点保留 30 天 (D070 sunset).
+// 2026-09-25: 作文智能批改新入口 (POST /api/essay/analyze, POST /api/essay/report/:id,
+//   GET /api/essay/list) —— 复用 V1.0 服务 + 私有 MaaS 视觉。**必须挂在
+//   GET /api/essay/:id 之前**, 否则 /api/essay/list 会被 :id 路由当作 id 吃掉。
+//   用 app.use 追加挂载: 不增加 release-gate「直挂 endpoint ≤ 12」计数。
+app.use('/api/essay', essayReviewRouter);
 app.post ('/api/essay/grade', authMiddleware, essayLimiter, wrapHandler(gradeEssayHandler));
 app.get  ('/api/essay',         authMiddleware, wrapHandler(listEssaysHandler));
 app.get  ('/api/essay/:id',     authMiddleware, wrapHandler(getEssayHandler));

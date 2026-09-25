@@ -63,6 +63,14 @@ const errorJson = (res, errorCode, details = null) => {
     [ErrorCode.PROVINCE_NOT_FOUND]: 404,
     [ErrorCode.SUBJECT_NOT_FOUND]: 404,
     [ErrorCode.REPORT_NOT_FOUND]: 404,
+    // 2026-09-25: 作文批改 (analyze) 错误码 → HTTP 状态 (与 utils/errorCodes.js 的
+    //   ErrorMap.statusCode 对齐)。此前这些码只在 EssayError 内部用, 未走 errorJson,
+    //   新增映射不改变任何既有调用方的行为。
+    [ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED]: 422,
+    [ErrorCode.ESSAY_GRADE_PARSE_FAILED]: 422,
+    [ErrorCode.ESSAY_RUBRIC_NOT_FOUND]: 500,
+    [ErrorCode.ESSAY_LLM_TIMEOUT]: 504,
+    [ErrorCode.ESSAY_LLM_UPSTREAM_ERROR]: 503,
     [ErrorCode.DATABASE_ERROR]: 500,
     [ErrorCode.DATABASE_CONNECTION_FAILED]: 500,
     [ErrorCode.SERVICE_UNAVAILABLE]: 503,

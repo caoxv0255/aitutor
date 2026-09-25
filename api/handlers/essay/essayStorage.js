@@ -50,20 +50,24 @@ export async function getEssayReport(reportId) {
 }
 
 /**
- * 列出用户的报告（最近 20 条）
+ * 列出用户的报告 (最近 limit 条, 支持 offset 分页)
+ * @param {string} userEmail
+ * @param {number} [limit=20]
+ * @param {number} [offset=0]  2026-09-25: 分页用; 旧调用方不传 → 0, 行为不变
  */
-export async function listEssayReports(userEmail, limit = 20) {
+export async function listEssayReports(userEmail, limit = 20, offset = 0) {
   const pool = await getDb();
   const result = await pool.query(
     `SELECT report_id, essay_title, exam_level, grade, status,
             (meta->>'confidence')::numeric AS confidence,
             (meta->>'model') AS model,
+            (meta->>'image_url') AS image_url,
             created_at
        FROM essay_reports
        WHERE user_email = $1
        ORDER BY created_at DESC
-       LIMIT $2`,
-    [userEmail, limit]
+       LIMIT $2 OFFSET $3`,
+    [userEmail, limit, offset]
   );
   return result.rows;
 }

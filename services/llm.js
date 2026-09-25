@@ -31,6 +31,14 @@ const OLLAMA_ENDPOINT = ((process.env.OLLAMA_URL || '').replace(/\/$/, '') || 'h
 // - services/* 同层, 无循环依赖 (lazy import api/core/db.js)
 import { recordAiTraceAsync, generateTraceId } from './aiTrace.js';
 
+// 2026-09-25: 私有 MaaS 视觉通路需要读取 ~/.secrets 凭据 + 用 sharp 读图片尺寸
+// (校验 qwen3-vl 最小边约束)。sharp 已是本仓依赖 (api/handlers/upload/imageHandler.js
+// 在用), 此处不新增依赖。
+import { readFileSync } from 'node:fs';
+import { join as joinPath } from 'node:path';
+import { homedir } from 'node:os';
+import sharp from 'sharp';
+
 function buildEndpoint(baseUrl, path) {
   const normalizedBase = baseUrl.replace(/\/$/, '');
   return `${normalizedBase}${path}`;
@@ -643,6 +651,220 @@ export async function visionChatCompletion(systemPrompt, userText, imageBase64, 
   }
 }
 
+// ────────────────────────────────────────────────────────────────────────────
+// 私有 MaaS 视觉通路 (2026-09-25) — provider 分支: 'maas' / qwen3-vl
+//
+// 为什么新增 (实测结论, 不是推测):
+//   - MiniMax-M2.7 + image_url → HTTP 200 但**静默丢图**; MiniMax 全族无 VL 模型.
+//   - DashScope qwen-vl-* (现有 visionCallModel 唯一通路) 实测 400 欠费.
+//   - 阿里私有 MaaS (OpenAI 兼容) 的 qwen3-vl-flash 同格式 200 且答对看图题.
+//
+// 凭据 (只读取; 绝不写进日志 / 响应体):
+//   env ALIYUN_MAAS_BASE_URL / ALIYUN_MAAS_API_KEY 优先 (便于轮换);
+//   否则读 ~/.secrets/aliyun_maas_base 与 ~/.secrets/aliyun_maas_key.
+//
+// 约束: qwen3-vl 要求图片**最小边 > 10px**, 否则上游 400 (8×8 实测被拒).
+//   本模块在能拿到图片字节 (base64) 时前置拦截并抛出可读错误; 传 URL 时无法
+//   在不额外拉取的前提下量尺寸, 交由上游兜底 —— 该局限已在注释中写明.
+// ────────────────────────────────────────────────────────────────────────────
+
+const MAAS_DEFAULT_MODEL = 'qwen3-vl-flash';
+const MAAS_SECRETS_DIR = joinPath(homedir(), '.secrets');
+const MAAS_MIN_IMAGE_EDGE = 10; // px, 严格大于该值
+const MAAS_MAX_IMAGE_EDGE = 8000; // px, 与 imageHandler 上限一致
+
+/** 读取一个凭据: env 优先, 其次 ~/.secrets/<name>. 返回 trim 后的字符串或 null. */
+function readCredential(name, envName) {
+  const fromEnv = process.env[envName];
+  if (fromEnv && String(fromEnv).trim()) return String(fromEnv).trim();
+  try {
+    const raw = readFileSync(joinPath(MAAS_SECRETS_DIR, name), 'utf-8').trim();
+    return raw || null;
+  } catch (_) {
+    return null; // 文件缺失/不可读 → 视为未配置
+  }
+}
+
+/**
+ * 解析当前生效的私有 MaaS 配置. 不缓存 —— 便于测试改 env 后立即生效.
+ * @returns {{baseUrl: string|null, apiKey: string|null, configured: boolean}}
+ */
+export function resolveMaasConfig() {
+  const baseUrl = readCredential('aliyun_maas_base', 'ALIYUN_MAAS_BASE_URL');
+  const apiKey = readCredential('aliyun_maas_key', 'ALIYUN_MAAS_API_KEY');
+  return { baseUrl, apiKey, configured: Boolean(baseUrl && apiKey) };
+}
+
+/** 去掉可能存在的 `data:image/...;base64,` 前缀 */
+function stripDataUrlPrefix(input) {
+  return String(input).replace(/^data:image\/[\w.+-]+;base64,/i, '');
+}
+
+/**
+ * 前置校验图片尺寸 (仅在有字节时可用). 违反最小边约束时抛出可读错误,
+ * 避免上游返回含糊的 400。
+ */
+async function assertImageEdges(buffer) {
+  let meta;
+  try {
+    meta = await sharp(buffer).metadata();
+  } catch (e) {
+    throw new Error(`无法解码图片: ${e.message}`);
+  }
+  const w = meta.width || 0;
+  const h = meta.height || 0;
+  if (w === 0 || h === 0) {
+    throw new Error('图片尺寸不可读 (宽或高为 0)');
+  }
+  const minEdge = Math.min(w, h);
+  if (minEdge <= MAAS_MIN_IMAGE_EDGE) {
+    throw new Error(
+      `图片最小边 ${minEdge}px 必须大于 ${MAAS_MIN_IMAGE_EDGE}px (qwen3-vl 约束, 当前 ${w}x${h})`
+    );
+  }
+  if (w > MAAS_MAX_IMAGE_EDGE || h > MAAS_MAX_IMAGE_EDGE) {
+    throw new Error(
+      `图片尺寸过大 ${w}x${h} (上限 ${MAAS_MAX_IMAGE_EDGE}x${MAAS_MAX_IMAGE_EDGE})`
+    );
+  }
+}
+
+/**
+ * 构造 OpenAI 兼容 content 数组: 文本 + 每张图一个 image_url 项.
+ * @param {string} userText
+ * @param {Array<{base64?:string, url?:string}>} images
+ * @returns {Promise<Array>}
+ */
+async function buildMaasContent(userText, images) {
+  const content = [];
+  if (userText) content.push({ type: 'text', text: userText });
+
+  for (const img of images || []) {
+    if (!img || typeof img !== 'object') continue;
+
+    if (typeof img.base64 === 'string' && img.base64.trim()) {
+      const buffer = Buffer.from(stripDataUrlPrefix(img.base64), 'base64');
+      if (buffer.length === 0) throw new Error('图片 base64 解码后为空');
+      await assertImageEdges(buffer); // 有字节 → 前置尺寸校验
+      content.push({ type: 'image_url', image_url: { url: `data:image/jpeg;base64,${buffer.toString('base64')}` } });
+    } else if (typeof img.url === 'string' && /^https?:\/\//i.test(img.url)) {
+      content.push({ type: 'image_url', image_url: { url: img.url } });
+    } else {
+      throw new Error('图片必须是 http(s) URL 或 base64 (data URL 亦可)');
+    }
+  }
+
+  if (!content.some((c) => c.type === 'image_url')) {
+    throw new Error('至少需要 1 张图片');
+  }
+  return content;
+}
+
+/**
+ * 私有 MaaS 视觉调用 (qwen3-vl). 不对现有 DashScope / MiniMax 路径做任何改动。
+ *
+ * @param {object} args
+ * @param {string} [args.systemText]  system 指令 (可为空)
+ * @param {string} [args.userText]    user 文本
+ * @param {Array<{base64?:string,url?:string}>} args.images
+ * @param {object} [args.options]     { model, temperature, max_tokens, jsonMode,
+ *                                      task_type, user_id, request_id }
+ * @returns {Promise<{content:string, usage:object, model:string, provider:string}>}
+ */
+export async function maasVisionChatCompletion({ systemText = '', userText = '', images = [], options = {} } = {}) {
+  const tStart = Date.now();
+  const {
+    model = MAAS_DEFAULT_MODEL,
+    temperature = 0.2,
+    max_tokens = 4000,
+    jsonMode = true,
+    task_type = options.feature || 'vision_maas',
+    user_id = 'system',
+  } = options;
+  const request_id = options.request_id || generateTraceId();
+
+  const { baseUrl, apiKey, configured } = resolveMaasConfig();
+  let errorMsg = null;
+  let usage = {};
+
+  try {
+    if (!configured) {
+      throw new Error(
+        '私有 MaaS 视觉通路未配置: 需 ALIYUN_MAAS_BASE_URL/ALIYUN_MAAS_API_KEY 或 ~/.secrets/aliyun_maas_{base,key}'
+      );
+    }
+
+    const content = await buildMaasContent(userText, images);
+    const messages = [];
+    if (systemText) messages.push({ role: 'system', content: systemText });
+    messages.push({ role: 'user', content });
+
+    const body = {
+      model,
+      messages,
+      temperature: Math.min(Math.max(temperature, 0), 2),
+      max_tokens: Math.min(Math.max(max_tokens, 100), 32000),
+    };
+    if (jsonMode) body.response_format = { type: 'json_object' };
+
+    const endpoint = `${baseUrl.replace(/\/$/, '')}/chat/completions`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS * 2);
+
+    let response;
+    let data;
+    try {
+      response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+      data = await response.json().catch(() => ({}));
+    } catch (e) {
+      if (e.name === 'AbortError') {
+        throw new Error(`私有 MaaS 视觉请求超时 (${REQUEST_TIMEOUT_MS * 2}ms)`);
+      }
+      throw e;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+
+    if (!response.ok) {
+      const errMsg = data.error?.message || data.message || `HTTP ${response.status}`;
+      throw new Error(`私有 MaaS 视觉 API 错误: ${errMsg}`);
+    }
+
+    const out = data.choices?.[0]?.message?.content;
+    if (!out) throw new Error('私有 MaaS 视觉返回内容为空');
+
+    usage = data.usage || {};
+    return { content: out, usage, model: data.model || model, provider: 'maas' };
+  } catch (err) {
+    errorMsg = err.message || String(err);
+    throw err;
+  } finally {
+    const cost = ((usage.total_tokens || 0) / 1_000_000) * 0; // 私有 MaaS 无公开单价, 记 0
+    recordAiTraceAsync({
+      request_id,
+      user_id,
+      session_id: options.session_id,
+      task_type,
+      provider: 'maas',
+      model,
+      prompt_tokens: usage.prompt_tokens || 0,
+      completion_tokens: usage.completion_tokens || 0,
+      latency_ms: Date.now() - tStart,
+      cost_cny: cost,
+      success: !errorMsg,
+      error_message: errorMsg,
+    });
+  }
+}
+
 export function getBudgetStats(feature = null) {
   resetDailyBudget();
   
@@ -686,6 +908,8 @@ export const llm = {
   chat: chatCompletion,
   streamChat: streamChatCompletion,
   visionChat: visionChatCompletion,
+  // 2026-09-25: 私有 MaaS (qwen3-vl) 视觉通路 — 与 visionChat 并列, 不改动后者
+  maasVision: maasVisionChatCompletion,
   getBudgetStats,
 };
 
@@ -702,11 +926,15 @@ export const MODELS = {
   MINIMAX_M27: 'MiniMax-M2.7',
   MINIMAX_M27_HS: 'MiniMax-M2.7-highspeed',
   MINIMAX_M2: 'MiniMax-M2',
+  // 私有 MaaS (2026-09-25 接入) — 仅供 llm.maasVision 使用, 不进 /api/proxy 白名单
+  MAAS_VL_FLASH: 'qwen3-vl-flash',
+  MAAS_VL_PLUS: 'qwen3-vl-plus',
 };
 
 export default {
   chat: chatCompletion,
   streamChat: streamChatCompletion,
   visionChat: visionChatCompletion,
+  maasVision: maasVisionChatCompletion,
   getBudgetStats,
 };

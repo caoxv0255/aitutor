@@ -344,6 +344,120 @@ You are not a teacher — do NOT evaluate, correct, or complete any text.
 - confidence: 1.0 = fully confident, 0.5 = half unclear`;
 
 // ────────────────────────────────────────────────────────────────────────────
+// 复用入口 (2026-09-25): 供 essay-review 路由的 analyze 复用同一套
+//   转录 prompt 与「解析 → Zod → 业务校验 → line_no 推断」逻辑,
+//   避免为新视觉通路另造第二套转录契约。
+// ────────────────────────────────────────────────────────────────────────────
+
+/**
+ * 返回指定学科的转录 prompt (Stage A 原样复用).
+ * @param {'chinese'|'english'} subject
+ * @returns {string}
+ */
+export function buildTranscribePrompt(subject) {
+  return subject === 'english' ? TRANSCRIBE_PROMPT_EN : TRANSCRIBE_PROMPT_CN;
+}
+
+/**
+ * 把原始 LLM content 解析并强校验为 TranscriptResult.
+ * 行为与原先 transcribeEssay 内联逻辑完全一致 (同一错误码/文案), 仅抽出以便复用。
+ *
+ * @param {string} rawContent
+ * @returns {{
+ *   transcript: {paragraphs:Array, confidence:number, uncertain_total:number},
+ *   request_token: string,
+ *   original_paragraph_count: number,
+ *   normalized_paragraph_count: number,
+ * }}
+ * @throws {EssayError}
+ */
+export function parseAndValidateTranscript(rawContent) {
+  const parsed = parseJsonFromLLM(rawContent);
+  if (!parsed) {
+    logger.error('[essay.transcribe] JSON 解析失败', {
+      content_excerpt: String(rawContent || '').slice(0, 500),
+    });
+    throw new EssayError(
+      ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED,
+      'AI 老师暂时无法理解这张作文图片 (JSON 解析失败), 请重新拍摄或换张图片',
+      { raw_excerpt: String(rawContent || '').slice(0, 500) }
+    );
+  }
+
+  const zodResult = TranscribeOutputSchema.safeParse(parsed);
+  if (!zodResult.success) {
+    logger.error('[essay.transcribe] Zod 校验失败', {
+      issues: zodResult.error.issues,
+      parsed_excerpt: JSON.stringify(parsed).slice(0, 500),
+    });
+    throw new EssayError(
+      ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED,
+      `AI 输出不符合转录 Schema: ${zodResult.error.issues[0]?.message}`,
+      { zod_issues: zodResult.error.issues }
+    );
+  }
+
+  const data = zodResult.data;
+
+  // 业务校验: paragraph_index 必须从 0 起连续 (前端锚点, 硬性约束)
+  for (let i = 0; i < data.paragraphs.length; i++) {
+    if (data.paragraphs[i].paragraph_index !== i) {
+      throw new EssayError(
+        ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED,
+        `paragraph_index 不连续: 期望 ${i}, 实际 ${data.paragraphs[i].paragraph_index}`,
+        { got: data.paragraphs[i].paragraph_index, expected: i }
+      );
+    }
+  }
+
+  // line_no 连续性: Patch 1 弱化, 仅 soft-warn
+  for (let i = 0; i < data.paragraphs.length; i++) {
+    const para = data.paragraphs[i];
+    const lineNos = para.lines.map((l) => l.line_no);
+    const hasAnyValid = lineNos.some((n) => n >= 0);
+    if (hasAnyValid) {
+      const sortedNos = [...lineNos].filter((n) => n >= 0).sort((a, b) => a - b);
+      const isContinuous = sortedNos.every((n, i) => n === i);
+      if (!isContinuous) {
+        logger.warn('[essay.transcribe] line_no 不连续, 将由 inferLineNumbers 修复', {
+          paragraph_index: i,
+          line_nos: lineNos,
+        });
+      }
+    } else {
+      logger.info('[essay.transcribe] line_no 全部缺失, 走 inferLineNumbers', {
+        paragraph_index: i,
+        line_count: para.lines.length,
+      });
+    }
+  }
+
+  const normalizedParagraphs = inferLineNumbers(data.paragraphs);
+
+  const uncertain_total = normalizedParagraphs.reduce(
+    (sum, p) => sum + p.lines.reduce((s, l) => s + (l.uncertain_chars?.length || 0), 0),
+    0
+  );
+
+  // request_token: 透传给 Stage B 做 idempotency, 防止双击导致重复批改
+  // 格式: tx_<ts36>_<rand8> (与 newReportId 同风格)
+  const ts = Date.now().toString(36);
+  const rand = Math.random().toString(36).slice(2, 10);
+  const request_token = `tx_${ts}_${rand}`;
+
+  return {
+    transcript: {
+      paragraphs: normalizedParagraphs,
+      confidence: data.confidence,
+      uncertain_total,
+    },
+    request_token,
+    original_paragraph_count: data.paragraphs.length,
+    normalized_paragraph_count: normalizedParagraphs.length,
+  };
+}
+
+// ────────────────────────────────────────────────────────────────────────────
 // 主函数: transcribeEssay
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -385,7 +499,7 @@ export async function transcribeEssay({ images, subject, req }) {
       null
     );
   }
-  const promptText = subject === 'english' ? TRANSCRIBE_PROMPT_EN : TRANSCRIBE_PROMPT_CN;
+  const promptText = buildTranscribePrompt(subject);
   const messages = [
     {
       role: 'user',
@@ -409,97 +523,23 @@ export async function transcribeEssay({ images, subject, req }) {
     );
   }
 
-  // ─── 4. 解析 JSON ───
-  const parsed = parseJsonFromLLM(content);
-  if (!parsed) {
-    logger.error('[essay.transcribe] JSON 解析失败', {
-      content_excerpt: content.slice(0, 500),
-    });
-    throw new EssayError(
-      ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED,
-      'AI 老师暂时无法理解这张作文图片 (JSON 解析失败), 请重新拍摄或换张图片',
-      { raw_excerpt: content.slice(0, 500) }
-    );
-  }
-
-  // ─── 5. Zod 强校验 ───
-  const zodResult = TranscribeOutputSchema.safeParse(parsed);
-  if (!zodResult.success) {
-    logger.error('[essay.transcribe] Zod 校验失败', {
-      issues: zodResult.error.issues,
-      parsed_excerpt: JSON.stringify(parsed).slice(0, 500),
-    });
-    throw new EssayError(
-      ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED,
-      `AI 输出不符合转录 Schema: ${zodResult.error.issues[0]?.message}`,
-      { zod_issues: zodResult.error.issues }
-    );
-  }
-
-  const data = zodResult.data;
-
-  // ─── 6. 业务校验 ───
-  // 6.1 paragraph_index 必须从 0 起连续 (前端锚点, 硬性约束)
-  for (let i = 0; i < data.paragraphs.length; i++) {
-    if (data.paragraphs[i].paragraph_index !== i) {
-      throw new EssayError(
-        ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED,
-        `paragraph_index 不连续: 期望 ${i}, 实际 ${data.paragraphs[i].paragraph_index}`,
-        { got: data.paragraphs[i].paragraph_index, expected: i }
-      );
-    }
-  }
-
-  // 6.2 line_no 连续性: Patch 1 弱化, 仅 soft-warn
-  for (let i = 0; i < data.paragraphs.length; i++) {
-    const para = data.paragraphs[i];
-    const lineNos = para.lines.map((l) => l.line_no);
-    const hasAnyValid = lineNos.some((n) => n >= 0);
-    if (hasAnyValid) {
-      const sortedNos = [...lineNos].filter((n) => n >= 0).sort((a, b) => a - b);
-      const isContinuous = sortedNos.every((n, i) => n === i);
-      if (!isContinuous) {
-        logger.warn('[essay.transcribe] line_no 不连续, 将由 inferLineNumbers 修复', {
-          paragraph_index: i,
-          line_nos: lineNos,
-        });
-      }
-    } else {
-      logger.info('[essay.transcribe] line_no 全部缺失, 走 inferLineNumbers', {
-        paragraph_index: i,
-        line_count: para.lines.length,
-      });
-    }
-  }
-
-  // ─── 7. Patch 1: 推断缺失/异常的 line_no ───
-  const normalizedParagraphs = inferLineNumbers(data.paragraphs);
-
-  // ─── 8. 重新计算 uncertain_total ───
-  const uncertain_total = normalizedParagraphs.reduce(
-    (sum, p) => sum + p.lines.reduce((s, l) => s + (l.uncertain_chars?.length || 0), 0),
-    0
-  );
+  // ─── 4-8. 解析 → Zod 强校验 → 业务校验 → line_no 推断 (抽到复用入口) ───
+  const {
+    transcript,
+    request_token,
+    original_paragraph_count,
+    normalized_paragraph_count,
+  } = parseAndValidateTranscript(content);
 
   // ─── 9. 组装返回 ───
-  // request_token: 透传给 Stage B 做 idempotency, 防止双击导致重复批改
-  // 格式: tx_<ts36>_<rand8> (与 newReportId 同风格)
-  const ts = Date.now().toString(36);
-  const rand = Math.random().toString(36).slice(2, 10);
-  const request_token = `tx_${ts}_${rand}`;
-
   return {
-    transcript: {
-      paragraphs: normalizedParagraphs,
-      confidence: data.confidence,
-      uncertain_total,
-    },
+    transcript,
     request_token,
     raw_metrics: {
       model: 'qwen-vl-max',
       task_type: 'essay_transcribe',
-      original_paragraph_count: data.paragraphs.length,
-      normalized_paragraph_count: normalizedParagraphs.length,
+      original_paragraph_count,
+      normalized_paragraph_count,
     },
   };
 }
