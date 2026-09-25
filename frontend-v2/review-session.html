@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="/assets/v2/css/fonts.css">
   <link rel="stylesheet" href="/assets/v2/css/system.css">
   <link rel="stylesheet" href="/assets/v2/css/app.css">
+  <!-- KaTeX（MIT）自托管；题库题面 ⟦F⟧ token 缺渲染图时用 latex 兜底 -->
+  <link rel="stylesheet" href="/assets/v2/vendor/katex/katex.min.css">
 </head>
 <body>
   <nav class="nav">
@@ -168,9 +170,11 @@
     <a class="tabbar__item" href="/v2/settings.html"><span class="tabbar__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>我的</a>
   </nav>
 
+  <script src="/assets/v2/vendor/katex/katex.min.js"></script>
   <script src="/assets/v2/js/ui.js"></script>
   <script src="/assets/v2/js/api.js"></script>
   <script src="/assets/v2/js/subjects.js"></script>
+  <script src="/assets/v2/js/qb-render.js"></script>
   <script src="/assets/v2/js/review-session.js"></script>
 </body>
 </html>

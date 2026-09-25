@@ -81,7 +81,8 @@
     els.quizMeta.textContent = [q.province_name, q.year ? q.year + '年' : '', q.question_type]
       .filter(Boolean)
       .join(' · ');
-    els.quizStem.textContent = q.stem || '（无题干）';
+    // 题库题面含 ⟦IMG/F/TABLE/OMML⟧ 占位符 → 共享渲染（图片/公式/占位），不直出 token
+    global.QBRender.renderInto(els.quizStem, q.stem || '（无题干）', q.media);
 
     // options 可能是：字符串数组 / 对象数组 / null（主观题）
     els.quizOptions.innerHTML = '';

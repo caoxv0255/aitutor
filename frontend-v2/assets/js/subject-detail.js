@@ -135,7 +135,10 @@
     rows.slice(0, 10).forEach(function (w) {
       const row = global.AIUI.el('div', 'task-row');
       const main = global.AIUI.el('div');
-      main.appendChild(global.AIUI.el('div', 'task-name', w.content || w.stem || w.title || '（无题干）'));
+      // 题干可能含 ⟦IMG/F/TABLE/OMML⟧ 占位符 → 共享渲染，不直出 token
+      const title = global.AIUI.el('div', 'task-name');
+      global.QBRender.renderInto(title, w.content || w.stem || w.title || '（无题干）', w.media);
+      main.appendChild(title);
       const meta = [w.created_at ? String(w.created_at).slice(0, 10) : '', w.reviewed ? '已复习' : '未复习']
         .filter(Boolean)
         .join(' · ');

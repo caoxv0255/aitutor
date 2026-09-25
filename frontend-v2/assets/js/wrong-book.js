@@ -92,7 +92,10 @@
       });
       li.appendChild(head);
 
-      li.appendChild(global.AIUI.el('p', 'q-body', row.content || row.question || '（无题干）'));
+      // 题干可能含 ⟦IMG/F/TABLE/OMML⟧ 占位符 → 共享渲染（图片/公式/可读占位），不直出 token
+      const body = global.AIUI.el('p', 'q-body');
+      global.QBRender.renderInto(body, row.content || row.question || '（无题干）', row.media);
+      li.appendChild(body);
 
       if (row.error_analysis) {
         li.appendChild(global.AIUI.el('p', 'q-analysis', row.error_analysis));

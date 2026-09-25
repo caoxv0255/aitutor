@@ -90,12 +90,22 @@
     els.masteryTag.textContent = '掌握度 ' + mastery + '%';
     els.weakTag.hidden = !item.is_weak;
 
-    els.stem.textContent = item.stem || '（无题干）';
+    // 题面可能含 ⟦IMG/F/TABLE/OMML⟧ 占位符 → 走共享渲染（图片/公式/占位），
+    // 不再直出 stem（否则 token 会以「怪符号」原样显示）。详见 assets/js/qb-render.js。
+    global.QBRender.renderInto(els.stem, item.stem || '（无题干）', item.media);
 
     const hasAnswer = Boolean(item.user_answer || item.correct_answer);
     els.answerBlock.hidden = !hasAnswer;
-    els.userAnswer.textContent = item.user_answer ? '你的答案：' + item.user_answer : '';
-    els.correctAnswer.textContent = item.correct_answer ? '正确答案：' + item.correct_answer : '';
+    if (item.user_answer) {
+      global.QBRender.renderInto(els.userAnswer, '你的答案：' + item.user_answer, item.media);
+    } else {
+      els.userAnswer.textContent = '';
+    }
+    if (item.correct_answer) {
+      global.QBRender.renderInto(els.correctAnswer, '正确答案：' + item.correct_answer, item.media);
+    } else {
+      els.correctAnswer.textContent = '';
+    }
 
     els.feedback.hidden = true;
     els.feedback.innerHTML = '';

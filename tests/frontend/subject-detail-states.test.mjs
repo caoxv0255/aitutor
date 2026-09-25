@@ -9,11 +9,13 @@ const uiJs = fs.readFileSync(`${DIR}/assets/js/ui.js`, 'utf8');
 const apiJs = fs.readFileSync(`${DIR}/assets/js/api.js`, 'utf8');
 const subjectsJs = fs.readFileSync(`${DIR}/assets/js/subjects.js`, 'utf8');
 const pageJs = fs.readFileSync(`${DIR}/assets/js/subject-detail.js`, 'utf8');
+const qbRenderJs = fs.readFileSync(`${DIR}/assets/js/qb-render.js`, 'utf8');
 
 const inlined = html
   .replace(/<script src="[^"]*ui\.js"><\/script>/, `<script>${uiJs}</script>`)
   .replace(/<script src="[^"]*api\.js"><\/script>/, `<script>${apiJs}</script>`)
   .replace(/<script src="[^"]*subjects\.js"><\/script>/, `<script>${subjectsJs}</script>`)
+  .replace(/<script src="[^"]*qb-render\.js"><\/script>/, () => `<script>${qbRenderJs}</script>`)
   .replace(/<script src="[^"]*subject-detail\.js"><\/script>/, `<script>${pageJs}</script>`);
 
 const dom = new JSDOM(inlined, {

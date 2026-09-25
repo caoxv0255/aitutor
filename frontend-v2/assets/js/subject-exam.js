@@ -158,7 +158,10 @@
       if (q.score != null) head.appendChild(global.AIUI.el('span', 'chip', q.score + ' 分'));
       card.appendChild(head);
 
-      card.appendChild(global.AIUI.el('p', 'q-body', q.stem || ''));
+      // 题库题面含 ⟦IMG/F/TABLE/OMML⟧ 占位符 → 共享渲染（图片/公式/占位），不直出 token
+      const body = global.AIUI.el('p', 'q-body');
+      global.QBRender.renderInto(body, q.stem || '', q.media);
+      card.appendChild(body);
 
       const options = optionList(q.options);
       if (options.length) {

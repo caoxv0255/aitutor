@@ -1,5 +1,6 @@
 import { getDb } from '../core/db.js';
 import { successResponse, errorResponse } from '../utils/response.js';
+import { enrichQuestionsWithMedia } from '../services/questionTables.js';
 import PDFDocument from 'pdfkit';
 
 // 2026-09-24: 错题"未关联知识点"不再静默落 NULL —— 进程内计数 + warn，
@@ -21,13 +22,15 @@ export async function getWrongQuestions(req, res) {
     
     let query = `
       SELECT wq.*, sc.name as subject_name, kp.name as knowledge_point_name, wc.name as category_name,
-             v2_kp.kp_id AS v2_kp_id, v2_kp.name AS v2_kp_name, v2_kp.dimension_type AS v2_kp_dimension_type, v2_kp.confidence AS v2_kp_confidence
+             v2_kp.kp_id AS v2_kp_id, v2_kp.name AS v2_kp_name, v2_kp.dimension_type AS v2_kp_dimension_type, v2_kp.confidence AS v2_kp_confidence,
+             eq.media_refs AS media_refs
       FROM wrong_questions wq
       LEFT JOIN subjects sc ON wq.subject_code = sc.code
       LEFT JOIN knowledge_points kp ON wq.knowledge_point_id = kp.id
       LEFT JOIN wrong_question_categories wc ON wq.error_category = wc.code
       LEFT JOIN question_kp_v2 v2_q ON v2_q.question_id = wq.question_id
       LEFT JOIN knowledge_points_v2 v2_kp ON v2_kp.kp_id = v2_q.kp_id
+      LEFT JOIN exam_questions eq ON eq.id = wq.question_id
       WHERE wq.user_email = $1
     `;
     
@@ -61,6 +64,15 @@ export async function getWrongQuestions(req, res) {
     params.push(parseInt(page_size), offset);
 
     const result = await pool.query(query, params);
+
+    // P4 多模态读端 (2026-09-25): 富化题面 ⟦IMG/F⟧ 资产 (media_refs 由关联的 exam_questions
+    // 取回; 内部字段 media_refs 消费后删除, 以 media[] 增量下发)。无关联 → []，
+    // 前端降级为「图片/公式暂缺」, 绝不直出 token。
+    enrichQuestionsWithMedia(result.rows);
+    for (const r of result.rows) {
+      delete r.media_refs;
+      if (!Array.isArray(r.media)) r.media = [];
+    }
 
     // P0.7 fix: 原正则 /SELECT.*FROM/ 不匹配多行 SQL (`.` 不匹配换行) → count 查询失效
     // (rows[0].count undefined → 整表列表 500). 用 [\s\S]*? 非贪婪跨行匹配.

@@ -8,11 +8,15 @@ const uiJs = fs.readFileSync(`${DIR}/assets/js/ui.js`, 'utf8');
 const apiJs = fs.readFileSync(`${DIR}/assets/js/api.js`, 'utf8');
 const subjectsJs = fs.readFileSync(`${DIR}/assets/js/subjects.js`, 'utf8');
 const pageJs = fs.readFileSync(`${DIR}/assets/js/review-session.js`, 'utf8');
+const qbRenderJs = fs.readFileSync(`${DIR}/assets/js/qb-render.js`, 'utf8');
 
+// qb-render.js 源码含 `$$`/`$'` 等序列，替换串必须用函数形式，否则 String.replace
+// 会把 `$$` 当转义啃坏源码（见 photo-solve 测试同款注释）。
 const inlined = html
   .replace(/<script src="[^"]*ui\.js"><\/script>/, `<script>${uiJs}</script>`)
   .replace(/<script src="[^"]*api\.js"><\/script>/, `<script>${apiJs}</script>`)
   .replace(/<script src="[^"]*subjects\.js"><\/script>/, `<script>${subjectsJs}</script>`)
+  .replace(/<script src="[^"]*qb-render\.js"><\/script>/, () => `<script>${qbRenderJs}</script>`)
   .replace(/<script src="[^"]*review-session\.js"><\/script>/, `<script>${pageJs}</script>`);
 
 const dom = new JSDOM(inlined, {

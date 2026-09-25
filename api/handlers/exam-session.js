@@ -66,7 +66,7 @@ export async function startExamSession(req, res) {
       [sessionId, email, subject, province_code || null, safeTimeLimit, questions.rows.length]
     );
 
-    // P4-c 治本: 题面 ⟦TABLE:n⟧ → 结构化 tables
+    // P4-c 治本: 题面 ⟦TABLE:n⟧ → 结构化 tables（内部同时富化 ⟦IMG/F⟧ → media）
     await enrichQuestionsWithTables(pool, questions.rows);
     const cleanQuestions = questions.rows.map((q) => ({
       id: q.id,
@@ -79,6 +79,9 @@ export async function startExamSession(req, res) {
       year: q.year,
       province_name: q.province_name,
       tables: q.tables || undefined,
+      // P4 多模态读端 (2026-09-25): 题面 ⟦IMG/F⟧ 的资产, 增量新增字段 (既有字段名/语义不变)。
+      // 此前 enrichQuestionsWithTables 已算出 media 却在清洗时丢弃 → practice-hub 题面 token 直出。
+      media: Array.isArray(q.media) ? q.media : [],
     }));
 
     res.json({

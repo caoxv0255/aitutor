@@ -85,8 +85,12 @@ export async function getExamQuestions(req, res) {
       r.knowledge_points_v1 = v1Map.get(r.id) || [];
       r.knowledge_points_v2 = v2Map.get(r.id) || [];
     }
-    // P4-c 治本: 把 ⟦TABLE:n⟧ 富化成结构化 tables (见 services/questionTables.js)
+    // P4-c 治本: 把 ⟦TABLE:n⟧ 富化成结构化 tables (见 services/questionTables.js; 内部同时富化 ⟦IMG/F⟧ → media)
     await enrichQuestionsWithTables(pool, rows.rows);
+    // P4 多模态读端 (2026-09-25): 无 media_refs 的题也给空 media[], 保持响应形状稳定
+    for (const r of rows.rows) {
+      if (!Array.isArray(r.media)) r.media = [];
+    }
 
     const countResult = await pool.query('SELECT COUNT(*) AS count FROM exam_questions WHERE paper_id = $1', [paperId]);
     res.json({

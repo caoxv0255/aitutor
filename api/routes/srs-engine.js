@@ -24,6 +24,7 @@ import express from 'express';
 import { getDb } from '../core/db.js';
 import { successResponse, errorResponse } from '../utils/response.js';
 import { authMiddleware } from '../core/auth.js';
+import { enrichQuestionsWithMedia } from '../services/questionTables.js';
 
 const router = express.Router();
 
@@ -492,8 +493,10 @@ router.get('/queue', authMiddleware, async (req, res) => {
               wq.content AS stem,
               wq.user_answer, wq.correct_answer,
               wq.difficulty,
+              eq.media_refs AS media_refs,
               skm.mastery_score, skm.ease_factor, skm.interval_days
        FROM wrong_questions wq
+       LEFT JOIN exam_questions eq ON eq.id = wq.question_id
        LEFT JOIN student_knowledge_mastery skm
          ON skm.user_email = wq.user_email
          AND skm.knowledge_point_id = wq.knowledge_point_id
@@ -526,6 +529,8 @@ router.get('/queue', authMiddleware, async (req, res) => {
         mastery_score: row.mastery_score ? parseFloat(row.mastery_score) : 0,
         ease_factor: row.ease_factor ? parseFloat(row.ease_factor) : 2.5,
         is_weak: (row.mastery_score || 0) < 50,
+        // 内部中转字段 (下方 enrich 消费后删除, 不落响应)
+        media_refs: row.media_refs,
         group: [
           { card_index: 1, kind: 'wrong', qid: row.wrong_id, stem: row.stem, options: null, difficulty: 3 },
           ...similar.map((s, i) => ({ card_index: i + 2, kind: 'similar', ...s })),
@@ -533,6 +538,16 @@ router.get('/queue', authMiddleware, async (req, res) => {
         group_size: 1 + similar.length,
       });
     }
+
+    // P4 多模态读端 (2026-09-25): 题面 ⟦IMG/F⟧ 的资产, 由 question_id 关联的
+    // exam_questions.media_refs 富化 (增量新增 media[]; media_refs 消费后删除不落响应)。
+    // 无关联/无 refs → media:[]（前端降级为「图片/公式暂缺」，绝不直出 token）。
+    enrichQuestionsWithMedia(out);
+    for (const item of out) {
+      delete item.media_refs;
+      if (!Array.isArray(item.media)) item.media = [];
+    }
+
     return res.json(successResponse({
       queue: out, total: out.length,
       generated_at: new Date().toISOString(),
