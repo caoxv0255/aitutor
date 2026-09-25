@@ -136,12 +136,15 @@ describe('POST /api/vision/similar-by-text — 纯检索, 禁 LLM', () => {
     expect(res.body.data.similarNotice).toBeNull();
 
     // 字段口径: 与 findSimilarQuestions 一致, similarity 为增量字段
+    // media (多模态资产) 亦为增量字段 —— 题面无 token 时为 [] (形状稳定)
     expect(Object.keys(res.body.data.similarQuestions[0]).sort()).toEqual(
       [
         'answer', 'content', 'difficulty', 'explanation', 'id', 'knowledge_points',
-        'options', 'question_type', 'score', 'similarity', 'subject_code', 'year',
+        'media', 'options', 'question_type', 'score', 'similarity', 'subject_code', 'year',
       ].sort()
     );
+    expect(res.body.data.similarQuestions[0].media).toEqual([]);
+    expect(res.body.data.similarQuestions[0].media_refs).toBeUndefined();
     expect(res.body.data.similarQuestions[0]).toMatchObject({
       id: 'q-uid-001',
       content: SAMPLE_ROW.stem,
@@ -156,6 +159,56 @@ describe('POST /api/vision/similar-by-text — 纯检索, 禁 LLM', () => {
     expect(params[2]).toBeCloseTo(0.60, 5); // 默认阈值 0.60
     expect(params[3]).toBe('math'); // subject 过滤
     expect(params[4]).toBe(5); // top-N
+  });
+
+  it('3b. 题面含 ⟦IMG/F⟧ token → 随题下发 media[]; wmf 走 png_rel 渲染图 (增量, 不泄 media_refs)', async () => {
+    getEmbedding.mockResolvedValue(new Array(1024).fill(0.01));
+    const rowWithMedia = {
+      ...SAMPLE_ROW,
+      question_uid: 'q-uid-media',
+      stem: '如图所示⟦IMG:rId4⟧，且⟦F:rId11⟧。',
+      media_refs: {
+        // 浏览器可直接渲染的 png 插图
+        'IMG:rId4': {
+          kind: 'figure', ext: '.png',
+          sha256: 'ab8e14b3a9bcb80ee2939690c1e8659374571c1ec398e7dad632eb76e08687f8',
+          rel_path: 'history/2021/ab/ab8e14b3a9bcb80ee2939690c1e8659374571c1ec398e7dad632eb76e08687f8.png',
+        },
+        // 向量公式 wmf, 带 png_rel → 必须优先用渲染 PNG
+        'F:rId11': {
+          kind: 'formula', ext: '.wmf',
+          sha256: '107ddbc3dd99eeea9f2994084e6392930ed144c12a2aee69c232f92e4c150c7a',
+          rel_path: 'math/2024/10/107ddbc3dd99eeea9f2994084e6392930ed144c12a2aee69c232f92e4c150c7a.wmf',
+          png_rel: '10/107ddbc3dd99eeea9f2994084e6392930ed144c12a2aee69c232f92e4c150c7a.png',
+        },
+      },
+    };
+    const pool = makePool([rowWithMedia]);
+    getDb.mockResolvedValue(pool);
+
+    const res = await request(app)
+      .post('/api/vision/similar-by-text')
+      .set('Authorization', `Bearer ${studentToken()}`)
+      .send({ text: LONG_TEXT });
+
+    expect(res.status).toBe(200);
+    const q0 = res.body.data.similarQuestions[0];
+    // 内部中转字段不落响应
+    expect(q0.media_refs).toBeUndefined();
+    expect(Array.isArray(q0.media)).toBe(true);
+    expect(q0.media).toHaveLength(2);
+
+    const img = q0.media.find((m) => m.token === 'IMG:rId4');
+    expect(img).toMatchObject({ kind: 'figure', ext: '.png', renderable: true });
+    expect(img.url).toContain('/qb-media/history/2021/ab/');
+    expect(img.url.endsWith('.png')).toBe(true);
+
+    const f = q0.media.find((m) => m.token === 'F:rId11');
+    // wmf → 映射到 out/media-png 的渲染 PNG (ext 归一为 .png), 而非 .wmf 原始文件
+    expect(f).toMatchObject({ kind: 'formula', ext: '.png', renderable: true, source: 'rendered' });
+    expect(f.url).toContain('/qb-media-png/');
+    expect(f.url).toContain('10/107ddbc3dd99eeea9f2994084e6392930ed144c12a2aee69c232f92e4c150c7a.png');
+    expect(f.url.endsWith('.wmf')).toBe(false);
   });
 
   it('4. 低于阈值 / 无过阈值结果 → 诚实空态 + notice', async () => {

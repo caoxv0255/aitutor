@@ -196,6 +196,53 @@ await PS.submit();
 check('相似题 401 不影响主成功态', PS.getState(), 'success');
 check('相似题 401 → 隐藏相似题区', window.document.getElementById('similar-questions').hidden, true);
 
+// 7i. 题面媒体 token 渲染（P4 多模态读端对接，2026-09-25）
+//     batch-parse 的 OCR 题面不含 token；相似题来自题库，stem 里带 ⟦IMG:rIdN⟧ / ⟦F:rIdN⟧
+//     占位符，后端随 similarQuestions[].media 下发资产。修复前 token 被当纯文本显示，
+//     就是用户看到的"怪符号"。本段锁死：token 必须变成 DOM 节点或可读占位，绝不出现在文本里。
+window.AIAPI.similarByText = () =>
+  Promise.resolve({
+    similarQuestions: [
+      {
+        id: 'm1',
+        // 同一题面混排：图片 + 公式，均带可渲染资产（wmf 已在后端映射到 png_rel）
+        content: '如图所示⟦IMG:rId4⟧，且⟦F:rId11⟧。',
+        answer: 'A',
+        media: [
+          { token: 'IMG:rId4', kind: 'figure', ext: '.png', renderable: true, url: '/qb-media-png/ab/ab8e.png' },
+          { token: 'F:rId11', kind: 'formula', ext: '.png', renderable: true, url: '/qb-media-png/10/107d.png' },
+        ],
+      },
+      {
+        id: 'm2',
+        // 取不到资产 → 占位，不显示裸 token
+        content: '缺图⟦IMG:rIdX⟧与缺式⟦F:rIdY⟧',
+        answer: 'B',
+        media: [],
+      },
+      {
+        id: 'm3',
+        // 公式无媒体图片但有 latex → 走 KaTeX 兜底
+        content: '公式⟦F:rIdZ⟧',
+        answer: '',
+        media: [{ token: 'F:rIdZ', latex: '$x^2$' }],
+      },
+    ],
+    similarNotice: null,
+  });
+await PS.submit();
+const simList = window.document.getElementById('similar-list');
+check('IMG/F token → 图片节点', simList.querySelectorAll('.q-card img').length, 2);
+check('公式 latex 兜底 → KaTeX 节点', simList.querySelectorAll('.katex').length >= 1, true);
+check('输入框 token 不出现在文本里(IMG)', simList.textContent.includes('⟦IMG:'), false);
+check('输入框 token 不出现在文本里(F)', simList.textContent.includes('⟦F:'), false);
+check('取不到图片 → 「图片暂缺」占位', simList.textContent.includes('图片暂缺'), true);
+check('取不到公式 → 「公式暂缺」占位', simList.textContent.includes('公式暂缺'), true);
+const simImg = simList.querySelector('.q-card img');
+check('图片有 alt', !!simImg && !!simImg.getAttribute('alt'), true);
+check('图片 loading=lazy', !!simImg && simImg.getAttribute('loading'), 'lazy');
+check('wmf 走 png_rel 资产', !!simImg && simImg.getAttribute('src').startsWith('/qb-media-png/'), true);
+
 // 8. HTTP 500 → error（带后端 message）
 window.AIAPI.batchParse = () => Promise.reject(window.AIAPI.ApiError('整卷解析失败: LLM 超时', { status: 500 }));
 await PS.submit();

@@ -183,17 +183,60 @@
     target.appendChild(span);
   }
 
-  /** 文本 + $行内$ + $$独立$$ 混排渲染：公式段交给 KaTeX，其余一律纯文本节点 */
-  function renderMixed(target, text) {
+  /* ── 题库占位符 token（P4 多模态读端，2026-09-25） ─────────────────────
+   * 题库题面里结构化内容被替换成占位符：⟦IMG:rIdN⟧(图片) / ⟦F:rIdN⟧(公式)。
+   * 后端随题下发 media[]（见 api/services/questionTables.js 的
+   * enrichQuestionsWithMedia），本页只按 token 取资产、不解析 rId。
+   * 安全：仍只走 DOM API（createElement/createTextNode/appendChild），图片是受控
+   * <img src>（src 来自后端 media[].url，非用户输入），**不引入 innerHTML**。
+   * 降级：取不到资产 → 「图片暂缺」/「公式暂缺」占位，绝不把裸 token 显示给用户。
+   * ──────────────────────────────────────────────────────────────────────── */
+  function findMedia(media, token) {
+    if (!Array.isArray(media)) return null;
+    for (let i = 0; i < media.length; i++) {
+      if (media[i] && media[i].token === token) return media[i];
+    }
+    return null;
+  }
+
+  function renderMediaToken(target, kind, rid, media) {
+    const rec = findMedia(media, kind + ':' + rid);
+    // 可渲染资产优先；wmf/emf 已在后端映射为 png_rel（ext 已被置为 .png）
+    if (rec && rec.url && rec.renderable !== false) {
+      const img = global.document.createElement('img');
+      img.className = 'q-media';
+      img.src = rec.url;
+      img.alt = kind === 'IMG' ? '题目插图' : '公式';
+      img.setAttribute('loading', 'lazy');
+      target.appendChild(img);
+      return;
+    }
+    // 公式兜底：无渲染图但有 latex → KaTeX（与既有公式链路同一渲染器）
+    if (kind === 'F' && rec && rec.latex) {
+      renderFormula(target, rec.latex);
+      return;
+    }
+    const ph = global.document.createElement('span');
+    ph.className = 'q-media-missing';
+    ph.textContent = kind === 'IMG' ? '图片暂缺' : '公式暂缺';
+    target.appendChild(ph);
+  }
+
+  /** 文本 + $行内$ + $$独立$$ + ⟦IMG/F⟧ token 混排：公式段走 KaTeX，token 走资产，其余纯文本 */
+  function renderMixed(target, text, media) {
     const src = String(text || '');
-    const re = /\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$/g;
+    const re = /\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$|⟦(IMG|F):([^⟧]+)⟧/g;
     let last = 0;
     let m;
     while ((m = re.exec(src)) !== null) {
       if (m.index > last) {
         target.appendChild(global.document.createTextNode(src.slice(last, m.index)));
       }
-      renderFormula(target, m[0]);
+      if (m[3]) {
+        renderMediaToken(target, m[3], m[4], media);
+      } else {
+        renderFormula(target, m[0]);
+      }
       last = m.index + m[0].length;
     }
     if (last < src.length) {
@@ -388,7 +431,7 @@
 
       const body = global.document.createElement('p');
       body.className = 'q-body';
-      renderMixed(body, q.content || q.stem || '（无题干）');
+      renderMixed(body, q.content || q.stem || '（无题干）', q.media);
 
       li.appendChild(head);
       li.appendChild(body);
@@ -396,7 +439,7 @@
       if (q.answer) {
         const ans = global.document.createElement('p');
         ans.className = 'q-analysis';
-        renderMixed(ans, '答案：' + q.answer);
+        renderMixed(ans, '答案：' + q.answer, q.media);
         li.appendChild(ans);
       }
 

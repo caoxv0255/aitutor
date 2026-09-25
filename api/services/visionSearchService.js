@@ -5,6 +5,7 @@ import { logger } from '../core/logger.js';
 import { parseImageToQuestion } from '../routes/vision-parse.js';
 import { ingestQuestion } from '../routes/rag-search.js';
 import { parseOptionsPassthrough } from './parseOptions.js';
+import { enrichQuestionsWithMedia } from './questionTables.js';
 import sharp from 'sharp';
 
 const ERROR_ANALYSIS_PROMPT = (subjectName, question, studentAnswer = null) => `你是一位拥有20年教学经验的${subjectName}学科高级教师。
@@ -425,6 +426,7 @@ export class VisionSearchService {
       const query = `
         SELECT q.question_uid, q.stem, q.options, q.answer, q.analysis,
                q.knowledge_points, q.difficulty, q.question_type, q.subject_code, q.year, q.score,
+               q.media_refs,
                1 - (qv.q_embedding <=> $1) AS similarity
         FROM question_vectors qv
         JOIN exam_questions q ON q.id = qv.question_id
@@ -466,24 +468,33 @@ export class VisionSearchService {
         return empty('题库中暂未找到达到相似度阈值的题目');
       }
 
-      return {
-        questions: result.rows.map(q => ({
-          id: q.question_uid,
-          content: q.stem,
-          options: VisionSearchService.parseOptionsSafe(q.options, q.question_uid),
-          answer: q.answer,
-          explanation: q.analysis,
-          knowledge_points: q.knowledge_points,
-          difficulty: q.difficulty,
-          question_type: q.question_type,
-          subject_code: q.subject_code,
-          year: q.year,
-          score: q.score,
-          // F3-fix: 增量字段 — 真实 cosine 相似度 (0~1), 不删不改既有字段
-          similarity: parseFloat(Number(q.similarity).toFixed(4))
-        })),
-        notice: null
-      };
+      // P4 多模态读端 (2026-09-25): 题面里的 ⟦IMG:rIdN⟧/⟦F:rIdN⟧ 占位符需要资产
+      // 才可渲染。media_refs 仅作内部中转, 由 enrichQuestionsWithMedia 消费后删除,
+      // 响应里以 media[] 形式下发 (增量新增字段; 既有字段名/语义不变)。
+      const questions = result.rows.map(q => ({
+        id: q.question_uid,
+        content: q.stem,
+        options: VisionSearchService.parseOptionsSafe(q.options, q.question_uid),
+        answer: q.answer,
+        explanation: q.analysis,
+        knowledge_points: q.knowledge_points,
+        difficulty: q.difficulty,
+        question_type: q.question_type,
+        subject_code: q.subject_code,
+        year: q.year,
+        score: q.score,
+        // F3-fix: 增量字段 — 真实 cosine 相似度 (0~1), 不删不改既有字段
+        similarity: parseFloat(Number(q.similarity).toFixed(4)),
+        // 内部中转字段: enrichQuestionsWithMedia 会读取并删除, 不落响应
+        media_refs: q.media_refs,
+      }));
+      enrichQuestionsWithMedia(questions);
+      // 无 media_refs 的题也给空数组, 保持响应形状一致 (前端可稳定消费)
+      for (const q of questions) {
+        if (!Array.isArray(q.media)) q.media = [];
+      }
+
+      return { questions, notice: null };
     } catch (error) {
       logger.warn(`[VisionSearch] 查找相似题目失败: ${error.message}`);
       return empty('相似题检索失败，本次不返回相似题');
