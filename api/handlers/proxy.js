@@ -6,7 +6,27 @@ import { MODEL_CONFIGS } from '../../services/llm.js';
 
 const MAX_TOKENS_LIMIT = 4000;
 const MAX_MESSAGES_LENGTH = 20;
-const FETCH_TIMEOUT_MS = 30000;
+
+// 2026-09-25: 网关超时天花板默认 90s (CF 边缘约 100s → 524, 故必须 < 100s)。
+//   调用方可用 body.timeout_ms 单点覆盖 (见下 resolveTimeoutMs), 以便"重任务放宽、
+//   轻任务不放宽", 而不必对全员抬高等待。
+const FETCH_TIMEOUT_MS = 90000;
+// 硬上限: 调用方传多大都不许超过它 (客户端可控值必须有界)
+const MAX_TIMEOUT_MS = 90000;
+// 下限: 防止传 0 / 负数导致 fetch 立刻 abort
+const MIN_TIMEOUT_MS = 1000;
+
+/**
+ * 解析本次请求的超时: body.timeout_ms 优先, 否则用默认; 一律夹到 [1s, 90s]。
+ * 调用方若想"内层先确定性超时", 应传**大于**自己内层阈值的值 (见 gradeService)。
+ * @param {unknown} raw
+ * @returns {number}
+ */
+export function resolveTimeoutMs(raw) {
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n <= 0) return FETCH_TIMEOUT_MS;
+  return Math.min(Math.max(Math.floor(n), MIN_TIMEOUT_MS), MAX_TIMEOUT_MS);
+}
 
 // 上游 endpoint 仍是 /api/proxy 自身的固定策略 (OpenAI 兼容端点), 不随 llm.js 的
 // DASHSCOPE_API_MODE / *_BASE_URL 覆盖而变, 以保持既有代理行为不变.
@@ -62,7 +82,7 @@ export default async function handler(req, res) {
     return res.status(401).json(errorResponse('请先登录'));
   }
 
-  const { model, messages, temperature, max_tokens } = req.body;
+  const { model, messages, temperature, max_tokens, timeout_ms } = req.body;
 
   if (!model || typeof model !== 'string') {
     return res.status(400).json(errorResponse('缺少有效的 model 参数'));
@@ -89,8 +109,10 @@ export default async function handler(req, res) {
   const safeMaxTokens = Math.min(Math.max(max_tokens || 2000, 100), MAX_TOKENS_LIMIT);
   const safeTemperature = Math.min(Math.max(temperature || 0.7, 0), 2);
 
+  const effectiveTimeoutMs = resolveTimeoutMs(timeout_ms);
+
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  const timeoutId = setTimeout(() => controller.abort(), effectiveTimeoutMs);
   const tStart = Date.now();
   const tProvider = apiConfig.endpoint.includes('deepseek') ? 'deepseek'
     : apiConfig.endpoint.includes('minimax') ? 'minimax'

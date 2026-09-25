@@ -44,6 +44,21 @@ const PROMPTS_DIR = join(__dirname, 'prompts');
 const SELF_BASE_URL = process.env.SELF_BASE_URL || `http://127.0.0.1:${process.env.PORT || 3002}`;
 
 // ────────────────────────────────────────────────────────────────────────────
+// 2026-09-25: 双层超时 —— 内层 60s < 外层 90s
+//
+//   旧状: gradeService 30s 与 proxy 30s **相等** → 谁先 abort 随网络抖动随机,
+//         有时拿到 proxy 的 504, 有时拿到内层 EssayError, 排障口径不一致。
+//   现:   内层 60s 先确定性超时 (抛 ESSAY_LLM_TIMEOUT), 外层 (/api/proxy) 给
+//         到 90s 的预算 —— 30s 缓冲保证网关不会先于内层切断请求。
+//   90s 上限来自 CF 边缘约 100s → 524, 服务端阈值必须 < 100s。
+// ────────────────────────────────────────────────────────────────────────────
+const GRADE_LLM_TIMEOUT_MS = 60_000;
+const GRADE_PROXY_TIMEOUT_MS = 90_000;
+
+// 批改文本模型 (默认 qwen-plus)。仅用于 A/B 实测 / 降级演练时覆盖, 生产不设。
+const GRADE_MODEL = process.env.ESSAY_GRADE_MODEL || 'qwen-plus';
+
+// ────────────────────────────────────────────────────────────────────────────
 // 入参 Schema
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -510,12 +525,12 @@ function describeProxyBody(body) {
 
 async function callLLMText({ messages, authHeader, task_type = 'essay_grade' }) {
   const url = `${SELF_BASE_URL}/api/proxy`;
-  const model = 'qwen-plus';
+  const model = GRADE_MODEL;
   const temperature = 0.4;
   const max_tokens = 3500;
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30_000);
+  const timeoutId = setTimeout(() => controller.abort(), GRADE_LLM_TIMEOUT_MS);
 
   let resp;
   try {
@@ -525,7 +540,14 @@ async function callLLMText({ messages, authHeader, task_type = 'essay_grade' }) 
         'Content-Type': 'application/json',
         'Authorization': authHeader,
       },
-      body: JSON.stringify({ model, messages, temperature, max_tokens }),
+      // timeout_ms: 显式给网关 90s 预算 (默认亦是 90s), 严格大于内层 60s
+      body: JSON.stringify({
+        model,
+        messages,
+        temperature,
+        max_tokens,
+        timeout_ms: GRADE_PROXY_TIMEOUT_MS,
+      }),
       signal: controller.signal,
     });
   } catch (e) {
@@ -533,7 +555,7 @@ async function callLLMText({ messages, authHeader, task_type = 'essay_grade' }) 
     if (e.name === 'AbortError') {
       throw new EssayError(
         ErrorCode.ESSAY_LLM_TIMEOUT,
-        '批改模型响应超时 (>30s), 请重试',
+        `批改模型响应超时 (>${GRADE_LLM_TIMEOUT_MS / 1000}s), 请重试`,
         { task_type, model }
       );
     }
@@ -782,7 +804,7 @@ export async function gradeEssay({
       ...llmOutput.meta,
       anchor_metrics: anchorMetrics,
       server_metrics: {
-        model: 'qwen-plus',
+        model: GRADE_MODEL,
         task_type: 'essay_grade',
         user_email,
         request_token,

@@ -95,4 +95,46 @@ describe('proxy.js', () => {
 
     expect(res.statusCode).not.toBe(400);
   });
+
+  // ── 2026-09-25: timeout_ms 单点收口 (默认 90s, 夹到 [1s, 90s]) ──
+
+  describe('timeout_ms', () => {
+    it('clamps to [1000, 90000] and falls back to 90000 for junk values', async () => {
+      const { resolveTimeoutMs } = await import('../../api/handlers/proxy.js');
+      expect(resolveTimeoutMs(undefined)).toBe(90_000);
+      expect(resolveTimeoutMs(0)).toBe(90_000);
+      expect(resolveTimeoutMs(-1)).toBe(90_000);
+      expect(resolveTimeoutMs('abc')).toBe(90_000);
+      expect(resolveTimeoutMs(500)).toBe(1_000);
+      expect(resolveTimeoutMs(60_000)).toBe(60_000);
+      expect(resolveTimeoutMs(999_999_999)).toBe(90_000);
+    });
+
+    it('aborts with 504 when timeout_ms elapses', async () => {
+      const { default: handler } = await import('../../api/handlers/proxy.js');
+      // 悬挂 fetch: 只等 signal 触发 AbortError, 不真正联网
+      const realFetch = globalThis.fetch;
+      globalThis.fetch = (_url, init) =>
+        new Promise((_resolve, reject) => {
+          init.signal.addEventListener('abort', () => {
+            const e = new Error('aborted');
+            e.name = 'AbortError';
+            reject(e);
+          });
+        });
+      try {
+        const req = {
+          method: 'POST',
+          user: { email: 'test@test.com' },
+          body: { model: 'qwen-plus', messages: [{ role: 'user', content: 'hi' }], timeout_ms: 1000 },
+        };
+        const res = createMockRes();
+        await handler(req, res);
+        expect(res.statusCode).toBe(504);
+        expect(res.body.message).toContain('超时');
+      } finally {
+        globalThis.fetch = realFetch;
+      }
+    }, 10_000);
+  });
 });
