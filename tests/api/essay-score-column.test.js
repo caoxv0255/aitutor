@@ -95,6 +95,27 @@ describe("essay_reports.score 顶层列", () => {
     expect(sql).toMatch(/updated_at = NOW\(\)/);
   });
 
+  it('updateEssayReportResult: essay_title 走 COALESCE($8, essay_title) —— 未提供不覆盖', async () => {
+    await updateEssayReportResult('er_s3b', {
+      transcript: { paragraphs: [] },
+      annotations: [],
+      meta: {},
+      status: 'completed',
+      score: 62,
+      essay_title: '那一刻，我长大了',
+    });
+
+    const [sql, params] = mocks.query.mock.calls[0];
+    expect(sql).toMatch(/essay_title = COALESCE\(\$8, essay_title\)/);
+    expect(params).toHaveLength(8);
+    expect(params[7]).toBe('那一刻，我长大了');
+
+    // 老调用方不传 → $8 = null → COALESCE 保留原值 (行为不变)
+    mocks.query.mockClear();
+    await updateEssayReportResult('er_s3c', { status: 'completed', score: 62 });
+    expect(mocks.query.mock.calls[0][1][7]).toBeNull();
+  });
+
   it('getEssayReport: numeric 列被 node-pg 解析成字符串 → 归一成 number', async () => {
     mocks.query.mockResolvedValue({ rows: [{ report_id: 'er_s5', score: '58.00' }] });
     const row = await getEssayReport('er_s5');

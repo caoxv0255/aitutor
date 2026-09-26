@@ -82,6 +82,10 @@ const TranscriptResultSchema = z.object({
 const GradeRequestSchema = z.object({
   transcript: TranscriptResultSchema,
   essay_title: z.string().min(1).max(255),
+  // 2026-09-26: 可选「作文题目/要求」槽位 (来自 title_image 的视觉转写)。
+  // 缺失 (老调用方) → undefined/null → prompt 不展开该槽位, 与既有逐字节一致。
+  // 用 nullish() 而非 optional(): 兼容调用方传 null 的写法, 避免 null 触发校验失败。
+  essay_requirement: z.string().max(255).nullish(),
   exam_level: z.enum(['gaokao', 'zhongkao']),
   grade: z.enum(['初一', '初二', '初三', '高一', '高二', '高三']),
   subject: z.enum(['chinese', 'english']),
@@ -238,6 +242,30 @@ export function formatTranscriptForPrompt(transcript) {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
+// 题目/要求槽位 (2026-09-26)
+//
+//   模板里在「标题」行尾留一个占位符 {{ESSAY_REQUIREMENT_BLOCK}}:
+//     - 有题目文本 (title_image 转写成功) → 展开为独立一行「- 题目/要求: …」,
+//       让判分参考真实作文题;
+//     - 无题目文本 (老调用方不传 title_image) → 展开为空串, 渲染结果与既有
+//       版本**逐字节一致** (向后兼容的硬约束)。
+//   题目文本是 OCR 产物 (≤255, 与控制符无关), 折叠空白后单行注入, 不改变
+//   模板里任何既有行的顺序。
+// ────────────────────────────────────────────────────────────────────────────
+
+const ESSAY_REQUIREMENT_PLACEHOLDER = '{{ESSAY_REQUIREMENT_BLOCK}}';
+
+/**
+ * @param {string} [essay_requirement] 题目/要求文本 (可空)
+ * @returns {string} 有值→"\n- 题目/要求: xxx"; 无值→""
+ */
+export function renderEssayRequirementBlock(essay_requirement) {
+  const text = typeof essay_requirement === 'string' ? essay_requirement.trim() : '';
+  if (!text) return '';
+  return `\n- 题目/要求: ${text}`;
+}
+
+// ────────────────────────────────────────────────────────────────────────────
 // Prompt 模板 (Stage B · Grade) — fallback 模板, 实际优先读 prompts/grade.v1.txt
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -336,7 +364,7 @@ const GRADE_PROMPT_TEMPLATE = `你是一位拥有 20 年教学经验的{{SUBJECT
 - 如果找不到合适的 quote, **宁可不写这条**, 也不要伪造
 
 [作文元信息]
-- 标题: {{ESSAY_TITLE}}
+- 标题: {{ESSAY_TITLE}}{{ESSAY_REQUIREMENT_BLOCK}}
 - 学段: {{EXAM_LEVEL_CN}}
 - 年级: {{GRADE}}
 - 学科: {{SUBJECT_CN}}
@@ -423,12 +451,13 @@ const ESSAY_INPUT_ISOLATION_RULES = `[输入隔离 — 优先级高于本消息�
  * @param {object} args
  * @param {import('zod').infer<typeof TranscriptResultSchema>} args.transcript
  * @param {string} args.essay_title
+ * @param {string} [args.essay_requirement] 作文题目/要求 (可选, 来自 title_image)
  * @param {'chinese'|'english'} args.subject
  * @param {'gaokao'|'zhongkao'} args.exam_level
  * @param {string} args.grade
  * @returns {Promise<{system: string, user: string}>} system=指令, user=定界包裹的学生原文
  */
-async function buildGradePrompt({ transcript, essay_title, subject, exam_level, grade }) {
+async function buildGradePrompt({ transcript, essay_title, essay_requirement, subject, exam_level, grade }) {
   const tpl = await loadGradeTemplate();
 
   const rubric = await loadRubric(subject, exam_level);
@@ -453,6 +482,8 @@ async function buildGradePrompt({ transcript, essay_title, subject, exam_level, 
     .replace(/\{\{RUBRIC_ID\}\}/g, rubric.id)
     .replace(/\{\{RUBRIC_TABLE\}\}/g, renderRubricTable(rubric))
     .replace(/\{\{ESSAY_TITLE\}\}/g, essay_title)
+    .split(ESSAY_REQUIREMENT_PLACEHOLDER)
+    .join(renderEssayRequirementBlock(essay_requirement))
     .replace(/\{\{TRANSCRIPT\}\}/g, TRANSCRIPT_SLOT);
 
   const slotIdx = rendered.indexOf(TRANSCRIPT_SLOT);
@@ -656,6 +687,7 @@ function parseJsonFromLLM(raw) {
  * @param {string} args.user_email
  * @param {object} args.transcript
  * @param {string} args.essay_title
+ * @param {string} [args.essay_requirement] 作文题目/要求 (可选)
  * @param {'gaokao'|'zhongkao'} args.exam_level
  * @param {string} args.grade
  * @param {'chinese'|'english'} args.subject
@@ -668,6 +700,7 @@ export async function gradeEssay({
   user_email,
   transcript,
   essay_title,
+  essay_requirement,
   exam_level,
   grade,
   subject,
@@ -678,6 +711,7 @@ export async function gradeEssay({
   const reqParse = GradeRequestSchema.safeParse({
     transcript,
     essay_title,
+    essay_requirement,
     exam_level,
     grade,
     subject,
@@ -706,6 +740,7 @@ export async function gradeEssay({
   const { system: systemPrompt, user: userPrompt } = await buildGradePrompt({
     transcript: validReq.transcript,
     essay_title: validReq.essay_title,
+    essay_requirement: validReq.essay_requirement,
     subject: validReq.subject,
     exam_level: validReq.exam_level,
     grade: validReq.grade,

@@ -52,8 +52,12 @@ function sendError(res, e, req, scope) {
 
 // ────────────────────────────────────────────────────────────────────────────
 // POST /api/essay/analyze  (2026-09-26 起为**异步**)
-// Body: { image: dataURL|base64|http(s) URL, subject: 'chinese'|'english',
+// Body: { image: dataURL|base64|http(s) URL,
+//         title_image?: dataURL|base64|http(s) URL (作文题目图, 可选),
+//         subject: 'chinese'|'english',
 //         grade: 'junior'|'senior'(兼容具体年级), essay_title?, exam_level? }
+// title_image 存在时: 落盘 + MaaS qwen3-vl 转写为题目文本, 写入 essay_title 且
+// 作为「题目/要求」槽位喂进批改 prompt; 不传时行为与改动前一致。
 // → 200 { data: { report_id, status: 'pending' } }
 //
 // 返回码取 200 (而非 202): 仓库统一响应工具 successJson 恒 200, 全仓无 202 先例;

@@ -44,7 +44,10 @@ export async function insertEssayReport(record) {
 
 /**
  * 后台批改任务写回结果 (异步 analyze 的完成路径)。
- * 同时落 transcript / annotations / meta / status / 顶层 score。
+ * 同时落 transcript / annotations / meta / status / 顶层 score / essay_title。
+ *
+ * essay_title 用 COALESCE: 只有 result.essay_title 非空才覆盖 (题目图 OCR 出的
+ * 真实题目文本); 老调用方不传 (null) 时保留 pending 行已写入的值 —— 行为不变。
  */
 export async function updateEssayReportResult(reportId, result) {
   const pool = await getDb();
@@ -56,6 +59,7 @@ export async function updateEssayReportResult(reportId, result) {
            status = $5,
            score = $6,
            error_message = $7,
+           essay_title = COALESCE($8, essay_title),
            updated_at = NOW()
      WHERE report_id = $1
   `;
@@ -67,6 +71,7 @@ export async function updateEssayReportResult(reportId, result) {
     result.status || 'completed',
     normalizeScore(result.score),
     result.error_message || null,
+    result.essay_title || null,
   ];
   await pool.query(sql, params);
 }

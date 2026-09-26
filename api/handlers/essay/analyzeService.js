@@ -54,6 +54,10 @@ import { maasVisionChatCompletion } from '../../../services/llm.js';
 const DEFAULT_ESSAY_TITLE = '未命名';
 const PROMPT_VERSION = '3.1.0'; // 与 prompts/grade.v1.txt 的 prompt_version 对齐 (批次 2 扩展)
 
+// essay_title 列 VARCHAR(255), GradeRequestSchema.essay_title 亦 max(255) —— 题目
+// 文本按此上限截断, 保证「写入 DB 的标题」与「喂进 prompt 的题目」是同一个字符串。
+const MAX_ESSAY_TITLE_LEN = 255;
+
 /** 孤儿回收扫描间隔 (进程内定时, unref 不阻止退出) */
 const RECLAIM_INTERVAL_MS = 60_000;
 
@@ -68,6 +72,9 @@ const SPECIFIC_GRADES = ['初一', '初二', '初三', '高一', '高二', '高�
 
 const AnalyzeRequestSchema = z.object({
   image: z.string().min(1, 'image 必填'),
+  // 2026-09-26: 作文题目图 (可选)。校验语义与 image 一致 (base64/dataURL/白名单 URL,
+  // 由 resolveImage 逐分支处理); shape 照抄 image, 不自创类型。
+  title_image: z.string().min(1).optional(),
   subject: z.enum(['chinese', 'english']),
   // 规格: grade ∈ {junior, senior}; 兼容既有 V1.0 的具体年级写法。
   grade: z.enum(['junior', 'senior', ...SPECIFIC_GRADES]),
@@ -111,6 +118,68 @@ async function resolveImage(image, { email }) {
   return { visionImage, imageUrl: saved.url };
 }
 
+/**
+ * resolveImage 的「不抛错」包装: 把归一失败翻成 {ok:false, errorCode}。
+ * 内容图与题目图共用同一套错误映射 (EssayError.code 优先, 其次 uploadCode),
+ * 保证两条路径的失败码语义完全一致。
+ *
+ * @returns {Promise<{ok:true, visionImage:object, imageUrl:string}
+ *                  | {ok:false, errorCode:string}>}
+ */
+async function resolveImageOrFail(job, image, label) {
+  try {
+    const { visionImage, imageUrl } = await resolveImage(image, { email: job.email });
+    return { ok: true, visionImage, imageUrl };
+  } catch (e) {
+    if (e instanceof EssayError) return { ok: false, errorCode: e.code };
+    if (e && e.uploadCode) return { ok: false, errorCode: e.uploadCode }; // imageHandler 错误码
+    logger.error(`[essay.analyze] ${label}图片处理未知异常`, { error: e, reportId: job.reportId });
+    return { ok: false, errorCode: 'image_error' };
+  }
+}
+
+/**
+ * 把题目图 (Stage A 同一套视觉转录链路) 的转录结果压成一行题目文本。
+ * 纯函数, 便于单测。
+ *
+ * @param {object} transcript parseAndValidateTranscript 产出的 transcript
+ * @returns {string} 折叠空白后 ≤ MAX_ESSAY_TITLE_LEN 的单行文本 (无内容 → '')
+ */
+export function deriveEssayTitleFromTranscript(transcript) {
+  if (!transcript || !Array.isArray(transcript.paragraphs)) return '';
+  const parts = [];
+  for (const p of transcript.paragraphs) {
+    for (const l of p.lines || []) {
+      if (l && typeof l.text === 'string' && l.text.trim()) parts.push(l.text.trim());
+    }
+  }
+  return parts.join(' ').replace(/\s+/g, ' ').trim().slice(0, MAX_ESSAY_TITLE_LEN);
+}
+
+/**
+ * 题目图 → 题目文本。复用 Stage A 的转录 prompt + 解析/Zod 校验 + 私有 MaaS
+ * 视觉通路 (qwen3-vl), **不新增任何第三方依赖, 不改 services/llm.js 的 MaaS 分支**。
+ * 与内容图同源, 仅 task_type 区分为 essay_transcribe_title (可观测)。
+ *
+ * @throws {EssayError} 视觉调用/解析失败时抛出 (调用方决定是否致命)
+ */
+async function transcribeTitleText({ visionImage, subject, email, requestId }) {
+  const visionRes = await maasVisionChatCompletion({
+    userText: buildTranscribePrompt(subject),
+    images: [visionImage],
+    options: {
+      jsonMode: true,
+      temperature: 0.1,
+      max_tokens: 3000,
+      task_type: 'essay_transcribe_title',
+      user_id: email,
+      request_id: requestId,
+    },
+  });
+  const { transcript } = parseAndValidateTranscript(visionRes.content);
+  return deriveEssayTitleFromTranscript(transcript);
+}
+
 // ────────────────────────────────────────────────────────────────────────────
 // Stage B 产出 → meta 映射 (增量兼容 V0)
 //
@@ -149,14 +218,17 @@ export function mapGradedToMeta(graded) {
  * @param {{imageUrl:string, subject:string}} extra
  * @returns {object}
  */
-export function buildReportMeta(graded, { imageUrl, subject }) {
-  return {
+export function buildReportMeta(graded, { imageUrl, subject, titleImageUrl = null }) {
+  const meta = {
     ...(graded && graded.meta),
     ...mapGradedToMeta(graded),
     image_url: imageUrl,
     subject,
     prompt_version: PROMPT_VERSION,
   };
+  // 题目图存在时才加该键 —— 不传 title_image 的老调用方 meta 形状不变。
+  if (titleImageUrl) meta.title_image_url = titleImageUrl;
+  return meta;
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -197,7 +269,7 @@ export async function startAnalyze({ req, dispatch }) {
       { zod_issues: parsed.error.issues }
     );
   }
-  const { image, subject, grade: rawGrade, essay_title, exam_level } = parsed.data;
+  const { image, title_image, subject, grade: rawGrade, essay_title, exam_level } = parsed.data;
   const essayTitle = essay_title || DEFAULT_ESSAY_TITLE;
   const { exam_level: resolvedLevel, grade } = resolveExamLevel(rawGrade, exam_level);
 
@@ -227,6 +299,9 @@ export async function startAnalyze({ req, dispatch }) {
     email,
     authHeader,
     image,
+    // 题目图 base64 必须在后台任务存活期内可用 —— 与 image 同一机制 (随 job 闭包),
+    // 不置于请求作用域。
+    titleImage: title_image || null,
     subject,
     essayTitle,
     examLevel: resolvedLevel,
@@ -252,15 +327,21 @@ export async function runAnalyzeJob(job) {
   inFlight += 1;
   try {
     // ─── 1. 图片归一 (落盘在此, 不阻塞 analyze 的返回) ───
-    let visionImage;
-    let imageUrl;
-    try {
-      ({ visionImage, imageUrl } = await resolveImage(job.image, { email: job.email }));
-    } catch (e) {
-      if (e instanceof EssayError) return fail(job, e.code);
-      if (e && e.uploadCode) return fail(job, e.uploadCode); // imageHandler 的错误码
-      logger.error('[essay.analyze] 图片处理未知异常', { error: e, reportId: job.reportId });
-      return fail(job, 'image_error');
+    const contentImg = await resolveImageOrFail(job, job.image, '内容');
+    if (!contentImg.ok) return fail(job, contentImg.errorCode);
+    const visionImage = contentImg.visionImage;
+    const imageUrl = contentImg.imageUrl;
+
+    // ─── 1b. 题目图归一 (可选; 与内容图同一落盘/校验机制) ───
+    //   题目图非法规格 (非 base64 / 解码为空 / 过小) 会在此或视觉调用处暴露 →
+    //   整篇标 failed, 不回显 err.message (与内容图同一错误码映射)。
+    let titleVisionImage = null;
+    let titleImageUrl = null;
+    if (job.titleImage) {
+      const titleImg = await resolveImageOrFail(job, job.titleImage, '题目');
+      if (!titleImg.ok) return fail(job, titleImg.errorCode);
+      titleVisionImage = titleImg.visionImage;
+      titleImageUrl = titleImg.imageUrl;
     }
 
     // ─── 2. Stage A: 私有 MaaS 视觉 OCR ───
@@ -292,11 +373,36 @@ export async function runAnalyzeJob(job) {
       return fail(job, ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED);
     }
 
+    // ─── 2b. 题目图 → 题目文本 (复用同一转录链路) ───
+    //   题目文本是「写入 essay_title」与「喂进批改 prompt」的同一份字符串。
+    //   题目图存在但转写失败 → 标 failed (同内容图口径); 不传 title_image 时这段
+    //   整体跳过, 标题与 prompt 与改动前完全一致 (向后兼容)。
+    let titleText = '';
+    if (titleVisionImage) {
+      try {
+        titleText = await transcribeTitleText({
+          visionImage: titleVisionImage,
+          subject: job.subject,
+          email: job.email,
+          requestId: job.requestId,
+        });
+      } catch (e) {
+        if (e instanceof EssayError) return fail(job, e.code);
+        logger.error('[essay.analyze] 题目图转写失败', { error: e, reportId: job.reportId });
+        return fail(job, ErrorCode.ESSAY_LLM_UPSTREAM_ERROR);
+      }
+    }
+    // 题目图给出文本时以它为准; 否则回落既有逻辑 (显式 essay_title 或默认「未命名」)
+    const finalTitle = titleText || job.essayTitle;
+
     // ─── 3. Stage B: 批改 (Schema 校验失败重试一次) ───
     const gradeArgs = {
       user_email: job.email,
       transcript,
-      essay_title: job.essayTitle,
+      essay_title: finalTitle,
+      // 题目缺失 (老调用方) → undefined (不能传 null: GradeRequestSchema 是
+      // z.string().optional()，null 会校验失败) → gradeService 不展开题目槽位, prompt 不变
+      essay_requirement: titleText || undefined,
       exam_level: job.examLevel,
       grade: job.grade,
       subject: job.subject,
@@ -335,7 +441,11 @@ export async function runAnalyzeJob(job) {
     }
 
     // ─── 4. 写回结果 (含顶层 score, 与 meta.scores.total 同源) ───
-    const meta = buildReportMeta(graded, { imageUrl, subject: job.subject });
+    const meta = buildReportMeta(graded, {
+      imageUrl,
+      subject: job.subject,
+      titleImageUrl,
+    });
     try {
       await updateEssayReportResult(job.reportId, {
         transcript,
@@ -343,6 +453,8 @@ export async function runAnalyzeJob(job) {
         meta,
         status: 'completed',
         score: graded.scores?.total ?? null,
+        // 有题目文本才覆盖 pending 行的默认标题; 无 (老调用方) → null → COALESCE 保留原值
+        essay_title: titleText || null,
       });
     } catch (e) {
       logger.error('[essay.analyze] 结果写回失败', { error: e, reportId: job.reportId });

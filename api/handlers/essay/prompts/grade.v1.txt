@@ -93,7 +93,7 @@
 - 如果找不到合适的 quote, **宁可不写这条**, 也不要伪造
 
 [作文元信息]
-- 标题: {{ESSAY_TITLE}}
+- 标题: {{ESSAY_TITLE}}{{ESSAY_REQUIREMENT_BLOCK}}
 - 学段: {{EXAM_LEVEL_CN}}
 - 年级: {{GRADE}}
 - 学科: {{SUBJECT_CN}}
