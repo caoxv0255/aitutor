@@ -29,6 +29,12 @@
  *   annotations 的 revised_text / severity / knowledge_points / bbox 是批次 2
  *   新增的 **optional** 键，老数据没有 → 任何缺失都必须照常渲染，不得崩。
  *   bbox 缺失 → 该批注不进 getAnchors()，但文本仍着色。
+ *
+ * ── 轮询（2026-09-26：analyze 改异步）────────────────────────────────
+ *   /api/essay/analyze 建 pending 行后立即返回，后台跑批改。本页读到
+ *   status='pending' 就停在 loading 态（文案「AI 正在批改中…」）并按 POLL 退避
+ *   重试，直到 completed → success / failed → error；超过 maxAttempts 仍 pending
+ *   也落 error（有终点，不无限轮询）。**复用现有六态**，不新增状态名。
  * ========================================================================== */
 /* global window, document */
 (function (global) {
@@ -36,6 +42,15 @@
 
   const STATES = ['empty', 'loading', 'success', 'error', 'auth', 'offline'];
   const BBOX_MAX = 1000;
+
+  /**
+   * 轮询参数 (2026-09-26: analyze 改异步后, 报告是「先 pending 后 completed」)。
+   *
+   * 取值依据: qwen-plus 批改实测 ~41.5s, 转录再加 ~10s。退避 1.5s→…→4s 上限,
+   * 累计 30 次 ≈ 115s 的覆盖窗口 —— 正常一次 (~50s) 只用十几轮, 异常时也有明确
+   * 终点 (不会无限轮询打服务端)。
+   */
+  const POLL = { baseMs: 1500, factor: 1.5, maxMs: 4000, maxAttempts: 30 };
   const MIN_SCALE = 0.5;
   const MAX_SCALE = 6;
 
@@ -85,6 +100,7 @@
   const layoutListeners = [];
   const imageReadyListeners = [];
   let dragging = null;
+  let pollTimer = null;
 
   function $(id) {
     return global.document.getElementById(id);
@@ -827,15 +843,56 @@
     return params.get('id') || params.get('reviewId') || '';
   }
 
-  function load() {
-    if (global.navigator && global.navigator.onLine === false) return Promise.resolve(setState('offline'));
-    const id = getReportId();
-    if (!id) return Promise.resolve(setState('empty'));
-    if (!global.AIAPI.getToken()) return Promise.resolve(setState('auth'));
-    setState('loading');
-    return global.AIAPI.request('/api/essay/report/' + encodeURIComponent(id), { method: 'POST' })
+  /** 第 attempt 次重试前的等待毫秒 (attempt 从 0 起; 指数退避, 封顶 POLL.maxMs) */
+  function pollDelay(attempt) {
+    return Math.min(POLL.baseMs * Math.pow(POLL.factor, Math.max(0, attempt)), POLL.maxMs);
+  }
+
+  function clearPoll() {
+    if (pollTimer !== null && typeof global.clearTimeout === 'function') global.clearTimeout(pollTimer);
+    pollTimer = null;
+  }
+
+  function fetchReport(id) {
+    return global.AIAPI.request('/api/essay/report/' + encodeURIComponent(id), { method: 'POST' });
+  }
+
+  /**
+   * 等到 delay 后重试。opts.scheduler 用于单测注入 (不真等定时器)。
+   */
+  function waitAndRetry(id, attempt, scheduler) {
+    const ms = pollDelay(attempt);
+    return new Promise(function (resolve) {
+      const run = function () {
+        resolve(pollUntilDone(id, attempt + 1, scheduler));
+      };
+      if (typeof scheduler === 'function') {
+        scheduler(run, ms);
+        return;
+      }
+      pollTimer = global.setTimeout(run, ms);
+    });
+  }
+
+  /**
+   * 取一次报告并决定: 渲染 / 继续轮询 / 报错。
+   * status 只有 'pending' 才继续等; 其余 (含老数据没有 status 字段) 一律按完成渲染。
+   */
+  function pollUntilDone(id, attempt, scheduler) {
+    return fetchReport(id)
       .then(function (data) {
         if (!data) return setState('empty');
+        if (data.status === 'pending') {
+          if (attempt + 1 >= POLL.maxAttempts) {
+            // 有明确终点: 不无限轮询, 也不假装成功
+            return setState('error', { message: 'AI 仍在批改中，请稍后刷新页面查看。' });
+          }
+          setState('loading', { title: 'AI 正在批改中…' });
+          return waitAndRetry(id, attempt, scheduler);
+        }
+        if (data.status === 'failed') {
+          return setState('error', { message: '本次批改未能完成，请重新提交作文。' });
+        }
         renderReport(data);
         return 'success';
       })
@@ -844,6 +901,20 @@
         if (mapped !== 'error') return setState(mapped);
         return setState('error', { message: (err && err.message) || '报告加载失败' });
       });
+  }
+
+  /**
+   * @param {object} [opts] opts.scheduler: (fn, ms) => void, 供单测驱动轮询
+   */
+  function load(opts) {
+    const options = opts || {};
+    clearPoll(); // 重试/重复加载时不叠加上一轮的定时器
+    if (global.navigator && global.navigator.onLine === false) return Promise.resolve(setState('offline'));
+    const id = getReportId();
+    if (!id) return Promise.resolve(setState('empty'));
+    if (!global.AIAPI.getToken()) return Promise.resolve(setState('auth'));
+    setState('loading', { title: '正在加载报告…' });
+    return pollUntilDone(id, 0, options.scheduler);
   }
 
   function bindEvents() {
@@ -926,11 +997,13 @@
     segmentParagraph: segmentParagraph,
     paragraphText: paragraphText,
     resolveAnchor: resolveAnchor,
+    pollDelay: pollDelay,
     annotationType: annotationType,
     resolveScore: resolveScore,
     resolveComment: resolveComment,
     resolveSubject: resolveSubject,
     getReportId: getReportId,
+    POLL: POLL,
 
     // 渲染（单测直接调用）
     renderReport: renderReport,
