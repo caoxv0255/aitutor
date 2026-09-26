@@ -400,3 +400,105 @@ describe('工具函数', () => {
     expect(out.find(x => x.id === 'o').anchor_failed).toBe(false);
   });
 });
+
+// ────────────────────────────────────────────────────────────────────────────
+// 7. 嵌套 anchor 保留 (2026-09-26: 「anchor.quote 空串」的真实成因)
+//
+//   reconcile() 把 LLM 的 anchor.{paragraph_index,quote,line_no} 展平成顶层键后
+//   **重建**了每条批注, 嵌套的 anchor 在重建中丢失 → 消费方按 §1.3 契约读
+//   `annotation.anchor.quote` 恒为 undefined (表现为「quote 空串」)。
+//   本组锁死 I5 不变量: resolved[i].anchor.* 恒等于同名顶层键。
+// ────────────────────────────────────────────────────────────────────────────
+describe('嵌套 anchor 保留 (不变量 I5)', () => {
+  const PARA = [
+    {
+      paragraph_index: 0,
+      lines: [
+        { line_no: 0, text: '春天来了，万物复苏。', uncertain_chars: [] },
+        { line_no: 1, text: '大地披上了绿装。', uncertain_chars: [] },
+      ],
+    },
+    {
+      paragraph_index: 1,
+      lines: [{ line_no: 0, text: '小明在田野上奔跑。', uncertain_chars: [] }],
+    },
+  ];
+
+  it('命中项: anchor.quote 非空, 且能在段落原文里精确找到 (文本锚点自洽)', () => {
+    const { resolved } = reconcile(PARA, [
+      { id: 'a1', type: 'highlight', anchor: { paragraph_index: 0, quote: '春天来了', line_no: 0 }, comment: '好句' },
+    ]);
+
+    expect(resolved).toHaveLength(1);
+    const r = resolved[0];
+    expect(r.anchor).toBeDefined();
+    expect(r.anchor.quote).toBe('春天来了');
+    expect(r.anchor.quote).toBe(r.quote);
+    expect(r.anchor.paragraph_index).toBe(r.paragraph_index);
+    expect(r.anchor.line_no).toBe(0);
+
+    // 与原文对得上: 段落全文里确实能从 start 切出这段 quote
+    const fullText = PARA[0].lines.map((l) => l.text).join('');
+    expect(fullText.slice(r.start, r.end)).toBe(r.anchor.quote);
+    expect(fullText).toContain(r.anchor.quote);
+  });
+
+  it('未命中项 (quote_not_found) 也要保留 anchor —— 不能因为锚定失败就把 quote 抹掉', () => {
+    const { resolved } = reconcile(PARA, [
+      { id: 'a1', type: 'logic_issue', anchor: { paragraph_index: 0, quote: '完全不存在的内容xyzabc', line_no: 0 }, comment: '建议' },
+    ]);
+
+    const r = resolved[0];
+    expect(r.anchor_failed).toBe(true);
+    expect(r.failure_reason).toBe('quote_not_found');
+    expect(r.anchor.quote).toBe('完全不存在的内容xyzabc');
+    expect(r.anchor.paragraph_index).toBe(0);
+  });
+
+  it('quote 过短 / 段落越界两条降级分支同样保留 anchor', () => {
+    const { resolved } = reconcile(PARA, [
+      { id: 'short', type: 'highlight', anchor: { paragraph_index: 0, quote: 'x' }, comment: '太短' },
+      { id: 'oob', type: 'highlight', anchor: { paragraph_index: 9, quote: '不存在的句子' }, comment: '越界' },
+    ]);
+
+    const short = resolved.find((r) => r.id === 'short');
+    const oob = resolved.find((r) => r.id === 'oob');
+    expect(short.anchor.quote).toBe('x');
+    expect(short.anchor.paragraph_index).toBe(0);
+    expect(oob.anchor.quote).toBe('不存在的句子');
+    expect(oob.anchor.paragraph_index).toBe(9);
+  });
+
+  it('重叠消解 (overlap_evicted) 之后 anchor 仍在, 且仍与顶层 quote 一致', () => {
+    const { resolved } = reconcile(PARA, [
+      { id: 'long', type: 'highlight', anchor: { paragraph_index: 0, quote: '春天来了，万物复苏。' }, comment: '长句' },
+      { id: 'part', type: 'grammar_error', anchor: { paragraph_index: 0, quote: '万物复苏' }, comment: '语病' },
+    ]);
+
+    const evicted = resolved.filter((r) => r.failure_reason === 'overlap_evicted');
+    expect(evicted.length).toBeGreaterThan(0);
+    for (const r of evicted) {
+      expect(r.anchor).toBeDefined();
+      expect(r.anchor.quote).toBe(r.quote);
+      expect(typeof r.anchor.quote).toBe('string');
+      expect(r.anchor.quote.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('每条 resolved 都有 anchor, 且三个键恒等于同名顶层键 (全分支)', () => {
+    const { resolved } = reconcile(PARA, [
+      { id: 'a1', type: 'highlight', anchor: { paragraph_index: 0, quote: '春天来了', line_no: 0 }, comment: '好句' },
+      { id: 'a2', type: 'masterstroke', anchor: { paragraph_index: 1, quote: '小明在田野上奔跑', line_no: 0 }, comment: '点睛' },
+      { id: 'a3', type: 'logic_issue', anchor: { paragraph_index: 5, quote: '越界段落' }, comment: '越界' },
+      { id: 'a4', type: 'grammar_error', anchor: { paragraph_index: 0, quote: 'z' }, comment: '过短' },
+    ]);
+
+    expect(resolved).toHaveLength(4);
+    for (const r of resolved) {
+      expect(r.anchor).toBeDefined();
+      expect(r.anchor.paragraph_index).toBe(r.paragraph_index);
+      expect(r.anchor.quote).toBe(r.quote);
+      expect(r.anchor.line_no).toBe(r.line_no);
+    }
+  });
+});

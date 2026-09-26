@@ -16,6 +16,8 @@
  *   I2. 同 paragraph_index 内, 所有 !anchor_failed 项的 [start, end) 严格不相交
  *   I3. final_valid_count === raw_count (V1.0 不丢任何批注, 只标失败)
  *   I4. paragraph_index 越界 → anchor_failed=true + failure_reason='paragraph_index_out_of_range'
+ *   I5. resolved[i].anchor.{paragraph_index, quote, line_no} 恒等于同名的顶层键
+ *       (LLM 契约的嵌套 anchor 不得在展平后丢失)
  * ============================================================================ */
 
 'use strict';
@@ -417,10 +419,26 @@ export function reconcile(paragraphs, annotations) {
     }
   }
 
-  // 5. Patch 4: 消解同段重叠
-  const noOverlap = resolveOverlaps(resolved);
+  // 5. 补回嵌套 anchor 对象 (2026-09-26: quote「空串」的真实成因)
+  //
+  //  本函数把 LLM 的 anchor.{paragraph_index,quote,line_no} **展平**成顶层键后
+  //  重建了每条批注, 嵌套的 anchor 在重建中被丢掉 → 落库与 /api/essay/report 回
+  //  传的 annotations[i] 里**根本没有 anchor 键**, 任何按 §1.3 契约读
+  //  `annotation.anchor.quote` 的消费方都拿到 undefined (表现为「quote 空串」)。
+  //  这里用**已有的真实值**把它补回去, 不新增信息、不改动任何顶层键。
+  const withAnchor = resolved.map((r) => ({
+    ...r,
+    anchor: {
+      paragraph_index: r.paragraph_index,
+      quote: r.quote,
+      line_no: r.line_no,
+    },
+  }));
 
-  // 6. 最终排序
+  // 6. Patch 4: 消解同段重叠
+  const noOverlap = resolveOverlaps(withAnchor);
+
+  // 7. 最终排序
   noOverlap.sort((a, b) => {
     if (a.paragraph_index !== b.paragraph_index) {
       return a.paragraph_index - b.paragraph_index;
@@ -431,7 +449,7 @@ export function reconcile(paragraphs, annotations) {
     return (a.end ?? 0) - (b.end ?? 0);
   });
 
-  // 7. 指标
+  // 8. 指标
   const anchor_success_count = noOverlap.filter((r) => !r.anchor_failed).length;
   const anchor_rate = raw_count > 0 ? anchor_success_count / raw_count : 0;
 
