@@ -25,6 +25,9 @@
 #                         (scripts/check-no-err-message-echo.mjs; AST 判据 + ALLOW 豁免)
 #  12. 日志详情收口      — logger.<m>(…, { error }) 必须传 Error 对象 (禁 e.message/模板串)
 #                         (scripts/check-logger-error-meta.mjs; AST 判据 + ALLOW 豁免)
+#  13. 前端 payload 键 ⊆ 后端 Zod schema — 只针对 POST /api/essay/analyze, 单向判据
+#                         防「前端发了字段、schema 没有 → 被 Zod 静默丢弃」(title_image 事故)
+#                         (scripts/check-essay-payload-schema.mjs; acorn AST, 无 ALLOW 通道)
 #
 # 2026-09-23 (限流×门禁冲突, 测试侧修复, 不动生产限流语义):
 #   - 第 1 项旧写法 `VITEST_OUT=$(npx vitest …)` 在 `set -e` 下, 首个失败即整脚本
@@ -126,7 +129,7 @@ BCT_URL=$(resolve_bct_url || true)
 # 旧逻辑 grep "Test Files .+ passed" 会误判 — vitest 失败时也输出 "passed" 字符串 (如 "1 failed | 12 passed")
 # 2026-09-21 修复: 退出码才是权威判据 (会漏掉 "No test suite found" 一类错误)。
 # 2026-09-23 修复: 加 `|| VITEST_RC=$?` —— 否则 set -e 下首项失败即整脚本退出。
-step "1/12 单元测试 (vitest)"
+step "1/13 单元测试 (vitest)"
 VITEST_RC=0
 VITEST_OUT=$(npx vitest run --reporter=dot 2>&1) || VITEST_RC=$?
 if [ "$VITEST_RC" -ne 0 ]; then
@@ -136,7 +139,7 @@ else
 fi
 
 # ── 2. contract test (mock) ──
-step "2/12 前端 contract test (mock)"
+step "2/13 前端 contract test (mock)"
 CT_RC=0
 CT_OUT=$(node tests/contract.test.js 2>&1) || CT_RC=$?
 if [ "$CT_RC" -eq 0 ] && echo "$CT_OUT" | tail -1 | grep -qE "0 failed"; then
@@ -146,7 +149,7 @@ else
 fi
 
 # ── 3. Backend Contract Test (真后端, 临时实例 / 独立限流桶) ──
-step "3/12 Backend Contract Test (真后端)"
+step "3/13 Backend Contract Test (真后端)"
 if [ "${SKIP_BCT:-0}" = "1" ]; then
   echo "  (跳过: SKIP_BCT=1)"
 elif [ -n "$EXTERNAL_BCT_URL" ]; then
@@ -189,7 +192,7 @@ else
 fi
 
 # ── 4. docker build ──
-step "4/12 docker build (app 镜像)"
+step "4/13 docker build (app 镜像)"
 if [ "${SKIP_DOCKER:-0}" = "1" ]; then
   echo "  (跳过: SKIP_DOCKER=1)"
 elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
@@ -213,7 +216,7 @@ elif command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
   #   - **不清理 build cache**: 动了下次 build 要重跑 apt + npm ci, 慢好几分钟。
   # 归属锚点靠 label 而非路径/名字; 存量无标签旧镜像 (label 上线前产生) 不在此步射程内,
   # 已由一次性回收按 docker history 逐张确认归属后处理。
-  # 该步是卫生步骤: 失败只如实打印, 不 fail —— 不改变 12 段的失败面与退出码语义。
+  # 该步是卫生步骤: 失败只如实打印, 不 fail —— 不改变 13 段的失败面与退出码语义。
   PRUNE_OUT=$(docker image prune -f --filter "label=com.aitutor=1" 2>&1) || true
   DANGLING_AFTER=$(docker images -f dangling=true -q | wc -l | tr -d ' ')
   echo "  ↳ aitutor 限定清理 (label=com.aitutor=1): $(echo "$PRUNE_OUT" | tail -1); 当前 dangling=${DANGLING_AFTER}"
@@ -233,7 +236,7 @@ else
 fi
 
 # ── 5. health check (使用 auto-detect 的 BCT_URL) ──
-step "5/12 health check"
+step "5/13 health check"
 if [ -z "$BCT_URL" ]; then
   echo "  (跳过: 无 BCT_URL)"
   fail "/api/health 未通过 (无后端)" "health check"
@@ -252,7 +255,7 @@ fi
 #   R4 — .dockerignore 必须排除 AI Agent 元数据 (D079 §2.4/§9).
 # 2026-09-20 追加: deploy/*.conf 是模板, 不参与构建, 坏了没有任何地方会暴露
 #   (实例: uibe.conf 重复 upstream, nginx -t 报错但无人发现) → 在此拦截。
-step "6/12 仓库一致性 (引用完整性 + D079 边界 + nginx 模板 + 凭据)"
+step "6/13 仓库一致性 (引用完整性 + D079 边界 + nginx 模板 + 凭据)"
 if node scripts/check-tracked-refs.mjs; then
   ok "tracked 引用完整性 (无未入库的运行时依赖)"
 else
@@ -343,7 +346,7 @@ fi
 # 2026-09-21: 新主树 frontend-v2/ 的每页都以"六态机 + 错误分类"验收,
 # 测试落在 tests/frontend/ 里独立跑, 无人守门 —— 改动共享层(ui.js/api.js/app.css)
 # 可以悄悄破坏所有页面而不被发现。接入门禁即为这条回归兜底。
-step "7/12 前端行为测试 (jsdom)"
+step "7/13 前端行为测试 (jsdom)"
 FE_RC=0
 FE_OUT=$(npm run --silent test:frontend 2>&1) || FE_RC=$?
 if [ "$FE_RC" -ne 0 ] || echo "$FE_OUT" | grep -qE "FAIL|❌"; then
@@ -356,7 +359,7 @@ fi
 # tests/frontend/api-contract.test.mjs 早已存在 (170 项) 却未挂任何链 —— api.js 是
 # 所有页面的共享层, 改动必须再过本闸门。package.json 改动会被供应链 hook 拒绝,
 # 故在 shell 侧挂接。
-step "8/12 api.js 契约闸门 (jsdom, 170 项)"
+step "8/13 api.js 契约闸门 (jsdom, 170 项)"
 APIC_RC=0
 APIC_OUT=$(node tests/frontend/api-contract.test.mjs 2>&1) || APIC_RC=$?
 if [ "$APIC_RC" -eq 0 ]; then
@@ -371,7 +374,7 @@ fi
 # req 'close' → closed 在任何事件写出前被置 true → 整条 SSE 流是空的。
 # 这类回归 review 看不出来 (写法"看起来很对"), 必须机械化: 命中 req 的 'close'
 # 监听且处于 SSE/流式 handler 内即判红; 非流式请求的清理逻辑如实放行不误杀。
-step "9/12 SSE 断连检测 (流式响应禁 req.on('close'))"
+step "9/13 SSE 断连检测 (流式响应禁 req.on('close'))"
 if node scripts/check-no-sse-req-close.mjs; then
   ok "无 SSE/流式响应使用 req.on('close')"
 else
@@ -386,14 +389,14 @@ fi
 # 这类错 review 看不出 (因为不报错), 必须机械拦: 字段集从 .venv 里 import graphrag 的
 # pydantic 模型取得 (不硬编码), 并校验 api_base/api_key/model 非空 + vector_size。
 # 缺 .venv / graphrag 导入失败时, 脚本判红 (不静默 pass —— 否则即复现该事故)。
-step "10/12 GraphRAG settings.yaml 字段名 (禁 extra=allow 静默吞字段)"
+step "10/13 GraphRAG settings.yaml 字段名 (禁 extra=allow 静默吞字段)"
 if node scripts/check-graphrag-settings-fields.mjs; then
   ok "GraphRAG settings 字段名与 graphrag 模型一致 (api_base/api_key/model 非空)"
 else
   fail "GraphRAG settings.yaml 字段名/取值异常 (见上; 写错字段会被 ModelConfig(extra=allow) 静默吞 → 打默认端点卡死; 缺 .venv 亦判红)" "GraphRAG settings 字段"
 fi
 
-step "11/12 错误回显收口 (err.message 禁入响应体)"
+step "11/13 错误回显收口 (err.message 禁入响应体)"
 if node scripts/check-no-err-message-echo.mjs; then
   ok "无错误对象 message 进入响应体 (err.message 只进日志)"
 else
@@ -406,11 +409,24 @@ fi
 # 字符串两者皆 undefined, 日志里 err.message 静默丢失 (响应体已改固定文案, 详情无处可查)。
 # 与第 11 段是**不同关切**: 第 11 段防"详情泄露进响应体"(安全), 本段防"详情丢出日志"
 # (可观测性)。故独立成段, 失败标签与 ALLOW 各自独立。
-step "12/12 日志详情收口 (logger meta.error 必须传 Error 对象)"
+step "12/13 日志详情收口 (logger meta.error 必须传 Error 对象)"
 if node scripts/check-logger-error-meta.mjs; then
   ok "logger meta.error 均传 Error 对象 (err.message 未丢失)"
 else
   fail "logger meta.error 传了字符串 (见上; 请改 { error: e }, 例外登记到 scripts/check-logger-error-meta.mjs 的 ALLOW)" "日志详情"
+fi
+
+# ── 13. 前端 payload 键 ⊆ 后端 Zod schema (POST /api/essay/analyze) ──
+# 2026-09-26 真实事故: 作文模式 payload 带了 title_image, 而 AnalyzeRequestSchema 当时没有
+# 该键 —— Zod 默认丢弃未知键, 于是 title_image 被静默丢掉, essay_title 恒「未命名」,
+# mock 单测全绿却线上失效。这类「前端发了字段、schema 没有」的错 review/mock 都看不出,
+# 必须机械化。判据: acorn 静态取 schema 的 z.object 字面量键 + 全前端所有该端点调用点的
+# body 键, 前端键 - schema 键 非空 / 无法静态判定 / 空扫描 → 非零退出 (无 ALLOW 通道)。
+step "13/13 前端 payload 键 ⊆ 后端 Zod schema (POST /api/essay/analyze)"
+if node scripts/check-essay-payload-schema.mjs; then
+  ok "前端 essay/analyze payload 键均在后端 Zod schema 中"
+else
+  fail "前端 essay/analyze payload 含 schema 未定义的键 (见上; 会被 Zod 静默丢弃)" "essay payload×schema"
 fi
 
 echo
