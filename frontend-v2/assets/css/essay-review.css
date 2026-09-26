@@ -207,6 +207,30 @@
   color: var(--ink-3);
   text-align: center;
 }
+/*
+ * 作文题目图（批次 5 收尾）：内容图上方独立只读容器。
+ * 它不是 #essay-image 的图源、不进 #essay-canvas，故不参与缩放/平移与连线坐标；
+ * 由 JS 仅在 meta.title_image_url 有值时惰性创建（无值时不产生任何节点）。
+ */
+.essay-title-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.essay-title-figure__caption {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.essay-title-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
 .essay-caption {
   display: flex;
   align-items: center;

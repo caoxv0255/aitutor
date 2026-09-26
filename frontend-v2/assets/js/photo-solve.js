@@ -702,7 +702,8 @@
 
   /* ── 作文批改链路（2026-09-26：analyze 异步 → 轮询报告 → 跳转阅读器）────
    * 1. POST /api/essay/analyze { image(内容), title_image(题目), subject, grade }
-   *    → { report_id, status:'pending' }（title_image 为**按契约预留**：后端暂未消费）
+   *    → { report_id, status:'pending' }（title_image 后端已消费：落盘 + MaaS 转写题目
+   *      写入 essay_title 并作为「题目/要求」槽位喂进批改 prompt，见 9bba7db）
    * 2. 轮询 POST /api/essay/report/:id 直到 status 非 pending
    * 3. completed → 跳 /essay-review.html?id=<reportId>
    * ──────────────────────────────────────────────────────────────────── */
@@ -794,7 +795,8 @@
 
     return global.Promise.all([toBase64(files[0]), toBase64(titleFiles[0])])
       .then(function (b64) {
-        // 契约：image=我写的作文内容；title_image=作文题目（后端暂未消费，标题暂按「未命名」）
+        // 契约：image=我写的作文内容；title_image=作文题目（后端已消费：转写题目 →
+        // essay_title 与批改 prompt 的「题目/要求」槽位）
         const payload = {
           image: b64[0],
           title_image: b64[1],

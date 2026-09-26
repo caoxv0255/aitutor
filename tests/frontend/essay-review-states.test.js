@@ -303,6 +303,51 @@ describe('报告数据 → DOM 渲染', () => {
   });
 });
 
+describe('题目图回显（批次 5 收尾）', () => {
+  const TITLE = '/uploads/essay/2026/09/title.jpg';
+  const withTitle = { ...REPORT, meta: { ...REPORT.meta, title_image_url: TITLE } };
+
+  it('meta.title_image_url 有值 → 渲染题目图，且标注画布图源仍是内容图', async () => {
+    const w = await loadPage();
+    w.EssayReview.renderReport(withTitle);
+    const doc = w.document;
+
+    const fig = doc.getElementById('title-figure');
+    expect(fig).not.toBeNull();
+    const titleImg = doc.getElementById('title-image');
+    expect(titleImg).not.toBeNull();
+    expect(titleImg.getAttribute('src')).toBe(TITLE);
+    expect(titleImg.alt).toBe('作文题目');
+
+    // 标注画布只认内容图：题目图不进 #essay-canvas
+    expect(doc.getElementById('essay-image').getAttribute('src')).toBe(REPORT.image_url);
+    expect(doc.querySelector('#essay-canvas #essay-image')).not.toBeNull();
+    expect(doc.querySelector('#essay-canvas #title-image')).toBeNull();
+
+    // 坐标地基仍来自内容图：自然尺寸 / 锚点不受题目图影响
+    fireImageLoad(w, 800, 1600);
+    const m = w.EssayReview.getImageMetrics();
+    expect(m.naturalWidth).toBe(800);
+    expect(m.naturalHeight).toBe(1600);
+    expect(w.EssayReview.getAnchors().length).toBeGreaterThan(0);
+  });
+
+  it('无 meta.title_image_url → 不产生任何题目图节点（DOM 与改动前一致）', async () => {
+    const w = await loadPage();
+    w.EssayReview.renderReport(REPORT); // REPORT.meta 无 title_image_url
+    expect(w.document.getElementById('title-figure')).toBeNull();
+    expect(w.document.getElementById('title-image')).toBeNull();
+  });
+
+  it('重复渲染：先有题目图 → 后无 → 容器被移除，不留残影', async () => {
+    const w = await loadPage();
+    w.EssayReview.renderReport(withTitle);
+    expect(w.document.getElementById('title-figure')).not.toBeNull();
+    w.EssayReview.renderReport(REPORT);
+    expect(w.document.getElementById('title-figure')).toBeNull();
+  });
+});
+
 describe('容错：缺键老数据', () => {
   it('老 annotations（无 revised_text/severity/knowledge_points/bbox）照常渲染', async () => {
     const w = await loadPage();

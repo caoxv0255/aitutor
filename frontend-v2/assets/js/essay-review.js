@@ -627,6 +627,46 @@
     if (img.complete && img.naturalWidth > 0) onImageLoad();
   }
 
+  /**
+   * 作文题目图回显（批次 5 收尾）。
+   *
+   * 仅在 meta.title_image_url 有值时，在内容图上方**惰性**插入一个只读展示容器；
+   * 无值时**不创建任何节点**（DOM 与改动前完全一致）。全程纯 DOM，零 innerHTML。
+   *
+   * ⚠️ 与标注画布解耦：题目图**不是** #essay-image 的图源，不进入 #essay-canvas，
+   *    也不参与 getImageMetrics / getAnchors / 连线坐标 —— bbox 只属于作文内容图。
+   *
+   * @param {string} url meta.title_image_url（空/非字符串 → 不渲染）
+   * @returns {boolean} 是否渲染出题目图容器
+   */
+  function renderTitleImage(url) {
+    const src = typeof url === 'string' ? url.trim() : '';
+    const existing = global.document.getElementById('title-figure');
+    if (!src) {
+      if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      return false;
+    }
+    // 内容图 figure（.essay-figure）作为锚点：题目图插在它上方、留在左栏内。
+    const contentFigure = els.canvas && els.canvas.parentNode ? els.canvas.parentNode : null;
+    if (!contentFigure || !contentFigure.parentNode) return false;
+    let fig = existing;
+    if (!fig) {
+      fig = global.document.createElement('figure');
+      fig.id = 'title-figure';
+      fig.className = 'essay-title-figure';
+      fig.appendChild(global.AIUI.el('figcaption', 'essay-title-figure__caption', '作文题目'));
+      const img = global.document.createElement('img');
+      img.id = 'title-image';
+      img.className = 'essay-title-image';
+      img.alt = '作文题目';
+      fig.appendChild(img);
+      contentFigure.parentNode.insertBefore(fig, contentFigure);
+    }
+    const img = fig.querySelector('#title-image');
+    if (img) img.src = src;
+    return true;
+  }
+
   function renderReport(data) {
     state.report = data || null;
     state.annotations = data && Array.isArray(data.annotations) ? data.annotations : [];
@@ -663,6 +703,8 @@
     if (els.meta) els.meta.textContent = buildMetaLine(data, score, subject);
 
     setImage((data && (data.image_url || (data.meta && data.meta.image_url))) || '');
+    // 题目图独立于标注画布：只读回显，无值时不留任何节点（老报告 DOM 不变）。
+    renderTitleImage((data && data.meta && data.meta.title_image_url) || '');
 
     setState('success');
     notifyLayout();
@@ -1012,6 +1054,7 @@
     renderRevisedText: renderRevisedText,
     renderState: renderState,
     setImage: setImage,
+    renderTitleImage: renderTitleImage,
 
     // 批次 4 只读访问器
     getImageMetrics: getImageMetrics,
