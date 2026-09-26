@@ -105,10 +105,14 @@ check('渲染题目卡片数', window.document.querySelectorAll('#results .q-car
 check('渲染失败项', window.document.querySelectorAll('#failed li').length, 1);
 
 // 7b. 收编 pwa-photo / vision-result 后新增的两项（2026-09-22 两页下线）
-//     学科下拉收窄为拍照解题 4 项（2026-09-26 作文类题型需求，见 §13+）；
+//     学科下拉 = 原 9 科 + 语文/英语各拆两档（除作文/作文），共 11 项（2026-09-26 修正）；
 //     结果区回显真实原图（只回显照片，不造置信度/耗时）
 const subjectCodes = [...window.document.querySelectorAll('#subject-select option')].map((o) => o.value);
-check('学科下拉 4 项', subjectCodes.join(','), 'chinese_essay,english_essay,chinese,english');
+check(
+  '学科下拉 11 项且顺序',
+  subjectCodes.join(','),
+  'chinese,chinese_essay,math,english,english_essay,physics,chemistry,biology,history,geography,politics'
+);
 check('结果区回显原图数', window.document.querySelectorAll('#result-images .thumb').length, 1);
 
 // 7c. LaTeX 渲染（2026-09-22 用户反馈：公式以 $...$ 原文出现）
@@ -271,18 +275,63 @@ window.AIAPI.addWrongQuestion = () => Promise.reject(window.AIAPI.ApiError('未�
 await PS.saveToWrongBook({ content: '1+1=?', subject_code: 'math' }, btn);
 check('存入 403 → auth', PS.getState(), 'auth');
 
-// 13. 学科下拉 4 项（语文作文/英语作文/语文（除作文）/英语（除作文））+ 默认语文（除作文）
+// 13. 学科下拉 11 项（原 9 科 + 语文/英语各拆「除作文/作文」）+ 默认数学
 //     文案用中文原样；非作文项保持单图，作文项出现两张上传卡
 const subjSel = window.document.getElementById('subject-select');
 check(
-  '学科 4 项文案原样',
+  '学科 11 项文案原样且顺序',
   [...subjSel.querySelectorAll('option')].map((o) => o.textContent).join(','),
-  '语文作文,英语作文,语文（除作文）,英语（除作文）'
+  '语文（除作文）,语文作文,数学,英语（除作文）,英语作文,物理,化学,生物,历史,地理,政治'
 );
-check('默认语文（除作文）', subjSel.value, 'chinese');
+check('默认数学 math', subjSel.value, 'math');
 check('非作文：隐藏作文题目卡', window.document.getElementById('title-upload').hidden, true);
 check('非作文：隐藏学段', window.document.getElementById('stage-field').hidden, true);
 check('非作文：内容卡多选', window.document.getElementById('photo-input').multiple, true);
+
+// 13b. 逐个切换 11 项：仅两个作文档 → 题目卡 + 学段可见（2 卡）；其余 9 项 → 均隐藏（1 卡）
+//      逐项落断言，防止某个中文学科值被误判成作文档
+const PHOTO_ITEMS = [
+  { code: 'chinese', essay: false },
+  { code: 'chinese_essay', essay: true },
+  { code: 'math', essay: false },
+  { code: 'english', essay: false },
+  { code: 'english_essay', essay: true },
+  { code: 'physics', essay: false },
+  { code: 'chemistry', essay: false },
+  { code: 'biology', essay: false },
+  { code: 'history', essay: false },
+  { code: 'geography', essay: false },
+  { code: 'politics', essay: false },
+];
+for (const it of PHOTO_ITEMS) {
+  subjSel.value = it.code;
+  subjSel.dispatchEvent(new window.Event('change'));
+  const titleHidden = window.document.getElementById('title-upload').hidden;
+  const stageHidden = window.document.getElementById('stage-field').hidden;
+  const multiple = window.document.getElementById('photo-input').multiple;
+  check(`切换 ${it.code}：题目卡${it.essay ? '可见' : '隐藏'}`, titleHidden, !it.essay);
+  check(`切换 ${it.code}：学段${it.essay ? '可见' : '隐藏'}`, stageHidden, !it.essay);
+  check(`切换 ${it.code}：内容卡${it.essay ? '单张' : '多选'}`, multiple, !it.essay);
+}
+
+// 13c. 非作文 payload 仍是原形状（走 batchParse，非 essay analyze）
+//      语文（除作文）/数学 各取一条：images[].subject 与 options.default_subject 均为原学科值
+let solveCall = null;
+window.AIAPI.batchParse = function (images, options) {
+  solveCall = { images, options };
+  return Promise.resolve({ questions: [{ pageIndex: 1, raw_text: 'x', subject_code: 'math' }], success_count: 1 });
+};
+window.localStorage.setItem('authToken', 'stub-token');
+for (const code of ['chinese', 'math']) {
+  subjSel.value = code;
+  subjSel.dispatchEvent(new window.Event('change'));
+  PS.setFiles([{ size: 100 }]);
+  solveCall = null;
+  await PS.submit();
+  check(`非作文 ${code}：走 batchParse（非 analyze）`, !!solveCall, true);
+  check(`非作文 ${code}：images[0].subject=${code}`, solveCall && solveCall.images[0].subject, code);
+  check(`非作文 ${code}：default_subject=${code}`, solveCall && solveCall.options && solveCall.options.default_subject, code);
+}
 
 // 14. 切「语文作文」→ 两张上传卡 + 学段下拉
 subjSel.value = 'chinese_essay';

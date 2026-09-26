@@ -35,19 +35,29 @@
   });
 
   /* ── 拍照解题专用学科清单（与全站 9 科 LIST 分开）─────────────────────
-   * 拍照解题的下拉按需求收窄为 4 项：两个作文项 + 两个「除作文」项。
+   * 拍照解题的下拉是「原 9 科 + 语文/英语各拆两档（除作文 / 作文）」，共 11 项：
    *   - essay:true  → 走作文批改链路 POST /api/essay/analyze，需**两张图**
    *                   （作文题目 title_image + 我写的作文内容 image）
-   *   - essay:false → 走既有单图解析链路 POST /api/vision/batch-parse
+   *   - essay:false → 走既有单图解析链路 POST /api/vision/batch-parse，学科码
+   *                   即 code 本身（chinese/math/english/... 均为后端合法 subject）
    *   - backendSubject 是提交给作文接口的真实学科码（analyze 只认 chinese|english，
-   *     作文与否靠前端拆成两张图表达，故 *_essay 需映射回 chinese/english）
+   *     作文与否靠前端拆成两张图表达，故 *_essay 需映射回 chinese/english）；
+   *     非作文项 backendSubject 与 code 相同，仅为形状统一（submitSolve 实际直接用 value）
+   * 顺序即产品给定顺序，不要按代码习惯重排。
    * 不改 LIST：其余页面仍消费 9 科语义（fillSelect 保持原样）。
    * ──────────────────────────────────────────────────────────────────────── */
   const PHOTO_SOLVE_LIST = [
-    { code: 'chinese_essay', name: '语文作文', essay: true, backendSubject: 'chinese' },
-    { code: 'english_essay', name: '英语作文', essay: true, backendSubject: 'english' },
     { code: 'chinese', name: '语文（除作文）', essay: false, backendSubject: 'chinese' },
+    { code: 'chinese_essay', name: '语文作文', essay: true, backendSubject: 'chinese' },
+    { code: 'math', name: '数学', essay: false, backendSubject: 'math' },
     { code: 'english', name: '英语（除作文）', essay: false, backendSubject: 'english' },
+    { code: 'english_essay', name: '英语作文', essay: true, backendSubject: 'english' },
+    { code: 'physics', name: '物理', essay: false, backendSubject: 'physics' },
+    { code: 'chemistry', name: '化学', essay: false, backendSubject: 'chemistry' },
+    { code: 'biology', name: '生物', essay: false, backendSubject: 'biology' },
+    { code: 'history', name: '历史', essay: false, backendSubject: 'history' },
+    { code: 'geography', name: '地理', essay: false, backendSubject: 'geography' },
+    { code: 'politics', name: '政治', essay: false, backendSubject: 'politics' },
   ];
 
   /** 拍照解题学科码 → 清单项；未知 code 返回 null（调用方自行兜底） */
@@ -95,9 +105,9 @@
   }
 
   /**
-   * 用拍照解题 4 项清单填充 <select>（覆盖原有 option）。
+   * 用拍照解题 11 项清单填充 <select>（覆盖原有 option）。
    * @param {HTMLSelectElement} select
-   * @param {{selected?: string}} [options] 默认选中项（推荐 'chinese'）
+   * @param {{selected?: string}} [options] 默认选中项（推荐 'math'）
    */
   function fillPhotoSolveSelect(select, options) {
     if (!select) return select;

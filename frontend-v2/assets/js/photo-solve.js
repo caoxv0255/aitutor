@@ -833,9 +833,9 @@
     els.thumbs = $('thumbs');
     els.subject = $('subject-select');
 
-    // 拍照解题下拉收窄为 4 项（单一数据源 subjects.js）。
-    // 默认「语文（除作文）」（用户 2026-09-26 拍板）：保持既有单图解题为默认路径。
-    global.AISubjects.fillPhotoSolveSelect(els.subject, { selected: 'chinese' });
+    // 拍照解题下拉为 11 项（原 9 科 + 语文/英语各拆「除作文 / 作文」），单一数据源 subjects.js。
+    // 默认「数学」：沿用改动前的原默认（原 AISubjects.fillSelect(…, 'math')），保持单图解题为默认路径。
+    global.AISubjects.fillPhotoSolveSelect(els.subject, { selected: 'math' });
 
     els.parseBtn = $('parse-btn');
     els.cancelBtn = $('cancel-btn');
