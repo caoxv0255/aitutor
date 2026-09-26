@@ -1,13 +1,14 @@
 /* ============================================================================
- * tests/api/essay-analyze.test.js — 作文 analyze 编排 + 路由 (2026-09-25)
+ * tests/api/essay-analyze.test.js — 作文 analyze 编排 + 路由
  *
  * 覆盖:
- *   1. analyzeEssay 参数校验 / 未登录
- *   2. 成功路径 (复用 V1.0 服务; 落库 status=completed)
- *   3. 批改 Schema 校验失败 → 重试一次 → 成功
- *   4. 两次校验失败 → 落 status=failed + 抛**固定文案** (不泄露 err.message)
- *   5. MaaS 视觉失败 → ESSAY_LLM_UPSTREAM_ERROR
- *   6. 路由层: 400/503 状态码 + 固定文案 (不把内部 message 回显给客户端)
+ *   1. startAnalyze 参数校验 / 未登录 (同步拒, 不触达 LLM)
+ *   2. startAnalyze 立即返回 pending, 且落一条 status='pending' 的行
+ *   3. runAnalyzeJob 成功路径 → 写回 completed + 顶层 score = meta.scores.total
+ *   4. 批改 Schema 校验失败 → 重试一次 → 成功
+ *   5. 两次校验失败 → 该行标 failed (error_message = 错误码, 不含 err.message)
+ *   6. MaaS 视觉失败 → 该行标 failed(ESSAY_LLM_UPSTREAM_ERROR)
+ *   7. 路由层: 400/503 状态码 + 固定文案 (不把内部 message 回显给客户端)
  *
  * 全 mock 外部依赖 (LLM / 存储 / sharp), 不真调外部服务, 不写 DB。
  * ============================================================================ */
@@ -19,6 +20,9 @@ import express from 'express';
 const mocks = vi.hoisted(() => ({
   insertEssayReport: vi.fn(),
   getEssayReport: vi.fn(),
+  updateEssayReportResult: vi.fn(),
+  markEssayFailed: vi.fn(),
+  reclaimStalePending: vi.fn(),
   gradeEssay: vi.fn(),
   maasVisionChatCompletion: vi.fn(),
   saveImageFromBase64: vi.fn(),
@@ -27,6 +31,10 @@ const mocks = vi.hoisted(() => ({
 vi.mock('../../api/handlers/essay/essayStorage.js', () => ({
   insertEssayReport: mocks.insertEssayReport,
   getEssayReport: mocks.getEssayReport,
+  updateEssayReportResult: mocks.updateEssayReportResult,
+  markEssayFailed: mocks.markEssayFailed,
+  reclaimStalePending: mocks.reclaimStalePending,
+  PENDING_TIMEOUT_MS: 180000,
 }));
 vi.mock('../../api/handlers/essay/gradeService.js', () => ({
   gradeEssay: mocks.gradeEssay,
@@ -41,7 +49,12 @@ vi.mock('../../api/core/logger.js', () => ({
   logger: { info() {}, warn() {}, error() {}, debug() {} },
 }));
 
-import { analyzeEssay, mapGradedToMeta, buildReportMeta } from '../../api/handlers/essay/analyzeService.js';
+import {
+  startAnalyze,
+  runAnalyzeJob,
+  mapGradedToMeta,
+  buildReportMeta,
+} from '../../api/handlers/essay/analyzeService.js';
 import essayReviewRouter from '../../api/routes/essay-review.js';
 import { EssayError } from '../../api/handlers/essay/errors.js';
 import { ErrorCode } from '../../api/utils/errorCodes.js';
@@ -77,59 +90,135 @@ beforeEach(() => {
   mocks.saveImageFromBase64.mockResolvedValue({ url: '/uploads/essay/2026/09/abc.jpg', width: 20, height: 20 });
   mocks.gradeEssay.mockResolvedValue(GRADED);
   mocks.insertEssayReport.mockResolvedValue('er_test_1');
+  mocks.updateEssayReportResult.mockResolvedValue(undefined);
+  mocks.markEssayFailed.mockResolvedValue(undefined);
+  mocks.reclaimStalePending.mockResolvedValue([]);
 });
+
+/** startAnalyze 返回的 pending 行 → 交给 runAnalyzeJob 的 job 描述 */
+function jobOf(reportId = 'er_test_1', overrides = {}) {
+  return {
+    reportId,
+    email: 'student@example.com',
+    authHeader: 'Bearer test-token',
+    image: 'BASE64DATA',
+    subject: 'chinese',
+    essayTitle: '未命名',
+    examLevel: 'zhongkao',
+    grade: '初三',
+    requestId: 'tid-test',
+    ...overrides,
+  };
+}
 
 afterEach(() => {
   delete process.env.DEV_AUTH_BYPASS;
 });
 
-describe('analyzeEssay()', () => {
-  it('未登录 → AUTH_NOT_LOGIN', async () => {
+describe('startAnalyze() — 异步入口 (立即返回)', () => {
+  it('未登录 → AUTH_NOT_LOGIN (不触达 LLM, 不落库)', async () => {
     const req = mockReq({});
     delete req.user;
-    await expect(analyzeEssay({ req })).rejects.toMatchObject({ code: ErrorCode.AUTH_NOT_LOGIN });
+    await expect(startAnalyze({ req })).rejects.toMatchObject({ code: ErrorCode.AUTH_NOT_LOGIN });
     expect(mocks.maasVisionChatCompletion).not.toHaveBeenCalled();
+    expect(mocks.insertEssayReport).not.toHaveBeenCalled();
+  });
+
+  it('缺 Authorization 头 → AUTH_NOT_LOGIN (后台无头可转发)', async () => {
+    const req = mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'junior' });
+    delete req.headers.authorization;
+    await expect(startAnalyze({ req })).rejects.toMatchObject({ code: ErrorCode.AUTH_NOT_LOGIN });
+    expect(mocks.insertEssayReport).not.toHaveBeenCalled();
   });
 
   it('subject 非法 → VALIDATION_REQUIRED_FIELD (不触达 LLM)', async () => {
     await expect(
-      analyzeEssay({ req: mockReq({ image: 'BASE64DATA', subject: 'math', grade: 'junior' }) })
+      startAnalyze({ req: mockReq({ image: 'BASE64DATA', subject: 'math', grade: 'junior' }) })
     ).rejects.toMatchObject({ code: ErrorCode.VALIDATION_REQUIRED_FIELD });
     expect(mocks.maasVisionChatCompletion).not.toHaveBeenCalled();
   });
 
   it('grade 非法 → VALIDATION_REQUIRED_FIELD', async () => {
     await expect(
-      analyzeEssay({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: '大一' }) })
+      startAnalyze({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: '大一' }) })
     ).rejects.toMatchObject({ code: ErrorCode.VALIDATION_REQUIRED_FIELD });
   });
 
-  it('成功: junior 映射 zhongkao + 落库 completed + 返回报告', async () => {
-    const res = await analyzeEssay({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'junior' }) });
+  it('立即返回 200 + status=pending + report_id, 且只落一条 pending 行', async () => {
+    const dispatch = vi.fn(); // 掐断后台派发, 单测「同步路径」
+    const res = await startAnalyze({
+      req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'junior' }),
+      dispatch,
+    });
 
-    expect(res.report_id).toBe('er_test_1');
-    expect(res.image_url).toBe('/uploads/essay/2026/09/abc.jpg');
-    expect(res.transcript.paragraphs[0].lines[0].text).toBe('春天来了。');
-    // grade 参数: junior → zhongkao/初三
-    expect(mocks.gradeEssay).toHaveBeenCalledWith(expect.objectContaining({ exam_level: 'zhongkao', grade: '初三' }));
+    expect(res.status).toBe('pending');
+    expect(typeof res.report_id).toBe('string');
+    expect(res.report_id.length).toBeGreaterThan(0);
+    // junior → zhongkao/初三 的映射仍然在建行时确定
+    expect(mocks.insertEssayReport).toHaveBeenCalledTimes(1);
     expect(mocks.insertEssayReport).toHaveBeenCalledWith(expect.objectContaining({
-      report_id: 'er_test_1', status: 'completed', exam_level: 'zhongkao', grade: '初三',
+      status: 'pending', exam_level: 'zhongkao', grade: '初三', user_email: 'student@example.com',
     }));
-    // 落库 meta 必须带上 scores(对象, 对齐 V0) + summary(comment 映射, 对齐 V0)
-    const stored = mocks.insertEssayReport.mock.calls[0][0];
-    expect(stored.meta.scores).toEqual(GRADED.scores);
-    expect(stored.meta.scores.total).toBe(62);
-    expect(stored.meta.summary).toBe(GRADED.comment);
-    expect(stored.meta.image_url).toBe('/uploads/essay/2026/09/abc.jpg');
-    expect(stored.meta.subject).toBe('chinese');
+    // 同步路径**不**碰重活: 不落盘、不调视觉、不调批改
+    expect(mocks.saveImageFromBase64).not.toHaveBeenCalled();
+    expect(mocks.maasVisionChatCompletion).not.toHaveBeenCalled();
+    expect(mocks.gradeEssay).not.toHaveBeenCalled();
+    // 后台任务被派发, 且带齐了跑完全程所需的信息 (不含 req 引用)
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    const job = dispatch.mock.calls[0][0];
+    expect(job.reportId).toBe(res.report_id);
+    expect(job.authHeader).toBe('Bearer test-token');
+    expect(job.examLevel).toBe('zhongkao');
+    expect(job.grade).toBe('初三');
+    expect(job).not.toHaveProperty('req');
+  });
+
+  it('默认派发器会把后台任务真的跑起来 → 行最终变 completed', async () => {
+    const res = await startAnalyze({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'junior' }) });
+    // 后台是 fire-and-forget; 用轮询等它落地 (mock 全同步 resolve, 通常一两轮微任务)
+    for (let i = 0; i < 50 && mocks.updateEssayReportResult.mock.calls.length === 0; i += 1) {
+      await new Promise((r) => setTimeout(r, 5));
+    }
+    expect(mocks.updateEssayReportResult).toHaveBeenCalledWith(res.report_id, expect.objectContaining({
+      status: 'completed', score: 62,
+    }));
+  });
+
+  it('pending 行落库失败 → INTERNAL_ERROR (不返回假的 pending)', async () => {
+    mocks.insertEssayReport.mockRejectedValueOnce(new Error('db down'));
+    await expect(
+      startAnalyze({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'senior' }) })
+    ).rejects.toMatchObject({ code: ErrorCode.INTERNAL_ERROR });
+  });
+});
+
+describe('runAnalyzeJob() — 后台任务', () => {
+  it('成功 → 写回 completed + 顶层 score 与 meta.scores.total 同源', async () => {
+    const out = await runAnalyzeJob(jobOf('er_job_1'));
+
+    expect(out.status).toBe('completed');
+    expect(mocks.updateEssayReportResult).toHaveBeenCalledTimes(1);
+    const [reportId, written] = mocks.updateEssayReportResult.mock.calls[0];
+    expect(reportId).toBe('er_job_1');
+    expect(written.status).toBe('completed');
+    // 遗留 2: 总分同步进顶层 score 列
+    expect(written.score).toBe(62);
+    expect(written.meta.scores.total).toBe(62);
+    expect(written.meta.summary).toBe(GRADED.comment);
+    expect(written.transcript.paragraphs[0].lines[0].text).toBe('春天来了。');
+    expect(mocks.markEssayFailed).not.toHaveBeenCalled();
   });
 
   it('base64 会落盘取 URL (复用存储), 并把 base64 交给视觉通路', async () => {
-    await analyzeEssay({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'senior' }) });
+    await runAnalyzeJob(jobOf('er_job_2', { subject: 'chinese', grade: '高三', examLevel: 'gaokao' }));
     expect(mocks.saveImageFromBase64).toHaveBeenCalledWith('BASE64DATA', expect.objectContaining({ purpose: 'essay' }));
     expect(mocks.maasVisionChatCompletion).toHaveBeenCalledWith(
       expect.objectContaining({ images: [{ base64: 'BASE64DATA' }] })
     );
+    // 后台转发给 /api/proxy 的 Authorization 头来自 job.authHeader
+    expect(mocks.gradeEssay).toHaveBeenCalledWith(expect.objectContaining({
+      req: { headers: { authorization: 'Bearer test-token' } },
+    }));
   });
 
   it('批改校验失败 → 重试一次 → 成功', async () => {
@@ -137,45 +226,74 @@ describe('analyzeEssay()', () => {
       .mockRejectedValueOnce(new EssayError(ErrorCode.ESSAY_GRADE_PARSE_FAILED, 'AI 输出不符合批改 Schema', { raw_excerpt: 'RAW' }))
       .mockResolvedValueOnce(GRADED);
 
-    const res = await analyzeEssay({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'senior' }) });
+    const out = await runAnalyzeJob(jobOf('er_job_3'));
 
     expect(mocks.gradeEssay).toHaveBeenCalledTimes(2);
-    expect(res.report_id).toBe('er_test_1');
-    expect(mocks.insertEssayReport).toHaveBeenCalledTimes(1);
-    expect(mocks.insertEssayReport).toHaveBeenCalledWith(expect.objectContaining({ status: 'completed' }));
+    expect(out.status).toBe('completed');
+    expect(mocks.updateEssayReportResult).toHaveBeenCalledWith('er_job_3', expect.objectContaining({ status: 'completed' }));
   });
 
-  it('两次都失败 → 落 failed 报告 + 抛固定文案 (不回显 err.message)', async () => {
+  it('两次都失败 → 该行标 failed, error_message 是错误码且不含内部细节', async () => {
     mocks.gradeEssay.mockRejectedValue(
       new EssayError(ErrorCode.ESSAY_GRADE_PARSE_FAILED, 'AI 输出不符合批改 Schema: scores.total 不匹配', { raw_excerpt: 'RAW_INTERNAL' })
     );
 
-    let thrown = null;
-    try {
-      await analyzeEssay({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'senior' }) });
-    } catch (e) {
-      thrown = e;
-    }
+    const out = await runAnalyzeJob(jobOf('er_job_4'));
 
     expect(mocks.gradeEssay).toHaveBeenCalledTimes(2); // 重试一次
-    expect(thrown).toBeInstanceOf(EssayError);
-    expect(thrown.code).toBe(ErrorCode.ESSAY_GRADE_PARSE_FAILED);
-    // 固定对外文案, 不含内部细节
-    expect(thrown.message).toBe('AI 老师暂时无法完成这次批改，请稍后重试');
-    expect(thrown.message).not.toMatch(/Schema|scores|total/);
-    expect(thrown.details).toBeNull();
-    // failed 报告落库
-    expect(mocks.insertEssayReport).toHaveBeenCalledWith(expect.objectContaining({
-      status: 'failed', error_message: 'grading_validation_failed',
-    }));
+    expect(out.status).toBe('failed');
+    expect(mocks.markEssayFailed).toHaveBeenCalledTimes(1);
+    expect(mocks.markEssayFailed).toHaveBeenCalledWith('er_job_4', ErrorCode.ESSAY_GRADE_PARSE_FAILED);
+    // 绝不把 err.message 写进库 (第 11 段)
+    const code = mocks.markEssayFailed.mock.calls[0][1];
+    expect(String(code)).not.toMatch(/Schema|scores|total|RAW_INTERNAL/);
+    expect(mocks.updateEssayReportResult).not.toHaveBeenCalled();
   });
 
-  it('MaaS 视觉失败 → ESSAY_LLM_UPSTREAM_ERROR (不触达批改)', async () => {
+  it('MaaS 视觉失败 → 标 failed(ESSAY_LLM_UPSTREAM_ERROR), 不触达批改', async () => {
     mocks.maasVisionChatCompletion.mockRejectedValue(new Error('connect ECONNREFUSED'));
-    await expect(
-      analyzeEssay({ req: mockReq({ image: 'BASE64DATA', subject: 'chinese', grade: 'senior' }) })
-    ).rejects.toMatchObject({ code: ErrorCode.ESSAY_LLM_UPSTREAM_ERROR });
+
+    const out = await runAnalyzeJob(jobOf('er_job_5'));
+
+    expect(out.status).toBe('failed');
+    expect(mocks.markEssayFailed).toHaveBeenCalledWith('er_job_5', ErrorCode.ESSAY_LLM_UPSTREAM_ERROR);
     expect(mocks.gradeEssay).not.toHaveBeenCalled();
+  });
+
+  it('图片非白名单 URL → 标 failed, 不触达视觉', async () => {
+    const out = await runAnalyzeJob(jobOf('er_job_6', { image: 'https://evil.example.com/a.jpg' }));
+
+    expect(out.status).toBe('failed');
+    expect(mocks.markEssayFailed).toHaveBeenCalledWith('er_job_6', ErrorCode.VALIDATION_REQUIRED_FIELD);
+    expect(mocks.maasVisionChatCompletion).not.toHaveBeenCalled();
+  });
+
+  it('转录解析失败 → 标 failed(ESSAY_TRANSCRIBE_PARSE_FAILED)', async () => {
+    mocks.maasVisionChatCompletion.mockResolvedValue({ content: 'not json at all', provider: 'maas' });
+
+    const out = await runAnalyzeJob(jobOf('er_job_7'));
+
+    expect(out.status).toBe('failed');
+    expect(mocks.markEssayFailed).toHaveBeenCalledWith('er_job_7', ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED);
+  });
+
+  it('结果写回失败 → 标 failed(INTERNAL_ERROR) (不留悬空 pending)', async () => {
+    mocks.updateEssayReportResult.mockRejectedValueOnce(new Error('db down'));
+
+    const out = await runAnalyzeJob(jobOf('er_job_8'));
+
+    expect(out.status).toBe('failed');
+    expect(mocks.markEssayFailed).toHaveBeenCalledWith('er_job_8', ErrorCode.INTERNAL_ERROR);
+  });
+
+  it('模型未给 scores → score 写 null (不编造分数)', async () => {
+    mocks.gradeEssay.mockResolvedValue({ ...GRADED, scores: undefined });
+
+    await runAnalyzeJob(jobOf('er_job_9'));
+
+    const written = mocks.updateEssayReportResult.mock.calls[0][1];
+    expect(written.score).toBeNull();
+    expect('scores' in written.meta).toBe(false);
   });
 });
 
@@ -353,11 +471,57 @@ describe('essay-review router (HTTP)', () => {
     expect(JSON.stringify(body)).not.toMatch(/请求参数校验失败|zod_issues/);
   });
 
-  it('analyze 视觉失败 → 503 + 固定文案', async () => {
+  it('analyze 异步化: 后端视觉失败也**不**体现在提交响应 (200 + pending), 由轮询暴露', async () => {
     mocks.maasVisionChatCompletion.mockRejectedValue(new Error('maas down'));
     const { status, body } = await post('/api/essay/analyze', { image: 'BASE64DATA', subject: 'chinese', grade: 'senior' });
-    expect(status).toBe(503);
-    expect(body.errorCode).toBe(ErrorCode.ESSAY_LLM_UPSTREAM_ERROR);
+    expect(status).toBe(200);
+    expect(body.success).toBe(true);
+    expect(body.data.status).toBe('pending');
+    expect(typeof body.data.report_id).toBe('string');
+    // 内部错误绝不回显 (第 11 段)
     expect(JSON.stringify(body)).not.toMatch(/maas down/);
+  });
+
+  it('report 端点: pending 行原样回 pending (不阻塞等完成)', async () => {
+    mocks.getEssayReport.mockResolvedValue({
+      report_id: 'er_pending_1',
+      user_email: 'smoke@example.com',
+      status: 'pending',
+      meta: { subject: 'chinese', prompt_version: '3.1.0', stage: 'pending' },
+      annotations: [],
+      transcript: { paragraphs: [] },
+      score: null,
+    });
+
+    const r = await fetch(`${base}/api/essay/report/er_pending_1`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer test-token' },
+    });
+    expect(r.status).toBe(200);
+    const body = await r.json();
+    expect(body.data.status).toBe('pending');
+    expect(body.data.score).toBeNull();
+    expect(body.data.report_id).toBe('er_pending_1');
+  });
+
+  it('report 端点: completed 行回传顶层 score (与 meta.scores.total 同值)', async () => {
+    mocks.getEssayReport.mockResolvedValue({
+      report_id: 'er_done_1',
+      user_email: 'smoke@example.com',
+      status: 'completed',
+      score: 62,
+      meta: { scores: { content: 17, language: 16, structure: 15, development: 14, total: 62 }, summary: '总评。' },
+      annotations: [],
+      transcript: { paragraphs: [] },
+    });
+
+    const r = await fetch(`${base}/api/essay/report/er_done_1`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer test-token' },
+    });
+    const body = await r.json();
+    expect(body.data.status).toBe('completed');
+    expect(body.data.score).toBe(62);
+    expect(body.data.meta.scores.total).toBe(62);
   });
 });

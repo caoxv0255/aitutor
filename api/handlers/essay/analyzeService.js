@@ -1,8 +1,8 @@
 /* ============================================================================
  * analyzeService.js — 作文智能批改「analyze」编排 (2026-09-25)
  *
- * 职责: 一张图片 → OCR(私有 MaaS 视觉) → 批改(Stage B) → 落库 essay_reports
- *       → 返回统一报告。**复用**现有 V1.0 两阶段能力, 不新增第二套契约:
+ * 职责: 一张图片 → OCR(私有 MaaS 视觉) → 批改(Stage B) → 落库 essay_reports。
+ *       **复用**现有 V1.0 两阶段能力, 不新增第二套契约:
  *         - 转录 prompt / 解析 / Zod / line_no 推断 → transcribeService.js
  *         - 批改 prompt / rubric / 锚定 / 输出 Schema → gradeService.js
  *         - 落库 → essayStorage.js ; 报告 ID → essayReconcile.newReportId
@@ -12,8 +12,23 @@
  * 与既有 V0 (essayService.js, /api/essay/grade) 的关系:
  *   V0 仍在役、frontend-v2 在消费, 本模块**不改动**它; analyze 是走 V1.0 服务的新入口。
  *
- * 校验失败重试 (本批要求): 批改输出 Schema 校验失败 → 打印原始返回 + 重试一次;
- *   两次仍失败 → 落一条 status='failed' 的报告并抛出**固定文案**错误 (不回显 err.message)。
+ * ── 2026-09-26: 改异步 (根治 48.5s 同步等待) ──────────────────────────────
+ *   startAnalyze()  只做「入参校验 + 建 pending 行」, 立即返回 (实测 < 1s);
+ *   runAnalyzeJob() 在**后台**跑 图片落盘 → 转录 → 批改 → 写回结果
+ *                   (completed / failed), 不占用请求连接。
+ *   前端改轮询 /api/essay/report/:reviewId 读 status (pending → completed)。
+ *
+ *   为什么**不引入进程内队列**: analyze 已有 analyzeLimiter 5/min/用户, 单实例
+ *   在飞任务上界由限流器决定; 加队列只会把失败延迟化, 且队列本身随进程重启丢失
+ *   (与下面的孤儿恢复机制冲突)。并发只做可观测 (日志打 in_flight), 堆积由孤儿
+ *   回收 + 5/min 限流共同兜底。
+ *
+ *   孤儿恢复: startPendingReclaimer() 在进程启动时扫一次 + 之后每 60s 扫一次,
+ *   把「创建超过 PENDING_TIMEOUT_MS 仍是 pending」的行标 failed(pending_timeout)。
+ *   这样服务重启后不会留下永远 pending 的悬空行。
+ *
+ * 校验失败重试: 批改输出 Schema 校验失败 → 打印原始返回 + 重试一次;
+ *   两次仍失败 → 该行标 failed (error_message 用**固定错误码**, 不回显 err.message)。
  * ============================================================================ */
 
 'use strict';
@@ -25,13 +40,25 @@ import { ErrorCode } from '../../utils/errorCodes.js';
 import { isAllowedImageUrl } from './imageHostPolicy.js';
 import { buildTranscribePrompt, parseAndValidateTranscript } from './transcribeService.js';
 import { gradeEssay as gradeEssayStageB } from './gradeService.js';
-import { insertEssayReport } from './essayStorage.js';
+import {
+  insertEssayReport,
+  updateEssayReportResult,
+  markEssayFailed,
+  reclaimStalePending,
+  PENDING_TIMEOUT_MS,
+} from './essayStorage.js';
 import { newReportId } from './essayReconcile.js';
 import { saveImageFromBase64 } from '../upload/imageHandler.js';
 import { maasVisionChatCompletion } from '../../../services/llm.js';
 
 const DEFAULT_ESSAY_TITLE = '未命名';
 const PROMPT_VERSION = '3.1.0'; // 与 prompts/grade.v1.txt 的 prompt_version 对齐 (批次 2 扩展)
+
+/** 孤儿回收扫描间隔 (进程内定时, unref 不阻止退出) */
+const RECLAIM_INTERVAL_MS = 60_000;
+
+/** 后台在飞任务计数 (只做可观测, 不做排队/拒绝) */
+let inFlight = 0;
 
 // ────────────────────────────────────────────────────────────────────────────
 // 入参 Schema
@@ -137,17 +164,26 @@ export function buildReportMeta(graded, { imageUrl, subject }) {
 // ────────────────────────────────────────────────────────────────────────────
 
 /**
+ * 异步入口: 只做入参校验 + 建 pending 行, **立即返回**。
+ *
+ * 返回码沿用仓库现状 —— successJson 恒 200 (api/utils/response.js), 全仓无 202
+ * 先例; AIAPI.request 对 2xx 一视同仁 (res.ok 判据), 异步语义由 data.status
+ * 表达, 不靠 HTTP 码。
+ *
  * @param {object} args
  * @param {object} args.req  Express request (取 user.email / authorization / traceId)
- * @returns {Promise<object>} 统一报告体
+ * @param {function} [args.dispatch] 后台派发器 (默认 fire-and-forget runAnalyzeJob;
+ *        测试可注入以单测「同步路径不碰重活」)
+ * @returns {Promise<{report_id:string, status:'pending'}>}
  * @throws {EssayError}
  */
-export async function analyzeEssay({ req }) {
+export async function startAnalyze({ req, dispatch }) {
   const email = req?.user?.email;
   if (!email) {
     throw new EssayError(ErrorCode.AUTH_NOT_LOGIN, '请先登录', null);
   }
-  if (!req?.headers?.authorization) {
+  const authHeader = req?.headers?.authorization;
+  if (!authHeader) {
     throw new EssayError(ErrorCode.AUTH_NOT_LOGIN, '缺少 Authorization 头', null);
   }
 
@@ -165,136 +201,7 @@ export async function analyzeEssay({ req }) {
   const essayTitle = essay_title || DEFAULT_ESSAY_TITLE;
   const { exam_level: resolvedLevel, grade } = resolveExamLevel(rawGrade, exam_level);
 
-  // ─── 2. 图片归一 (存储复用) ───
-  let visionImage;
-  let imageUrl;
-  try {
-    ({ visionImage, imageUrl } = await resolveImage(image, { email }));
-  } catch (e) {
-    if (e instanceof EssayError) throw e;
-    // imageHandler 抛的是带 uploadCode 的 Error
-    if (e && e.uploadCode) {
-      throw new EssayError(e.uploadCode, '图片处理失败', { upload_code: e.uploadCode });
-    }
-    throw e;
-  }
-
-  // ─── 3. Stage A: 私有 MaaS 视觉 OCR (复用转录 prompt 与校验) ───
-  let visionRes;
-  try {
-    visionRes = await maasVisionChatCompletion({
-      userText: buildTranscribePrompt(subject),
-      images: [visionImage],
-      options: {
-        jsonMode: true,
-        temperature: 0.1,
-        max_tokens: 3000,
-        task_type: 'essay_transcribe',
-        user_id: email,
-        request_id: req.traceId,
-      },
-    });
-  } catch (e) {
-    logger.error('[essay.analyze] MaaS 视觉调用失败', { error: e, requestId: req.requestId });
-    throw new EssayError(ErrorCode.ESSAY_LLM_UPSTREAM_ERROR, '视觉服务暂不可用', null);
-  }
-
-  let transcript;
-  let request_token;
-  try {
-    ({ transcript, request_token } = parseAndValidateTranscript(visionRes.content));
-  } catch (e) {
-    if (e instanceof EssayError) throw e; // 已含固定文案 (ESSAY_TRANSCRIBE_PARSE_FAILED)
-    throw new EssayError(ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED, '转录结果解析失败', null);
-  }
-
-  // ─── 4. Stage B: 批改 (Schema 校验失败重试一次) ───
-  const gradeArgs = {
-    user_email: email,
-    transcript,
-    essay_title: essayTitle,
-    exam_level: resolvedLevel,
-    grade,
-    subject,
-    request_token,
-    req,
-  };
-
-  let graded = null;
-  let lastErr = null;
-  for (let attempt = 1; attempt <= 2; attempt += 1) {
-    try {
-      graded = await gradeEssayStageB(gradeArgs);
-      break;
-    } catch (e) {
-      lastErr = e;
-      const isParseFailure = e instanceof EssayError && e.code === ErrorCode.ESSAY_GRADE_PARSE_FAILED;
-      if (isParseFailure && attempt === 1) {
-        // 打印原始返回 (detail 内的 raw_excerpt) + 重试一次
-        logger.warn('[essay.analyze] 批改输出校验失败, 重试一次', {
-          attempt,
-          raw_excerpt: e.details?.raw_excerpt || null,
-          zod_issues: e.details?.zod_issues || null,
-        });
-        continue;
-      }
-      break;
-    }
-  }
-
-  if (!graded) {
-    // 两次仍失败 (或非解析类失败) → 落 failed 报告, 抛固定文案
-    if (lastErr instanceof EssayError && lastErr.code === ErrorCode.ESSAY_GRADE_PARSE_FAILED) {
-      await markAnalyzeFailed({ email, essayTitle, resolvedLevel, grade, transcript, imageUrl });
-      throw new EssayError(
-        ErrorCode.ESSAY_GRADE_PARSE_FAILED,
-        'AI 老师暂时无法完成这次批改，请稍后重试',
-        null
-      );
-    }
-    if (lastErr instanceof EssayError) throw lastErr;
-    logger.error('[essay.analyze] 批改阶段未知异常', { error: lastErr, requestId: req.requestId });
-    throw new EssayError(ErrorCode.ESSAY_LLM_UPSTREAM_ERROR, '批改服务异常', null);
-  }
-
-  // ─── 5. 落库 (复用 essay_reports) ───
-  const meta = buildReportMeta(graded, { imageUrl, subject });
-  try {
-    await insertEssayReport({
-      report_id: graded.report_id,
-      user_email: email,
-      essay_title: essayTitle,
-      exam_level: resolvedLevel,
-      grade,
-      transcript,
-      annotations: graded.annotations,
-      meta,
-      status: 'completed',
-    });
-  } catch (e) {
-    logger.error('[essay.analyze] 报告落库失败', { error: e, reportId: graded.report_id });
-    throw new EssayError(ErrorCode.INTERNAL_ERROR, '报告保存失败', null);
-  }
-
-  return {
-    report_id: graded.report_id,
-    transcript,
-    annotations: graded.annotations,
-    scores: graded.scores,
-    comment: graded.comment,
-    rubric_id: graded.rubric_id,
-    meta,
-    image_url: imageUrl,
-    subject,
-    request_token,
-  };
-}
-
-/**
- * 两次校验失败后落一条 failed 报告 (便于用户/客服排查, 与列表 status 语义一致)。
- * 该函数本身不再抛错 —— 落库失败只记录日志。
- */
-async function markAnalyzeFailed({ email, essayTitle, resolvedLevel, grade, transcript, imageUrl }) {
+  // ─── 2. 建 pending 行 (唯一一次 DB 写, 毫秒级) ───
   const reportId = newReportId();
   try {
     await insertEssayReport({
@@ -303,14 +210,202 @@ async function markAnalyzeFailed({ email, essayTitle, resolvedLevel, grade, tran
       essay_title: essayTitle,
       exam_level: resolvedLevel,
       grade,
-      transcript,
+      transcript: { paragraphs: [] },
       annotations: [],
-      meta: { image_url: imageUrl, stage: 'grade', prompt_version: PROMPT_VERSION },
-      status: 'failed',
-      error_message: 'grading_validation_failed',
+      meta: { subject, prompt_version: PROMPT_VERSION, stage: 'pending' },
+      status: 'pending',
     });
   } catch (e) {
-    logger.error('[essay.analyze] failed 报告落库失败', { error: e, reportId });
+    logger.error('[essay.analyze] pending 行落库失败', { error: e, reportId });
+    throw new EssayError(ErrorCode.INTERNAL_ERROR, '报告创建失败', null);
   }
-  return reportId;
+
+  // ─── 3. 后台跑 (不 await; 请求已可返回) ───
+  // 注意: 只把**字符串** authHeader 带进后台, 不持有 req (响应结束后 req 即失效)。
+  const job = {
+    reportId,
+    email,
+    authHeader,
+    image,
+    subject,
+    essayTitle,
+    examLevel: resolvedLevel,
+    grade,
+    requestId: req.traceId || req.requestId || null,
+  };
+  const kick = typeof dispatch === 'function' ? dispatch : (j) => { void runAnalyzeJob(j); };
+  kick(job);
+
+  return { report_id: reportId, status: 'pending' };
+}
+
+/**
+ * 后台任务: 图片落盘 → 转录 → 批改 → 写回结果。
+ *
+ * **永不抛错** —— 任何失败都落到该行的 status='failed' + 固定 error_message
+ * (错误码字符串, 绝不写 err.message —— 第 11 段)。
+ *
+ * @param {object} job
+ * @returns {Promise<{status: 'completed'|'failed'}>}
+ */
+export async function runAnalyzeJob(job) {
+  inFlight += 1;
+  try {
+    // ─── 1. 图片归一 (落盘在此, 不阻塞 analyze 的返回) ───
+    let visionImage;
+    let imageUrl;
+    try {
+      ({ visionImage, imageUrl } = await resolveImage(job.image, { email: job.email }));
+    } catch (e) {
+      if (e instanceof EssayError) return fail(job, e.code);
+      if (e && e.uploadCode) return fail(job, e.uploadCode); // imageHandler 的错误码
+      logger.error('[essay.analyze] 图片处理未知异常', { error: e, reportId: job.reportId });
+      return fail(job, 'image_error');
+    }
+
+    // ─── 2. Stage A: 私有 MaaS 视觉 OCR ───
+    let visionRes;
+    try {
+      visionRes = await maasVisionChatCompletion({
+        userText: buildTranscribePrompt(job.subject),
+        images: [visionImage],
+        options: {
+          jsonMode: true,
+          temperature: 0.1,
+          max_tokens: 3000,
+          task_type: 'essay_transcribe',
+          user_id: job.email,
+          request_id: job.requestId,
+        },
+      });
+    } catch (e) {
+      logger.error('[essay.analyze] MaaS 视觉调用失败', { error: e, reportId: job.reportId });
+      return fail(job, ErrorCode.ESSAY_LLM_UPSTREAM_ERROR);
+    }
+
+    let transcript;
+    let request_token;
+    try {
+      ({ transcript, request_token } = parseAndValidateTranscript(visionRes.content));
+    } catch (e) {
+      if (e instanceof EssayError) return fail(job, e.code); // 已含 ESSAY_TRANSCRIBE_PARSE_FAILED
+      return fail(job, ErrorCode.ESSAY_TRANSCRIBE_PARSE_FAILED);
+    }
+
+    // ─── 3. Stage B: 批改 (Schema 校验失败重试一次) ───
+    const gradeArgs = {
+      user_email: job.email,
+      transcript,
+      essay_title: job.essayTitle,
+      exam_level: job.examLevel,
+      grade: job.grade,
+      subject: job.subject,
+      request_token,
+      // gradeService 只用它取 headers.authorization 转发给 /api/proxy
+      req: { headers: { authorization: job.authHeader } },
+    };
+
+    let graded = null;
+    let lastErr = null;
+    for (let attempt = 1; attempt <= 2; attempt += 1) {
+      try {
+        graded = await gradeEssayStageB(gradeArgs);
+        break;
+      } catch (e) {
+        lastErr = e;
+        const isParseFailure = e instanceof EssayError && e.code === ErrorCode.ESSAY_GRADE_PARSE_FAILED;
+        if (isParseFailure && attempt === 1) {
+          // 打印原始返回 (detail 内的 raw_excerpt) + 重试一次
+          logger.warn('[essay.analyze] 批改输出校验失败, 重试一次', {
+            attempt,
+            reportId: job.reportId,
+            raw_excerpt: e.details?.raw_excerpt || null,
+            zod_issues: e.details?.zod_issues || null,
+          });
+          continue;
+        }
+        break;
+      }
+    }
+
+    if (!graded) {
+      if (lastErr instanceof EssayError) return fail(job, lastErr.code);
+      logger.error('[essay.analyze] 批改阶段未知异常', { error: lastErr, reportId: job.reportId });
+      return fail(job, ErrorCode.ESSAY_LLM_UPSTREAM_ERROR);
+    }
+
+    // ─── 4. 写回结果 (含顶层 score, 与 meta.scores.total 同源) ───
+    const meta = buildReportMeta(graded, { imageUrl, subject: job.subject });
+    try {
+      await updateEssayReportResult(job.reportId, {
+        transcript,
+        annotations: graded.annotations,
+        meta,
+        status: 'completed',
+        score: graded.scores?.total ?? null,
+      });
+    } catch (e) {
+      logger.error('[essay.analyze] 结果写回失败', { error: e, reportId: job.reportId });
+      return fail(job, ErrorCode.INTERNAL_ERROR);
+    }
+
+    logger.info(`[essay.analyze] 批改完成: ${job.reportId}, score=${graded.scores?.total ?? 'null'}, in_flight=${inFlight}`, {
+      reportId: job.reportId,
+      score: graded.scores?.total ?? null,
+      in_flight: inFlight,
+    });
+    return { status: 'completed' };
+  } finally {
+    inFlight -= 1;
+  }
+}
+
+/**
+ * 标记失败 (写 error_message = 错误码字符串, 不写 err.message)。
+ * 返回统一形状, 便于调用方与测试断言。
+ */
+async function fail(job, errorCode) {
+  try {
+    await markEssayFailed(job.reportId, errorCode || ErrorCode.INTERNAL_ERROR);
+  } catch (e) {
+    logger.error('[essay.analyze] failed 状态写回失败', { error: e, reportId: job.reportId });
+  }
+  return { status: 'failed', error_code: errorCode || ErrorCode.INTERNAL_ERROR };
+}
+
+/**
+ * 挂上孤儿回收: 调用时刻立刻扫一次, 之后每 RECLAIM_INTERVAL_MS 扫一次。
+ *
+ * 由 api/routes/essay-review.js 在模块加载时调用 —— 该模块被 server.js 启动时
+ * import, 等价于「进程启动即回收」, 不需要改 server.js 的挂载区。
+ *
+ * @param {object} [opts]
+ * @returns {function} 停止函数 (供测试收尾)
+ */
+export function startPendingReclaimer(opts = {}) {
+  const timeoutMs = opts.timeoutMs || PENDING_TIMEOUT_MS;
+  const intervalMs = opts.intervalMs || RECLAIM_INTERVAL_MS;
+  const run = opts.reclaim || reclaimStalePending;
+
+  const tick = async () => {
+    try {
+      const reclaimed = await run(timeoutMs);
+      if (Array.isArray(reclaimed) && reclaimed.length > 0) {
+        // 注: logger.js 只透传白名单 meta 键 (error/user/requestId/...), 本处的
+        // count/report_ids 不会进日志行 —— 故把条数与阈值并进 message, 保证可见。
+        logger.warn(`[essay.analyze] 回收超时未完成的 pending 报告: ${reclaimed.length} 条, timeout=${timeoutMs}ms`, {
+          count: reclaimed.length,
+          report_ids: reclaimed,
+          timeout_ms: timeoutMs,
+        });
+      }
+    } catch (e) {
+      logger.error('[essay.analyze] pending 回收扫描失败', { error: e });
+    }
+  };
+
+  void tick();
+  const timer = setInterval(() => void tick(), intervalMs);
+  if (typeof timer.unref === 'function') timer.unref(); // 不阻止进程退出
+  return () => clearInterval(timer);
 }

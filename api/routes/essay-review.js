@@ -27,7 +27,7 @@ import { logger } from '../core/logger.js';
 import { successJson, errorJson } from '../utils/response.js';
 import { ErrorCode } from '../utils/errorCodes.js';
 import { EssayError } from '../handlers/essay/errors.js';
-import { analyzeEssay } from '../handlers/essay/analyzeService.js';
+import { startAnalyze, startPendingReclaimer } from '../handlers/essay/analyzeService.js';
 import { getEssayReport, listEssayReports } from '../handlers/essay/essayStorage.js';
 
 const router = express.Router();
@@ -51,14 +51,19 @@ function sendError(res, e, req, scope) {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// POST /api/essay/analyze
+// POST /api/essay/analyze  (2026-09-26 起为**异步**)
 // Body: { image: dataURL|base64|http(s) URL, subject: 'chinese'|'english',
 //         grade: 'junior'|'senior'(兼容具体年级), essay_title?, exam_level? }
+// → 200 { data: { report_id, status: 'pending' } }
+//
+// 返回码取 200 (而非 202): 仓库统一响应工具 successJson 恒 200, 全仓无 202 先例;
+// AIAPI.request 以 res.ok 判成功, 对 2xx 无差别。异步语义由 data.status 承载,
+// 客户端轮询 /api/essay/report/:reviewId 直到它不再是 pending。
 // ────────────────────────────────────────────────────────────────────────────
 router.post('/analyze', authMiddleware, analyzeLimiter, async (req, res) => {
   try {
-    const data = await analyzeEssay({ req });
-    return successJson(res, data, '批改完成', { requestId: req.requestId });
+    const data = await startAnalyze({ req });
+    return successJson(res, data, '批改已提交', { requestId: req.requestId });
   } catch (e) {
     return sendError(res, e, req, 'analyze');
   }
@@ -66,6 +71,9 @@ router.post('/analyze', authMiddleware, analyzeLimiter, async (req, res) => {
 
 // ────────────────────────────────────────────────────────────────────────────
 // POST /api/essay/report/:reviewId — 完整报告 (含图片 URL)
+//
+// 异步化后本端点**必须立即返回当前状态**: pending 就回 pending (行内 status 列),
+// 绝不阻塞等后台跑完。前端据此轮询。
 // ────────────────────────────────────────────────────────────────────────────
 router.post('/report/:reviewId', authMiddleware, async (req, res) => {
   try {
@@ -115,5 +123,12 @@ function withImageUrl(row) {
   const imageUrl = (row && row.meta && row.meta.image_url) || null;
   return { ...row, image_url: imageUrl };
 }
+
+// ────────────────────────────────────────────────────────────────────────────
+// 孤儿回收: 本模块被 server.js 在启动时 import —— 在这里挂上即等价于「进程启动
+// 扫一次 + 之后每 60s 扫一次」, 不改动 server.js 的任何挂载逻辑。
+// 服务重启后上一进程遗留的 pending 行会被标 failed(pending_timeout), 不留悬空。
+// ────────────────────────────────────────────────────────────────────────────
+startPendingReclaimer();
 
 export default router;
