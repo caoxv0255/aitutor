@@ -45,18 +45,43 @@
   <div class="section section--tight">
     <div class="container">
       <form id="solve-form" novalidate>
-        <label class="dropzone" for="photo-input">
-          <span class="dropzone-title">点击选择或拍摄题目照片</span>
-          <span class="dropzone-hint">支持多选，单张 ≤ 10MB，最多 20 张；每张图解析其中最清晰的一道题（后端限制），多题请分张拍</span>
-          <input id="photo-input" type="file" accept="image/*" multiple capture="environment">
-        </label>
-        <ul class="thumbs" id="thumbs"></ul>
+        <!-- 作文题目卡：仅当学科选「语文作文 / 英语作文」时显示（JS 切 hidden）。
+             作文模式需要两张图：本卡=作文题目（title_image），下方内容卡=我写的作文内容。 -->
+        <div id="title-upload" hidden>
+          <label class="dropzone" for="title-input">
+            <span class="dropzone-title">上传作文题目</span>
+            <span class="dropzone-hint">作文题目 / 要求的那一张，单张 ≤ 3MB</span>
+            <input id="title-input" type="file" accept="image/*" capture="environment">
+          </label>
+          <ul class="thumbs" id="title-thumbs"></ul>
+        </div>
+
+        <!-- 内容卡：非作文=题目照片（可多选）；作文=我写的作文内容（单张，JS 会切文案与 multiple）。 -->
+        <div id="content-upload">
+          <label class="dropzone" for="photo-input">
+            <span class="dropzone-title" id="content-title">点击选择或拍摄题目照片</span>
+            <span class="dropzone-hint" id="content-hint">支持多选，单张 ≤ 10MB，最多 20 张；每张图解析其中最清晰的一道题（后端限制），多题请分张拍</span>
+            <input id="photo-input" type="file" accept="image/*" multiple capture="environment">
+          </label>
+          <ul class="thumbs" id="thumbs"></ul>
+        </div>
+        <!-- 上传超限提示（文案由 JS 用自有文案写入，不用后端 err.message） -->
+        <p class="form-hint" id="upload-error" role="alert" hidden></p>
+
         <div class="field-row">
           <label class="field" for="subject-select">
             学科
-            <!-- 9 科由 assets/js/subjects.js 的 fillSelect() 统一填充（PM-BRIEF §B.2 / §F.8）；
-                 后端 exam-questions.js 同样是这 9 个 code。 -->
+            <!-- 拍照解题 4 项（语文作文/英语作文/语文（除作文）/英语（除作文））由
+                 assets/js/subjects.js 的 fillPhotoSolveSelect() 统一填充，页面不写 <option>。 -->
             <select id="subject-select"></select>
+          </label>
+          <!-- 学段：仅作文模式显示，提交给 /api/essay/analyze 的 grade（junior/senior） -->
+          <label class="field" for="stage-select" id="stage-field" hidden>
+            学段
+            <select id="stage-select">
+              <option value="junior">初中</option>
+              <option value="senior">高中</option>
+            </select>
           </label>
           <button class="btn" id="parse-btn" type="submit">开始解析</button>
           <button class="btn btn-ghost" id="cancel-btn" type="button" hidden>中断</button>

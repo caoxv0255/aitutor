@@ -105,9 +105,10 @@ check('渲染题目卡片数', window.document.querySelectorAll('#results .q-car
 check('渲染失败项', window.document.querySelectorAll('#failed li').length, 1);
 
 // 7b. 收编 pwa-photo / vision-result 后新增的两项（2026-09-22 两页下线）
-//     学科下拉补齐 9 科（PM-BRIEF §A.3）；结果区回显真实原图（只回显照片，不造置信度/耗时）
+//     学科下拉收窄为拍照解题 4 项（2026-09-26 作文类题型需求，见 §13+）；
+//     结果区回显真实原图（只回显照片，不造置信度/耗时）
 const subjectCodes = [...window.document.querySelectorAll('#subject-select option')].map((o) => o.value);
-check('学科下拉 9 科', subjectCodes.join(','), 'chinese,math,english,physics,chemistry,biology,history,geography,politics');
+check('学科下拉 4 项', subjectCodes.join(','), 'chinese_essay,english_essay,chinese,english');
 check('结果区回显原图数', window.document.querySelectorAll('#result-images .thumb').length, 1);
 
 // 7c. LaTeX 渲染（2026-09-22 用户反馈：公式以 $...$ 原文出现）
@@ -269,6 +270,128 @@ check('存入成功按钮态', btn.textContent, '已存入');
 window.AIAPI.addWrongQuestion = () => Promise.reject(window.AIAPI.ApiError('未授权', { status: 403 }));
 await PS.saveToWrongBook({ content: '1+1=?', subject_code: 'math' }, btn);
 check('存入 403 → auth', PS.getState(), 'auth');
+
+// 13. 学科下拉 4 项（语文作文/英语作文/语文（除作文）/英语（除作文））+ 默认语文（除作文）
+//     文案用中文原样；非作文项保持单图，作文项出现两张上传卡
+const subjSel = window.document.getElementById('subject-select');
+check(
+  '学科 4 项文案原样',
+  [...subjSel.querySelectorAll('option')].map((o) => o.textContent).join(','),
+  '语文作文,英语作文,语文（除作文）,英语（除作文）'
+);
+check('默认语文（除作文）', subjSel.value, 'chinese');
+check('非作文：隐藏作文题目卡', window.document.getElementById('title-upload').hidden, true);
+check('非作文：隐藏学段', window.document.getElementById('stage-field').hidden, true);
+check('非作文：内容卡多选', window.document.getElementById('photo-input').multiple, true);
+
+// 14. 切「语文作文」→ 两张上传卡 + 学段下拉
+subjSel.value = 'chinese_essay';
+subjSel.dispatchEvent(new window.Event('change'));
+check('作文：显示作文题目卡', window.document.getElementById('title-upload').hidden, false);
+check('作文：显示学段', window.document.getElementById('stage-field').hidden, false);
+check('作文：内容卡单张', window.document.getElementById('photo-input').multiple, false);
+check('作文：内容卡文案', window.document.getElementById('content-title').textContent, '上传我写的作文内容');
+check('作文：按钮改「开始批改」', window.document.getElementById('parse-btn').textContent, '开始批改');
+check('学段默认初中 junior', window.document.getElementById('stage-select').value, 'junior');
+
+// 15. 缺任一图 → empty 且文案可区分（不是笼统的「先添加一张」）
+PS.setFiles([]);
+PS.setTitleFiles([]);
+await PS.submit();
+check('缺作文题目 → empty', PS.getState(), 'empty');
+check('缺题目文案', /作文题目/.test(window.document.getElementById('empty-copy').textContent), true);
+PS.setTitleFiles([{ size: 100 }]);
+PS.setFiles([]);
+await PS.submit();
+check('缺正文文案', /我写的作文内容/.test(window.document.getElementById('empty-copy').textContent), true);
+
+// 16. 两图齐 → analyze payload（image/title_image/subject/grade）→ 轮询 pending×2 → completed → 跳转
+window.localStorage.setItem('authToken', 'stub-token');
+let analyzeBody = null;
+let reportCalls = 0;
+window.AIAPI.request = function (url, options) {
+  if (url === '/api/essay/analyze') {
+    analyzeBody = options.body;
+    return Promise.resolve({ report_id: 'r-9', status: 'pending' });
+  }
+  if (url === '/api/essay/report/r-9') {
+    reportCalls += 1;
+    return Promise.resolve(reportCalls < 3 ? { status: 'pending' } : { report_id: 'r-9', status: 'completed' });
+  }
+  return Promise.reject(new Error('unexpected ' + url));
+};
+PS.setFiles([{ size: 100 }]);
+PS.setTitleFiles([{ size: 100 }]);
+let navTo = null;
+PS.setNavigator(function (u) { navTo = u; });
+const pollDelays = [];
+const queue = [];
+const pEssay = PS.submitEssay({ scheduler: function (fn, ms) { pollDelays.push(ms); queue.push(fn); } });
+let settled = false;
+pEssay.then(() => { settled = true; }, () => { settled = true; });
+let guard = 0;
+while (!settled && guard < 2000) {
+  await new Promise((r) => setTimeout(r, 0));
+  while (queue.length) queue.shift()();
+  guard += 1;
+}
+await pEssay;
+// FileReader stub 返回 'data:image/png;base64,AAAA'，toBase64 去前缀 → 'AAAA'（断言截断展示）
+check('analyze payload 已发出', !!analyzeBody, true);
+check('payload.image = 正文 base64', analyzeBody && analyzeBody.image, 'AAAA');
+check('payload.title_image 按契约发出', analyzeBody && analyzeBody.title_image, 'AAAA');
+check('payload.subject 映射为 chinese', analyzeBody && analyzeBody.subject, 'chinese');
+check('payload.grade 来自学段', analyzeBody && analyzeBody.grade, 'junior');
+check('轮询次数 3（2 pending→completed）', reportCalls, 3);
+check('轮询退避 1500/2250', pollDelays.join(','), '1500,2250');
+check('完成后跳转阅读器', navTo, '/essay-review.html?id=r-9');
+
+// 17. status=failed → error，固定文案，不回显后端错误码
+window.AIAPI.request = function (url) {
+  if (url === '/api/essay/analyze') return Promise.resolve({ report_id: 'r-f', status: 'pending' });
+  return Promise.resolve({ report_id: 'r-f', status: 'failed', error_message: 'grading_validation_failed' });
+};
+PS.setFiles([{ size: 100 }]);
+PS.setTitleFiles([{ size: 100 }]);
+await PS.submitEssay({ scheduler: function (fn) { fn(); } });
+check('failed → error', PS.getState(), 'error');
+const failCopy = window.document.getElementById('error-copy').textContent;
+check('failed 文案固定且不泄露错误码', /未能完成/.test(failCopy) && !/grading_validation_failed/.test(failCopy), true);
+
+// 18. 单张 > 3MB → 可操作文案，且不入列（作文单图限制）
+const photoInput = window.document.getElementById('photo-input');
+Object.defineProperty(photoInput, 'files', {
+  value: [{ size: 4 * 1024 * 1024, name: 'big.jpg' }],
+  configurable: true,
+});
+photoInput.dispatchEvent(new window.Event('change'));
+const uploadErr = window.document.getElementById('upload-error');
+check('超 3MB 提示可见', uploadErr.hidden, false);
+check('超限文案含上限与实际大小', /超过 3\.0MB/.test(uploadErr.textContent) && /4\.0MB/.test(uploadErr.textContent), true);
+check('超限图不入列', PS.getFilesSize(), 0);
+
+// 19. 轮询超上限仍 pending → error（有终点，不无限轮询）
+let reportCalls2 = 0;
+window.AIAPI.request = function (url) {
+  if (url === '/api/essay/analyze') return Promise.resolve({ report_id: 'r-p', status: 'pending' });
+  reportCalls2 += 1;
+  return Promise.resolve({ status: 'pending' });
+};
+PS.setFiles([{ size: 100 }]);
+PS.setTitleFiles([{ size: 100 }]);
+const queue2 = [];
+const p2 = PS.submitEssay({ scheduler: function (fn) { queue2.push(fn); } });
+let settled2 = false;
+p2.then(() => { settled2 = true; }, () => { settled2 = true; });
+let guard2 = 0;
+while (!settled2 && guard2 < 5000) {
+  await new Promise((r) => setTimeout(r, 0));
+  while (queue2.length) queue2.shift()();
+  guard2 += 1;
+}
+await p2;
+check('轮询有上限 → error', PS.getState(), 'error');
+check('轮询次数 = maxAttempts', reportCalls2, PS.POLL.maxAttempts);
 
 for (const r of results) {
   console.log(`${r.ok ? 'OK  ' : 'FAIL'} ${r.name.padEnd(28)} 实际=${JSON.stringify(r.got)}` + (r.ok ? '' : ` 期望=${JSON.stringify(r.want)}`));

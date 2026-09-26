@@ -14,13 +14,27 @@
 
   const MAX_IMAGES = 20;
   const MAX_BYTES = 10 * 1024 * 1024;
+  // 作文模式两张图走 base64 JSON（服务端 body limit 10mb，base64 膨胀 ~4/3）：
+  // 单张 3MB → 两张约 8MB base64，给 JSON 留余量。超限给可操作文案，不静默丢弃。
+  const ESSAY_MAX_BYTES = 3 * 1024 * 1024;
+
+  /**
+   * 作文批改轮询参数（analyze 已异步：建 pending 行后立即返回，后台跑批改）。
+   * 与 essay-review.js 同口径：退避 1.5s→…→4s 封顶，累计 30 次 ≈115s 覆盖窗口；
+   * 超上限落 error（有终点，不无限轮询、不假装成功）。
+   */
+  const POLL = { baseMs: 1500, factor: 1.5, maxMs: 4000, maxAttempts: 30 };
 
   const STATES = ['empty', 'loading', 'success', 'error', 'auth', 'offline'];
 
   const els = {};
-  let files = [];
+  let files = []; // 非作文：题目照片（多张）；作文：我写的作文内容（单张）
+  let titleFiles = []; // 仅作文：作文题目（单张）
   let controller = null;
   let machine = null;
+  let pollTimer = null; // 作文报告轮询定时器
+  let aborted = false; // 中断标志：作文轮询与解析共用
+  let navigate = null; // 测试注入的跳转钩子（默认走 location.assign）
 
   function $(id) {
     return global.document.getElementById(id);
@@ -38,13 +52,24 @@
       //   - no-image   ：还没选图（submit 前置拦截）→ 引导添加
       //   - zero-result：OCR 已跑完但 questions 为空 → 「未解析出题目」→ 引导换图
       //
+      // 作文模式补两类（两张图缺一）：
+      //   - missing-title  ：没传作文题目
+      //   - missing-content：没传我写的作文内容
+      //
       // 第三类「解析成功但无相似题」不在这里：它属于解析成功态，由下方
       // similar-by-text 的相似题区按后端 similarNotice 原文展示（见 renderSimilar），
       // 与「没解析出题」是两回事，不混进 empty 面板。
-      els.emptyCopy.textContent =
-        ctx.reason === 'zero-result'
-          ? '这几张图没有解析出题目，换一张更清晰的试试。'
-          : '先添加一张题目照片，解析结果会出现在这里。';
+      let copy;
+      if (ctx.reason === 'zero-result') {
+        copy = '这几张图没有解析出题目，换一张更清晰的试试。';
+      } else if (ctx.reason === 'missing-title') {
+        copy = '作文批改需要两张图：请先上传「作文题目」。';
+      } else if (ctx.reason === 'missing-content') {
+        copy = '还差一张：请上传「我写的作文内容」。';
+      } else {
+        copy = '先添加一张题目照片，解析结果会出现在这里。';
+      }
+      els.emptyCopy.textContent = copy;
     }
     if (name === 'loading' && els.loadingTitle) {
       els.loadingTitle.textContent = ctx.title || '正在解析…';
@@ -64,15 +89,21 @@
   }
 
   /* ── 缩略图 ─────────────────────────────────────────────────────────── */
-  function renderThumbs() {
-    els.thumbs.innerHTML = '';
-    files.forEach(function (file, i) {
+  /**
+   * 渲染一组缩略图。listEl 与 arr 成对传入（题目卡 / 内容卡各一组），
+   * 移除按钮直接改 arr（即模块里的 files / titleFiles）。
+   * 纯 DOM，无 innerHTML（清空用 removeChild）。
+   */
+  function renderThumbs(listEl, arr, altPrefix) {
+    if (!listEl) return;
+    while (listEl.firstChild) listEl.removeChild(listEl.firstChild);
+    arr.forEach(function (file, i) {
       const li = global.document.createElement('li');
       li.className = 'thumb';
       li.style.animationDelay = i * 40 + 'ms';
 
       const img = global.document.createElement('img');
-      img.alt = '待解析的第 ' + (i + 1) + ' 张题目照片';
+      img.alt = altPrefix + (i + 1) + ' 张照片';
       img.src = global.URL.createObjectURL(file);
 
       const rm = global.document.createElement('button');
@@ -80,24 +111,121 @@
       rm.setAttribute('aria-label', '移除第 ' + (i + 1) + ' 张照片');
       rm.textContent = '×';
       rm.addEventListener('click', function () {
-        files.splice(i, 1);
-        renderThumbs();
+        arr.splice(i, 1);
+        renderThumbs(listEl, arr, altPrefix);
       });
 
       li.appendChild(img);
       li.appendChild(rm);
-      els.thumbs.appendChild(li);
+      listEl.appendChild(li);
     });
+  }
+
+  /* ── 上传校验 / 超限文案 ────────────────────────────────────────────── */
+  function formatMb(bytes) {
+    return (bytes / (1024 * 1024)).toFixed(1) + 'MB';
+  }
+
+  function showUploadError(text) {
+    if (!els.uploadError) return;
+    els.uploadError.textContent = text;
+    els.uploadError.hidden = false;
+  }
+
+  function clearUploadError() {
+    if (!els.uploadError) return;
+    els.uploadError.textContent = '';
+    els.uploadError.hidden = true;
+  }
+
+  /**
+   * 过滤选中文件：超过 limit 的一律拒收并汇总为**可操作**文案；max 为单次上限
+   * （作文两卡各 1 张，非作文内容卡最多 MAX_IMAGES）。
+   * @returns {{ok: File[], err: string}}
+   */
+  function acceptFiles(picked, limit, kind, max) {
+    const ok = [];
+    let over = 0;
+    let biggest = 0;
+    picked.forEach(function (f) {
+      if (f.size <= limit) ok.push(f);
+      else {
+        over += 1;
+        if (f.size > biggest) biggest = f.size;
+      }
+    });
+
+    let err = '';
+    if (over > 0) {
+      err =
+        '「' + kind + '」有 ' + over + ' 张超过 ' + formatMb(limit) +
+        '（最大 ' + formatMb(biggest) + '），请压缩后重试。';
+    }
+
+    const kept = max ? ok.slice(0, max) : ok;
+    if (!err && max && ok.length > max) {
+      err = '「' + kind + '」一次只需 ' + max + ' 张，已保留前 ' + max + ' 张。';
+    }
+    return { ok: kept, err: err };
   }
 
   function onPick(e) {
     const picked = Array.prototype.slice.call(e.target.files || []);
-    const accepted = picked.filter(function (f) {
-      return f.size <= MAX_BYTES;
-    });
-    files = files.concat(accepted).slice(0, MAX_IMAGES);
-    renderThumbs();
+    const essay = isEssaySubject(els.subject.value);
+    clearUploadError();
+    const res = acceptFiles(
+      picked,
+      essay ? ESSAY_MAX_BYTES : MAX_BYTES,
+      essay ? '我写的作文内容' : '题目照片',
+      essay ? 1 : null
+    );
+    if (res.err) showUploadError(res.err);
+    files = essay ? res.ok : files.concat(res.ok).slice(0, MAX_IMAGES);
+    renderThumbs(els.thumbs, files, '待解析的第 ');
     e.target.value = '';
+  }
+
+  function onPickTitle(e) {
+    const picked = Array.prototype.slice.call(e.target.files || []);
+    clearUploadError();
+    const res = acceptFiles(picked, ESSAY_MAX_BYTES, '作文题目', 1);
+    if (res.err) showUploadError(res.err);
+    titleFiles = res.ok;
+    renderThumbs(els.titleThumbs, titleFiles, '作文题目的第 ');
+    e.target.value = '';
+  }
+
+  /* ── 学科模式（作文 / 非作文）切换 ───────────────────────────────────── */
+  function isEssaySubject(code) {
+    const s = global.AISubjects.photoSolve(code);
+    return !!(s && s.essay);
+  }
+
+  function currentSubject() {
+    return global.AISubjects.photoSolve(els.subject.value);
+  }
+
+  /** 学科变化时同步两卡可见性 / 文案 / multiple / 按钮名，并清空已选图避免模式串味 */
+  function syncSubjectMode() {
+    const essay = isEssaySubject(els.subject.value);
+    if (els.titleUpload) els.titleUpload.hidden = !essay;
+    if (els.stageField) els.stageField.hidden = !essay;
+    if (els.photoInput) els.photoInput.multiple = !essay;
+    if (els.contentTitle) {
+      els.contentTitle.textContent = essay ? '上传我写的作文内容' : '点击选择或拍摄题目照片';
+    }
+    if (els.contentHint) {
+      els.contentHint.textContent = essay
+        ? '我写的那篇作文照片，单张 ≤ 3MB'
+        : '支持多选，单张 ≤ 10MB，最多 20 张；每张图解析其中最清晰的一道题（后端限制），多题请分张拍';
+    }
+    if (els.parseBtn) els.parseBtn.textContent = essay ? '开始批改' : '开始解析';
+
+    files = [];
+    titleFiles = [];
+    renderThumbs(els.thumbs, files, '待解析的第 ');
+    renderThumbs(els.titleThumbs, titleFiles, '作文题目的第 ');
+    clearUploadError();
   }
 
   /* ── 读取为 base64 ──────────────────────────────────────────────────── */
@@ -122,7 +250,7 @@
    * ──────────────────────────────────────────────────────────────────── */
   function renderResultImages() {
     if (!els.resultImages) return;
-    els.resultImages.innerHTML = '';
+    els.resultImages.textContent = '';
     files.forEach(function (file, i) {
       const li = global.document.createElement('li');
       li.className = 'thumb';
@@ -253,8 +381,8 @@
 
   function renderResults(data) {
     const questions = data.questions || [];
-    els.results.innerHTML = '';
-    els.failed.innerHTML = '';
+    els.results.textContent = '';
+    els.failed.textContent = '';
     renderResultImages();
 
     questions.forEach(function (q, i) {
@@ -380,14 +508,14 @@
   function resetSimilar() {
     if (!els.similarBox) return;
     // 静态清空（'' 为字面量，不携带动态内容）
-    els.similarList.innerHTML = '';
+    els.similarList.textContent = '';
     els.similarNotice.textContent = '';
     els.similarNotice.hidden = true;
     els.similarBox.hidden = true;
   }
 
   function showSimilarNotice(text) {
-    els.similarList.innerHTML = '';
+    els.similarList.textContent = '';
     els.similarNotice.textContent = text;
     els.similarNotice.hidden = false;
     els.similarBox.hidden = false;
@@ -401,7 +529,7 @@
       return;
     }
 
-    els.similarList.innerHTML = '';
+    els.similarList.textContent = '';
     els.similarNotice.hidden = true;
 
     list.forEach(function (q, i) {
@@ -521,7 +649,13 @@
   }
 
   /* ── 主流程 ─────────────────────────────────────────────────────────── */
+  /** 入口：作文项走作文批改链路，其余走既有单图解析链路 */
   function submit() {
+    return isEssaySubject(els.subject.value) ? submitEssay() : submitSolve();
+  }
+
+  function submitSolve() {
+    aborted = false;
     if (!files.length) return setState('empty', { reason: 'no-image' });
     if (global.navigator && global.navigator.onLine === false) return setState('offline');
     if (!global.AIAPI.getToken()) return setState('auth');
@@ -566,15 +700,142 @@
       });
   }
 
+  /* ── 作文批改链路（2026-09-26：analyze 异步 → 轮询报告 → 跳转阅读器）────
+   * 1. POST /api/essay/analyze { image(内容), title_image(题目), subject, grade }
+   *    → { report_id, status:'pending' }（title_image 为**按契约预留**：后端暂未消费）
+   * 2. 轮询 POST /api/essay/report/:id 直到 status 非 pending
+   * 3. completed → 跳 /essay-review.html?id=<reportId>
+   * ──────────────────────────────────────────────────────────────────── */
+  function essayReviewUrl(id) {
+    return '/essay-review.html?id=' + encodeURIComponent(id);
+  }
+
+  function gotoEssayReview(id) {
+    const url = essayReviewUrl(id);
+    if (typeof navigate === 'function') {
+      navigate(url);
+      return 'navigated';
+    }
+    try {
+      global.location.assign(url);
+    } catch (e) {
+      global.location.href = url;
+    }
+    return 'navigated';
+  }
+
+  function essayPollDelay(attempt) {
+    return Math.min(POLL.baseMs * Math.pow(POLL.factor, Math.max(0, attempt)), POLL.maxMs);
+  }
+
+  function clearEssayPoll() {
+    if (pollTimer !== null && typeof global.clearTimeout === 'function') global.clearTimeout(pollTimer);
+    pollTimer = null;
+  }
+
+  function waitEssayRetry(id, attempt, scheduler) {
+    const ms = essayPollDelay(attempt);
+    return new global.Promise(function (resolve) {
+      const run = function () {
+        if (aborted) return;
+        resolve(pollEssayReport(id, attempt + 1, scheduler));
+      };
+      if (typeof scheduler === 'function') {
+        scheduler(run, ms);
+        return;
+      }
+      pollTimer = global.setTimeout(run, ms);
+    });
+  }
+
+  /**
+   * 取一次报告并决定：pending → 继续等；failed → error（固定文案，不回显后端错误码）；
+   * completed（或老数据无 status）→ 跳转阅读器。
+   */
+  function pollEssayReport(id, attempt, scheduler) {
+    if (aborted) return 'aborted';
+    return global.AIAPI.request('/api/essay/report/' + encodeURIComponent(id), { method: 'POST' })
+      .then(function (data) {
+        if (aborted) return 'aborted';
+        if (!data) return setState('error', { message: '批改报告暂时取不到，请稍后到「作文批改」页查看。' });
+        if (data.status === 'pending') {
+          if (attempt + 1 >= POLL.maxAttempts) {
+            return setState('error', { message: 'AI 仍在批改中，请稍后到「作文批改」页查看。' });
+          }
+          setState('loading', { title: 'AI 正在批改中…' });
+          return waitEssayRetry(id, attempt, scheduler);
+        }
+        if (data.status === 'failed') {
+          return setState('error', { message: '本次批改未能完成，请重新提交作文。' });
+        }
+        return gotoEssayReview(id);
+      })
+      .catch(function (err) {
+        const mapped = global.AIUI.mapError(err);
+        if (mapped !== 'error') return setState(mapped);
+        return setState('error', { message: (err && err.message) || '批改报告加载失败' });
+      });
+  }
+
+  function submitEssay(opts) {
+    aborted = false;
+    clearUploadError();
+    if (!titleFiles.length) return setState('empty', { reason: 'missing-title' });
+    if (!files.length) return setState('empty', { reason: 'missing-content' });
+    if (global.navigator && global.navigator.onLine === false) return setState('offline');
+    if (!global.AIAPI.getToken()) return setState('auth');
+
+    const subject = currentSubject();
+    if (!subject) return setState('error', { message: '学科无效，请重新选择。' });
+    const grade = (els.stageSelect && els.stageSelect.value) || 'junior';
+
+    setState('loading', { title: '正在提交批改…' });
+    controller = new global.AbortController();
+
+    return global.Promise.all([toBase64(files[0]), toBase64(titleFiles[0])])
+      .then(function (b64) {
+        // 契约：image=我写的作文内容；title_image=作文题目（后端暂未消费，标题暂按「未命名」）
+        const payload = {
+          image: b64[0],
+          title_image: b64[1],
+          subject: subject.backendSubject,
+          grade: grade,
+        };
+        return global.AIAPI.request('/api/essay/analyze', {
+          method: 'POST',
+          body: payload,
+          signal: controller.signal,
+        });
+      })
+      .then(function (data) {
+        controller = null;
+        const reportId = data && (data.report_id || data.reviewId || data.id);
+        if (!reportId) {
+          return setState('error', { message: '批改提交失败：未返回报告编号。' });
+        }
+        setState('loading', { title: 'AI 正在批改中…' });
+        return pollEssayReport(reportId, 0, opts && opts.scheduler);
+      })
+      .catch(function (err) {
+        controller = null;
+        if ((err && err.name === 'AbortError') || aborted) {
+          return setState('empty', { reason: 'no-image' });
+        }
+        const mapped = global.AIUI.mapError(err);
+        if (mapped !== 'error') return setState(mapped);
+        return setState('error', { message: (err && err.message) || '批改提交失败' });
+      });
+  }
+
   /* ── 装配 ───────────────────────────────────────────────────────────── */
   function init() {
     els.region = $('state-region');
     els.thumbs = $('thumbs');
     els.subject = $('subject-select');
 
-    // 学科下拉统一到 9 科（单一数据源 subjects.js）。
-    // 必须显式 selected:'math'：PM-BRIEF 新顺序语文排第一，不指定的话默认学科会静默变成语文。
-    global.AISubjects.fillSelect(els.subject, { selected: 'math' });
+    // 拍照解题下拉收窄为 4 项（单一数据源 subjects.js）。
+    // 默认「语文（除作文）」（用户 2026-09-26 拍板）：保持既有单图解题为默认路径。
+    global.AISubjects.fillPhotoSolveSelect(els.subject, { selected: 'chinese' });
 
     els.parseBtn = $('parse-btn');
     els.cancelBtn = $('cancel-btn');
@@ -586,9 +847,22 @@
     els.failed = $('failed');
     els.resultImages = $('result-images');
 
+    // 作文模式专有元素
+    els.titleUpload = $('title-upload');
+    els.titleInput = $('title-input');
+    els.titleThumbs = $('title-thumbs');
+    els.photoInput = $('photo-input');
+    els.contentTitle = $('content-title');
+    els.contentHint = $('content-hint');
+    els.uploadError = $('upload-error');
+    els.stageField = $('stage-field');
+    els.stageSelect = $('stage-select');
+
     buildSimilarRegion();
 
-    $('photo-input').addEventListener('change', onPick);
+    els.subject.addEventListener('change', syncSubjectMode);
+    if (els.photoInput) els.photoInput.addEventListener('change', onPick);
+    if (els.titleInput) els.titleInput.addEventListener('change', onPickTitle);
     $('solve-form').addEventListener('submit', function (e) {
       e.preventDefault();
       submit();
@@ -600,9 +874,12 @@
       submit();
     });
     els.cancelBtn.addEventListener('click', function () {
+      aborted = true;
+      clearEssayPoll();
       if (controller) controller.abort();
     });
 
+    syncSubjectMode();
     setState('empty');
   }
 
@@ -615,12 +892,31 @@
   // 供 jsdom 验收驱动（浏览器里同样可调试）
   global.PhotoSolve = {
     STATES: STATES,
+    POLL: POLL,
     setState: setState,
     submit: submit,
+    submitEssay: submitEssay,
+    syncSubjectMode: syncSubjectMode,
     saveToWrongBook: saveToWrongBook,
+    essayReviewUrl: essayReviewUrl,
+    essayPollDelay: essayPollDelay,
+    /** 测试注入跳转钩子；传 null 恢复默认 location.assign */
+    setNavigator: function (fn) {
+      navigate = typeof fn === 'function' ? fn : null;
+    },
     setFiles: function (list) {
       files = list;
-      renderThumbs();
+      renderThumbs(els.thumbs, files, '待解析的第 ');
+    },
+    setTitleFiles: function (list) {
+      titleFiles = list;
+      renderThumbs(els.titleThumbs, titleFiles, '作文题目的第 ');
+    },
+    getFilesSize: function () {
+      return files.length;
+    },
+    getTitleFilesSize: function () {
+      return titleFiles.length;
     },
     getState: function () {
       return machine.get();

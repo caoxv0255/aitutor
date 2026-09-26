@@ -34,6 +34,30 @@
     NAMES[s.code] = s.name;
   });
 
+  /* ── 拍照解题专用学科清单（与全站 9 科 LIST 分开）─────────────────────
+   * 拍照解题的下拉按需求收窄为 4 项：两个作文项 + 两个「除作文」项。
+   *   - essay:true  → 走作文批改链路 POST /api/essay/analyze，需**两张图**
+   *                   （作文题目 title_image + 我写的作文内容 image）
+   *   - essay:false → 走既有单图解析链路 POST /api/vision/batch-parse
+   *   - backendSubject 是提交给作文接口的真实学科码（analyze 只认 chinese|english，
+   *     作文与否靠前端拆成两张图表达，故 *_essay 需映射回 chinese/english）
+   * 不改 LIST：其余页面仍消费 9 科语义（fillSelect 保持原样）。
+   * ──────────────────────────────────────────────────────────────────────── */
+  const PHOTO_SOLVE_LIST = [
+    { code: 'chinese_essay', name: '语文作文', essay: true, backendSubject: 'chinese' },
+    { code: 'english_essay', name: '英语作文', essay: true, backendSubject: 'english' },
+    { code: 'chinese', name: '语文（除作文）', essay: false, backendSubject: 'chinese' },
+    { code: 'english', name: '英语（除作文）', essay: false, backendSubject: 'english' },
+  ];
+
+  /** 拍照解题学科码 → 清单项；未知 code 返回 null（调用方自行兜底） */
+  function photoSolve(code) {
+    for (let i = 0; i < PHOTO_SOLVE_LIST.length; i++) {
+      if (PHOTO_SOLVE_LIST[i].code === code) return PHOTO_SOLVE_LIST[i];
+    }
+    return null;
+  }
+
   /** code → 中文名；未知 code 原样返回，由调用方决定兜底文案 */
   function name(code) {
     return NAMES[code] || code || '';
@@ -50,7 +74,7 @@
     if (!select) return select;
     options = options || {};
 
-    select.innerHTML = '';
+    select.textContent = '';
 
     if (options.includeAll) {
       const all = global.document.createElement('option');
@@ -70,10 +94,35 @@
     return select;
   }
 
+  /**
+   * 用拍照解题 4 项清单填充 <select>（覆盖原有 option）。
+   * @param {HTMLSelectElement} select
+   * @param {{selected?: string}} [options] 默认选中项（推荐 'chinese'）
+   */
+  function fillPhotoSolveSelect(select, options) {
+    if (!select) return select;
+    options = options || {};
+
+    select.textContent = '';
+
+    PHOTO_SOLVE_LIST.forEach(function (s) {
+      const opt = global.document.createElement('option');
+      opt.value = s.code;
+      opt.textContent = s.name;
+      if (options.selected === s.code) opt.selected = true;
+      select.appendChild(opt);
+    });
+
+    return select;
+  }
+
   global.AISubjects = {
     LIST: LIST,
     NAMES: NAMES,
+    PHOTO_SOLVE_LIST: PHOTO_SOLVE_LIST,
     name: name,
     fillSelect: fillSelect,
+    fillPhotoSolveSelect: fillPhotoSolveSelect,
+    photoSolve: photoSolve,
   };
 })(window);
